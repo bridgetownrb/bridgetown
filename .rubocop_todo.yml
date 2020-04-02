@@ -12,7 +12,7 @@
 # SupportedStylesForExponentOperator: space, no_space
 Layout/SpaceAroundOperators:
   Exclude:
-    - 'lib/jekyll/commands/build.rb'
-    - 'lib/jekyll/site.rb'
-    - 'lib/jekyll/tags/include.rb'
+    - 'lib/bridgetown/commands/build.rb'
+    - 'lib/bridgetown/site.rb'
+    - 'lib/bridgetown/tags/include.rb'
     - 'test/test_configuration.rb'

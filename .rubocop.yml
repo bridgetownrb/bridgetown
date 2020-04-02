@@ -3,7 +3,7 @@ inherit_from: .rubocop_todo.yml
 
 require:
   - rubocop-performance
-  - ./rubocop/jekyll
+  - ./rubocop/bridgetown
 
 Jekyll/NoPutsAllowed:
   Exclude:
@@ -48,27 +48,27 @@ Lint/UnreachableCode:
   Severity: error
 Lint/Void:
   Exclude:
-    - lib/jekyll/site.rb
+    - lib/bridgetown/site.rb
 Metrics/AbcSize:
   Max: 21
 Metrics/BlockLength:
   Exclude:
     - test/**/*.rb
-    - lib/jekyll/configuration.rb
+    - lib/bridgetown/configuration.rb
     - rake/*.rake
 Metrics/ClassLength:
   Exclude:
     - !ruby/regexp /features\/.*.rb$/
     - !ruby/regexp /test\/.*.rb$/
-    - lib/jekyll/document.rb
-    - lib/jekyll/site.rb
-    - lib/jekyll/commands/serve.rb
-    - lib/jekyll/configuration.rb
+    - lib/bridgetown/document.rb
+    - lib/bridgetown/site.rb
+    - lib/bridgetown/commands/serve.rb
+    - lib/bridgetown/configuration.rb
   Max: 240
 Metrics/CyclomaticComplexity:
   Exclude:
-    - lib/jekyll/utils.rb
-    - lib/jekyll/commands/serve.rb
+    - lib/bridgetown/utils.rb
+    - lib/bridgetown/commands/serve.rb
 Layout/LineLength:
   Exclude:
     - !ruby/regexp /features\/.*.rb/
@@ -84,7 +84,7 @@ Metrics/MethodLength:
 Metrics/ModuleLength:
   Max: 240
   Exclude:
-    - lib/jekyll/filters.rb
+    - lib/bridgetown/filters.rb
 Metrics/ParameterLists:
   Max: 4
 Metrics/PerceivedComplexity:
@@ -96,14 +96,14 @@ Naming/HeredocDelimiterNaming:
     - test/**/*.rb
 Naming/MemoizedInstanceVariableName:
   Exclude:
-    - lib/jekyll/convertible.rb
-    - lib/jekyll/drops/site_drop.rb
-    - lib/jekyll/drops/unified_payload_drop.rb
-    - lib/jekyll/page_without_a_file.rb
+    - lib/bridgetown/convertible.rb
+    - lib/bridgetown/drops/site_drop.rb
+    - lib/bridgetown/drops/unified_payload_drop.rb
+    - lib/bridgetown/page_without_a_file.rb
 Security/MarshalLoad:
   Exclude:
     - !ruby/regexp /test\/.*.rb$/
-    - lib/jekyll/regenerator.rb
+    - lib/bridgetown/regenerator.rb
 Security/YAMLLoad:
   Exclude:
     - !ruby/regexp /features\/.*.rb/
@@ -125,8 +125,8 @@ Style/DoubleNegation:
   Enabled: false
 Style/FormatStringToken:
   Exclude:
-    - lib/jekyll/utils/ansi.rb
-    - lib/jekyll/liquid_renderer/table.rb
+    - lib/bridgetown/utils/ansi.rb
+    - lib/bridgetown/liquid_renderer/table.rb
 Style/GuardClause:
   Enabled: false
 Style/HashEachMethods:
@@ -160,7 +160,7 @@ Style/RescueModifier:
   Enabled: false
 Style/SafeNavigation:
   Exclude:
-    - lib/jekyll/document.rb
+    - lib/bridgetown/document.rb
 Style/SignalException:
   EnforcedStyle: only_raise
 Style/StringLiterals:
