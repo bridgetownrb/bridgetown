@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.authors       = ["Tom Preston-Werner", "Parker Moore", "Matt Rogers"]
   s.email         = ["maintainers@jekyllrb.com"]
   s.homepage      = "https://jekyllrb.com"
-  s.summary       = "A simple, blog aware, static site generator."
-  s.description   = "Jekyll is a simple, blog aware, static site generator."
+  s.summary       = "A Webpack-aware, Ruby-based static site generator for the modern JAMstack era"
+  s.description   = "Bridgetown is a Webpack-aware, Ruby-based static site generator for the modern JAMstack era"
 
   all_files       = `git ls-files -z`.split("\x0")
   s.files         = all_files.grep(%r!^(exe|lib|rubocop)/|^.rubocop.yml$!)
