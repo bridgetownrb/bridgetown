@@ -21,7 +21,7 @@ module Bridgetown
       "safe"                => false,
       "include"             => [".htaccess"],
       "exclude"             => [],
-      "keep_files"          => [".git", ".svn"],
+      "keep_files"          => [".git", ".svn", "_bridgetown"],
       "encoding"            => "utf-8",
       "markdown_ext"        => "markdown,mkdown,mkdn,mkd,md",
       "strict_front_matter" => false,
