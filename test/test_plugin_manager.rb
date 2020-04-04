@@ -92,28 +92,6 @@ class TestPluginManager < BridgetownUnitTest
     end
   end
 
-  context "`paginate` config is activated" do
-    should "print deprecation warning if bridgetown-paginate is not present" do
-      site = double(:config => { "paginate" => true })
-      plugin_manager = PluginManager.new(site)
-
-      expect(Bridgetown::Deprecator).to(
-        receive(:deprecation_message).with(%r!bridgetown-paginate!)
-      )
-      plugin_manager.deprecation_checks
-    end
-
-    should "print no deprecation warning if bridgetown-paginate is present" do
-      site = double(
-        :config => { "paginate" => true, "plugins" => ["bridgetown-paginate"] }
-      )
-      plugin_manager = PluginManager.new(site)
-
-      expect(Bridgetown::Deprecator).to_not receive(:deprecation_message)
-      plugin_manager.deprecation_checks
-    end
-  end
-
   # TODO: rework when plugin-based multiple theme support arrives
   # should "conscientious require" do
   #   site = double(
