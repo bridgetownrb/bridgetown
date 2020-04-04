@@ -215,9 +215,7 @@ module Bridgetown
     end
 
     def sort_docs!
-      if metadata["order"].is_a?(Array)
-        rearrange_docs!
-      elsif metadata["sort_by"].is_a?(String)
+      if metadata["sort_by"].is_a?(String)
         sort_docs_by_key!
       else
         docs.sort!
@@ -261,30 +259,6 @@ module Bridgetown
       Bridgetown.logger.warn "Sort warning:", "'#{sort_key}' not defined in" \
                               " #{document.relative_path}"
       order
-    end
-
-    # Rearrange documents within the `docs` array as listed in the `metadata["order"]` array.
-    #
-    # Involves converting the two arrays into hashes based on relative_paths as keys first, then
-    # merging them to remove duplicates and finally retrieving the Document instances from the
-    # merged array.
-    def rearrange_docs!
-      docs_table   = {}
-      custom_order = {}
-
-      # pre-sort to normalize default array across platforms and then proceed to create a Hash
-      # from that sorted array.
-      docs.sort.each do |doc|
-        docs_table[doc.relative_path] = doc
-      end
-
-      metadata["order"].each do |entry|
-        custom_order[File.join(relative_directory, entry)] = nil
-      end
-
-      result = Bridgetown::Utils.deep_merge_hashes(custom_order, docs_table).values
-      result.compact!
-      self.docs = result
     end
 
     def read_static_file(file_path, full_path)
