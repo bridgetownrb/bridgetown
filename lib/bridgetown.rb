@@ -72,9 +72,9 @@ module Bridgetown
   autoload :RelatedPosts,        "bridgetown/related_posts"
   autoload :Renderer,            "bridgetown/renderer"
   autoload :LiquidRenderer,      "bridgetown/liquid_renderer"
+  autoload :LogWriter,           "bridgetown/log_writer"
   autoload :Site,                "bridgetown/site"
   autoload :StaticFile,          "bridgetown/static_file"
-  autoload :Stevenson,           "bridgetown/stevenson"
   autoload :URL,                 "bridgetown/url"
   autoload :Utils,               "bridgetown/utils"
   autoload :VERSION,             "bridgetown/version"
@@ -138,7 +138,7 @@ module Bridgetown
     #
     # Returns the LogAdapter instance.
     def logger
-      @logger ||= LogAdapter.new(Stevenson.new, (ENV["JEKYLL_LOG_LEVEL"] || :info).to_sym)
+      @logger ||= LogAdapter.new(LogWriter.new, (ENV["BRIDGETOWN_LOG_LEVEL"] || :info).to_sym)
     end
 
     # Public: Set the log writer.
@@ -149,7 +149,7 @@ module Bridgetown
     #
     # Returns the new logger.
     def logger=(writer)
-      @logger = LogAdapter.new(writer, (ENV["JEKYLL_LOG_LEVEL"] || :info).to_sym)
+      @logger = LogAdapter.new(writer, (ENV["BRIDGETOWN_LOG_LEVEL"] || :info).to_sym)
     end
 
     # Public: An array of sites

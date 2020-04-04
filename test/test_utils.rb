@@ -313,6 +313,10 @@ class TestUtils < BridgetownUnitTest
         Utils.add_permalink_suffix("/:basename", :pretty)
       )
       assert_equal(
+        "/:basename/",
+        Utils.add_permalink_suffix("/:basename", :simple)
+      )
+      assert_equal(
         "/:basename:output_ext",
         Utils.add_permalink_suffix("/:basename", :date)
       )

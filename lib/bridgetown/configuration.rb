@@ -282,6 +282,8 @@ module Bridgetown
       case permalink_style.to_sym
       when :pretty
         "/:categories/:year/:month/:day/:title/"
+      when :simple
+        "/:categories/:title/"
       when :none
         "/:categories/:title:output_ext"
       when :date

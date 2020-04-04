@@ -80,6 +80,4 @@ end
 
 group :site do
   gem "html-proofer", "~> 3.4" if ENV["PROOF"]
-
-  gem "jemoji"
 end

@@ -10,33 +10,33 @@ class TestPluginManager < BridgetownUnitTest
     FileUtils.mv "Gemfile.old", "Gemfile"
   end
 
-  context "JEKYLL_NO_BUNDLER_REQUIRE set to `nil`" do
+  context "BRIDGETOWN_NO_BUNDLER_REQUIRE set to `nil`" do
     should "require from bundler" do
-      with_env("JEKYLL_NO_BUNDLER_REQUIRE", nil) do
+      with_env("BRIDGETOWN_NO_BUNDLER_REQUIRE", nil) do
         assert Bridgetown::PluginManager.require_from_bundler,
                "require_from_bundler should return true."
-        assert ENV["JEKYLL_NO_BUNDLER_REQUIRE"], "Gemfile plugins were not required."
+        assert ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"], "Gemfile plugins were not required."
       end
     end
   end
 
-  context "JEKYLL_NO_BUNDLER_REQUIRE set to `true`" do
+  context "BRIDGETOWN_NO_BUNDLER_REQUIRE set to `true`" do
     should "not require from bundler" do
-      with_env("JEKYLL_NO_BUNDLER_REQUIRE", "true") do
+      with_env("BRIDGETOWN_NO_BUNDLER_REQUIRE", "true") do
         refute Bridgetown::PluginManager.require_from_bundler,
                "Gemfile plugins were required but shouldn't have been"
-        assert ENV["JEKYLL_NO_BUNDLER_REQUIRE"]
+        assert ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"]
       end
     end
   end
 
-  context "JEKYLL_NO_BUNDLER_REQUIRE set to `nil` and no Gemfile present" do
+  context "BRIDGETOWN_NO_BUNDLER_REQUIRE set to `nil` and no Gemfile present" do
     should "not require from bundler" do
-      with_env("JEKYLL_NO_BUNDLER_REQUIRE", nil) do
+      with_env("BRIDGETOWN_NO_BUNDLER_REQUIRE", nil) do
         with_no_gemfile do
           refute Bridgetown::PluginManager.require_from_bundler,
                  "Gemfile plugins were required but shouldn't have been"
-          assert_nil ENV["JEKYLL_NO_BUNDLER_REQUIRE"]
+          assert_nil ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"]
         end
       end
     end

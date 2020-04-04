@@ -253,7 +253,7 @@ module Bridgetown
       template = template.dup
 
       case permalink_style
-      when :pretty
+      when :pretty, :simple
         template << "/"
       when :date, :ordinal, :none
         template << ":output_ext"

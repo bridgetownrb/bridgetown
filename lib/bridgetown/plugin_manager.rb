@@ -30,14 +30,14 @@ module Bridgetown
     end
 
     def self.require_from_bundler
-      if !ENV["JEKYLL_NO_BUNDLER_REQUIRE"] && File.file?("Gemfile")
+      if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] && File.file?("Gemfile")
         require "bundler"
 
         Bundler.setup
         required_gems = Bundler.require(:bridgetown_plugins)
         message = "Required #{required_gems.map(&:name).join(", ")}"
         Bridgetown.logger.debug("PluginManager:", message)
-        ENV["JEKYLL_NO_BUNDLER_REQUIRE"] = "true"
+        ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] = "true"
 
         true
       else

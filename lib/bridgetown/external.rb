@@ -4,18 +4,6 @@ module Bridgetown
   module External
     class << self
       #
-      # Gems that, if installed, should be loaded.
-      # Usually contain subcommands.
-      #
-      def blessed_gems
-        %w(
-          bridgetown-compose
-          bridgetown-docs
-          bridgetown-import
-        )
-      end
-
-      #
       # Require a gem or file if it's present, otherwise silently fail.
       #
       # names - a string gem name or array of gem names
@@ -34,15 +22,10 @@ module Bridgetown
 
       #
       # The version constraint required to activate a given gem.
-      # Usually the gem version requirement is "> 0," because any version
-      # will do. In the case of bridgetown-docs, however, we require the exact
-      # same version as Bridgetown.
       #
       # Returns a String version constraint in a parseable form for
       # RubyGems.
       def version_constraint(gem_name)
-        return "= #{Bridgetown::VERSION}" if gem_name.to_s.eql?("bridgetown-docs")
-
         "> 0"
       end
 

@@ -47,8 +47,6 @@ module Bridgetown
 
       @has_yaml_header = nil
 
-      categories_from_path(collection.relative_directory)
-
       data.default_proc = proc do |_, key|
         site.frontmatter_defaults.find(relative_path, type, key)
       end
@@ -374,23 +372,6 @@ module Bridgetown
 
     def respond_to_missing?(method, *)
       data.key?(method.to_s) || super
-    end
-
-    # Add superdirectories of the special_dir to categories.
-    # In the case of es/_posts, 'es' is added as a category.
-    # In the case of _posts/es, 'es' is NOT added as a category.
-    #
-    # Returns nothing.
-    def categories_from_path(special_dir)
-      if relative_path.start_with?(special_dir)
-        superdirs = []
-      else
-        superdirs = relative_path.sub(Document.superdirs_regex(special_dir), "")
-        superdirs = superdirs.split(File::SEPARATOR)
-        superdirs.reject! { |c| c.empty? || c == special_dir || c == basename }
-      end
-
-      merge_data!({ "categories" => superdirs }, :source => "file path")
     end
 
     def populate_categories

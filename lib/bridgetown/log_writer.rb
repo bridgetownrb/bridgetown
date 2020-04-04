@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  class Stevenson < ::Logger
+  class LogWriter < ::Logger
     def initialize
       @progname = nil
       @level = DEBUG
