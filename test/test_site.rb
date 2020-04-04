@@ -59,18 +59,6 @@ class TestSite < BridgetownUnitTest
       assert_equal "/blog", site.baseurl
     end
 
-    should "only include theme includes_path if the path exists" do
-      site = fixture_site("theme" => "test-theme")
-      assert_equal [source_dir("_includes"), theme_dir("_includes")],
-                   site.includes_load_paths
-
-      allow(File).to receive(:directory?).with(theme_dir("_sass")).and_return(true)
-      allow(File).to receive(:directory?).with(theme_dir("_layouts")).and_return(true)
-      allow(File).to receive(:directory?).with(theme_dir("_includes")).and_return(false)
-      site = fixture_site("theme" => "test-theme")
-      assert_equal [source_dir("_includes")], site.includes_load_paths
-    end
-
     should "configure cache_dir" do
       fixture_site.process
       assert File.directory?(source_dir(".bridgetown-cache", "Bridgetown", "Cache"))
@@ -567,38 +555,6 @@ class TestSite < BridgetownUnitTest
         should "be overridden by BRIDGETOWN_ENV" do
           assert_equal "production", @page.content.strip
         end
-      end
-    end
-
-    context "when setting theme" do
-      should "set no theme if config is not set" do
-        expect($stderr).not_to receive(:puts)
-        expect($stdout).not_to receive(:puts)
-        site = fixture_site("theme" => nil)
-        assert_nil site.theme
-      end
-
-      should "set no theme if config is a hash" do
-        output = capture_output do
-          site = fixture_site("theme" => {})
-          assert_nil site.theme
-        end
-        expected_msg = "Theme: value of 'theme' in config should be String " \
-          "to use gem-based themes, but got Hash\n"
-        assert_includes output, expected_msg
-      end
-
-      should "set a theme if the config is a string" do
-        [:debug, :info, :warn, :error].each do |level|
-          if level == :info
-            expect(Bridgetown.logger.writer).to receive(level)
-          else
-            expect(Bridgetown.logger.writer).not_to receive(level)
-          end
-        end
-        site = fixture_site("theme" => "test-theme")
-        assert_instance_of Bridgetown::Theme, site.theme
-        assert_equal "test-theme", site.theme.name
       end
     end
 

@@ -61,7 +61,6 @@ module Bridgetown
   autoload :PostReader,          "bridgetown/readers/post_reader"
   autoload :PageReader,          "bridgetown/readers/page_reader"
   autoload :StaticFileReader,    "bridgetown/readers/static_file_reader"
-  autoload :ThemeAssetsReader,   "bridgetown/readers/theme_assets_reader"
   autoload :LogAdapter,          "bridgetown/log_adapter"
   autoload :Page,                "bridgetown/page"
   autoload :PageWithoutAFile,    "bridgetown/page_without_a_file"
@@ -76,11 +75,10 @@ module Bridgetown
   autoload :Site,                "bridgetown/site"
   autoload :StaticFile,          "bridgetown/static_file"
   autoload :Stevenson,           "bridgetown/stevenson"
-  autoload :Theme,               "bridgetown/theme"
-  autoload :ThemeBuilder,        "bridgetown/theme_builder"
   autoload :URL,                 "bridgetown/url"
   autoload :Utils,               "bridgetown/utils"
   autoload :VERSION,             "bridgetown/version"
+  autoload :Watcher,             "bridgetown/watcher"
 
   # extensions
   require "bridgetown/plugin"

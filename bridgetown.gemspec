@@ -6,9 +6,9 @@ Gem::Specification.new do |s|
   s.name          = "bridgetown"
   s.version       = Bridgetown::VERSION
   s.license       = "MIT"
-  s.authors       = ["Tom Preston-Werner", "Parker Moore", "Matt Rogers"]
-  s.email         = ["maintainers@jekyllrb.com"]
-  s.homepage      = "https://jekyllrb.com"
+  s.authors       = ["Tom Preston-Werner", "Parker Moore", "Matt Rogers", "Jared White"]
+  s.email         = ["maintainers@bridgetownrb.com"]
+  s.homepage      = "https://bridgetownrb.com"
   s.summary       = "A Webpack-aware, Ruby-based static site generator for the modern JAMstack era"
   s.description   = "Bridgetown is a Webpack-aware, Ruby-based static site generator for the modern JAMstack era"
 
@@ -19,9 +19,9 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.metadata      = {
-    "source_code_uri" => "https://github.com/jekyll/jekyll",
-    "bug_tracker_uri" => "https://github.com/jekyll/jekyll/issues",
-    "changelog_uri"   => "https://github.com/jekyll/jekyll/releases",
+    "source_code_uri" => "https://github.com/bridgetownrb/bridgetown",
+    "bug_tracker_uri" => "https://github.com/bridgetownrb/bridgetown/issues",
+    "changelog_uri"   => "https://github.com/bridgetownrb/bridgetown/releases",
     "homepage_uri"    => s.homepage,
   }
 
@@ -39,6 +39,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("kramdown",              "~> 2.1")
   s.add_runtime_dependency("kramdown-parser-gfm",   "~> 1.0")
   s.add_runtime_dependency("liquid",                "~> 4.0")
+  s.add_runtime_dependency("listen",                "~> 3.0")
   s.add_runtime_dependency("mercenary",             "~> 0.4.0")
   s.add_runtime_dependency("pathutil",              "~> 0.9")
   s.add_runtime_dependency("rouge",                 "~> 3.0")

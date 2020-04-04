@@ -7,7 +7,7 @@ module Bridgetown
                   :exclude, :include, :lsi, :highlighter, :permalink_style,
                   :time, :future, :unpublished, :safe, :plugins, :limit_posts,
                   :show_drafts, :keep_files, :baseurl, :data, :file_read_opts,
-                  :gems, :plugin_manager, :theme
+                  :gems, :plugin_manager
 
     attr_accessor :converters, :generators, :reader
     attr_reader   :regenerator, :liquid_renderer, :includes_load_paths
@@ -55,14 +55,11 @@ module Bridgetown
 
       configure_cache
       configure_plugins
-      configure_theme
       configure_include_paths
       configure_file_read_opts
 
       self.permalink_style = config["permalink"].to_sym
 
-      # Read in a _config.yml from the current theme-gem at the very end.
-      @config = load_theme_configuration(config) if theme
       @config
     end
 
@@ -381,20 +378,6 @@ module Bridgetown
       end
     end
 
-    # Public: Prefix a given path with the theme directory.
-    #
-    # paths - (optional) path elements to a file or directory within the
-    #         theme directory
-    #
-    # Returns a path which is prefixed with the theme root directory.
-    def in_theme_dir(*paths)
-      return nil unless theme
-
-      paths.reduce(theme.root) do |base, path|
-        Bridgetown.sanitized_path(base, path)
-      end
-    end
-
     # Public: Prefix a given path with the destination directory.
     #
     # paths - (optional) path elements to a file or directory within the
@@ -430,25 +413,6 @@ module Bridgetown
 
     private
 
-    def load_theme_configuration(config)
-      theme_config_file = in_theme_dir("_config.yml")
-      return config unless File.exist?(theme_config_file)
-
-      # Bail out if the theme_config_file is a symlink file irrespective of safe mode
-      return config if File.symlink?(theme_config_file)
-
-      theme_config = SafeYAML.load_file(theme_config_file)
-      return config unless theme_config.is_a?(Hash)
-
-      Bridgetown.logger.info "Theme Config file:", theme_config_file
-
-      # theme_config should not be overriding Bridgetown's defaults
-      theme_config.delete_if { |key, _| Configuration::DEFAULTS.key?(key) }
-
-      # Override theme_config with existing config and return the result.
-      Utils.deep_merge_hashes(theme_config, config)
-    end
-
     # Limits the current posts; removes the posts which exceed the limit_posts
     #
     # Returns nothing
@@ -478,23 +442,8 @@ module Bridgetown
       self.plugins        = plugin_manager.plugins_path
     end
 
-    def configure_theme
-      self.theme = nil
-      return if config["theme"].nil?
-
-      self.theme =
-        if config["theme"].is_a?(String)
-          Bridgetown::Theme.new(config["theme"])
-        else
-          Bridgetown.logger.warn "Theme:", "value of 'theme' in config should be " \
-          "String to use gem-based themes, but got #{config["theme"].class}"
-          nil
-        end
-    end
-
     def configure_include_paths
       @includes_load_paths = Array(in_source_dir(config["includes_dir"].to_s))
-      @includes_load_paths << theme.includes_path if theme&.includes_path
     end
 
     def configure_file_read_opts

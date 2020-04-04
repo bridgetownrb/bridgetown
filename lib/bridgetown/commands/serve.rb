@@ -25,20 +25,7 @@ module Bridgetown
                                      " your index file.",],
           "skip_initial_build"   => ["skip_initial_build", "--skip-initial-build",
                                      "Skips the initial site build which occurs before" \
-                                     " the server is started.",],
-          "livereload"           => ["-l", "--livereload",
-                                     "Use LiveReload to automatically refresh browsers",],
-          "livereload_ignore"    => ["--livereload-ignore ignore GLOB1[,GLOB2[,...]]",
-                                     Array,
-                                     "Files for LiveReload to ignore. " \
-                                     "Remember to quote the values so your shell " \
-                                     "won't expand them",],
-          "livereload_min_delay" => ["--livereload-min-delay [SECONDS]",
-                                     "Minimum reload delay",],
-          "livereload_max_delay" => ["--livereload-max-delay [SECONDS]",
-                                     "Maximum reload delay",],
-          "livereload_port"      => ["--livereload-port [PORT]", Integer,
-                                     "Port for LiveReload to listen on",],
+                                     " the server is started.",]
         }.freeze
 
         DIRECTORY_INDEX = %w(
@@ -51,9 +38,6 @@ module Bridgetown
           index.xml
           index.json
         ).freeze
-
-        LIVERELOAD_PORT = 35_729
-        LIVERELOAD_DIR = File.join(__dir__, "serve", "livereload_assets")
 
         attr_reader :mutex, :run_cond, :running
         alias_method :running?, :running
@@ -71,14 +55,8 @@ module Bridgetown
             end
 
             cmd.action do |_, opts|
-              opts["livereload_port"] ||= LIVERELOAD_PORT
               opts["serving"] = true
               opts["watch"]   = true unless opts.key?("watch")
-
-              # Set the reactor to nil so any old reactor will be GCed.
-              # We can't unregister a hook so while running tests we don't want to
-              # inadvertently keep using a reactor created by a previous test.
-              @reload_reactor = nil
 
               config = configuration_from_options(opts)
               config["url"] = default_url(config) if Bridgetown.env == "development"
@@ -93,10 +71,6 @@ module Bridgetown
         def process(opts)
           opts = configuration_from_options(opts)
           destination = opts["destination"]
-          if opts["livereload"]
-            validate_options(opts)
-            register_reload_hooks(opts)
-          end
           setup(destination)
 
           start_up_webrick(opts, destination)
@@ -106,70 +80,7 @@ module Bridgetown
           @server.shutdown if running?
         end
 
-        # Perform logical validation of CLI options
-
         private
-
-        def validate_options(opts)
-          if opts["livereload"]
-            if opts["detach"]
-              Bridgetown.logger.warn "Warning:", "--detach and --livereload are mutually \
-                                      exclusive. Choosing --livereload"
-              opts["detach"] = false
-            end
-            if opts["ssl_cert"] || opts["ssl_key"]
-              # This is not technically true.  LiveReload works fine over SSL, but
-              # EventMachine's SSL support in Windows requires building the gem's
-              # native extensions against OpenSSL and that proved to be a process
-              # so tedious that expecting users to do it is a non-starter.
-              Bridgetown.logger.abort_with "Error:", "LiveReload does not support SSL"
-            end
-            unless opts["watch"]
-              # Using livereload logically implies you want to watch the files
-              opts["watch"] = true
-            end
-          elsif %w(livereload_min_delay
-                   livereload_max_delay
-                   livereload_ignore
-                   livereload_port).any? { |o| opts[o] }
-            Bridgetown.logger.abort_with "--livereload-min-delay, "\
-               "--livereload-max-delay, --livereload-ignore, and "\
-               "--livereload-port require the --livereload option."
-          end
-        end
-
-        # rubocop:disable Metrics/AbcSize
-        def register_reload_hooks(opts)
-          require_relative "serve/live_reload_reactor"
-          @reload_reactor = LiveReloadReactor.new
-
-          Bridgetown::Hooks.register(:site, :post_render) do |site|
-            regenerator = Bridgetown::Regenerator.new(site)
-            @changed_pages = site.pages.select do |p|
-              regenerator.regenerate?(p)
-            end
-          end
-
-          # A note on ignoring files: LiveReload errs on the side of reloading when it
-          # comes to the message it gets.  If, for example, a page is ignored but a CSS
-          # file linked in the page isn't, the page will still be reloaded if the CSS
-          # file is contained in the message sent to LiveReload.  Additionally, the
-          # path matching is very loose so that a message to reload "/" will always
-          # lead the page to reload since every page starts with "/".
-          Bridgetown::Hooks.register(:site, :post_write) do
-            if @changed_pages && @reload_reactor && @reload_reactor.running?
-              ignore, @changed_pages = @changed_pages.partition do |p|
-                Array(opts["livereload_ignore"]).any? do |filter|
-                  File.fnmatch(filter, Bridgetown.sanitized_path(p.relative_path))
-                end
-              end
-              Bridgetown.logger.debug "LiveReload:", "Ignoring #{ignore.map(&:relative_path)}"
-              @reload_reactor.reload(@changed_pages)
-            end
-            @changed_pages = nil
-          end
-        end
-        # rubocop:enable Metrics/AbcSize
 
         # Do a base pre-setup of WEBRick so that everything is in place
         # when we get ready to party, checking for an setting up an error page
@@ -326,7 +237,7 @@ module Bridgetown
                 # Block until EventMachine reactor starts
                 @reload_reactor&.started_event&.wait
                 @running = true
-                Bridgetown.logger.info("Server running...", "press ctrl-c to stop.")
+                Bridgetown.logger.info("Server running…", "press ctrl-c to stop.")
                 @run_cond.broadcast
               end
             end

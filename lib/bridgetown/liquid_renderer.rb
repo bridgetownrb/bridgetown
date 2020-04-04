@@ -8,7 +8,6 @@ module Bridgetown
     extend Forwardable
 
     private def_delegator :@site, :in_source_dir, :source_dir
-    private def_delegator :@site, :in_theme_dir, :theme_dir
 
     def initialize(site)
       @site = site
@@ -23,12 +22,7 @@ module Bridgetown
 
     def file(filename)
       filename.match(filename_regex)
-      filename =
-        if Regexp.last_match(1) == theme_dir("")
-          ::File.join(::File.basename(Regexp.last_match(1)), Regexp.last_match(2))
-        else
-          Regexp.last_match(2)
-        end
+      filename = Regexp.last_match(2)
       LiquidRenderer::File.new(self, filename).tap do
         @stats[filename] ||= new_profile_hash
       end
@@ -66,7 +60,7 @@ module Bridgetown
 
     def filename_regex
       @filename_regex ||= begin
-        %r!\A(#{Regexp.escape(source_dir)}/|#{Regexp.escape(theme_dir.to_s)}/|/*)(.*)!i
+        %r!\A(#{Regexp.escape(source_dir)}/|/*)(.*)!i
       end
     end
 

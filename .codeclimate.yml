@@ -48,6 +48,5 @@ exclude_patterns:
 
   - lib/blank_template/
   - lib/site_template/
-  - lib/theme_template/
   - lib/jekyll/mime.types
   - lib/jekyll/commands/serve/livereload_assets/livereload.js

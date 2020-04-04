@@ -55,29 +55,5 @@ class TestLayoutReader < BridgetownUnitTest
         refute layouts.key?("symlink"), "Should not read the symlinked layout"
       end
     end
-
-    context "with a theme" do
-      setup do
-        symlink_if_allowed("/etc/passwd", theme_dir("_layouts", "theme-symlink.html"))
-        @site = fixture_site(
-          "include" => ["theme-symlink.html"],
-          "theme"   => "test-theme",
-          "safe"    => true
-        )
-      end
-
-      teardown do
-        FileUtils.rm_f(theme_dir("_layouts", "theme-symlink.html"))
-      end
-
-      should "not read a symlink'd theme" do
-        skip_if_windows "Bridgetown does not currently support symlinks on Windows."
-
-        layouts = LayoutReader.new(@site).read
-
-        refute layouts.key?("theme-symlink"), \
-               "Should not read symlinked layout from theme"
-      end
-    end
   end
 end

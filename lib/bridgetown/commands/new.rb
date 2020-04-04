@@ -61,8 +61,6 @@ module Bridgetown
                         # This will help ensure the proper Bridgetown version is running.
                         # Happy Bridgetowning!
                         gem "bridgetown", "~> #{Bridgetown::VERSION}"
-                        # This is the default theme for new Bridgetown sites. You may change this to anything you like.
-                        #gem "minima", "~> 2.5"
 
                         # If you have any plugins, put them here!
                         group :bridgetown_plugins do

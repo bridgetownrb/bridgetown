@@ -33,7 +33,6 @@ env:
 branches:
   only:
     - master
-    - themes
     - /.*-stable/
 
 before_script:

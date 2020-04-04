@@ -35,13 +35,8 @@ module Bridgetown
       @base = base
       @name = name
 
-      if site.theme && site.theme.layouts_path.eql?(base)
-        @base_dir = site.theme.root
-        @path = site.in_theme_dir(base, name)
-      else
-        @base_dir = site.source
-        @path = site.in_source_dir(base, name)
-      end
+      @base_dir = site.source
+      @path = site.in_source_dir(base, name)
       @relative_path = @path.sub(@base_dir, "")
 
       self.data = {}
