@@ -5,7 +5,8 @@ require "colorator"
 
 class TestConfiguration < BridgetownUnitTest
   test_config = {
-    "source"      => new(nil).source_dir,
+    "root_dir"    => site_root_dir,
+    "source"      => source_dir,
     "destination" => dest_dir,
   }
 
@@ -145,7 +146,10 @@ class TestConfiguration < BridgetownUnitTest
 
   context "#config_files" do
     setup do
-      @config = Configuration[{ "source" => source_dir }]
+      @config = Configuration[{
+        "root_dir" => site_root_dir,
+        "source" => source_dir
+      }]
       @no_override     = {}
       @one_config_file = { "config" => "config.yml" }
       @multiple_files  = {
@@ -160,31 +164,31 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "return the default config path if no config files are specified" do
-      assert_equal [source_dir("_config.yml")], @config.config_files(@no_override)
+      assert_equal [site_root_dir("_config.yml")], @config.config_files(@no_override)
     end
 
     should "return .yaml if it exists but .yml does not" do
-      allow(File).to receive(:exist?).with(source_dir("_config.yml")).and_return(false)
-      allow(File).to receive(:exist?).with(source_dir("_config.yaml")).and_return(true)
-      assert_equal [source_dir("_config.yaml")], @config.config_files(@no_override)
+      allow(File).to receive(:exist?).with(site_root_dir("_config.yml")).and_return(false)
+      allow(File).to receive(:exist?).with(site_root_dir("_config.yaml")).and_return(true)
+      assert_equal [site_root_dir("_config.yaml")], @config.config_files(@no_override)
     end
 
     should "return .yml if both .yml and .yaml exist" do
-      allow(File).to receive(:exist?).with(source_dir("_config.yml")).and_return(true)
-      assert_equal [source_dir("_config.yml")], @config.config_files(@no_override)
+      allow(File).to receive(:exist?).with(site_root_dir("_config.yml")).and_return(true)
+      assert_equal [site_root_dir("_config.yml")], @config.config_files(@no_override)
     end
 
     should "return .toml if that exists" do
-      allow(File).to receive(:exist?).with(source_dir("_config.yml")).and_return(false)
-      allow(File).to receive(:exist?).with(source_dir("_config.yaml")).and_return(false)
-      allow(File).to receive(:exist?).with(source_dir("_config.toml")).and_return(true)
-      assert_equal [source_dir("_config.toml")], @config.config_files(@no_override)
+      allow(File).to receive(:exist?).with(site_root_dir("_config.yml")).and_return(false)
+      allow(File).to receive(:exist?).with(site_root_dir("_config.yaml")).and_return(false)
+      allow(File).to receive(:exist?).with(site_root_dir("_config.toml")).and_return(true)
+      assert_equal [site_root_dir("_config.toml")], @config.config_files(@no_override)
     end
 
     should "return .yml if both .yml and .toml exist" do
-      allow(File).to receive(:exist?).with(source_dir("_config.yml")).and_return(true)
-      allow(File).to receive(:exist?).with(source_dir("_config.toml")).and_return(true)
-      assert_equal [source_dir("_config.yml")], @config.config_files(@no_override)
+      allow(File).to receive(:exist?).with(site_root_dir("_config.yml")).and_return(true)
+      allow(File).to receive(:exist?).with(site_root_dir("_config.toml")).and_return(true)
+      assert_equal [site_root_dir("_config.yml")], @config.config_files(@no_override)
     end
 
     should "return the config if given one config file" do
@@ -274,7 +278,7 @@ class TestConfiguration < BridgetownUnitTest
 
   context "loading configuration" do
     setup do
-      @path = source_dir("_config.yml")
+      @path = site_root_dir("_config.yml")
       @user_config = File.join(Dir.pwd, "my_config_file.yml")
     end
 
@@ -332,10 +336,10 @@ class TestConfiguration < BridgetownUnitTest
   context "loading config from external file" do
     setup do
       @paths = {
-        :default => source_dir("_config.yml"),
-        :other   => source_dir("_config.live.yml"),
-        :toml    => source_dir("_config.dev.toml"),
-        :empty   => "",
+        :default => site_root_dir("_config.yml"),
+        :other   => site_root_dir("_config.live.yml"),
+        :toml    => site_root_dir("_config.dev.toml"),
+        :empty   => site_root_dir(""),
       }
     end
 
@@ -515,7 +519,7 @@ class TestConfiguration < BridgetownUnitTest
     should "ignore newlines in that string entirely from a sample file" do
       config = Bridgetown.configuration(
         @tester.read_config_file(
-          source_dir("_config_folded.yml")
+          site_root_dir("_config_folded.yml")
         )
       )
       assert_equal(

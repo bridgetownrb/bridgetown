@@ -69,8 +69,12 @@ module DirectoryHelpers
     test_dir("dest", *subdirs)
   end
 
-  def source_dir(*subdirs)
+  def site_root_dir(*subdirs)
     test_dir("source", *subdirs)
+  end
+
+  def source_dir(*subdirs)
+    test_dir("source", "src", *subdirs)
   end
 
   def theme_dir(*subdirs)
@@ -154,8 +158,9 @@ class BridgetownUnitTest < Minitest::Test
                                                 "incremental" => false
                                               ))
     Configuration.from(full_overrides.merge(
-                         "source" => source_dir
-                       ))
+                        "root_dir" => site_root_dir,
+                        "source" => source_dir
+                      ))
   end
 
   def clear_dest

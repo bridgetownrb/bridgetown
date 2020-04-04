@@ -62,6 +62,16 @@ end
 
 #
 
+group :bridgetown_optional_dependencies do
+  gem "tomlrb", "~> 1.2"
+
+  platform :ruby, :mswin, :mingw, :x64_mingw do
+    gem "classifier-reborn", "~> 2.2"
+    gem "liquid-c", "~> 4.0"
+    gem "yajl-ruby", "~> 1.4"
+  end
+end
+
 # group :jekyll_optional_dependencies do
 #   gem "jekyll-coffeescript"
 #   gem "jekyll-docs", :path => "../docs" if Dir.exist?("../docs") && ENV["JEKYLL_VERSION"]
