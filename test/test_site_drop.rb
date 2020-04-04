@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestSiteDrop < JekyllUnitTest
+class TestSiteDrop < BridgetownUnitTest
   context "a site drop" do
     setup do
       @site = fixture_site(

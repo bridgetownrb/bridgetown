@@ -2,10 +2,10 @@
 
 require "helper"
 
-class TestSite < JekyllUnitTest
+class TestSite < BridgetownUnitTest
   def with_image_as_post
-    tmp_image_path = File.join(source_dir, "_posts", "2017-09-01-jekyll-sticker.jpg")
-    FileUtils.cp File.join(Dir.pwd, "docs", "img", "jekyll-sticker.jpg"), tmp_image_path
+    tmp_image_path = File.join(source_dir, "_posts", "2017-09-01-bridgetown-sticker.jpg")
+    FileUtils.cp File.join(Dir.pwd, "docs", "img", "bridgetown-sticker.jpg"), tmp_image_path
     yield
   ensure
     FileUtils.rm tmp_image_path
@@ -78,13 +78,13 @@ class TestSite < JekyllUnitTest
 
     should "configure cache_dir" do
       fixture_site.process
-      assert File.directory?(source_dir(".jekyll-cache", "Jekyll", "Cache"))
-      assert File.directory?(source_dir(".jekyll-cache", "Jekyll", "Cache", "Jekyll--Cache"))
+      assert File.directory?(source_dir(".bridgetown-cache", "Bridgetown", "Cache"))
+      assert File.directory?(source_dir(".bridgetown-cache", "Bridgetown", "Cache", "Bridgetown--Cache"))
     end
 
-    should "use .jekyll-cache directory at source as cache_dir by default" do
+    should "use .bridgetown-cache directory at source as cache_dir by default" do
       site = Site.new(default_configuration)
-      assert_equal File.join(site.source, ".jekyll-cache"), site.cache_dir
+      assert_equal File.join(site.source, ".bridgetown-cache"), site.cache_dir
     end
   end
 
@@ -273,8 +273,8 @@ class TestSite < JekyllUnitTest
       assert_equal false, Utils.has_yaml_header?(abs_path)
     end
 
-    should "expose jekyll version to site payload" do
-      assert_equal Jekyll::VERSION, @site.site_payload["jekyll"]["version"]
+    should "expose bridgetown version to site payload" do
+      assert_equal Bridgetown::VERSION, @site.site_payload["bridgetown"]["version"]
     end
 
     should "expose list of static files to site payload" do
@@ -300,13 +300,13 @@ class TestSite < JekyllUnitTest
 
     context "error handling" do
       should "raise if destination is included in source" do
-        assert_raises Jekyll::Errors::FatalException do
+        assert_raises Bridgetown::Errors::FatalException do
           Site.new(site_configuration("destination" => source_dir))
         end
       end
 
       should "raise if destination is source" do
-        assert_raises Jekyll::Errors::FatalException do
+        assert_raises Bridgetown::Errors::FatalException do
           Site.new(site_configuration("destination" => File.join(source_dir, "..")))
         end
       end
@@ -387,7 +387,7 @@ class TestSite < JekyllUnitTest
 
     context "using a non-default markdown processor in the configuration" do
       should "use the non-default markdown processor" do
-        class Jekyll::Converters::Markdown::CustomMarkdown
+        class Bridgetown::Converters::Markdown::CustomMarkdown
           def initialize(*args)
             @args = args
           end
@@ -402,11 +402,11 @@ class TestSite < JekyllUnitTest
         s.process
 
         # Do some cleanup, we don't like straggling stuff.
-        Jekyll::Converters::Markdown.send(:remove_const, :CustomMarkdown)
+        Bridgetown::Converters::Markdown.send(:remove_const, :CustomMarkdown)
       end
 
       should "ignore, if there are any bad characters in the class name" do
-        module Jekyll::Converters::Markdown::Custom
+        module Bridgetown::Converters::Markdown::Custom
           class Markdown
             def initialize(*args)
               @args = args
@@ -423,12 +423,12 @@ class TestSite < JekyllUnitTest
                        "markdown"    => bad_processor,
                        "incremental" => false
                      ))
-        assert_raises Jekyll::Errors::FatalException do
+        assert_raises Bridgetown::Errors::FatalException do
           s.process
         end
 
         # Do some cleanup, we don't like straggling stuff.
-        Jekyll::Converters::Markdown.send(:remove_const, :Custom)
+        Bridgetown::Converters::Markdown.send(:remove_const, :Custom)
       end
     end
 
@@ -444,7 +444,7 @@ class TestSite < JekyllUnitTest
                        "markdown"    => bad_processor,
                        "incremental" => false
                      ))
-        assert_raises Jekyll::Errors::FatalException do
+        assert_raises Bridgetown::Errors::FatalException do
           s.process
         end
       end
@@ -542,7 +542,7 @@ class TestSite < JekyllUnitTest
       end
     end
 
-    context "manipulating the Jekyll environment" do
+    context "manipulating the Bridgetown environment" do
       setup do
         @site = Site.new(site_configuration(
                            "incremental" => false
@@ -557,7 +557,7 @@ class TestSite < JekyllUnitTest
 
       context "in production" do
         setup do
-          ENV["JEKYLL_ENV"] = "production"
+          ENV["BRIDGETOWN_ENV"] = "production"
           @site = Site.new(site_configuration(
                              "incremental" => false
                            ))
@@ -566,10 +566,10 @@ class TestSite < JekyllUnitTest
         end
 
         teardown do
-          ENV.delete("JEKYLL_ENV")
+          ENV.delete("BRIDGETOWN_ENV")
         end
 
-        should "be overridden by JEKYLL_ENV" do
+        should "be overridden by BRIDGETOWN_ENV" do
           assert_equal "production", @page.content.strip
         end
       end
@@ -596,13 +596,13 @@ class TestSite < JekyllUnitTest
       should "set a theme if the config is a string" do
         [:debug, :info, :warn, :error].each do |level|
           if level == :info
-            expect(Jekyll.logger.writer).to receive(level)
+            expect(Bridgetown.logger.writer).to receive(level)
           else
-            expect(Jekyll.logger.writer).not_to receive(level)
+            expect(Bridgetown.logger.writer).not_to receive(level)
           end
         end
         site = fixture_site("theme" => "test-theme")
-        assert_instance_of Jekyll::Theme, site.theme
+        assert_instance_of Bridgetown::Theme, site.theme
         assert_equal "test-theme", site.theme.name
       end
     end

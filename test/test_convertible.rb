@@ -3,15 +3,15 @@
 require "helper"
 require "ostruct"
 
-class TestConvertible < JekyllUnitTest
+class TestConvertible < BridgetownUnitTest
   context "YAML front matter" do
     setup do
       @convertible = OpenStruct.new(
-        "site" => Site.new(Jekyll.configuration(
+        "site" => Site.new(Bridgetown.configuration(
                              "source" => File.expand_path("fixtures", __dir__)
                            ))
       )
-      @convertible.extend Jekyll::Convertible
+      @convertible.extend Bridgetown::Convertible
       @base = File.expand_path("fixtures", __dir__)
     end
 

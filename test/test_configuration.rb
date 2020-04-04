@@ -3,7 +3,7 @@
 require "helper"
 require "colorator"
 
-class TestConfiguration < JekyllUnitTest
+class TestConfiguration < BridgetownUnitTest
   test_config = {
     "source"      => new(nil).source_dir,
     "destination" => dest_dir,
@@ -72,7 +72,7 @@ class TestConfiguration < JekyllUnitTest
     should "always exclude default cache directories" do
       exclude = @config["exclude"]
       assert_includes exclude, ".sass-cache"
-      assert_includes exclude, ".jekyll-cache"
+      assert_includes exclude, ".bridgetown-cache"
     end
   end
 
@@ -206,9 +206,9 @@ class TestConfiguration < JekyllUnitTest
 
     should "not raise an error on empty files" do
       allow(SafeYAML).to receive(:load_file).with(File.expand_path("empty.yml")).and_return(false)
-      Jekyll.logger.log_level = :warn
+      Bridgetown.logger.log_level = :warn
       @config.read_config_file("empty.yml")
-      Jekyll.logger.log_level = :info
+      Bridgetown.logger.log_level = :info
     end
   end
 
@@ -222,9 +222,9 @@ class TestConfiguration < JekyllUnitTest
       allow(SafeYAML).to receive(:load_file).with(File.expand_path("not_empty.yml")).and_return(
         "foo" => "bar"
       )
-      Jekyll.logger.log_level = :warn
+      Bridgetown.logger.log_level = :warn
       read_config = @config.read_config_files(%w(empty.yml not_empty.yml))
-      Jekyll.logger.log_level = :info
+      Bridgetown.logger.log_level = :info
       assert_equal "bar", read_config["foo"]
     end
   end
@@ -244,17 +244,17 @@ class TestConfiguration < JekyllUnitTest
 
     should "raise an error if `exclude` key is a string" do
       config = Configuration[{ "exclude" => "READ-ME.md, Gemfile,CONTRIBUTING.hello.markdown" }]
-      assert_raises(Jekyll::Errors::InvalidConfigurationError) { config.validate }
+      assert_raises(Bridgetown::Errors::InvalidConfigurationError) { config.validate }
     end
 
     should "raise an error if `include` key is a string" do
       config = Configuration[{ "include" => "STOP_THE_PRESSES.txt,.heloses, .git" }]
-      assert_raises(Jekyll::Errors::InvalidConfigurationError) { config.validate }
+      assert_raises(Bridgetown::Errors::InvalidConfigurationError) { config.validate }
     end
 
     should "raise an error if `plugins` key is a string" do
       config = Configuration[{ "plugins" => "_plugin" }]
-      assert_raises(Jekyll::Errors::InvalidConfigurationError) { config.validate }
+      assert_raises(Bridgetown::Errors::InvalidConfigurationError) { config.validate }
     end
 
     should "not rename configuration keys" do
@@ -285,13 +285,13 @@ class TestConfiguration < JekyllUnitTest
       allow($stderr).to receive(:puts).with(
         Colorator.yellow("Configuration file: none")
       )
-      assert_equal site_configuration, Jekyll.configuration(test_config)
+      assert_equal site_configuration, Bridgetown.configuration(test_config)
     end
 
     should "load configuration as hash" do
       allow(SafeYAML).to receive(:load_file).with(@path).and_return({})
       allow($stdout).to receive(:puts).with("Configuration file: #{@path}")
-      assert_equal site_configuration, Jekyll.configuration(test_config)
+      assert_equal site_configuration, Bridgetown.configuration(test_config)
     end
 
     should "fire warning with bad config" do
@@ -305,7 +305,7 @@ class TestConfiguration < JekyllUnitTest
       allow($stderr)
         .to receive(:puts)
         .and_return(Colorator.yellow("Configuration file: (INVALID) #{@path}"))
-      assert_equal site_configuration, Jekyll.configuration(test_config)
+      assert_equal site_configuration, Bridgetown.configuration(test_config)
     end
 
     should "fire warning when user-specified config file isn't there" do
@@ -319,7 +319,7 @@ class TestConfiguration < JekyllUnitTest
                 "The configuration file '#{@user_config}' could not be found."
               ))
       assert_raises LoadError do
-        Jekyll.configuration("config" => [@user_config])
+        Bridgetown.configuration("config" => [@user_config])
       end
     end
 
@@ -342,7 +342,7 @@ class TestConfiguration < JekyllUnitTest
     should "load default plus posts config if no config_file is set" do
       allow(SafeYAML).to receive(:load_file).with(@paths[:default]).and_return({})
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:default]}")
-      assert_equal site_configuration, Jekyll.configuration(test_config)
+      assert_equal site_configuration, Bridgetown.configuration(test_config)
     end
 
     should "load different config if specified" do
@@ -356,7 +356,7 @@ class TestConfiguration < JekyllUnitTest
           "baseurl" => "http://example.com",
           "config"  => @paths[:other]
         ),
-        Jekyll.configuration(test_config.merge("config" => @paths[:other]))
+        Bridgetown.configuration(test_config.merge("config" => @paths[:other]))
     end
 
     should "load different config if specified with symbol key" do
@@ -371,7 +371,7 @@ class TestConfiguration < JekyllUnitTest
           "baseurl" => "http://example.com",
           "config"  => @paths[:other]
         ),
-        Jekyll.configuration(test_config.merge(:config => @paths[:other]))
+        Bridgetown.configuration(test_config.merge(:config => @paths[:other]))
     end
 
     should "load default config if path passed is empty" do
@@ -379,19 +379,19 @@ class TestConfiguration < JekyllUnitTest
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:default]}")
       assert_equal \
         site_configuration("config" => [@paths[:empty]]),
-        Jekyll.configuration(test_config.merge("config" => [@paths[:empty]]))
+        Bridgetown.configuration(test_config.merge("config" => [@paths[:empty]]))
     end
 
     should "successfully load a TOML file" do
-      Jekyll.logger.log_level = :warn
+      Bridgetown.logger.log_level = :warn
       assert_equal \
         site_configuration(
           "baseurl" => "/you-beautiful-blog-you",
           "title"   => "My magnificent site, wut",
           "config"  => [@paths[:toml]]
         ),
-        Jekyll.configuration(test_config.merge("config" => [@paths[:toml]]))
-      Jekyll.logger.log_level = :info
+        Bridgetown.configuration(test_config.merge("config" => [@paths[:toml]]))
+      Bridgetown.logger.log_level = :info
     end
 
     should "load multiple config files" do
@@ -407,7 +407,7 @@ class TestConfiguration < JekyllUnitTest
         site_configuration(
           "config" => [@paths[:default], @paths[:other], @paths[:toml]]
         ),
-        Jekyll.configuration(
+        Bridgetown.configuration(
           test_config.merge(
             "config" => [@paths[:default], @paths[:other], @paths[:toml]]
           )
@@ -435,7 +435,7 @@ class TestConfiguration < JekyllUnitTest
           "baseurl" => "http://example.com",
           "config"  => [@paths[:default], @paths[:other]]
         ),
-        Jekyll.configuration(
+        Bridgetown.configuration(
           test_config.merge("config" => [@paths[:default], @paths[:other]])
         )
     end
@@ -513,7 +513,7 @@ class TestConfiguration < JekyllUnitTest
     end
 
     should "ignore newlines in that string entirely from a sample file" do
-      config = Jekyll.configuration(
+      config = Bridgetown.configuration(
         @tester.read_config_file(
           source_dir("_config_folded.yml")
         )
@@ -530,7 +530,7 @@ class TestConfiguration < JekyllUnitTest
     end
 
     should "ignore newlines in that string entirely from the template file" do
-      config = Jekyll.configuration(
+      config = Bridgetown.configuration(
         @tester.read_config_file(
           File.expand_path("../lib/site_template/_config.yml", File.dirname(__FILE__))
         )

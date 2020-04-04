@@ -4,8 +4,8 @@ Gem::Specification.new do |s|
   s.name        = "test-theme-symlink"
   s.version     = "0.1.0"
   s.licenses    = ["MIT"]
-  s.summary     = "This is a theme with a symlink used to test Jekyll"
-  s.authors     = ["Jekyll"]
+  s.summary     = "This is a theme with a symlink used to test Bridgetown"
+  s.authors     = ["Bridgetown"]
   s.files       = ["lib/example.rb"]
-  s.homepage    = "https://github.com/jekyll/jekyll"
+  s.homepage    = "https://github.com/bridgetown/bridgetown"
 end

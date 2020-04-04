@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestURL < JekyllUnitTest
+class TestURL < BridgetownUnitTest
   context "The URL class" do
     should "throw an exception if neither permalink or template is specified" do
       assert_raises ArgumentError do

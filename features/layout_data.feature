@@ -19,9 +19,9 @@ Feature: Layout data
       ---
       page content
       """
-    When I run jekyll build
-    Then the "_site/index.html" file should exist
-    And I should see "page content layout content" in "_site/index.html"
+    When I run bridgetown build
+    Then the "output/index.html" file should exist
+    And I should see "page content layout content" in "output/index.html"
 
   Scenario: Use custom layout data
     Given I have a _layouts directory
@@ -33,9 +33,9 @@ Feature: Layout data
       {{ content }} foo: {{ layout.foo }}
       """
     And I have an "index.html" page with layout "custom" that contains "page content"
-    When I run jekyll build
-    Then the "_site/index.html" file should exist
-    And I should see "page content\n foo: my custom data" in "_site/index.html"
+    When I run bridgetown build
+    Then the "output/index.html" file should exist
+    And I should see "page content\n foo: my custom data" in "output/index.html"
 
   Scenario: Inherit custom layout data
     Given I have a _layouts directory
@@ -52,9 +52,9 @@ Feature: Layout data
       {{ content }} foo: {{ layout.foo }}
       """
     And I have an "index.html" page with layout "custom" that contains "page content"
-    When I run jekyll build
-    Then the "_site/index.html" file should exist
-    And I should see "page content\n foo: my custom data" in "_site/index.html"
+    When I run bridgetown build
+    Then the "output/index.html" file should exist
+    And I should see "page content\n foo: my custom data" in "output/index.html"
 
   Scenario: Inherit custom layout data and clear when not present
     Given I have a _layouts directory
@@ -83,8 +83,8 @@ Feature: Layout data
       {{ content }}
       """
     And I have an "index.html" page with layout "special" that contains "page content"
-    And I have an "jekyll.html" page with layout "page" that contains "page content"
-    When I run jekyll build
-    Then the "_site/index.html" file should exist
-    And I should see "page content\n foo: 'my special data' bar: 'im special'" in "_site/index.html"
-    And I should see "page content\n foo: '' bar: 'im page'" in "_site/jekyll.html"
+    And I have an "bridgetown.html" page with layout "page" that contains "page content"
+    When I run bridgetown build
+    Then the "output/index.html" file should exist
+    And I should see "page content\n foo: 'my special data' bar: 'im special'" in "output/index.html"
+    And I should see "page content\n foo: '' bar: 'im page'" in "output/bridgetown.html"

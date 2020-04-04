@@ -2,10 +2,10 @@
 
 require "helper"
 
-class TestLiquidExtensions < JekyllUnitTest
+class TestLiquidExtensions < BridgetownUnitTest
   context "looking up a variable in a Liquid context" do
     class SayHi < Liquid::Tag
-      include Jekyll::LiquidExtensions
+      include Bridgetown::LiquidExtensions
 
       def initialize(_tag_name, markup, _tokens)
         @markup = markup.strip

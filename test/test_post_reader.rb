@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestPostReader < JekyllUnitTest
+class TestPostReader < BridgetownUnitTest
   context "#read_publishable" do
     setup do
       @site = Site.new(site_configuration)

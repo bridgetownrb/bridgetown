@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestPage < JekyllUnitTest
+class TestPage < BridgetownUnitTest
   def setup_page(*args)
     dir, file = args
     if file.nil?
@@ -22,7 +22,7 @@ class TestPage < JekyllUnitTest
   context "A Page" do
     setup do
       clear_dest
-      @site = Site.new(Jekyll.configuration(
+      @site = Site.new(Bridgetown.configuration(
                          "source"            => source_dir,
                          "destination"       => dest_dir,
                          "skip_config_files" => true
@@ -55,7 +55,7 @@ class TestPage < JekyllUnitTest
         liquid_rep = page.to_liquid
         refute_equal Hash, liquid_rep.class
         assert_equal true, liquid_rep.is_a?(Liquid::Drop)
-        assert_equal Jekyll::Drops::PageDrop, liquid_rep.class
+        assert_equal Bridgetown::Drops::PageDrop, liquid_rep.class
       end
 
       should "make attributes accessible for use in Liquid templates" do

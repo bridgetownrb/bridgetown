@@ -38,7 +38,7 @@ module Bridgetown
 
           if options.fetch("detach", false)
             Bridgetown.logger.info "Auto-regeneration:",
-                               "disabled when running server detached."
+                                   "disabled when running server detached."
           elsif options.fetch("watch", false)
             watch(site, options)
           else
@@ -60,7 +60,7 @@ module Bridgetown
           Bridgetown.logger.info "Source:", source
           Bridgetown.logger.info "Destination:", destination
           Bridgetown.logger.info "Incremental build:",
-                             (incremental ? "enabled" : "disabled. Enable with --incremental")
+                                 (incremental ? "enabled" : "disabled. Enable with --incremental")
           Bridgetown.logger.info "Generating..."
           process_site(site)
           Bridgetown.logger.info "", "done in #{(Time.now - t).round(3)} seconds."
@@ -76,12 +76,12 @@ module Bridgetown
           # Warn Windows users that they might need to upgrade.
           if Utils::Platforms.bash_on_windows?
             Bridgetown.logger.warn "",
-                               "Auto-regeneration may not work on some Windows versions."
+                                   "Auto-regeneration may not work on some Windows versions."
             Bridgetown.logger.warn "",
-                               "Please see: https://github.com/Microsoft/BashOnWindows/issues/216"
+                                   "Please see: https://github.com/Microsoft/BashOnWindows/issues/216"
             Bridgetown.logger.warn "",
-                               "If it does not work, please upgrade Bash on Windows or "\
-                               "run Bridgetown with --no-watch."
+                                   "If it does not work, please upgrade Bash on Windows or "\
+                                   "run Bridgetown with --no-watch."
           end
 
           External.require_with_graceful_fail "bridgetown-watch"

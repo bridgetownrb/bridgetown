@@ -2,20 +2,20 @@
 
 require "helper"
 
-class TestTags < JekyllUnitTest
+class TestTags < BridgetownUnitTest
   def setup
     FileUtils.mkdir_p("tmp")
   end
 
   # rubocop:disable Metrics/AbcSize
-  def create_post(content, override = {}, converter_class = Jekyll::Converters::Markdown)
+  def create_post(content, override = {}, converter_class = Bridgetown::Converters::Markdown)
     site = fixture_site({ "highlighter" => "rouge" }.merge(override))
 
     site.posts.docs.concat(PostReader.new(site).read_posts("")) if override["read_posts"]
     CollectionReader.new(site).read if override["read_collections"]
     site.read if override["read_all"]
 
-    info = { :filters => [Jekyll::Filters], :registers => { :site => site } }
+    info = { :filters => [Bridgetown::Filters], :registers => { :site => site } }
     @converter = site.converters.find { |c| c.class == converter_class }
     payload = { "highlighter_prefix" => @converter.highlighter_prefix,
                 "highlighter_suffix" => @converter.highlighter_suffix, }
@@ -44,7 +44,7 @@ class TestTags < JekyllUnitTest
   end
 
   def highlight_block_with_opts(options_string)
-    Jekyll::Tags::HighlightBlock.parse(
+    Bridgetown::Tags::HighlightBlock.parse(
       "highlight",
       options_string,
       Liquid::Tokenizer.new("test{% endhighlight %}\n"),
@@ -54,7 +54,7 @@ class TestTags < JekyllUnitTest
 
   context "language name" do
     should "match only the required set of chars" do
-      r = Jekyll::Tags::HighlightBlock::SYNTAX
+      r = Bridgetown::Tags::HighlightBlock::SYNTAX
       assert_match r, "ruby"
       assert_match r, "c#"
       assert_match r, "xml+cheetah"
@@ -186,13 +186,13 @@ class TestTags < JekyllUnitTest
 
     context "post content has highlight with file reference" do
       setup do
-        fill_post("./jekyll.gemspec")
+        fill_post("./bridgetown.gemspec")
       end
 
       should "not embed the file" do
         assert_match(
           '<pre><code class="language-text" data-lang="text">' \
-          "./jekyll.gemspec</code></pre>",
+          "./bridgetown.gemspec</code></pre>",
           @result
         )
       end
@@ -456,7 +456,7 @@ class TestTags < JekyllUnitTest
         "'{% post_url 2008-11-21-nested %}' did not match a post using the new matching "\
         "method of checking name (path-date-slug) equality. Please make sure that you "\
         "change this tag to match the post's name exactly."
-      assert_includes Jekyll.logger.messages, deprecation_warning
+      assert_includes Bridgetown.logger.messages, deprecation_warning
     end
   end
 
@@ -470,7 +470,7 @@ class TestTags < JekyllUnitTest
         {% post_url abc2008-11-21-complex %}
       CONTENT
 
-      assert_raises Jekyll::Errors::PostURLError do
+      assert_raises Bridgetown::Errors::PostURLError do
         create_post(content,
                     "permalink"   => "pretty",
                     "source"      => source_dir,
@@ -488,7 +488,7 @@ class TestTags < JekyllUnitTest
         {% post_url 2008-42-21-complex %}
       CONTENT
 
-      assert_raises Jekyll::Errors::InvalidDateError do
+      assert_raises Bridgetown::Errors::InvalidDateError do
         create_post(content,
                     "permalink"   => "pretty",
                     "source"      => source_dir,

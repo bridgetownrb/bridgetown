@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestPluginManager < JekyllUnitTest
+class TestPluginManager < BridgetownUnitTest
   def with_no_gemfile
     FileUtils.mv "Gemfile", "Gemfile.old"
     yield
@@ -13,7 +13,7 @@ class TestPluginManager < JekyllUnitTest
   context "JEKYLL_NO_BUNDLER_REQUIRE set to `nil`" do
     should "require from bundler" do
       with_env("JEKYLL_NO_BUNDLER_REQUIRE", nil) do
-        assert Jekyll::PluginManager.require_from_bundler,
+        assert Bridgetown::PluginManager.require_from_bundler,
                "require_from_bundler should return true."
         assert ENV["JEKYLL_NO_BUNDLER_REQUIRE"], "Gemfile plugins were not required."
       end
@@ -23,7 +23,7 @@ class TestPluginManager < JekyllUnitTest
   context "JEKYLL_NO_BUNDLER_REQUIRE set to `true`" do
     should "not require from bundler" do
       with_env("JEKYLL_NO_BUNDLER_REQUIRE", "true") do
-        refute Jekyll::PluginManager.require_from_bundler,
+        refute Bridgetown::PluginManager.require_from_bundler,
                "Gemfile plugins were required but shouldn't have been"
         assert ENV["JEKYLL_NO_BUNDLER_REQUIRE"]
       end
@@ -34,7 +34,7 @@ class TestPluginManager < JekyllUnitTest
     should "not require from bundler" do
       with_env("JEKYLL_NO_BUNDLER_REQUIRE", nil) do
         with_no_gemfile do
-          refute Jekyll::PluginManager.require_from_bundler,
+          refute Bridgetown::PluginManager.require_from_bundler,
                  "Gemfile plugins were required but shouldn't have been"
           assert_nil ENV["JEKYLL_NO_BUNDLER_REQUIRE"]
         end
@@ -46,7 +46,7 @@ class TestPluginManager < JekyllUnitTest
     should "invoke `require_with_graceful_fail`" do
       gems = %w(jemojii foobar)
 
-      expect(Jekyll::External).to(
+      expect(Bridgetown::External).to(
         receive(:require_with_graceful_fail).with(gems).and_return(nil)
       )
       site = double(:gems => gems)
@@ -73,7 +73,7 @@ class TestPluginManager < JekyllUnitTest
                     :in_source_dir => "/tmp/")
       plugin_manager = PluginManager.new(site)
 
-      expect(Jekyll::External).to receive(:require_with_graceful_fail)
+      expect(Bridgetown::External).to receive(:require_with_graceful_fail)
       plugin_manager.require_plugin_files
     end
   end
@@ -91,7 +91,7 @@ class TestPluginManager < JekyllUnitTest
       site = double(:safe => true)
       plugin_manager = PluginManager.new(site)
 
-      expect(Jekyll::External).to_not receive(:require_with_graceful_fail)
+      expect(Bridgetown::External).to_not receive(:require_with_graceful_fail)
       plugin_manager.require_plugin_files
     end
   end
@@ -100,7 +100,7 @@ class TestPluginManager < JekyllUnitTest
     should "call site's in_source_dir" do
       site = double(
         :config        => {
-          "plugins_dir" => Jekyll::Configuration::DEFAULTS["plugins_dir"],
+          "plugins_dir" => Bridgetown::Configuration::DEFAULTS["plugins_dir"],
         },
         :in_source_dir => "/tmp/"
       )
@@ -122,23 +122,23 @@ class TestPluginManager < JekyllUnitTest
   end
 
   context "`paginate` config is activated" do
-    should "print deprecation warning if jekyll-paginate is not present" do
+    should "print deprecation warning if bridgetown-paginate is not present" do
       site = double(:config => { "paginate" => true })
       plugin_manager = PluginManager.new(site)
 
-      expect(Jekyll::Deprecator).to(
-        receive(:deprecation_message).with(%r!jekyll-paginate!)
+      expect(Bridgetown::Deprecator).to(
+        receive(:deprecation_message).with(%r!bridgetown-paginate!)
       )
       plugin_manager.deprecation_checks
     end
 
-    should "print no deprecation warning if jekyll-paginate is present" do
+    should "print no deprecation warning if bridgetown-paginate is present" do
       site = double(
-        :config => { "paginate" => true, "plugins" => ["jekyll-paginate"] }
+        :config => { "paginate" => true, "plugins" => ["bridgetown-paginate"] }
       )
       plugin_manager = PluginManager.new(site)
 
-      expect(Jekyll::Deprecator).to_not receive(:deprecation_message)
+      expect(Bridgetown::Deprecator).to_not receive(:deprecation_message)
       plugin_manager.deprecation_checks
     end
   end

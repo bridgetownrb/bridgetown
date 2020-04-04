@@ -102,8 +102,8 @@ module Bridgetown
           converter.convert output
         rescue StandardError => e
           Bridgetown.logger.error "Conversion error:",
-                              "#{converter.class} encountered an error while "\
-                              "converting '#{document.relative_path}':"
+                                  "#{converter.class} encountered an error while "\
+                                  "converting '#{document.relative_path}':"
           Bridgetown.logger.error("", e.to_s)
           raise e
         end
@@ -122,13 +122,13 @@ module Bridgetown
       template = site.liquid_renderer.file(path).parse(content)
       template.warnings.each do |e|
         Bridgetown.logger.warn "Liquid Warning:",
-                           LiquidRenderer.format_error(e, path || document.relative_path)
+                               LiquidRenderer.format_error(e, path || document.relative_path)
       end
       template.render!(payload, info)
     # rubocop: disable Lint/RescueException
     rescue Exception => e
       Bridgetown.logger.error "Liquid Exception:",
-                          LiquidRenderer.format_error(e, path || document.relative_path)
+                              LiquidRenderer.format_error(e, path || document.relative_path)
       raise e
     end
     # rubocop: enable Lint/RescueException

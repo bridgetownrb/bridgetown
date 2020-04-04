@@ -2,7 +2,7 @@
 
 require "helper"
 
-class DropFixture < Jekyll::Drops::Drop
+class DropFixture < Bridgetown::Drops::Drop
   mutable true
 
   def foo
@@ -14,7 +14,7 @@ class DropFixture < Jekyll::Drops::Drop
   end
 end
 
-class TestDrop < JekyllUnitTest
+class TestDrop < BridgetownUnitTest
   context "Drops" do
     setup do
       @site = fixture_site(
@@ -61,7 +61,7 @@ class TestDrop < JekyllUnitTest
         end
 
         should "fetch value without default" do
-          assert_equal "Jekyll.configuration", @document_drop.fetch("title")
+          assert_equal "Bridgetown.configuration", @document_drop.fetch("title")
         end
 
         should "fetch default if key is not found" do

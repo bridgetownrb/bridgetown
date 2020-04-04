@@ -2,10 +2,10 @@
 
 require "helper"
 
-class TestRegenerator < JekyllUnitTest
+class TestRegenerator < BridgetownUnitTest
   context "The site regenerator" do
     setup do
-      FileUtils.rm_rf(source_dir(".jekyll-metadata"))
+      FileUtils.rm_rf(source_dir(".bridgetown-metadata"))
 
       @site = fixture_site(
         "collections" => {
@@ -93,7 +93,7 @@ class TestRegenerator < JekyllUnitTest
 
   context "The site regenerator" do
     setup do
-      FileUtils.rm_rf(source_dir(".jekyll-metadata"))
+      FileUtils.rm_rf(source_dir(".bridgetown-metadata"))
       @site = fixture_site(
         "incremental" => true
       )
@@ -127,9 +127,9 @@ class TestRegenerator < JekyllUnitTest
 
   context "The site metadata" do
     setup do
-      FileUtils.rm_rf(source_dir(".jekyll-metadata"))
+      FileUtils.rm_rf(source_dir(".bridgetown-metadata"))
 
-      @site = Site.new(Jekyll.configuration(
+      @site = Site.new(Bridgetown.configuration(
                          "source"      => source_dir,
                          "destination" => dest_dir,
                          "incremental" => true
@@ -162,7 +162,7 @@ class TestRegenerator < JekyllUnitTest
       @regenerator.clear
       @regenerator.add(@path)
       @regenerator.write_metadata
-      assert File.file?(source_dir(".jekyll-metadata"))
+      assert File.file?(source_dir(".bridgetown-metadata"))
     end
 
     should "read from the metadata file" do
@@ -171,7 +171,7 @@ class TestRegenerator < JekyllUnitTest
     end
 
     should "read legacy YAML metadata" do
-      metadata_file = source_dir(".jekyll-metadata")
+      metadata_file = source_dir(".bridgetown-metadata")
       @regenerator = Regenerator.new(@site)
 
       File.open(metadata_file, "w") do |f|
@@ -183,7 +183,7 @@ class TestRegenerator < JekyllUnitTest
     end
 
     should "not crash when reading corrupted marshal file" do
-      metadata_file = source_dir(".jekyll-metadata")
+      metadata_file = source_dir(".bridgetown-metadata")
       File.open(metadata_file, "w") do |file|
         file.puts Marshal.dump(:foo => "bar")[0, 5]
       end
@@ -311,8 +311,8 @@ class TestRegenerator < JekyllUnitTest
 
   context "when incremental regeneration is disabled" do
     setup do
-      FileUtils.rm_rf(source_dir(".jekyll-metadata"))
-      @site = Site.new(Jekyll.configuration(
+      FileUtils.rm_rf(source_dir(".bridgetown-metadata"))
+      @site = Site.new(Bridgetown.configuration(
                          "source"      => source_dir,
                          "destination" => dest_dir,
                          "incremental" => false
@@ -323,8 +323,8 @@ class TestRegenerator < JekyllUnitTest
       @regenerator = @site.regenerator
     end
 
-    should "not create .jekyll-metadata" do
-      refute File.file?(source_dir(".jekyll-metadata"))
+    should "not create .bridgetown-metadata" do
+      refute File.file?(source_dir(".bridgetown-metadata"))
     end
   end
 end

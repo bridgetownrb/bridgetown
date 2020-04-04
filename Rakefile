@@ -7,7 +7,7 @@ require "date"
 require "yaml"
 
 $LOAD_PATH.unshift File.expand_path("lib", __dir__)
-require "jekyll/version"
+require "bridgetown/version"
 
 Dir.glob("rake/**.rake").each { |f| import f }
 
@@ -18,11 +18,11 @@ Dir.glob("rake/**.rake").each { |f| import f }
 #############################################################################
 
 def name
-  "jekyll"
+  "bridgetown"
 end
 
 def version
-  Jekyll::VERSION
+  Bridgetown::VERSION
 end
 
 def docs_name

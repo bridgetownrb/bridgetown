@@ -4,7 +4,7 @@ require "webrick"
 require "helper"
 require "net/http"
 
-class TestCommandsServeServlet < JekyllUnitTest
+class TestCommandsServeServlet < BridgetownUnitTest
   def get(path)
     TestWEBrick.mount_server do |_server, addr, port|
       http = Net::HTTP.new(addr, port)

@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestEntryFilter < JekyllUnitTest
+class TestEntryFilter < BridgetownUnitTest
   context "Filtering entries" do
     setup do
       @site = fixture_site
@@ -84,7 +84,7 @@ class TestEntryFilter < JekyllUnitTest
 
     should "include only safe symlinks in safe mode" do
       # no support for symlinks on Windows
-      skip_if_windows "Jekyll does not currently support symlinks on Windows."
+      skip_if_windows "Bridgetown does not currently support symlinks on Windows."
 
       site = fixture_site("safe" => true)
       site.reader.read_directories("symlink-test")
@@ -95,7 +95,7 @@ class TestEntryFilter < JekyllUnitTest
 
     should "include symlinks in unsafe mode" do
       # no support for symlinks on Windows
-      skip_if_windows "Jekyll does not currently support symlinks on Windows."
+      skip_if_windows "Bridgetown does not currently support symlinks on Windows."
 
       @site.reader.read_directories("symlink-test")
       refute_equal [], @site.pages
@@ -104,7 +104,7 @@ class TestEntryFilter < JekyllUnitTest
 
     should "include only safe symlinks in safe mode even when included" do
       # no support for symlinks on Windows
-      skip_if_windows "Jekyll does not currently support symlinks on Windows."
+      skip_if_windows "Bridgetown does not currently support symlinks on Windows."
 
       site = fixture_site("safe" => true, "include" => ["symlinked-file-outside-source"])
       site.reader.read_directories("symlink-test")
@@ -146,7 +146,7 @@ class TestEntryFilter < JekyllUnitTest
 
     should "match even if there is no trailing slash" do
       data = ["/vendor/bundle/", "vendor/ruby"]
-      assert @filter.glob_include?(data, "vendor/bundle/jekyll/lib/page.rb")
+      assert @filter.glob_include?(data, "vendor/bundle/bridgetown/lib/page.rb")
       assert @filter.glob_include?(data, "/vendor/ruby/lib/set.rb")
     end
   end

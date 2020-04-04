@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestPageWithoutAFile < JekyllUnitTest
+class TestPageWithoutAFile < BridgetownUnitTest
   def setup_page(*args, base: source_dir, klass: PageWithoutAFile)
     dir, file = args
     if file.nil?
@@ -21,7 +21,7 @@ class TestPageWithoutAFile < JekyllUnitTest
   context "A PageWithoutAFile" do
     setup do
       clear_dest
-      @site = Site.new(Jekyll.configuration(
+      @site = Site.new(Bridgetown.configuration(
                          "source"            => source_dir,
                          "destination"       => dest_dir,
                          "skip_config_files" => true
@@ -34,7 +34,7 @@ class TestPageWithoutAFile < JekyllUnitTest
       end
 
       should "identify itself properly" do
-        assert_equal '#<Jekyll::PageWithoutAFile @relative_path="properties.html">', @page.inspect
+        assert_equal '#<Bridgetown::PageWithoutAFile @relative_path="properties.html">', @page.inspect
       end
 
       should "not have page-content and page-data defined within it" do
@@ -45,7 +45,7 @@ class TestPageWithoutAFile < JekyllUnitTest
 
       should "have basic attributes defined in it" do
         regular_page = setup_page("properties.html", :klass => Page)
-        # assert a couple of attributes accessible in a regular Jekyll::Page instance
+        # assert a couple of attributes accessible in a regular Bridgetown::Page instance
         assert_equal "All the properties.\n", regular_page["content"]
         assert_equal "properties.html", regular_page["name"]
 
@@ -64,13 +64,13 @@ class TestPageWithoutAFile < JekyllUnitTest
           "url"       => "/properties.html",
         }
         attrs.each do |prop, value|
-          # assert that all attributes (of a Jekyll::PageWithoutAFile instance) other than
+          # assert that all attributes (of a Bridgetown::PageWithoutAFile instance) other than
           # "dir", "name", "path", "url" are `nil`.
           # For example, @page[dir] should be "/" but @page[content] or @page[layout], should
           # simply be nil.
           #
           if basic_attrs.include?(prop)
-            assert_equal value, @page[prop], "For Jekyll::PageWithoutAFile attribute '#{prop}':"
+            assert_equal value, @page[prop], "For Bridgetown::PageWithoutAFile attribute '#{prop}':"
           else
             assert_nil @page[prop]
           end
@@ -79,7 +79,7 @@ class TestPageWithoutAFile < JekyllUnitTest
 
       should "be exposed to Liquid as a Hash" do
         liquid_rep = @page.to_liquid
-        refute_equal Jekyll::Drops::PageDrop, liquid_rep.class
+        refute_equal Bridgetown::Drops::PageDrop, liquid_rep.class
         assert_equal Hash, liquid_rep.class
       end
     end

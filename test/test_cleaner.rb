@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestCleaner < JekyllUnitTest
+class TestCleaner < BridgetownUnitTest
   context "directory in keep_files" do
     setup do
       clear_dest

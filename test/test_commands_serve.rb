@@ -7,7 +7,7 @@ require "httpclient"
 require "openssl"
 require "tmpdir"
 
-class TestCommandsServe < JekyllUnitTest
+class TestCommandsServe < BridgetownUnitTest
   def custom_opts(what)
     @cmd.send(
       :webrick_opts, what
@@ -17,24 +17,24 @@ class TestCommandsServe < JekyllUnitTest
   def start_server(opts)
     @thread = Thread.new do
       merc = nil
-      cmd = Jekyll::Commands::Serve
-      Mercenary.program(:jekyll) do |p|
+      cmd = Bridgetown::Commands::Serve
+      Mercenary.program(:bridgetown) do |p|
         merc = cmd.init_with_program(p)
       end
       merc.execute(:serve, opts)
     end
     @thread.abort_on_exception = true
 
-    Jekyll::Commands::Serve.mutex.synchronize do
-      unless Jekyll::Commands::Serve.running?
-        Jekyll::Commands::Serve.run_cond.wait(Jekyll::Commands::Serve.mutex)
+    Bridgetown::Commands::Serve.mutex.synchronize do
+      unless Bridgetown::Commands::Serve.running?
+        Bridgetown::Commands::Serve.run_cond.wait(Bridgetown::Commands::Serve.mutex)
       end
     end
   end
 
   def serve(opts)
-    allow(Jekyll).to receive(:configuration).and_return(opts)
-    allow(Jekyll::Commands::Build).to receive(:process)
+    allow(Bridgetown).to receive(:configuration).and_return(opts)
+    allow(Bridgetown::Commands::Build).to receive(:process)
 
     start_server(opts)
 
@@ -46,7 +46,7 @@ class TestCommandsServe < JekyllUnitTest
       skip_if_windows "EventMachine support on Windows is limited"
       skip("Refinements are not fully supported in JRuby") if jruby?
 
-      @temp_dir = Dir.mktmpdir("jekyll_livereload_test")
+      @temp_dir = Dir.mktmpdir("bridgetown_livereload_test")
       @destination = File.join(@temp_dir, "_site")
       Dir.mkdir(@destination) || flunk("Could not make directory #{@destination}")
       @client = HTTPClient.new
@@ -61,7 +61,7 @@ class TestCommandsServe < JekyllUnitTest
         "destination" => @destination,
       }
 
-      site = instance_double(Jekyll::Site)
+      site = instance_double(Bridgetown::Site)
       simple_page = <<-HTML.gsub(%r!^\s*!, "")
       <!DOCTYPE HTML>
       <html lang="en-US">
@@ -78,17 +78,17 @@ class TestCommandsServe < JekyllUnitTest
       File.open(File.join(@destination, "hello.html"), "w") do |f|
         f.write(simple_page)
       end
-      allow(Jekyll::Site).to receive(:new).and_return(site)
+      allow(Bridgetown::Site).to receive(:new).and_return(site)
     end
 
     teardown do
       capture_io do
-        Jekyll::Commands::Serve.shutdown
+        Bridgetown::Commands::Serve.shutdown
       end
 
-      Jekyll::Commands::Serve.mutex.synchronize do
-        if Jekyll::Commands::Serve.running?
-          Jekyll::Commands::Serve.run_cond.wait(Jekyll::Commands::Serve.mutex)
+      Bridgetown::Commands::Serve.mutex.synchronize do
+        if Bridgetown::Commands::Serve.running?
+          Bridgetown::Commands::Serve.run_cond.wait(Bridgetown::Commands::Serve.mutex)
         end
       end
 
@@ -138,18 +138,18 @@ class TestCommandsServe < JekyllUnitTest
   context "with a program" do
     setup do
       @merc = nil
-      @cmd = Jekyll::Commands::Serve
-      Mercenary.program(:jekyll) do |p|
+      @cmd = Bridgetown::Commands::Serve
+      Mercenary.program(:bridgetown) do |p|
         @merc = @cmd.init_with_program(
           p
         )
       end
-      Jekyll.sites.clear
+      Bridgetown.sites.clear
       allow(SafeYAML).to receive(:load_file).and_return({})
-      allow(Jekyll::Commands::Build).to receive(:build).and_return("")
+      allow(Bridgetown::Commands::Build).to receive(:build).and_return("")
     end
     teardown do
-      Jekyll.sites.clear
+      Bridgetown.sites.clear
     end
 
     should "label itself" do
@@ -211,32 +211,32 @@ class TestCommandsServe < JekyllUnitTest
           "watch"   => false, # for not having guard output when running the tests
           "url"     => "http://localhost:4000",
         }
-        config = Jekyll::Configuration.from(options)
+        config = Bridgetown::Configuration.from(options)
 
-        allow(Jekyll::Command).to(
+        allow(Bridgetown::Command).to(
           receive(:configuration_from_options).with(options).and_return(config)
         )
-        allow(Jekyll::Command).to(
+        allow(Bridgetown::Command).to(
           receive(:configuration_from_options).with(config).and_return(config)
         )
 
-        expect(Jekyll::Commands::Build).to(
+        expect(Bridgetown::Commands::Build).to(
           receive(:process).with(config).and_call_original
         )
-        expect(Jekyll::Commands::Serve).to receive(:process).with(config)
+        expect(Bridgetown::Commands::Serve).to receive(:process).with(config)
         @merc.execute(:serve, options)
       end
 
       context "in development environment" do
         setup do
-          expect(Jekyll).to receive(:env).and_return("development")
-          expect(Jekyll::Commands::Serve).to receive(:start_up_webrick)
+          expect(Bridgetown).to receive(:env).and_return("development")
+          expect(Bridgetown::Commands::Serve).to receive(:start_up_webrick)
         end
         should "set the site url by default to `http://localhost:4000`" do
-          @merc.execute(:serve, "watch" => false, "url" => "https://jekyllrb.com/")
+          @merc.execute(:serve, "watch" => false, "url" => "https://bridgetownrb.com/")
 
-          assert_equal 1, Jekyll.sites.count
-          assert_equal "http://localhost:4000", Jekyll.sites.first.config["url"]
+          assert_equal 1, Bridgetown.sites.count
+          assert_equal "http://localhost:4000", Bridgetown.sites.first.config["url"]
         end
 
         should "take `host`, `port` and `ssl` into consideration if set" do
@@ -244,23 +244,23 @@ class TestCommandsServe < JekyllUnitTest
                         "watch"    => false,
                         "host"     => "example.com",
                         "port"     => "9999",
-                        "url"      => "https://jekyllrb.com/",
+                        "url"      => "https://bridgetownrb.com/",
                         "ssl_cert" => "foo",
                         "ssl_key"  => "bar")
 
-          assert_equal 1, Jekyll.sites.count
-          assert_equal "https://example.com:9999", Jekyll.sites.first.config["url"]
+          assert_equal 1, Bridgetown.sites.count
+          assert_equal "https://example.com:9999", Bridgetown.sites.first.config["url"]
         end
       end
 
       context "not in development environment" do
         should "not update the site url" do
-          expect(Jekyll).to receive(:env).and_return("production")
-          expect(Jekyll::Commands::Serve).to receive(:start_up_webrick)
-          @merc.execute(:serve, "watch" => false, "url" => "https://jekyllrb.com/")
+          expect(Bridgetown).to receive(:env).and_return("production")
+          expect(Bridgetown::Commands::Serve).to receive(:start_up_webrick)
+          @merc.execute(:serve, "watch" => false, "url" => "https://bridgetownrb.com/")
 
-          assert_equal 1, Jekyll.sites.count
-          assert_equal "https://jekyllrb.com/", Jekyll.sites.first.config["url"]
+          assert_equal 1, Bridgetown.sites.count
+          assert_equal "https://bridgetownrb.com/", Bridgetown.sites.first.config["url"]
         end
       end
 
@@ -309,9 +309,9 @@ class TestCommandsServe < JekyllUnitTest
     end
 
     should "read `configuration` only once" do
-      allow(Jekyll::Commands::Serve).to receive(:start_up_webrick)
+      allow(Bridgetown::Commands::Serve).to receive(:start_up_webrick)
 
-      expect(Jekyll).to receive(:configuration).once.and_call_original
+      expect(Bridgetown).to receive(:configuration).once.and_call_original
       @merc.execute(:serve, "watch" => false)
     end
   end

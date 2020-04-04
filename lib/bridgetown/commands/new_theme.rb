@@ -28,7 +28,9 @@ module Bridgetown
 
           new_theme_name = args.join("_")
           theme = Bridgetown::ThemeBuilder.new(new_theme_name, opts)
-          Bridgetown.logger.abort_with "Conflict:", "#{theme.path} already exists." if theme.path.exist?
+          if theme.path.exist?
+            Bridgetown.logger.abort_with "Conflict:", "#{theme.path} already exists."
+          end
 
           theme.create!
           Bridgetown.logger.info "Your new Bridgetown theme, #{theme.name.cyan}," \

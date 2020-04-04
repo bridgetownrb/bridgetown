@@ -35,7 +35,7 @@ module Bridgetown
     def method_missing(method, *args, &blck)
       if docs.respond_to?(method.to_sym)
         Bridgetown.logger.warn "Deprecation:",
-                           "#{label}.#{method} should be changed to #{label}.docs.#{method}."
+                               "#{label}.#{method} should be changed to #{label}.docs.#{method}."
         Bridgetown.logger.warn "", "Called by #{caller(0..0)}."
         docs.public_send(method.to_sym, *args, &blck)
       else
@@ -263,7 +263,8 @@ module Bridgetown
     end
 
     def order_with_warning(sort_key, document, order)
-      Bridgetown.logger.warn "Sort warning:", "'#{sort_key}' not defined in #{document.relative_path}"
+      Bridgetown.logger.warn "Sort warning:", "'#{sort_key}' not defined in" \
+                              " #{document.relative_path}"
       order
     end
 

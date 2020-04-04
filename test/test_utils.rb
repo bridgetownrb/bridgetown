@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestUtils < JekyllUnitTest
+class TestUtils < BridgetownUnitTest
   context "The \`Utils.deep_merge_hashes\` method" do
     setup do
       clear_dest
@@ -95,13 +95,13 @@ class TestUtils < JekyllUnitTest
     end
 
     should "throw an error if the input contains no date data" do
-      assert_raises Jekyll::Errors::InvalidDateError do
+      assert_raises Bridgetown::Errors::InvalidDateError do
         Utils.parse_date("Blah")
       end
     end
 
     should "throw an error if the input is out of range" do
-      assert_raises Jekyll::Errors::InvalidDateError do
+      assert_raises Bridgetown::Errors::InvalidDateError do
         Utils.parse_date("9999-99-99")
       end
     end
@@ -109,7 +109,7 @@ class TestUtils < JekyllUnitTest
     should "throw an error with the default message if no message is passed in" do
       date = "Blah this is invalid"
       assert_raises(
-        Jekyll::Errors::InvalidDateError,
+        Bridgetown::Errors::InvalidDateError,
         "Invalid date '#{date}': Input could not be parsed."
       ) do
         Utils.parse_date(date)
@@ -120,7 +120,7 @@ class TestUtils < JekyllUnitTest
       date = "Blah this is invalid"
       message = "Aaaah, the world has exploded!"
       assert_raises(
-        Jekyll::Errors::InvalidDateError,
+        Bridgetown::Errors::InvalidDateError,
         "Invalid date '#{date}': #{message}"
       ) do
         Utils.parse_date(date, message)
@@ -151,8 +151,8 @@ class TestUtils < JekyllUnitTest
 
     should "drop trailing punctuation" do
       assert_equal(
-        "so-what-is-jekyll-exactly",
-        Utils.slugify("So what is Jekyll, exactly?")
+        "so-what-is-bridgetown-exactly",
+        Utils.slugify("So what is Bridgetown, exactly?")
       )
       assert_equal "كيف-حالك", Utils.slugify("كيف حالك؟")
     end
@@ -246,8 +246,8 @@ class TestUtils < JekyllUnitTest
         Utils.slugify("  Working with drafts   ", :cased => true)
       )
       assert_equal(
-        "So-what-is-Jekyll-exactly",
-        Utils.slugify("So what is Jekyll, exactly?", :cased => true)
+        "So-what-is-Bridgetown-exactly",
+        Utils.slugify("So what is Bridgetown, exactly?", :cased => true)
       )
       assert_equal(
         "Pre-releases",
@@ -284,7 +284,7 @@ class TestUtils < JekyllUnitTest
     end
 
     should "records a warning in the log if the returned slug is empty" do
-      expect(Jekyll.logger).to receive(:warn)
+      expect(Bridgetown.logger).to receive(:warn)
       assert_equal "", Utils.slugify("💎")
     end
   end

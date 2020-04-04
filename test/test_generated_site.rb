@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestGeneratedSite < JekyllUnitTest
+class TestGeneratedSite < BridgetownUnitTest
   context "generated sites" do
     setup do
       clear_dest

@@ -2,13 +2,13 @@
 
 require "helper"
 
-class TestFilters < JekyllUnitTest
-  class JekyllFilter
-    include Jekyll::Filters
+class TestFilters < BridgetownUnitTest
+  class BridgetownFilter
+    include Bridgetown::Filters
     attr_accessor :site, :context
 
     def initialize(opts = {})
-      @site = Jekyll::Site.new(opts.merge("skip_config_files" => true))
+      @site = Bridgetown::Site.new(opts.merge("skip_config_files" => true))
       @context = Liquid::Context.new(@site.site_payload, {}, :site => @site)
     end
   end
@@ -24,9 +24,9 @@ class TestFilters < JekyllUnitTest
   end
 
   def make_filter_mock(opts = {})
-    JekyllFilter.new(site_configuration(opts)).tap do |f|
+    BridgetownFilter.new(site_configuration(opts)).tap do |f|
       tz = f.site.config["timezone"]
-      Jekyll.set_timezone(tz) if tz
+      Bridgetown.set_timezone(tz) if tz
     end
   end
 
@@ -134,24 +134,6 @@ class TestFilters < JekyllUnitTest
           capture_output { @filter.smartify("Test") }
         )
       end
-    end
-
-    should "sassify with simple string" do
-      assert_equal(
-        "p { color: #123456; }\n",
-        @filter.sassify(<<~SASS)
-          $blue: #123456
-          p
-            color: $blue
-        SASS
-      )
-    end
-
-    should "scssify with simple string" do
-      assert_equal(
-        "p { color: #123456; }\n",
-        @filter.scssify("$blue:#123456; p{color: $blue}")
-      )
     end
 
     should "convert array to sentence string with no args" do
@@ -694,9 +676,9 @@ class TestFilters < JekyllUnitTest
         actual = @filter.jsonify(@filter.site.to_liquid)
         expected = {
           "environment" => "development",
-          "version"     => Jekyll::VERSION,
+          "version"     => Bridgetown::VERSION,
         }
-        assert_equal expected, JSON.parse(actual)["jekyll"]
+        assert_equal expected, JSON.parse(actual)["bridgetown"]
       end
 
       # rubocop:disable Style/StructInheritance
@@ -786,7 +768,7 @@ class TestFilters < JekyllUnitTest
     end
 
     context "group_by filter" do
-      should "successfully group array of Jekyll::Page's" do
+      should "successfully group array of Bridgetown::Page's" do
         @filter.site.process
         grouping = @filter.group_by(@filter.site.pages, "layout")
         grouping.each do |g|
@@ -1079,7 +1061,7 @@ class TestFilters < JekyllUnitTest
     end
 
     context "group_by_exp filter" do
-      should "successfully group array of Jekyll::Page's" do
+      should "successfully group array of Bridgetown::Page's" do
         @filter.site.process
         groups = @filter.group_by_exp(@filter.site.pages, "page", "page.layout | upcase")
         groups.each do |g|

@@ -66,7 +66,8 @@ module Bridgetown
       when Errno::EACCES
         Bridgetown.logger.error "Theme error:", "Directory '#{folder}' is not accessible."
       when Errno::ELOOP
-        Bridgetown.logger.error "Theme error:", "Directory '#{folder}' includes a symbolic link loop."
+        Bridgetown.logger.error "Theme error:", "Directory '#{folder}' includes a" \
+                                " symbolic link loop."
       end
     end
 

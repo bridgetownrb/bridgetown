@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestCommand < JekyllUnitTest
+class TestCommand < BridgetownUnitTest
   context "when calling .add_build_options" do
     should "add common options" do
       cmd = Object.new
@@ -16,7 +16,7 @@ class TestCommand < JekyllUnitTest
       should "exit with non-zero error code" do
         site = Object.new
         def site.process
-          raise Jekyll::Errors::FatalException
+          raise Bridgetown::Errors::FatalException
         end
         error = assert_raises(SystemExit) { Command.process_site(site) }
         refute_equal 0, error.status

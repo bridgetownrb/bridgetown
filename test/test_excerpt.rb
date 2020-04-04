@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestExcerpt < JekyllUnitTest
+class TestExcerpt < BridgetownUnitTest
   def setup_post(file)
     Document.new(@site.in_source_dir(File.join("_posts", file)),
                  :site       => @site,
@@ -13,7 +13,7 @@ class TestExcerpt < JekyllUnitTest
     @site.layouts = {
       "default" => Layout.new(@site, source_dir("_layouts"), "simple.html"),
     }
-    document.output = Jekyll::Renderer.new(@site, document, @site.site_payload).run
+    document.output = Bridgetown::Renderer.new(@site, document, @site.site_payload).run
   end
 
   context "With extraction disabled" do
@@ -102,7 +102,7 @@ class TestExcerpt < JekyllUnitTest
         assert_equal url, @excerpt.to_liquid["url"]
         assert_equal Time.parse("2013-07-22"), @excerpt.to_liquid["date"]
         assert_equal %w(bar baz z_category MixedCase), @excerpt.to_liquid["categories"]
-        assert_equal %w(first second third jekyllrb.com), @excerpt.to_liquid["tags"]
+        assert_equal %w(first second third bridgetownrb.com), @excerpt.to_liquid["tags"]
         assert_equal "_posts/2013-07-22-post-excerpt-with-layout.markdown/#excerpt",
                      @excerpt.to_liquid["path"]
       end
@@ -112,12 +112,12 @@ class TestExcerpt < JekyllUnitTest
       context "before render" do
         should "be the first paragraph of the page" do
           expected = "First paragraph with [link ref][link].\n\n[link]: "\
-                     "https://jekyllrb.com/"
+                     "https://bridgetownrb.com/"
           assert_equal expected, @excerpt.content
         end
 
         should "contain any refs at the bottom of the page" do
-          assert @excerpt.content.include?("[link]: https://jekyllrb.com/")
+          assert @excerpt.content.include?("[link]: https://bridgetownrb.com/")
         end
       end
 
@@ -129,13 +129,13 @@ class TestExcerpt < JekyllUnitTest
         end
 
         should "be the first paragraph of the page" do
-          expected = "<p>First paragraph with <a href=\"https://jekyllrb.com/\">link "\
+          expected = "<p>First paragraph with <a href=\"https://bridgetownrb.com/\">link "\
                      "ref</a>.</p>\n\n"
           assert_equal expected, @extracted_excerpt.output
         end
 
         should "link properly" do
-          assert @extracted_excerpt.content.include?("https://jekyllrb.com/")
+          assert @extracted_excerpt.content.include?("https://bridgetownrb.com/")
         end
       end
 
@@ -176,7 +176,7 @@ class TestExcerpt < JekyllUnitTest
     end
 
     should "be generated" do
-      assert_equal true, @excerpt.is_a?(Jekyll::Excerpt)
+      assert_equal true, @excerpt.is_a?(Bridgetown::Excerpt)
     end
 
     context "#content" do
@@ -204,7 +204,7 @@ class TestExcerpt < JekyllUnitTest
     should "be appended to as necessary and generated" do
       assert_includes @excerpt.content, "{% endraw %}"
       assert_includes @excerpt.content, "{% endhighlight %}"
-      assert_equal true, @excerpt.is_a?(Jekyll::Excerpt)
+      assert_equal true, @excerpt.is_a?(Bridgetown::Excerpt)
     end
   end
 
@@ -228,7 +228,7 @@ class TestExcerpt < JekyllUnitTest
       assert_includes @excerpt.content, "{%\n  endhighlight\n%}"
       refute_includes @excerpt.content, "{%\n  endraw\n%}\n\n{% endraw %}"
       refute_includes @excerpt.content, "{%\n  endhighlight\n%}\n\n{% endhighlight %}"
-      assert_equal true, @excerpt.is_a?(Jekyll::Excerpt)
+      assert_equal true, @excerpt.is_a?(Bridgetown::Excerpt)
     end
   end
 
@@ -246,7 +246,7 @@ class TestExcerpt < JekyllUnitTest
     should "be appended to as necessary and generated" do
       assert_includes @excerpt.content, "{% endfor %}"
       refute_includes @excerpt.content, "{% endfor %}\n\n{% endfor %}"
-      assert_equal true, @excerpt.is_a?(Jekyll::Excerpt)
+      assert_equal true, @excerpt.is_a?(Bridgetown::Excerpt)
     end
   end
 
@@ -264,7 +264,7 @@ class TestExcerpt < JekyllUnitTest
     should "not be appended to but generated as is" do
       assert_includes @excerpt.content, "{%- endfor -%}"
       refute_includes @excerpt.content, "{% endfor %}\n\n{% endfor %}"
-      assert_equal true, @excerpt.is_a?(Jekyll::Excerpt)
+      assert_equal true, @excerpt.is_a?(Bridgetown::Excerpt)
     end
   end
 
@@ -280,7 +280,7 @@ class TestExcerpt < JekyllUnitTest
 
     should "not be appended to but generated as is" do
       assert_includes @excerpt.content, "{{- xyzzy -}}"
-      assert_equal true, @excerpt.is_a?(Jekyll::Excerpt)
+      assert_equal true, @excerpt.is_a?(Bridgetown::Excerpt)
     end
   end
 
@@ -292,10 +292,10 @@ class TestExcerpt < JekyllUnitTest
       @excerpt = @post.data["excerpt"]
 
       assert_includes @post.content.split("\n\n")[0].strip, "{% continue %}"
-      assert_equal true, Jekyll::DoNothingBlock.ancestors.include?(Liquid::Block)
-      assert_equal false, Jekyll::DoNothingOther.ancestors.include?(Liquid::Block)
-      assert_match "Jekyll::DoNothingBlock", Liquid::Template.tags["do_nothing"].name
-      assert_match "Jekyll::DoNothingOther", Liquid::Template.tags["do_nothing_other"].name
+      assert_equal true, Bridgetown::DoNothingBlock.ancestors.include?(Liquid::Block)
+      assert_equal false, Bridgetown::DoNothingOther.ancestors.include?(Liquid::Block)
+      assert_match "Bridgetown::DoNothingBlock", Liquid::Template.tags["do_nothing"].name
+      assert_match "Bridgetown::DoNothingOther", Liquid::Template.tags["do_nothing_other"].name
     end
 
     should "close open block tags, including custom tags, and ignore others" do
@@ -305,7 +305,7 @@ class TestExcerpt < JekyllUnitTest
       assert_includes @excerpt.content, "{% endunless %}"
       assert_includes @excerpt.content, "{% enddo_nothing %}"
       refute_includes @excerpt.content, "{% enddo_nothing_other %}"
-      assert_equal true, @excerpt.is_a?(Jekyll::Excerpt)
+      assert_equal true, @excerpt.is_a?(Bridgetown::Excerpt)
     end
   end
 end

@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestLiquidRenderer < JekyllUnitTest
+class TestLiquidRenderer < BridgetownUnitTest
   context "profiler" do
     setup do
       @site = Site.new(site_configuration)

@@ -3,7 +3,7 @@
 $stdout.puts "# -------------------------------------------------------------"
 $stdout.puts "# SPECS AND TESTS ARE RUNNING WITH WARNINGS OFF."
 $stdout.puts "# SEE: https://github.com/Shopify/liquid/issues/730"
-$stdout.puts "# SEE: https://github.com/jekyll/jekyll/issues/4719"
+$stdout.puts "# SEE: https://github.com/bridgetown/bridgetown/issues/4719"
 $stdout.puts "# -------------------------------------------------------------"
 $VERBOSE = nil
 
@@ -30,16 +30,16 @@ require "minitest/autorun"
 require "minitest/reporters"
 require "minitest/profile"
 require "rspec/mocks"
-require_relative "../lib/jekyll.rb"
+require_relative "../lib/bridgetown.rb"
 
-Jekyll.logger = Logger.new(StringIO.new, :error)
+Bridgetown.logger = Logger.new(StringIO.new, :error)
 
 require "kramdown"
 require "shoulda"
 
-include Jekyll
+include Bridgetown
 
-require "jekyll/commands/serve/servlet"
+require "bridgetown/commands/serve/servlet"
 
 # Report with color.
 Minitest::Reporters.use! [
@@ -93,7 +93,7 @@ module DirectoryHelpers
   end
 end
 
-class JekyllUnitTest < Minitest::Test
+class BridgetownUnitTest < Minitest::Test
   include ::RSpec::Mocks::ExampleMethods
   include DirectoryHelpers
   extend DirectoryHelpers
@@ -137,11 +137,11 @@ class JekyllUnitTest < Minitest::Test
   end
 
   def fixture_site(overrides = {})
-    Jekyll::Site.new(site_configuration(overrides))
+    Bridgetown::Site.new(site_configuration(overrides))
   end
 
   def default_configuration
-    Marshal.load(Marshal.dump(Jekyll::Configuration::DEFAULTS))
+    Marshal.load(Marshal.dump(Bridgetown::Configuration::DEFAULTS))
   end
 
   def build_configs(overrides, base_hash = default_configuration)
@@ -160,7 +160,7 @@ class JekyllUnitTest < Minitest::Test
 
   def clear_dest
     FileUtils.rm_rf(dest_dir)
-    FileUtils.rm_rf(source_dir(".jekyll-metadata"))
+    FileUtils.rm_rf(source_dir(".bridgetown-metadata"))
   end
 
   def directory_with_contents(path)
@@ -178,13 +178,13 @@ class JekyllUnitTest < Minitest::Test
 
   def capture_output(level = :debug)
     buffer = StringIO.new
-    Jekyll.logger = Logger.new(buffer)
-    Jekyll.logger.log_level = level
+    Bridgetown.logger = Logger.new(buffer)
+    Bridgetown.logger.log_level = level
     yield
     buffer.rewind
     buffer.string.to_s
   ensure
-    Jekyll.logger = Logger.new(StringIO.new, :error)
+    Bridgetown.logger = Logger.new(StringIO.new, :error)
   end
   alias_method :capture_stdout, :capture_output
   alias_method :capture_stderr, :capture_output
@@ -197,7 +197,7 @@ class JekyllUnitTest < Minitest::Test
 
   def skip_if_windows(msg = nil)
     if Utils::Platforms.really_windows?
-      msg ||= "Jekyll does not currently support this feature on Windows."
+      msg ||= "Bridgetown does not currently support this feature on Windows."
       skip msg.to_s.magenta
     end
   end
@@ -223,7 +223,7 @@ module TestWEBrick
     server = WEBrick::HTTPServer.new(config)
 
     begin
-      server.mount("/", Jekyll::Commands::Serve::Servlet, document_root,
+      server.mount("/", Bridgetown::Commands::Serve::Servlet, document_root,
                    document_root_options)
 
       server.start
@@ -245,7 +245,7 @@ module TestWEBrick
       :ServerType => Thread,
       :Logger => WEBrick::Log.new(logger),
       :AccessLog => [[logger, ""]],
-      :JekyllOptions => {},
+      :BridgetownOptions => {},
     }
   end
 

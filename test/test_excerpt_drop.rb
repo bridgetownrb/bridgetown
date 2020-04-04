@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestExcerptDrop < JekyllUnitTest
+class TestExcerptDrop < BridgetownUnitTest
   context "an excerpt drop" do
     setup do
       @site = fixture_site
@@ -14,10 +14,10 @@ class TestExcerptDrop < JekyllUnitTest
     end
 
     should "have the right thing" do
-      assert @doc.is_a? Jekyll::Document
-      assert @doc_drop.is_a? Jekyll::Drops::DocumentDrop
-      assert @excerpt.is_a? Jekyll::Excerpt
-      assert @excerpt_drop.is_a? Jekyll::Drops::ExcerptDrop
+      assert @doc.is_a? Bridgetown::Document
+      assert @doc_drop.is_a? Bridgetown::Drops::DocumentDrop
+      assert @excerpt.is_a? Bridgetown::Excerpt
+      assert @excerpt_drop.is_a? Bridgetown::Drops::ExcerptDrop
     end
 
     should "not have an excerpt" do

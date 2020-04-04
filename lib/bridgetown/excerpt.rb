@@ -184,8 +184,8 @@ module Bridgetown
 
       Liquid::Template.tags[tag_name].ancestors.include?(Liquid::Block)
     rescue NoMethodError
-      Bridgetown.logger.error "Error:",
-                          "A Liquid tag in the excerpt of #{doc.relative_path} couldn't be parsed."
+      Bridgetown.logger.error "Error:", "A Liquid tag in the excerpt of" \
+                              " #{doc.relative_path} couldn't be parsed."
       raise
     end
 
@@ -195,7 +195,8 @@ module Bridgetown
                          " #{doc.excerpt_separator.inspect}. "
       Bridgetown.logger.warn "", "The block has been modified with the appropriate closing tag."
       Bridgetown.logger.warn "", "Feel free to define a custom excerpt or excerpt_separator in the"
-      Bridgetown.logger.warn "", "document's Front Matter if the generated excerpt is unsatisfactory."
+      Bridgetown.logger.warn "", "document's Front Matter if the generated excerpt is" \
+                                " unsatisfactory."
     end
   end
 end

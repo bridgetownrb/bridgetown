@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestFrontMatterDefaults < JekyllUnitTest
+class TestFrontMatterDefaults < BridgetownUnitTest
   context "A site with full front matter defaults" do
     setup do
       @site = fixture_site(
@@ -200,7 +200,7 @@ class TestFrontMatterDefaults < JekyllUnitTest
 
   context "A site with front matter defaults with quoted date" do
     setup do
-      @site = Site.new(Jekyll.configuration(
+      @site = Site.new(Bridgetown.configuration(
                          "source"      => source_dir,
                          "destination" => dest_dir,
                          "defaults"    => [{

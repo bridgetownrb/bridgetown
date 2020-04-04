@@ -3,7 +3,7 @@
 require "helper"
 require "rouge"
 
-class TestKramdown < JekyllUnitTest
+class TestKramdown < BridgetownUnitTest
   def fixture_converter(config)
     site = fixture_site(
       Utils.deep_merge_hashes(
@@ -13,9 +13,9 @@ class TestKramdown < JekyllUnitTest
         config
       )
     )
-    Jekyll::Cache.clear
+    Bridgetown::Cache.clear
     site.find_converter_instance(
-      Jekyll::Converters::Markdown
+      Bridgetown::Converters::Markdown
     )
   end
 
@@ -44,7 +44,7 @@ class TestKramdown < JekyllUnitTest
       @syntax_highlighter_opts_config_keys = \
         @config["kramdown"]["syntax_highlighter_opts"].keys
 
-      @config = Jekyll.configuration(@config)
+      @config = Bridgetown.configuration(@config)
       @converter = fixture_converter(@config)
     end
 
@@ -60,7 +60,7 @@ class TestKramdown < JekyllUnitTest
 
     should "should log kramdown warnings" do
       allow_any_instance_of(Kramdown::Document).to receive(:warnings).and_return(["foo"])
-      expect(Jekyll.logger).to receive(:warn).with("Kramdown warning:", "foo")
+      expect(Bridgetown.logger).to receive(:warn).with("Kramdown warning:", "foo")
       @converter.convert("Something")
     end
 
@@ -95,70 +95,6 @@ class TestKramdown < JekyllUnitTest
         assert_match %r!<p>(&#171;|«)Pit(&#8250;|›)hy(&#187;|»)<\/p>!, \
                      converter.convert(%("Pit'hy")).strip
       end
-    end
-
-    context "when a custom highlighter is chosen" do
-      should "use the chosen highlighter if it's available" do
-        override = {
-          "highlighter" => nil,
-          "kramdown"    => {
-            "syntax_highlighter" => "coderay",
-          },
-        }
-        converter = fixture_converter(Utils.deep_merge_hashes(@config, override))
-        result = nokogiri_fragment(converter.convert(<<~MARKDOWN))
-          ~~~ruby
-          puts "Hello World"
-          ~~~
-        MARKDOWN
-
-        selector = "div.highlighter-coderay>div.CodeRay>div.code>pre"
-        refute result.css(selector).empty?
-      end
-
-      should "support legacy enable_coderay... for now" do
-        override = {
-          "kramdown" => {
-            "enable_coderay" => true,
-          },
-        }
-
-        @config.delete("highlighter")
-        @config["kramdown"].delete("syntax_highlighter")
-
-        converter = fixture_converter(Utils.deep_merge_hashes(@config, override))
-        result = nokogiri_fragment(converter.convert(<<~MARKDOWN))
-          ~~~ruby
-          puts "Hello World"
-          ~~~
-        MARKDOWN
-
-        selector = "div.highlighter-coderay>div.CodeRay>div.code>pre"
-        refute result.css(selector).empty?, "pre tag should exist"
-      end
-    end
-
-    should "move coderay to syntax_highlighter_opts" do
-      override = {
-        "higlighter" => nil,
-        "kramdown"   => {
-          "syntax_highlighter" => "coderay",
-          "coderay"            => {
-            "hello" => "world",
-          },
-        },
-      }
-      original = Kramdown::Document.method(:new)
-      converter = fixture_converter(
-        Utils.deep_merge_hashes(@config, override)
-      )
-
-      expect(Kramdown::Document).to receive(:new) do |arg1, hash|
-        assert_equal "world", hash["syntax_highlighter_opts"]["hello"]
-        original.call(arg1, hash)
-      end
-
-      converter.convert("hello world")
     end
   end
 end

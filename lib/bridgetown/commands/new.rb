@@ -12,7 +12,6 @@ module Bridgetown
             c.description "Creates a new Bridgetown site scaffold in PATH"
 
             c.option "force", "--force", "Force creation even if PATH already exists"
-            c.option "blank", "--blank", "Creates scaffolding but with empty files"
             c.option "skip-bundle", "--skip-bundle", "Skip 'bundle install'"
 
             c.action do |args, options|
@@ -24,34 +23,17 @@ module Bridgetown
         def process(args, options = {})
           raise ArgumentError, "You must specify a path." if args.empty?
 
-          new_blog_path = File.expand_path(args.join(" "), Dir.pwd)
-          FileUtils.mkdir_p new_blog_path
-          if preserve_source_location?(new_blog_path, options)
-            Bridgetown.logger.error "Conflict:", "#{new_blog_path} exists and is not empty."
-            Bridgetown.logger.abort_with "", "Ensure #{new_blog_path} is empty or else " \
+          new_site_path = File.expand_path(args.join(" "), Dir.pwd)
+          FileUtils.mkdir_p new_site_path
+          if preserve_source_location?(new_site_path, options)
+            Bridgetown.logger.error "Conflict:", "#{new_site_path} exists and is not empty."
+            Bridgetown.logger.abort_with "", "Ensure #{new_site_path} is empty or else " \
                       "try again with `--force` to proceed and overwrite any files."
           end
 
-          if options["blank"]
-            create_blank_site new_blog_path
-          else
-            create_site new_blog_path
-          end
+          create_site new_site_path
 
-          after_install(new_blog_path, options)
-        end
-
-        def blank_template
-          File.expand_path("../../blank_template", __dir__)
-        end
-
-        def create_blank_site(path)
-          FileUtils.cp_r blank_template + "/.", path
-          FileUtils.chmod_R "u+w", path
-
-          Dir.chdir(path) do
-            FileUtils.mkdir(%w(_data _drafts _includes _posts))
-          end
+          after_install(new_site_path, options)
         end
 
         def scaffold_post_content
@@ -62,7 +44,7 @@ module Bridgetown
         #
         # Returns the filename of the sample post, as a String
         def initialized_post_name
-          "_posts/#{Time.now.strftime("%Y-%m-%d")}-welcome-to-bridgetown.markdown"
+          "src/_posts/#{Time.now.strftime("%Y-%m-%d")}-welcome-to-bridgetown.markdown"
         end
 
         private
@@ -80,13 +62,11 @@ module Bridgetown
             # Happy Bridgetowning!
             gem "bridgetown", "~> #{Bridgetown::VERSION}"
             # This is the default theme for new Bridgetown sites. You may change this to anything you like.
-            gem "minima", "~> 2.5"
-            # If you want to use GitHub Pages, remove the "gem "bridgetown"" above and
-            # uncomment the line below. To upgrade, run `bundle update github-pages`.
-            # gem "github-pages", group: :bridgetown_plugins
+            #gem "minima", "~> 2.5"
+
             # If you have any plugins, put them here!
             group :bridgetown_plugins do
-              gem "bridgetown-feed", "~> 0.12"
+#              gem "bridgetown-feed", "~> 0.12"
             end
 
             # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -102,14 +82,14 @@ module Bridgetown
           RUBY
         end
 
-        def create_site(new_blog_path)
-          create_sample_files new_blog_path
+        def create_site(new_site_path)
+          create_sample_files new_site_path
 
-          File.open(File.expand_path(initialized_post_name, new_blog_path), "w") do |f|
+          File.open(File.expand_path(initialized_post_name, new_site_path), "w") do |f|
             f.write(scaffold_post_content)
           end
 
-          File.open(File.expand_path("Gemfile", new_blog_path), "w") do |f|
+          File.open(File.expand_path("Gemfile", new_site_path), "w") do |f|
             f.write(gemfile_contents)
           end
         end
@@ -129,7 +109,7 @@ module Bridgetown
         end
 
         def scaffold_path
-          "_posts/0000-00-00-welcome-to-bridgetown.markdown.erb"
+          "src/_posts/0000-00-00-welcome-to-bridgetown.markdown.erb"
         end
 
         # After a new blog has been created, print a success notification and

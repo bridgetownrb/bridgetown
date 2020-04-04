@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestDataReader < JekyllUnitTest
+class TestDataReader < BridgetownUnitTest
   context "#sanitize_filename" do
     setup do
       @reader = DataReader.new(fixture_site)

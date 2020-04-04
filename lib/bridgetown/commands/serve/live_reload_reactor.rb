@@ -58,7 +58,7 @@ module Bridgetown
               EM.add_shutdown_hook { @stopped_event.set }
 
               Bridgetown.logger.info "LiveReload address:",
-                                 "http://#{opts["host"]}:#{opts["livereload_port"]}"
+                                     "http://#{opts["host"]}:#{opts["livereload_port"]}"
             end
           end
           @thread.abort_on_exception = true
@@ -108,7 +108,9 @@ module Bridgetown
           msg = JSON.parse(json_message)
           # Not sure what the 'url' command even does in LiveReload.  The spec is silent
           # on its purpose.
-          Bridgetown.logger.info "LiveReload:", "Browser URL: #{msg["url"]}" if msg["command"] == "url"
+          if msg["command"] == "url"
+            Bridgetown.logger.info "LiveReload:", "Browser URL: #{msg["url"]}"
+          end
         end
 
         def log_error(error)

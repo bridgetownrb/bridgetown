@@ -25,7 +25,7 @@ module Bridgetown
 
         def invalid_command(prog, cmd)
           Bridgetown.logger.error "Error:",
-                              "Hmm... we don't know what the '#{cmd}' command is."
+                                  "Hmm... we don't know what the '#{cmd}' command is."
           Bridgetown.logger.info  "Valid commands:", prog.commands.keys.join(", ")
         end
       end

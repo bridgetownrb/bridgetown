@@ -2,10 +2,10 @@
 
 require "helper"
 
-class TestCollections < JekyllUnitTest
+class TestCollections < BridgetownUnitTest
   context "an evil collection" do
     setup do
-      @collection = Jekyll::Collection.new(fixture_site, "../../etc/password")
+      @collection = Bridgetown::Collection.new(fixture_site, "../../etc/password")
     end
 
     should "sanitize the label name" do
@@ -23,7 +23,7 @@ class TestCollections < JekyllUnitTest
 
   context "a simple collection" do
     setup do
-      @collection = Jekyll::Collection.new(fixture_site, "methods")
+      @collection = Bridgetown::Collection.new(fixture_site, "methods")
     end
 
     should "sanitize the label name" do
@@ -123,13 +123,13 @@ class TestCollections < JekyllUnitTest
     should "create a Hash mapping label to Collection instance" do
       assert @site.collections.is_a?(Hash)
       refute_nil @site.collections["methods"]
-      assert @site.collections["methods"].is_a? Jekyll::Collection
+      assert @site.collections["methods"].is_a? Bridgetown::Collection
     end
 
     should "collects docs in an array on the Collection object" do
       assert @site.collections["methods"].docs.is_a? Array
       @site.collections["methods"].docs.each do |doc|
-        assert doc.is_a? Jekyll::Document
+        assert doc.is_a? Bridgetown::Document
         assert_includes %w(
           _methods/configuration.md
           _methods/sanitized_path.md
@@ -287,7 +287,7 @@ class TestCollections < JekyllUnitTest
 
     should "include the symlinked file from site.source in the list of docs" do
       # no support for including symlinked file on Windows
-      skip_if_windows "Jekyll does not currently support symlinks on Windows."
+      skip_if_windows "Bridgetown does not currently support symlinks on Windows."
 
       assert_includes @collection.docs.map(&:relative_path), "_methods/um_hi.md"
     end

@@ -209,7 +209,8 @@ module Bridgetown
           configuration = Utils.deep_merge_hashes(configuration, new_config)
         end
       rescue ArgumentError => e
-        Bridgetown.logger.warn "WARNING:", "Error reading configuration. Using defaults (and options)."
+        Bridgetown.logger.warn "WARNING:", "Error reading configuration. Using defaults" \
+                                " (and options)."
         warn e
       end
 

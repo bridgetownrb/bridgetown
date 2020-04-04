@@ -55,7 +55,8 @@ module Bridgetown
                    Array, "Custom configuration file"
         cmd.option "destination", "-d", "--destination DESTINATION",
                    "The current folder will be generated into DESTINATION"
-        cmd.option "root_dir", "-r", "--root_dir ROOT_DIR", "The top-level root folder where config files are located"
+        cmd.option "root_dir", "-r", "--root_dir ROOT_DIR", "The top-level root folder" \
+                    " where config files are located"
         cmd.option "source", "-s", "--source SOURCE", "Custom source directory"
         cmd.option "future", "--future", "Publishes posts with a future date"
         cmd.option "limit_posts", "--limit_posts MAX_POSTS", Integer,

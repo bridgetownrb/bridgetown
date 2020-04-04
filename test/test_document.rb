@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestDocument < JekyllUnitTest
+class TestDocument < BridgetownUnitTest
   def assert_equal_value(key, one, other)
     assert_equal(one[key], other[key])
   end
@@ -67,7 +67,7 @@ class TestDocument < JekyllUnitTest
     end
 
     should "know its data" do
-      assert_equal "Jekyll.configuration", @document.data["title"]
+      assert_equal "Bridgetown.configuration", @document.data["title"]
       assert_equal "foo.bar", @document.data["whatever"]
     end
 
@@ -81,17 +81,17 @@ class TestDocument < JekyllUnitTest
       page_json = @document.to_liquid.to_json
       parsed = JSON.parse(page_json)
 
-      assert_equal "Jekyll.configuration", parsed["title"]
+      assert_equal "Bridgetown.configuration", parsed["title"]
       assert_equal "foo.bar", parsed["whatever"]
       assert_equal "_methods/collection/entries", parsed["previous"]["path"]
       assert_equal "Collection#entries", parsed["previous"]["title"]
 
       next_doc = parsed["next"]
       assert_equal "_methods/escape-+ #%20[].md", next_doc["path"]
-      assert_equal "Jekyll.escape", next_doc["title"]
+      assert_equal "Bridgetown.escape", next_doc["title"]
 
       next_prev_doc = next_doc["previous"]
-      assert_equal "Jekyll.configuration", next_prev_doc["title"]
+      assert_equal "Bridgetown.configuration", next_prev_doc["title"]
       assert_equal "_methods/configuration.md", next_prev_doc["path"]
       assert_equal "_methods/escape-+ #%20[].md", next_prev_doc["next"]["path"]
       assert_equal "_methods/collection/entries", next_prev_doc["previous"]["path"]
@@ -102,7 +102,7 @@ class TestDocument < JekyllUnitTest
       assert_nil next_prev_doc["next"]["output"]
 
       next_next_doc = next_doc["next"]
-      assert_equal "Jekyll.sanitized_path", next_next_doc["title"]
+      assert_equal "Bridgetown.sanitized_path", next_next_doc["title"]
       assert_equal "_methods/sanitized_path.md", next_next_doc["path"]
       assert_equal "_methods/escape-+ #%20[].md", next_next_doc["previous"]["path"]
       assert_equal "_methods/site/generate.md", next_next_doc["next"]["path"]
@@ -407,11 +407,11 @@ class TestDocument < JekyllUnitTest
     end
 
     should "produce the right URL if they have a slug" do
-      assert_equal "/slides/so-what-is-jekyll-exactly", @document.url
+      assert_equal "/slides/so-what-is-bridgetown-exactly", @document.url
     end
 
     should "produce the right destination file if they have a slug" do
-      dest_file = dest_dir("slides/so-what-is-jekyll-exactly.html")
+      dest_file = dest_dir("slides/so-what-is-bridgetown-exactly.html")
       assert_equal dest_file, @document.destination(dest_dir)
     end
 
@@ -425,12 +425,12 @@ class TestDocument < JekyllUnitTest
 
     should "produce the right URL if they have a wild slug" do
       assert_equal(
-        "/slides/Well,-so-what-is-Jekyll,-then",
+        "/slides/Well,-so-what-is-Bridgetown,-then",
         @document_with_strange_slug.url
       )
     end
     should "produce the right destination file if they have a wild slug" do
-      dest_file = dest_dir("/slides/Well,-so-what-is-Jekyll,-then.html")
+      dest_file = dest_dir("/slides/Well,-so-what-is-Bridgetown,-then.html")
       assert_equal dest_file, @document_with_strange_slug.destination(dest_dir)
     end
   end
@@ -501,9 +501,9 @@ class TestDocument < JekyllUnitTest
       )
       @site.process
       @document = @site.collections["slides"].files.find do |doc|
-        doc.relative_path == "_slides/octojekyll.png"
+        doc.relative_path == "_slides/octobridgetown.png"
       end
-      @dest_file = dest_dir("slides/octojekyll.png")
+      @dest_file = dest_dir("slides/octobridgetown.png")
     end
 
     should "be a static file" do
@@ -587,7 +587,7 @@ class TestDocument < JekyllUnitTest
     end
 
     should "not throw an error" do
-      Jekyll::Renderer.new(@document.site, @document).render_document
+      Bridgetown::Renderer.new(@document.site, @document).render_document
     end
   end
 
@@ -597,7 +597,7 @@ class TestDocument < JekyllUnitTest
     end
 
     should "not throw an error" do
-      Jekyll::Renderer.new(@document.site, @document).render_document
+      Bridgetown::Renderer.new(@document.site, @document).render_document
     end
   end
 

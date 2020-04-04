@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require "helper"
-require "jekyll/commands/new"
+require "bridgetown/commands/new"
 
-class TestNewCommand < JekyllUnitTest
+class TestNewCommand < BridgetownUnitTest
   def dir_contents(path)
     Dir["#{path}/**/*"].each do |file|
       file.gsub! path, ""
@@ -14,8 +14,8 @@ class TestNewCommand < JekyllUnitTest
     File.expand_path("../lib/site_template", __dir__)
   end
 
-  def blank_template
-    File.expand_path("../lib/blank_template", __dir__)
+  def site_template_source
+    File.expand_path("../lib/site_template/src", __dir__)
   end
 
   context "when args contains a path" do
@@ -23,6 +23,7 @@ class TestNewCommand < JekyllUnitTest
       @path = "new-site"
       @args = [@path]
       @full_path = File.expand_path(@path, Dir.pwd)
+      @full_path_source = File.expand_path("src", @full_path)
     end
 
     teardown do
@@ -31,22 +32,22 @@ class TestNewCommand < JekyllUnitTest
 
     should "create a new directory" do
       refute_exist @full_path
-      capture_output { Jekyll::Commands::New.process(@args) }
+      capture_output { Bridgetown::Commands::New.process(@args) }
       assert_exist @full_path
     end
 
     should "create a Gemfile" do
       gemfile = File.join(@full_path, "Gemfile")
       refute_exist @full_path
-      capture_output { Jekyll::Commands::New.process(@args) }
+      capture_output { Bridgetown::Commands::New.process(@args) }
       assert_exist gemfile
-      assert_match(%r!gem "jekyll", "~> #{Jekyll::VERSION}"!, File.read(gemfile))
+      assert_match(%r!gem "bridgetown", "~> #{Bridgetown::VERSION}"!, File.read(gemfile))
       assert_match(%r!gem "github-pages"!, File.read(gemfile))
     end
 
     should "display a success message" do
-      output = capture_output { Jekyll::Commands::New.process(@args) }
-      success_message = "New jekyll site installed in #{@full_path.cyan}. "
+      output = capture_output { Bridgetown::Commands::New.process(@args) }
+      success_message = "New bridgetown site installed in #{@full_path.cyan}. "
       bundle_message = "Running bundle install in #{@full_path.cyan}... "
       assert_includes output, success_message
       assert_includes output, bundle_message
@@ -58,17 +59,17 @@ class TestNewCommand < JekyllUnitTest
       end
       static_template_files << "/Gemfile"
 
-      capture_output { Jekyll::Commands::New.process(@args) }
+      capture_output { Bridgetown::Commands::New.process(@args) }
 
       new_site_files = dir_contents(@full_path).reject do |f|
-        f.end_with?("welcome-to-jekyll.markdown")
+        f.end_with?("welcome-to-bridgetown.markdown")
       end
 
       assert_same_elements static_template_files, new_site_files
     end
 
     should "process any ERB files" do
-      erb_template_files = dir_contents(site_template).select do |f|
+      erb_template_files = dir_contents(site_template_source).select do |f|
         File.extname(f) == ".erb"
       end
 
@@ -80,32 +81,23 @@ class TestNewCommand < JekyllUnitTest
         f.gsub! "0000-00-00", stubbed_date
       end
 
-      capture_output { Jekyll::Commands::New.process(@args) }
+      capture_output { Bridgetown::Commands::New.process(@args) }
 
-      new_site_files = dir_contents(@full_path).select do |f|
+      new_site_files = dir_contents(@full_path_source).select do |f|
         erb_template_files.include? f
       end
 
       assert_same_elements erb_template_files, new_site_files
     end
 
-    should "create blank project" do
-      blank_contents = dir_contents(blank_template)
-      blank_contents += %w(/_data /_drafts /_includes /_posts)
-      output = capture_output { Jekyll::Commands::New.process(@args, "--blank") }
-      bundle_message = "Running bundle install in #{@full_path.cyan}..."
-      assert_same_elements blank_contents, dir_contents(@full_path)
-      refute_includes output, bundle_message
-    end
-
     should "force created folder" do
-      capture_output { Jekyll::Commands::New.process(@args) }
-      output = capture_output { Jekyll::Commands::New.process(@args, "--force") }
-      assert_match %r!New jekyll site installed in!, output
+      capture_output { Bridgetown::Commands::New.process(@args) }
+      output = capture_output { Bridgetown::Commands::New.process(@args, "--force") }
+      assert_match %r!New bridgetown site installed in!, output
     end
 
     should "skip bundle install when opted to" do
-      output = capture_output { Jekyll::Commands::New.process(@args, "--skip-bundle") }
+      output = capture_output { Bridgetown::Commands::New.process(@args, "--skip-bundle") }
       bundle_message = "Bundle install skipped."
       assert_includes output, bundle_message
     end
@@ -123,7 +115,7 @@ class TestNewCommand < JekyllUnitTest
 
     should "create a new directory" do
       refute_exist @site_name_with_spaces
-      capture_output { Jekyll::Commands::New.process(@multiple_args) }
+      capture_output { Bridgetown::Commands::New.process(@multiple_args) }
       assert_exist @site_name_with_spaces
     end
   end
@@ -135,7 +127,7 @@ class TestNewCommand < JekyllUnitTest
 
     should "raise an ArgumentError" do
       exception = assert_raises ArgumentError do
-        Jekyll::Commands::New.process(@empty_args)
+        Bridgetown::Commands::New.process(@empty_args)
       end
       assert_equal "You must specify a path.", exception.message
     end

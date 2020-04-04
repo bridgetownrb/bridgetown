@@ -39,9 +39,8 @@ module Bridgetown
 
     def append_unless_exists(haystack, new_item)
       if haystack.any? { |file| file.relative_path == new_item.relative_path }
-        Bridgetown.logger.debug "Theme:",
-                            "Ignoring #{new_item.relative_path} in theme due to existing file " \
-                            "with that path in site."
+        Bridgetown.logger.debug "Theme:", "Ignoring #{new_item.relative_path} in" \
+                                " theme due to existing file with that path in site."
         return
       end
 

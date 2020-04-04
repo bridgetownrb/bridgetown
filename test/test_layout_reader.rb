@@ -2,10 +2,10 @@
 
 require "helper"
 
-class TestLayoutReader < JekyllUnitTest
+class TestLayoutReader < BridgetownUnitTest
   context "reading layouts" do
     setup do
-      config = Jekyll::Configuration::DEFAULTS.merge("source"      => source_dir,
+      config = Bridgetown::Configuration::DEFAULTS.merge("source"      => source_dir,
                                                      "destination" => dest_dir)
       @site = fixture_site(config)
     end
@@ -48,7 +48,7 @@ class TestLayoutReader < JekyllUnitTest
       end
 
       should "only read the layouts which are in the site" do
-        skip_if_windows "Jekyll does not currently support symlinks on Windows."
+        skip_if_windows "Bridgetown does not currently support symlinks on Windows."
 
         layouts = LayoutReader.new(@site).read
 
@@ -71,7 +71,7 @@ class TestLayoutReader < JekyllUnitTest
       end
 
       should "not read a symlink'd theme" do
-        skip_if_windows "Jekyll does not currently support symlinks on Windows."
+        skip_if_windows "Bridgetown does not currently support symlinks on Windows."
 
         layouts = LayoutReader.new(@site).read
 

@@ -113,8 +113,8 @@ module Bridgetown
         def validate_options(opts)
           if opts["livereload"]
             if opts["detach"]
-              Bridgetown.logger.warn "Warning:", "--detach and --livereload are mutually exclusive." \
-                                 " Choosing --livereload"
+              Bridgetown.logger.warn "Warning:", "--detach and --livereload are mutually \
+                                      exclusive. Choosing --livereload"
               opts["detach"] = false
             end
             if opts["ssl_cert"] || opts["ssl_key"]
@@ -191,7 +191,7 @@ module Bridgetown
 
         def webrick_opts(opts)
           opts = {
-            :BridgetownOptions      => opts,
+            :BridgetownOptions  => opts,
             :DoNotReverseLookup => true,
             :MimeTypes          => mime_types,
             :DocumentRoot       => opts["destination"],
@@ -277,8 +277,8 @@ module Bridgetown
 
             Process.detach(pid)
             Bridgetown.logger.info "Server detached with pid '#{pid}'.", \
-                               "Run `pkill -f bridgetown' or `kill -9 #{pid}'" \
-                               " to stop the server."
+                                   "Run `pkill -f bridgetown' or `kill -9 #{pid}'" \
+                                   " to stop the server."
           else
             t = Thread.new { server.start }
             trap("INT") { server.shutdown }

@@ -73,7 +73,8 @@ module Bridgetown
       end
 
       def render_pygments(code, _context)
-        Bridgetown.logger.warn "Warning:", "Highlight Tag no longer supports rendering with Pygments."
+        Bridgetown.logger.warn "Warning:", "Highlight Tag no longer supports" \
+                                " rendering with Pygments."
         Bridgetown.logger.warn "", "Using the default highlighter, Rouge, instead."
         render_rouge(code)
       end

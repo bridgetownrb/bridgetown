@@ -49,10 +49,10 @@ module Bridgetown
           return true unless File.directory?(posts_at_root)
 
           Bridgetown.logger.warn "Warning:",
-                             "Detected '_posts' directory outside custom `collections_dir`!"
+                                 "Detected '_posts' directory outside custom `collections_dir`!"
           Bridgetown.logger.warn "",
-                             "Please move '#{posts_at_root}' into the custom directory at " \
-            "'#{site.in_source_dir(site.config["collections_dir"])}'"
+                                 "Please move '#{posts_at_root}' into the custom directory at " \
+                "'#{site.in_source_dir(site.config["collections_dir"])}'"
           false
         end
 

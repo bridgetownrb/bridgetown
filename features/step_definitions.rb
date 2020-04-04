@@ -34,14 +34,24 @@ end
 #
 
 Given(%r!^I have an? "(.*)" page(?: with (.*) "(.*)")? that contains "(.*)"$!) do |file, key, value, text|
-  FileUtils.mkdir_p("src") unless File.exist?("src")
-  File.write(File.join("src", file), <<~DATA)
-    ---
-    #{key || "layout"}: #{value || "none"}
-    ---
+  unless file.include?("srcsite")
+    FileUtils.mkdir_p("src") unless File.exist?("src")
+    File.write(File.join("src", file), <<~DATA)
+      ---
+      #{key || "layout"}: #{value || "none"}
+      ---
 
-    #{text}
-  DATA
+      #{text}
+    DATA
+  else
+    File.write(file, <<~DATA)
+      ---
+      #{key || "layout"}: #{value || "none"}
+      ---
+
+      #{text}
+    DATA
+  end
 end
 
 #
@@ -115,7 +125,7 @@ Given(%r!^I have the following (draft|page|post)s?(?: (in|under) "([^"]+)")?:$!)
       filename = "#{parsed_date.strftime("%Y-%m-%d")}-#{title}.#{ext}"
     end
 
-    path = File.join(before, dest_folder, after, filename)
+    path = File.join("src", before, dest_folder, after, filename)
     File.write(path, file_content_from_hash(input_hash))
   end
 end
@@ -129,7 +139,7 @@ Given(%r!^I have the following (draft|post)s? within the "(.*)" directory:$!) do
 
     filename = type == "draft" ? "#{title}.markdown" : "#{parsed_date.strftime("%Y-%m-%d")}-#{title}.markdown"
 
-    path = File.join(folder, "_#{type}s", filename)
+    path = File.join("src", folder, "_#{type}s", filename)
     File.write(path, file_content_from_hash(input_hash))
   end
 end
@@ -152,7 +162,7 @@ end
 Given(%r!^I have the following documents? under the "(.*)" collection within the "(.*)" directory:$!) do |label, dir, table|
   table.hashes.each do |input_hash|
     title = slug(input_hash["title"])
-    path = File.join(dir, "_#{label}", "#{title}.md")
+    path = File.join("src", dir, "_#{label}", "#{title}.md")
     File.write(path, file_content_from_hash(input_hash))
   end
 end
@@ -162,7 +172,7 @@ end
 Given(%r!^I have the following documents? nested inside "(.*)" directory under the "(.*)" collection within the "(.*)" directory:$!) do |subdir, label, dir, table|
   table.hashes.each do |input_hash|
     title = slug(input_hash["title"])
-    path = File.join(dir, "_#{label}", subdir, "#{title}.md")
+    path = File.join("src", dir, "_#{label}", subdir, "#{title}.md")
     File.write(path, file_content_from_hash(input_hash))
   end
 end
@@ -273,7 +283,11 @@ end
 #
 
 When(%r!^I delete the file "(.*)"$!) do |file|
-  File.delete(file)
+  unless Paths.root_files.include?(file)
+    File.delete(File.join("src", file))
+  else
+    File.delete(file)
+  end
 end
 
 #

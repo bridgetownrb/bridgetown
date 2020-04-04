@@ -184,7 +184,7 @@ module Bridgetown
         start = Time.now
         generator.generate(self)
         Bridgetown.logger.debug "Generating:",
-                            "#{generator.class} finished in #{Time.now - start} seconds."
+                                "#{generator.class} finished in #{Time.now - start} seconds."
       end
     end
 

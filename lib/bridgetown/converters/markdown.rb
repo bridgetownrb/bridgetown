@@ -17,8 +17,8 @@ module Bridgetown
             Bridgetown.logger.warn "Build Warning:", "Custom processors are not loaded in safe mode"
           end
 
-          Bridgetown.logger.error "Markdown processor:",
-                              "#{@config["markdown"].inspect} is not a valid Markdown processor."
+          Bridgetown.logger.error "Markdown processor:", "#{@config["markdown"].inspect} \
+                                  is not a valid Markdown processor."
           Bridgetown.logger.error "", "Available processors are: #{valid_processors.join(", ")}"
           Bridgetown.logger.error ""
           raise Errors::FatalException, "Invalid Markdown processor given: #{@config["markdown"]}"

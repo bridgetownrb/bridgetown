@@ -2,13 +2,13 @@
 
 require "helper"
 
-class TestAnsi < JekyllUnitTest
+class TestAnsi < BridgetownUnitTest
   context nil do
     setup do
-      @subject = Jekyll::Utils::Ansi
+      @subject = Bridgetown::Utils::Ansi
     end
 
-    Jekyll::Utils::Ansi::COLORS.each_key do |color|
+    Bridgetown::Utils::Ansi::COLORS.each_key do |color|
       should "respond_to? #{color}" do
         assert @subject.respond_to?(color)
       end
