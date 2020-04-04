@@ -5,7 +5,7 @@ require "colorator"
 require "cucumber/formatter/console"
 require "cucumber/formatter/io"
 
-module Jekyll
+module Bridgetown
   module Cucumber
     class Formatter
       attr_accessor :indent, :runtime
@@ -208,7 +208,7 @@ module Jekyll
 end
 
 AfterConfiguration do |config|
-  f = Jekyll::Cucumber::Formatter.new(nil, $stdout, {})
+  f = Bridgetown::Cucumber::Formatter.new(nil, $stdout, {})
 
   config.on_event :test_case_started do |event|
     f.print_feature_element_name(event.test_case)

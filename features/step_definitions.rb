@@ -34,7 +34,8 @@ end
 #
 
 Given(%r!^I have an? "(.*)" page(?: with (.*) "(.*)")? that contains "(.*)"$!) do |file, key, value, text|
-  File.write(file, <<~DATA)
+  FileUtils.mkdir_p("src") unless File.exist?("src")
+  File.write(File.join("src", file), <<~DATA)
     ---
     #{key || "layout"}: #{value || "none"}
     ---
@@ -46,7 +47,12 @@ end
 #
 
 Given(%r!^I have an? "(.*)" file that contains "(.*)"$!) do |file, text|
-  File.write(file, text)
+  unless Paths.root_files.include?(file)
+    FileUtils.mkdir_p("src") unless File.exist?("src")
+    File.write(File.join("src", file), text)
+  else
+    File.write(file, text)
+  end
 end
 
 #
@@ -54,7 +60,7 @@ end
 Given(%r!^I have an? (.*) (layout|theme) that contains "(.*)"$!) do |name, type, text|
   folder = type == "layout" ? "_layouts" : "_theme"
 
-  destination_file = Pathname.new(File.join(folder, "#{name}.html"))
+  destination_file = Pathname.new(File.join("src", folder, "#{name}.html"))
   FileUtils.mkdir_p(destination_file.parent) unless destination_file.parent.directory?
   File.write(destination_file, text)
 end
@@ -62,13 +68,19 @@ end
 #
 
 Given(%r!^I have an? "(.*)" file with content:$!) do |file, text|
-  File.write(file, text)
+  unless Paths.root_files.include?(file)
+    FileUtils.mkdir_p("src") unless File.exist?("src")
+    File.write(File.join("src", file), text)
+  else
+    File.write(file, text)
+  end
 end
 
 #
 
 Given(%r!^I have an? "(.*)" page with content:$!) do |file, text|
-  File.write(file, <<~DATA)
+  FileUtils.mkdir_p("src") unless File.exist?("src")
+  File.write(File.join("src", file), <<~DATA)
     ---
     ---
 
@@ -79,8 +91,9 @@ end
 #
 
 Given(%r!^I have an? (.*) directory$!) do |dir|
-  unless File.directory?(dir)
-    then FileUtils.mkdir_p(dir)
+  dir_in_src = File.join("src", dir)
+  unless File.directory?(dir_in_src)
+    then FileUtils.mkdir_p(dir_in_src)
   end
 end
 
@@ -129,7 +142,7 @@ Given(%r!^I have the following documents? under the (.*) collection:$!) do |fold
     filename = "#{title}.md"
     dest_folder = "_#{folder}"
 
-    path = File.join(dest_folder, filename)
+    path = File.join("src", dest_folder, filename)
     File.write(path, file_content_from_hash(input_hash))
   end
 end
@@ -164,7 +177,7 @@ Given(%r!^I have a configuration file with "(.*)" set to "(.*)"$!) do |key, valu
       {}
     end
   config[key] = YAML.load(value)
-  Jekyll.set_timezone(value) if key == "timezone"
+  Bridgetown.set_timezone(value) if key == "timezone"
   File.write("_config.yml", YAML.dump(config))
 end
 
@@ -190,10 +203,10 @@ end
 #
 
 Given(%r!^I have fixture collections(?: in "(.*)" directory)?$!) do |directory|
-  collections_dir = File.join(source_dir, directory.to_s)
-  FileUtils.cp_r Paths.source_dir.join("test", "source", "_methods"), collections_dir
-  FileUtils.cp_r Paths.source_dir.join("test", "source", "_thanksgiving"), collections_dir
-  FileUtils.cp_r Paths.source_dir.join("test", "source", "_tutorials"), collections_dir
+  collections_dir = File.join(source_dir, "src", directory.to_s)
+  FileUtils.cp_r Paths.source_dir.join("test", "source", "src", "_methods"), collections_dir
+  FileUtils.cp_r Paths.source_dir.join("test", "source", "src", "_thanksgiving"), collections_dir
+  FileUtils.cp_r Paths.source_dir.join("test", "source", "src", "_tutorials"), collections_dir
 end
 
 #
@@ -204,10 +217,10 @@ end
 
 #
 
-When(%r!^I run jekyll(.*)$!) do |args|
-  run_jekyll(args)
+When(%r!^I run bridgetown(.*)$!) do |args|
+  run_bridgetown(args)
   if args.include?("--verbose") || ENV["DEBUG"]
-    warn "\n#{jekyll_run_output}\n"
+    warn "\n#{bridgetown_run_output}\n"
   end
 end
 
@@ -216,7 +229,7 @@ end
 When(%r!^I run bundle(.*)$!) do |args|
   run_bundle(args)
   if args.include?("--verbose") || ENV["DEBUG"]
-    warn "\n#{jekyll_run_output}\n"
+    warn "\n#{bridgetown_run_output}\n"
   end
 end
 
@@ -225,7 +238,7 @@ end
 When(%r!^I run gem(.*)$!) do |args|
   run_rubygem(args)
   if args.include?("--verbose") || ENV["DEBUG"]
-    warn "\n#{jekyll_run_output}\n"
+    warn "\n#{bridgetown_run_output}\n"
   end
 end
 
@@ -291,7 +304,7 @@ Then(%r!^I should (not )?see "(.*)" in "(.*)" if on Windows$!) do |negative, tex
   step %(the "#{file}" file should exist)
   regexp = Regexp.new(text, Regexp::MULTILINE)
   if negative.nil? || negative.empty?
-    if Jekyll::Utils::Platforms.really_windows?
+    if Bridgetown::Utils::Platforms.really_windows?
       expect(file_contents(file)).to match regexp
     else
       expect(file_contents(file)).not_to match regexp
@@ -305,7 +318,7 @@ Then(%r!^I should (not )?see "(.*)" in "(.*)" unless Windows$!) do |negative, te
   step %(the "#{file}" file should exist)
   regexp = Regexp.new(text, Regexp::MULTILINE)
   if negative.nil? || negative.empty?
-    if Jekyll::Utils::Platforms.really_windows?
+    if Bridgetown::Utils::Platforms.really_windows?
       expect(file_contents(file)).not_to match regexp
     else
       expect(file_contents(file)).to match regexp
@@ -318,7 +331,7 @@ end
 Then(%r!^I should see date "(.*)" in "(.*)" unless Windows$!) do |text, file|
   step %(the "#{file}" file should exist)
   regexp = Regexp.new(text)
-  if Jekyll::Utils::Platforms.really_windows? && !dst_active?
+  if Bridgetown::Utils::Platforms.really_windows? && !dst_active?
     expect(file_contents(file)).not_to match regexp
   else
     expect(file_contents(file)).to match regexp
@@ -330,7 +343,7 @@ end
 Then(%r!^I should see date "(.*)" in "(.*)" if on Windows$!) do |text, file|
   step %(the "#{file}" file should exist)
   regexp = Regexp.new(text)
-  if Jekyll::Utils::Platforms.really_windows? && !dst_active?
+  if Bridgetown::Utils::Platforms.really_windows? && !dst_active?
     expect(file_contents(file)).to match regexp
   else
     expect(file_contents(file)).not_to match regexp
@@ -376,9 +389,9 @@ end
 
 Then(%r!^I should (not )?see "(.*)" in the build output$!) do |negative, text|
   if negative.nil? || negative.empty?
-    expect(jekyll_run_output).to match Regexp.new(text)
+    expect(bridgetown_run_output).to match Regexp.new(text)
   else
-    expect(jekyll_run_output).not_to match Regexp.new(text)
+    expect(bridgetown_run_output).not_to match Regexp.new(text)
   end
 end
 
@@ -400,7 +413,7 @@ Then(%r!^I should get an updated git index$!) do
     my-cool-theme.gemspec
   )
   index.each do |file|
-    expect(jekyll_run_output).to match file
+    expect(bridgetown_run_output).to match file
   end
 end
 

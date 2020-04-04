@@ -28,6 +28,6 @@ Feature: Syntax Highlighting
       kramdown:
         input: GFM
       """
-    When I run jekyll build
+    When I run bridgetown build
     Then I should get a zero exit-status
-    And I should see "<span class="nc">RewriteCond</span>" in "_site/index.html"
+    And I should see "<span class="nc">RewriteCond</span>" in "output/index.html"

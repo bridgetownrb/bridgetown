@@ -12,10 +12,10 @@ Feature: Collections Directory
     """
     collections_dir: collections
     """
-    When I run jekyll build
+    When I run bridgetown build
     Then I should get a zero exit status
-    And the _site directory should exist
-    And I should see "Random Content." in "_site/2009/03/27/gathered-post.html"
+    And the output directory should exist
+    And I should see "Random Content." in "output/2009/03/27/gathered-post.html"
 
   Scenario: Rendered collection in custom collections_dir also containing posts
     Given I have a collections/_puppies directory
@@ -34,11 +34,11 @@ Feature: Collections Directory
 
     collections_dir: collections
     """
-    When I run jekyll build
+    When I run bridgetown build
     Then I should get a zero exit status
-    And the _site directory should exist
-    And the "_site/puppies/rover.html" file should exist
-    And I should see "Random Content." in "_site/2009/03/27/gathered-post.html"
+    And the output directory should exist
+    And the "output/puppies/rover.html" file should exist
+    And I should see "Random Content." in "output/2009/03/27/gathered-post.html"
 
   Scenario: Rendered collection in custom collections_dir with posts at the site root
     Given I have a collections/_puppies directory
@@ -57,12 +57,12 @@ Feature: Collections Directory
 
     collections_dir: collections
     """
-    When I run jekyll build
+    When I run bridgetown build
     Then I should get a zero exit status
-    And the _site directory should exist
-    And the "_site/puppies/rover.html" file should exist
-    And the "_site/2009/03/27/post-at-root.html" file should not exist
-    And the _site/_posts directory should not exist
+    And the output directory should exist
+    And the "output/puppies/rover.html" file should exist
+    And the "output/2009/03/27/post-at-root.html" file should not exist
+    And the output/_posts directory should not exist
 
   Scenario: Rendered collection in custom collections_dir also containing drafts
     Given I have a collections/_puppies directory
@@ -81,12 +81,12 @@ Feature: Collections Directory
 
     collections_dir: collections
     """
-    When I run jekyll build --drafts
+    When I run bridgetown build --drafts
     Then I should get a zero exit status
-    And the _site directory should exist
-    And the "_site/puppies/rover.html" file should exist
-    And I should see "Random Content." in "_site/2009/03/27/gathered-draft.html"
-    And the _site/collections directory should not exist
+    And the output directory should exist
+    And the "output/puppies/rover.html" file should exist
+    And I should see "Random Content." in "output/2009/03/27/gathered-draft.html"
+    And the output/collections directory should not exist
 
   Scenario: Rendered collection in custom collections_dir with drafts at the site root
     Given I have a collections/_puppies directory
@@ -105,11 +105,11 @@ Feature: Collections Directory
 
     collections_dir: collections
     """
-    When I run jekyll build --drafts
+    When I run bridgetown build --drafts
     Then I should get a zero exit status
-    And the _site directory should exist
-    And the "_site/puppies/rover.html" file should exist
-    And the "_site/2009/03/27/draft-at-root.html" file should not exist
+    And the output directory should exist
+    And the "output/puppies/rover.html" file should exist
+    And the "output/2009/03/27/draft-at-root.html" file should not exist
 
   Scenario: A complex site with collections posts and drafts at various locations
     Given I have a gathering/_puppies directory
@@ -147,18 +147,18 @@ Feature: Collections Directory
     And I have a "gathering/_puppies/static_file.txt" file that contains "Static content."
     And I have a gathering/_puppies/nested directory
     And I have a "gathering/_puppies/nested/static_file.txt" file that contains "Nested Static content."
-    When I run jekyll build --drafts
+    When I run bridgetown build --drafts
     Then I should get a zero exit status
-    And the _site directory should exist
-    And the "_site/puppies/rover-in-gathering.html" file should exist
-    And the "_site/2009/03/27/post-in-gathering.html" file should exist
-    And the "_site/2009/03/27/draft-in-gathering.html" file should exist
-    And the "_site/2009/03/27/draft-at-root.html" file should not exist
-    And the "_site/puppies/rover-at-root.html" file should not exist
-    And I should see exactly "Static content." in "_site/puppies/static_file.txt"
-    And I should see exactly "Nested Static content." in "_site/puppies/nested/static_file.txt"
-    And the _site/gathering directory should not exist
-    And the _site/_posts directory should not exist
+    And the output directory should exist
+    And the "output/puppies/rover-in-gathering.html" file should exist
+    And the "output/2009/03/27/post-in-gathering.html" file should exist
+    And the "output/2009/03/27/draft-in-gathering.html" file should exist
+    And the "output/2009/03/27/draft-at-root.html" file should not exist
+    And the "output/puppies/rover-at-root.html" file should not exist
+    And I should see exactly "Static content." in "output/puppies/static_file.txt"
+    And I should see exactly "Nested Static content." in "output/puppies/nested/static_file.txt"
+    And the output/gathering directory should not exist
+    And the output/_posts directory should not exist
 
   Scenario: Rendered collection with a document that includes a relative document
     Given I have a _puppies directory
@@ -176,12 +176,12 @@ Feature: Collections Directory
       puppies:
         output: true
     """
-    When I run jekyll build
+    When I run bridgetown build
     Then I should get a zero exit status
-    And the _site directory should exist
-    And the "_site/puppies/rover.html" file should exist
-    And I should see "excerpt for all docs." in "_site/puppies/rover.html"
-    And I should see "Random Content." in "_site/2009/03/27/gathered-post.html"
+    And the output directory should exist
+    And the "output/puppies/rover.html" file should exist
+    And I should see "excerpt for all docs." in "output/puppies/rover.html"
+    And I should see "Random Content." in "output/2009/03/27/gathered-post.html"
 
   Scenario: Rendered collection in custom collections_dir with a document that includes a relative document
     Given I have a collections/_puppies directory
@@ -201,12 +201,12 @@ Feature: Collections Directory
 
     collections_dir: collections
     """
-    When I run jekyll build
+    When I run bridgetown build
     Then I should get a zero exit status
-    And the _site directory should exist
-    And the "_site/puppies/rover.html" file should exist
-    And I should see "excerpt for all docs." in "_site/puppies/rover.html"
-    And I should see "Random Content." in "_site/2009/03/27/gathered-post.html"
+    And the output directory should exist
+    And the "output/puppies/rover.html" file should exist
+    And I should see "excerpt for all docs." in "output/puppies/rover.html"
+    And I should see "Random Content." in "output/2009/03/27/gathered-post.html"
 
   Scenario: Front matter defaults and custom collections directory
     Given I have a gathering/_players/managers directory
@@ -262,27 +262,27 @@ Feature: Collections Directory
       <p>{{ player.title }}: Villain: {{ player.villain }}</p>
     {% endfor %}
     """
-    When I run jekyll build
+    When I run bridgetown build
     Then I should get a zero exit status
-    And the _site directory should exist
-    And I should see "<p>Tony Stark: Manager: true</p>" in "_site/index.html"
-    And I should see "<p>Tony Stark: Recruit: false</p>" in "_site/index.html"
-    And I should see "<p>Tony Stark: Villain: false</p>" in "_site/index.html"
-    And I should see "<p>Peter Parker: Manager: false</p>" in "_site/index.html"
-    And I should see "<p>Peter Parker: Recruit: true</p>" in "_site/index.html"
-    And I should see "<p>Peter Parker: Villain: false</p>" in "_site/index.html"
-    And I should see "<p>Steve Rogers: Manager: true</p>" in "_site/index.html"
-    And I should see "<p>Steve Rogers: Recruit: false</p>" in "_site/index.html"
-    And I should see "<p>Steve Rogers: Villain: false</p>" in "_site/index.html"
-    And I should see "<p>Wanda Maximoff: Manager: false</p>" in "_site/index.html"
-    And I should see "<p>Wanda Maximoff: Recruit: true</p>" in "_site/index.html"
-    And I should see "<p>Wanda Maximoff: Villain: false</p>" in "_site/index.html"
-    And I should see "<p>Thanos: Manager: false</p>" in "_site/index.html"
-    And I should see "<p>Thanos: Recruit: false</p>" in "_site/index.html"
-    And I should see "<p>Thanos: Villain: true</p>" in "_site/index.html"
-    And I should see "<p>Loki: Manager: false</p>" in "_site/index.html"
-    And I should see "<p>Loki: Recruit: false</p>" in "_site/index.html"
-    And I should see "<p>Loki: Villain: false</p>" in "_site/index.html"
+    And the output directory should exist
+    And I should see "<p>Tony Stark: Manager: true</p>" in "output/index.html"
+    And I should see "<p>Tony Stark: Recruit: false</p>" in "output/index.html"
+    And I should see "<p>Tony Stark: Villain: false</p>" in "output/index.html"
+    And I should see "<p>Peter Parker: Manager: false</p>" in "output/index.html"
+    And I should see "<p>Peter Parker: Recruit: true</p>" in "output/index.html"
+    And I should see "<p>Peter Parker: Villain: false</p>" in "output/index.html"
+    And I should see "<p>Steve Rogers: Manager: true</p>" in "output/index.html"
+    And I should see "<p>Steve Rogers: Recruit: false</p>" in "output/index.html"
+    And I should see "<p>Steve Rogers: Villain: false</p>" in "output/index.html"
+    And I should see "<p>Wanda Maximoff: Manager: false</p>" in "output/index.html"
+    And I should see "<p>Wanda Maximoff: Recruit: true</p>" in "output/index.html"
+    And I should see "<p>Wanda Maximoff: Villain: false</p>" in "output/index.html"
+    And I should see "<p>Thanos: Manager: false</p>" in "output/index.html"
+    And I should see "<p>Thanos: Recruit: false</p>" in "output/index.html"
+    And I should see "<p>Thanos: Villain: true</p>" in "output/index.html"
+    And I should see "<p>Loki: Manager: false</p>" in "output/index.html"
+    And I should see "<p>Loki: Recruit: false</p>" in "output/index.html"
+    And I should see "<p>Loki: Villain: false</p>" in "output/index.html"
 
   Scenario: Sort all entries by a Front Matter key defined in all entries
     Given I have an "index.html" page that contains "Collections: {{ site.tutorials | map: 'title' | join: ', ' }}"
@@ -310,14 +310,14 @@ Feature: Collections Directory
           layout: tutorial
 
     """
-    When I run jekyll build
+    When I run bridgetown build
     Then I should get a zero exit status
-    Then the _site directory should exist
-    And I should see "Collections: Getting Started, Let's Roll!, Dive-In and Publish Already!, Tip of the Iceberg, Extending with Plugins, Graduation Day" in "_site/index.html"
-    And I should not see "Previous: Graduation Day" in "_site/tutorials/lets-roll.html"
-    And I should not see "Next: Tip of the Iceberg" in "_site/tutorials/lets-roll.html"
-    But I should see "Previous: Getting Started" in "_site/tutorials/lets-roll.html"
-    And I should see "Next: Dive-In and Publish Already!" in "_site/tutorials/lets-roll.html"
+    Then the output directory should exist
+    And I should see "Collections: Getting Started, Let's Roll!, Dive-In and Publish Already!, Tip of the Iceberg, Extending with Plugins, Graduation Day" in "output/index.html"
+    And I should not see "Previous: Graduation Day" in "output/tutorials/lets-roll.html"
+    And I should not see "Next: Tip of the Iceberg" in "output/tutorials/lets-roll.html"
+    But I should see "Previous: Getting Started" in "output/tutorials/lets-roll.html"
+    And I should see "Next: Dive-In and Publish Already!" in "output/tutorials/lets-roll.html"
 
   Scenario: Sort all entries by a Front Matter key defined in only some entries
     Given I have an "index.html" page that contains "Collections: {{ site.tutorials | map: 'title' | join: ', ' }}"
@@ -345,13 +345,13 @@ Feature: Collections Directory
         layout: tutorial
 
     """
-    When I run jekyll build
+    When I run bridgetown build
     Then I should get a zero exit status
-    Then the _site directory should exist
+    Then the output directory should exist
     And I should see "'approx_time' not defined" in the build output
-    And I should see "Collections: Extending with Plugins, Let's Roll!, Getting Started, Graduation Day, Dive-In and Publish Already!, Tip of the Iceberg" in "_site/index.html"
-    And I should see "Previous: Getting Started" in "_site/tutorials/graduation-day.html"
-    And I should see "Next: Dive-In and Publish Already!" in "_site/tutorials/graduation-day.html"
+    And I should see "Collections: Extending with Plugins, Let's Roll!, Getting Started, Graduation Day, Dive-In and Publish Already!, Tip of the Iceberg" in "output/index.html"
+    And I should see "Previous: Getting Started" in "output/tutorials/graduation-day.html"
+    And I should see "Next: Dive-In and Publish Already!" in "output/tutorials/graduation-day.html"
 
   Scenario: Manually sort entries
     Given I have an "index.html" page that contains "Collections: {{ site.tutorials | map: 'title' | join: ', ' }}"
@@ -385,14 +385,14 @@ Feature: Collections Directory
           layout: tutorial
 
     """
-    When I run jekyll build
+    When I run bridgetown build
     Then I should get a zero exit status
-    Then the _site directory should exist
-    And I should see "Collections: Getting Started, Tip of the Iceberg, Let's Roll!, Dive-In and Publish Already!, Graduation Day, Extending with Plugins" in "_site/index.html"
-    And I should not see "Previous: Graduation Day" in "_site/tutorials/lets-roll.html"
-    And I should not see "Next: Tip of the Iceberg" in "_site/tutorials/lets-roll.html"
-    But I should see "Previous: Tip of the Iceberg" in "_site/tutorials/lets-roll.html"
-    And I should see "Next: Dive-In and Publish Already!" in "_site/tutorials/lets-roll.html"
+    Then the output directory should exist
+    And I should see "Collections: Getting Started, Tip of the Iceberg, Let's Roll!, Dive-In and Publish Already!, Graduation Day, Extending with Plugins" in "output/index.html"
+    And I should not see "Previous: Graduation Day" in "output/tutorials/lets-roll.html"
+    And I should not see "Next: Tip of the Iceberg" in "output/tutorials/lets-roll.html"
+    But I should see "Previous: Tip of the Iceberg" in "output/tutorials/lets-roll.html"
+    And I should see "Next: Dive-In and Publish Already!" in "output/tutorials/lets-roll.html"
 
   Scenario: Manually sort some entries
     Given I have an "index.html" page that contains "Collections: {{ site.tutorials | map: 'title' | join: ', ' }}"
@@ -424,12 +424,12 @@ Feature: Collections Directory
           layout: tutorial
 
     """
-    When I run jekyll build
+    When I run bridgetown build
     Then I should get a zero exit status
-    Then the _site directory should exist
-    And I should see "Collections: Getting Started, Let's Roll!, Dive-In and Publish Already!, Graduation Day, Extending with Plugins, Tip of the Iceberg" in "_site/index.html"
-    And I should not see "Previous: Graduation Day" in "_site/tutorials/lets-roll.html"
-    And I should not see "Previous: Tip of the Iceberg" in "_site/tutorials/lets-roll.html"
-    And I should not see "Next: Tip of the Iceberg" in "_site/tutorials/lets-roll.html"
-    But I should see "Previous: Getting Started" in "_site/tutorials/lets-roll.html"
-    And I should see "Next: Dive-In and Publish Already!" in "_site/tutorials/lets-roll.html"
+    Then the output directory should exist
+    And I should see "Collections: Getting Started, Let's Roll!, Dive-In and Publish Already!, Graduation Day, Extending with Plugins, Tip of the Iceberg" in "output/index.html"
+    And I should not see "Previous: Graduation Day" in "output/tutorials/lets-roll.html"
+    And I should not see "Previous: Tip of the Iceberg" in "output/tutorials/lets-roll.html"
+    And I should not see "Next: Tip of the Iceberg" in "output/tutorials/lets-roll.html"
+    But I should see "Previous: Getting Started" in "output/tutorials/lets-roll.html"
+    And I should see "Next: Dive-In and Publish Already!" in "output/tutorials/lets-roll.html"

@@ -1,21 +1,23 @@
 # frozen_string_literal: true
 
-require "jekyll"
+require "bridgetown"
 
 class Paths
   SOURCE_DIR = Pathname.new(File.expand_path("../..", __dir__))
 
-  def self.test_dir; source_dir.join("tmp", "jekyll"); end
+  def self.test_dir; source_dir.join("tmp", "bridgetown"); end
 
-  def self.theme_gem_dir; source_dir.join("tmp", "jekyll", "my-cool-theme"); end
+  def self.theme_gem_dir; source_dir.join("tmp", "bridgetown", "my-cool-theme"); end
 
-  def self.output_file; test_dir.join("jekyll_output.txt"); end
+  def self.output_file; test_dir.join("bridgetown_output.txt"); end
 
-  def self.status_file; test_dir.join("jekyll_status.txt"); end
+  def self.status_file; test_dir.join("bridgetown_status.txt"); end
 
-  def self.jekyll_bin; source_dir.join("exe", "jekyll"); end
+  def self.bridgetown_bin; source_dir.join("exe", "bridgetown"); end
 
   def self.source_dir; SOURCE_DIR; end
+
+  def self.root_files; ["_config.yml"]; end
 end
 
 #
@@ -62,13 +64,13 @@ end
 
 #
 
-def jekyll_run_output
+def bridgetown_run_output
   Paths.output_file.read if Paths.output_file.file?
 end
 
 #
 
-def jekyll_run_status
+def bridgetown_run_status
   Paths.status_file.read if Paths.status_file.file?
 end
 
@@ -86,16 +88,16 @@ end
 
 #
 
-def run_jekyll(args)
+def run_bridgetown(args)
   args = args.strip.split(" ") # Shellwords?
-  process = run_in_shell("ruby", Paths.jekyll_bin.to_s, *args, "--trace")
+  process = run_in_shell("ruby", Paths.bridgetown_bin.to_s, *args, "--trace")
   process.exitstatus.zero?
 end
 
 #
 
 def run_in_shell(*args)
-  p, output = Jekyll::Utils::Exec.run(*args)
+  p, output = Bridgetown::Utils::Exec.run(*args)
 
   File.write(Paths.status_file, p.exitstatus)
   File.open(Paths.output_file, "wb") do |f|
@@ -159,7 +161,7 @@ end
 
 # Helper method for Windows
 def dst_active?
-  config = Jekyll.configuration("quiet" => true)
+  config = Bridgetown.configuration("quiet" => true)
   ENV["TZ"] = config["timezone"]
   dst = Time.now.isdst
 
