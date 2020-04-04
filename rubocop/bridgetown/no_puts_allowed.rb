@@ -4,9 +4,9 @@ require "rubocop"
 
 module RuboCop
   module Cop
-    module Jekyll
+    module Bridgetown
       class NoPutsAllowed < Cop
-        MSG = "Avoid using `puts` to print things. Use `Jekyll.logger` instead.".freeze
+        MSG = "Avoid using `puts` to print things. Use `Bridgetown.logger` instead.".freeze
 
         def_node_search :puts_called?, <<-PATTERN
         (send nil? :puts _)

@@ -2,7 +2,7 @@
 
 module RuboCop
   module Cop
-    module Jekyll
+    module Bridgetown
       # Checks for `assert_equal(exp, act, msg = nil)` calls containing literal values as
       # second argument. The second argument should ideally be a method called on the tested
       # instance.

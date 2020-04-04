@@ -4,9 +4,9 @@ require "rubocop"
 
 module RuboCop
   module Cop
-    module Jekyll
+    module Bridgetown
       class NoPAllowed < Cop
-        MSG = "Avoid using `p` to print things. Use `Jekyll.logger` instead.".freeze
+        MSG = "Avoid using `p` to print things. Use `Bridgetown.logger` instead.".freeze
 
         def_node_search :p_called?, <<-PATTERN
         (send _ :p _)

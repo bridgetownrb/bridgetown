@@ -5,7 +5,7 @@ require:
   - rubocop-performance
   - ./rubocop/bridgetown
 
-Jekyll/NoPutsAllowed:
+Bridgetown/NoPutsAllowed:
   Exclude:
     - rake/*.rake
 
