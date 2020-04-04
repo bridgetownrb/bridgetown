@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   all_files       = `git ls-files -z`.split("\x0")
   s.files         = all_files.grep(%r!^(exe|lib|rubocop)/|^.rubocop.yml$!)
   s.executables   = ["bridgetown"]
-  s.bindir        = "exe"
+  s.bindir        = "bin"
   s.require_paths = ["lib"]
 
   s.metadata      = {
@@ -35,7 +35,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("colorator",             "~> 1.0")
   s.add_runtime_dependency("em-websocket",          "~> 0.5")
   s.add_runtime_dependency("i18n",                  "~> 1.0")
-  s.add_runtime_dependency("jekyll-watch",          "~> 2.0")
   s.add_runtime_dependency("kramdown",              "~> 2.1")
   s.add_runtime_dependency("kramdown-parser-gfm",   "~> 1.0")
   s.add_runtime_dependency("liquid",                "~> 4.0")
