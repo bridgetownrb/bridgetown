@@ -2,7 +2,7 @@
 
 #############################################################################
 #
-# Site tasks - https://jekyllrb.com
+# Site tasks - https://bridgetownrb.com
 #
 #############################################################################
 
@@ -12,18 +12,18 @@ namespace :site do
   desc "Generate and view the site locally"
   task :preview => :generated_pages do
     require "launchy"
-    require "jekyll"
+    require "bridgetown"
 
     browser_launched = false
-    Jekyll::Hooks.register :site, :post_write do |_site|
+    Bridgetown::Hooks.register :site, :post_write do |_site|
       next if browser_launched
       browser_launched = true
-      Jekyll.logger.info "Opening in browser..."
+      Bridgetown.logger.info "Opening in browser..."
       Launchy.open("http://localhost:4000")
     end
 
     # Generate the site in server mode.
-    puts "Running Jekyll..."
+    puts "Running Bridgetown..."
     options = {
       "source"      => File.expand_path(docs_folder),
       "destination" => File.expand_path("#{docs_folder}/_site"),
@@ -32,14 +32,14 @@ namespace :site do
       "watch"       => true,
       "serving"     => true,
     }
-    Jekyll::Commands::Build.process(options)
-    Jekyll::Commands::Serve.process(options)
+    Bridgetown::Commands::Build.process(options)
+    Bridgetown::Commands::Serve.process(options)
   end
 
   desc "Generate the site"
   task :generate => :generated_pages do
-    require "jekyll"
-    Jekyll::Commands::Build.process({
+    require "bridgetown"
+    Bridgetown::Commands::Build.process({
       "profile"     => true,
       "source"      => File.expand_path(docs_folder),
       "destination" => File.expand_path("#{docs_folder}/_site"),
@@ -53,7 +53,7 @@ namespace :site do
     exit 1
   end
 
-  desc "Create a nicely formatted history page for the jekyll site based on the repo history."
+  desc "Create a nicely formatted history page for the bridgetown site based on the repo history."
   task :history do
     siteify_file("History.markdown", { "title" => "History" })
   end
@@ -77,7 +77,7 @@ namespace :site do
     siteify_file(".github/SUPPORT.markdown", "title" => "Support")
   end
 
-  desc "Write the latest Jekyll version"
+  desc "Write the latest Bridgetown version"
   task :latest_version do
     next if version =~ %r!(beta|rc|alpha)!i
     require "safe_yaml/load"
@@ -94,11 +94,11 @@ namespace :site do
       raise "Specify a version: rake site:releases:new['1.2.3']" unless args.version
       today = Time.new.strftime("%Y-%m-%d")
       release = args.version.to_s
-      filename = "#{docs_folder}/_posts/#{today}-jekyll-#{release.split(".").join("-")}-released.markdown"
+      filename = "#{docs_folder}/_posts/#{today}-bridgetown-#{release.split(".").join("-")}-released.markdown"
 
       File.open(filename, "wb") do |post|
         post.puts("---")
-        post.puts("title: 'Jekyll #{release} Released'")
+        post.puts("title: 'Bridgetown #{release} Released'")
         post.puts("date: #{Time.new.strftime("%Y-%m-%d %H:%M:%S %z")}")
         post.puts("author: ")
         post.puts("version: #{release}")

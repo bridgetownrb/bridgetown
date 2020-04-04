@@ -25,7 +25,7 @@ module Bridgetown
       #
       # Returns a String version constraint in a parseable form for
       # RubyGems.
-      def version_constraint(gem_name)
+      def version_constraint
         "> 0"
       end
 

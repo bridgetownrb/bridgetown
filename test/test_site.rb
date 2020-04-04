@@ -273,12 +273,12 @@ class TestSite < BridgetownUnitTest
         File.directory?(post) && post !~ Document::DATE_FILENAME_MATCHER
       end
       categories = %w(
-        2013 bar baz category foo z_category MixedCase Mixedcase publish_test win
+        2013 bar baz foo z_category MixedCase Mixedcase publish_test
       ).sort
 
       assert_equal posts.size - @num_invalid_posts, @site.posts.size
       assert_equal categories, @site.categories.keys.sort
-      assert_equal 5, @site.categories["foo"].size
+      assert_equal 4, @site.categories["foo"].size
     end
 
     context "error handling" do

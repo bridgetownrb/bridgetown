@@ -69,9 +69,9 @@ Feature: Create sites
       | entry2 | 2009-04-27 | post   | content for entry2. |
     And I have a category/_posts directory
     And I have the following posts in "category":
-      | title  | date       | layout | content             |
-      | entry3 | 2009-05-27 | post   | content for entry3. |
-      | entry4 | 2009-06-27 | post   | content for entry4. |
+      | title  | date       | layout | content             | category |
+      | entry3 | 2009-05-27 | post   | content for entry3. | category |
+      | entry4 | 2009-06-27 | post   | content for entry4. | category |
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist

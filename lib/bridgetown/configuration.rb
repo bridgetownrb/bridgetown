@@ -278,6 +278,7 @@ module Bridgetown
 
     private
 
+    # rubocop:disable Metrics/CyclomaticComplexity #
     def style_to_permalink(permalink_style)
       case permalink_style.to_sym
       when :pretty
@@ -296,6 +297,7 @@ module Bridgetown
         permalink_style.to_s
       end
     end
+    # rubocop:enable Metrics/CyclomaticComplexity #
 
     def check_include_exclude(config)
       %w(include exclude).each do |option|

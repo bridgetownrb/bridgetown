@@ -77,58 +77,6 @@ Feature: Post data
     And the output directory should exist
     And I should see "Post content: <p>Luke, I am your father.</p>" in "output/2009/03/27/star-wars.html"
 
-  Scenario: Use post.categories variable when category is in a folder
-    Given I have a movies directory
-    And I have a movies/_posts directory
-    And I have a _layouts directory
-    And I have the following post in "movies":
-      | title     | date       | layout | content                 |
-      | Star Wars | 2009-03-27 | simple | Luke, I am your father. |
-    And I have a simple layout that contains "Post category: {{ page.categories }}"
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "Post category: movies" in "output/movies/2009/03/27/star-wars.html"
-
-  Scenario: Use post.categories variable when category is in a folder and has category in YAML
-    Given I have a movies directory
-    And I have a movies/_posts directory
-    And I have a _layouts directory
-    And I have the following post in "movies":
-      | title     | date       | layout | category | content                 |
-      | Star Wars | 2009-03-27 | simple | film     | Luke, I am your father. |
-    And I have a simple layout that contains "Post category: {{ page.categories }}"
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "Post category: movies" in "output/movies/film/2009/03/27/star-wars.html"
-
-  Scenario: Use post.categories variable when category is in a folder and has categories in YAML
-    Given I have a movies directory
-    And I have a movies/_posts directory
-    And I have a _layouts directory
-    And I have the following post in "movies":
-      | title     | date       | layout | categories        | content                 |
-      | Star Wars | 2009-03-27 | simple | [film, scifi]     | Luke, I am your father. |
-    And I have a simple layout that contains "Post category: {{ page.categories }}"
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "Post category: movies" in "output/movies/film/scifi/2009/03/27/star-wars.html"
-
-  Scenario: Use post.categories variable when category is in a folder and duplicated category is in YAML
-    Given I have a movies directory
-    And I have a movies/_posts directory
-    And I have a _layouts directory
-    And I have the following post in "movies":
-      | title     | date       | layout | category | content                 |
-      | Star Wars | 2009-03-27 | simple | movies   | Luke, I am your father. |
-    And I have a simple layout that contains "Post category: {{ page.categories }}"
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "Post category: movies" in "output/movies/2009/03/27/star-wars.html"
-
   Scenario: Use post.tags variable
     Given I have a _posts directory
     And I have a _layouts directory
@@ -140,34 +88,6 @@ Feature: Post data
     Then I should get a zero exit status
     And the output directory should exist
     And I should see "Post tags: twist" in "output/2009/05/18/star-wars.html"
-
-  Scenario: Use post.categories variable when categories are in folders
-    Given I have a scifi directory
-    And I have a scifi/movies directory
-    And I have a scifi/movies/_posts directory
-    And I have a _layouts directory
-    And I have the following post in "scifi/movies":
-      | title     | date       | layout | content                 |
-      | Star Wars | 2009-03-27 | simple | Luke, I am your father. |
-    And I have a simple layout that contains "Post categories: {{ page.categories | array_to_sentence_string }}"
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "Post categories: scifi and movies" in "output/scifi/movies/2009/03/27/star-wars.html"
-
-  Scenario: Use post.categories variable when categories are in folders with mixed case
-    Given I have a scifi directory
-    And I have a scifi/Movies directory
-    And I have a scifi/Movies/_posts directory
-    And I have a _layouts directory
-    And I have the following post in "scifi/Movies":
-      | title     | date       | layout | content                 |
-      | Star Wars | 2009-03-27 | simple | Luke, I am your father. |
-    And I have a simple layout that contains "Post categories: {{ page.categories | array_to_sentence_string }}"
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "Post categories: scifi and Movies" in "output/scifi/movies/2009/03/27/star-wars.html"
 
   Scenario: Use post.categories variable when category is in YAML
     Given I have a _posts directory
@@ -217,25 +137,15 @@ Feature: Post data
     And the output directory should exist
     And I should see "Post category: movies" in "output/movies/2009/03/27/star-wars.html"
 
-  Scenario: Superdirectories of _posts applied to post.categories
-    Given I have a movies/_posts directory
-    And I have a "movies/_posts/2009-03-27-star-wars.html" page with layout "simple" that contains "hi"
-    And I have a _layouts directory
-    And I have a simple layout that contains "Post category: {{ page.categories }}"
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "Post category: movies" in "output/movies/2009/03/27/star-wars.html"
-
   Scenario: Subdirectories of _posts not applied to post.categories
-    Given I have a movies/_posts/scifi directory
-    And I have a "movies/_posts/scifi/2009-03-27-star-wars.html" page with layout "simple" that contains "hi"
+    Given I have a _posts/scifi directory
+    And I have a "_posts/scifi/2009-03-27-star-wars.html" page with layout "simple" that contains "hi"
     And I have a _layouts directory
     And I have a simple layout that contains "Post category: {{ page.categories }}"
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Post category: movies" in "output/movies/2009/03/27/star-wars.html"
+    And I should not see "Post category: movies" in "output/2009/03/27/star-wars.html"
 
   Scenario: Use post.categories variable when categories are in YAML with mixed case
     Given I have a _posts directory
@@ -272,7 +182,7 @@ Scenario: Use page.render_with_liquid variable
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Source path: <path_prefix>_posts/2013-04-12-my-post.html" in "output/<dir>/2013/04/12/my-post.html"
+    And I should see "Source path: <path_prefix>_posts/2013-04-12-my-post.html" in "output/2013/04/12/my-post.html"
 
     Examples:
       | dir        | path_prefix |
