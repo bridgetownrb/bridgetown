@@ -505,21 +505,12 @@ class TestSite < BridgetownUnitTest
         )
       end
 
-      should "load symlink files in unsafe mode" do
-        site = Site.new(site_configuration("safe" => false))
+      should "load symlink files" do
+        site = Site.new(site_configuration)
         site.process
 
         file_content = SafeYAML.load_file(File.join(source_dir, "_data", "products.yml"))
 
-        assert_equal site.data["products"], file_content
-        assert_equal site.site_payload["site"]["data"]["products"], file_content
-      end
-
-      should "load the symlink files in safe mode, " \
-             "as they resolve to inside site.source" do
-        site = Site.new(site_configuration("safe" => true))
-        site.process
-        file_content = SafeYAML.load_file(File.join(source_dir, "_data", "products.yml"))
         assert_equal site.data["products"], file_content
         assert_equal site.site_payload["site"]["data"]["products"], file_content
       end

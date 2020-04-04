@@ -5,8 +5,6 @@ module Bridgetown
     # Identity converter. Returns same content as given.
     # For more info on converters see https://bridgetownrb.com/docs/plugins/converters/
     class Identity < Converter
-      safe true
-
       priority :lowest
 
       # Public: Does the given extension match this converter's list of acceptable extensions?

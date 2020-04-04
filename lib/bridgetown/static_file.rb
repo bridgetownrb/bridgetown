@@ -191,7 +191,7 @@ module Bridgetown
     private
 
     def copy_file(dest_path)
-      if @site.safe || Bridgetown.env == "production"
+      if Bridgetown.env == "production"
         FileUtils.cp(path, dest_path)
       else
         FileUtils.copy_entry(path, dest_path)

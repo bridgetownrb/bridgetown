@@ -63,55 +63,6 @@ class TestEntryFilter < BridgetownUnitTest
       @site.include = includes
       assert_equal files, @site.reader.filter_entries(files)
     end
-
-    should "keep safe symlink entries when safe mode enabled" do
-      allow(File).to receive(:symlink?).with("symlink.js").and_return(true)
-      files = %w(symlink.js)
-      assert_equal files, @site.reader.filter_entries(files)
-    end
-
-    should "not filter symlink entries when safe mode disabled" do
-      allow(File).to receive(:symlink?).with("symlink.js").and_return(true)
-      files = %w(symlink.js)
-      assert_equal files, @site.reader.filter_entries(files)
-    end
-
-    should "filter symlink pointing outside site source" do
-      ent1 = %w(_includes/tmp)
-      entries = EntryFilter.new(@site).filter(ent1)
-      assert_equal %w(), entries
-    end
-
-    should "include only safe symlinks in safe mode" do
-      # no support for symlinks on Windows
-      skip_if_windows "Bridgetown does not currently support symlinks on Windows."
-
-      site = fixture_site("safe" => true)
-      site.reader.read_directories("symlink-test")
-
-      assert_equal %w(main.scss symlinked-file).length, site.pages.length
-      refute_equal [], site.static_files
-    end
-
-    should "include symlinks in unsafe mode" do
-      # no support for symlinks on Windows
-      skip_if_windows "Bridgetown does not currently support symlinks on Windows."
-
-      @site.reader.read_directories("symlink-test")
-      refute_equal [], @site.pages
-      refute_equal [], @site.static_files
-    end
-
-    should "include only safe symlinks in safe mode even when included" do
-      # no support for symlinks on Windows
-      skip_if_windows "Bridgetown does not currently support symlinks on Windows."
-
-      site = fixture_site("safe" => true, "include" => ["symlinked-file-outside-source"])
-      site.reader.read_directories("symlink-test")
-
-      assert_equal %w(main.scss symlinked-file).length, site.pages.length
-      refute_includes site.static_files.map(&:name), "symlinked-file-outside-source"
-    end
   end
 
   context "#glob_include?" do

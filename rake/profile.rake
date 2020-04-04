@@ -8,11 +8,9 @@ namespace :profile do
     args.with_defaults(file: "memprof.txt", mode: "lite")
 
     build_phases = [:reset, :read, :generate, :render, :cleanup, :write]
-    safe_mode    = false
 
     if args.mode == "lite"
       build_phases -= [:render, :generate]
-      safe_mode     = true
     end
 
     require "memory_profiler"
@@ -21,14 +19,13 @@ namespace :profile do
       site = Jekyll::Site.new(
         Jekyll.configuration(
           "source"      => File.expand_path("../docs", __dir__),
-          "destination" => File.expand_path("../docs/_site", __dir__),
-          "safe"        => safe_mode
+          "destination" => File.expand_path("../docs/_site", __dir__)
         )
       )
 
       Jekyll.logger.info "Source:", site.source
       Jekyll.logger.info "Destination:", site.dest
-      Jekyll.logger.info "Plugins and Cache:", site.safe ? "disabled" : "enabled"
+      Jekyll.logger.info "Plugins and Cache:", "enabled"
       Jekyll.logger.info "Profiling phases:", build_phases.join(", ").cyan
       Jekyll.logger.info "Profiling..."
 

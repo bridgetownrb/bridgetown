@@ -69,7 +69,7 @@ class TestTags < BridgetownUnitTest
     end
   end
 
-  context "highlight tag in unsafe mode" do
+  context "highlight tag" do
     should "set the no options with just a language name" do
       tag = highlight_block_with_opts("ruby ")
       assert_equal({}, tag.instance_variable_get(:@highlight_options))
@@ -693,56 +693,6 @@ class TestTags < BridgetownUnitTest
   end
 
   context "include tag with parameters" do
-    context "with symlink'd include" do
-      should "not allow symlink includes" do
-        File.open("tmp/pages-test", "w") { |file| file.write("SYMLINK TEST") }
-        assert_raises IOError do
-          content = <<~CONTENT
-            ---
-            title: Include symlink
-            ---
-
-            {% include tmp/pages-test %}
-
-          CONTENT
-          create_post(content,
-                      "permalink"   => "pretty",
-                      "source"      => source_dir,
-                      "destination" => dest_dir,
-                      "read_posts"  => true,
-                      "safe"        => true)
-        end
-        @result ||= ""
-        refute_match(%r!SYMLINK TEST!, @result)
-      end
-
-      should "not expose the existence of symlinked files" do
-        ex = assert_raises IOError do
-          content = <<~CONTENT
-            ---
-            title: Include symlink
-            ---
-
-            {% include tmp/pages-test-does-not-exist %}
-
-          CONTENT
-          create_post(content,
-                      "permalink"   => "pretty",
-                      "source"      => source_dir,
-                      "destination" => dest_dir,
-                      "read_posts"  => true,
-                      "safe"        => true)
-        end
-        assert_match(
-          "Could not locate the included file 'tmp/pages-test-does-not-exist' " \
-          "in any of [\"#{source_dir}/_includes\"]. Ensure it exists in one of " \
-          "those directories and is not a symlink as those are not allowed in " \
-          "safe mode.",
-          ex.message
-        )
-      end
-    end
-
     context "with one parameter" do
       setup do
         content = <<~CONTENT
@@ -1096,54 +1046,6 @@ class TestTags < BridgetownUnitTest
             exception.message
           )
         end
-      end
-    end
-
-    context "with symlink'd include" do
-      should "not allow symlink includes" do
-        File.open("tmp/pages-test", "w") { |file| file.write("SYMLINK TEST") }
-        assert_raises IOError do
-          content = <<~CONTENT
-            ---
-            title: Include symlink
-            ---
-
-            {% include_relative tmp/pages-test %}
-
-          CONTENT
-          create_post(content,
-                      "permalink"   => "pretty",
-                      "source"      => source_dir,
-                      "destination" => dest_dir,
-                      "read_posts"  => true,
-                      "safe"        => true)
-        end
-        @result ||= ""
-        refute_match(%r!SYMLINK TEST!, @result)
-      end
-
-      should "not expose the existence of symlinked files" do
-        ex = assert_raises IOError do
-          content = <<~CONTENT
-            ---
-            title: Include symlink
-            ---
-
-            {% include_relative tmp/pages-test-does-not-exist %}
-
-          CONTENT
-          create_post(content,
-                      "permalink"   => "pretty",
-                      "source"      => source_dir,
-                      "destination" => dest_dir,
-                      "read_posts"  => true,
-                      "safe"        => true)
-        end
-        assert_match(
-          "Ensure it exists in one of those directories and is not a symlink "\
-          "as those are not allowed in safe mode.",
-          ex.message
-        )
       end
     end
   end

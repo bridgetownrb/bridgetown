@@ -50,18 +50,6 @@ module Bridgetown
       @priority || :normal
     end
 
-    # Get or set the safety of this plugin. When called without an argument
-    # it returns the safety. When an argument is given, it will set the
-    # safety.
-    #
-    # safe - The Boolean safety (default: nil).
-    #
-    # Returns the safety Boolean.
-    def self.safe(safe = nil)
-      @safe = safe unless defined?(@safe) && safe.nil?
-      @safe || false
-    end
-
     # Spaceship is priority [higher -> lower]
     #
     # other - The class to be compared.

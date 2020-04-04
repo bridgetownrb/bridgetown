@@ -5,7 +5,7 @@ module Bridgetown
     attr_reader   :source, :dest, :cache_dir, :config
     attr_accessor :layouts, :pages, :static_files, :drafts,
                   :exclude, :include, :lsi, :highlighter, :permalink_style,
-                  :time, :future, :unpublished, :safe, :plugins, :limit_posts,
+                  :time, :future, :unpublished, :plugins, :limit_posts,
                   :show_drafts, :keep_files, :baseurl, :data, :file_read_opts,
                   :gems, :plugin_manager
 
@@ -45,7 +45,7 @@ module Bridgetown
     def config=(config)
       @config = config.clone
 
-      %w(safe lsi highlighter baseurl exclude include future unpublished
+      %w(lsi highlighter baseurl exclude include future unpublished
          show_drafts limit_posts keep_files).each do |opt|
         send("#{opt}=", config[opt])
       end
@@ -300,7 +300,7 @@ module Bridgetown
     # passed in as argument.
 
     def instantiate_subclasses(klass)
-      klass.descendants.select { |c| !safe || c.safe }.sort.map do |c|
+      klass.descendants.sort.map do |c|
         c.new(config)
       end
     end
@@ -434,7 +434,7 @@ module Bridgetown
     # Disable Marshaling cache to disk in Safe Mode
     def configure_cache
       Bridgetown::Cache.cache_dir = in_source_dir(config["cache_dir"], "Bridgetown/Cache")
-      Bridgetown::Cache.disable_disk_cache! if safe || config["disable_disk_cache"]
+      Bridgetown::Cache.disable_disk_cache! if config["disable_disk_cache"]
     end
 
     def configure_plugins

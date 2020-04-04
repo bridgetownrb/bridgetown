@@ -32,28 +32,5 @@ class TestLayoutReader < BridgetownUnitTest
         assert_equal source_dir("_layouts"), LayoutReader.new(@site).layout_directory
       end
     end
-
-    context "when a layout is a symlink" do
-      setup do
-        symlink_if_allowed("/etc/passwd", source_dir("_layouts", "symlink.html"))
-
-        @site = fixture_site(
-          "safe"    => true,
-          "include" => ["symlink.html"]
-        )
-      end
-
-      teardown do
-        FileUtils.rm_f(source_dir("_layouts", "symlink.html"))
-      end
-
-      should "only read the layouts which are in the site" do
-        skip_if_windows "Bridgetown does not currently support symlinks on Windows."
-
-        layouts = LayoutReader.new(@site).read
-
-        refute layouts.key?("symlink"), "Should not read the symlinked layout"
-      end
-    end
   end
 end

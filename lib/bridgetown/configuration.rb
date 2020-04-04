@@ -18,7 +18,6 @@ module Bridgetown
       "collections"         => {},
 
       # Handling Reading
-      "safe"                => false,
       "include"             => [".htaccess"],
       "exclude"             => [],
       "keep_files"          => [".git", ".svn", "_bridgetown"],

@@ -7,16 +7,11 @@ module Bridgetown
     class Markdown < Converter
       highlighter_prefix "\n"
       highlighter_suffix "\n"
-      safe true
 
       def setup
         return if @setup ||= false
 
         unless (@parser = get_processor)
-          if @config["safe"]
-            Bridgetown.logger.warn "Build Warning:", "Custom processors are not loaded in safe mode"
-          end
-
           Bridgetown.logger.error "Markdown processor:", "#{@config["markdown"].inspect} \
                                   is not a valid Markdown processor."
           Bridgetown.logger.error "", "Available processors are: #{valid_processors.join(", ")}"
@@ -42,7 +37,7 @@ module Bridgetown
       # rubocop:enable Naming/AccessorMethodName
 
       # Public: Provides you with a list of processors comprised of the ones we support internally
-      # and the ones that you have provided to us (if they're whitelisted for use in safe mode).
+      # and the ones that you have provided to us
       #
       # Returns an array of symbols.
       def valid_processors

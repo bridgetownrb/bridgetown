@@ -97,13 +97,13 @@ module Bridgetown
         context.registers[:site].includes_load_paths.freeze
       end
 
-      def locate_include_file(context, file, safe)
+      def locate_include_file(context, file)
         includes_dirs = tag_includes_dirs(context)
         includes_dirs.each do |dir|
           path = PathManager.join(dir, file)
-          return path if valid_include_file?(path, dir.to_s, safe)
+          return path if valid_include_file?(path, dir.to_s)
         end
-        raise IOError, could_not_locate_message(file, includes_dirs, safe)
+        raise IOError, could_not_locate_message(file, includes_dirs)
       end
 
       def render(context)
@@ -112,7 +112,7 @@ module Bridgetown
         file = render_variable(context) || @file
         validate_file_name(file)
 
-        path = locate_include_file(context, file, site.safe)
+        path = locate_include_file(context, file)
         return unless path
 
         add_include_to_dependency(site, path, context)
@@ -160,12 +160,8 @@ module Bridgetown
         end
       end
 
-      def valid_include_file?(path, dir, safe)
-        !outside_site_source?(path, dir, safe) && File.file?(path)
-      end
-
-      def outside_site_source?(path, dir, safe)
-        safe && !realpath_prefixed_with?(path, dir)
+      def valid_include_file?(path, _dir)
+        File.file?(path)
       end
 
       def realpath_prefixed_with?(path, dir)
@@ -181,14 +177,9 @@ module Bridgetown
 
       private
 
-      def could_not_locate_message(file, includes_dirs, safe)
-        message = "Could not locate the included file '#{file}' in any of "\
-          "#{includes_dirs}. Ensure it exists in one of those directories and"
-        message + if safe
-                    " is not a symlink as those are not allowed in safe mode."
-                  else
-                    ", if it is a symlink, does not point outside your site source."
-                  end
+      def could_not_locate_message(file, includes_dirs)
+        "Could not locate the included file '#{file}' in any of #{includes_dirs}." \
+          " Ensure it exists in one of those directories."
       end
     end
 

@@ -52,46 +52,17 @@ class TestPluginManager < BridgetownUnitTest
       site = double(:gems => gems)
       plugin_manager = PluginManager.new(site)
 
-      allow(plugin_manager).to receive(:plugin_allowed?).with("foobar").and_return(true)
-      allow(plugin_manager).to receive(:plugin_allowed?).with("jemojii").and_return(true)
-
       plugin_manager.require_gems
     end
   end
 
-  context "site is not marked as safe" do
-    should "allow all plugins" do
-      site = double(:safe => false)
-      plugin_manager = PluginManager.new(site)
-
-      assert plugin_manager.plugin_allowed?("foobar")
-    end
-
+  context "site containing plugins" do
     should "require plugin files" do
-      site = double(:safe          => false,
-                    :config        => { "plugins_dir" => "_plugins" },
+      site = double(:config        => { "plugins_dir" => "_plugins" },
                     :in_source_dir => "/tmp/")
       plugin_manager = PluginManager.new(site)
 
       expect(Bridgetown::External).to receive(:require_with_graceful_fail)
-      plugin_manager.require_plugin_files
-    end
-  end
-
-  context "site is marked as safe" do
-    should "allow plugins if they are whitelisted" do
-      site = double(:safe => true, :config => { "whitelist" => ["jemoji"] })
-      plugin_manager = PluginManager.new(site)
-
-      assert plugin_manager.plugin_allowed?("jemoji")
-      assert !plugin_manager.plugin_allowed?("not_allowed_plugin")
-    end
-
-    should "not require plugin files" do
-      site = double(:safe => true)
-      plugin_manager = PluginManager.new(site)
-
-      expect(Bridgetown::External).to_not receive(:require_with_graceful_fail)
       plugin_manager.require_plugin_files
     end
   end

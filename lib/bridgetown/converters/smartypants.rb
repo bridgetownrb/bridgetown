@@ -22,7 +22,6 @@ module Bridgetown
     # SmartyPants converter.
     # For more info on converters see https://bridgetownrb.com/docs/plugins/converters/
     class SmartyPants < Converter
-      safe true
       priority :low
 
       def initialize(config)

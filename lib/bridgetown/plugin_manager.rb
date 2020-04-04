@@ -26,9 +26,7 @@ module Bridgetown
     #
     # Returns nothing.
     def require_gems
-      Bridgetown::External.require_with_graceful_fail(
-        site.gems.select { |plugin| plugin_allowed?(plugin) }
-      )
+      Bridgetown::External.require_with_graceful_fail(site.gems)
     end
 
     def self.require_from_bundler
@@ -47,33 +45,13 @@ module Bridgetown
       end
     end
 
-    # Check whether a gem plugin is allowed to be used during this build.
-    #
-    # plugin_name - the name of the plugin
-    #
-    # Returns true if the plugin name is in the whitelist or if the site is not
-    #   in safe mode.
-    def plugin_allowed?(plugin_name)
-      !site.safe || whitelist.include?(plugin_name)
-    end
-
-    # Build an array of allowed plugin gem names.
-    #
-    # Returns an array of strings, each string being the name of a gem name
-    #   that is allowed to be used.
-    def whitelist
-      @whitelist ||= Array[site.config["whitelist"]].flatten
-    end
-
-    # Require all .rb files if safe mode is off
+    # Require all .rb files
     #
     # Returns nothing.
     def require_plugin_files
-      unless site.safe
-        plugins_path.each do |plugin_search_path|
-          plugin_files = Utils.safe_glob(plugin_search_path, File.join("**", "*.rb"))
-          Bridgetown::External.require_with_graceful_fail(plugin_files)
-        end
+      plugins_path.each do |plugin_search_path|
+        plugin_files = Utils.safe_glob(plugin_search_path, File.join("**", "*.rb"))
+        Bridgetown::External.require_with_graceful_fail(plugin_files)
       end
     end
 

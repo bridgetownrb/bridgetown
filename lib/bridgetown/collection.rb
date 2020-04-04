@@ -134,13 +134,8 @@ module Bridgetown
     end
 
     # Checks whether the directory "exists" for this collection.
-    # The directory must exist on the filesystem and must not be a symlink
-    #   if in safe mode.
-    #
-    # Returns false if the directory doesn't exist or if it's a symlink
-    #   and we're in safe mode.
     def exists?
-      File.directory?(directory) && !entry_filter.symlink?(directory)
+      File.directory?(directory)
     end
 
     # The entry filter for this collection.

@@ -68,12 +68,10 @@ module Bridgetown
     end
 
     # --
-    # Check if a file is a symlink.
-    # NOTE: This can be converted to allowing even in safe,
-    #   since we use Pathutil#in_path? now.
+    # TODO: this is for old Safe mode and can be removed.
     # --
-    def symlink?(entry)
-      site.safe && File.symlink?(entry) && symlink_outside_site_source?(entry)
+    def symlink?(_entry)
+      false
     end
 
     # --

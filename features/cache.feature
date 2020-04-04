@@ -27,16 +27,7 @@ Feature: Cache
     And the output directory should exist
     And I should see "<p>Hello World</p>" in "output/index.html"
 
-  Scenario: Disk usage in safe mode
-    Given I have an "index.md" page that contains "{{ site.title }}"
-    And I have a configuration file with "title" set to "Hello World"
-    When I run bridgetown build --safe
-    Then I should get a zero exit status
-    But the src/.bridgetown-cache directory should not exist
-    And the output directory should exist
-    And I should see "<p>Hello World</p>" in "output/index.html"
-
-  Scenario: Disabling disk usage in non-safe mode
+  Scenario: Disabling disk usage
     Given I have an "index.md" page that contains "{{ site.title }}"
     And I have a configuration file with "title" set to "Hello World"
     When I run bridgetown build --disable-disk-cache
