@@ -22,7 +22,7 @@ module Bridgetown
     # of a particular Bridgetown::Document object.
     #
     # dirname - The *special directory* for the Document.
-    #           e.g. "_posts" or "_drafts" for Documents from the `site.posts` collection.
+    #           e.g. "_posts" for Documents from the `site.posts` collection.
     def self.superdirs_regex(dirname)
       @superdirs_regex ||= {}
       @superdirs_regex[dirname] ||= %r!#{dirname}.*!
@@ -47,11 +47,7 @@ module Bridgetown
 
       @has_yaml_header = nil
 
-      if draft?
-        categories_from_path("_drafts")
-      else
-        categories_from_path(collection.relative_directory)
-      end
+      categories_from_path(collection.relative_directory)
 
       data.default_proc = proc do |_, key|
         site.frontmatter_defaults.find(relative_path, type, key)
@@ -83,7 +79,7 @@ module Bridgetown
     #
     # Return document date string.
     def date
-      data["date"] ||= (draft? ? source_file_mtime : site.time)
+      data["date"] ||= site.time
     end
 
     # Return document file modification time in the form of a Time object.
@@ -91,16 +87,6 @@ module Bridgetown
     # Return document file modification Time object.
     def source_file_mtime
       File.mtime(path)
-    end
-
-    # Returns whether the document is a draft. This is only the case if
-    # the document is in the 'posts' collection but in a different
-    # directory than '_posts'.
-    #
-    # Returns whether the document is a draft.
-    def draft?
-      data["draft"] ||= relative_path.index(collection.relative_directory).nil? &&
-        collection.label == "posts"
     end
 
     # The path to the document, relative to the collections_dir.

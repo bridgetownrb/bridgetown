@@ -109,13 +109,12 @@ end
 
 #
 
-Given(%r!^I have the following (draft|page|post)s?(?: (in|under) "([^"]+)")?:$!) do |status, direction, folder, table|
+Given(%r!^I have the following (page|post)s?(?: (in|under) "([^"]+)")?:$!) do |status, direction, folder, table|
   table.hashes.each do |input_hash|
     title = slug(input_hash["title"])
     ext = input_hash["type"] || "markdown"
-    filename = "#{title}.#{ext}" if %w(draft page).include?(status)
+    filename = "#{title}.#{ext}" if %w(page).include?(status)
     before, after = location(folder, direction)
-    dest_folder = "_drafts" if status == "draft"
     dest_folder = "_posts"  if status == "post"
     dest_folder = "" if status == "page"
 
@@ -132,14 +131,14 @@ end
 
 #
 
-Given(%r!^I have the following (draft|post)s? within the "(.*)" directory:$!) do |type, folder, table|
+Given(%r!^I have the following posts? within the "(.*)" directory:$!) do |folder, table|
   table.hashes.each do |input_hash|
     title = slug(input_hash["title"])
     parsed_date = Time.xmlschema(input_hash["date"]) rescue Time.parse(input_hash["date"])
 
-    filename = type == "draft" ? "#{title}.markdown" : "#{parsed_date.strftime("%Y-%m-%d")}-#{title}.markdown"
+    filename = "#{parsed_date.strftime("%Y-%m-%d")}-#{title}.markdown"
 
-    path = File.join("src", folder, "_#{type}s", filename)
+    path = File.join("src", folder, "_posts", filename)
     File.write(path, file_content_from_hash(input_hash))
   end
 end

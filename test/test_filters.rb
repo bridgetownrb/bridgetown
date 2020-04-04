@@ -650,7 +650,6 @@ class TestFilters < BridgetownUnitTest
           "relative_path" => "_posts/2008-02-02-published.markdown",
           "collection"    => "posts",
           "excerpt"       => "<p>This should be published.</p>\n",
-          "draft"         => false,
           "categories"    => [
             "publish_test",
           ],

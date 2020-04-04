@@ -26,7 +26,6 @@ module Bridgetown
       "strict_front_matter" => false,
 
       # Filtering Content
-      "show_drafts"         => nil,
       "limit_posts"         => 0,
       "future"              => false,
       "unpublished"         => false,

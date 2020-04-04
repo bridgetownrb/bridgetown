@@ -3,10 +3,10 @@
 module Bridgetown
   class Site
     attr_reader   :source, :dest, :cache_dir, :config
-    attr_accessor :layouts, :pages, :static_files, :drafts,
+    attr_accessor :layouts, :pages, :static_files,
                   :exclude, :include, :lsi, :highlighter, :permalink_style,
                   :time, :future, :unpublished, :plugins, :limit_posts,
-                  :show_drafts, :keep_files, :baseurl, :data, :file_read_opts,
+                  :keep_files, :baseurl, :data, :file_read_opts,
                   :gems, :plugin_manager
 
     attr_accessor :converters, :generators, :reader
@@ -46,7 +46,7 @@ module Bridgetown
       @config = config.clone
 
       %w(lsi highlighter baseurl exclude include future unpublished
-         show_drafts limit_posts keep_files).each do |opt|
+         limit_posts keep_files).each do |opt|
         send("#{opt}=", config[opt])
       end
 

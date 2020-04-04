@@ -61,7 +61,7 @@ module Bridgetown
       retrieve_static_files(dir, dot_static_files)
     end
 
-    # Retrieves all the posts(posts/drafts) from the given directory
+    # Retrieves all the posts(posts) from the given directory
     # and add them to the site and sort them.
     #
     # dir - The String representing the directory to retrieve the posts from.
@@ -71,7 +71,6 @@ module Bridgetown
       return if outside_configured_directory?(dir)
 
       site.posts.docs.concat(post_reader.read_posts(dir))
-      site.posts.docs.concat(post_reader.read_drafts(dir)) if site.show_drafts
     end
 
     # Recursively traverse directories with the read_directories function.
@@ -142,9 +141,9 @@ module Bridgetown
 
     # Internal
     #
-    # Determine if the directory is supposed to contain posts and drafts.
+    # Determine if the directory is supposed to contain posts.
     # If the user has defined a custom collections_dir, then attempt to read
-    # posts and drafts only from within that directory.
+    # posts only from within that directory.
     #
     # Returns true if a custom collections_dir has been set but current directory lies
     # outside that directory.
@@ -153,7 +152,7 @@ module Bridgetown
       !collections_dir.empty? && !dir.start_with?("/#{collections_dir}")
     end
 
-    # Create a single PostReader instance to retrieve drafts and posts from all valid
+    # Create a single PostReader instance to retrieve posts from all valid
     # directories in current site.
     def post_reader
       @post_reader ||= PostReader.new(site)

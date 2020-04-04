@@ -27,9 +27,6 @@ module Bridgetown
         when "post"
           Deprecator.defaults_deprecate_type("post", "posts")
           "posts"
-        when "draft"
-          Deprecator.defaults_deprecate_type("draft", "drafts")
-          "drafts"
         else
           set["scope"]["type"]
         end
@@ -50,10 +47,10 @@ module Bridgetown
 
     # Finds a default value for a given setting, filtered by path and type
     #
-    # path - the path (relative to the source) of the page,
-    # post or :draft the default is used in
+    # path - the path (relative to the source) of the page or
+    # post the default is used in
     # type - a symbol indicating whether a :page,
-    # a :post or a :draft calls this method
+    # a :post calls this method
     #
     # Returns the default value or nil if none was found
     def find(path, type, setting)
@@ -72,7 +69,7 @@ module Bridgetown
     # Collects a hash with all default values for a page or post
     #
     # path - the relative path of the page or post
-    # type - a symbol indicating the type (:post, :page or :draft)
+    # type - a symbol indicating the type (:post or :page)
     #
     # Returns a hash with all default values (an empty hash if there are none)
     def all(path, type)
@@ -95,7 +92,7 @@ module Bridgetown
     #
     # scope - the hash indicating the scope, as defined in _config.yml
     # path - the path to check for
-    # type - the type (:post, :page or :draft) to check for
+    # type - the type (:post or :page) to check for
     #
     # Returns true if the scope applies to the given type and path
     def applies?(scope, path, type)

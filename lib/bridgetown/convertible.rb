@@ -12,7 +12,7 @@
 #   self.output=
 #   self.name
 #   self.path
-#   self.type -> :page, :post or :draft
+#   self.type -> :page or :post
 
 module Bridgetown
   module Convertible
