@@ -6,9 +6,9 @@ set -e
 
 mkdir -p vendor/docker
 docker rm -fv docker-travis > /dev/null 2>&1 || true
-docker run --volume=$(pwd):/home/travis/builds/jekyll/jekyll \
-  --workdir=/home/travis/builds/jekyll/jekyll \
-  --volume=$(pwd)/vendor/docker:/home/travis/builds/jekyll/jekyll/vendor/bundle \
+docker run --volume=$(pwd):/home/travis/builds/bridgetownrb/bridgetown \
+  --workdir=/home/travis/builds/bridgetownrb/bridgetown \
+  --volume=$(pwd)/vendor/docker:/home/travis/builds/bridgetownrb/bridgetown/vendor/bundle \
   --user=travis --name=docker-travis -dit quay.io/travisci/travis-ruby \
       bash > /dev/null
 

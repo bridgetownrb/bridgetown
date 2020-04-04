@@ -11,7 +11,7 @@ module Bridgetown
     autoload :WinTZ, "bridgetown/utils/win_tz"
 
     # Constants for use in #slugify
-    SLUGIFY_MODES = %w(raw default pretty ascii latin).freeze
+    SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
     SLUGIFY_RAW_REGEXP = Regexp.new('\\s+').freeze
     SLUGIFY_DEFAULT_REGEXP = Regexp.new("[^[:alnum:]]+").freeze
     SLUGIFY_PRETTY_REGEXP = Regexp.new("[^[:alnum:]._~!$&'()+,;=@]+").freeze
@@ -165,7 +165,7 @@ module Bridgetown
     # When mode is "raw", return the given string,
     # with every sequence of spaces characters replaced with a hyphen.
     #
-    # When mode is "default" or nil, non-alphabetic characters are
+    # When mode is "default", "simple", or nil, non-alphabetic characters are
     # replaced with a hyphen too.
     #
     # When mode is "pretty", some non-alphabetic characters (._~!$&'()+,;=@)

@@ -5,14 +5,3 @@
 # one by one as the offenses are removed from the code base.
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
-
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: AllowForAlignment, EnforcedStyleForExponentOperator.
-# SupportedStylesForExponentOperator: space, no_space
-Layout/SpaceAroundOperators:
-  Exclude:
-    - 'lib/bridgetown/commands/build.rb'
-    - 'lib/bridgetown/site.rb'
-    - 'lib/bridgetown/tags/include.rb'
-    - 'test/test_configuration.rb'

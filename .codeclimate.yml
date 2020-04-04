@@ -37,7 +37,7 @@ exclude_patterns:
 
   - benchmark/
   - docs/
-  - exe/
+  - bin/
   - features/
   - rake/
   - rubocop/
@@ -46,7 +46,5 @@ exclude_patterns:
   - test/
   - vendor/
 
-  - lib/blank_template/
   - lib/site_template/
-  - lib/jekyll/mime.types
-  - lib/jekyll/commands/serve/livereload_assets/livereload.js
+  - lib/bridgetown/mime.types

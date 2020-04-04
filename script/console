@@ -2,20 +2,21 @@
 
 require 'pry'
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
-require 'jekyll'
+require 'bridgetown'
 
 TEST_DIR = File.expand_path("../test", __dir__)
 
 def fixture_site(overrides = {})
-  Jekyll::Site.new(site_configuration(overrides))
+  Bridgetown::Site.new(site_configuration(overrides))
 end
 
-def build_configs(overrides, base_hash = Jekyll::Configuration::DEFAULTS)
-  Jekyll::Utils.deep_merge_hashes(base_hash, overrides)
+def build_configs(overrides, base_hash = Bridgetown::Configuration::DEFAULTS)
+  Bridgetown::Utils.deep_merge_hashes(base_hash, overrides)
 end
 
 def site_configuration(overrides = {})
   build_configs({
+    "root_dir"    => site_root_dir,
     "source"      => source_dir,
     "destination" => dest_dir
   }, build_configs(overrides))
@@ -25,14 +26,18 @@ def dest_dir(*subdirs)
   test_dir('dest', *subdirs)
 end
 
-def source_dir(*subdirs)
+def site_root_dir(*subdirs)
   test_dir('source', *subdirs)
+end
+
+def source_dir(*subdirs)
+  test_dir('source/src', *subdirs)
 end
 
 def test_dir(*subdirs)
   File.join(TEST_DIR, *subdirs)
 end
 
-module Jekyll
+module Bridgetown
   binding.pry
 end

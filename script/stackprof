@@ -3,7 +3,7 @@
 require "bundler/setup"
 require "json"
 require "stackprof"
-require File.expand_path("../lib/jekyll", __dir__)
+require File.expand_path("../lib/bridgetown", __dir__)
 
 MODE = ARGV.first || "cpu"
 PROF_OUTPUT_FILE = File.expand_path("../tmp/stackprof-#{MODE}-#{Time.now.strftime("%Y%m%d%H%M")}.dump", __dir__)
@@ -20,7 +20,7 @@ unless File.exist?(PROF_OUTPUT_FILE)
     puts "GC Stats:", JSON.pretty_generate(GC.stat)
     GC.disable
 
-    Jekyll::Commands::Build.process({'source' => 'docs'})
+    Bridgetown::Commands::Build.process({'source' => 'docs'})
 
     puts 'GC Stats:'
     GC.start(full_mark: true, immediate_sweep: false)

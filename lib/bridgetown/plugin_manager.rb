@@ -19,7 +19,6 @@ module Bridgetown
     def conscientious_require
       require_plugin_files
       require_gems
-      deprecation_checks
     end
 
     # Require each of the gem plugins specified.
@@ -63,16 +62,6 @@ module Bridgetown
         [site.in_source_dir(site.config["plugins_dir"])]
       else
         Array(site.config["plugins_dir"]).map { |d| File.expand_path(d) }
-      end
-    end
-
-    def deprecation_checks
-      pagination_included = (site.config["plugins"] || []).include?("bridgetown-paginate") ||
-        defined?(Bridgetown::Paginate)
-      if site.config["paginate"] && !pagination_included
-        Bridgetown::Deprecator.deprecation_message "You appear to have pagination " \
-          "turned on, but you haven't included the `bridgetown-paginate` gem. " \
-          "Ensure you have `plugins: [bridgetown-paginate]` in your configuration file."
       end
     end
   end

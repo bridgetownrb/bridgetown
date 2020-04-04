@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
 require "ruby-prof"
-require File.expand_path("../lib/jekyll", __dir__)
+require File.expand_path("../lib/bridgetown", __dir__)
 
 result = RubyProf.profile do
-  Jekyll::Commands::Build.process({
+  Bridgetown::Commands::Build.process({
     "source"      => File.expand_path("../docs", __dir__),
     "destination" => File.expand_path("../docs/_site", __dir__),
   })

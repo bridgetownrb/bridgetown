@@ -23,7 +23,6 @@ module Bridgetown
       self.config = config
 
       @cache_dir       = in_source_dir(config["cache_dir"])
-
       @reader          = Reader.new(self)
       @regenerator     = Regenerator.new(self)
       @liquid_renderer = LiquidRenderer.new(self)
@@ -189,8 +188,6 @@ module Bridgetown
     #
     # Returns nothing.
     def render
-      relative_permalinks_are_deprecated
-
       payload = site_payload
 
       Bridgetown::Hooks.trigger :site, :pre_render, self, payload
@@ -302,20 +299,6 @@ module Bridgetown
     def instantiate_subclasses(klass)
       klass.descendants.sort.map do |c|
         c.new(config)
-      end
-    end
-
-    # Warns the user if permanent links are relative to the parent
-    # directory. As this is a deprecated function of Bridgetown.
-    #
-    # Returns
-    def relative_permalinks_are_deprecated
-      if config["relative_permalinks"]
-        Bridgetown.logger.abort_with "Since v3.0, permalinks for pages" \
-                                 " in subfolders must be relative to the" \
-                                 " site source directory, not the parent" \
-                                 " directory. Check https://bridgetownrb.com/docs/upgrading/"\
-                                 " for more info."
       end
     end
 

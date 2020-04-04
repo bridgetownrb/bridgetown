@@ -59,7 +59,7 @@ module Bridgetown
         def deprecated_relative_permalinks(site)
           if site.config["relative_permalinks"]
             Bridgetown::Deprecator.deprecation_message "Your site still uses relative permalinks," \
-                                                   " which was removed in Bridgetown v3.0.0."
+                                                   " which was removed in Bridgetown v0.1"
             true
           end
         end
