@@ -158,9 +158,9 @@ class BridgetownUnitTest < Minitest::Test
                                                 "incremental" => false
                                               ))
     Configuration.from(full_overrides.merge(
-                        "root_dir" => site_root_dir,
-                        "source" => source_dir
-                      ))
+                         "root_dir" => site_root_dir,
+                         "source"   => source_dir
+                       ))
   end
 
   def clear_dest

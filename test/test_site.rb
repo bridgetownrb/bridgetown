@@ -5,7 +5,7 @@ require "helper"
 class TestSite < BridgetownUnitTest
   def with_image_as_post
     tmp_image_path = File.join(source_dir, "_posts", "2017-09-01-bridgetown-sticker.jpg")
-    FileUtils.cp File.join(Dir.pwd, "docs", "img", "bridgetown-sticker.jpg"), tmp_image_path
+    FileUtils.cp File.join(Dir.pwd, "test", "fixtures", "bridgetown-image.jpg"), tmp_image_path
     yield
   ensure
     FileUtils.rm tmp_image_path
@@ -20,11 +20,6 @@ class TestSite < BridgetownUnitTest
   end
 
   context "configuring sites" do
-    should "have an array for plugins by default" do
-      site = Site.new default_configuration
-      assert_equal [File.join(Dir.pwd, "_plugins")], site.plugins
-    end
-
     should "look for plugins under the site directory by default" do
       site = Site.new(site_configuration)
       assert_equal [source_dir("_plugins")], site.plugins
@@ -79,7 +74,8 @@ class TestSite < BridgetownUnitTest
     should "configure cache_dir" do
       fixture_site.process
       assert File.directory?(source_dir(".bridgetown-cache", "Bridgetown", "Cache"))
-      assert File.directory?(source_dir(".bridgetown-cache", "Bridgetown", "Cache", "Bridgetown--Cache"))
+      assert File.directory?(source_dir(".bridgetown-cache", "Bridgetown", "Cache",
+                                        "Bridgetown--Cache"))
     end
 
     should "use .bridgetown-cache directory at source as cache_dir by default" do
@@ -236,7 +232,6 @@ class TestSite < BridgetownUnitTest
         index.html
         index.html
         info.md
-        main.css.map
         main.scss
         properties.html
         sitemap.xml
@@ -245,7 +240,7 @@ class TestSite < BridgetownUnitTest
       )
       unless Utils::Platforms.really_windows?
         # files in symlinked directories may appear twice
-        sorted_pages.push("main.css.map", "main.scss", "symlinked-file").sort!
+        sorted_pages.push("main.scss", "symlinked-file").sort!
       end
       assert_equal sorted_pages, @site.pages.map(&:name).sort!
     end

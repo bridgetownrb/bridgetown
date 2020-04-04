@@ -148,7 +148,7 @@ class TestConfiguration < BridgetownUnitTest
     setup do
       @config = Configuration[{
         "root_dir" => site_root_dir,
-        "source" => source_dir
+        "source"   => source_dir,
       }]
       @no_override     = {}
       @one_config_file = { "config" => "config.yml" }

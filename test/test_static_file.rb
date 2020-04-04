@@ -50,7 +50,8 @@ class TestStaticFile < BridgetownUnitTest
 
     should "return a simple string on inspection" do
       static_file = setup_static_file("root", "dir", @filename)
-      assert_equal "#<Bridgetown::StaticFile @relative_path=\"dir/#{@filename}\">", static_file.inspect
+      assert_equal "#<Bridgetown::StaticFile @relative_path=\"dir/#{@filename}\">",
+                   static_file.inspect
     end
 
     should "have a source file path" do

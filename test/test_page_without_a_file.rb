@@ -34,7 +34,8 @@ class TestPageWithoutAFile < BridgetownUnitTest
       end
 
       should "identify itself properly" do
-        assert_equal '#<Bridgetown::PageWithoutAFile @relative_path="properties.html">', @page.inspect
+        assert_equal '#<Bridgetown::PageWithoutAFile @relative_path="properties.html">',
+                     @page.inspect
       end
 
       should "not have page-content and page-data defined within it" do

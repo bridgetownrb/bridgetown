@@ -42,7 +42,6 @@ class TestNewCommand < BridgetownUnitTest
       capture_output { Bridgetown::Commands::New.process(@args) }
       assert_exist gemfile
       assert_match(%r!gem "bridgetown", "~> #{Bridgetown::VERSION}"!, File.read(gemfile))
-      assert_match(%r!gem "github-pages"!, File.read(gemfile))
     end
 
     should "display a success message" do

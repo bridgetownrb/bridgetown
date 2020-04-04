@@ -797,7 +797,7 @@ class TestFilters < BridgetownUnitTest
               "The list of grouped items for '' is not an Array."
             )
             # adjust array.size to ignore symlinked page in Windows
-            qty = Utils::Platforms.really_windows? ? 16 : 18
+            qty = Utils::Platforms.really_windows? ? 14 : 16
             assert_equal qty, g["items"].size
           end
         end
@@ -1090,7 +1090,7 @@ class TestFilters < BridgetownUnitTest
               "The list of grouped items for '' is not an Array."
             )
             # adjust array.size to ignore symlinked page in Windows
-            qty = Utils::Platforms.really_windows? ? 16 : 18
+            qty = Utils::Platforms.really_windows? ? 14 : 16
             assert_equal qty, g["items"].size
           end
         end

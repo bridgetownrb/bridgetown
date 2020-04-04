@@ -6,7 +6,7 @@ class TestLayoutReader < BridgetownUnitTest
   context "reading layouts" do
     setup do
       config = Bridgetown::Configuration::DEFAULTS.merge("source"      => source_dir,
-                                                     "destination" => dest_dir)
+                                                         "destination" => dest_dir)
       @site = fixture_site(config)
     end
 
