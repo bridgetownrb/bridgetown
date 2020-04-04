@@ -13,7 +13,7 @@ class Paths
 
   def self.status_file; test_dir.join("bridgetown_status.txt"); end
 
-  def self.bridgetown_bin; source_dir.join("exe", "bridgetown"); end
+  def self.bridgetown_bin; source_dir.join("bin", "bridgetown"); end
 
   def self.source_dir; SOURCE_DIR; end
 
