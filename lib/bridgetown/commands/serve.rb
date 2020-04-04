@@ -13,19 +13,19 @@ module Bridgetown
 
       class << self
         COMMAND_OPTIONS = {
-          "ssl_cert"             => ["--ssl-cert [CERT]", "X.509 (SSL) certificate."],
-          "host"                 => ["host", "-H", "--host [HOST]", "Host to bind to"],
-          "open_url"             => ["-o", "--open-url", "Launch your site in a browser"],
-          "detach"               => ["-B", "--detach",
-                                     "Run the server in the background",],
-          "ssl_key"              => ["--ssl-key [KEY]", "X.509 (SSL) Private Key."],
-          "port"                 => ["-P", "--port [PORT]", "Port to listen on"],
-          "show_dir_listing"     => ["--show-dir-listing",
-                                     "Show a directory listing instead of loading" \
-                                     " your index file.",],
-          "skip_initial_build"   => ["skip_initial_build", "--skip-initial-build",
-                                     "Skips the initial site build which occurs before" \
-                                     " the server is started.",]
+          "ssl_cert"           => ["--ssl-cert [CERT]", "X.509 (SSL) certificate."],
+          "host"               => ["host", "-H", "--host [HOST]", "Host to bind to"],
+          "open_url"           => ["-o", "--open-url", "Launch your site in a browser"],
+          "detach"             => ["-B", "--detach",
+                                   "Run the server in the background",],
+          "ssl_key"            => ["--ssl-key [KEY]", "X.509 (SSL) Private Key."],
+          "port"               => ["-P", "--port [PORT]", "Port to listen on"],
+          "show_dir_listing"   => ["--show-dir-listing",
+                                   "Show a directory listing instead of loading" \
+                                   " your index file.",],
+          "skip_initial_build" => ["skip_initial_build", "--skip-initial-build",
+                                   "Skips the initial site build which occurs before" \
+                                   " the server is started.",],
         }.freeze
 
         DIRECTORY_INDEX = %w(

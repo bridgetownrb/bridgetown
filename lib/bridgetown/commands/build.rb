@@ -86,7 +86,7 @@ module Bridgetown
                                    "run Bridgetown with --no-watch."
           end
 
-#          External.require_with_graceful_fail "bridgetown-watch"
+          #          External.require_with_graceful_fail "bridgetown-watch"
           Bridgetown::Watcher.watch(options, site)
         end
       end

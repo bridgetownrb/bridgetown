@@ -18,7 +18,7 @@ class TestWatcher < BridgetownUnitTest
 
     should "build and start watching" do
       @merc.execute(:build, "watch" => false) # watch should be true!
-      assert_equal @merc.name, :build
+      assert_equal :build, @merc.name
     end
   end
 end
