@@ -6,6 +6,8 @@ module Bridgetown
   module Commands
     class New < Command
       class << self
+        DOCSURL = "https://bridgetownrb.com/docs"
+
         def init_with_program(prog)
           prog.command(:new) do |c|
             c.syntax "new PATH"
@@ -51,31 +53,31 @@ module Bridgetown
 
         def gemfile_contents
           <<~RUBY
-                        source "https://rubygems.org"
-                        # Hello! This is where you manage which Bridgetown version is used to run.
-                        # When you want to use a different version, change it below, save the
-                        # file and run `bundle install`. Run Bridgetown with `bundle exec`, like so:
-                        #
-                        #     bundle exec bridgetown serve
-                        #
-                        # This will help ensure the proper Bridgetown version is running.
-                        # Happy Bridgetowning!
-                        gem "bridgetown", "~> #{Bridgetown::VERSION}"
+            source "https://rubygems.org"
+            # Hello! This is where you manage which Bridgetown version is used to run.
+            # When you want to use a different version, change it below, save the
+            # file and run `bundle install`. Run Bridgetown with `bundle exec`, like so:
+            #
+            #     bundle exec bridgetown serve
+            #
+            # This will help ensure the proper Bridgetown version is running.
+            # Happy Bridgetowning!
+            gem "bridgetown", "~> #{Bridgetown::VERSION}"
 
-                        # If you have any plugins, put them here!
-                        group :bridgetown_plugins do
-                        # gem "bridgetown-feed", "~> 0.12"
-                        end
+            # If you have any plugins, put them here!
+            group :bridgetown_plugins do
+            # gem "bridgetown-feed", "~> 0.12"
+            end
 
-                        # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
-                        # and associated library.
-                        install_if -> { RUBY_PLATFORM =~ %r!mingw|mswin|java! } do
-                          gem "tzinfo", "~> 1.2"
-                          gem "tzinfo-data"
-                        end
+            # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
+            # and associated library.
+            install_if -> { RUBY_PLATFORM =~ %r!mingw|mswin|java! } do
+              gem "tzinfo", "~> 1.2"
+              gem "tzinfo-data"
+            end
 
-                        # Performance-booster for watching directories on Windows
-                        gem "wdm", "~> 0.1.1", :install_if => Gem.win_platform?
+            # Performance-booster for watching directories on Windows
+            gem "wdm", "~> 0.1.1", :install_if => Gem.win_platform?
 
           RUBY
         end
@@ -113,7 +115,7 @@ module Bridgetown
         # After a new blog has been created, print a success notification and
         # then automatically execute bundle install from within the new blog dir
         # unless the user opts to generate a blank blog or skip 'bundle install'.
-
+        # rubocop:disable Metrics/AbcSize #
         def after_install(path, cli_path, options = {})
           unless options["blank"] || options["skip-bundle"]
             begin
@@ -124,17 +126,16 @@ module Bridgetown
             end
           end
 
-          docsurl = "https://bridgetownrb.com/docs"
-
           Bridgetown.logger.info "Success! 🎉 Your new Bridgetown site was" \
                                   " generated in #{cli_path.cyan}."
           Bridgetown.logger.info "Execute cd #{cli_path.cyan} to get started."
-          Bridgetown.logger.info "You'll probably also want to #{'yarn install'.cyan}" \
+          Bridgetown.logger.info "You'll probably also want to #{"yarn install".cyan}" \
                                   " to load in your frontend assets."
           Bridgetown.logger.info "Check out our online documentation for" \
-                                  " next steps: #{docsurl.cyan}"
+                                  " next steps: #{DOCSURL.cyan}"
           Bridgetown.logger.info "Bundle install skipped." if options["skip-bundle"]
         end
+        # rubocop:enable Metrics/AbcSize #
 
         def bundle_install(path)
           Bridgetown.logger.info "Running bundle install in #{path.cyan}..."
