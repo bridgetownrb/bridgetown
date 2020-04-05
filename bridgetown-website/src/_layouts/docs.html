@@ -1,0 +1,20 @@
+---
+layout: default
+---
+
+<section class="container mt-12">
+  <div class="columns">
+    <div class="column is-three-quarters">
+      <div class="box px-8 py-8">
+        <h1 class="mt-3 mb-10 title is-1 has-text-centered has-text-brown">{{ page.title }}</h1>
+
+        <div class="content">
+          {{ content }}
+        </div>
+      </div>
+    </div>
+    <div class="column pl-8">
+      {% component docs_toc %}.{% endcomponent docs_toc %}
+    </div>
+  </div>
+</section>

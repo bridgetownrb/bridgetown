@@ -1,0 +1,46 @@
+{%- assign about_active = "" -%}
+{%- assign home_active = "" -%}
+
+{%- if page.url == "/about/" -%}
+{%- assign about_active = "is-active" -%}
+{%- elsif page.url == "/" -%}
+{%- assign home_active = "is-active" -%}
+{%- endif -%}
+<nav class="main-nav navbar is-primary">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+        <h1 class="title is-5">Bridgetown</h1>
+      </a>
+
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" onclick="document.querySelector('#topNavbar').classList.toggle('is-active')">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="topNavbar" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item {{ home_active }}" href="/">Home</a>
+        <a class="navbar-item {{ docs_active }}" href="/docs">Documentation</a>
+        <a class="navbar-item {{ about_active }}" href="/about">About</a>
+      </div>
+
+      <div class="navbar-end">
+        <!-- <a href="https://github.com/{{ site.github_handle }}/stargazers" class="navbar-item">
+        <img src="https://img.shields.io/github/stars/{{ site.github_handle }}.svg" alt="GitHub stars">
+        </a> -->
+        <a class="navbar-item" href="https://github.com/{{ site.github_handle }}/issues">
+          <i class="fa fa-bug"></i>&nbsp;Report an issue
+        </a>
+        <a class="navbar-item" href="https://github.com/{{ site.github_handle }}" target="_blank">
+          <span class="icon"> <i class="fa fa-github"></i> </span>
+        </a>
+        <a class="navbar-item" href="https://twitter.com/{{ site.twitter_handle }}">
+          <span class="icon"> <i class="fa fa-twitter"></i> </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>

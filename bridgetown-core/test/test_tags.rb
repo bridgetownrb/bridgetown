@@ -1049,4 +1049,30 @@ class TestTags < BridgetownUnitTest
       end
     end
   end
+
+  context "component tag" do
+    context "with one parameter" do
+      setup do
+        content = <<~CONTENT
+          ---
+          title: Component tag parameters
+          ---
+
+          {% component test_component param="value" %}
+            * I am Markdown
+          {% endcomponent %}
+        CONTENT
+        create_post(content,
+                    "permalink"   => "pretty",
+                    "source"      => source_dir,
+                    "destination" => dest_dir,
+                    "read_posts"  => true)
+      end
+
+      should "correctly output params and markdown content" do
+        assert_match "<span id=\"include-param\">value</span>", @result.strip
+        assert_match "<li>I am Markdown</li>", @result.strip
+      end
+    end
+  end
 end

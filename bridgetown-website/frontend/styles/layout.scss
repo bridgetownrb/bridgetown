@@ -1,0 +1,82 @@
+.navbar {
+  .navbar-item .title {
+    color: white;
+    text-shadow: 2px 3px 3px rgba(0,0,0,0.3);
+  }
+
+  .navbar-item,
+  .navbar-link {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+
+    color: rgba($white, 0.7) !important;
+
+    &.is-active {
+      color: white !important;
+    }
+  }
+
+  @include desktop {
+    .navbar-dropdown .navbar-item {
+      color: $text;
+    }
+  }
+
+  @include touch {
+    .navbar-menu {
+      background-color: inherit;
+    }
+  }
+
+  &:not([class*='is-']) .navbar-burger span {
+    background-color: $white-ter;
+  }
+
+  @each $name, $pair in $colors {
+    $color: nth($pair, 1);
+    $color-invert: nth($pair, 2);
+
+    &.is-#{$name} {
+      @include touch {
+        .navbar-item,
+        .navbar-link {
+          color: rgba($color-invert, 0.7);
+          &.is-active {
+            color: $color-invert;
+          }
+        }
+      }
+    }
+  }
+
+  &.is-transparent {
+    background-color: transparent;
+  }
+}
+
+.hero {
+  // Colors
+  .navbar {
+    background-color: $grey-dark;
+  }
+  @each $name, $pair in $colors {
+    $color: nth($pair, 1);
+    $color-invert: nth($pair, 2);
+
+    &.is-#{$name} {
+      .navbar {
+        background: none;
+      }
+    }
+  }
+}
+
+body > footer {
+  margin-top: 8rem;
+}
+
+.content .highlight {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}

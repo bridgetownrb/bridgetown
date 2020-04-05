@@ -1,0 +1,34 @@
+.pagination-link,
+.pagination-next,
+.pagination-previous {
+  color: $primary;
+  background-color: $pagination-background-color;
+}
+
+h1, h2, h3 {
+  letter-spacing: -0.05em;
+}
+
+.box ul, .box ol {
+  margin-top: 2rem !important;
+  margin-bottom: 2rem !important;
+  width: 85%;
+
+  li + li {
+    margin-top: 2rem;
+  }
+}
+
+.content a:not(.button) {
+  -webkit-text-decoration: $green wavy underline;
+  text-decoration: $green wavy underline;
+  -webkit-text-decoration-thickness: 2px;
+  text-decoration-thickness: 2px;
+}
+
+.footer a {
+  color: $green;
+  &:hover {
+    color: darken($green, 15%);
+  }
+}
