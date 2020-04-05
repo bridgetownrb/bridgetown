@@ -1,0 +1,120 @@
+ErrorDocument 404 /404.html
+ErrorDocument 500 /500.html
+
+  # /2018/11/15/excerpt-liquid-block.html
+
+  # /2018/10/12/trailing-dots.html
+
+  # /2018/05/15/open-liquid-block-excerpt-whitespace-control.html
+
+  # /2018/05/15/excerpt-whitespace-control-variable.html
+
+  # /2018/05/15/closed-liquid-block-excerpt-whitespace-control.html
+
+  # /2018/01/28/open-liquid-block-excerpt.html
+
+  # /2018/01/28/closed-liquid-block-excerpt.html
+
+  # /2017/02/05/i-dont-like-zeroes.html
+
+  # /2016/11/26/special-chars-(+).html
+
+  # /2016/08/16/indented-link-references.html
+
+  # /2015/12/27/extra-spaces.html
+
+  # /extensionless-permalink
+
+  # /2015/01/08/post-excerpt-separator.html
+
+  # /2014/11/24/Rmd-extension.Rmd
+
+  # /2014/09/02/relative-includes.html
+
+  # /mixedcase/2014/07/05/mixed-case-category.html
+
+  # /mixedcase/2014/07/05/another-mixed-case-category.html
+
+  # /2014/03/22/escape-+-20.html
+
+  # /2014/03/03/yaml-with-dots.html
+
+  # /%2e%2e/%2e%2e/%2e%2e/baddie.html
+
+  # /foo/bar/baz/mixedcase/2013/12/20/properties.text
+
+  # /2013/12/17/include-variable-filters.html
+
+  # /2013/08/01/mkdn-extension.html
+
+  # /bar/baz/z_category/mixedcase/2013/07/22/post-excerpt-with-layout.html
+
+  # /2013/2013/05/10/number-category.html
+
+  # /2013/04/11/custom-excerpt.html
+
+  # /2013/01/12/no-layout.html
+
+  # /2013/01/12/nil-layout.html
+
+  # /2013/01/02/post-excerpt.html
+
+  # /2011/04/12/md-extension.html
+
+  # /2011/04/12/text-extension.text
+
+  # /2010/01/10/override-data.html
+
+  # /2010/01/10/timezone-override.html
+
+  # /2010/01/10/time-override.html
+
+  # /2010/01/10/date-override.html
+
+  # /2010/01/08/triple-dash.html
+
+  # /2009/06/22/no-yaml.html
+
+  # /2009/06/22/empty-yaml.html
+
+  # /2009/05/24/yaml-linebreak.html
+
+  # /2009/05/18/tags.html
+
+  # /2009/05/18/tag.html
+
+  # /2009/05/18/empty-tags.html
+
+  # /2009/05/18/empty-tag.html
+
+  # /2009/03/12/hash-1.html
+
+  # /2009/01/27/no-category.html
+
+  # /2009/01/27/empty-category.html
+
+  # /2009/01/27/empty-categories.html
+
+  # /foo/2009/01/27/category.html
+
+  # /foo/bar/baz/2009/01/27/categories.html
+
+  # /foo/bar/baz/2009/01/27/array-categories.html
+
+  # /2008/12/13/include.html
+
+  # /2008/12/12/topical-post.html
+
+  # /my_category/permalinked-post
+
+  # /2008/11/21/nested.html
+
+  # /2008/11/21/complex.html
+
+  # /2008/10/18/foo-bar.html
+
+  # /2008/09/23/categories.html
+
+  # /2008/09/23/categories.html
+
+  # /publish_test/2008/02/02/published.html

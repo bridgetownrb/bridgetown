@@ -1,0 +1,10 @@
+---
+layout: none
+---
+{% assign items = site.methods | sort: 'title' %}2. of {{ items.size }}: {{ items[2].output }}
+
+{% for item in items %}
+* {{ item.title }}
+{{ item.output }}
+---
+{% endfor %}

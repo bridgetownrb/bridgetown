@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
-gemspec :name => "bridgetown"
 
 # Temporarily lock JRuby builds on Travis CI to i18n-1.2.x until JRuby is able to handle
 # refinements introduced in i18n-1.3.0
@@ -81,3 +80,6 @@ end
 group :site do
   gem "html-proofer", "~> 3.4" if ENV["PROOF"]
 end
+
+# Bridgetown
+gem 'bridgetown-core', path: 'bridgetown-core'
