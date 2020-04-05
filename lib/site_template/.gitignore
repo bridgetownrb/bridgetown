@@ -1,5 +1,6 @@
-_site
+output
+node_modules
 .sass-cache
-.jekyll-cache
-.jekyll-metadata
+.bridgetown-cache
+.bridgetown-metadata
 vendor
