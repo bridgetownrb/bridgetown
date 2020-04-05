@@ -33,7 +33,7 @@ module Bridgetown
 
           create_site new_site_path
 
-          after_install(new_site_path, options)
+          after_install(new_site_path, args.join(" "), options)
         end
 
         def scaffold_post_content
@@ -44,7 +44,7 @@ module Bridgetown
         #
         # Returns the filename of the sample post, as a String
         def initialized_post_name
-          "src/_posts/#{Time.now.strftime("%Y-%m-%d")}-welcome-to-bridgetown.markdown"
+          "src/_posts/#{Time.now.strftime("%Y-%m-%d")}-welcome-to-bridgetown.md"
         end
 
         private
@@ -64,7 +64,7 @@ module Bridgetown
 
                         # If you have any plugins, put them here!
                         group :bridgetown_plugins do
-            #              gem "bridgetown-feed", "~> 0.12"
+                        # gem "bridgetown-feed", "~> 0.12"
                         end
 
                         # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -107,14 +107,14 @@ module Bridgetown
         end
 
         def scaffold_path
-          "src/_posts/0000-00-00-welcome-to-bridgetown.markdown.erb"
+          "src/_posts/0000-00-00-welcome-to-bridgetown.md.erb"
         end
 
         # After a new blog has been created, print a success notification and
         # then automatically execute bundle install from within the new blog dir
         # unless the user opts to generate a blank blog or skip 'bundle install'.
 
-        def after_install(path, options = {})
+        def after_install(path, cli_path, options = {})
           unless options["blank"] || options["skip-bundle"]
             begin
               require "bundler"
@@ -124,7 +124,15 @@ module Bridgetown
             end
           end
 
-          Bridgetown.logger.info "New bridgetown site installed in #{path.cyan}."
+          docsurl = "https://bridgetownrb.com/docs"
+
+          Bridgetown.logger.info "Success! 🎉 Your new Bridgetown site was" \
+                                  " generated in #{cli_path.cyan}."
+          Bridgetown.logger.info "Execute cd #{cli_path.cyan} to get started."
+          Bridgetown.logger.info "You'll probably also want to #{'yarn install'.cyan}" \
+                                  " to load in your frontend assets."
+          Bridgetown.logger.info "Check out our online documentation for" \
+                                  " next steps: #{docsurl.cyan}"
           Bridgetown.logger.info "Bundle install skipped." if options["skip-bundle"]
         end
 

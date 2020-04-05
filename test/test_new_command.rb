@@ -46,7 +46,8 @@ class TestNewCommand < BridgetownUnitTest
 
     should "display a success message" do
       output = capture_output { Bridgetown::Commands::New.process(@args) }
-      success_message = "New bridgetown site installed in #{@full_path.cyan}. "
+      success_message = "Your new Bridgetown site was generated in" \
+                        " #{@args.join(" ").cyan}."
       bundle_message = "Running bundle install in #{@full_path.cyan}... "
       assert_includes output, success_message
       assert_includes output, bundle_message
@@ -61,7 +62,7 @@ class TestNewCommand < BridgetownUnitTest
       capture_output { Bridgetown::Commands::New.process(@args) }
 
       new_site_files = dir_contents(@full_path).reject do |f|
-        f.end_with?("welcome-to-bridgetown.markdown")
+        f.end_with?("welcome-to-bridgetown.md")
       end
 
       assert_same_elements static_template_files, new_site_files
@@ -92,7 +93,7 @@ class TestNewCommand < BridgetownUnitTest
     should "force created folder" do
       capture_output { Bridgetown::Commands::New.process(@args) }
       output = capture_output { Bridgetown::Commands::New.process(@args, "--force") }
-      assert_match %r!New bridgetown site installed in!, output
+      assert_match %r!new Bridgetown site was generated in!, output
     end
 
     should "skip bundle install when opted to" do

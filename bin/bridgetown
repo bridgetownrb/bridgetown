@@ -21,14 +21,13 @@ Mercenary.program(:bridgetown) do |p|
   # exe. Should probably remove most things here and relocated to
   # individual comments. …in fact there are duplicate option listings
   # if you do bridgetown build --help — ouch!
-  p.option "source", "-s", "--source [DIR]", "Source directory (defaults to ./src)"
+  p.option "source", "-s", "--source [DIR]", "Source directory (defaults to src)"
   p.option "destination", "-d", "--destination [DIR]",
-    "Destination directory (defaults to ./output)"
-
+    "Destination directory (defaults to output)"
   p.option "plugins_dir", "-p", "--plugins PLUGINS_DIR1[,PLUGINS_DIR2[,...]]", Array,
-    "Plugins directory (defaults to ./_plugins)"
+    "Plugins directory (defaults to src/_plugins)"
   p.option "layouts_dir", "--layouts DIR", String,
-    "Layouts directory (defaults to ./_layouts)"
+    "Layouts directory (defaults to src/_layouts)"
   p.option "profile", "--profile", "Generate a Liquid rendering profile"
 
 #  TODO: this is not the way to bring in extra command gems! 
