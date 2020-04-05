@@ -7,7 +7,7 @@
 
 ## 0.3.0 / 2020-04-05
 
-  * Moved all Bridgetown code to `bridgetown-core`, the idea being this will now be a monorpo housing Core plus a few other official gems/projects as time goes on. Users will install the `bridgetown` gem which in turns installs `bridgetown-core` as a dependency.
+  * Moved all Bridgetown code to `bridgetown-core`, the idea being this will now be a monorepo housing Core plus a few other official gems/projects as time goes on. Users will install the `bridgetown` gem which in turns installs `bridgetown-core` as a dependency.
 
 ## 0.2.0 / 2020-04-04
 
