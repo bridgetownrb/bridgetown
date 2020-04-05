@@ -1,5 +1,7 @@
 ---
 title: Getting Started
+top_section: Introduction
+category: intro
 order: 1
 ---
 

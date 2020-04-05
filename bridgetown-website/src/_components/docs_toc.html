@@ -1,5 +1,16 @@
 <ul>
+{% assign current_section = "" %}
 {% for doc_page in site.docs %}
-  <li><a href="{{ doc_page.url }}">{{ doc_page.title }}</a></li>
+  {% assign active = "" %}
+  {% if doc_page.top_section and current_section != doc_page.top_section %}
+    {% assign current_section = doc_page.top_section %}
+    <li class="mt-4 mb-2"><h3 class="title is-5">{{ current_section }}</h3></li>
+  {% endif %}
+  {% if doc_page.category == page.category %}
+    {% assign active = "has-text-weight-bold" %}
+  {% endif %}
+  {% unless doc_page.hide_in_toc %}
+    <li><a href="{{ doc_page.url }}" class="{{ active }}">{{ doc_page.title }}</a></li>
+  {% endunless %}
 {% endfor %}
 </ul>

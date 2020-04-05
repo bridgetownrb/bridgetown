@@ -32,3 +32,15 @@ h1, h2, h3 {
     color: darken($green, 15%);
   }
 }
+
+.note {
+  background: lighten($green, 25%);
+  padding: 40px;
+  padding-left: calc(2rem - 5px);
+  padding-right: 2rem;
+  border-left: solid 5px $green;
+  font-size: 0.9em;
+  font-weight: 500;
+  margin-left: -2rem;
+  margin-right: -2rem;
+}
