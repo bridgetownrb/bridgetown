@@ -43,4 +43,35 @@ h1, h2, h3 {
   font-weight: 500;
   margin-left: -2rem;
   margin-right: -2rem;
+  margin-bottom: 1.5rem;
+  &.warning {
+    border-left-color: $red;
+    background: lighten($red, 35%);
+  }
+}
+
+table + .note {
+  margin-top: 1.5rem;
+}
+
+table.settings {
+  tr > td:first-child { width: 65%; }
+  .option {
+    color: darken($blue, 10%);
+  }
+  .flag {
+    color: darken($orange, 20%);
+  }
+  p.default {
+    margin-top: -0.5em;
+    font-weight: bold;
+    code {
+      font-size: 1em;
+      color: darken($green, 40%);
+    }
+  }
+}
+
+.minimal-line-height pre {
+  line-height: 135%;
 }

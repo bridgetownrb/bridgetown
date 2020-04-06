@@ -1,8 +1,8 @@
 ---
+order: 1
 title: Getting Started
 top_section: Introduction
 category: intro
-order: 1
 ---
 
 Bridgetown is a static site generator. You give it text written in your favorite markup language and it uses layouts to build a website and write it an output folder. You can tweak how you want the pages to look, what data gets displayed on the site, and more.

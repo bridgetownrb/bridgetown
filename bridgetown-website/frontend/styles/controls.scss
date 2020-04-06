@@ -12,7 +12,7 @@
   height: 2.572em;
 }
 
-.button {
+.button:not(.has-mixed-case) {
   text-transform: uppercase;
 }
 

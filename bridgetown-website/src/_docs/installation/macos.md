@@ -1,8 +1,8 @@
 ---
+title: Bridgetown on macOS
 hide_in_toc: true
 category: installation
 order: 0
-title: Bridgetown on macOS
 ---
 
 ## Install Command Line Tools
@@ -110,28 +110,6 @@ And check that `GEM PATHS:` points to a path in your home directory.
 
 {: .note .info}
 Every time you update Ruby to a version with a different first two digits, you will need to update your path to match.
-
-### Global Install
-
-{: .note .warning}
-We strongly recommend against installing Ruby gems globally to avoid file permissions problems and using `sudo`.
-
-#### On Mojave (10.14)
-
-Because of SIP Protections in Mojave, you must run:
-
-```sh
-sudo gem install bundler
-sudo gem install -n /usr/local/bin/ bridgetown
-```
-
-#### Before Mojave (<10.14)
-
-You only have to run:
-
-```sh
-sudo gem install bundler bridgetown
-```
 
 ## Problems?
 

@@ -6,11 +6,32 @@ layout: default
   <div class="columns">
     <div class="column is-three-quarters">
       <div class="box px-8 py-8">
+        {% assign url_sections = page.url | split: "/" %}
+        {% if url_sections.size > 3 %}
+          <p class="has-text-right pull-right mt-1 pl-5 pb-5"><a href="/docs/{{ page.category }}" class="button is-info is-small">
+            <span class="icon" aria-hidden="true">
+              <i class="fa fa-chevron-up"></i>
+            </span>
+            <span>Back to {{ page.category | capitalize }}</span>
+          </a></p>
+          <h1 class="mt-0 mb-10 title is-2 has-text-left has-text-brown">{{ page.title }}</h1>
+        {% else %}
         <h1 class="mt-3 mb-10 title is-1 has-text-centered has-text-brown">{{ page.title }}</h1>
+        {% endif %}
+        
 
         <div class="content">
           {{ content }}
         </div>
+
+        {% if url_sections.size > 3 %}
+          <p class="has-text-right mt-1 mb-1"><a href="/docs/{{ page.category }}" class="button is-info is-small">
+            <span class="icon" aria-hidden="true">
+              <i class="fa fa-chevron-up"></i>
+            </span>
+            <span>Back to {{ page.category | capitalize }}</span>
+          </a></p>
+        {% endif %}
       </div>
     </div>
     <div class="column pl-8">

@@ -2,6 +2,7 @@
 order: 3
 title: Command Line Usage
 top_section: Setup
+category: cmd_usage
 ---
 
 The Bridgetown gem makes a `bridgetown` executable available to you in your terminal.

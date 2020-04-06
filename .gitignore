@@ -1,6 +1,7 @@
 # Bridgetown
 output/
 *-cache/
+.bridgetown-cache
 .bridgetown-metadata
 
 # Ruby

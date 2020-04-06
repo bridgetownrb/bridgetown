@@ -11,7 +11,6 @@ in your site’s root directory, or can be specified as flags for the `bridgetow
 executable in the terminal.
 
 * [Configuration Options]({{ '/docs/configuration/options/' | relative_url }})
-* [Default Configuration]({{ '/docs/configuration/default/' | relative_url }})
 * [Front Matter Defaults]({{ '/docs/configuration/front-matter-defaults/' | relative_url }})
 * [Environments]({{ '/docs/configuration/environments/' | relative_url }})
 * [Markdown Options]({{ '/docs/configuration/markdown/' | relative_url }})
