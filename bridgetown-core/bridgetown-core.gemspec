@@ -33,7 +33,6 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency("addressable",           "~> 2.4")
   s.add_runtime_dependency("colorator",             "~> 1.0")
-  s.add_runtime_dependency("em-websocket",          "~> 0.5")
   s.add_runtime_dependency("i18n",                  "~> 1.0")
   s.add_runtime_dependency("kramdown",              "~> 2.1")
   s.add_runtime_dependency("kramdown-parser-gfm",   "~> 1.0")
