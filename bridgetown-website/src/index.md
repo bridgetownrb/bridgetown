@@ -4,13 +4,13 @@
 layout: home
 ---
 
-## A Webpack-aware, Ruby-based static site generator <br/>for the modern JAMstack era.
+## A Webpack-aware, Ruby-based static site generator <br/>for the modern Jamstack era.
 {:.mb-10.has-text-centered.title.is-4.has-text-primary}
 
-[Install {% current_bridgetown_version %}](/docs/){:.button.is-info.is-large.has-mixed-case}
-&nbsp;
-[Er, JAMwhat?](/docs/jamstack){:.button.is-warning.is-large.has-mixed-case}
-{:.has-text-centered.mb-10}
+<div class="buttons is-centered mb-10">
+  <a href="/docs/" class="button is-info is-large has-mixed-case">Install {% current_bridgetown_version %}</a>
+  <a href="/docs/jamstack/" class="button is-warning is-large has-mixed-case">Er, Jamwhat?</a>
+</div>
 
 Built upon proven open source technology, **Bridgetown** is a fast, scalable, modular, and thoroughly forward-looking toolkit for building websites and frontend applications.
 
