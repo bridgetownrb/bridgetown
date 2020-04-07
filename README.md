@@ -1,5 +1,7 @@
 # Bridgetown
 
+[![Join the chat at https://gitter.im/bridgetownrb/bridgetown](https://badges.gitter.im/bridgetownrb/bridgetown.svg)](https://gitter.im/bridgetownrb/bridgetown?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 THIS IS A PLACEHOLDER. Real code will ship by May 2020 (hopefully).
 
 ## License
