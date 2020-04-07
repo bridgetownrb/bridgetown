@@ -25,12 +25,23 @@ layout: default
         </div>
 
         {% if url_sections.size > 3 %}
-          <p class="has-text-right mt-1 mb-1"><a href="/docs/{{ page.category }}" class="button is-info is-small">
+          <p class="has-text-right mt-8 mb-1"><a href="/docs/{{ page.category }}" class="button is-info is-small">
             <span class="icon" aria-hidden="true">
               <i class="fa fa-chevron-up"></i>
             </span>
             <span>Back to {{ page.category | capitalize }}</span>
           </a></p>
+        {% else %}
+          {% assign next_order = page.order | plus: 1 %}
+          {% assign next_page = site.docs | where_exp: "item", "item.order == next_order" %}
+          {% if next_page.size > 0 %}
+            <p class="has-text-right mt-8 mb-1"><a href="{{ next_page[0].url }}" class="button is-info is-small">
+              <span>Next: {{ next_page[0].title }}</span>
+              <span class="icon" aria-hidden="true">
+                <i class="fa fa-chevron-right"></i>
+              </span>
+            </a></p>
+          {% endif %}
         {% endif %}
       </div>
     </div>

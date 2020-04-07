@@ -1,5 +1,5 @@
 ---
-order: 2
+order: 3
 title: Installation Guides
 description: Official guides to install Bridgetown on macOS, GNU/Linux or Windows.
 top_section: Setup

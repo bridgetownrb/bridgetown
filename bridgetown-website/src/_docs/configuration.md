@@ -1,5 +1,5 @@
 ---
-order: 4
+order: 5
 title: Customize Your Build
 top_section: Configuration
 category: configuration

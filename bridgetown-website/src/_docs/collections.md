@@ -1,6 +1,6 @@
 ---
 title: Collections
-order: 12
+order: 13
 top_section: Content
 category: collections
 ---

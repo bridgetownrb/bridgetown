@@ -1,6 +1,6 @@
 ---
 title: Folder Structure
-order: 6
+order: 7
 top_section: Structure
 category: structure
 ---

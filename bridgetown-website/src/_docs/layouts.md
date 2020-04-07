@@ -1,6 +1,6 @@
 ---
 title: Layouts
-order: 8
+order: 9
 top_category: Structure
 category: layouts
 ---

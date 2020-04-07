@@ -112,3 +112,13 @@ And we would still get the same output as above on the page:
 {: .note .info}
 In the above example, the tag block and the tag are both registered with
 the name <code>render_time</code>, but you'll want to avoid registering a tag and a tag block using the same name in the same project as this will lead to conflicts.
+
+<div class="note">
+  <h5>Top Tip: Access the site object using Liquid</h5>
+  <p>
+    Bridgetown lets you access the <code>site</code> object through the
+    <code>context.registers</code> feature of Liquid at <code>context.registers[:site]</code>. For example, you can
+    access the global configuration file <code>_config.yml</code> using
+    <code>context.registers[:site].config</code>.
+  </p>
+</div>

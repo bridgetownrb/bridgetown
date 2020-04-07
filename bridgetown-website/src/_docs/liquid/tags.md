@@ -1,5 +1,5 @@
 ---
-title: Liquid Filters
+title: Liquid Tags
 hide_in_toc: true
 order: 0
 category: liquid

@@ -1,6 +1,6 @@
 ---
 title: Front Matter
-order: 11
+order: 12
 top_section: Content
 category: front-matter
 ---

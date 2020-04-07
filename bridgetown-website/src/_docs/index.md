@@ -29,8 +29,9 @@ $ bridgetown new myblog
 ```
 $ cd myblog
 ```
-6. Install frontend dependencies.
+6. Install Bridgetown builder and frontend dependencies.
 ```
+$ bundle install
 $ yarn install
 ```
 7. Build the site and make it available on a local server.

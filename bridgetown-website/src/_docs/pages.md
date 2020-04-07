@@ -1,6 +1,6 @@
 ---
 title: Pages
-order: 9
+order: 10
 top_section: Content
 category: pages
 ---

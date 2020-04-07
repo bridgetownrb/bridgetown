@@ -1,5 +1,5 @@
 ---
-order: 3
+order: 4
 title: Command Line Usage
 top_section: Setup
 category: cmd_usage

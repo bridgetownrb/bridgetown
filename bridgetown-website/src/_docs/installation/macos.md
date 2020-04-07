@@ -79,6 +79,11 @@ ruby -v
 
 That's it! Head over [rbenv command references](https://github.com/rbenv/rbenv#command-reference) to learn how to use different versions of Ruby in your projects.
 
+## Install Node & Yarn
+
+{:.note.warning}
+Documentation coming soon…
+
 ## Install Bridgetown
 
 Now all that is left is installing Bundler and Bridgetown.
@@ -115,4 +120,4 @@ Every time you update Ruby to a version with a different first two digits, you w
 
 ## Problems?
 
-Check out the [troubleshooting]({{ '/docs/troubleshooting/' | relative_url }}) page or [ask for help on our forum](https://talk.bridgetownrb.com).
+Check out the [troubleshooting]({{ '/docs/troubleshooting/' | relative_url }}) page or [ask for help on our forum](https://community.bridgetownrb.com).

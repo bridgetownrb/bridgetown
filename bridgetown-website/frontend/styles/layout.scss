@@ -1,4 +1,31 @@
+.container {
+  @include mobile {
+    /* This fixes a horizontal overscroll bug in iOS Safari */
+    overflow: hidden;
+  }
+}
+
 .navbar {
+  .bridgetown-logo {
+    width: 76px;
+    margin-right: 10px;
+    opacity: 0.8;
+
+    svg {
+      -webkit-filter: drop-shadow( 2px 3px 3px rgba(0,0,0,0.3));
+      filter: drop-shadow( 2px 3px 3px rgba(0,0,0,0.3));
+    }
+
+    svg path {
+      fill: white;
+    }
+  }
+
+  .navbar-brand .navbar-item:hover {
+    background: $navbar-item-hover-background-color;
+    .bridgetown-logo { opacity: 1; }
+  }
+
   .navbar-item .title {
     color: white;
     text-shadow: 2px 3px 3px rgba(0,0,0,0.3);
@@ -9,12 +36,6 @@
     font-size: 0.875rem;
     font-weight: 700;
     text-transform: uppercase;
-
-    color: rgba($white, 0.7) !important;
-
-    &.is-active {
-      color: white !important;
-    }
   }
 
   @include desktop {
@@ -29,7 +50,10 @@
     }
   }
 
-  &:not([class*='is-']) .navbar-burger span {
+  .navbar-burger span {
+    background-color: $white-ter;
+  }
+  .navbar-burger:hover span {
     background-color: $white-ter;
   }
 
@@ -79,4 +103,32 @@ body > footer {
 .content .highlight {
   margin-top: 1em;
   margin-bottom: 1em;
+}
+
+.box div.bridgetown-logo {
+  max-width: 600px;
+  margin: 1rem auto;
+
+  svg {
+    -webkit-filter: drop-shadow( 2px 4px 4px transparentize($brown, 0.7));
+    filter: drop-shadow( 2px 4px 4px transparentize($brown, 0.7));
+  }
+
+  svg path {
+    fill: $primary;
+  }
+}
+
+.footer .bridgetown-logo {
+  width: 315px;
+  opacity: 0.8;
+
+  svg {
+    -webkit-filter: drop-shadow( 2px 3px 3px rgba(0,0,0,0.3));
+    filter: drop-shadow( 2px 3px 3px rgba(0,0,0,0.3));
+  }
+
+  svg path {
+    fill: white;
+  }
 }

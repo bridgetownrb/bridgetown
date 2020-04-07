@@ -1,6 +1,6 @@
 ---
 title: Posts
-order: 10
+order: 11
 top_section: Content
 category: posts
 ---
