@@ -1,4 +1,7 @@
-# [Bridgetown](https://jekyllrb.com/)
+# [Bridgetown](https://bridgetownrb.com/)
+
+[![Gem Version](https://img.shields.io/gem/v/bridgetown.svg)][ruby-gems]
+[![Join the chat at https://gitter.im/bridgetownrb/bridgetown](https://badges.gitter.im/bridgetownrb/bridgetown.svg)](https://gitter.im/bridgetownrb/bridgetown?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Bridgetown is a Webpack-aware, Ruby-based static site generator for the modern JAMstack era. It's perfect for personal, project, or organization sites. Think of it like a file-based CMS, without all the complexity. Bridgetown takes your content, renders Markdown and Liquid templates, and spits out a complete, static website ready to be served by JAMstack services like Netlify or traditional web servers like Nginx.
 
