@@ -103,7 +103,7 @@ To use one of the example plugins above as an illustration, here is how you’d
 specify these flags:
 
 ```ruby
-module Bridgetown
+module MySite
   class UpcaseConverter < Converter
     priority :low
     ...

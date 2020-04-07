@@ -6,14 +6,12 @@ category: plugins
 ---
 
 If you have a new markup language you’d like to use with your site, you can
-include it by implementing your own converter. Both the Markdown and
-[Textile](https://github.com/jekyll/jekyll-textile-converter) markup
-languages are implemented using this method.
+include it by implementing your own converter. The Markdown language support is implemented using this method.
 
 <div class="note info">
   <h5>Remember your Front Matter</h5>
   <p>
-    Jekyll will only convert files that have a YAML header at the top, even for
+    Bridgetown will only convert files that have a YAML header at the top, even for
     converters you add using a plugin.
   </p>
 </div>
@@ -22,9 +20,8 @@ Below is a converter that will take all posts ending in `.upcase` and process
 them using the `UpcaseConverter`:
 
 ```ruby
-module Jekyll
-  class UpcaseConverter < Converter
-    safe true
+module MySite
+  class UpcaseConverter < Bridgetown::Converter
     priority :low
 
     def matches(ext)
@@ -44,7 +41,6 @@ end
 
 Converters should implement at a minimum 3 methods:
 
-<div class="mobile-side-scroller">
 <table>
   <thead>
     <tr>
@@ -84,7 +80,6 @@ Converters should implement at a minimum 3 methods:
     </tr>
   </tbody>
 </table>
-</div>
 
 In our example, `UpcaseConverter#matches` checks if our filename extension is
 `.upcase`, and will render using the converter if it is. It will call

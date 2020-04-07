@@ -7,15 +7,17 @@ category: intro
 
 Bridgetown is a static site generator. You give it text written in your favorite markup language and it uses layouts to build a website and write it an output folder. You can tweak how you want the pages to look, what data gets displayed on the site, and more.
 
-## Prerequisites
+During the development process, you will likely be running Bridgetown from the command line on your local developer machine (or perhaps a remote staging server). Once content is ready to publish, you would commit your website codebase to a Git repository and use an automated build tool to generate and upload the final output to a server or CDN. ([Netlify](https://www.netlify.com) is a great service for this, but there are many others.) You can also just literally copy the generated files contained in the `output` folder to any HTTP web server and it should Just Work. 😊
 
-See [requirements]({{ '/docs/installation/#requirements' | relative_url }}).
+## Quick Instructions
 
-## Instructions
+Read [requirements]({{ '/docs/installation' | relative_url }}) for more information on what you'll need to have set up in advance.
 
-1. Install a full [Ruby development environment]({{ '/docs/installation/' | relative_url }}).
-2. Install Node and Yarn.
-3. Install Bridgetown and [bundler]({{ '/docs/ruby-101/#bundler' | relative_url }}) [gems]({{ '/docs/ruby-101/#gems' | relative_url }}).
+The basic installation process is as follows:
+
+1. Install a **Ruby** development environment which is supported by Bridgetown.
+2. Install **Node** and **Yarn** to handle frontend assets.
+3. Install **Bridgetown** and related gems.
 ```
 $ gem install bridgetown bundler
 ```
@@ -36,8 +38,7 @@ $ yarn install
 $ yarn build && bundle exec bridgetown serve
 ```
 8. Browse to [http://localhost:4000](http://localhost:4000){:target="_blank"}
+9. And you're done! (That's the goal at least…)
 
 If you encounter any errors during this process, see the
-[troubleshooting]({{ '/docs/troubleshooting/#configuration-problems' | relative_url }}) page. Also,
-make sure you've installed the development headers and other prerequisites as
-mentioned on the [requirements]({{ '/docs/installation/#requirements' | relative_url }}) page.
+[troubleshooting]({{ '/docs/troubleshooting/#configuration-problems' | relative_url }}) page. Also, make sure you've installed the development headers and other prerequisites as mentioned on the [requirements]({{ '/docs/installation/#requirements' | relative_url }}) page.

@@ -5,7 +5,7 @@ top_category: Structure
 category: includes
 ---
 
-The `include` tag allows you to include the content from another file stored in the `_includes` folder:
+The `include` Liquid tag allows you to include the content from another file stored in the `_includes` folder:
 
 {% raw %}
 ```liquid

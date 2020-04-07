@@ -5,23 +5,25 @@ order: 0
 category: plugins
 ---
 
-You can create a generator when you need Jekyll to create additional content
+{% include help_needed.md %}
+
+You can create a generator when you need Bridgetown to create additional content
 based on your own rules.
 
-A generator is a subclass of `Jekyll::Generator` that defines a `generate`
+A generator is a subclass of `Bridgetown::Generator` that defines a `generate`
 method, which receives an instance of
-[`Jekyll::Site`]({{ site.repository }}/blob/master/lib/jekyll/site.rb). The
+[`Bridgetown::Site`]({{ site.repository }}/blob/master/bridgetown-core/lib/bridgetown-core/site.rb). The
 return value of `generate` is ignored.
 
-Generators run after Jekyll has made an inventory of the existing content, and
+Generators run after Bridgetown has made an inventory of the existing content, and
 before the site is generated. Pages with front matter are stored as
 instances of
-[`Jekyll::Page`]({{ site.repository }}/blob/master/lib/jekyll/page.rb)
+[`Bridgetown::Page`]({{ site.repository }}/blob/master/bridgetown-core/lib/bridgetown-core/page.rb)
 and are available via `site.pages`. Static files become instances of
-[`Jekyll::StaticFile`]({{ site.repository }}/blob/master/lib/jekyll/static_file.rb)
+[`Bridgetown::StaticFile`]({{ site.repository }}/blob/master/bridgetown-core/lib/bridgetown-core/static_file.rb)
 and are available via `site.static_files`. See
 [the Variables documentation page](/docs/variables/) and
-[`Jekyll::Site`]({{ site.repository }}/blob/master/lib/jekyll/site.rb)
+[`Bridgetown::Site`]({{ site.repository }}/blob/master/bridgetown-core/lib/bridgetown-core/site.rb)
 for details.
 
 For instance, a generator can inject values computed at build time for template
@@ -30,7 +32,7 @@ variables `ongoing` and `done` that are filled in the generator:
 
 ```ruby
 module Reading
-  class Generator < Jekyll::Generator
+  class Generator < Bridgetown::Generator
     def generate(site)
       ongoing, done = Book.all.partition(&:ongoing?)
 
@@ -45,8 +47,8 @@ end
 The following example is a more complex generator that generates new pages. In this example, the generator will create a series of files under the `categories` directory for each category, listing the posts in each category using the `category_index.html` layout.
 
 ```ruby
-module Jekyll
-  class CategoryPageGenerator < Generator
+module MySite
+  class CategoryPageGenerator < Bridgetown::Generator
     safe true
 
     def generate(site)
@@ -60,7 +62,7 @@ module Jekyll
   end
 
   # A Page subclass used in the `CategoryPageGenerator`
-  class CategoryPage < Page
+  class CategoryPage < Bridgetown::Page
     def initialize(site, base, dir, category)
       @site = site
       @base = base
@@ -80,7 +82,6 @@ end
 
 Generators need to implement only one method:
 
-<div class="mobile-side-scroller">
 <table>
   <thead>
     <tr>
@@ -99,8 +100,7 @@ Generators need to implement only one method:
     </tr>
   </tbody>
 </table>
-</div>
 
 If your generator is contained within a single file, it can be named whatever you want but it should have an `.rb` extension. If your generator is split across multiple files, it should be packaged as a Rubygem to be published at https://rubygems.org/. In this case, the name of the gem depends on the availability of the name at that site because no two gems can have the same name.
 
-By default, Jekyll looks for generators in the `_plugins` directory. However, you can change the default directory by assigning the desired name to the key `plugins_dir` in the config file.
+By default, Bridgetown looks for generators in the `_plugins` directory. However, you can change the default directory by assigning the desired name to the key `plugins_dir` in the config file.

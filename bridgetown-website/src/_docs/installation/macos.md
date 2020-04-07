@@ -5,6 +5,8 @@ category: installation
 order: 0
 ---
 
+{% include help_needed.md %}
+
 ## Install Command Line Tools
 First, you need to install the command-line tools to be able to compile native extensions, open a terminal and run:
 

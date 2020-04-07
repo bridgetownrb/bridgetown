@@ -5,6 +5,8 @@ order: 0
 category: plugins
 ---
 
+{% include help_needed.md %}
+
 Bridgetown can be extended with plugins which provide
 subcommands for the `bridgetown` executable. This is possible by including the
 relevant plugins in a `Gemfile` group called `:bridgetown_plugins`:
@@ -53,10 +55,10 @@ Commands should implement this single class method:
       </td>
       <td><p>
         This method accepts one parameter, the
-        <code><a href="https://github.com/bridgetown/mercenary#readme">Mercenary::Program</a></code>
+        <code><a href="https://github.com/jekyll/mercenary#readme">Mercenary::Program</a></code>
         instance, which is the Bridgetown program itself. Upon the program,
         commands may be created using the above syntax. For more details,
-        visit the Mercenary repository on GitHub.com.
+        visit the <a href="https://github.com/jekyll/mercenary">Mercenary repository</a>.
       </p></td>
     </tr>
   </tbody>

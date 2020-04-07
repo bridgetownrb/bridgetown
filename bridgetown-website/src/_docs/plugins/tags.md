@@ -5,13 +5,15 @@ order: 0
 category: plugins
 ---
 
-If you’d like to include custom liquid tags in your site, you can do so by
-hooking into the tagging system. Built-in examples added by Jekyll include the
-`highlight` and `include` tags. Below is an example of a custom liquid tag that
+{% include help_needed.md %}
+
+If you’d like to include custom [Liquid](/docs/liquid/) tags in your site, you can do so by
+hooking into the tagging system with simple Ruby objects. Built-in examples added by Bridgetown include the
+`post_url` and `include` tags. Below is an example of a custom Liquid tag that
 will output the time the page was rendered:
 
 ```ruby
-module Jekyll
+module MySite
   class RenderTimeTag < Liquid::Tag
 
     def initialize(tag_name, text, tokens)
@@ -25,12 +27,11 @@ module Jekyll
   end
 end
 
-Liquid::Template.register_tag('render_time', Jekyll::RenderTimeTag)
+Liquid::Template.register_tag('render_time', MySite::RenderTimeTag)
 ```
 
-At a minimum, liquid tags must implement:
+At a minimum, Liquid tags must implement:
 
-<div class="mobile-side-scroller">
 <table>
   <thead>
     <tr>
@@ -49,13 +50,12 @@ At a minimum, liquid tags must implement:
     </tr>
   </tbody>
 </table>
-</div>
 
 You must also register the custom tag with the Liquid template engine as
 follows:
 
 ```ruby
-Liquid::Template.register_tag('render_time', Jekyll::RenderTimeTag)
+Liquid::Template.register_tag('render_time', MySite::RenderTimeTag)
 ```
 
 In the example above, we can place the following tag anywhere in one of our
@@ -79,7 +79,7 @@ The `render_time` tag seen above can also be rewritten as a tag block by
 inheriting the `Liquid::Block` class. Look at the example below:
 
 ```ruby
-module Jekyll
+module MySite
   class RenderTimeTagBlock < Liquid::Block
 
     def render(context)
@@ -90,7 +90,7 @@ module Jekyll
   end
 end
 
-Liquid::Template.register_tag('render_time', Jekyll::RenderTimeTagBlock)
+Liquid::Template.register_tag('render_time', MySite::RenderTimeTagBlock)
 ```
 
 We can now use the tag block anywhere:
@@ -111,6 +111,4 @@ And we would still get the same output as above on the page:
 
 {: .note .info}
 In the above example, the tag block and the tag are both registered with
-the name <code>render_time</code>, but to register a tag and a tag block using
-the same name in the same project is not recommended as this may lead to
-conflicts.
+the name <code>render_time</code>, but you'll want to avoid registering a tag and a tag block using the same name in the same project as this will lead to conflicts.

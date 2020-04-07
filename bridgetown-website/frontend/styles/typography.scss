@@ -56,10 +56,13 @@ table + .note {
 
 table.settings {
   tr > td:first-child { width: 65%; }
-  .option {
+  &.bigger-output {
+    tr > td:first-child { width: 40%; }
+  }
+  .option, .filter {
     color: darken($blue, 10%);
   }
-  .flag {
+  .flag, .output {
     color: darken($orange, 20%);
   }
   p.default {

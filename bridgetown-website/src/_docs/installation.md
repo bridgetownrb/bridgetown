@@ -1,12 +1,15 @@
 ---
 order: 2
-title: Installation
-description: Official guide to install Bridgetown on macOS, GNU/Linux or Windows.
+title: Installation Guides
+description: Official guides to install Bridgetown on macOS, GNU/Linux or Windows.
 top_section: Setup
 category: installation
 ---
 
 Bridgetown is software written in Ruby, a friendly programming language that maximizes programmer happiness and makes it easy to build and customize open source projects. You will need to install Bridgetown as a Gem after you set up your Ruby language environment. You will also need to install Node and Yarn to manage your website's frontend assets.
+
+{:.note}
+For a quick summary of how to install Bridgetown, read [Getting Started](/docs/). What follows are more in-depth guides to setting up your developer or server environments.
 
 ## Requirements
 

@@ -6,24 +6,24 @@ category: plugins
 ---
 
 Using hooks, your plugin can exercise fine-grained control over various aspects
-of the build process. If your plugin defines any hooks, Jekyll will call them
+of the build process. If your plugin defines any hooks, Bridgetown will call them
 at pre-defined points.
 
 Hooks are registered to a container and an event name. To register one, you
-call Jekyll::Hooks.register, and pass the container, event name, and code to
+call Bridgetown::Hooks.register, and pass the container, event name, and code to
 call whenever the hook is triggered. For example, if you want to execute some
-custom functionality every time Jekyll renders a post, you could register a
+custom functionality every time Bridgetown renders a post, you could register a
 hook like this:
 
 ```ruby
-Jekyll::Hooks.register :posts, :post_render do |post|
-  # code to call after Jekyll renders a post
+Bridgetown::Hooks.register :posts, :post_render do |post|
+  # code to call after Bridgetown renders a post
 end
 ```
 
-Jekyll provides hooks for <code>:site</code>, <code>:pages</code>,
+Bridgetown provides hooks for <code>:site</code>, <code>:pages</code>,
 <code>:posts</code>, <code>:documents</code> and <code>:clean</code>. In all
-cases, Jekyll calls your hooks with the container object as the first callback
+cases, Bridgetown calls your hooks with the container object as the first callback
 parameter. All `:pre_render` hooks and the`:site, :post_render` hook will also
 provide a payload hash as a second parameter. In the case of `:pre_render`, the
 payload gives you full control over the variables that are available while
@@ -32,7 +32,6 @@ values after rendering all the site (useful for sitemaps, feeds, etc).
 
 The complete list of available hooks is below:
 
-<div class="mobile-side-scroller">
 <table>
   <thead>
     <tr>
@@ -254,4 +253,3 @@ The complete list of available hooks is below:
     </tr>
   </tbody>
 </table>
-</div>
