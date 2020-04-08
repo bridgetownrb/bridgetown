@@ -10,7 +10,7 @@ category: community
 If you're looking for support for Bridgetown, there are plenty of options:
 
 * Read the [Bridgetown Documentation]({{ '/docs/' | relative_url }}).
-* Start a discussion on the [Bridgetown Community Forum](https://community.bridgerb.com/).
+* Start a discussion on the [Bridgetown Community Forum](https://community.bridgetownrb.com/).
 * Chat with Bridgetowners on our [Gitter channel](https://gitter.im/{{ site.github_handle }}).
 
 There are a bunch of helpful core team and community members available that should be able to point you in the right direction.

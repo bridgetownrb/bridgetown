@@ -14,13 +14,14 @@ It's early days yet, but our goal is to keep adding new features at a steady and
 
 ## Roadmap
 
-As of spring 2020, here is the vision for where Bridgetown is headed. And this is just a start! If you have [ideas and feature requests (and code!) to contribute](/docs/community/#ways-to-contribute), let's do it!
+As of spring 2020, here is the vision for where Bridgetown is headed. And this is just a start! If you have [ideas and feature requests (and code!) to contribute](/docs/community/#ways-to-contribute), let's do it! [You can also take a look at our Project Goals page.](/docs/philosophy/)
 
 {:.note}
 - _DONE!_ **Retool the codebase** into a monorepo of multiple gems (like Rails/Spree/etc.)
 - _DONE!_ **Improve default site file/folder structure** to bring Bridgetown in line with other popular static site generators.
 - _DONE!_ Remove the aging asset pipeline and **regroup around a modern solution: Webpack**. (Similar to how Rails adopted Webpack and distanced itself from Sprockets.)
   - Add additional commands to **further cement the Webpack build process** into the Bridgetown build process.
+- _IN PROGRESS…_ Ensure all **documentation, configuration, and deployment recommendations are fully up-to-date** and in line with best practices encouraged by the web development industry.
 - _IN PROGRESS…_ External theme support has been temporarily removed from the codebase, because we want to add the **ability for any Bridgetown plugin gem to provide content/design**. That will bring back “themes” but in a way that’s composable and more flexible.
 - _IN PROGRESS…_ **Components!** This would build upon the existing `include` tag functionality and add a ton of new features to make component-based design and authoring a reality, bringing Ruby/Liquid syntax closer to the world of React & Vue. Ready for "Bridgebook"?? 😁 (aka our take on Storybook.js)
 - Straightforward support for **third-party data APIs** (think GraphQL as a first-class citizen).

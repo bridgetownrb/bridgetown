@@ -20,23 +20,20 @@ Some popular services include:
 
 [Netlify](https://www.netlify.com) provides Global CDN, Continuous Deployment, one click HTTPS and [much more](https://www.netlify.com/features/), providing developers a robust toolset for modern web projects without added complexity.
 
+## Aerobatic
+
+[Aerobatic](https://www.aerobatic.com) has custom domains, global CDN distribution, basic auth, CORS proxying, and a growing list of plugins all included.
+
 ### GitHub Actions
 
 _description coming soon_
 
 ## Manual Deployment
 
-For a simple method of deployment, you can simply transfer the contents of your `output` folder to web server. You can use something like `scp` to copy the folder securely, or you can use a more advanced tool:
+For a simple method of deployment, you can simply transfer the contents of your `output` folder to any web server. You can use something like `scp` to securely copy the folder, or you can use a more advanced tool:
 
 ### rsync
 
 Rsync is similar to scp except it can be faster as it will only send changed
 parts of files as opposed to the entire file. You can learn more about using
 rsync in the [Digital Ocean tutorial](https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps).
-
-### Amazon S3
-
-If you want to host your site in Amazon S3, you can do so by
-using the [s3_website](https://github.com/laurilehmijoki/s3_website)
-application. It will push your site to Amazon S3 where it can be served like
-any web server, dynamically scaling to almost unlimited traffic.
