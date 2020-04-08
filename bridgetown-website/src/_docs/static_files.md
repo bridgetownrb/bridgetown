@@ -71,7 +71,7 @@ Although you can't directly add front matter values to static files, you can set
 
 Here's an example:
 
-In your `_config.yml` file, add the following values to the `defaults` property:
+In your `bridgetown.config.yml` file, add the following values to the `defaults` property:
 
 ```yaml
 defaults:

@@ -40,7 +40,7 @@ wee: {{ "mydynamicfile.js" | cache_busting_url }}
   <p>
     Bridgetown lets you access the <code>site</code> object through the
     <code>@context.registers</code> feature of Liquid at <code>@context.registers[:site]</code>. For example, you can
-    access the global configuration file <code>_config.yml</code> using
+    access the global configuration file <code>bridgetown.config.yml</code> using
     <code>@context.registers[:site].config</code>.
   </p>
 </div>

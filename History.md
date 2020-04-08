@@ -1,5 +1,12 @@
 ## HEAD
 
+## 0.5.0 / 2020-04-07
+
+  * Remove `em-websocket` dependency.
+  * Change _config.yml to bridgetown.config.yml (but _config.yml will still work for compatibility purposes).
+  * New Bridgetown logo and further Bridgetown URL updates.
+  * Many new and improved docs.
+
 ## 0.4.0 / 2020-04-05
 
   * Added a `component` Liquid tag which extends the functionality of include tags.

@@ -9,11 +9,11 @@ Using [front matter](/docs/front-matter/) is one way that you can specify config
 
 Often times, you will find that you are repeating a lot of configuration options. Setting the same layout in each file, adding the same category - or categories - to a post, etc. You can even add custom variables like author names, which might be the same for the majority of posts on your blog.
 
-Instead of repeating this configuration each time you create a new post or page, Bridgetown provides a way to set these defaults in the site configuration. To do this, you can specify site-wide defaults using the `defaults` key in the `_config.yml` file in your project's root directory.
+Instead of repeating this configuration each time you create a new post or page, Bridgetown provides a way to set these defaults in the site configuration. To do this, you can specify site-wide defaults using the `defaults` key in the `bridgetown.config.yml` file in your project's root directory.
 
 The `defaults` key holds an array of scope/values pairs that define what defaults should be set for a particular file path, and optionally, a file type in that path.
 
-Let's say that you want to add a default layout to all pages and posts in your site. You would add this to your `_config.yml` file:
+Let's say that you want to add a default layout to all pages and posts in your site. You would add this to your `bridgetown.config.yml` file:
 
 ```yaml
 defaults:
@@ -27,8 +27,8 @@ defaults:
 <div class="note info">
   <h5>Stop and rerun `bridgetown serve` command.</h5>
   <p>
-    The <code>_config.yml</code> master configuration file contains global configurations
-    and variable definitions that are read once at execution time. Changes made to <code>_config.yml</code>
+    The <code>bridgetown.config.yml</code> master configuration file contains global configurations
+    and variable definitions that are read once at execution time. Changes made to <code>bridgetown.config.yml</code>
     during automatic regeneration are not loaded until the next execution.
   </p>
   <p>
@@ -120,14 +120,14 @@ defaults:
 
 ### Precedence
 
-Bridgetown will apply all of the configuration settings you specify in the `defaults` section of your `_config.yml` file. You can choose to override settings from other scope/values pair by specifying a more specific path for the scope.
+Bridgetown will apply all of the configuration settings you specify in the `defaults` section of your `bridgetown.config.yml` file. You can choose to override settings from other scope/values pair by specifying a more specific path for the scope.
 
 You can see that in the second to last example above. First, we set the default page layout to `my-site`. Then, using a more specific path, we set the default layout for pages in the `projects/` path to `project`. This can be done with any value that you would set in the page or post front matter.
 
-Finally, if you set defaults in the site configuration by adding a `defaults` section to your `_config.yml` file, you can override those settings in a post or page file. All you need to do is specify the settings in the post or page front matter. For example:
+Finally, if you set defaults in the site configuration by adding a `defaults` section to your `bridgetown.config.yml` file, you can override those settings in a post or page file. All you need to do is specify the settings in the post or page front matter. For example:
 
 ```yaml
-# In _config.yml
+# In bridgetown.config.yml
 ...
 defaults:
   -

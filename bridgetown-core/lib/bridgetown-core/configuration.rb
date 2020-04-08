@@ -2,7 +2,7 @@
 
 module Bridgetown
   class Configuration < Hash
-    # Default options. Overridden by values in _config.yml.
+    # Default options. Overridden by values in bridgetown.config.yml.
     # Strings rather than symbols are used for compatibility with YAML.
     DEFAULTS = {
       # Where things are
@@ -18,7 +18,7 @@ module Bridgetown
       "collections"         => {},
 
       # Handling Reading
-      "include"             => [".htaccess"],
+      "include"             => [".htaccess", "_redirects", ".well-known"],
       "exclude"             => [],
       "keep_files"          => [".git", ".svn", "_bridgetown"],
       "encoding"            => "utf-8",
@@ -75,6 +75,12 @@ module Bridgetown
         "show_warnings" => false,
       },
     }.each_with_object(Configuration.new) { |(k, v), hsh| hsh[k] = v.freeze }.freeze
+
+    # The modern default config file name is bridgetown.config.EXT, but we also
+    # need to check for _config.EXT as a backward-compatibility nod to our
+    # progenitor
+    CONFIG_FILE_PREFIXES = %w(bridgetown.config _config).freeze
+    CONFIG_FILE_EXTS = %w(yml yaml toml).freeze
 
     class << self
       # Static: Produce a Configuration ready for use in a Site.
@@ -153,13 +159,23 @@ module Bridgetown
         :verbose => verbose?(override)
       )
 
-      # Get configuration from <root_dir>/_config.yml or <root_dir>/<config_file>
+      # Get configuration from <root_dir>/<matching_default_config>
+      # or <root_dir>/<config_file> if there's a command line override.
+      # By default only the first matching config file will be loaded, but
+      # multiple configs can be specified via command line.
       config_files = override["config"]
       if config_files.to_s.empty?
-        default = %w(yml yaml toml).find(-> { "yml" }) do |ext|
-          File.exist?(Bridgetown.sanitized_path(root_dir(override), "_config.#{ext}"))
+        file_lookups = CONFIG_FILE_PREFIXES.map do |prefix|
+          CONFIG_FILE_EXTS.map do |ext|
+            Bridgetown.sanitized_path(root_dir(override), "#{prefix}.#{ext}")
+          end
+        end.flatten.freeze
+
+        found_file = file_lookups.find do |path|
+          File.exist?(path)
         end
-        config_files = Bridgetown.sanitized_path(root_dir(override), "_config.#{default}")
+
+        config_files = found_file || file_lookups.first
         @default_config_file = true
       end
       Array(config_files)

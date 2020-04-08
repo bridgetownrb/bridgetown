@@ -5,10 +5,10 @@ order: 0
 category: configuration
 ---
 
-You can provide custom headers for your site by adding them to `_config.yml`
+You can provide custom headers for your site by adding them to `bridgetown.config.yml`
 
 ```yaml
-# File: _config.yml
+# File: bridgetown.config.yml
 webrick:
   headers:
     My-Header: My-Value

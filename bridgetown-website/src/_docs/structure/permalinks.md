@@ -27,9 +27,9 @@ permalink: /about/
 ## Global
 
 Setting a permalink in front matter for every page on your site is no fun.
-Luckily, Bridgetown lets you set the permalink structure globally in your `_config.yml`.
+Luckily, Bridgetown lets you set the permalink structure globally in your `bridgetown.config.yml`.
 
-To set a global permalink, you use the `permalink` variable in `_config.yml`.
+To set a global permalink, you use the `permalink` variable in `bridgetown.config.yml`.
 You can use placeholders to your desired output. For example:
 
 ```yaml
@@ -329,7 +329,7 @@ Rather than typing `permalink: /:categories/:year/:month/:day/:title/`, you can 
 ### Collections
 
 For collections (including `posts` and `drafts`), you have the option to override
-the global permalink in the collection configuration in `_config.yml`:
+the global permalink in the collection configuration in `bridgetown.config.yml`:
 
 ```yaml
 collections:
@@ -404,7 +404,7 @@ Collections have the following placeholders available:
 ### Pages
 
 For pages, you have to use front matter to override the global permalink,
-and if you set a permalink via front matter defaults in `_config.yml`,
+and if you set a permalink via front matter defaults in `bridgetown.config.yml`,
 it will be ignored.
 
 Pages have the following placeholders available:

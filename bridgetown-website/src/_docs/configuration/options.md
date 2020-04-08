@@ -188,7 +188,7 @@ class="flag">flags</code> (specified on the command-line) that control them.
     <tr class="setting">
       <td>
         <p class="name"><strong>Configuration</strong></p>
-        <p class="description">Specify config files instead of using <code>_config.yml</code> automatically. Settings in later files override settings in earlier files.</p>
+        <p class="description">Specify config files instead of using <code>bridgetown.config.yml</code> automatically. Settings in later files override settings in earlier files.</p>
       </td>
       <td class="has-text-centered">
         <p><code class="flag">--config FILE1[,FILE2,...]</code></p>
@@ -420,8 +420,7 @@ before your site is served.
 ### Additional Configuration File Settings
 
 Bridgetown runs with the following configuration options by default. Alternative
-settings for these options can be explicitly specified in the configuration
-file.
+settings for these options can be explicitly specified in the `bridgetown.config.yml` configuration file.
 
 ```yaml
 # Where things are
@@ -437,11 +436,16 @@ collections:
     output          : true
 
 # Handling Reading
-keep_files          : [".git", ".svn"]
+include             : [".htaccess", "_redirects", ".well-known"],
+keep_files          : [".git", ".svn", "_bridgetown"]
 encoding            : "utf-8"
 markdown_ext        : "markdown,mkdown,mkdn,mkd,md"
 strict_front_matter : false
+
+# Filtering Content
 limit_posts         : 0
+future              : false
+unpublished         : false
 
 # Conversion
 markdown            : kramdown
@@ -479,6 +483,7 @@ kramdown:
   smart_quotes      : lsquo,rsquo,ldquo,rdquo
   input             : GFM
   hard_wrap         : false
+  guess_lang        : true
   footnote_nr       : 1
   show_warnings     : false
 ```

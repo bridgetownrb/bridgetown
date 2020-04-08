@@ -32,7 +32,7 @@ The typical folder structure for a Bridgetown site usually looks something like 
 │   ├── some_page.md
 │   └── index.html # or index.md
 ├── output # this is the generated site published via bridgetown build/serve
-├── _config.yml # this is your Bridgetown configuration file
+├── bridgetown.config.yml # this is your Bridgetown configuration file
 ├── Gemfile
 ├── package.json
 └── webpack.config.js
@@ -135,7 +135,7 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
     <tr>
       <td>
-        <p><code>_config.yml</code></p>
+        <p><code>bridgetown.config.yml</code></p>
       </td>
       <td>
         <p>

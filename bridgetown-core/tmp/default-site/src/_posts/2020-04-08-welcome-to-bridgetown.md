@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Your First Post on Bridgetown"
-date:   2020-04-05 08:57:40 -0700
+date:   2020-04-08 00:10:08 -0700
 categories: updates
 ---
 
@@ -23,8 +23,4 @@ print_hi('Tom')
 #=> prints 'Hi, Tom' to STDOUT.
 ````
 
-Check out the [Bridgetown docs][bridgetown-docs] for more info on how to get the most out of Bridgetown. File all bugs/feature requests at [Bridgetown’s GitHub repo][bridgetown-gh]. If you have questions, you can ask them on [Bridgetown Talk][bridgetown-talk].
-
-[bridgetown-docs]: https://bridgetownrb.com/docs/
-[bridgetown-gh]:   https://github.com/bridgetownrb/bridgetown
-[bridgetown-talk]: https://talk.bridgerb.com/
+Check out the [Bridgetown docs](https://bridgetownrb.com/docs/) for more info on how to get the most out of Bridgetown. File all bugs/feature requests at [Bridgetown’s GitHub repo](https://github.com/bridgetownrb/bridgetown). If you have questions, you can ask them on [Bridgetown Community Forum](https://community.bridgetownrb.com).

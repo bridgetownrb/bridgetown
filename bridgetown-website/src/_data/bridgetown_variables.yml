@@ -6,7 +6,7 @@
 global:
   - name: site
     description: >-
-      Site wide information + configuration settings from <code>_config.yml</code>.
+      Site wide information + configuration settings from <code>bridgetown.config.yml</code>.
       See below for details.
   - name: page
     description: >-
@@ -72,7 +72,7 @@ site:
       The list of all Posts with tag <code>TAG</code>.
   - name: site.url
     description: >-
-      Contains the url of your site as it is configured in the <code>_config.yml</code>.
+      Contains the url of your site as it is configured in the <code>bridgetown.config.yml</code>.
       For example, if you have <code>url: http://mysite.com</code> in your configuration file,
       then it will be accessible in Liquid as <code>site.url</code>. For the <code>development</code>
       environment there is an
@@ -80,10 +80,10 @@ site:
       and SSL-related options. This defaults to <code>url: http://localhost:4000</code>.
   - name: "site.[CONFIGURATION_DATA]"
     description: >-
-      All the variables set via the command line and your <code>_config.yml</code> are available
+      All the variables set via the command line and your <code>bridgetown.config.yml</code> are available
       through the <code>site</code> variable. For example, if you have <code>foo: bar</code> in
       your configuration file, then it will be accessible in Liquid as <code>site.foo</code>.
-      Bridgetown does not parse changes to <code>_config.yml</code> in
+      Bridgetown does not parse changes to <code>bridgetown.config.yml</code> in
       <code>watch</code> mode, you must restart Bridgetown to see changes to variables.
 
 page:

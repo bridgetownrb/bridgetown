@@ -10,7 +10,7 @@ talks at a conference.
 
 ## Setup
 
-To use a Collection you first need to define it in your `_config.yml`. For
+To use a Collection you first need to define it in your `bridgetown.config.yml`. For
 example here's a collection of staff members:
 
 ```yaml
@@ -76,7 +76,7 @@ Jane has worked on Bridgetown for the past *five years*.
   <h5>Be sure to name your folders correctly</h5>
   <p>
 The folder must be named identically to the collection you defined in
-your <code>_config.yml</code> file, with the addition of the preceding <code>_</code> character.
+your <code>bridgetown.config.yml</code> file, with the addition of the preceding <code>_</code> character.
   </p>
 </div>
 
@@ -97,7 +97,7 @@ using the `content` variable:
 
 If you'd like Bridgetown to create a rendered page for each document in your
 collection, you can set the `output` key to `true` in your collection
-metadata in `_config.yml`:
+metadata in `bridgetown.config.yml`:
 
 ```yaml
 collections:
@@ -151,7 +151,7 @@ those documents are sorted by their dates or paths and then placed immediately a
 ### Collections
 
 Collections are also available under `site.collections`, with the metadata
-you specified in your `_config.yml` (if present) and the following information:
+you specified in your `bridgetown.config.yml` (if present) and the following information:
 
 <table>
   <thead>

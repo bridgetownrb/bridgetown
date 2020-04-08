@@ -6,7 +6,7 @@ category: plugins
 ---
 
 Bridgetown includes a Caching API which is used both internally as well as exposed for plugins. It can be used to cache the output of deterministic functions to speed up site generation. This cache will be persistent across builds, but
-cleared when Bridgetown detects any changes to `_config.yml`.
+cleared when Bridgetown detects any changes to `bridgetown.config.yml`.
 
 ## Usage
 
