@@ -9,7 +9,7 @@ category: community
 
 If you're looking for support for Bridgetown, there are plenty of options:
 
-* Read the [Bridgetown Documentation]({{ '/docs/' | relative_url }})
+* Read the [Bridgetown Documentation]({{ '/docs/' | relative_url }}).
 * Start a discussion on the [Bridgetown Community Forum](https://community.bridgerb.com/).
 * Chat with Bridgetowners on our [Gitter channel](https://gitter.im/{{ site.github_handle }}).
 
@@ -25,7 +25,7 @@ Whether you're a developer, designer, or overall Bridgetown enthusiast, there ar
 
 * Comment on some of the project's [open issues](https://github.com/{{ site.github_handle }}/issues). Have you experienced the same problem? Know a work around? Do you have a suggestion for how the feature could be better?
 * Read through the [documentation](/docs/) and file a pull request (PR) by forking the [Bridgetown repo on GitHub](https://github.com/{{ site.github_handle }}) and adding your changes or suggestions for something that could be improved.
-* Browse through the [Bridgetown community forum](https://community.bridgetownrb.com/), and lend a hand answering questions. There's a good chance you've already experienced what another user is experiencing.
+* Browse through the [Bridgetown community forum](https://community.bridgetownrb.com/) and lend a hand answering questions or proposing awesome new features. There's a good chance other folks are in the same boat as you.
 * Find an [open issue](https://github.com/{{ site.github_handle }}/issues) (especially [those labeled `help-wanted`](https://github.com/{{ site.github_handle }}/issues?q=is%3Aopen+is%3Aissue+label%3Ahelp-wanted)), and submit a proposed fix. If it's your first pull request, we promise we won't bite, and are glad to answer any questions.
 * Help evaluate [open pull requests](https://github.com/{{ site.github_handle }}/pulls), by testing the changes locally and reviewing what's proposed.
 
