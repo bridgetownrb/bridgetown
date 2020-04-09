@@ -19,6 +19,7 @@ As of spring 2020, here is the vision for where Bridgetown is headed. And this i
 {:.note}
 - _DONE!_ **Retool the codebase** into a monorepo of multiple gems (like Rails/Spree/etc.)
 - _DONE!_ **Improve default site file/folder structure** to bring Bridgetown in line with other popular static site generators.
+- _DONE!_ Add a **console command** to interactively interact with site data and plugins (like the Rails console).
 - _DONE!_ Remove the aging asset pipeline and **regroup around a modern solution: Webpack**. (Similar to how Rails adopted Webpack and distanced itself from Sprockets.)
   - Add additional commands to **further cement the Webpack build process** into the Bridgetown build process.
 - _IN PROGRESS…_ Ensure all **documentation, configuration, and deployment recommendations are fully up-to-date** and in line with best practices encouraged by the web development industry.
@@ -27,7 +28,6 @@ As of spring 2020, here is the vision for where Bridgetown is headed. And this i
 - Straightforward support for **third-party data APIs** (think GraphQL as a first-class citizen).
 - Easy **multilingual setup** right out of the box.
 - Add a streamlined **pagination and archive page (for category and tags) solution** to Bridgetown Core.
-- Add a **console command** to interactively interact with site data and plugins (like the Rails console).
 - Move most site-level data vars to a **reloadable file** (like _data/site_settings.yml) and allow for env-specific settings.
 - **Simple webhooks** — allow remote webhooks to be pinged after a successful build.
   - **“Private” pages** — aka put a website section behind a randomized URL that changes frequently and then allow that to be pinged to a web hook somewhere.

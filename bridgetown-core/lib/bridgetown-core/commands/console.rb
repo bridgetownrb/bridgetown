@@ -22,13 +22,14 @@ module Bridgetown
         end
 
         # TODO: is there a way to add a unit test for this command?
-        # rubocop:disable Style/GlobalVars, Metrics/AbcSize
+        # rubocop:disable Style/GlobalVars, Metrics/AbcSize, Metrics/MethodLength
         def process(options)
           Bridgetown.logger.info "Starting Bridgetown #{Bridgetown::VERSION} console…"
           site = Bridgetown::Site.new(configuration_from_options(options))
           Bridgetown.logger.info "Loading site…"
           site.reset
           site.read
+          site.generate
 
           $BRIDGETOWN_SITE = site
           IRB.setup(nil)
@@ -48,7 +49,7 @@ module Bridgetown
             end
           end
         end
-        # rubocop:enable Style/GlobalVars, Metrics/AbcSize
+        # rubocop:enable Style/GlobalVars, Metrics/AbcSize, Metrics/MethodLength
       end
     end
   end
