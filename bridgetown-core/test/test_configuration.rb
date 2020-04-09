@@ -194,10 +194,18 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "return legacy _config.yml if bridgetown.config.EXT isn't present" do
-      allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.yml")).and_return(false)
-      allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.yaml")).and_return(false)
-      allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.toml")).and_return(false)
-      allow(File).to receive(:exist?).with(site_root_dir("_config.yml")).and_return(true)
+      allow(File).to receive(:exist?).with(
+        site_root_dir("bridgetown.config.yml")
+      ).and_return(false)
+      allow(File).to receive(:exist?).with(
+        site_root_dir("bridgetown.config.yaml")
+      ).and_return(false)
+      allow(File).to receive(:exist?).with(
+        site_root_dir("bridgetown.config.toml")
+      ).and_return(false)
+      allow(File).to receive(:exist?).with(
+        site_root_dir("_config.yml")
+      ).and_return(true)
       assert_equal [site_root_dir("_config.yml")], @config.config_files(@no_override)
     end
 

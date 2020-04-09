@@ -1,5 +1,9 @@
 ## HEAD
 
+## 0.6.0 / 2020-04-09
+
+  * Add `bridgetown console` command to invoke IRB with the current site (similar to the Rails console command). Plugins, gems, will be loaded, etc.
+
 ## 0.5.0 / 2020-04-07
 
   * Remove `em-websocket` dependency.
