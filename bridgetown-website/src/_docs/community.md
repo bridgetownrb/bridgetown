@@ -26,8 +26,7 @@ Whether you're a developer, designer, or overall Bridgetown enthusiast, there ar
 * Comment on some of the project's [open issues](https://github.com/{{ site.github_handle }}/issues). Have you experienced the same problem? Know a work around? Do you have a suggestion for how the feature could be better?
 * Read through the [documentation](/docs/) and file a pull request (PR) by forking the [Bridgetown repo on GitHub](https://github.com/{{ site.github_handle }}) and adding your changes or suggestions for something that could be improved.
 * Browse through the [Bridgetown community forum](https://community.bridgetownrb.com/) and lend a hand answering questions or proposing awesome new features. There's a good chance other folks are in the same boat as you.
-* Find an [open issue](https://github.com/{{ site.github_handle }}/issues) (especially [those labeled `help-wanted`](https://github.com/{{ site.github_handle }}/issues?q=is%3Aopen+is%3Aissue+label%3Ahelp-wanted)), and submit a proposed fix. If it's your first pull request, we promise we won't bite, and are glad to answer any questions.
-* Help evaluate [open pull requests](https://github.com/{{ site.github_handle }}/pulls), by testing the changes locally and reviewing what's proposed.
+* Help evaluate [open pull requests](https://github.com/{{ site.github_handle }}/pulls) by testing the changes locally and reviewing what's proposed. Or if you have a PR you'd like to submit for a new feature or a bugfix, we'd be thrilled to evaluate it and guide it through the release cycle if it adheres to our [roadmap](/about/#roadmap) and [project goals](/docs/philosophy/).
 
 {:.note.warning}
 **Reminder:** Bridgetown's issue tracker is not a support forum.
