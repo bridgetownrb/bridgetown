@@ -26,7 +26,7 @@ module Bridgetown
           # Adjust verbosity quickly
           Bridgetown.logger.adjust_verbosity(options)
 
-          Bridgetown.logger.info "#", "Your Bridgetown site build is about to begin…"
+          Bridgetown.logger.info "#", "Your Bridgetown #{Bridgetown::VERSION} build is about to begin…"
 
           options = configuration_from_options(options)
           site = Bridgetown::Site.new(options)
@@ -65,7 +65,7 @@ module Bridgetown
                                  (incremental ? "enabled" : "disabled. Enable with --incremental")
           Bridgetown.logger.info "Generating…"
           process_site(site)
-          Bridgetown.logger.info "", "Done! 🎉 Completed in #{(Time.now - t).round(3)} seconds."
+          Bridgetown.logger.info "Done! 🎉", "Completed in #{(Time.now - t).round(3)} seconds."
         end
 
         # Private: Watch for file changes and rebuild the site.

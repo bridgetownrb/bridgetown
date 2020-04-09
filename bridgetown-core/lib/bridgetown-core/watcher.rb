@@ -128,7 +128,7 @@ module Bridgetown
     def process(site, time)
       begin
         site.process
-        Bridgetown.logger.info "", "Done! 🎉 Completed in #{(Time.now - time).round(3)} seconds."
+        Bridgetown.logger.info "Done! 🎉", "Completed in #{(Time.now - time).round(3)} seconds."
       rescue StandardError => e
         Bridgetown.logger.warn "Error:", e.message
         Bridgetown.logger.warn "Error:", "Run bridgetown build --trace for more information."
