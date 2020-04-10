@@ -2,7 +2,8 @@
   Thanks for creating a Pull Request! Before you submit, please make sure
   you've done the following:
 
-  - I read the contributing document at https://jekyllrb.com/docs/contributing/
+  - I read the Project Goals and Future Roadmap pages at: https://bridgetownrb.com/docs/philosophy/
+  - I read the Code of Conduct: https://github.com/bridgetownrb/bridgetown/blob/master/CODE_OF_CONDUCT.md
 -->
 
 <!--

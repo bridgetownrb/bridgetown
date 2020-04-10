@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-about: Want us to add any features to Jekyll?
+about: Want us to add any features to Bridgetown?
 title: 'feat: '
 labels: feature
 assignees: ''
@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 <!--
-  Hi! Thanks for considering to file a feature request with Jekyll. Please take the time to
+  Hi! Thanks for considering to file a feature request with Bridgetown. Please take the time to
   answer the basic questions. Please try to be as detailed as possible.
 
   Thanks!
@@ -23,12 +23,9 @@ assignees: ''
 ## Motivation
 
 <!--
-  Why do you want to see this feature in Jekyll? What makes you sure that it should not be
-  implemented at the plugin level, but in Jekyll core? What use cases does it support?
+  Why do you want to see this feature in Bridgetown? What use cases does it support?
 
-  NOTE: Please be mindful of the Jekyll philosophy (https://jekyllrb.com/philosophy/),
-  particularily Section 5. Think about if 90% of the users would benefit from your
-  feature request, and whether your feature would be better off in a plugin.
+  NOTE: Please be mindful of the Bridgetown project goals (https://bridgetownrb.com/docs/philosophy/).
 -->
 
 ## Guide-level explanation

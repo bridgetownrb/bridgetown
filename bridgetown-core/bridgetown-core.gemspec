@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.name          = "bridgetown-core"
   s.version       = Bridgetown::VERSION
   s.license       = "MIT"
-  s.authors       = ["Tom Preston-Werner", "Parker Moore", "Matt Rogers", "Jared White"]
-  s.email         = ["maintainers@bridgetownrb.com"]
+  s.author        = "Bridgetown Team"
+  s.email         = "maintainers@bridgetownrb.com"
   s.homepage      = "https://bridgetownrb.com"
   s.summary       = "A Webpack-aware, Ruby-based static site generator for the modern JAMstack era"
   s.description   = "Bridgetown is a Webpack-aware, Ruby-based static site generator for the modern JAMstack era"
