@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.author        = "Bridgetown Team"
   s.email         = "maintainers@bridgetownrb.com"
   s.homepage      = "https://bridgetownrb.com"
-  s.summary       = "A Webpack-aware, Ruby-based static site generator for the modern JAMstack era"
-  s.description   = "Bridgetown is a Webpack-aware, Ruby-based static site generator for the modern JAMstack era"
+  s.summary       = "A Webpack-aware, Ruby-based static site generator for the modern Jamstack era"
+  s.description   = "Bridgetown is a Webpack-aware, Ruby-based static site generator for the modern Jamstack era"
 
   s.files        = `git ls-files -z`.split("\0")
   s.test_files   = `git ls-files -z -- {fixtures,features}/*`.split("\0")

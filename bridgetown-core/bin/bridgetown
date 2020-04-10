@@ -14,7 +14,7 @@ Bridgetown::Deprecator.process(ARGV)
 
 Mercenary.program(:bridgetown) do |p|
   p.version Bridgetown::VERSION
-  p.description "Bridgetown is a Webpack-aware, Ruby-based static site generator for the modern JAMstack era"
+  p.description "Bridgetown is a Webpack-aware, Ruby-based static site generator for the modern Jamstack era"
   p.syntax "bridgetown <subcommand> [options]"
 
   # TODO: it seems wonky to include build options in this top-level
