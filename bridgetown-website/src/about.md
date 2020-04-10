@@ -34,8 +34,8 @@ As of spring 2020, here is the vision for where Bridgetown is headed. And this i
 - **Auto-reload plugins** during development. (No more stop-and-restart every 5 seconds!)
 - Continued improvement of the incremental site generator for **lightning-fast page previews**.
 - Official **site testing framework** to verify content and functionality after new builds.
-- _LONGSHOT…_ **Rails engine** for Bridgetown — load and manipulate site content and trigger builds from within any Rails-based application.
-- _LONGSHOT…_ Investigate a path towards **headless Wordpress CMS + Bridgetown integration** as an official plugin.
+- _LONGSHOT…_ **Rails engine** for Bridgetown — it's a missed opportunity that Rails doesn't have a good Jamstack story. This would explore the ability to load and manipulate site content and trigger new builds from within any Rails-based application.
+- _LONGSHOT…_ Investigate potentially huge wins regarding **headless CMS + Bridgetown integrations** as officially recommended plugins.
 - _LONGSHOT…_ Use the new Liquid Components support to enable a **drag-and-drop visual page builder** plugin.
 
 And as an open source project in general, we want to be good stewards of the codebase and community, which starts with striving for a predictable release schedule. Our goal is that there would be a:

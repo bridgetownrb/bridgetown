@@ -58,26 +58,18 @@ module Bridgetown
             # When you want to use a different version, change it below, save the
             # file and run `bundle install`. Run Bridgetown with `bundle exec`, like so:
             #
-            #     bundle exec bridgetown serve
+            #   bundle exec bridgetown serve
             #
             # This will help ensure the proper Bridgetown version is running.
+            #
+            # To install a plugin, simply run bundle add and specify the group
+            # "bridgetown_plugins". For example:
+            #
+            #   bundle add some-new-plugin -g bridgetown_plugins
+            #
             # Happy Bridgetowning!
+
             gem "bridgetown", "~> #{Bridgetown::VERSION}"
-
-            # If you have any plugins, put them here!
-            group :bridgetown_plugins do
-            # gem "bridgetown-feed", "~> 0.12"
-            end
-
-            # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
-            # and associated library.
-            install_if -> { RUBY_PLATFORM =~ %r!mingw|mswin|java! } do
-              gem "tzinfo", "~> 1.2"
-              gem "tzinfo-data"
-            end
-
-            # Performance-booster for watching directories on Windows
-            gem "wdm", "~> 0.1.1", :install_if => Gem.win_platform?
 
           RUBY
         end
