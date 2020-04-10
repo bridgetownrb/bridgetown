@@ -6,8 +6,10 @@
 #
 #############################################################################
 
+# TODO: maybe this should get reworked to use Bundler's builtin Gem tasks?
+
 desc "Release #{name} v#{version}"
-task :release => :build do
+task :bt_release => :bt_build do
   current_branch = `git branch`.to_s.strip.match(%r!^\* (.+)$!)[1]
   unless current_branch == "master" || current_branch.end_with?("-stable")
     puts "You must be on the master branch to release!"
@@ -18,12 +20,10 @@ task :release => :build do
   sh "git push origin #{current_branch}"
   sh "git push origin v#{version}"
   sh "gem push pkg/#{name}-#{version}.gem"
-  puts "Do not forget to build and release the docs gem as well."
-  puts "https://github.com/bridgetownrb/bridgetown-docs#releasing"
 end
 
 desc "Build #{name} v#{version} into pkg/"
-task :build do
+task :bt_build do
   mkdir_p "pkg"
   sh "gem build #{gemspec_file}"
   sh "mv #{gem_file} pkg"

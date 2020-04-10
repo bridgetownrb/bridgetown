@@ -39,6 +39,20 @@ $ script/bootstrap # install development gems
 $ script/cibuild # run the full test suite
 ```
 
+After making changes to the codebase, if you want to run a single unit test, you can use the command:
+
+```shell
+$ script/test test/blah_test.rb
+```
+
+If you are only updating a Cucumber .feature file, you can use the command:
+
+```shell
+$ script/cucumber features/blah.feature
+```
+
+Both `script/test` and `script/cucumber` can be run without arguments to run its entire respective suite.
+
 To switch one of your website repos to using the local gem, alter the site's Gemfile as follows:
 
 ```ruby
