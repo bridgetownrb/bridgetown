@@ -4,15 +4,16 @@
       <div class="column is-5">
         <div class="bridgetown-logo">{% insert_svg Bridgetown-Logo.svg %}</div>
 
-        <h4 class="">
+        <h4>
           <strong>Bridgetown</strong> is a Ruby-powered static site generator.
         </h4>
 
         <div>
-          <a href="https://twitter.com/{{ site.metadata.twitter }}">@{{ site.metadata.twitter }}</a>
+          Follow Us: <strong><a href="https://twitter.com/{{ site.metadata.twitter }}">@{{ site.metadata.twitter }}</strong></a><br/>
+          Current Version: <strong>{% current_bridgetown_version %}</strong>          
         </div>
 
-        <div class="mt-6">
+        <div class="mt-6 is-size-7">
           Source code licensed <a href="https://opensource.org/licenses/mit-license.php" target="_blank">MIT</a>
           <br>
           Website content licensed <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>
@@ -49,13 +50,17 @@
             <span class="has-text-weight-bold">Tweet</span>
           </a>
         </div>
+
+        <div class="mt-6 is-size-7">
+          Use hashtag <strong>#SpinUpBridgetown</strong> <br/>and spread the word! 😃
+        </div>
       </div>
     </div>
 
     <p class="mt-12 has-text-centered">
-      <span style="opacity:.75">we</span> 
+      <strong style="opacity:.7">we</strong> 
       <img src="/images/ruby.svg" alt="Ruby" style="height: 1.5rem;vertical-align:middle;margin: 0 0.5rem" /> 
-      <span style="opacity:.75">ruby</span>
+      <strong style="opacity:.7">ruby</strong>
     </p>
   </div>
 </footer>
