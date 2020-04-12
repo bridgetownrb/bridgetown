@@ -24,4 +24,4 @@ bbin/
 */coverage
 */pkg/
 */test/dest
-tmp/*
+*/tmp/*

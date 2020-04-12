@@ -22,7 +22,7 @@ Feature: Incremental rebuild
   Scenario: Generate a metadata file
     Given I have an "index.html" file that contains "Basic Site"
     When I run bridgetown build -I
-    Then the "src/.bridgetown-metadata" file should exist
+    Then the ".bridgetown-metadata" file should exist
 
   Scenario: Rebuild when content is changed
     Given I have an "index.html" file that contains "Basic Site"

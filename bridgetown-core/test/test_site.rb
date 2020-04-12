@@ -20,9 +20,9 @@ class TestSite < BridgetownUnitTest
   end
 
   context "configuring sites" do
-    should "look for plugins under the site directory by default" do
+    should "look for plugins under the root directory by default" do
       site = Site.new(site_configuration)
-      assert_equal [source_dir("_plugins")], site.plugins
+      assert_equal [site_root_dir("plugins")], site.plugins
     end
 
     should "have an array for plugins if passed as a string" do
@@ -46,7 +46,7 @@ class TestSite < BridgetownUnitTest
 
     should "have the default for plugins if nil is passed" do
       site = Site.new(site_configuration("plugins_dir" => nil))
-      assert_equal [source_dir("_plugins")], site.plugins
+      assert_equal [site_root_dir("plugins")], site.plugins
     end
 
     should "default baseurl to `nil`" do
@@ -61,14 +61,18 @@ class TestSite < BridgetownUnitTest
 
     should "configure cache_dir" do
       fixture_site.process
-      assert File.directory?(source_dir(".bridgetown-cache", "Bridgetown", "Cache"))
-      assert File.directory?(source_dir(".bridgetown-cache", "Bridgetown", "Cache",
-                                        "Bridgetown--Cache"))
+      assert File.directory?(
+        site_root_dir(".bridgetown-cache", "Bridgetown", "Cache")
+      )
+      assert File.directory?(
+        site_root_dir(".bridgetown-cache", "Bridgetown", "Cache",
+                      "Bridgetown--Cache")
+      )
     end
 
-    should "use .bridgetown-cache directory at source as cache_dir by default" do
+    should "use .bridgetown-cache directory at root as cache_dir by default" do
       site = Site.new(default_configuration)
-      assert_equal File.join(site.source, ".bridgetown-cache"), site.cache_dir
+      assert_equal File.join(site.root_dir, ".bridgetown-cache"), site.cache_dir
     end
   end
 
@@ -633,9 +637,9 @@ class TestSite < BridgetownUnitTest
       end
 
       should "create sanitized paths within the cache directory" do
-        assert_equal File.join(@site.source, "custom-cache-dir"), @site.cache_dir
+        assert_equal File.join(@site.root_dir, "custom-cache-dir"), @site.cache_dir
         assert_equal(
-          File.join(@site.source, "custom-cache-dir", "foo.md.metadata"),
+          File.join(@site.root_dir, "custom-cache-dir", "foo.md.metadata"),
           @site.in_cache_dir("../../foo.md.metadata")
         )
       end

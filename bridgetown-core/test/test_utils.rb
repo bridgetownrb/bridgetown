@@ -349,7 +349,7 @@ class TestUtils < BridgetownUnitTest
   context "The \`Utils.safe_glob\` method" do
     should "not apply pattern to the dir" do
       dir = "test/safe_glob_test["
-      assert_equal [], Dir.glob(dir + "/*") unless jruby?
+      assert_equal [], Dir.glob(dir + "/*")
       assert_equal ["test/safe_glob_test[/find_me.txt"], Utils.safe_glob(dir, "*")
     end
 

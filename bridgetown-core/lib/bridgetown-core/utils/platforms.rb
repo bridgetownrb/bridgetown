@@ -5,10 +5,8 @@ module Bridgetown
     module Platforms
       extend self
 
-      # Provides jruby? and mri? which respectively detect these two types of
-      # tested Engines we support, in the future we might probably support the
-      # other one that everyone used to talk about.
-
+      # TODO: jruby is NOT supported by Bridgetown. This should probably
+      # get removed.
       { :jruby? => "jruby", :mri? => "ruby" }.each do |k, v|
         define_method k do
           ::RUBY_ENGINE == v

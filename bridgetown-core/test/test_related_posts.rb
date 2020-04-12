@@ -22,12 +22,6 @@ class TestRelatedPosts < BridgetownUnitTest
 
   context "building related posts with LSI" do
     setup do
-      if jruby?
-        skip(
-          "JRuby does not perform well with CExt, test disabled."
-        )
-      end
-
       allow_any_instance_of(Bridgetown::RelatedPosts).to receive(:display)
       @site = fixture_site(
         "lsi" => true

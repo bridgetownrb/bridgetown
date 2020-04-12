@@ -6,6 +6,7 @@ require "colorator"
 class TestConfiguration < BridgetownUnitTest
   test_config = {
     "root_dir"    => site_root_dir,
+    "plugins_dir" => site_root_dir("plugins"),
     "source"      => source_dir,
     "destination" => dest_dir,
   }
@@ -271,11 +272,6 @@ class TestConfiguration < BridgetownUnitTest
 
     should "raise an error if `include` key is a string" do
       config = Configuration[{ "include" => "STOP_THE_PRESSES.txt,.heloses, .git" }]
-      assert_raises(Bridgetown::Errors::InvalidConfigurationError) { config.validate }
-    end
-
-    should "raise an error if `plugins` key is a string" do
-      config = Configuration[{ "plugins" => "_plugin" }]
       assert_raises(Bridgetown::Errors::InvalidConfigurationError) { config.validate }
     end
 
@@ -554,7 +550,8 @@ class TestConfiguration < BridgetownUnitTest
     should "ignore newlines in that string entirely from the template file" do
       config = Bridgetown.configuration(
         @tester.read_config_file(
-          File.expand_path("../lib/site_template/bridgetown.config.yml", File.dirname(__FILE__))
+          File.expand_path("../lib/site_template/src/_data/site_metadata.yml",
+                           File.dirname(__FILE__))
         )
       )
       assert_includes config["description"], "an awesome description"

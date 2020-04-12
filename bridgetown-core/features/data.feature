@@ -117,8 +117,8 @@ Feature: Data
     Then the "output/index.html" file should exist
     And I should see "Dairy Products" in "output/index.html"
 
-  Scenario: should be backward compatible with site.data in _config.yml
-    Given I have a "_config.yml" file with content:
+  Scenario: should be backward compatible with site.data in bridgetown.config.yml
+    Given I have a "bridgetown.config.yml" file with content:
       """
       data:
         - name: Jack

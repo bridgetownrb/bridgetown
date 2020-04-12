@@ -127,7 +127,7 @@ module Bridgetown
     #
     # Returns the String path of the file.
     def metadata_file
-      @metadata_file ||= site.in_source_dir(".bridgetown-metadata")
+      @metadata_file ||= site.in_root_dir(".bridgetown-metadata")
     end
 
     # Check if metadata has been disabled

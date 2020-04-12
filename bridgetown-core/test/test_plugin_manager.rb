@@ -58,20 +58,6 @@ class TestPluginManager < BridgetownUnitTest
     end
   end
 
-  context "require gems" do
-    should "invoke `require_with_graceful_fail`" do
-      gems = %w(jemojii foobar)
-
-      expect(Bridgetown::External).to(
-        receive(:require_with_graceful_fail).with(gems).and_return(nil)
-      )
-      site = double(:gems => gems)
-      plugin_manager = PluginManager.new(site)
-
-      plugin_manager.require_gems
-    end
-  end
-
   context "site containing plugins" do
     should "require plugin files" do
       site = double(:config        => { "plugins_dir" => "_plugins" },
@@ -93,7 +79,7 @@ class TestPluginManager < BridgetownUnitTest
       )
       plugin_manager = PluginManager.new(site)
 
-      expect(site).to receive(:in_source_dir).with("_plugins")
+      expect(site).to receive(:in_root_dir).with("plugins")
       plugin_manager.plugins_path
     end
   end

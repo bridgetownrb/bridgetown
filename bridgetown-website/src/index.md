@@ -2,7 +2,7 @@
 layout: home
 ---
 
-## A Webpack-aware, Ruby-based static site generator <br/>for the modern Jamstack era.
+## A Webpack-aware, Ruby-powered static site generator <br/>for the modern Jamstack era.
 {:.mb-10.has-text-centered.title.is-4.has-text-primary}
 
 <div class="buttons is-centered mb-10">
@@ -10,7 +10,7 @@ layout: home
   <a href="/docs/jamstack/" class="button is-warning is-large has-mixed-case">Er, Jamwhat?</a>
 </div>
 
-Built upon proven open source technology, **Bridgetown** is a _fast_, _scalable_, _modular_, and _thoroughly forward-looking_ toolkit for building websites and frontend applications.
+Built upon proven open source technology, **Bridgetown** is a _fast_, _scalable_, _modular_, and _thoroughly forward-looking_ framework for building websites and frontend applications.
 
 * **Write Content.**{:.is-size-5.has-text-brown} &nbsp;Content in Bridgetown is simply text files in your repository. Write flexible **Markdown** and use sophisticated **Liquid** tags to enhance your presentation and functionality. Using a headless CMS or third-party APIs? That works too!
 

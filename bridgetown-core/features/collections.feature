@@ -20,7 +20,7 @@ Feature: Collections
     And I have an "collection_metadata.html" page that contains "Methods metadata: {{ site.collections[0].foo }} {{ site.collections[0] }}"
     And I have fixture collections
     And I have a "_methods/static-file.txt" file that contains "Static Content {{ site.title }}"
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       methods:
@@ -39,7 +39,7 @@ Feature: Collections
   Scenario: Rendered collection at a custom URL
     Given I have an "index.html" page that contains "Collections: {{ site.collections }}"
     And I have fixture collections
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       methods:
@@ -55,7 +55,7 @@ Feature: Collections
     Given I have an "index.html" page that contains "Collections: output => {{ site.collections[0].output }} label => {{ site.collections[0].label }} foo => {{ site.collections[0].foo }}"
     And I have a default layout that contains "<div class='title'>Tom Preston-Werner</div> {{content}}"
     And I have fixture collections
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       methods:
@@ -74,7 +74,7 @@ Feature: Collections
   Scenario: Collections specified as an array
     Given I have an "index.html" page that contains "Collections: {% for method in site.methods %}{{ method.relative_path }} {% endfor %}"
     And I have fixture collections
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
     - methods
@@ -88,7 +88,7 @@ Feature: Collections
   Scenario: Collections specified as an hash
     Given I have an "index.html" page that contains "Collections: {% for method in site.methods %}{{ method.relative_path }} {% endfor %}"
     And I have fixture collections
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
     - methods
@@ -105,7 +105,7 @@ Feature: Collections
       | title  | date       | content             |
       | Rover  | 2007-12-31 | content for Rover.  |
       | Fido   | 2120-12-31 | content for Fido.   |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       puppies:
@@ -127,7 +127,7 @@ Feature: Collections
       | title  | date       | content             |
       | Rover  | 2007-12-31 | content for Rover.  |
       | Fido   | 2120-12-31 | content for Fido.   |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       puppies:
@@ -153,7 +153,7 @@ Feature: Collections
       | Figor  | 2007-12-31 | content for Figor.  | false     |
       | Snowy  | 2199-12-31 | content for Snowy.  | true      |
       | Hardy  | 2199-12-31 | content for Hardy.  | false     |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       puppies:
@@ -189,7 +189,7 @@ Feature: Collections
       | title  | date       | content             |
       | Rover  | 2007-12-31 | content for Rover.  |
       | Fido   | 2120-12-31 | content for Fido.   |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       puppies:
@@ -212,7 +212,7 @@ Feature: Collections
       | title  | date       | content             |
       | Rover  | 2007-12-31 | content for Rover.  |
       | Fido   | 2120-12-31 | content for Fido.   |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       puppies:
@@ -238,7 +238,7 @@ Feature: Collections
       | Figor  | 2007-12-31 | content for Figor.  | false     |
       | Snowy  | 2199-12-31 | content for Snowy.  | true      |
       | Hardy  | 2199-12-31 | content for Hardy.  | false     |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       puppies:
@@ -276,7 +276,7 @@ Feature: Collections
       | Figor  | 2007-12-31 | content for Figor.  | false     |
       | Snowy  | 2199-12-31 | content for Snowy.  | true      |
       | Hardy  | 2199-12-31 | content for Hardy.  | false     |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       puppies:
@@ -325,7 +325,7 @@ Feature: Collections
       | Figor  | 2007-12-31 | content for Figor.  | false     |
       | Snowy  | 2199-12-31 | content for Snowy.  | true      |
       | Hardy  | 2199-12-31 | content for Hardy.  | false     |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       puppies:
@@ -369,7 +369,7 @@ Feature: Collections
   Scenario: All the documents
     Given I have an "index.html" page that contains "All documents: {% for doc in site.documents %}{{ doc.relative_path }} {% endfor %}"
     And I have fixture collections
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
     - methods
@@ -383,7 +383,7 @@ Feature: Collections
   Scenario: Documents have an output attribute, which is the converted HTML
     Given I have an "index.html" page that contains "Second document's output: {{ site.documents[2].output }}"
     And I have fixture collections
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
     - methods
@@ -396,7 +396,7 @@ Feature: Collections
   Scenario: Documents have an output attribute, which is the converted HTML based on site.config
     Given I have an "index.html" page that contains "Second document's output: {{ site.documents[2].output }}"
     And I have fixture collections
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     kramdown:
       guess_lang: false
@@ -411,7 +411,7 @@ Feature: Collections
   Scenario: Filter documents by where
     Given I have an "index.html" page that contains "{% assign items = site.methods | where: 'whatever','foo.bar' %}Item count: {{ items.size }}"
     And I have fixture collections
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
     - methods
@@ -424,7 +424,7 @@ Feature: Collections
   Scenario: Sort by title
     Given I have an "index.html" page that contains "{% assign items = site.methods | sort: 'title' %}5. of {{ items.size }}: {{ items[5].output }}"
     And I have fixture collections
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
     - methods
@@ -438,7 +438,7 @@ Feature: Collections
   Scenario: Sort by relative_path
     Given I have an "index.html" page that contains "Collections: {% assign methods = site.methods | sort: 'relative_path' %}{{ methods | map:"title" | join: ", " }}"
     And I have fixture collections
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
     - methods
@@ -459,7 +459,7 @@ Feature: Collections
 
     {% if page.next %}Next: {{ page.next.title }}{% endif %}
     """
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       tutorials:
@@ -493,7 +493,7 @@ Feature: Collections
 
     {% if page.next %}Next: {{ page.next.title }}{% endif %}
     """
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       tutorials:
@@ -519,7 +519,7 @@ Feature: Collections
   Scenario: Rendered collection with date/dateless filename
     Given I have an "index.html" page that contains "Collections: {% for method in site.thanksgiving %}{{ method.title }} {% endfor %}"
     And I have fixture collections
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       thanksgiving:

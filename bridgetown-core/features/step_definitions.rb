@@ -57,7 +57,7 @@ end
 #
 
 Given(%r!^I have an? "(.*)" file that contains "(.*)"$!) do |file, text|
-  unless Paths.root_files.include?(file)
+  unless Paths.root_files.include?(file.split("/").first)
     FileUtils.mkdir_p("src") unless File.exist?("src")
     File.write(File.join("src", file), text)
   else
@@ -67,8 +67,8 @@ end
 
 #
 
-Given(%r!^I have an? (.*) (layout|theme) that contains "(.*)"$!) do |name, type, text|
-  folder = type == "layout" ? "_layouts" : "_theme"
+Given(%r!^I have an? (.*) layout that contains "(.*)"$!) do |name, text|
+  folder = "_layouts"
 
   destination_file = Pathname.new(File.join("src", folder, "#{name}.html"))
   FileUtils.mkdir_p(destination_file.parent) unless destination_file.parent.directory?
@@ -78,7 +78,7 @@ end
 #
 
 Given(%r!^I have an? "(.*)" file with content:$!) do |file, text|
-  unless Paths.root_files.include?(file)
+  unless Paths.root_files.include?(file.split("/").first)
     FileUtils.mkdir_p("src") unless File.exist?("src")
     File.write(File.join("src", file), text)
   else
@@ -101,9 +101,13 @@ end
 #
 
 Given(%r!^I have an? (.*) directory$!) do |dir|
-  dir_in_src = File.join("src", dir)
-  unless File.directory?(dir_in_src)
-    then FileUtils.mkdir_p(dir_in_src)
+  unless Paths.root_files.include?(dir)
+    dir_in_src = File.join("src", dir)
+    unless File.directory?(dir_in_src)
+      then FileUtils.mkdir_p(dir_in_src)
+    end
+  else
+    FileUtils.mkdir_p(dir)
   end
 end
 
@@ -180,14 +184,14 @@ end
 
 Given(%r!^I have a configuration file with "(.*)" set to "(.*)"$!) do |key, value|
   config = \
-    if source_dir.join("_config.yml").exist?
-      SafeYAML.load_file(source_dir.join("_config.yml"))
+    if source_dir.join("bridgetown.config.yml").exist?
+      SafeYAML.load_file(source_dir.join("bridgetown.config.yml"))
     else
       {}
     end
   config[key] = YAML.load(value)
   Bridgetown.set_timezone(value) if key == "timezone"
-  File.write("_config.yml", YAML.dump(config))
+  File.write("bridgetown.config.yml", YAML.dump(config))
 end
 
 #
@@ -201,7 +205,7 @@ end
 #
 
 Given(%r!^I have a configuration file with "([^\"]*)" set to:$!) do |key, table|
-  File.open("_config.yml", "w") do |f|
+  File.open("bridgetown.config.yml", "w") do |f|
     f.write("#{key}:\n")
     table.hashes.each do |row|
       f.write("- #{row["value"]}\n")
@@ -255,20 +259,6 @@ end
 
 When(%r!^I run git add .$!) do
   run_in_shell("git", "add", ".", "--verbose")
-end
-
-#
-
-When(%r!^I decide to build the theme gem$!) do
-  Dir.chdir(Paths.theme_gem_dir)
-  [
-    "_includes/blank.html",
-    "_sass/blank.scss",
-    "assets/blank.scss",
-    "_config.yml"
-  ].each do |filename|
-    File.new(filename, "w")
-  end
 end
 
 #
@@ -405,28 +395,6 @@ Then(%r!^I should (not )?see "(.*)" in the build output$!) do |negative, text|
     expect(bridgetown_run_output).to match Regexp.new(text)
   else
     expect(bridgetown_run_output).not_to match Regexp.new(text)
-  end
-end
-
-#
-
-Then(%r!^I should get an updated git index$!) do
-  index = %w(
-    .gitignore
-    Gemfile
-    LICENSE.txt
-    README.md
-    _config.yml
-    _includes/blank.html
-    _layouts/default.html
-    _layouts/page.html
-    _layouts/post.html
-    _sass/blank.scss
-    assets/blank.scss
-    my-cool-theme.gemspec
-  )
-  index.each do |file|
-    expect(bridgetown_run_output).to match file
   end
 end
 

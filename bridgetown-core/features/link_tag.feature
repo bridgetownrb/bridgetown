@@ -44,7 +44,7 @@ Feature: Link Tag
   Scenario: Basic site with two pages and custom baseurl and permalinks
     Given I have an "index.md" page that contains "[About my projects]({% link about.md %})"
     And I have an "about.md" page that contains "[Home]({% link index.md %})"
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     baseurl: /blog
     permalink: pretty

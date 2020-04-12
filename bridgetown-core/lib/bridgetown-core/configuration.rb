@@ -7,11 +7,11 @@ module Bridgetown
     DEFAULTS = {
       # Where things are
       "root_dir"            => Dir.pwd,
+      "plugins_dir"         => "plugins",
       "source"              => File.join(Dir.pwd, "src"),
       "destination"         => File.join(Dir.pwd, "output"),
       "collections_dir"     => "",
       "cache_dir"           => ".bridgetown-cache",
-      "plugins_dir"         => "_plugins",
       "layouts_dir"         => "_layouts",
       "data_dir"            => "_data",
       "includes_dir"        => "_includes",
@@ -29,10 +29,6 @@ module Bridgetown
       "limit_posts"         => 0,
       "future"              => false,
       "unpublished"         => false,
-
-      # Plugins
-      "whitelist"           => [],
-      "plugins"             => [],
 
       # Conversion
       "markdown"            => "kramdown",
@@ -246,7 +242,6 @@ module Bridgetown
     def validate
       config = clone
 
-      check_plugins(config)
       check_include_exclude(config)
 
       config
@@ -323,23 +318,6 @@ module Bridgetown
         raise Bridgetown::Errors::InvalidConfigurationError,
               "'#{option}' should be set as an array, but was: #{config[option].inspect}."
       end
-    end
-
-    # Private: Checks if the `plugins` config is a String
-    #
-    # config - the config hash
-    #
-    # Raises a Bridgetown::Errors::InvalidConfigurationError if the config `plugins`
-    # is not an Array.
-    def check_plugins(config)
-      return unless config.key?("plugins")
-      return if config["plugins"].is_a?(Array)
-
-      Bridgetown.logger.error "'plugins' should be set as an array of gem-names, but was: " \
-        "#{config["plugins"].inspect}. Use 'plugins_dir' instead to set the directory " \
-        "for your non-gemified Ruby plugins."
-      raise Bridgetown::Errors::InvalidConfigurationError,
-            "'plugins' should be set as an array, but was: #{config["plugins"].inspect}."
     end
   end
 end

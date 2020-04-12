@@ -422,10 +422,12 @@ before your site is served.
 Bridgetown runs with the following configuration options by default. Alternative
 settings for these options can be explicitly specified in the `bridgetown.config.yml` configuration file.
 
+Note that if you change `plugins_dir`, the option is relative to the current working directory, not the content source folder (aka `src`). Other `*_dir` options are relative to the source folder.
+
 ```yaml
 # Where things are
+plugins_dir         : plugins
 collections_dir     : .
-plugins_dir         : _plugins
 layouts_dir         : _layouts
 data_dir            : _data
 includes_dir        : _includes

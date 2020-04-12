@@ -1,14 +1,5 @@
-# Welcome to Bridgetown!
-title: Bridgetown
-tagline: a modern Ruby website toolkit
-email: community@bridgetownrb.com
-description: >- # this means to ignore newlines until "baseurl:"
-  A Webpack-aware, Ruby-based static site generator for the modern Jamstack era
 baseurl: "" # OPTIONAL: the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-
-twitter_handle: "bridgetownrb"
-github_handle: "bridgetownrb/bridgetown"
 
 # Additional build settings go here
 permalink: simple

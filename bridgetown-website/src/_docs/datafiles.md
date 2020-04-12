@@ -23,6 +23,12 @@ generating your site. These files must be YAML, JSON, or CSV files (using either
 the `.yml`, `.yaml`, `.json` or `.csv` extension), and they will be
 accessible via `site.data`.
 
+## The Metadata File
+
+You can store site-wide metadata variables in `_data/site_metadata.yml` so
+they'll be easy to access and will regenerate pages when changed. This is a good
+place to put `&lt;head&gt;` content like your website title, description, favicon, social media handles, etc. Then you can reference {{ site.metadata.title }}, etc. in your Liquid templates.
+
 ## Example: List of members
 
 Here is a basic example of using Data Files to avoid copy-pasting large chunks

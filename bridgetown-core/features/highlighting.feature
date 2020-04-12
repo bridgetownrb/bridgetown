@@ -23,7 +23,7 @@ Feature: Syntax Highlighting
       RewriteRule ^(.*)$ index.php [QSA,L]
       ```
       """
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
       """
       kramdown:
         input: GFM

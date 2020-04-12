@@ -7,10 +7,6 @@ $stdout.puts "# SEE: https://github.com/bridgetown/bridgetown/issues/4719"
 $stdout.puts "# -------------------------------------------------------------"
 $VERBOSE = nil
 
-def jruby?
-  defined?(RUBY_ENGINE) && RUBY_ENGINE == "jruby"
-end
-
 if ENV["CI"]
   require "simplecov"
   SimpleCov.start
@@ -151,6 +147,7 @@ class BridgetownUnitTest < Minitest::Test
   def site_configuration(overrides = {})
     full_overrides = build_configs(overrides, build_configs(
                                                 "destination" => dest_dir,
+                                                "plugins_dir" => site_root_dir("plugins"),
                                                 "incremental" => false
                                               ))
     Configuration.from(full_overrides.merge(
@@ -161,7 +158,7 @@ class BridgetownUnitTest < Minitest::Test
 
   def clear_dest
     FileUtils.rm_rf(dest_dir)
-    FileUtils.rm_rf(source_dir(".bridgetown-metadata"))
+    FileUtils.rm_rf(site_root_dir(".bridgetown-metadata"))
   end
 
   def directory_with_contents(path)

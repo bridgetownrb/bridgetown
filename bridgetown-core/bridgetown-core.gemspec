@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email         = "maintainers@bridgetownrb.com"
   s.homepage      = "https://bridgetownrb.com"
   s.summary       = "A Webpack-aware, Ruby-based static site generator for the modern Jamstack era"
-  s.description   = "Bridgetown is a Webpack-aware, Ruby-based static site generator for the modern Jamstack era"
+  s.description   = "Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern Jamstack era"
 
   all_files       = `git ls-files -z`.split("\x0")
   s.files         = all_files.grep(%r!^(bin|lib)/$!)

@@ -2,12 +2,12 @@
 
 module Bridgetown
   class Site
-    attr_reader   :source, :dest, :cache_dir, :config
+    attr_reader   :root_dir, :source, :dest, :cache_dir, :config
     attr_accessor :layouts, :pages, :static_files,
                   :exclude, :include, :lsi, :highlighter, :permalink_style,
                   :time, :future, :unpublished, :plugins, :limit_posts,
                   :keep_files, :baseurl, :data, :file_read_opts,
-                  :gems, :plugin_manager
+                  :plugin_manager
 
     attr_accessor :converters, :generators, :reader
     attr_reader   :regenerator, :liquid_renderer, :includes_load_paths
@@ -17,12 +17,13 @@ module Bridgetown
     # config - A Hash containing site configuration details.
     def initialize(config)
       # Source and destination may not be changed after the site has been created.
+      @root_dir        = File.expand_path(config["root_dir"]).freeze
       @source          = File.expand_path(config["source"]).freeze
       @dest            = File.expand_path(config["destination"]).freeze
 
       self.config = config
 
-      @cache_dir       = in_source_dir(config["cache_dir"])
+      @cache_dir       = in_root_dir(config["cache_dir"])
       @reader          = Reader.new(self)
       @regenerator     = Regenerator.new(self)
       @liquid_renderer = LiquidRenderer.new(self)
@@ -48,9 +49,6 @@ module Bridgetown
          limit_posts keep_files).each do |opt|
         send("#{opt}=", config[opt])
       end
-
-      # keep using `gems` to avoid breaking change
-      self.gems = config["plugins"]
 
       configure_cache
       configure_plugins
@@ -349,6 +347,18 @@ module Bridgetown
       @publisher ||= Publisher.new(self)
     end
 
+    # Public: Prefix a given path with the root directory.
+    #
+    # paths - (optional) path elements to a file or directory within the
+    #         root directory
+    #
+    # Returns a path which is prefixed with the root_dir directory.
+    def in_root_dir(*paths)
+      paths.reduce(root_dir) do |base, path|
+        Bridgetown.sanitized_path(base, path)
+      end
+    end
+
     # Public: Prefix a given path with the source directory.
     #
     # paths - (optional) path elements to a file or directory within the
@@ -416,7 +426,7 @@ module Bridgetown
 
     # Disable Marshaling cache to disk in Safe Mode
     def configure_cache
-      Bridgetown::Cache.cache_dir = in_source_dir(config["cache_dir"], "Bridgetown/Cache")
+      Bridgetown::Cache.cache_dir = in_root_dir(config["cache_dir"], "Bridgetown/Cache")
       Bridgetown::Cache.disable_disk_cache! if config["disable_disk_cache"]
     end
 

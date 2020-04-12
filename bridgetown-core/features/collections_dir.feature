@@ -8,7 +8,7 @@ Feature: Collections Directory
     And I have the following post within the "collections" directory:
       | title         | date       | content         |
       | Gathered Post | 2009-03-27 | Random Content. |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections_dir: collections
     """
@@ -26,7 +26,7 @@ Feature: Collections Directory
     And I have the following post within the "collections" directory:
       | title         | date       | content         |
       | Gathered Post | 2009-03-27 | Random Content. |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       puppies:
@@ -49,7 +49,7 @@ Feature: Collections Directory
     And I have the following post:
       | title        | date       | content         |
       | Post At Root | 2009-03-27 | Random Content. |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       puppies:
@@ -81,7 +81,7 @@ Feature: Collections Directory
     And I have the following post:
       | title               | date       | content            |
       | Post At Root        | 2009-03-27 | Totally nothing.   |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       puppies:
@@ -113,7 +113,7 @@ Feature: Collections Directory
     And I have the following post:
       | title         | date       | content         |
       | Gathered Post | 2009-03-27 | Random Content. |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       puppies:
@@ -136,7 +136,7 @@ Feature: Collections Directory
     And I have the following post within the "collections" directory:
       | title         | date       | content         |
       | Gathered Post | 2009-03-27 | Random Content. |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections:
       puppies:
@@ -167,7 +167,7 @@ Feature: Collections Directory
       | title          | content             |
       | Thanos         | content for Thanos. |
       | Loki           | content for Loki.   |
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections_dir: gathering
     collections: ["players"]
@@ -237,7 +237,7 @@ Feature: Collections Directory
 
     {% if page.next %}Next: {{ page.next.title }}{% endif %}
     """
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections_dir: gathering
     collections:
@@ -272,7 +272,7 @@ Feature: Collections Directory
 
     {% if page.next %}Next: {{ page.next.title }}{% endif %}
     """
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
     collections_dir: gathering
     collections:

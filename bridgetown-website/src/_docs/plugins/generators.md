@@ -103,4 +103,4 @@ Generators need to implement only one method:
 
 If your generator is contained within a single file, it can be named whatever you want but it should have an `.rb` extension. If your generator is split across multiple files, it should be packaged as a Rubygem to be published at https://rubygems.org/. In this case, the name of the gem depends on the availability of the name at that site because no two gems can have the same name.
 
-By default, Bridgetown looks for generators in the `_plugins` directory. However, you can change the default directory by assigning the desired name to the key `plugins_dir` in the config file.
+By default, Bridgetown looks for generators in the `plugins` directory. However, you can change the default directory by assigning the desired name to the key `plugins_dir` in the config file.

@@ -138,7 +138,7 @@ Feature: frontmatter defaults
     ---
     Value: {{ page.myval }}
     """
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
       collections:
         slides:
@@ -166,7 +166,7 @@ Feature: frontmatter defaults
     ---
     Value: {{ page.myval }}
     """
-    And I have a "_config.yml" file with content:
+    And I have a "bridgetown.config.yml" file with content:
     """
       collections:
         slides:

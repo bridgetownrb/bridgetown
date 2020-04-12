@@ -18,14 +18,6 @@ module Bridgetown
     # Returns nothing
     def conscientious_require
       require_plugin_files
-      require_gems
-    end
-
-    # Require each of the gem plugins specified.
-    #
-    # Returns nothing.
-    def require_gems
-      Bridgetown::External.require_with_graceful_fail(site.gems)
     end
 
     def self.require_from_bundler
@@ -59,7 +51,7 @@ module Bridgetown
     # Returns an Array of plugin search paths
     def plugins_path
       if site.config["plugins_dir"].eql? Bridgetown::Configuration::DEFAULTS["plugins_dir"]
-        [site.in_source_dir(site.config["plugins_dir"])]
+        [site.in_root_dir(site.config["plugins_dir"])]
       else
         Array(site.config["plugins_dir"]).map { |d| File.expand_path(d) }
       end

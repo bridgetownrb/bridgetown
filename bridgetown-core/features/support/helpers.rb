@@ -17,7 +17,7 @@ class Paths
 
   def self.source_dir; SOURCE_DIR; end
 
-  def self.root_files; ["_config.yml"]; end
+  def self.root_files; ["bridgetown.config.yml", "plugins", "frontend"]; end
 end
 
 #

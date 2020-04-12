@@ -18,7 +18,8 @@ The typical folder structure for a Bridgetown site usually looks something like 
 │   └   └── layout.scss
 ├── src # this is where you put your content and design templates
 │   ├── _data
-│   │   └── members.yml
+│   │   ├── members.yml
+│   │   └── site_metadata.yml
 │   ├── _includes
 │   │   ├── footer.html
 │   │   └── header.html
@@ -32,6 +33,7 @@ The typical folder structure for a Bridgetown site usually looks something like 
 │   ├── some_page.md
 │   └── index.html # or index.md
 ├── output # this is the generated site published via bridgetown build/serve
+├── plugins # this is where you can write custom plugins
 ├── bridgetown.config.yml # this is your Bridgetown configuration file
 ├── Gemfile
 ├── package.json
@@ -52,16 +54,6 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>
-        <p><code>src/.bridgetown-metadata (and .bridgetown-cache)</code></p>
-      </td>
-      <td>
-        <p>
-          <code>.bridgetown-metadata</code> helps Bridgetown keep track of which files have not been modified since the site was last built and which files will need to be regenerated on the next build. <code>.bridgetown-cache</code> is used to improve performance over multiple builds. It’s probably a good idea to add these to your <code>.gitignore</code> file.
-        </p>
-      </td>
-    </tr>
     <tr>
       <td>
         <p><code>src/_data</code></p>
@@ -125,11 +117,33 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
     <tr>
       <td>
+        <p><code>plugins</code></p>
+      </td>
+      <td>
+        <p>
+          This is where you can write custom plugins that will be loaded for
+          use by your site. (Third-party plugins are installed as Gems via
+          Bundler.)
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
         <p><code>output</code></p>
       </td>
       <td>
         <p>
-          This is where the generated site will be placed once Bridgetown is done transforming it. It’s probably a good idea to add this to your <code>.gitignore</code> file.
+          This is where the generated site will be placed once Bridgetown is done transforming it. It’s a good idea to add this to your <code>.gitignore</code> file.
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>.bridgetown-metadata (and .bridgetown-cache)</code></p>
+      </td>
+      <td>
+        <p>
+          <code>.bridgetown-metadata</code> helps Bridgetown keep track of which files have not been modified since the site was last built and which files will need to be regenerated on the next build. <code>.bridgetown-cache</code> is used to improve performance over multiple builds. It’s a good idea to add these to your <code>.gitignore</code> file.
         </p>
       </td>
     </tr>

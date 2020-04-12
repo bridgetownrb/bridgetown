@@ -1,5 +1,15 @@
 ## HEAD
 
+## 0.7.0 / 2020-04-12
+
+  * Moved the default plugins folder from `src/_plugins` to simply `plugins`
+  * Remove `gems` and `plugins` keys from configuration
+  * Move the cache and metadata folders to the root dir
+  * Define a default data file for site metadata: `src/_data/site_metdata.yml`
+    that's accessible via `{{ site.metadata.title }}` (for example)
+  * Add relevant changes to site template for `bridgetown new`
+  * Continue work on repo cleanup and documentation
+
 ## 0.6.0 / 2020-04-09
 
   * Add `bridgetown console` command to invoke IRB with the current site (similar to the Rails console command). Plugins, gems, will be loaded, etc.

@@ -38,4 +38,4 @@ As contributors and maintainers of this project, and in the interest of fosterin
 Read our full [code of conduct](https://github.com/bridgetownrb/bridgetown/blob/master/CODE_OF_CONDUCT.md).
 
 {:.note.mt-10}
-Want to give us a public shoutout? Check out our [official Twitter account](https://twitter.com/{{ site.twitter_handle }})!
+Want to give us a public shoutout? Check out our [official Twitter account](https://twitter.com/{{ site.settings.twitter_handle }})!

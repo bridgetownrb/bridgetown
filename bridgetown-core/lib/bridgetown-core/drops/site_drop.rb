@@ -50,6 +50,11 @@ module Bridgetown
         @documents ||= @obj.documents
       end
 
+      # TODO: provide a way to set BRIDGETOWN_ENV-specific metadata
+      def metadata
+        @site_metadata ||= @obj.data["site_metadata"]
+      end
+
       # return nil for `{{ site.config }}` even if --config was passed via CLI
       def config; end
     end

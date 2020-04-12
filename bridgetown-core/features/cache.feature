@@ -8,8 +8,8 @@ Feature: Cache
     And I have a configuration file with "title" set to "Hello World"
     When I run bridgetown build
     Then I should get a zero exit status
-    And the src/.bridgetown-cache directory should exist
-    And the src/.bridgetown-cache/Bridgetown/Cache/Bridgetown--Cache directory should exist
+    And the .bridgetown-cache directory should exist
+    And the .bridgetown-cache/Bridgetown/Cache/Bridgetown--Cache directory should exist
     And the output directory should exist
     And I should see "<p>Hello World</p>" in "output/index.html"
 
@@ -21,9 +21,9 @@ Feature: Cache
       | cache_dir | .foo-cache  |
     When I run bridgetown build
     Then I should get a zero exit status
-    And the src/.foo-cache directory should exist
-    And the src/.foo-cache/Bridgetown/Cache/Bridgetown--Cache directory should exist
-    But the src/.bridgetown-cache directory should not exist
+    And the .foo-cache directory should exist
+    And the .foo-cache/Bridgetown/Cache/Bridgetown--Cache directory should exist
+    But the .bridgetown-cache directory should not exist
     And the output directory should exist
     And I should see "<p>Hello World</p>" in "output/index.html"
 
@@ -34,4 +34,4 @@ Feature: Cache
     Then I should get a zero exit status
     And the output directory should exist
     And I should see "<p>Hello World</p>" in "output/index.html"
-    But the src/.bridgetown-cache directory should not exist
+    But the .bridgetown-cache directory should not exist

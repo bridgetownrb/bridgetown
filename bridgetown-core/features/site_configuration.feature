@@ -274,31 +274,9 @@ Feature: Site configuration
     And the "output/2009/04/01/oranges.html" file should exist
     And the "output/2009/03/27/apples.html" file should not exist
 
-  Scenario: Using a different layouts directory
-    Given I have a _theme directory
-    And I have a page theme that contains "Page Layout: {{ site.posts.size }} on {{ site.time | date: "%Y-%m-%d" }}"
-    And I have a post theme that contains "Post Layout: {{ content }}"
-    And I have an "index.html" page with layout "page" that contains "site index page"
-    And I have a configuration file with:
-      | key         | value        |
-      | time        | 2010-01-01   |
-      | future      | true         |
-      | layouts_dir | _theme       |
-    And I have a _posts directory
-    And I have the following posts:
-      | title  | date       | layout | content             |
-      | entry1 | 2007-12-31 | post   | content for entry1. |
-      | entry2 | 2020-01-31 | post   | content for entry2. |
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "Page Layout: 2 on 2010-01-01" in "output/index.html"
-    And I should see "Post Layout: <p>content for entry1.</p>" in "output/2007/12/31/entry1.html"
-    And I should see "Post Layout: <p>content for entry2.</p>" in "output/2020/01/31/entry2.html"
-
   Scenario: arbitrary file reads via layouts
     Given I have an "index.html" page with layout "page" that contains "FOO"
-    And I have a "_config.yml" file that contains "layouts: '../../../../../../../../../../../../../../usr/include'"
+    And I have a "bridgetown.config.yml" file that contains "layouts: '../../../../../../../../../../../../../../usr/include'"
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist

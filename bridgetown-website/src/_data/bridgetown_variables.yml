@@ -78,6 +78,13 @@ site:
       environment there is an
       exception: <code>site.url</code> will be set to the value of <code>host</code>, <code>port</code>,
       and SSL-related options. This defaults to <code>url: http://localhost:4000</code>.
+  - name: "site.metadata"
+    description: >-
+      Put metadata variables in <code>_data/site_metadata.yml</code> so they'll
+      be easy to access and will regenerate pages when changed. This is a good
+      place to put <code>&lt;head&gt;</code> content like site title,
+      description, icon, social media handles, etc. Then you can reference
+      {{ site.metadata.title }}, etc. in your Liquid templates. 
   - name: "site.[CONFIGURATION_DATA]"
     description: >-
       All the variables set via the command line and your <code>bridgetown.config.yml</code> are available

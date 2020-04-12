@@ -59,7 +59,7 @@ Feature: Rendering
 
     {{ page.author }}
     """
-    And   I have a "_config.yml" file with content:
+    And   I have a "bridgetown.config.yml" file with content:
     """
     liquid:
       strict_variables: true
@@ -78,7 +78,7 @@ Feature: Rendering
 
     {{ page.author | foobar }}
     """
-    And   I have a "_config.yml" file with content:
+    And   I have a "bridgetown.config.yml" file with content:
     """
     liquid:
       strict_filters: true

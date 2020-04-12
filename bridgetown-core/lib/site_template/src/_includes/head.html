@@ -1,9 +1,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 {% capture page_title %}{{ page.title | strip_html | strip_newlines }}{% endcapture %}
-<title>{% if page_title != "" %}{{ page_title | escape }} | {{ site.title | escape }}{% else %}{{ site.title | escape }}: {{ site.tagline | escape }}{% endif %}</title>
+<title>{% if page_title != "" %}{{ page_title | escape }} | {{ site.metadata.title | escape }}{% else %}{{ site..metadata title | escape }}: {{ site.metadata.tagline | escape }}{% endif %}</title>
 
-<meta name="description" content="{{ site.description }}" />
+<meta name="description" content="{{ site.metadata.description }}" />
 
 <link rel="stylesheet" href="/_bridgetown/static/css/all.css{% if bridgetown.environment == 'development' %}?{{ site.time | date: '%I%M%s' }}{% endif %}" />
 <script src="/_bridgetown/static/js/all.js{% if bridgetown.environment == 'development' %}?{{ site.time | date: '%I%M%s' }}{% endif %}"></script>
