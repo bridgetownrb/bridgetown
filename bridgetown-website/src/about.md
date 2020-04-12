@@ -23,7 +23,7 @@ As of spring 2020, here is the vision for where Bridgetown is headed. And this i
   - Add additional commands to **further cement the Webpack build process** into the Bridgetown build process.
 - _IN PROGRESS…_ Ensure all **documentation, configuration, and deployment recommendations are fully up-to-date** and in line with best practices encouraged by the web development industry.
 - _IN PROGRESS…_ External theme support has been temporarily removed from the codebase, because we want to add the **ability for any Bridgetown plugin gem to provide content/design**. That will bring back “themes” but in a way that’s composable and more flexible.
-- _IN PROGRESS…_ **Components!** This would build upon the existing `include` tag functionality and add a ton of new features to make component-based design and authoring a reality, bringing Ruby/Liquid syntax closer to the world of React & Vue. Ready for "Bridgebook"?? 😁 (aka our take on Storybook.js)
+- _IN PROGRESS…_ **Liquid::Component** — this would build upon the existing `include` tag functionality and add a ton of new features to make component-based design and authoring a reality, bringing Ruby/Liquid syntax closer to the world of React & Vue. Ready for "Bridgebook"? 😁 (aka integration with Storybook.js). [Preliminary spec here.](https://github.com/bridgetownrb/liquid-component)
 - Straightforward support for **third-party data APIs** (think GraphQL as a first-class citizen).
 - Easy **multilingual setup** right out of the box.
 - Add a streamlined **pagination and archive page (for category and tags) solution** to Bridgetown Core.
