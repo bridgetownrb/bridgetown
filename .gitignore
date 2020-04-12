@@ -21,8 +21,7 @@ Gemfile.lock
 # Folders
 /vendor
 bbin/
-coverage
-gh-pages/
-pkg/
-test/dest
+*/coverage
+*/pkg/
+*/test/dest
 tmp/*

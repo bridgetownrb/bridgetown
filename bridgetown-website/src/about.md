@@ -1,7 +1,6 @@
 ---
 layout: page
 title: The History and Future of Bridgetown
-permalink: /about/
 ---
 
 Bridgetown started life as a fork of the granddaddy of static site generators, [Jekyll](https://jekyllrb.com). Jekyll came to prominence in the early 2010s due to its slick integration with GitHub, powering thousands of websites for developer tools. In the years since it has grown to provide a popular foundation for a wide variety of sites across the web.

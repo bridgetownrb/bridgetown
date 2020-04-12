@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "Your First Post on Bridgetown"
-subtitle: Welcome to the first day of the rest of your life.
-date:   2020-04-05 09:07:37 -0700
-category: feature
+title:  "More About Bridgetown"
+subtitle: Trevor Harmon from Shopify gives a step-by-step walkthrough for a sample site, showing how to set up a Shopify store, then pull data into Bridgetown and use it to create pages.
+date:   2020-04-11 05:07:37 -0700
+category: news
 author: jared
 ---
 

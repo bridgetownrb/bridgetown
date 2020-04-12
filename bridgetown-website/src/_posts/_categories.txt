@@ -1,0 +1,9 @@
+# NOT OUTPUT BY BRIDGETOWN
+#
+# Common post categories:
+
+- news
+- bugfix
+- release
+- feature
+- showcase

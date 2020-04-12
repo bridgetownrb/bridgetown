@@ -126,8 +126,8 @@ Pages and posts can also access a specific data item. The example below shows ho
 
 ```yaml
 dave:
-    name: David Smith
-    twitter: DavidSilvaSmith
+  name: David Smith
+  twitter: DavidSilvaSmith
 ```
 
 The author can then be specified as a page variable in a post's front matter:

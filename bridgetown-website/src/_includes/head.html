@@ -5,5 +5,10 @@
 
 <meta name="description" content="{{ site.description }}" />
 
+<link rel="preload" href="/_bridgetown/static/css/all.css" as="style" />
+<link rel="prefetch" href="/docs/" />
+<link rel="prefetch" href="/docs/jamstack/" />
+<link rel="prefetch" href="/about/" />
+
 <link rel="stylesheet" href="/_bridgetown/static/css/all.css{% if bridgetown.environment == 'development' %}?{{ site.time | date: '%I%M%s' }}{% endif %}" />
-<script src="/_bridgetown/static/js/all.js{% if bridgetown.environment == 'development' %}?{{ site.time | date: '%I%M%s' }}{% endif %}"></script>
+<script src="/_bridgetown/static/js/all.js{% if bridgetown.environment == 'development' %}?{{ site.time | date: '%I%M%s' }}{% endif %}" defer></script>

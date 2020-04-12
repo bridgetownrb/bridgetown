@@ -25,9 +25,8 @@ For a quick summary of how to install Bridgetown, read [Getting Started](/docs/)
 
 ## Guides
 
-For detailed install instructions have a look at the guide for your operating system.
+For detailed installation instructions, take a look at the guide for your operating system:
 
-* [macOS]({{ '/docs/installation/macos/' | relative_url }})
-* [Ubuntu Linux]({{ '/docs/installation/ubuntu/' | relative_url }})
-* [Other Linux distros]({{ '/docs/installation/other-linux/' | relative_url }})
-* [Windows]({{ '/docs/installation/windows/' | relative_url }})
+* [macOS](/docs/installation/macos/)
+* [Ubuntu Linux](/docs/installation/ubuntu/)
+* [Windows](/docs/installation/windows/)

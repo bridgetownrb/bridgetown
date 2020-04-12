@@ -19,29 +19,31 @@ The basic installation process is as follows:
 
 1. Install a **Ruby** development environment which is supported by Bridgetown.
 2. Install **Node** and **Yarn** to handle frontend assets.
-3. Install **Bridgetown** and related gems.
+3. Install **Bridgetown** and related gems:
 ```
 $ gem install bridgetown bundler
 ```
-4. Create a new Bridgetown site at `./myblog`.
+4. Create a new Bridgetown site at `./mysite`.
 ```
-$ bridgetown new myblog
+$ bridgetown new mysite
 ```
 5. Change into your new directory.
 ```
-$ cd myblog
+$ cd mysite
 ```
-6. Install Bridgetown builder and frontend dependencies.
+6. Install additional Bridgetown gems and frontend dependencies:
 ```
 $ bundle install
 $ yarn install
 ```
-7. Build the site and make it available on a local server.
+7. Build the site and make it available on a local server:
 ```
 $ yarn build && bundle exec bridgetown serve
 ```
 8. Browse to [http://localhost:4000](http://localhost:4000){:target="_blank"}
 9. And you're done! (That's the goal at least…)
 
-If you encounter any errors during this process, see the
-[troubleshooting]({{ '/docs/troubleshooting/#configuration-problems' | relative_url }}) page. Also, make sure you've installed the development headers and other prerequisites as mentioned on the [requirements]({{ '/docs/installation/#requirements' | relative_url }}) page.
+If you encounter any errors during this process, try revisiting your installation and setup steps, and if all else fails, [reach out to the Bridgetown community for support](/docs/community/). Also, make sure you've installed the development headers and other prerequisites as mentioned in the [Requirements](/docs/installation/#requirements) section.
+
+{:.note}
+More detailed installation instructions for macOS, Ubuntu Linux, and Windows 10 are [available here](/docs/installation/#guides).

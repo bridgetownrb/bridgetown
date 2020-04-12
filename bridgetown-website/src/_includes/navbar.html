@@ -23,25 +23,25 @@
 
     <div id="topNavbar" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item {{ docs_active }}" href="/docs">Documentation</a>
-        <a class="navbar-item {{ about_active }}" href="/about">Roadmap</a>
-        <a class="navbar-item {{ news_active }}" href="/blog">News</a>
+        <a class="navbar-item {{ docs_active }}" href="/docs/">Documentation</a>
+        <a class="navbar-item {{ about_active }}" href="/about/">Roadmap</a>
+        <a class="navbar-item {{ news_active }}" href="/blog/">News</a>
       </div>
 
       <div class="navbar-end">
         <a class="navbar-item" href="https://github.com/{{ site.github_handle }}" target="_blank">
           <button class="button is-info is-small">
             <span class="icon"> <i class="fa fa-github"></i> </span>
-            <span>Star</span>
+            <span class="has-text-weight-bold">Star</span>
           </button>
         </a>
         <!--<a href="https://github.com/{{ site.github_handle }}" class="navbar-item">
         <img src="https://img.shields.io/github/stars/{{ site.github_handle }}.svg" alt="GitHub stars">
         </a>-->
-        <a class="navbar-item" href="https://github.com/{{ site.github_handle }}/issues">
-          <i class="fa fa-bug"></i>&nbsp;Report an issue
+        <a class="navbar-item" href="https://github.com/{{ site.github_handle }}/issues" target="_blank">
+          <i class="fa fa-bug"></i>&nbsp;Report Issue
         </a>
-        <a class="navbar-item" href="https://twitter.com/{{ site.twitter_handle }}">
+        <a class="navbar-item" href="https://twitter.com/{{ site.twitter_handle }}" target="_blank">
           <span class="icon"> <i class="fa fa-twitter"></i> </span>
         </a>
       </div>

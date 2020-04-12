@@ -11,7 +11,7 @@ twitter_handle: "bridgetownrb"
 github_handle: "bridgetownrb/bridgetown"
 
 # Additional build settings go here
-permalink: pretty
+permalink: simple
 
 collections:
   docs:

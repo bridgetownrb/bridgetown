@@ -1,0 +1,16 @@
+<div class="box px-8 py-8 mb-10">
+  <a href="{{ post.url }}">
+    <h2 class="mb-8 title is-3 has-text-info">{{ post.title }}</h2>
+  </a>
+
+  <div class="content">
+    {{ post.subtitle }}
+  </div>
+
+  <div class="mt-8 author">
+    {% assign author = site.data.authors[post.author] %}
+    <img src="{{ author.avatar }}" alt="{{ author.name }}" class="avatar" />
+    <a href="/authors/{{ post.author }}/" class="has-text-weight-bold">{{ author.name }}</a>
+    on {{ post.date | date: "%B %-d, %Y" }}
+  </div>
+</div>

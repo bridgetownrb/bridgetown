@@ -1,0 +1,16 @@
+---
+layout: default
+title: News
+---
+
+<section class="container mt-12">
+  <div class="columns is-centered">
+    <div class="column is-three-quarters">
+      <h1 class="mt-3 mb-10 title is-1 has-text-centered has-text-brown">{{ page.title }}</h1>
+
+      {% for post in site.posts %}
+        {% include news_item.html %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

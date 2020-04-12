@@ -9,49 +9,11 @@ h1, h2, h3 {
   letter-spacing: -0.05em;
 }
 
-.box ul, .box ol {
-  margin-top: 2rem !important;
-  margin-bottom: 2rem !important;
-  width: 85%;
-
-  li + li {
-    margin-top: 2rem;
-  }
-}
-
-.content a:not(.button) {
-  -webkit-text-decoration: $green wavy underline;
-  text-decoration: $green wavy underline;
-  -webkit-text-decoration-thickness: 2px;
-  text-decoration-thickness: 2px;
-}
-
 .footer a {
   color: $green;
   &:hover {
     color: darken($green, 15%);
   }
-}
-
-.note {
-  background: lighten($green, 25%);
-  padding: 40px;
-  padding-left: calc(2rem - 5px);
-  padding-right: 2rem;
-  border-left: solid 5px $green;
-  font-size: 0.9em;
-  font-weight: 500;
-  margin-left: -2rem;
-  margin-right: -2rem;
-  margin-bottom: 1.5rem;
-  &.warning {
-    border-left-color: $red;
-    background: lighten($red, 35%);
-  }
-}
-
-table + .note {
-  margin-top: 1.5rem;
 }
 
 table.settings {
