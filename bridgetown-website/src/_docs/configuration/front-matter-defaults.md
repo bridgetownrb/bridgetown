@@ -25,7 +25,7 @@ defaults:
 ```
 
 <div class="note info">
-  <h5>Stop and rerun `bridgetown serve` command.</h5>
+  <h5>Stop and rerun <code>bridgetown serve</code> command.</h5>
   <p>
     The <code>bridgetown.config.yml</code> master configuration file contains global configurations
     and variable definitions that are read once at execution time. Changes made to <code>bridgetown.config.yml</code>
