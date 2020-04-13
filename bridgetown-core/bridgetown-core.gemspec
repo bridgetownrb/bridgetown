@@ -12,8 +12,9 @@ Gem::Specification.new do |s|
   s.summary       = "A Webpack-aware, Ruby-based static site generator for the modern Jamstack era"
   s.description   = "Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern Jamstack era"
 
-  all_files       = `git ls-files -z`.split("\x0")
-  s.files         = all_files.grep(%r!^(bin|lib)/$!)
+  s.files         = `git ls-files -z`.split("\x0").reject do |f|
+    f.match(%r{^(benchmark|features|script|test)/})
+  end
   s.executables   = ["bridgetown"]
   s.bindir        = "bin"
   s.require_paths = ["lib"]
