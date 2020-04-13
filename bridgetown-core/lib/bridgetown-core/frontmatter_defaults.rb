@@ -2,7 +2,7 @@
 
 module Bridgetown
   # This class handles custom defaults for YAML frontmatter settings.
-  # These are set in _config.yml and apply both to internal use (e.g. layout)
+  # These are set in bridgetown.config.yml and apply both to internal use (e.g. layout)
   # and the data available to liquid.
   #
   # It is exposed via the frontmatter_defaults method on the site class.
@@ -90,7 +90,7 @@ module Bridgetown
 
     # Checks if a given default setting scope matches the given path and type
     #
-    # scope - the hash indicating the scope, as defined in _config.yml
+    # scope - the hash indicating the scope, as defined in bridgetown.config.yml
     # path - the path to check for
     # type - the type (:post or :page) to check for
     #
@@ -159,7 +159,7 @@ module Bridgetown
 
     # Checks if a given set of default values is valid
     #
-    # set - the default value hash, as defined in _config.yml
+    # set - the default value hash, as defined in bridgetown.config.yml
     #
     # Returns true if the set is valid and can be used in this class
     def valid?(set)

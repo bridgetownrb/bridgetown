@@ -117,7 +117,7 @@ module Bridgetown
     # configuration option `excerpt_separator`. For example, following is a good
     # alternative for HTML docs:
     #
-    #     # file: _config.yml
+    #     # file: bridgetown.config.yml
     #     excerpt_separator: "<!-- more -->"
     #
     # Notice that all markdown-style link references will be appended to the

@@ -200,7 +200,7 @@ class="flag">flags</code> (specified on the command-line) that control them.
         <p class="description">Use a specific environment value in the build.</p>
       </td>
       <td class="has-text-centered">
-        <p><code class="flag">JEKYLL_ENV=production</code></p>
+        <p><code class="flag">BRIDGETOWN_ENV=production</code></p>
       </td>
     </tr>
     <tr class="setting">

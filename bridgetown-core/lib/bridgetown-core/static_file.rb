@@ -87,7 +87,7 @@ module Bridgetown
     # Whether to write the file to the filesystem
     #
     # Returns true unless the defaults for the destination path from
-    # _config.yml contain `published: false`.
+    # bridgetown.config.yml contain `published: false`.
     def write?
       publishable = defaults.fetch("published", true)
       return publishable unless @collection
@@ -156,7 +156,7 @@ module Bridgetown
 
     # Applies a similar URL-building technique as Bridgetown::Document that takes
     # the collection's URL template into account. The default URL template can
-    # be overriden in the collection's configuration in _config.yml.
+    # be overriden in the collection's configuration in bridgetown.config.yml.
     def url
       @url ||= begin
         base = if @collection.nil?
@@ -177,7 +177,7 @@ module Bridgetown
     end
 
     # Returns the front matter defaults defined for the file's URL and/or type
-    # as defined in _config.yml.
+    # as defined in bridgetown.config.yml.
     def defaults
       @defaults ||= @site.frontmatter_defaults.all url, type
     end

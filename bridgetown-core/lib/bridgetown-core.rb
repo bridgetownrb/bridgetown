@@ -88,17 +88,26 @@ module Bridgetown
   require "bridgetown-core/liquid_extensions"
   require "bridgetown-core/filters"
 
+  require "bridgetown-core/drops/drop"
+  require "bridgetown-core/drops/document_drop"
+  require_all "bridgetown-core/commands"
+  require_all "bridgetown-core/converters"
+  require_all "bridgetown-core/converters/markdown"
+  require_all "bridgetown-core/drops"
+  require_all "bridgetown-core/generators"
+  require_all "bridgetown-core/tags"
+
   class << self
-    # Public: Tells you which Bridgetown environment you are building in so you can skip tasks
-    # if you need to.  This is useful when doing expensive compression tasks on css and
-    # images and allows you to skip that when working in development.
+    # Public: Tells you which Bridgetown environment you are building in so
+    # you can skip tasks if you need to.
 
     def env
       ENV["BRIDGETOWN_ENV"] || "development"
     end
 
     # Public: Generate a Bridgetown configuration Hash by merging the default
-    # options with anything in _config.yml, and adding the given options on top.
+    # options with anything in bridgetown.config.yml, and adding the given
+    # options on top.
     #
     # override - A Hash of config directives that override any options in both
     #            the defaults and the config file.
@@ -113,7 +122,7 @@ module Bridgetown
         config = config.read_config_files(config.config_files(override))
       end
 
-      # Merge DEFAULTS < _config.yml < override
+      # Merge DEFAULTS < bridgetown.config.yml < override
       Configuration.from(Utils.deep_merge_hashes(config, override)).tap do |obj|
         set_timezone(obj["timezone"]) if obj["timezone"]
       end
@@ -191,12 +200,3 @@ module Bridgetown
     Bridgetown::External.require_if_present("liquid/c")
   end
 end
-
-require "bridgetown-core/drops/drop"
-require "bridgetown-core/drops/document_drop"
-require_all "bridgetown-core/commands"
-require_all "bridgetown-core/converters"
-require_all "bridgetown-core/converters/markdown"
-require_all "bridgetown-core/drops"
-require_all "bridgetown-core/generators"
-require_all "bridgetown-core/tags"

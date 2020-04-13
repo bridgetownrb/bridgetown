@@ -84,7 +84,7 @@ module Bridgetown
     # Returns nothing
     def reset
       self.time = if config["time"]
-                    Utils.parse_date(config["time"].to_s, "Invalid time in _config.yml.")
+                    Utils.parse_date(config["time"].to_s, "Invalid time in bridgetown.config.yml.")
                   else
                     Time.now
                   end
@@ -253,7 +253,7 @@ module Bridgetown
     end
 
     # Prepare site data for site payload. The method maintains backward compatibility
-    # if the key 'data' is already used in _config.yml.
+    # if the key 'data' is already used in bridgetown.config.yml.
     #
     # Returns the Hash to be hooked to site.data.
     def site_data

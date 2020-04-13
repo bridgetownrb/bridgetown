@@ -53,7 +53,7 @@ Front matter variables are available in Liquid via the `page` variable. For exam
 {% raw %}{{ page.my_number }}{% endraw %}
 ```
 
-Note that in order for Jekyll to process any Liquid tags on your page, you must include front matter on it. The most minimal snippet of front matter you can include is:
+Note that in order for Bridgetown to process any Liquid tags on your page, you must include front matter on it. The most minimal snippet of front matter you can include is:
 
 ```yaml
 ---

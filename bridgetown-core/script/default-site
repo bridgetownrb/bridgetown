@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Runs the `jekyll new` command and builds the default site as a sanity check
+# Runs the `bridgetown new` command and builds the default site as a sanity check
 
 set -e
 

@@ -82,17 +82,17 @@ level will be added to a variable's namespace. The example below shows how
 GitHub organizations could be defined separately in a file under the `orgs`
 folder:
 
-In `_data/orgs/jekyll.yml`:
+In `_data/orgs/bridgetownrb.yml`:
 
 ```yaml
-username: jekyll
+username: bridgetownrb
 name: Bridgetown
 members:
-  - name: Tom Preston-Werner
-    github: mojombo
+  - name: Jared White
+    github: jaredcwhite
 
-  - name: Parker Moore
-    github: parkr
+  - name: Gilbert the Cat
+    github: gilbertkitty
 ```
 
 In `_data/orgs/doeorg.yml`:
