@@ -9,7 +9,7 @@ But as the concepts of modern static site generation and the [Jamstack](/docs/ja
 
 So in March 2020, Portland-based web studio [Whitefusion](https://whitefusion.io) started on **Bridgetown**, a fork of Jekyll with a brand new set of project goals and a future roadmap. Whitefusion's multi-year experience producing and deploying numerous Jekyll-based websites furnishes a seasoned take on the unique needs of web agencies and their clients.
 
-It's early days yet, but our goal is to keep adding new features at a steady and predictable pace, grow the open source community around the project, and ensure a healthy future for a top-tier Ruby-based static site generator moving forward.
+It's early days yet, but our goal is to keep adding new features at a steady and predictable pace, grow the open source community around the project, and ensure a lively future for a top-tier Ruby-based static site generator moving forward.
 
 ## Roadmap
 

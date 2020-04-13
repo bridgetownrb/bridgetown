@@ -5,9 +5,17 @@
 
 Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern [Jamstack](https://bridgetownrb.com/docs/jamstack/) era. Bridgetown takes your content and frontend assets, renders Markdown and Liquid templates, and exports a complete website ready to be served by Jamstack services like Netlify or traditional web servers like Nginx.
 
+---
+
+## HEADS UP!
+
+This is currently considered _"pre-release", experimental software_. A more formal public beta stage will begin later this spring (2020). In other words, feel free to start using Bridgetown…but not yet in production. 🙂
+
+---
+
 ## Background
 
-Bridgetown started life as a fork of the granddaddy of static site generators, [Jekyll](https://jekyllrb.com). Spearheaded by Portland-based web studio [Whitefusion](https://whitefusion.io) and with a brand new set of [project goals](https://bridgetownrb.com/docs/philosophy/) and [a future roadmap](https://bridgetownrb.com/about/), our pledge is to ramp up adding new features at a steady and predictable pace, grow the open source community around the project, and ensure a healthy future for a top-tier Ruby-based static site generator moving forward. 
+Bridgetown started life as a fork of the granddaddy of static site generators, [Jekyll](https://jekyllrb.com). Spearheaded by Portland-based web studio [Whitefusion](https://whitefusion.io) and with a brand new set of [project goals](https://bridgetownrb.com/docs/philosophy/) and [a future roadmap](https://bridgetownrb.com/about/), our pledge is to ramp up adding new features at a steady and predictable pace, grow the open source community around the project, and ensure a lively future for a top-tier Ruby-based static site generator moving forward. 
 
 ## Start Here
 
