@@ -25,7 +25,7 @@ Bridgetown started life as a fork of the granddaddy of static site generators, [
 * Familiarize yourself with the [Command Line Usage](https://bridgetownrb.com/docs/command-line-usage/) and [Site Configuration](https://bridgetownrb.com/docs/configuration/)
 * Explore the best options for [Deploying Your Site](https://bridgetown.rb/docs/deployment) when it's ready to go live
 * Have questions? Check out our official [Bridgetown Community form](https://community.bridgetownrb.com/) or [chat on Gitter](https://gitter.im/bridgetownrb/bridgetown)
-* [Fork Bridgetown](https://github.com/bridgetown/bridgetown/fork) and contribute your own improvements!
+* [Fork Bridgetown](https://github.com/bridgetownrb/bridgetown/fork) and contribute your own improvements!
 
 ## Get Up to Speed
 

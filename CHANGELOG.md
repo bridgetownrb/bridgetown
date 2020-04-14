@@ -1,5 +1,9 @@
 # master
 
+  * Add CI build workflow via GitHub actions
+  * Clean up Rake tasks
+  * Add documentation around gem releases and contributing PRs
+
 # 0.7.0 / 2020-04-12
 
   * Moved the default plugins folder from `src/_plugins` to simply `plugins`
