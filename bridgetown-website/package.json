@@ -1,9 +1,10 @@
 {
-  "name": "new-bridgetown-site",
+  "name": "bridgetown-website",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "build": "webpack --mode production",
+    "deploy": "yarn build && bundle exec bridgetown build",
     "dev": "webpack --mode development -w"
   },
   "devDependencies": {
