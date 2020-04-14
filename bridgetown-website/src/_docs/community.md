@@ -24,12 +24,12 @@ There are also a growing number of companies which provide commercial support fo
 Whether you're a developer, designer, or overall Bridgetown enthusiast, there are lots of ways to contribute. Here's a few ideas:
 
 * Comment on some of the project's [open issues](https://github.com/{{ site.github_handle }}/issues). Have you experienced the same problem? Know a work around? Do you have a suggestion for how the feature could be better?
-* Read through the [documentation](/docs/) and file a pull request (PR) by forking the [Bridgetown repo on GitHub](https://github.com/{{ site.github_handle }}) and adding your changes or suggestions for something that could be improved.
+* Read through the [documentation](/docs/) and file a pull request (PR) by forking the [Bridgetown repo on GitHub](https://github.com/{{ site.github_handle }}/fork) and adding your changes or suggestions for something that could be improved.
 * Browse through the [Bridgetown community forum](https://community.bridgetownrb.com/) and lend a hand answering questions or proposing awesome new features. There's a good chance other folks are in the same boat as you.
-* Help evaluate [open pull requests](https://github.com/{{ site.github_handle }}/pulls) by testing the changes locally and reviewing what's proposed. Or if you have a PR you'd like to submit for a new feature or a bugfix, we'd be thrilled to evaluate it and guide it through the release cycle if it adheres to our [roadmap](/about/#roadmap) and [project goals](/docs/philosophy/).
+* Help evaluate [open pull requests](https://github.com/{{ site.github_handle }}/pulls) by testing the changes locally and reviewing what's proposed. Or if you [have a PR you'd like to submit](https://github.com/bridgetownrb/bridgetown/blob/master/CONTRIBUTING.md) for a new feature or a bugfix, we'd be thrilled to evaluate it and guide it through the release cycle if it adheres to our [roadmap](/about/#roadmap) and [project goals](/docs/philosophy/).
 
 {:.note.warning}
-**Reminder:** Bridgetown's issue tracker is not a support forum.
+**Reminder:** Bridgetown's issue tracker on GitHub is not a support forum. Only file issues for reproducible problems you've identified while using Bridgetown.
 
 ## Bridgetown Contributor Code of Conduct
 
