@@ -8,9 +8,11 @@ task :test_all do
   sh "cd bridgetown-paginate && script/cibuild"
 end
 
-desc "Build and release all Bridgetown gems in monorepo"
-task release_all: %w[test_all] do
+task release_all_unsafe: do
   sh "cd bridgetown && bundle exec rake release"
   sh "cd bridgetown-core && bundle exec rake release"
   sh "cd bridgetown-paginate && bundle exec rake release"
 end
+
+desc "Build and release all Bridgetown gems in monorepo"
+task release_all: %w[test_all release_all_unsafe]
