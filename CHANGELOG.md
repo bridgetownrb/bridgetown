@@ -1,5 +1,8 @@
 # master
 
+# 0.8.0 / 2020-04-14
+
+  * Add Bridgetown::Paginate gem to monorepo
   * Add CI build workflow via GitHub actions
   * Clean up Rake tasks
   * Add documentation around gem releases and contributing PRs

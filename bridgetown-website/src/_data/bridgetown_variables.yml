@@ -20,10 +20,6 @@ global:
     description: >-
       In layout files, the rendered content of the Post or Page being wrapped.
       Not defined in Post or Page files.
-#  - name: paginator
-#    description: >-
-#      When the <code>paginate</code> configuration option is set, this variable becomes available
-#      for use. See <a href="../pagination/">Pagination</a> for details.
 
 site:
   - name: site.time

@@ -3,9 +3,9 @@
 
 STDOUT.sync = true
 
-$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
+$LOAD_PATH.unshift File.expand_path("../../bridgetown/lib", __dir__)
 
-require "bridgetown-core"
+require "bridgetown"
 require "mercenary"
 
 Bridgetown::PluginManager.require_from_bundler

@@ -46,7 +46,6 @@ module Bridgetown
 
       # Output Configuration
       "permalink"           => "date",
-      "paginate_path"       => "/page:num",
       "timezone"            => nil, # use the local timezone
 
       "quiet"               => false,

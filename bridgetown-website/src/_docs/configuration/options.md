@@ -465,8 +465,7 @@ show_dir_listing    : false
 
 # Outputting
 permalink           : date
-paginate_path       : /page:num
-timezone            : null
+timezone            : null # e.g. America/Los_Angeles
 
 quiet               : false
 verbose             : false

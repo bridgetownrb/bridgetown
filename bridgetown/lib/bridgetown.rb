@@ -1,4 +1,7 @@
-require "bridgetown-core"
+# frozen_string_literal: true
 
-# Load the core gem VERSION
+require "bridgetown-core"
 require "bridgetown-core/version"
+
+# Load additional monorepo gems
+require "bridgetown-paginate"

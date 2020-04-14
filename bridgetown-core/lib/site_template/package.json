@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "webpack --mode production",
+    "deploy": "yarn build && bundle exec bridgetown build",
     "dev": "webpack --mode development -w"
   },
   "devDependencies": {

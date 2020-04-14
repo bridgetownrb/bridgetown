@@ -1,0 +1,52 @@
+---
+inherit_from: ../.rubocop.yml
+
+AllCops:
+  Include:
+    - lib/**/*.rb
+    - spec/**/*.rb
+
+Bridgetown/NoPutsAllowed:
+  Exclude:
+    - lib/bridgetown-paginate/pagination_model.rb
+Layout/CommentIndentation:
+  Exclude:
+    - lib/bridgetown-paginate/defaults.rb
+Metrics/AbcSize:
+  Exclude:
+    - lib/bridgetown-paginate/pagination_generator.rb
+    - lib/bridgetown-paginate/pagination_indexer.rb
+    - lib/bridgetown-paginate/pagination_model.rb
+    - lib/bridgetown-paginate/pagination_page.rb
+    - lib/bridgetown-paginate/paginator.rb
+Metrics/BlockNesting:
+  Exclude:
+    - lib/bridgetown-paginate/pagination_model.rb
+Metrics/ClassLength:
+  Exclude:
+    - lib/bridgetown-paginate/pagination_model.rb
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - lib/bridgetown-paginate/pagination_generator.rb
+    - lib/bridgetown-paginate/pagination_indexer.rb
+    - lib/bridgetown-paginate/pagination_model.rb
+    - lib/bridgetown-paginate/paginator.rb
+Metrics/MethodLength:
+  Exclude:
+    - lib/bridgetown-paginate/pagination_generator.rb
+    - lib/bridgetown-paginate/pagination_indexer.rb
+    - lib/bridgetown-paginate/pagination_model.rb
+    - lib/bridgetown-paginate/paginator.rb
+Metrics/ParameterLists:
+  Exclude:
+    - lib/bridgetown-paginate/pagination_model.rb
+    - lib/bridgetown-paginate/paginator.rb
+Metrics/PerceivedComplexity:
+  Exclude:
+    - lib/bridgetown-paginate/pagination_generator.rb
+    - lib/bridgetown-paginate/pagination_indexer.rb
+    - lib/bridgetown-paginate/pagination_model.rb
+    - lib/bridgetown-paginate/paginator.rb
+Style/Next:
+  Exclude:
+    - lib/bridgetown-paginate/pagination_model.rb
