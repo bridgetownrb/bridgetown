@@ -25,3 +25,4 @@ bbin/
 */pkg/
 */test/dest
 */tmp/*
+.vscode

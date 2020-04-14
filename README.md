@@ -38,16 +38,16 @@ Bridgetown started life as a fork of the granddaddy of static site generators, [
 
 ## Testing Locally
 
-If you'd like to hack away on Bridgetown directly, you'll need to clone this repo and ensure the test suite passes.
+If you'd like to hack away on Bridgetown directly, you'll need to clone this repo and ensure the test suite passes. Note that this is a "monorepo", meaning that multiple Rubygem codebases are stored within a single repo.
 
 ```shell
 $ git clone git@github.com:bridgetownrb/bridgetown.git
-$ cd bridgetown/bridgetown-core
-$ script/bootstrap # install development gems
-$ script/cibuild # run the full test suite
+$ cd bridgetown
+$ bundle # install development gems
+$ bundle exec rake # run the full test suite
 ```
 
-After making changes to the codebase, if you want to run a single unit test, you can use the command:
+After making changes in `bridgetown-core`, if you want to run a single unit test, you can use the command:
 
 ```shell
 $ script/test test/blah_test.rb
@@ -64,7 +64,7 @@ Both `script/test` and `script/cucumber` can be run without arguments to run its
 To switch one of your website repos to using the local gem, alter the site's Gemfile as follows:
 
 ```ruby
-gem "bridgetown-core", path: "/path/to/bridgetown-core"
+gem "bridgetown-core", path: "/path/to/bridgetown/bridgetown-core"
 ```
 
 ## Need help?
