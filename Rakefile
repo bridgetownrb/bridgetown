@@ -8,7 +8,7 @@ task :test_all do
   sh "cd bridgetown-paginate && script/cibuild"
 end
 
-task release_all_unsafe: do
+task :release_all_unsafe do
   sh "cd bridgetown && bundle exec rake release"
   sh "cd bridgetown-core && bundle exec rake release"
   sh "cd bridgetown-paginate && bundle exec rake release"
