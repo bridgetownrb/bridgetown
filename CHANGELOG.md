@@ -1,5 +1,8 @@
 # master
 
+  * Add "where_query" feature to Paginate. For example. specify `where_query: [author, sandy]` in the pagination YAML to filter by that front matter key.
+  * Update the Jamstack page in the docs.
+
 # 0.8.1 / 2020-04-14
 
   * Fix bug where paginator wouldn't properly convert Markdown templates
