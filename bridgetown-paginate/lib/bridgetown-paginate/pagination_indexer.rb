@@ -16,6 +16,9 @@ module Bridgetown
           return nil if all_documents.nil?
           return all_documents if index_key.nil?
 
+          # Where queries are a key/value pair, so grab the first key element
+          index_key = index_key[0] if index_key.is_a?(Array)
+
           index = {}
           all_documents.each do |document|
             next if document.data.nil?
@@ -84,6 +87,9 @@ module Bridgetown
           # values that should be filtered on)
           config_value = config[config_key]
 
+          # Use the second key/value element if it's a "where query"
+          config_value = config_value[1] if config_key == "where_query"
+
           # If we're dealing with a delimitered string instead of an array then
           # let's be forgiving
           config_value = config_value.split(%r!;|,!) if config_value.is_a?(String)
@@ -91,6 +97,8 @@ module Bridgetown
           # Now for all filter values for the config key, let's remove all items
           # from the documents that aren't common for all collections that the
           # user wants to filter on
+          # TODO: right now this is an "AND" operation if multiple keys are present.
+          # Should offer the ability to do an OR operation instead.
           config_value.each do |key|
             key = key.to_s.downcase.strip
             documents = PaginationIndexer.intersect_arrays(documents, source_documents[key])

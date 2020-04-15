@@ -35,9 +35,8 @@ module Bridgetown
           # pages in the site
           templates = discover_paginate_templates(site_pages)
           if templates.size.to_i <= 0
-            @logging_lambda.call "Is enabled, but I couldn't find any pagination page." \
-              " Skipping pagination. Pages must have 'pagination: enabled: true'" \
-              " in their front-matter for pagination to work.", "warn"
+            @logging_lambda.call "is enabled in the config, but no paginated pages found." \
+              " Add 'pagination:\\n  enabled: true' to the front-matter of a page.", "warn"
             return
           end
 
@@ -71,6 +70,19 @@ module Bridgetown
                 all_tags = PaginationIndexer.index_documents_by(all_posts, "tags")
                 all_locales = PaginationIndexer.index_documents_by(all_posts, "locale")
 
+                # Load in custom query index, if specified
+                all_where_matches = if template_config["where_query"]
+                  PaginationIndexer.index_documents_by(all_posts, template_config["where_query"])
+                end
+
+                documents_payload = {
+                  posts: all_posts,
+                  tags: all_tags,
+                  categories: all_categories,
+                  locales: all_locales,
+                  where_matches: all_where_matches
+                }
+
                 # TODO: NOTE!!! This whole request for posts and indexing results
                 # could be cached to improve performance, leaving like this for
                 # now during testing
@@ -80,10 +92,7 @@ module Bridgetown
                   template,
                   template_config,
                   site_title,
-                  all_posts,
-                  all_tags,
-                  all_categories,
-                  all_locales
+                  documents_payload
                 )
               end
             end
@@ -175,17 +184,9 @@ module Bridgetown
         # template - The index.html Page that requires pagination.
         # config - The configuration settings that should be used
         #
-        def paginate(
-          template,
-          config,
-          site_title,
-          all_posts,
-          all_tags,
-          all_categories,
-          all_locales
-        )
+        def paginate(template, config, site_title, documents_payload)
           # By default paginate on all posts in the site
-          using_posts = all_posts
+          using_posts = documents_payload[:posts]
 
           # Now start filtering out any posts that the user doesn't want included
           # in the pagination
@@ -194,26 +195,39 @@ module Bridgetown
             config,
             "category",
             using_posts,
-            all_categories
+            documents_payload[:categories]
           )
           _debug_print_filtering_info("Category", before, using_posts.size.to_i)
+
           before = using_posts.size.to_i
           using_posts = PaginationIndexer.read_config_value_and_filter_documents(
             config,
             "tag",
             using_posts,
-            all_tags
+            documents_payload[:tags]
           )
           _debug_print_filtering_info("Tag", before, using_posts.size.to_i)
+
           before = using_posts.size.to_i
           using_posts = PaginationIndexer.read_config_value_and_filter_documents(
             config,
             "locale",
             using_posts,
-            all_locales
+            documents_payload[:locales]
           )
           _debug_print_filtering_info("Locale", before, using_posts.size.to_i)
 
+          if config["where_query"]
+            before = using_posts.size.to_i
+            using_posts = PaginationIndexer.read_config_value_and_filter_documents(
+              config,
+              "where_query",
+              using_posts,
+              documents_payload[:where_matches]
+            )
+            _debug_print_filtering_info("Where Query (#{config["where_query"]})", before, using_posts.size.to_i)
+          end
+          
           # Apply sorting to the posts if configured, any field for the post is
           # available for sorting
           if config["sort_field"]
