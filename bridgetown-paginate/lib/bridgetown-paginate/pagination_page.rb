@@ -12,11 +12,11 @@ module Bridgetown
       # not read from disk
       #
       class PaginationPage < Bridgetown::Page
-        def initialize(page_to_copy, cur_page_nr, total_pages, index_pageandext)
+        def initialize(page_to_copy, cur_page_nr, total_pages, index_pageandext, template_ext)
           @site = page_to_copy.site
           @base = ""
           @url = ""
-          @name = index_pageandext.nil? ? "index.html" : index_pageandext
+          @name = index_pageandext.nil? ? "index#{template_ext}" : index_pageandext
           @path = page_to_copy.path
 
           # Creates the basename and ext member values

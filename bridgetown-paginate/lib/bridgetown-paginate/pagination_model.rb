@@ -271,18 +271,14 @@ module Bridgetown
           # list of all newly created pages
           newpages = []
 
-          # Consider the default index page name and extension
-          index_page_name = if config["indexpage"].nil?
-                              ""
-                            else
-                              config["indexpage"].split(".")[0]
-                            end
-          index_page_ext = if config["extension"].nil?
-                             ""
-                           else
+          # Consider the index page name and extension
+          # By default, they will be nil and the Page object will infer
+          # it from the template used
+          index_page_name = config["indexpage"].split(".")[0] unless config["indexpage"].nil?
+          index_page_ext = unless index_page_name.nil? || config["extension"].nil?
                              Utils.ensure_leading_dot(config["extension"])
                            end
-          index_page_with_ext = index_page_name + index_page_ext
+          index_page_with_ext = index_page_name + index_page_ext if index_page_name
 
           # In case there are no (visible) posts, generate the index file anyway
           total_pages = 1 if total_pages.zero?
@@ -296,7 +292,13 @@ module Bridgetown
             # 1. Create the in-memory page
             # External Proc call to create the actual page for us (this is
             # passed in when the pagination is run)
-            newpage = PaginationPage.new template, cur_page_nr, total_pages, index_page_with_ext
+            newpage = PaginationPage.new(
+              template,
+              cur_page_nr,
+              total_pages,
+              index_page_with_ext,
+              template.ext
+            )
 
             # 2. Create the url for the in-memory page (calc permalink etc),
             # construct the title, set all page.data values needed
@@ -327,12 +329,12 @@ module Bridgetown
             # that are defined in the template page before
             if newpage.pager.page_path.end_with? "/"
               newpage.set_url(File.join(newpage.pager.page_path, index_page_with_ext))
-            elsif newpage.pager.page_path.end_with? index_page_ext
+            elsif newpage.pager.page_path.end_with? index_page_ext.to_s
               # Support for direct .html files
               newpage.set_url(newpage.pager.page_path)
             else
               # Support for extensionless permalinks
-              newpage.set_url(newpage.pager.page_path + index_page_ext)
+              newpage.set_url(newpage.pager.page_path + index_page_ext.to_s)
             end
 
             newpage.data["permalink"] = newpage.pager.page_path if template.data["permalink"]

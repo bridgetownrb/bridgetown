@@ -40,6 +40,7 @@ Metrics/MethodLength:
 Metrics/ParameterLists:
   Exclude:
     - lib/bridgetown-paginate/pagination_model.rb
+    - lib/bridgetown-paginate/pagination_page.rb
     - lib/bridgetown-paginate/paginator.rb
 Metrics/PerceivedComplexity:
   Exclude:

@@ -74,6 +74,7 @@ module Bridgetown
       end
     end
 
+    # TODO: this method never seems to get called...why's it here?
     # Transform the contents based on the content type.
     #
     # Returns the transformed contents.

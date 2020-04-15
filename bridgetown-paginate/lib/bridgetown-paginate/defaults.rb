@@ -13,7 +13,7 @@ module Bridgetown
         "permalink"    => "/page/:num/", # Supports :num as customizable elements
         "title"        => ":title (Page :num)", # Supports :num as customizable elements
         "page_num"     => 1,
-        "sort_reverse" => false,
+        "sort_reverse" => true,
         "sort_field"   => "date",
         "limit"        => 0, # Limit how many content objects to paginate (default: 0, means all)
         "trail"        => {

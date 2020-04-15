@@ -1,5 +1,9 @@
 # master
 
+# 0.8.1 / 2020-04-14
+
+  * Fix bug where paginator wouldn't properly convert Markdown templates
+
 # 0.8.0 / 2020-04-14
 
   * Add Bridgetown::Paginate gem to monorepo
