@@ -15,3 +15,7 @@ defaults:
       path: _docs
     values:
       layout: docs
+
+pagination:
+  enabled: true
+  debug: true

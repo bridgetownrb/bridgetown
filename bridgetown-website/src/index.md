@@ -20,7 +20,7 @@ Built upon proven open source technology, **Bridgetown** is a _fast_, _scalable_
 
 * **Add a Modern Frontend.**{:.is-size-5.has-text-brown} &nbsp;Bridgetown comes with support for **Webpack** out-of-the-box, which means you can add Javascript frameworks like **React**, **Vue**, **Stimulus** as well as CSS frameworks like **Bulma** or **Tailwind** to get a leg up fast.
 
-* **Deploy Anywhere.**{:.is-size-5.has-text-brown} &nbsp;Use automated services like [Netlify](https://www.netlify.com) to deploy your site upon every update, or just sync the `output` folder to a standard web server and you're done.
+* **Deploy Anywhere.**{:.is-size-5.has-text-brown} &nbsp;Use an automated hosting service like [Netlify](https://www.netlify.com) to deploy your site upon every update, or just sync the `output` folder to a standard web server and you're done. It's without a doubt the most flexible publishing system available.
 
 <div class="buttons is-centered mt-12 mb-4">
   <a href="/docs/" class="button is-info is-large has-mixed-case">Get Started</a>

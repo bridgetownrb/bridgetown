@@ -1,12 +1,19 @@
-.pagination-link,
+/*.pagination-link,
 .pagination-next,
 .pagination-previous {
   color: $primary;
   background-color: $pagination-background-color;
-}
+} */
 
 h1, h2, h3 {
   letter-spacing: -0.05em;
+}
+
+body.home main h1.title {
+  font-size: 4rem;
+  @media screen and (max-width: 32rem) {
+    font-size: 15.5vw;
+  }
 }
 
 .footer a {
