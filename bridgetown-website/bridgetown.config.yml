@@ -4,6 +4,8 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 # Additional build settings go here
 permalink: simple
 
+timezone: America/Los_Angeles
+
 collections:
   docs:
     output: true
@@ -15,7 +17,10 @@ defaults:
       path: _docs
     values:
       layout: docs
+  - scope:
+      path: _posts
+    values:
+      layout: post
 
 pagination:
   enabled: true
-  debug: true

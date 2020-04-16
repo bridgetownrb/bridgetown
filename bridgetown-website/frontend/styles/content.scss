@@ -1,3 +1,43 @@
+// Set up Swup
+/*.transition-fade {
+  transition: 0.2s;
+  transform: translateY(0px);
+  opacity: 1;
+}
+
+html.is-animating .transition-fade {
+  transform: translateY(20px);
+  opacity: 0.1;
+}*/
+
+// override theme speeds
+.swup-transition-main {
+  transition: opacity .2s, transform 0.3s;
+}
+html.is-animating {
+  .swup-transition-main {
+    transform: translate3d(0, -20px, 0);
+  }
+
+  &.is-leaving {
+    .swup-transition-main {
+      transform: translate3d(0, 20px, 0);
+    }
+
+    &.swup-theme-reverse {
+      .swup-transition-main {
+        transform: translate3d(0, 20px, 0);
+      }
+    }
+
+    &.is-leaving {
+      .swup-transition-main {
+        transform: translate3d(0, -20px, 0);
+      }
+    }
+  }
+}
+
 .content .highlight {
   margin-top: 1em;
   margin-bottom: 1em;

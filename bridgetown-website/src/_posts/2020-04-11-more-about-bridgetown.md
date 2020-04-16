@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "More About Bridgetown"
 subtitle: Trevor Harmon from Shopify gives a step-by-step walkthrough for a sample site, showing how to set up a Shopify store, then pull data into Bridgetown and use it to create pages.
 date:   2020-04-11 05:07:37 -0700

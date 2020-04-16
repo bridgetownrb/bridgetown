@@ -1,12 +1,15 @@
 {%- assign about_active = "" -%}
 {%- assign docs_active = "" -%}
+{%- assign news_active = "" -%}
 
 {%- if page.url == "/about/" -%}
 {%- assign about_active = "is-active" -%}
 {%- elsif page.url contains "/docs/" -%}
 {%- assign docs_active = "is-active" -%}
+{%- elsif page.url contains "/blog/" or page.layout == "post" %}
+{%- assign news_active = "is-active" -%}
 {%- endif -%}
-<nav class="main-nav navbar is-pprimary">
+<nav class="main-nav navbar" id="topnav">
   <div class="container">
     <div class="navbar-brand">
       <a class="navbar-item {{ home_active }}" href="/">

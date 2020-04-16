@@ -1,3 +1,26 @@
 import "../styles/index.scss"
+import Swup from "swup"
+import SwupSlideTheme from "@swup/slide-theme"
+import SwupBodyClassPlugin from "@swup/body-class-plugin"
+import SwupScrollPlugin from "@swup/scroll-plugin"
 
-console.info("Bridgetown is loaded!")
+let containers, mainEl
+
+if (document.querySelector("#sidebar")) {
+  mainEl = "#swap"
+  containers = [mainEl, "#sidebar", "#topnav"]
+} else {
+  mainEl = "#swup"
+  containers = [mainEl, "#topnav"]
+}
+
+const swup = new Swup({
+  containers: containers,
+  plugins: [
+    new SwupSlideTheme({mainElement: mainEl}),
+    new SwupBodyClassPlugin(),
+    new SwupScrollPlugin({animateScroll: false})
+  ]
+})
+
+//console.info("Bridgetown is loaded!")

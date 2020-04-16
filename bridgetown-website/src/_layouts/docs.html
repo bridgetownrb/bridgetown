@@ -4,7 +4,7 @@ layout: default
 
 <section class="container mt-12">
   <div class="columns">
-    <div class="column is-three-quarters">
+    <div class="column is-three-quarters" id="swap">
       <div class="box px-8 py-8">
         {% assign url_sections = page.url | split: "/" %}
         {% if url_sections.size > 3 %}
@@ -49,8 +49,8 @@ layout: default
         {% endif %}
       </div>
     </div>
-    <div class="column pl-8">
-      {% component docs_toc %}.{% endcomponent docs_toc %}
-    </div>
+    <aside class="column pl-8" id="sidebar">
+      {% include docs_toc.html %}
+    </aside>
   </div>
 </section>
