@@ -1,5 +1,7 @@
 # master
 
+# 0.9.0 / 2020-04-16
+
   * Update table styling in Documentation
   * Now showing the plugins_dir in log output if it's present
   * With the Posts Reader changes, now you can add a Front Matter Default of
