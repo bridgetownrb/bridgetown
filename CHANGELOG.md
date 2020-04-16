@@ -1,5 +1,6 @@
 # master
 
+  * Add favicon to website
   * Add mobile improvements to website
   * Add back working feature tests for basic pagination
   * Convert to Ruby 1.9+ `symbol: value` hash syntax
