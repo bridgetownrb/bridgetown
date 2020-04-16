@@ -9,23 +9,17 @@ module Bridgetown
     # Public: Continuously watch for file changes and rebuild the site
     # whenever a change is detected.
     #
-    # If the optional site argument is populated, that site instance will be
-    # reused and the options Hash ignored. Otherwise, a new site instance will
-    # be instantiated from the options Hash and used.
-    #
+    # site    - The current site instance
     # options - A Hash containing the site configuration
-    # site    - The current site instance (populated starting with Bridgetown 3.2)
-    #           (optional, default: nil)
     #
     # Returns nothing.
-    def watch(options, site = nil)
+    def watch(site, options)
       ENV["LISTEN_GEM_DEBUGGING"] ||= "1" if options["verbose"]
 
-      site ||= Bridgetown::Site.new(options)
       listener = build_listener(site, options)
       listener.start
 
-      Bridgetown.logger.info "Auto-regeneration:", "enabled for '#{options["source"]}'"
+      Bridgetown.logger.info "Auto-regeneration:", "enabled."
 
       unless options["serving"]
         trap("INT") do

@@ -18,42 +18,17 @@ collections:
   - staff_members
 ```
 
-In this case `collections` is defined as a sequence (i.e array) with no additional metadata defined for each collection.
-You can optionally specify metadata for your collection by defining `collections` as a mapping (i.e hash) instead of sequence, and then defining additional fields in it:
-
-```yaml
-collections:
-  staff_members:
-    people: true
-```
-
-{: .note .info}
-When defining a collection as a sequence, its pages will not be rendered by
-default. To enable this, <code>output: true</code> must be specified on the
-collection, which requires defining the collection as a mapping. For more
-information, see the section <a href="#output">Output</a>.
-
-<div class="note">
-  <h5>Gather your collections</h5>
-
-  <p>You can optionally specify a folder to store all your collections in the same place with <code>collections_dir: my_collections</code>.</p>
-
-  <p>Then Bridgetown will look in <code>my_collections/_books</code> for the <code>books</code> collection, and
-  in <code>my_collections/_recipes</code> for the <code>recipes</code> collection.</p>
-</div>
-
-<div class="note warning">
-  <h5>Be sure to move posts into custom collections folder</h5>
-
-  <p>If you specify a folder to store all your collections in the same place with <code>collections_dir: my_collections</code>, then you will need to move your <code>_posts</code> folder to <code>my_collections/_posts</code>. Note that, the name of your collections directory cannot start with an underscore (`_`).</p>
-</div>
+Note that by default, individual pages for collection documents won't get rendered.
+To enable this, <code>output: true</code> must be specified on the collection, which
+requires defining the collection as a mapping. For more information, see the section
+<a href="#output">Output</a>.
 
 ## Add content
 
 Create a corresponding folder (e.g. `<source>/_staff_members`) and add
 documents. Front matter is processed if the [front matter](/docs/front-matter/) exists, and everything
 after the front matter is pushed into the document's `content` attribute. If no front
-matter is provided, Bridgetown will consider it to be a [static file]({{ '/docs/static-files/' | relative_url }})
+matter is provided, Bridgetown will consider it to be a [static file](/docs/static-files/)
 and the contents will not undergo further processing. If front matter is provided,
 Bridgetown will process the file contents into the expected output.
 
@@ -80,9 +55,7 @@ your <code>bridgetown.config.yml</code> file, with the addition of the preceding
   </p>
 </div>
 
-## Output
-
-Now you can iterate over `site.staff_members` on a page and output the content
+Now you can iterate over `site.staff_members` on a page and display the content
 for each staff member. Similar to posts, the body of the document is accessed
 using the `content` variable:
 
@@ -94,6 +67,8 @@ using the `content` variable:
 {% endfor %}
 ```
 {% endraw %}
+
+## Output
 
 If you'd like Bridgetown to create a rendered page for each document in your
 collection, you can set the `output` key to `true` in your collection
@@ -119,6 +94,11 @@ You can link to the generated page using the `url` attribute:
 {% endfor %}
 ```
 {% endraw %}
+
+{:.note}
+If you have a large number of documents, it's likely you'll want to use the
+[Pagination feature](/docs/content/pagination/) to make it easy to browse through
+a limited number of documents per page.
 
 ## Permalinks
 
@@ -150,10 +130,9 @@ those documents are sorted by their dates or paths and then placed immediately a
 
 ### Collections
 
-Collections are also available under `site.collections`, with the metadata
-you specified in your `bridgetown.config.yml` (if present) and the following information:
+Collections objects are available under `site.collections` with the following information:
 
-<table>
+<table class="settings biggest-output">
   <thead>
     <tr>
       <th>Variable</th>
@@ -256,7 +235,7 @@ you specified in your `bridgetown.config.yml` (if present) and the following inf
 In addition to any front matter provided in the document's corresponding
 file, each document has the following attributes:
 
-<table>
+<table class="settings biggest-output">
   <thead>
     <tr>
       <th>Variable</th>
@@ -270,11 +249,9 @@ file, each document has the following attributes:
       </td>
       <td>
         <p>
-          The (unrendered) content of the document. If no front matter is
-          provided, Bridgetown will not generate the file in your collection. If
-          front matter is used, then this is all the contents of the file
-          after the terminating
-          `---` of the front matter.
+          The content of the document (including transformations if the format is,
+          say, Markdown). If no front matter is
+          provided, Bridgetown will not generate the file in your collection.
         </p>
       </td>
     </tr>
@@ -284,18 +261,8 @@ file, each document has the following attributes:
       </td>
       <td>
         <p>
-          The rendered output of the document, based on the
+          The final rendered output of the document (HTML for example), based on the
           <code>content</code>.
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>path</code></p>
-      </td>
-      <td>
-        <p>
-          The full path to the document's source file.
         </p>
       </td>
     </tr>
@@ -315,7 +282,7 @@ file, each document has the following attributes:
       </td>
       <td>
         <p>
-          The URL of the rendered collection. The file is only written to the destination when the collection to which it belongs has <code>output: true</code> in the site's configuration.
+          The URL of the rendered document. The file is only written to the destination when the collection to which it belongs has <code>output: true</code> in the site's configuration.
           </p>
       </td>
     </tr>
@@ -325,7 +292,7 @@ file, each document has the following attributes:
       </td>
       <td>
         <p>
-          The name of the document's collection.
+          The document's collection object.
         </p>
       </td>
     </tr>
@@ -335,9 +302,53 @@ file, each document has the following attributes:
       </td>
       <td>
         <p>
-          The date of the document's collection.
+          The date of the document's collection (usually the time the site was regenerated), unless a document date is provided via front matter.
         </p>
       </td>
     </tr>
   </tbody>
 </table>
+
+## Collection Metadata
+
+It's also possible to add custom metadata to a collection. You simply add
+additional keys to the collection config and they'll be made available in the
+Liquid context. For example, if you specify this:
+
+```yaml
+collections:
+  tutorials:
+    output: true
+    name: Terrific Tutorials
+```
+
+Then you could access the `name` value in a template:
+
+{% raw %}
+```
+{{ site.tutorials.name }}
+```
+{% endraw %}
+
+or if you're on a document page within the collection:
+
+{% raw %}
+```
+{{ page.collection.name }}
+```
+{% endraw %}
+
+<div class="note mt-8">
+  <h5>Top Top: You can relocate your collections</h5>
+
+  <p>It's possible to optionally specify a folder to store all your collections in a centralized folder with <code>collections_dir: my_collections</code>.</p>
+
+  <p>Then Bridgetown will look in <code>my_collections/_books</code> for the <code>books</code> collection, and
+  in <code>my_collections/_recipes</code> for the <code>recipes</code> collection.</p>
+</div>
+
+<div class="note warning">
+  <h5>Be sure to move posts into custom collections folder</h5>
+
+  <p>If you specify a folder to store all your collections in the same place with <code>collections_dir: my_collections</code>, then you will need to move your <code>_posts</code> folder to <code>my_collections/_posts</code>. Note that the name of your collections directory cannot start with an underscore (`_`).</p>
+</div>

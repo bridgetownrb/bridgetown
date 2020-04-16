@@ -17,7 +17,7 @@ module Bridgetown
       private def_delegator :@obj, :data, :fallback_data
 
       def collection
-        @obj.collection.label
+        @collection ||= @obj.collection.to_liquid
       end
 
       def excerpt
@@ -33,11 +33,11 @@ module Bridgetown
       end
 
       def previous
-        @obj.previous_doc.to_liquid
+        @previous ||= @obj.previous_doc.to_liquid
       end
 
       def next
-        @obj.next_doc.to_liquid
+        @next ||= @obj.next_doc.to_liquid
       end
 
       # Generate a Hash for use in generating JSON.
@@ -48,6 +48,9 @@ module Bridgetown
       # Returns a Hash ready for JSON generation.
       def hash_for_json(state = nil)
         to_h.tap do |hash|
+          # use collection label in the hash
+          hash["collection"] = hash["collection"]["label"] if hash["collection"]
+
           if state && state.depth >= 2
             hash["previous"] = collapse_document(hash["previous"]) if hash["previous"]
             hash["next"]     = collapse_document(hash["next"]) if hash["next"]

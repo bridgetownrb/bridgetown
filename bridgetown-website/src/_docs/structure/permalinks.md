@@ -48,7 +48,7 @@ For example, a permalink style of
 
 Here's the full list of placeholders available:
 
-<table>
+<table class="settings bigger-output">
   <thead>
     <tr>
       <th>Variable</th>
@@ -260,7 +260,7 @@ Here's the full list of placeholders available:
 
 For posts, Bridgetown also provides the following built-in styles for convenience:
 
-<table>
+<table class="settings bigger-output">
   <thead>
     <tr>
       <th>Permalink Style</th>
@@ -340,7 +340,7 @@ collections:
 
 Collections have the following placeholders available:
 
-<table>
+<table class="settings bigger-output">
   <thead>
     <tr>
       <th>Variable</th>
@@ -409,7 +409,7 @@ it will be ignored.
 
 Pages have the following placeholders available:
 
-<table>
+<table class="settings bigger-output">
   <thead>
     <tr>
       <th>Variable</th>

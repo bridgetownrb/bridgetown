@@ -8,12 +8,12 @@ module Bridgetown
       mutable false
 
       def_delegator  :@obj, :write?, :output
-      def_delegators :@obj, :label, :docs, :files, :directory, :relative_directory
+      def_delegators :@obj, :label, :docs, :files, :relative_path
 
       private def_delegator :@obj, :metadata, :fallback_data
 
       def to_s
-        docs.to_s
+        label
       end
     end
   end

@@ -1,5 +1,24 @@
 # master
 
+  * Update table styling in Documentation
+  * Now showing the plugins_dir in log output if it's present
+  * With the Posts Reader changes, now you can add a Front Matter Default of
+    `_posts/drafts` having `published: false`, put a bunch of draft posts in
+    `_posts/drafts` and you're done!
+  * New `-U` flag makes it easier to specify generating `published: false` docs.
+  * The Posts Reader has been reworked so that files with valid front matter can
+    be read in even if there's no YYYY-MM-DD- at the beginning. In addition, static
+    files are also supported, which means if you can create a folder (`inlinefiles`),
+    drop a post in along with a bunch of images, and use `![alt](some-image.jpg)`
+    relative paths, it'll work! Big improvement to Markdown authoring. (You'll need
+    to use a permalink in a specific manner though, e.g.
+    `permalink: /inlinefiles/:title:output_ext`)
+    If you need a static file not to get copied to the destination, just add an
+    `_` at the beginning and it'll get ignored.
+  * Collections no longer allow displaying a full server file path via Liquid.
+  * `{{ page.collection }}` now returns a CollectionDrop, not the label of
+    the collection. Using the `jsonify` filter on a document however still returns
+    just the label for the `collection` key.
   * Add favicon to website
   * Add mobile improvements to website
   * Add back working feature tests for basic pagination

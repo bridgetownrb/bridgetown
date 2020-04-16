@@ -75,7 +75,7 @@ subcommands. For example:
 
 There are configurable flags to be aware of when writing a plugin:
 
-<table>
+<table class="settings biggest-output">
   <thead>
     <tr>
       <th>Flag</th>

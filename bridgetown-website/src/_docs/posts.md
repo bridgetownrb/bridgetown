@@ -59,6 +59,10 @@ I hope you like it!
   </p>
 </div>
 
+## Permalinks
+
+You can configure [permalinks](/docs/structure/permalinks) for full control of the output URL of your blog posts, such as `https://mydomain.com/vacation/2019/disney-world`. Read all about it in the [permalinks documentation](/docs/structure/permalinks).
+
 ## Including images and resources
 
 At some point, you'll want to include images, downloads, or other
@@ -105,6 +109,11 @@ Note that the `post` variable only exists inside the `for` loop above. If
 you wish to access the currently-rendering page variables (the
 variables of the page that has the `for` loop in it), use the `page`
 variable instead.
+
+{:.note}
+If you have a large number of posts, it's likely you'll want to use the
+[Pagination feature](/docs/content/pagination/) to make it easy to browse through
+a limited number of posts per page.
 
 ## Categories and Tags
 

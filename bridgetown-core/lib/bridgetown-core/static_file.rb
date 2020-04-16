@@ -41,12 +41,7 @@ module Bridgetown
     # Returns source file path.
     def path
       @path ||= begin
-        # Static file is from a collection inside custom collections directory
-        if !@collection.nil? && !@site.config["collections_dir"].empty?
-          File.join(*[@base, @site.config["collections_dir"], @dir, @name].compact)
-        else
-          File.join(*[@base, @dir, @name].compact)
-        end
+        File.join(*[@base, @dir, @name].compact)
       end
     end
 
@@ -149,7 +144,7 @@ module Bridgetown
       @cleaned_relative_path ||= begin
         cleaned = relative_path[0..-extname.length - 1]
         cleaned.gsub!(%r!\.*\z!, "")
-        cleaned.sub!(@collection.relative_directory, "") if @collection
+        cleaned.sub!(@collection.relative_path, "") if @collection
         cleaned
       end
     end
@@ -159,7 +154,7 @@ module Bridgetown
     # be overriden in the collection's configuration in bridgetown.config.yml.
     def url
       @url ||= begin
-        base = if @collection.nil?
+        base = if @collection.nil? || @collection.label == "posts"
                  cleaned_relative_path
                else
                  Bridgetown::URL.new(

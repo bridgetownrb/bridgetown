@@ -30,20 +30,20 @@ module Bridgetown
                                       " build is about to begin…"
 
           options = configuration_from_options(options)
-          site = Bridgetown::Site.new(options)
+          @site = Bridgetown::Site.new(options)
 
           if options.fetch("skip_initial_build", false)
             Bridgetown.logger.warn "Build Warning:", "Skipping the initial build." \
                                " This may result in an out-of-date site."
           else
-            build(site, options)
+            build(options)
           end
 
           if options.fetch("detach", false)
             Bridgetown.logger.info "Auto-regeneration:",
                                    "disabled when running server detached."
           elsif options.fetch("watch", false)
-            watch(site, options)
+            watch(options)
           else
             Bridgetown.logger.info "Auto-regeneration:", "disabled. Use --watch to enable."
           end
@@ -51,31 +51,30 @@ module Bridgetown
 
         # Build your Bridgetown site.
         #
-        # site - the Bridgetown::Site instance to build
-        # options - A Hash of options passed to the command
+        # options - A Hash of options passed to the command or loaded from config
         #
         # Returns nothing.
-        def build(site, options)
+        def build(options)
           t = Time.now
-          source = File.expand_path(options["source"])
-          destination = File.expand_path(options["destination"])
+          display_folder_paths(options)
+          if options["unpublished"]
+            Bridgetown.logger.info "Unpublished mode:",
+                                   "enabled. Processing documents marked unpublished"
+          end
           incremental = options["incremental"]
-          Bridgetown.logger.info "Source:", source
-          Bridgetown.logger.info "Destination:", destination
           Bridgetown.logger.info "Incremental build:",
                                  (incremental ? "enabled" : "disabled. Enable with --incremental")
           Bridgetown.logger.info "Generating…"
-          process_site(site)
+          process_site(@site)
           Bridgetown.logger.info "Done! 🎉", "Completed in #{(Time.now - t).round(3)} seconds."
         end
 
         # Private: Watch for file changes and rebuild the site.
         #
-        # site - A Bridgetown::Site instance
-        # options - A Hash of options passed to the command
+        # options - A Hash of options passed to the command or loaded from config
         #
         # Returns nothing.
-        def watch(site, options)
+        def watch(options)
           # Warn Windows users that they might need to upgrade.
           if Utils::Platforms.bash_on_windows?
             Bridgetown.logger.warn "",
@@ -88,7 +87,21 @@ module Bridgetown
           end
 
           #          External.require_with_graceful_fail "bridgetown-watch"
-          Bridgetown::Watcher.watch(options, site)
+          Bridgetown::Watcher.watch(@site, options)
+        end
+
+        # Private: display the source and destination folder paths
+        #
+        # options - A Hash of options passed to the command
+        #
+        # Returns nothing.
+        def display_folder_paths(options)
+          source = File.expand_path(options["source"])
+          destination = File.expand_path(options["destination"])
+          plugins_dir = File.expand_path(options["plugins_dir"])
+          Bridgetown.logger.info "Source:", source
+          Bridgetown.logger.info "Destination:", destination
+          Bridgetown.logger.info "Custom Plugins:", plugins_dir if Dir.exist?(plugins_dir)
         end
       end
     end

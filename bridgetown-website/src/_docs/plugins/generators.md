@@ -49,8 +49,6 @@ The following example is a more complex generator that generates new pages. In t
 ```ruby
 module MySite
   class CategoryPageGenerator < Bridgetown::Generator
-    safe true
-
     def generate(site)
       if site.layouts.key? 'category_index'
         dir = site.config['category_dir'] || 'categories'
@@ -82,7 +80,7 @@ end
 
 Generators need to implement only one method:
 
-<table>
+<table class="settings biggest-output">
   <thead>
     <tr>
       <th>Method</th>

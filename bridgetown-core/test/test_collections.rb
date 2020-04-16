@@ -59,12 +59,8 @@ class TestCollections < BridgetownUnitTest
         assert_equal [], @collection.to_liquid["files"]
       end
 
-      should "have a directory attribute" do
-        assert_equal @collection.to_liquid["directory"], source_dir("_methods")
-      end
-
-      should "have a relative_directory attribute" do
-        assert_equal "_methods", @collection.to_liquid["relative_directory"]
+      should "have a relative_path attribute" do
+        assert_equal "_methods", @collection.to_liquid["relative_path"]
       end
 
       should "have a output attribute" do

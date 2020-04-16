@@ -109,14 +109,20 @@ module Bridgetown
       @relative_directory ||= "_#{label}"
     end
 
+    # The relative path to the directory containing the collection.
+    #
+    # Returns a String containing the directory name where the collection
+    #   is stored relative to the source directory
+    def relative_path
+      Pathname.new(container).join(relative_directory).to_s
+    end
+
     # The full path to the directory containing the collection.
     #
-    # Returns a String containing th directory name where the collection
+    # Returns a String containing the directory name where the collection
     #   is stored on the filesystem.
     def directory
-      @directory ||= site.in_source_dir(
-        File.join(container, relative_directory)
-      )
+      @directory ||= site.in_source_dir(relative_path)
     end
 
     # The full path to the directory containing the collection, with
@@ -263,7 +269,7 @@ module Bridgetown
 
     def read_static_file(file_path, full_path)
       relative_dir = Bridgetown.sanitized_path(
-        relative_directory,
+        relative_path,
         File.dirname(file_path)
       ).chomp("/.")
 

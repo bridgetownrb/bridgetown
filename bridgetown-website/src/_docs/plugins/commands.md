@@ -41,7 +41,7 @@ end
 
 Commands should implement this single class method:
 
-<table>
+<table class="settings bigger-output">
   <thead>
     <tr>
       <th>Method</th>
