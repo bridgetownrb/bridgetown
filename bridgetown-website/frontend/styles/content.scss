@@ -1,15 +1,4 @@
 // Set up Swup
-/*.transition-fade {
-  transition: 0.2s;
-  transform: translateY(0px);
-  opacity: 1;
-}
-
-html.is-animating .transition-fade {
-  transform: translateY(20px);
-  opacity: 0.1;
-}*/
-
 // override theme speeds
 .swup-transition-main {
   transition: opacity .2s, transform 0.3s;
@@ -65,6 +54,11 @@ html.is-animating {
   text-decoration: $green wavy underline;
   -webkit-text-decoration-thickness: 2px;
   text-decoration-thickness: 2px;
+
+  // 2px in Firefox looks wonky
+  @supports (-moz-appearance: none) {
+    text-decoration-thickness: 1px;
+  }
 }
 
 .box .author {

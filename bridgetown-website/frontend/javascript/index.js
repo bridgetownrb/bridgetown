@@ -7,7 +7,7 @@ import SwupScrollPlugin from "@swup/scroll-plugin"
 let containers, mainEl
 
 if (document.querySelector("#sidebar")) {
-  mainEl = "#swap"
+  mainEl = "#swup-with-sidebar"
   containers = [mainEl, "#sidebar", "#topnav"]
 } else {
   mainEl = "#swup"
