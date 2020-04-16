@@ -69,9 +69,9 @@ module Bridgetown
     # rubocop: disable Metrics/AbcSize
     def render_document
       info = {
-        :registers        => { :site => site, :page => payload["page"] },
-        :strict_filters   => liquid_options["strict_filters"],
-        :strict_variables => liquid_options["strict_variables"],
+        registers: { site: site, page: payload["page"] },
+        strict_filters: liquid_options["strict_filters"],
+        strict_variables: liquid_options["strict_variables"],
       }
 
       output = document.content

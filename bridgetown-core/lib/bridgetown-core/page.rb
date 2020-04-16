@@ -124,9 +124,9 @@ module Bridgetown
     # Returns the String url.
     def url
       @url ||= URL.new(
-        :template     => template,
-        :placeholders => url_placeholders,
-        :permalink    => permalink
+        template: template,
+        placeholders: url_placeholders,
+        permalink: permalink
       ).to_s
     end
 
@@ -134,9 +134,9 @@ module Bridgetown
     # desired placeholder replacements. For details see "url.rb"
     def url_placeholders
       {
-        :path       => @dir,
-        :basename   => basename,
-        :output_ext => output_ext,
+        path: @dir,
+        basename: basename,
+        output_ext: output_ext,
       }
     end
 

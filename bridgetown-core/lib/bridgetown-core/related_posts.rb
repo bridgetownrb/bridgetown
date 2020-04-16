@@ -27,7 +27,7 @@ module Bridgetown
 
     def build_index
       self.class.lsi ||= begin
-        lsi = ClassifierReborn::LSI.new(:auto_rebuild => false)
+        lsi = ClassifierReborn::LSI.new(auto_rebuild: false)
         Bridgetown.logger.info("Populating LSI...")
 
         site.posts.docs.each do |x|

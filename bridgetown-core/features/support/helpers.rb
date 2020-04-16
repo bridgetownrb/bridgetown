@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "bridgetown-core"
+require "bridgetown-paginate"
 
 class Paths
   SOURCE_DIR = Pathname.new(File.expand_path("../..", __dir__))

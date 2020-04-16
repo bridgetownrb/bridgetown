@@ -102,15 +102,15 @@ module Bridgetown
 
         def webrick_opts(opts)
           opts = {
-            :BridgetownOptions  => opts,
-            :DoNotReverseLookup => true,
-            :MimeTypes          => mime_types,
-            :DocumentRoot       => opts["destination"],
-            :StartCallback      => start_callback(opts["detach"]),
-            :StopCallback       => stop_callback(opts["detach"]),
-            :BindAddress        => opts["host"],
-            :Port               => opts["port"],
-            :DirectoryIndex     => DIRECTORY_INDEX,
+            BridgetownOptions: opts,
+            DoNotReverseLookup: true,
+            MimeTypes: mime_types,
+            DocumentRoot: opts["destination"],
+            StartCallback: start_callback(opts["detach"]),
+            StopCallback: stop_callback(opts["detach"]),
+            BindAddress: opts["host"],
+            Port: opts["port"],
+            DirectoryIndex: DIRECTORY_INDEX,
           }
 
           opts[:DirectoryIndex] = [] if opts[:BridgetownOptions]["show_dir_listing"]
@@ -134,8 +134,8 @@ module Bridgetown
         # Recreate NondisclosureName under utf-8 circumstance
         def file_handler_opts
           WEBrick::Config::FileHandler.merge(
-            :FancyIndexing     => true,
-            :NondisclosureName => [
+            FancyIndexing: true,
+            NondisclosureName: [
               ".ht*", "~*",
             ]
           )
@@ -152,10 +152,10 @@ module Bridgetown
 
         def format_url(ssl_enabled, address, port, baseurl = nil)
           format("%<prefix>s://%<address>s:%<port>i%<baseurl>s",
-                 :prefix  => ssl_enabled ? "https" : "http",
-                 :address => address,
-                 :port    => port,
-                 :baseurl => baseurl ? "#{baseurl}/" : "")
+                 prefix: ssl_enabled ? "https" : "http",
+                 address: address,
+                 port: port,
+                 baseurl: baseurl ? "#{baseurl}/" : "")
         end
 
         def default_url(opts)

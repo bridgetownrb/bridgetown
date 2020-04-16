@@ -60,7 +60,7 @@ module Bridgetown
     # Returns the given filename or title as a lowercase URL String.
     # See Utils.slugify for more detail.
     def slugify(input, mode = nil)
-      Utils.slugify(input, :mode => mode)
+      Utils.slugify(input, mode: mode)
     end
 
     # XML escape a string for use. Replaces any special characters with
@@ -75,7 +75,7 @@ module Bridgetown
     #
     # Returns the escaped String.
     def xml_escape(input)
-      input.to_s.encode(:xml => :attr).gsub(%r!\A"|"\Z!, "")
+      input.to_s.encode(xml: :attr).gsub(%r!\A"|"\Z!, "")
     end
 
     # CGI escape a string for use in a URL. Replaces any special characters

@@ -208,7 +208,7 @@ module Bridgetown
       path = destination(dest)
       FileUtils.mkdir_p(File.dirname(path))
       Bridgetown.logger.debug "Writing:", path
-      File.write(path, output, :mode => "wb")
+      File.write(path, output, mode: "wb")
       Bridgetown::Hooks.trigger hook_owner, :post_write, self
     end
 

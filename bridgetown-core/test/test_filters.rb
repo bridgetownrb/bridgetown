@@ -9,7 +9,7 @@ class TestFilters < BridgetownUnitTest
 
     def initialize(opts = {})
       @site = Bridgetown::Site.new(opts.merge("skip_config_files" => true))
-      @context = Liquid::Context.new(@site.site_payload, {}, :site => @site)
+      @context = Liquid::Context.new(@site.site_payload, {}, site: @site)
     end
   end
 
@@ -89,7 +89,7 @@ class TestFilters < BridgetownUnitTest
       end
 
       should "escapes special characters when configured to do so" do
-        kramdown = make_filter_mock(:kramdown => { :entity_output => :symbolic })
+        kramdown = make_filter_mock(kramdown: { entity_output: :symbolic })
         assert_equal(
           "&ldquo;This filter&rsquo;s test&hellip;&rdquo;",
           kramdown.smartify(%q{"This filter's test..."})
@@ -573,7 +573,7 @@ class TestFilters < BridgetownUnitTest
       end
 
       should "not return the url by reference" do
-        filter = make_filter_mock(:baseurl => nil)
+        filter = make_filter_mock(baseurl: nil)
         page = Page.new(filter.site, test_dir("fixtures"), "", "front_matter.erb")
         assert_equal "/front_matter.erb", page.url
         url = filter.relative_url(page.url)
@@ -627,14 +627,14 @@ class TestFilters < BridgetownUnitTest
 
     context "jsonify filter" do
       should "convert hash to json" do
-        assert_equal "{\"age\":18}", @filter.jsonify(:age => 18)
+        assert_equal "{\"age\":18}", @filter.jsonify(age: 18)
       end
 
       should "convert array to json" do
         assert_equal "[1,2]", @filter.jsonify([1, 2])
         assert_equal(
           "[{\"name\":\"Jack\"},{\"name\":\"Smith\"}]",
-          @filter.jsonify([{ :name => "Jack" }, { :name => "Smith" }])
+          @filter.jsonify([{ name: "Jack" }, { name: "Smith" }])
         )
       end
 
@@ -691,7 +691,7 @@ class TestFilters < BridgetownUnitTest
           {
             "name" => name,
             :v     => 1,
-            :thing => M.new(:kay => "jewelers"),
+            :thing => M.new(kay: "jewelers"),
             :stuff => true,
           }
         end

@@ -32,7 +32,7 @@ Feature: Site configuration
     And I should see "markdown" in "<source>/index.md"
 
     Examples:
-      | source         | dest        | file_exist |
+      | source         | dest         | file_exist |
       | srcsite_source | srcsite      |            |
       | srcsite        | srcsite_dest |            |
       | srcsite/       | srcsite      | not        |

@@ -28,7 +28,7 @@ module Bridgetown
           data.each { |row| t << row }
           t << :separator
           t << footer
-          t.style = { :alignment => :right, :border_top => false, :border_bottom => false }
+          t.style = { alignment: :right, border_top: false, border_bottom: false }
           t.align_column(0, :left)
         end
 

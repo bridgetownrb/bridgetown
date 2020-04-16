@@ -30,7 +30,7 @@ module Bridgetown
         #
         # Format the hour as a two-digit number.
         # Establish the minutes based on modulo expression.
-        hh = format("%<hour>02d", :hour => absolute_hour(difference).ceil)
+        hh = format("%<hour>02d", hour: absolute_hour(difference).ceil)
         mm = modulo.zero? ? "00" : "30"
 
         Bridgetown.logger.debug "Timezone:", "#{timezone} #{offset}#{hh}:#{mm}"

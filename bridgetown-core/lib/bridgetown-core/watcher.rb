@@ -45,8 +45,8 @@ module Bridgetown
     def build_listener(site, options)
       Listen.to(
         options["source"],
-        :ignore        => listen_ignore_paths(options),
-        :force_polling => options["force_polling"],
+        ignore: listen_ignore_paths(options),
+        force_polling: options["force_polling"],
         &listen_handler(site)
       )
     end

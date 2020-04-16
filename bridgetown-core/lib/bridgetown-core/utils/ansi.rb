@@ -8,14 +8,14 @@ module Bridgetown
       ESCAPE = format("%c", 27)
       MATCH = %r!#{ESCAPE}\[(?:\d+)(?:;\d+)*(j|k|m|s|u|A|B|G)|\e\(B\e\[m!ix.freeze
       COLORS = {
-        :red     => 31,
-        :green   => 32,
-        :black   => 30,
-        :magenta => 35,
-        :yellow  => 33,
-        :white   => 37,
-        :blue    => 34,
-        :cyan    => 36,
+        red: 31,
+        green: 32,
+        black: 30,
+        magenta: 35,
+        yellow: 33,
+        white: 37,
+        blue: 34,
+        cyan: 36,
       }.freeze
 
       # Strip ANSI from the current string.  It also strips cursor stuff,

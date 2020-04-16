@@ -30,6 +30,7 @@ module Bridgetown
           @collection_by_name_lambda = collection_by_name_lambda
         end
 
+        # rubocop:disable Metrics/BlockLength
         def run(default_config, site_pages, site_title)
           # By default if pagination is enabled we attempt to find all index.html
           # pages in the site
@@ -72,15 +73,17 @@ module Bridgetown
 
                 # Load in custom query index, if specified
                 all_where_matches = if template_config["where_query"]
-                  PaginationIndexer.index_documents_by(all_posts, template_config["where_query"])
-                end
+                                      PaginationIndexer.index_documents_by(
+                                        all_posts, template_config["where_query"]
+                                      )
+                                    end
 
                 documents_payload = {
                   posts: all_posts,
                   tags: all_tags,
                   categories: all_categories,
                   locales: all_locales,
-                  where_matches: all_where_matches
+                  where_matches: all_where_matches,
                 }
 
                 # TODO: NOTE!!! This whole request for posts and indexing results
@@ -101,6 +104,7 @@ module Bridgetown
           # Return the total number of templates found
           templates.size.to_i
         end
+        # rubocop:enable Metrics/BlockLength
 
         # Returns the combination of all documents in the collections that are
         # specified
@@ -225,9 +229,13 @@ module Bridgetown
               using_posts,
               documents_payload[:where_matches]
             )
-            _debug_print_filtering_info("Where Query (#{config["where_query"]})", before, using_posts.size.to_i)
+            _debug_print_filtering_info(
+              "Where Query (#{config["where_query"]})",
+              before,
+              using_posts.size.to_i
+            )
           end
-          
+
           # Apply sorting to the posts if configured, any field for the post is
           # available for sorting
           if config["sort_field"]

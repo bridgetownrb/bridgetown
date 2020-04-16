@@ -26,19 +26,19 @@ class TestLogAdapter < BridgetownUnitTest
   context "#adjust_verbosity" do
     should "set the writers logging level to error when quiet" do
       subject = Bridgetown::LogAdapter.new(LoggerDouble.new)
-      subject.adjust_verbosity(:quiet => true)
+      subject.adjust_verbosity(quiet: true)
       assert_equal Bridgetown::LogAdapter::LOG_LEVELS[:error], subject.writer.level
     end
 
     should "set the writers logging level to debug when verbose" do
       subject = Bridgetown::LogAdapter.new(LoggerDouble.new)
-      subject.adjust_verbosity(:verbose => true)
+      subject.adjust_verbosity(verbose: true)
       assert_equal Bridgetown::LogAdapter::LOG_LEVELS[:debug], subject.writer.level
     end
 
     should "set the writers logging level to error when quiet and verbose are both set" do
       subject = Bridgetown::LogAdapter.new(LoggerDouble.new)
-      subject.adjust_verbosity(:quiet => true, :verbose => true)
+      subject.adjust_verbosity(quiet: true, verbose: true)
       assert_equal Bridgetown::LogAdapter::LOG_LEVELS[:error], subject.writer.level
     end
 
@@ -47,7 +47,7 @@ class TestLogAdapter < BridgetownUnitTest
       original_level = subject.writer.level
       refute_equal Bridgetown::LogAdapter::LOG_LEVELS[:error], subject.writer.level
       refute_equal Bridgetown::LogAdapter::LOG_LEVELS[:debug], subject.writer.level
-      subject.adjust_verbosity(:quiet => false, :verbose => false)
+      subject.adjust_verbosity(quiet: false, verbose: false)
       assert_equal original_level, subject.writer.level
     end
 

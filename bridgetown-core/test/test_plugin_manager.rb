@@ -60,8 +60,8 @@ class TestPluginManager < BridgetownUnitTest
 
   context "site containing plugins" do
     should "require plugin files" do
-      site = double(:config        => { "plugins_dir" => "_plugins" },
-                    :in_source_dir => "/tmp/")
+      site = double(config: { "plugins_dir" => "_plugins" },
+                    in_source_dir: "/tmp/")
       plugin_manager = PluginManager.new(site)
 
       expect(Bridgetown::External).to receive(:require_with_graceful_fail)
@@ -72,10 +72,10 @@ class TestPluginManager < BridgetownUnitTest
   context "plugins_dir is set to the default" do
     should "call site's in_source_dir" do
       site = double(
-        :config        => {
+        config: {
           "plugins_dir" => Bridgetown::Configuration::DEFAULTS["plugins_dir"],
         },
-        :in_source_dir => "/tmp/"
+        in_source_dir: "/tmp/"
       )
       plugin_manager = PluginManager.new(site)
 
@@ -86,7 +86,7 @@ class TestPluginManager < BridgetownUnitTest
 
   context "plugins_dir is set to a different dir" do
     should "expand plugin path" do
-      site = double(:config => { "plugins_dir" => "some_other_plugins_path" })
+      site = double(config: { "plugins_dir" => "some_other_plugins_path" })
       plugin_manager = PluginManager.new(site)
 
       expect(File).to receive(:expand_path).with("some_other_plugins_path")

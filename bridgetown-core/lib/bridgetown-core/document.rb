@@ -203,9 +203,9 @@ module Bridgetown
     # Returns the computed URL for the document.
     def url
       @url ||= URL.new(
-        :template     => url_template,
-        :placeholders => url_placeholders,
-        :permalink    => permalink
+        template: url_template,
+        placeholders: url_placeholders,
+        permalink: permalink
       ).to_s
     end
 
@@ -238,7 +238,7 @@ module Bridgetown
       path = destination(dest)
       FileUtils.mkdir_p(File.dirname(path))
       Bridgetown.logger.debug "Writing:", path
-      File.write(path, output, :mode => "wb")
+      File.write(path, output, mode: "wb")
 
       trigger_hooks(:post_write)
     end
@@ -412,7 +412,7 @@ module Bridgetown
 
     def merge_defaults
       defaults = @site.frontmatter_defaults.all(relative_path, type)
-      merge_data!(defaults, :source => "front matter defaults") unless defaults.empty?
+      merge_data!(defaults, source: "front matter defaults") unless defaults.empty?
     end
 
     def read_content(**opts)
@@ -420,7 +420,7 @@ module Bridgetown
       if content =~ YAML_FRONT_MATTER_REGEXP
         self.content = $POSTMATCH
         data_file = SafeYAML.load(Regexp.last_match(1))
-        merge_data!(data_file, :source => "YAML front matter") if data_file
+        merge_data!(data_file, source: "YAML front matter") if data_file
       end
     end
 
@@ -464,7 +464,7 @@ module Bridgetown
 
     def modify_date(date)
       if !data["date"] || data["date"].to_i == site.time.to_i
-        merge_data!({ "date" => date }, :source => "filename")
+        merge_data!({ "date" => date }, source: "filename")
       end
     end
 

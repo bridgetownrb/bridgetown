@@ -350,10 +350,10 @@ class TestConfiguration < BridgetownUnitTest
   context "loading config from external file" do
     setup do
       @paths = {
-        :default => site_root_dir("bridgetown.config.yml"),
-        :other   => site_root_dir("_config.live.yml"),
-        :toml    => site_root_dir("_config.dev.toml"),
-        :empty   => site_root_dir(""),
+        default: site_root_dir("bridgetown.config.yml"),
+        other: site_root_dir("_config.live.yml"),
+        toml: site_root_dir("_config.dev.toml"),
+        empty: site_root_dir(""),
       }
     end
 
@@ -389,7 +389,7 @@ class TestConfiguration < BridgetownUnitTest
           "baseurl" => "http://example.com",
           "config"  => @paths[:other]
         ),
-        Bridgetown.configuration(test_config.merge(:config => @paths[:other]))
+        Bridgetown.configuration(test_config.merge(config: @paths[:other]))
     end
 
     should "load default config if path passed is empty" do

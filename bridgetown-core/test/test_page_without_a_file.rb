@@ -45,7 +45,7 @@ class TestPageWithoutAFile < BridgetownUnitTest
       end
 
       should "have basic attributes defined in it" do
-        regular_page = setup_page("properties.html", :klass => Page)
+        regular_page = setup_page("properties.html", klass: Page)
         # assert a couple of attributes accessible in a regular Bridgetown::Page instance
         assert_equal "All the properties.\n", regular_page["content"]
         assert_equal "properties.html", regular_page["name"]
@@ -124,7 +124,7 @@ class TestPageWithoutAFile < BridgetownUnitTest
     context "with a path outside site.source" do
       should "not access its contents" do
         base = "../../../"
-        page = setup_page("pwd", :base => base)
+        page = setup_page("pwd", base: base)
 
         assert_equal "pwd", page.path
         assert_nil page.content
@@ -135,7 +135,7 @@ class TestPageWithoutAFile < BridgetownUnitTest
       setup do
         clear_dest
         @site.config["title"] = "Test Site"
-        @page = setup_page("physical.html", :base => test_dir("fixtures"))
+        @page = setup_page("physical.html", base: test_dir("fixtures"))
       end
 
       should "receive content provided to it" do

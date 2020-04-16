@@ -55,13 +55,13 @@ module Bridgetown
       case File.extname(path).downcase
       when ".csv"
         CSV.read(path,
-                 :headers  => true,
-                 :encoding => site.config["encoding"]).map(&:to_hash)
+                 headers: true,
+                 encoding: site.config["encoding"]).map(&:to_hash)
       when ".tsv"
         CSV.read(path,
-                 :col_sep  => "\t",
-                 :headers  => true,
-                 :encoding => site.config["encoding"]).map(&:to_hash)
+                 col_sep: "\t",
+                 headers: true,
+                 encoding: site.config["encoding"]).map(&:to_hash)
       else
         SafeYAML.load_file(path)
       end

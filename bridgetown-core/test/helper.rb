@@ -40,7 +40,7 @@ require "bridgetown-core/commands/serve/servlet"
 # Report with color.
 Minitest::Reporters.use! [
   Minitest::Reporters::DefaultReporter.new(
-    :color => true
+    color: true
   ),
 ]
 
@@ -238,12 +238,12 @@ module TestWEBrick
   def config
     logger = FakeLogger.new
     {
-      :BindAddress => "127.0.0.1", :Port => 0,
-      :ShutdownSocketWithoutClose => true,
-      :ServerType => Thread,
-      :Logger => WEBrick::Log.new(logger),
-      :AccessLog => [[logger, ""]],
-      :BridgetownOptions => {},
+      BindAddress: "127.0.0.1", Port: 0,
+      ShutdownSocketWithoutClose: true,
+      ServerType: Thread,
+      Logger: WEBrick::Log.new(logger),
+      AccessLog: [[logger, ""]],
+      BridgetownOptions: {},
     }
   end
 
@@ -253,8 +253,8 @@ module TestWEBrick
 
   def document_root_options
     WEBrick::Config::FileHandler.merge(
-      :FancyIndexing     => true,
-      :NondisclosureName => [
+      FancyIndexing: true,
+      NondisclosureName: [
         ".ht*", "~*",
       ]
     )

@@ -212,7 +212,7 @@ module Bridgetown
         string = I18n.transliterate(string)
       end
 
-      slug = replace_character_sequence_with_hyphen(string, :mode => mode)
+      slug = replace_character_sequence_with_hyphen(string, mode: mode)
 
       # Remove leading/trailing hyphen
       slug.gsub!(%r!^\-|\-$!i, "")

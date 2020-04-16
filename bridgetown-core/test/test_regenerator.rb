@@ -186,7 +186,7 @@ class TestRegenerator < BridgetownUnitTest
     should "not crash when reading corrupted marshal file" do
       metadata_file = site_root_dir(".bridgetown-metadata")
       File.open(metadata_file, "w") do |file|
-        file.puts Marshal.dump(:foo => "bar")[0, 5]
+        file.puts Marshal.dump(foo: "bar")[0, 5]
       end
 
       @regenerator = Regenerator.new(@site)

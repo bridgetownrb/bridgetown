@@ -11,8 +11,8 @@ class TestDocument < BridgetownUnitTest
     site = fixture_site("collections" => ["encodings"])
     site.process
     Document.new(site.in_source_dir(File.join("_encodings", filename)),
-                 :site       => site,
-                 :collection => site.collections["encodings"]).tap(&:read)
+                 site: site,
+                 collection: site.collections["encodings"]).tap(&:read)
   end
 
   def setup_document_with_dates(filename)
@@ -21,8 +21,8 @@ class TestDocument < BridgetownUnitTest
     docs = nil
     with_env("TZ", "UTC") do
       docs = Document.new(site.in_source_dir(File.join("_dates", filename)),
-                          :site       => site,
-                          :collection => site.collections["dates"]).tap(&:read)
+                          site: site,
+                          collection: site.collections["dates"]).tap(&:read)
     end
     docs
   end

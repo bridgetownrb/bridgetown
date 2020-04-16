@@ -19,6 +19,12 @@ end
 
 #
 
+Given /skipped/ do
+  skip_this_scenario
+end
+
+#
+
 Given(%r!^I have a blank site in "(.*)"$!) do |path|
   unless File.exist?(path)
     then FileUtils.mkdir_p(path)
@@ -88,10 +94,11 @@ end
 
 #
 
-Given(%r!^I have an? "(.*)" page with content:$!) do |file, text|
+Given(%r!^I have an? "(.*)" page(?: configured with (.*) "(.*)")? with content:$!) do |file, key, value, text|
   FileUtils.mkdir_p("src") unless File.exist?("src")
   File.write(File.join("src", file), <<~DATA)
     ---
+    #{key || "layout"}: #{value || "none"}
     ---
 
     #{text}

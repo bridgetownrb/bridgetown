@@ -5,10 +5,10 @@ module Bridgetown
     attr_reader :writer, :messages, :level
 
     LOG_LEVELS = {
-      :debug => ::Logger::DEBUG,
-      :info  => ::Logger::INFO,
-      :warn  => ::Logger::WARN,
-      :error => ::Logger::ERROR,
+      debug: ::Logger::DEBUG,
+      info: ::Logger::INFO,
+      warn: ::Logger::WARN,
+      error: ::Logger::ERROR,
     }.freeze
 
     # Public: Create a new instance of a log writer

@@ -24,9 +24,9 @@ module Bridgetown
           metadata_file = File.join(options["source"], ".bridgetown-metadata")
           cache_dir = File.join(options["source"], options["cache_dir"])
 
-          remove(destination, :checker_func => :directory?)
-          remove(metadata_file, :checker_func => :file?)
-          remove(cache_dir, :checker_func => :directory?)
+          remove(destination, checker_func: :directory?)
+          remove(metadata_file, checker_func: :file?)
+          remove(cache_dir, checker_func: :directory?)
         end
 
         def remove(filename, checker_func: :file?)

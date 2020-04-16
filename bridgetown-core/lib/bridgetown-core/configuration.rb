@@ -150,8 +150,8 @@ module Bridgetown
     def config_files(override)
       # Adjust verbosity quickly
       Bridgetown.logger.adjust_verbosity(
-        :quiet   => quiet?(override),
-        :verbose => verbose?(override)
+        quiet: quiet?(override),
+        verbose: verbose?(override)
       )
 
       # Get configuration from <root_dir>/<matching_default_config>

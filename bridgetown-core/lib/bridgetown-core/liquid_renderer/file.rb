@@ -10,7 +10,7 @@ module Bridgetown
 
       def parse(content)
         measure_time do
-          @renderer.cache[@filename] ||= Liquid::Template.parse(content, :line_numbers => true)
+          @renderer.cache[@filename] ||= Liquid::Template.parse(content, line_numbers: true)
         end
         @template = @renderer.cache[@filename]
 

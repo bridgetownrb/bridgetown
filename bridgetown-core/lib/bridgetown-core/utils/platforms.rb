@@ -7,7 +7,7 @@ module Bridgetown
 
       # TODO: jruby is NOT supported by Bridgetown. This should probably
       # get removed.
-      { :jruby? => "jruby", :mri? => "ruby" }.each do |k, v|
+      { jruby?: "jruby", mri?: "ruby" }.each do |k, v|
         define_method k do
           ::RUBY_ENGINE == v
         end
@@ -55,7 +55,7 @@ module Bridgetown
       # platforms. This is mostly useful for `bridgetown doctor` and for testing
       # where we kick off certain tests based on the platform.
 
-      { :osx? => %r!darwin|mac os!, :unix? => %r!solaris|bsd! }.each do |k, v|
+      { osx?: %r!darwin|mac os!, unix?: %r!solaris|bsd! }.each do |k, v|
         define_method k do
           !!(
             RbConfig::CONFIG["host_os"] =~ v

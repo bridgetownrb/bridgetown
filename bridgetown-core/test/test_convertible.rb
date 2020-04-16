@@ -53,7 +53,7 @@ class TestConvertible < BridgetownUnitTest
     should "not parse if there is encoding error in file" do
       name = "broken_front_matter3.erb"
       out = capture_stderr do
-        ret = @convertible.read_yaml(@base, name, :encoding => "utf-8")
+        ret = @convertible.read_yaml(@base, name, encoding: "utf-8")
         assert_equal({}, ret)
       end
       assert_match(%r!invalid byte sequence in UTF-8!, out)

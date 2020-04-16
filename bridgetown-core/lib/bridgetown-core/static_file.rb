@@ -125,11 +125,11 @@ module Bridgetown
 
     def placeholders
       {
-        :collection => @collection.label,
-        :path       => cleaned_relative_path,
-        :output_ext => "",
-        :name       => "",
-        :title      => "",
+        collection: @collection.label,
+        path: cleaned_relative_path,
+        output_ext: "",
+        name: "",
+        title: "",
       }
     end
 
@@ -163,8 +163,8 @@ module Bridgetown
                  cleaned_relative_path
                else
                  Bridgetown::URL.new(
-                   :template     => @collection.url_template,
-                   :placeholders => placeholders
+                   template: @collection.url_template,
+                   placeholders: placeholders
                  )
                end.to_s.chomp("/")
         base << extname
