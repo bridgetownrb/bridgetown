@@ -76,9 +76,9 @@ site:
       and SSL-related options. This defaults to <code>url: http://localhost:4000</code>.
   - name: "site.metadata"
     description: >-
-      Put metadata variables in <code>_data/site_metadata.yml</code> so they'll
-      be easy to access and will regenerate pages when changed. This is a good
-      place to put <code>&lt;head&gt;</code> content like site title,
+      You can put metadata variables in <code>_data/site_metadata.yml</code> so
+      they'll be easy to access and will regenerate pages when changed. This is a
+      good place to put <code>&lt;head&gt;</code> content like site title,
       description, icon, social media handles, etc. Then you can reference
       {{ site.metadata.title }}, etc. in your Liquid templates. 
   - name: "site.[CONFIGURATION_DATA]"
@@ -155,12 +155,12 @@ paginator:
     description: The number of the current page
   - name: paginator.per_page
     description: Number of posts per page
-  - name: paginator.posts
-    description: Posts available for the current page
-  - name: paginator.total_posts
-    description: Total number of posts
+  - name: paginator.documents
+    description: Documents (aka posts, etc.) available for the current page
+  - name: paginator.total_documents
+    description: Total number of documents
   - name: paginator.total_pages
-    description: Total number of pages
+    description: Total number of paginated pages
   - name: paginator.previous_page
     description: >-
       The number of the previous page, or <code>nil</code> if no previous page exists

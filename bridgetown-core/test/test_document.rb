@@ -152,8 +152,8 @@ class TestDocument < BridgetownUnitTest
       end
     end
 
-    should "output the collection name in the #to_liquid method" do
-      assert_equal "methods", @document.to_liquid["collection"]
+    should "output the collection object in the #to_liquid method" do
+      assert_equal "methods", @document.to_liquid["collection"].label
     end
 
     should "output its relative path as path in Liquid" do

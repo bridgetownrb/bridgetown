@@ -12,7 +12,10 @@ class TestSite < BridgetownUnitTest
   end
 
   def read_posts
-    @site.posts.docs.concat(PostReader.new(@site).read_posts(""))
+    PostReader.new(@site).read_posts("").tap do |entries|
+      @site.posts.docs.concat(entries.select { |entry| entry.is_a?(Document) })
+      @site.posts.files.concat(entries.select { |entry| entry.is_a?(StaticFile) })
+    end
     posts = Dir[source_dir("_posts", "**", "*")]
     posts.delete_if do |post|
       File.directory?(post) && post !~ Document::DATE_FILENAME_MATCHER
@@ -79,7 +82,7 @@ class TestSite < BridgetownUnitTest
   context "creating sites" do
     setup do
       @site = Site.new(site_configuration)
-      @num_invalid_posts = 6
+      @num_invalid_posts = 5
     end
 
     teardown do
@@ -239,14 +242,14 @@ class TestSite < BridgetownUnitTest
 
     should "read posts" do
       posts = read_posts
-      assert_equal posts.size - @num_invalid_posts, @site.posts.size
+      assert_equal posts.size - @num_invalid_posts, @site.posts.docs.size
     end
 
     should "skip posts with invalid encoding" do
       with_image_as_post do
         posts = read_posts
         num_invalid_posts = @num_invalid_posts + 1
-        assert_equal posts.size - num_invalid_posts, @site.posts.size
+        assert_equal posts.size - num_invalid_posts, @site.posts.docs.size
       end
     end
 

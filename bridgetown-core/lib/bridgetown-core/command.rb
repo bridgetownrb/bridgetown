@@ -66,7 +66,7 @@ module Bridgetown
                    "Serve the website from the given base URL"
         cmd.option "force_polling", "--force_polling", "Force watch to use polling"
         cmd.option "lsi", "--lsi", "Use LSI for improved related posts"
-        cmd.option "unpublished", "--unpublished",
+        cmd.option "unpublished", "-U", "--unpublished",
                    "Render posts that were marked as unpublished"
         cmd.option "disable_disk_cache", "--disable-disk-cache",
                    "Disable caching to disk"

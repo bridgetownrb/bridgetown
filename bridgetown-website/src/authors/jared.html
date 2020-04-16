@@ -4,7 +4,6 @@ title: Articles by Jared
 author: jared
 pagination:
   enabled: true
-  per_page: 1
   where_query:
     - author
     - jared
@@ -13,7 +12,7 @@ pagination:
 {% assign author = site.data.authors[page.author] %}
 <section class="container mt-12">
   <div class="columns is-centered">
-    <div class="column is-three-quarters">
+    <div class="column is-three-quarters" id="swup">
       <h1 class="mt-3 mb-10 title is-1 has-text-centered has-text-brown">{{ page.title }}</h1>
 
       <p class="mb-10 has-text-centered">

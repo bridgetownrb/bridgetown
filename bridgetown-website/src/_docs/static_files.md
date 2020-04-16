@@ -11,7 +11,7 @@ include images, PDFs, and other un-rendered content.
 They're accessible in Liquid via `site.static_files` and contain the
 following metadata:
 
-<table>
+<table class="settings biggest-output">
   <thead>
     <tr>
       <th>Variable</th>

@@ -46,7 +46,7 @@ The location of pages in your source folder structure will by default be mirrore
 
 ## Overview of Files & Folders
 
-<table>
+<table class="settings bigger-output">
   <thead>
     <tr>
       <th style="width:25%">File / Directory</th>
@@ -56,7 +56,7 @@ The location of pages in your source folder structure will by default be mirrore
   <tbody>
     <tr>
       <td>
-        <p><code>src/_data</code></p>
+        <p class="default mt-0"><code>src/_data</code></p>
       </td>
       <td>
         <p>
@@ -66,7 +66,7 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
     <tr>
       <td>
-        <p><code>src/_includes</code></p>
+        <p class="default mt-0"><code>src/_includes</code></p>
       </td>
       <td>
         <p>
@@ -76,7 +76,7 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
     <tr>
       <td>
-        <p><code>src/_layouts</code></p>
+        <p class="default mt-0"><code>src/_layouts</code></p>
       </td>
       <td>
         <p>
@@ -86,7 +86,7 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
     <tr>
       <td>
-        <p><code>src/_posts</code></p>
+        <p class="default mt-0"><code>src/_posts</code></p>
       </td>
       <td>
         <p>
@@ -96,7 +96,7 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
     <tr>
       <td>
-        <p><code>src/index.html</code> or <code>src/index.md</code> and other HTML,
+        <p class="default mt-0"><code>src/index.html</code> or <code>src/index.md</code> and other HTML,
         Markdown, etc. pages</p>
       </td>
       <td>
@@ -117,7 +117,7 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
     <tr>
       <td>
-        <p><code>plugins</code></p>
+        <p class="default mt-0"><code>plugins</code></p>
       </td>
       <td>
         <p>
@@ -129,7 +129,7 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
     <tr>
       <td>
-        <p><code>output</code></p>
+        <p class="default mt-0"><code>output</code></p>
       </td>
       <td>
         <p>
@@ -139,7 +139,7 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
     <tr>
       <td>
-        <p><code>.bridgetown-metadata (and .bridgetown-cache)</code></p>
+        <p class="default mt-0"><code>.bridgetown-metadata</code><br/><code>.bridgetown-cache</code></p>
       </td>
       <td>
         <p>
@@ -149,7 +149,7 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
     <tr>
       <td>
-        <p><code>bridgetown.config.yml</code></p>
+        <p class="default mt-0"><code>bridgetown.config.yml</code></p>
       </td>
       <td>
         <p>
@@ -159,7 +159,7 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
     <tr>
       <td>
-        <p><code>Gemfile</code></p>
+        <p class="default mt-0"><code>Gemfile</code></p>
       </td>
       <td>
         <p>
@@ -169,7 +169,7 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
     <tr>
       <td>
-        <p><code>package.json</code></p>
+        <p class="default mt-0"><code>package.json</code></p>
       </td>
       <td>
         <p>
@@ -179,7 +179,7 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
     <tr>
       <td>
-        <p><code>webpack.config.js</code></p>
+        <p class="default mt-0"><code>webpack.config.js</code></p>
       </td>
       <td>
         <p>

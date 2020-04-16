@@ -48,7 +48,7 @@ relies on.
 There are a number of predefined global variables that you can set in the
 front matter of a page or post.
 
-<table>
+<table class="settings biggest-output">
   <thead>
     <tr>
       <th>Variable</th>
@@ -141,7 +141,7 @@ You can also use a page's front matter variables in other places like layouts or
 
 These are available out-of-the-box to be used in the front matter for a post.
 
-<table>
+<table class="settings biggest-output">
   <thead>
     <tr>
       <th>Variable</th>

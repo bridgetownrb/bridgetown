@@ -32,7 +32,7 @@ values after rendering all the site (useful for sitemaps, feeds, etc).
 
 The complete list of available hooks is below:
 
-<table>
+<table class="settings biggest-output">
   <thead>
     <tr>
       <th>Container</th>

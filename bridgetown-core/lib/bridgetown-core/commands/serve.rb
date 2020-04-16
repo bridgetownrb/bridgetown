@@ -58,6 +58,7 @@ module Bridgetown
               opts["serving"] = true
               opts["watch"]   = true unless opts.key?("watch")
 
+              # TODO: this prints the configuration file log message out-of-order
               config = configuration_from_options(opts)
               config["url"] = default_url(config) if Bridgetown.env == "development"
 
@@ -121,8 +122,6 @@ module Bridgetown
         end
 
         def start_up_webrick(opts, destination)
-          @reload_reactor.start(opts) if opts["livereload"]
-
           @server = WEBrick::HTTPServer.new(webrick_opts(opts)).tap { |o| o.unmount("") }
           @server.mount(opts["baseurl"].to_s, Servlet, destination, file_handler_opts)
 
@@ -234,8 +233,6 @@ module Bridgetown
           unless detached
             proc do
               mutex.synchronize do
-                # Block until EventMachine reactor starts
-                @reload_reactor&.started_event&.wait
                 @running = true
                 Bridgetown.logger.info("Server running…", "press ctrl-c to stop.")
                 @run_cond.broadcast
@@ -248,10 +245,6 @@ module Bridgetown
           unless detached
             proc do
               mutex.synchronize do
-                unless @reload_reactor.nil?
-                  @reload_reactor.stop
-                  @reload_reactor.stopped_event.wait
-                end
                 @running = false
                 @run_cond.broadcast
               end

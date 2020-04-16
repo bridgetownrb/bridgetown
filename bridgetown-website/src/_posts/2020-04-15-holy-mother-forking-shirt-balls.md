@@ -1,7 +1,6 @@
 ---
 title: Holy Mother Forking Shirt Balls!
 subtitle: The only way to introduce a what’s-old-is-new-again static site generator.
-category: news
 author: jared
 ---
 

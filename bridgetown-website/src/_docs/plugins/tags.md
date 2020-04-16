@@ -32,7 +32,7 @@ Liquid::Template.register_tag('render_time', MySite::RenderTimeTag)
 
 At a minimum, Liquid tags must implement:
 
-<table>
+<table class="settings biggest-output">
   <thead>
     <tr>
       <th>Method</th>

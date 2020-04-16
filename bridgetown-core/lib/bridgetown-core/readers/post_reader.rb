@@ -25,8 +25,8 @@ module Bridgetown
     # Returns nothing.
     def read_publishable(dir, magic_dir, matcher)
       read_content(dir, magic_dir, matcher)
-        .tap { |docs| docs.each(&:read) }
-        .select { |doc| processable?(doc) }
+        .tap { |entries| entries.select { |entry| entry.respond_to?(:read) }.each(&:read) }
+        .select { |entry| processable?(entry) }
     end
 
     # Read all the content files from <source>/<dir>/magic_dir
@@ -40,18 +40,38 @@ module Bridgetown
     # Returns klass type of content files
     def read_content(dir, magic_dir, matcher)
       @site.reader.get_entries(dir, magic_dir).map do |entry|
-        next unless matcher.match?(entry)
-
         path = @site.in_source_dir(File.join(dir, magic_dir, entry))
-        Document.new(path,
-                     site: @site,
-                     collection: @site.posts)
+
+        if matcher.match?(entry) || Utils.has_yaml_header?(path)
+          # Process as Document
+          Document.new(path,
+                       site: @site,
+                       collection: @site.posts)
+        else
+          # Process as Static File
+          read_static_file(
+            path,
+            File.join(dir, magic_dir, File.dirname(entry).sub(".", ""))
+          )
+        end
       end.reject(&:nil?)
     end
 
     private
 
+    def read_static_file(full_path, relative_dir)
+      StaticFile.new(
+        site,
+        site.source,
+        relative_dir,
+        File.basename(full_path),
+        @site.posts
+      )
+    end
+
     def processable?(doc)
+      return true if doc.is_a?(StaticFile)
+
       if doc.content.nil?
         Bridgetown.logger.debug "Skipping:", "Content in #{doc.relative_path} is nil"
         false

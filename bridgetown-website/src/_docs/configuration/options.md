@@ -47,14 +47,12 @@ class="flag">flags</code> (specified on the command-line) that control them.
       <td>
         <p class="name">
           <strong>Disable Disk Cache</strong>
-          <span class="version-badge" title="Introduced in v4.1.0">4.1.0</span>
         </p>
         <p class="description">
           Disable caching of content to disk in order to skip creating a
           <code>.bridgetown-cache</code> or similar directory at the source
           to avoid interference with virtual environments and third-party
           directory watchers.
-          Caching to disk is always disabled in <code>safe</code> mode.
         </p>
       </td>
       <td class="has-text-centered">

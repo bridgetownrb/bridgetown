@@ -41,7 +41,7 @@ end
 
 Converters should implement at a minimum 3 methods:
 
-<table>
+<table class="settings biggest-output">
   <thead>
     <tr>
       <th>Method</th>
