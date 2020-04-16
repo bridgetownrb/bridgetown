@@ -85,6 +85,10 @@ html.is-animating {
   font-weight: 500;
   margin-left: -2rem;
   margin-right: -2rem;
+  @include mobile {
+    margin-left: -1rem;
+    margin-right: -1rem;
+  }
   margin-bottom: 1.5rem;
   &.warning {
     border-left-color: $red;
