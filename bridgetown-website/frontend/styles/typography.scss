@@ -42,6 +42,30 @@ table.settings {
       color: darken($green, 40%);
     }
   }
+
+  th, td {
+    &:first-child {
+      background: lighten($white-ter, 2.5%);
+    }
+  }
+
+  th {
+    text-transform: uppercase;
+  }
+
+  @media screen and (max-width: 600px) {
+    th {
+      &:first-child:before {content: "👇 " }
+      &:last-child:after { content: " 👇" }
+    }
+    th, td {
+      display: block;
+      width: 100% !important;
+      &:last-child {
+        text-align: right !important;
+      }
+    }
+  }
 }
 
 .minimal-line-height pre {

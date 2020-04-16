@@ -1,8 +1,9 @@
 // Set up Swup
 // override theme speeds
 .swup-transition-main {
-  transition: opacity .2s, transform 0.3s;
+  transition: opacity 0.2s, transform 0.3s;
 }
+
 html.is-animating {
   .swup-transition-main {
     transform: translate3d(0, -20px, 0);
@@ -17,11 +18,11 @@ html.is-animating {
       .swup-transition-main {
         transform: translate3d(0, 20px, 0);
       }
-    }
 
-    &.is-leaving {
-      .swup-transition-main {
-        transform: translate3d(0, -20px, 0);
+      &.is-leaving {
+        .swup-transition-main {
+          transform: translate3d(0, -20px, 0);
+        }
       }
     }
   }

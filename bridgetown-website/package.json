@@ -25,6 +25,7 @@
     "@swup/body-class-plugin": "^1.0.2",
     "@swup/scroll-plugin": "^1.0.6",
     "@swup/slide-theme": "^1.0.5",
+    "animated-scroll-to": "^2.0.5",
     "bulma": "^0.8.1",
     "fork-awesome": "^1.1.7",
     "swup": "^2.0.9"

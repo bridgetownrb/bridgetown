@@ -1,5 +1,6 @@
 # master
 
+  * Add mobile improvements to website
   * Add back working feature tests for basic pagination
   * Convert to Ruby 1.9+ `symbol: value` hash syntax
   * Add [Swup](https://swup.js.org) to website for some slick transitions
