@@ -29,3 +29,12 @@
     }
   }
 }
+
+.navbar .bridgetown-logo {
+  transition: opacity 0.2s ease-in-out;
+}
+
+a, .button {
+  transition: 0.2s ease-in-out;
+  transition-property: background, background-color, color;
+}
