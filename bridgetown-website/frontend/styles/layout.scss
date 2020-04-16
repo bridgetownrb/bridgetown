@@ -3,6 +3,9 @@
     /* This fixes a horizontal overscroll bug in iOS Safari */
     overflow: hidden;
     main & {
+      /* Padding here fixes missing box-shadows */
+      padding-top: 2rem;
+      margin-top: 0 !important;
       padding-bottom: 2rem;
     }
   }
