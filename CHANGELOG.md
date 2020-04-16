@@ -1,5 +1,6 @@
 # master
 
+  * Add [Swup](https://swup.js.org) to website for some slick transitions
   * Add "where_query" feature to Paginate. For example. specify `where_query: [author, sandy]` in the pagination YAML to filter by that front matter key.
   * Update the Jamstack page in the docs.
 
