@@ -438,7 +438,17 @@ module Bridgetown
     end
 
     def configure_component_paths
-      @components_load_paths = Array(in_source_dir(config["components_dir"].to_s))
+      @components_load_paths = config["components_dir"].then do |dir|
+        dir.is_a?(Array) ? dir : [dir]
+      end
+      @components_load_paths.map! do |dir|
+        if !!(dir =~ %r!^\.\.?\/!)
+          # allow ./dir or ../../dir type options
+          File.expand_path(dir.to_s, root_dir)
+        else
+          in_source_dir(dir.to_s)
+        end
+      end
     end
 
     def configure_include_paths

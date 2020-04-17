@@ -6,6 +6,10 @@ permalink: simple
 
 timezone: America/Los_Angeles
 
+# components_dir:
+#   - ../shared/components
+#   - _components
+
 collections:
   docs:
     output: true

@@ -17,7 +17,7 @@ module Bridgetown
       # NOTE: the Render tag support in Liquid hasn't actually shipped yet,
       # so this is preliminary...
       Liquid::Template.file_system = LiquidRenderer::FileSystem.new(
-        @site.components_load_paths.first.freeze, "%s.liquid"
+        @site.components_load_paths, "%s.liquid"
       )
 
       Liquid::Template.error_mode = @site.config["liquid"]["error_mode"].to_sym
