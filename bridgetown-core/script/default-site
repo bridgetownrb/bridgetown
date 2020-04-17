@@ -13,8 +13,10 @@ pushd tmp/default-site
 
 echo "$0: respecifying the bridgetown install location"
 ruby -e "contents = File.read('Gemfile'); File.write('Gemfile', contents.sub(/gem \"bridgetown\".*\\n/, 'gem \"bridgetown\", path: \"../../../\"'))"
-echo "$0: installing default site dependencies"
-BUNDLE_GEMFILE=Gemfile bundle install
+# NOTE: this is commented out until the Liquid gem with Render tag is officially
+# released and available via Rubygems, otherwise CI breaks
+#echo "$0: installing default site dependencies"
+#BUNDLE_GEMFILE=Gemfile bundle install
 echo "$0: building the default site"
 BUNDLE_GEMFILE=Gemfile bundle exec bridgetown build --verbose --profile
 popd
