@@ -10,7 +10,12 @@ module Bridgetown
 
       def parse(content)
         measure_time do
-          @renderer.cache[@filename] ||= Liquid::Template.parse(content, line_numbers: true)
+          # Remove extraneous indentation for rendercontent tags
+          processed_content = content.gsub(%r!^[ \t]+{%-? rendercontent!, "{% rendercontent")
+
+          @renderer.cache[@filename] ||= Liquid::Template.parse(
+            processed_content, line_numbers: true
+          )
         end
         @template = @renderer.cache[@filename]
 

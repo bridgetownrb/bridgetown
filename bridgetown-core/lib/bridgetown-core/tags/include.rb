@@ -99,16 +99,9 @@ module Bridgetown
 
       def locate_include_file(context, file)
         includes_dirs = tag_includes_dirs(context)
-        # TODO: component folder should be configured separately
-        if file.start_with?("_components")
-          first_dir = includes_dirs.first
-          path = PathManager.join(first_dir.sub(%r!/_includes$!, ""), file)
-          return path if valid_include_file?(path, first_dir.to_s)
-        else
-          includes_dirs.each do |dir|
-            path = PathManager.join(dir, file)
-            return path if valid_include_file?(path, dir.to_s)
-          end
+        includes_dirs.each do |dir|
+          path = PathManager.join(dir, file)
+          return path if valid_include_file?(path, dir.to_s)
         end
         raise IOError, could_not_locate_message(file, includes_dirs)
       end
@@ -184,7 +177,6 @@ module Bridgetown
 
       private
 
-      # TODO: update this to support components as well
       def could_not_locate_message(file, includes_dirs)
         "Could not locate the included file '#{file}' in any of #{includes_dirs}." \
           " Ensure it exists in one of those directories."

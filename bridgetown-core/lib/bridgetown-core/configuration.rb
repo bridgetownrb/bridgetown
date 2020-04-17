@@ -14,6 +14,7 @@ module Bridgetown
       "cache_dir"           => ".bridgetown-cache",
       "layouts_dir"         => "_layouts",
       "data_dir"            => "_data",
+      "components_dir"      => "_components",
       "includes_dir"        => "_includes",
       "collections"         => {},
 

@@ -1,6 +1,6 @@
 <ul>
 {% assign current_section = "" %}
-{% for doc_page in site.docs %}
+{% for doc_page in docs %}
   {% assign active = "" %}
   {% if doc_page.top_section and current_section != doc_page.top_section %}
     {% assign current_section = doc_page.top_section %}

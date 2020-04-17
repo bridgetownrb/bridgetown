@@ -1,5 +1,9 @@
 # master
 
+  * Switch gears on _experimental_ component functionality. It is now based on
+    Shopify's new Render tag which recently got introduced to Liquid (note that
+    the feature isn't in an officially released gem just yet, only master branch).
+
 # 0.9.0 / 2020-04-16
 
   * Update table styling in Documentation

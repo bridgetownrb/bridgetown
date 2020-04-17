@@ -35,16 +35,23 @@ language identifier. To find the appropriate identifier to use for the language
 you want to highlight, look for the “short name” on the [Rouge
 wiki](https://github.com/jayferd/rouge/wiki/List-of-supported-languages-and-lexers).
 
-<div class="note">
-  <h5>Bridgetown processes all Liquid filters in code blocks</h5>
-  <p>If you are using a language that contains curly braces, you
-    will likely need to place <code>{&#37; raw &#37;}</code> and
-    <code>{&#37; endraw &#37;}</code> tags around your code.
-    If needed, you can add <code>render_with_liquid: false</code> in your front matter to disable Liquid entirely for a particular document.</p>
-</div>
+{% rendercontent "docs/note",
+      type: "warning",
+      extra_margin: true,
+      title: "Bridgetown processes all Liquid filters in code blocks" %}
 
-{:.note}
-You can also use fenced code blocks in Markdown (starting and ending with three backticks <code>```</code>) instead of using the `highlight` tag. However, the `highlight` tag includes additional features like line numbers (see below).
+  If you are using a language that contains curly braces, you will likely need to
+  place <code>{&#37; raw &#37;}</code> and <code>{&#37; endraw &#37;}</code> tags
+  around your code. If needed, you can add `render_with_liquid: false` in your
+  front matter to disable Liquid entirely for a particular document.
+{% endrendercontent %}
+
+{% rendercontent "docs/note" %}
+  You can also use fenced code blocks in Markdown (starting and ending with three
+  backticks <code>```</code>) instead of using the `highlight` tag. However, the
+  `highlight` tag includes additional features like line numbers (see below).
+{% endrendercontent %}
+
 
 ### Line numbers
 

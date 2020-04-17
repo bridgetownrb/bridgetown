@@ -38,6 +38,8 @@ group :bridgetown_optional_dependencies do
   gem "tomlrb", "~> 1.2"
   gem "classifier-reborn", "~> 2.2"
   gem "liquid-c", "~> 4.0"
+  # Pull in latest Liquid from Shopify with new Render tag  
+  gem 'liquid', "> 4.0.3", github: "jaredcwhite/liquid"
   gem "yajl-ruby", "~> 1.4"
 end
 
