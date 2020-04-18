@@ -14,8 +14,6 @@ module Bridgetown
       @site = site
 
       # Set up Liquid file system access to components for the Render tag
-      # NOTE: the Render tag support in Liquid hasn't actually shipped yet,
-      # so this is preliminary...
       Liquid::Template.file_system = LiquidRenderer::FileSystem.new(
         @site.components_load_paths, "%s.liquid"
       )

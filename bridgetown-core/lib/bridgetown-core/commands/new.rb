@@ -69,6 +69,9 @@ module Bridgetown
             #
             # Happy Bridgetowning!
 
+            # Pull in latest Liquid from Shopify with new Render tag
+            gem 'liquid', "> 4.0.3", github: "jaredcwhite/liquid"
+
             gem "bridgetown", "~> #{Bridgetown::VERSION}"
 
           RUBY
