@@ -14,7 +14,7 @@ pagination:
         {% include news_item.html %}
       {% endfor %}
 
-      {% include pagination.html %}
+      {% render "shared/pagination", paginator: paginator %}
     </div>
   </div>
 </section>

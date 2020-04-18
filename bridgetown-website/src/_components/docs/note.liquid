@@ -1,0 +1,11 @@
+{%- if extra_margin -%}
+{%- assign extra_margin_class = "my-10" -%}
+{%- endif -%}
+
+<div class="note {{ type }} {{ extra_margin_class }}">
+  {%- if title -%}
+    <h5>{{ title }}</h5>
+  {%- endif -%}
+
+  {{- content -}}
+</div>

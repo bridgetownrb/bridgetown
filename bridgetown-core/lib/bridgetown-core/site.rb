@@ -10,7 +10,8 @@ module Bridgetown
                   :plugin_manager
 
     attr_accessor :converters, :generators, :reader
-    attr_reader   :regenerator, :liquid_renderer, :includes_load_paths
+    attr_reader   :regenerator, :liquid_renderer, :components_load_paths,
+                  :includes_load_paths
 
     # Public: Initialize a new Site.
     #
@@ -52,6 +53,7 @@ module Bridgetown
 
       configure_cache
       configure_plugins
+      configure_component_paths
       configure_include_paths
       configure_file_read_opts
 
@@ -433,6 +435,20 @@ module Bridgetown
     def configure_plugins
       self.plugin_manager = Bridgetown::PluginManager.new(self)
       self.plugins        = plugin_manager.plugins_path
+    end
+
+    def configure_component_paths
+      @components_load_paths = config["components_dir"].then do |dir|
+        dir.is_a?(Array) ? dir : [dir]
+      end
+      @components_load_paths.map! do |dir|
+        if !!(dir =~ %r!^\.\.?\/!)
+          # allow ./dir or ../../dir type options
+          File.expand_path(dir.to_s, root_dir)
+        else
+          in_source_dir(dir.to_s)
+        end
+      end
     end
 
     def configure_include_paths

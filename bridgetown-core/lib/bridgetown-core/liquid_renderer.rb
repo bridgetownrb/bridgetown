@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative "liquid_renderer/file_system"
 require_relative "liquid_renderer/file"
 require_relative "liquid_renderer/table"
 
@@ -11,6 +12,12 @@ module Bridgetown
 
     def initialize(site)
       @site = site
+
+      # Set up Liquid file system access to components for the Render tag
+      Liquid::Template.file_system = LiquidRenderer::FileSystem.new(
+        @site.components_load_paths, "%s.liquid"
+      )
+
       Liquid::Template.error_mode = @site.config["liquid"]["error_mode"].to_sym
       reset
     end
