@@ -1,3 +1,6 @@
+/* Commenting out the weights we're not using: */
+
+/*
 @font-face {
   font-family: 'Inter';
   font-style:  normal;
@@ -48,6 +51,7 @@
   src: url("inter-web/Inter-LightItalic.woff2?v=3.12") format("woff2"),
        url("inter-web/Inter-LightItalic.woff?v=3.12") format("woff");
 }
+*/
 
 @font-face {
   font-family: 'Inter';
@@ -83,6 +87,7 @@
        url("inter-web/Inter-MediumItalic.woff?v=3.12") format("woff");
 }
 
+/*
 @font-face {
   font-family: 'Inter';
   font-style:  normal;
@@ -99,6 +104,7 @@
   src: url("inter-web/Inter-SemiBoldItalic.woff2?v=3.12") format("woff2"),
        url("inter-web/Inter-SemiBoldItalic.woff?v=3.12") format("woff");
 }
+*/
 
 @font-face {
   font-family: 'Inter';
@@ -117,6 +123,7 @@
        url("inter-web/Inter-BoldItalic.woff?v=3.12") format("woff");
 }
 
+/*
 @font-face {
   font-family: 'Inter';
   font-style:  normal;
@@ -133,6 +140,7 @@
   src: url("inter-web/Inter-ExtraBoldItalic.woff2?v=3.12") format("woff2"),
        url("inter-web/Inter-ExtraBoldItalic.woff?v=3.12") format("woff");
 }
+*/
 
 @font-face {
   font-family: 'Inter';
@@ -160,6 +168,7 @@ Usage:
     html { font-family: 'Inter var', sans-serif; }
   }
 */
+/*
 @font-face {
   font-family: 'Inter var';
   font-weight: 100 900;
@@ -176,7 +185,7 @@ Usage:
   font-named-instance: 'Italic';
   src: url("inter-web/Inter-italic.var.woff2?v=3.12") format("woff2");
 }
-
+*/
 
 /* --------------------------------------------------------------------------
 [EXPERIMENTAL] Multi-axis, single variable font.
@@ -191,6 +200,7 @@ explicitly, e.g.
   .italic { font-variation-settings: "slnt" 10deg }
 
 */
+/*
 @font-face {
   font-family: 'Inter var experimental';
   font-weight: 100 900;
@@ -198,3 +208,4 @@ explicitly, e.g.
   font-style: oblique 0deg 10deg;
   src: url("inter-web/Inter.var.woff2?v=3.12") format("woff2");
 }
+*/

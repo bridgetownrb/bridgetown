@@ -37,8 +37,11 @@ module Bridgetown
     private
 
     def build_listener(site, options)
+      webpack_path = site.in_root_dir(".bridgetown-webpack")
+      FileUtils.mkdir(webpack_path) unless Dir.exist?(webpack_path)
       Listen.to(
         options["source"],
+        site.in_root_dir(".bridgetown-webpack"),
         ignore: listen_ignore_paths(options),
         force_polling: options["force_polling"],
         &listen_handler(site)
@@ -54,7 +57,7 @@ module Bridgetown
         Bridgetown.logger.info "Regenerating…"
         Bridgetown.logger.info "", "#{n} file(s) changed at #{t.strftime("%Y-%m-%d %H:%M:%S")}"
 
-        c.each { |path| Bridgetown.logger.info "", path["#{site.source}/".length..-1] }
+        c.each { |path| Bridgetown.logger.info "", path["#{site.root_dir}/".length..-1] }
         process(site, t)
       end
     end
