@@ -233,6 +233,13 @@ end
 
 #
 
+Given(%r!^I have an env var (.*) set to (.*)$!) do |k, v|
+#  ENV["BRIDGETOWN_EXECUTE_FRONT_MATTER_RUBY"] = "true"
+  ENV[k] = v
+end
+
+#
+
 When(%r!^I run bridgetown(.*)$!) do |args|
   run_bridgetown(args)
   warn "\n#{bridgetown_run_output}\n" if args.include?("--verbose") || ENV["DEBUG"]
@@ -274,6 +281,12 @@ When(%r!^I delete the file "(.*)"$!) do |file|
   else
     File.delete(File.join("src", file))
   end
+end
+
+#
+
+When(%r!^I delete the env var (.*)$!) do |k|
+  ENV.delete(k)
 end
 
 #

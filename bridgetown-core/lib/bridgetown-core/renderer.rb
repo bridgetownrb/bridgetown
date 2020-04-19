@@ -74,6 +74,8 @@ module Bridgetown
         strict_variables: liquid_options["strict_variables"],
       }
 
+      execute_inline_ruby!
+
       output = document.content
       if document.render_with_liquid?
         Bridgetown.logger.debug "Rendering Liquid:", document.relative_path
@@ -91,24 +93,44 @@ module Bridgetown
 
       output
     end
-    # rubocop: enable Metrics/AbcSize
 
-    # Convert the document using the converters which match this renderer's document.
-    #
-    # Returns String the converted content.
-    def convert(content)
-      converters.reduce(content) do |output, converter|
-        begin
-          converter.convert output
-        rescue StandardError => e
-          Bridgetown.logger.error "Conversion error:",
-                                  "#{converter.class} encountered an error while "\
-                                  "converting '#{document.relative_path}':"
-          Bridgetown.logger.error("", e.to_s)
-          raise e
+    def should_execute_inline_ruby?
+      ENV["BRIDGETOWN_EXECUTE_FRONT_MATTER_RUBY"] &&
+        site.config["inline_ruby_in_front_matter"]
+    end
+
+    def execute_inline_ruby!
+      return unless should_execute_inline_ruby?
+
+      # TODO: make this configurable
+      ruby_magic_string = "<RUBY>\n"
+
+      unless document.data.empty?
+        # Iterate using `keys` here so inline Ruby script can add new data keys
+        # if necessary without an error
+        data_keys = document.data.keys
+        data_keys.each do |k|
+          v = document.data[k]
+          next unless v.is_a?(String) && v.start_with?(ruby_magic_string)
+
+          Bridgetown.logger.warn("Executing inline Ruby…", document.relative_path)
+
+          ruby_code = v.sub(%r!^#{ruby_magic_string}!, "")
+          klass = Class.new
+          klass.attr_accessor :document, :page, :renderer, :site
+          obj = klass.new
+          obj.document = obj.page = document
+          obj.renderer = self
+          obj.site = site
+
+          # This is where the magic happens! DON'T BE EVIL!!! ;-)
+          document.data[k] = obj.instance_eval(ruby_code)
+
+          Bridgetown.logger.warn("Inline Ruby completed!", document.relative_path)
         end
       end
     end
+    # rubocop: enable Metrics/AbcSize
 
     # Render the given content with the payload and info
     #
@@ -132,6 +154,23 @@ module Bridgetown
       raise e
     end
     # rubocop: enable Lint/RescueException
+
+    # Convert the document using the converters which match this renderer's document.
+    #
+    # Returns String the converted content.
+    def convert(content)
+      converters.reduce(content) do |output, converter|
+        begin
+          converter.convert output
+        rescue StandardError => e
+          Bridgetown.logger.error "Conversion error:",
+                                  "#{converter.class} encountered an error while "\
+                                  "converting '#{document.relative_path}':"
+          Bridgetown.logger.error("", e.to_s)
+          raise e
+        end
+      end
+    end
 
     # Checks if the layout specified in the document actually exists
     #
