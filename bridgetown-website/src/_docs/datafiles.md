@@ -27,7 +27,7 @@ accessible via `site.data`.
 
 You can store site-wide metadata variables in `_data/site_metadata.yml` so
 they'll be easy to access and will regenerate pages when changed. This is a good
-place to put `&lt;head&gt;` content like your website title, description, favicon, social media handles, etc. Then you can reference {{ site.metadata.title }}, etc. in your Liquid templates.
+place to put `<head>` content like your website title, description, favicon, social media handles, etc. Then you can reference {{ site.metadata.title }}, etc. in your Liquid templates.
 
 ## Example: List of members
 

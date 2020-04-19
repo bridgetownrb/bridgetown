@@ -5,7 +5,7 @@ order: 0
 category: plugins
 ---
 
-{% include help_needed.md %}
+{% render "docs/help_needed", page: page %}
 
 You can create a generator when you need Bridgetown to create additional content
 based on your own rules.

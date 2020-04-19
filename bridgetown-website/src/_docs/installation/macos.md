@@ -119,32 +119,6 @@ node -v
 yarn -v
 ```
 
-## Install Bridgetown
+{% render "docs/install/bridgetown" %}
 
-Now all that is left is to install Bridgetown!
-
-```sh
-gem install bridgetown -N
-```
-
-Now, try to create a new Bridgetown site at `./mysite`:
-
-```sh
-bridgetown new mysite
-cd mysite
-```
-
-Install additional Bridgetown gems and frontend dependencies:
-
-```sh
-$ bundle install
-$ yarn install
-```
-
-Now you should be able to build the site and make it available on a local server:
-
-```sh
-$ yarn build && bundle exec bridgetown serve
-```
-
-Try opening the site up in [http://localhost:4000](http://localhost:4000){:target="_blank"}. See something? Awesome, you're ready to roll! If not, try revisiting your installation and setup steps, and if all else fails, [reach out to the Bridgetown community for support](/docs/community/).
+{% render "docs/install/webpack_watch" %}

@@ -5,7 +5,7 @@ order: 0
 category: content
 ---
 
-{% include help_needed.md %}
+{% render "docs/help_needed", page: page %}
 
 Pagination support is built-in to Bridgetown, but it is not enabled by default. To enable it on your site, simply add:
 

@@ -149,20 +149,17 @@ class="flag">flags</code> (specified on the command-line) that control them.
   </tbody>
 </table>
 
-<div class="note warning">
-  <h5>Destination folders are cleaned on site builds</h5>
-  <p>
-    The contents of <code>&lt;destination&gt;</code> are automatically
-    cleaned, by default, when the site is built. Files or folders that are not
-    created by your site will be removed. If you need to retain certain files/folders,
-    specify them within the <code>&lt;keep_files&gt;</code> configuration directive.
-    (For instance, Bridgetown automatically keeps compiled frontend assets from Webpack.)
-  </p>
-  <p>
-    Do not use an important location for <code>&lt;destination&gt;</code>; instead, use it as
-    a staging area and copy files from there to your web server.
-  </p>
-</div>
+{% rendercontent "docs/note", title: "Destination folders are cleaned upon site builds", type: "warning" %}
+
+The contents of `destination` are automatically cleaned when the site is built.
+Files or folders that are not created by your site will be removed. If you need to
+retain certain files/folders, specify them within the `keep_files` configuration
+directive. (For instance, Bridgetown automatically keeps compiled frontend assets
+from Webpack.)
+
+Do not use an important location for `destination` instead, use it as
+a staging area and copy files from there to your web server.
+{% endrendercontent %}
 
 ### Build Command Options
 

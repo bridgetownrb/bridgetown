@@ -13,20 +13,23 @@ For a quick summary of how to install Bridgetown, read [Getting Started](/docs/)
 
 ## Requirements
 
-* [Ruby](https://www.ruby-lang.org/en/downloads/) version **{{ site.data.requirements.min_ruby }}** or above, including all development headers (ruby version can be checked by running `ruby -v`)
-* [RubyGems](https://rubygems.org/pages/download) (which you can check by running `gem -v`)
-* [Bundler](https://bundler.io) (which you can check by running `bundle -v`)
-* [Node](https://nodejs.org) version **{{ site.data.requirements.min_node }}** or above (which you can check by running `node -v`)
+If you don't have some or all of these tools, our setup guides for macOS,
+Ubuntu Linux, and Ubuntu for Windows will help you install them.
+
+* [GCC](https://gcc.gnu.org/install/) and [Make](https://www.gnu.org/software/make/)
+  (which you can check by running `gcc -v`,`g++ -v`  and `make -v`).
+* [Ruby](https://www.ruby-lang.org/en/downloads/) version
+  **{{ site.data.requirements.min_ruby }}** or above (ruby version can be checked by
+  running `ruby -v`)
+* [Node](https://nodejs.org) version **{{ site.data.requirements.min_node }}** or
+  above (which you can check by running `node -v`)
 * [Yarn](https://yarnpkg.com) (which you can check by running `yarn -v`)
-
-## Other System Tools
-
-* [GCC](https://gcc.gnu.org/install/) and [Make](https://www.gnu.org/software/make/) (in case your system doesn't have them installed, which you can check by running `gcc -v`,`g++ -v`  and `make -v` in your system's command line interface)
 
 ## Guides
 
-For detailed installation instructions, take a look at the guide for your operating system:
+For detailed installation instructions, take a look at the guide for your operating
+system:
 
 * [macOS](/docs/installation/macos/)
 * [Ubuntu Linux](/docs/installation/ubuntu/)
-* [Windows](/docs/installation/windows/)
+* [Windows (via Linux Subsystem + Ubuntu)](/docs/installation/windows/)
