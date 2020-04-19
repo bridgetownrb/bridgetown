@@ -1,19 +1,30 @@
-const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const path = require("path")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const ManifestPlugin = require("webpack-manifest-plugin")
 
 module.exports = {
-  entry: './frontend/javascript/index.js',
+  entry: "./frontend/javascript/index.js",
   devtool: "source-map",
+  // Set some or all of these to true if you want more verbose logging:
+  stats: {
+    modules: false,
+    builtAt: false,
+    timings: false,
+    children: false
+  },
   output: {
-    path: path.resolve(__dirname, 'output', '_bridgetown', 'static', 'js'),
-    filename: 'all.js'
+    path: path.resolve(__dirname, "output", "_bridgetown", "static", "js"),
+    filename: "all.[contenthash].js"
   },
   resolve: {
-    extensions: ['.js']
+    extensions: [".js"]
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "../css/all.css",
+      filename: "../css/all.[contenthash].css",
+    }),
+    new ManifestPlugin({
+      fileName: path.resolve(__dirname, ".bridgetown-webpack", "manifest.json")
     })
   ],
   module: {
@@ -21,13 +32,13 @@ module.exports = {
       {
         test: /\.js/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
             presets: [
-              '@babel/preset-env'
+              "@babel/preset-env"
             ],
             plugins: [
-              '@babel/plugin-proposal-class-properties'
+              "@babel/plugin-proposal-class-properties"
             ]
           }
         }
@@ -36,12 +47,12 @@ module.exports = {
         test: /\.(sc|c)ss$/,
         use: [
           MiniCssExtractPlugin.loader,
-          'css-loader',
+          "css-loader",
           {
-            loader: 'sass-loader',
+            loader: "sass-loader",
             options: {
               sassOptions: {
-                includePaths: [path.resolve(__dirname, 'src/_includes')]
+                includePaths: [path.resolve(__dirname, "src/_includes")]
               }
             }
           }
@@ -49,12 +60,12 @@ module.exports = {
       },
       {
         test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/,
-        loader: 'file-loader',
+        loader: "file-loader",
         options: {
-          outputPath: '../fonts',
-          publicPath: '../fonts'
+          outputPath: "../fonts",
+          publicPath: "../fonts"
         },
       }
     ]
   }
-};
+}

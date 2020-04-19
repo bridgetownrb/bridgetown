@@ -18,7 +18,15 @@ class Paths
 
   def self.source_dir; SOURCE_DIR; end
 
-  def self.root_files; ["bridgetown.config.yml", "plugins", "frontend"]; end
+  def self.root_files
+    [
+      ".bridgetown-webpack",
+      ".bridgetown-webpack/manifest.json",
+      "bridgetown.config.yml",
+      "plugins",
+      "frontend"
+    ]
+  end
 end
 
 #

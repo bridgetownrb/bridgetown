@@ -54,4 +54,3 @@ document.addEventListener('DOMContentLoaded', () => {
   swup.preloadPage('/about/')
   swup.preloadPage('/blog/') */
 })
-//console.info("Bridgetown is loaded!")

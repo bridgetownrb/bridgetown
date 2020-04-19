@@ -3,4 +3,5 @@ node_modules
 .sass-cache
 .bridgetown-cache
 .bridgetown-metadata
+.bridgetown-webpack
 vendor
