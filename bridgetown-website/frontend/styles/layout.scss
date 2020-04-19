@@ -137,3 +137,9 @@ body > footer.footer {
     fill: white;
   }
 }
+
+.bridgetown-logo.inverse {
+  svg path {
+    fill: white !important;
+  }
+}

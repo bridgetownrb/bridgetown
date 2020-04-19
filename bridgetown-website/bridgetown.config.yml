@@ -6,6 +6,8 @@ permalink: simple
 
 timezone: America/Los_Angeles
 
+inline_ruby_in_front_matter: true
+
 # components_dir:
 #   - ../shared/components
 #   - _components
@@ -18,6 +20,10 @@ collections:
     name: Documentation
 
 defaults:
+  - scope:
+      path: ""
+    values:
+      image: /images/bridgetown-logo-twitter-card.jpg
   - scope:
       path: _docs
     values:
