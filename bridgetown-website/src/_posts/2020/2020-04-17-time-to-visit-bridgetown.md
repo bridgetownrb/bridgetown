@@ -23,7 +23,7 @@ In fact…
 …the reason it's a lot like Jekyll is because…
 
 {:.has-text-weight-medium.is-size-5.mt-10.mb-8}
-…it _is_ Jekyll. (Kind of.)
+…it _is_ Jekyll. (Well, kind of.)
 
 **Let me explain.** Or rather, let our [About page](/about/) do the talking:
 
