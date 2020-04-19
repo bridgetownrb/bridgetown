@@ -23,7 +23,7 @@ The basic installation process is as follows:
 2. Install **Node** and **Yarn** to handle frontend assets.
 3. Install **Bridgetown** and related gems:
 ```
-$ gem install bridgetown bundler
+$ gem install bundler bridgetown -N
 ```
 4. Create a new Bridgetown site at `./mysite`.
 ```

@@ -29,7 +29,7 @@ sudo apt-get install -y nodejs yarn
 Now all that is left is to install Bridgetown!
 
 ```sh
-gem install bridgetown
+gem install bridgetown -N
 ```
 
 Now, try to create a new Bridgetown site at `./mysite`:

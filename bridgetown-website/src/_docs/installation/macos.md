@@ -39,7 +39,7 @@ rbenv global {{ page.ruby_version }}
 ruby -v
 > ruby 2.6.6p146 (2020-03-31 revision 67876) [x86_64-darwin19]
 
-gem install bundler
+gem install bundler -N
 ```
 
 And that's it! Head over [rbenv command references](https://github.com/rbenv/rbenv#command-reference) to learn how to use different versions of Ruby in your projects.
@@ -124,7 +124,7 @@ yarn -v
 Now all that is left is to install Bridgetown!
 
 ```sh
-gem install bridgetown
+gem install bridgetown -N
 ```
 
 Now, try to create a new Bridgetown site at `./mysite`:

@@ -54,7 +54,7 @@ But I’m crazy enough to believe in the bones of the Jekyll software and essent
 
 **Today, this has become a reality:**
 
-0. `gem install bridgetown`
+0. `gem install bridgetown -N`
 
 0. `bridgetown new amazing_website`
 
