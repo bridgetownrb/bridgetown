@@ -48,7 +48,7 @@ Part of the reason people turn to software frameworks to build things is to get 
 
 ### Bridgetown, Not "Crazytown"
 
-In the year 2020, as the Jamstack phenomenon has taken off like a rocket along with all the ways the web community is pushing the tech forward, a sane person might  argue that it's time to give up using a Ruby-based framework at all and switch to using Eleventy, or Gatsby, or Hugo, or Next.js, or Nuxt, or…the list goes on. Listen, I get that, I really do! [There are already too many static site generators out there.](https://www.staticgen.com)
+In the year 2020, as the Jamstack phenomenon has taken off like a rocket along with all the ways the web community is pushing the tech forward, a sane person might  argue that it's time to give up using a Ruby-based framework entirely and switch to using Eleventy, or Gatsby, or Hugo, or Next.js, or Nuxt, or…the list goes on. Listen, I get that, I really do! [There are already too many static site generators out there.](https://www.staticgen.com)
 
 But I’m crazy enough to believe in the bones of the Jekyll software and essential stack choices: Ruby as a delightful, productive language; the power of Liquid templates for rapid layout and prototyping ([and soon components!](https://github.com/bridgetownrb/liquid-component)); Kramdown with all its awesome enhancements to Markdown; Gem-based plugins, convention over configuration, etc.). In fact, having now read through every code file and test in the process of making substantial changes and adding new features to Bridgetown, the strength of this technology stack is clearer to me than ever before.
 
@@ -69,12 +69,12 @@ _And you don't have to abandon Ruby to do it._
 Get started today.
 {:.has-text-weight-medium.is-size-5.has-text-centered.my-10}
 
-[It's Time to Visit Bridgetown](/docs/){:.button.is-large.is-warning.is-outlined}
+[Go Bridgetown](/docs/){:.button.is-large.is-warning.is-outlined}
 {:.has-text-centered.my-10}
 
 (or [find out how you can become a contributor](/docs/community/)…or perhaps join the Bridgetown core team!)
 {:.has-text-centered}
 
 {% rendercontent "docs/note", extra_margin: true %}
-Let us know if you plan to build something awesome with Bridgetown! And be sure to use hashtag [**#SpinUpBridgetown**](https://twitter.com/intent/tweet?url=https%3A%2F%2Fbridgetownrb.com&via=bridgetownrb&text=Check%20out%20this%20awesome%20new%20static%20site%20generator%20built%20in%20Ruby%21&hashtags=SpinUpBridgetown%2CJamstack) and spread the word! 😃
+P. S. Let us know if you plan to build something awesome with Bridgetown! And be sure to use the hashtag [**#SpinUpBridgetown**](https://twitter.com/intent/tweet?url=https%3A%2F%2Fbridgetownrb.com&via=bridgetownrb&text=Check%20out%20this%20awesome%20new%20static%20site%20generator%20built%20in%20Ruby%21&hashtags=SpinUpBridgetown%2CJamstack) and spread the word! 😃
 {% endrendercontent %}
