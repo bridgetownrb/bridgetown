@@ -22,8 +22,7 @@ As of spring 2020, here is the vision for where Bridgetown is headed. And this i
 - ✅ _DONE!_ **Streamline internals** to remove deprecated or legacy code paths and reduce confusing configuration options.
 - ✅ _DONE!_ **Improve default site file/folder structure** to bring Bridgetown in line with other popular static site generators.
 - ✅ _DONE!_ Add a `bridgetown console` command to **interactively interact with the site data and plugins** (just like the Rails console).
-- ✅ _DONE!_ Remove the aging asset pipeline and **regroup around a modern solution: Webpack**. (Similar to how Rails adopted Webpack and distanced itself from Sprockets.)
-  - ✳️ _IN PROGRESS…_ Add additional commands to **further cement the Webpack build process** into the Bridgetown build process.
+- ✅ _DONE!_ Remove the aging asset pipeline and **regroup around a modern solution: Webpack**. (Similar to how Rails adopted Webpack and distanced itself from Sprockets.) [Check out the preliminary documentation here.](/docs/frontend-assets/)
 - ✅ _DONE!_ Integrate **pagination features** directly into the monorepo.
 - ✅ _DONE!_ Move most site data vars to a **reloadable file** (aka `_data/site_metadata.yml`). Coming soon: env-specific settings (development vs. production).
 - ✳️ _IN PROGRESS…_ Modernize various aspects of the codebase, incrementally **improving

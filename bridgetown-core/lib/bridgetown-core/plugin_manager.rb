@@ -26,6 +26,7 @@ module Bridgetown
 
         Bundler.setup
         required_gems = Bundler.require(:bridgetown_plugins)
+        install_yarn_dependencies(required_gems)
         message = "Required #{required_gems.map(&:name).join(", ")}"
         Bridgetown.logger.debug("PluginManager:", message)
         ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] = "true"
@@ -33,6 +34,31 @@ module Bridgetown
         true
       else
         false
+      end
+    end
+
+    # Iterates through loaded plugins and finds yard-add gemspec metadata.
+    # If that exact package hasn't been installed, execute yarn add
+    #
+    # Returns nothing.
+    def self.install_yarn_dependencies(required_gems)
+      return unless File.exist?("package.json")
+
+      package_json = JSON.parse(File.read("package.json"))
+
+      required_gems.each do |loaded_gem|
+        next unless loaded_gem.to_spec&.metadata&.dig("yarn-add")
+
+        yarn_add_dependency = loaded_gem.to_spec.metadata["yarn-add"].split("@")
+        next unless yarn_add_dependency.length == 2
+
+        # check matching version number is see if it's already installed
+        current_package = package_json["dependencies"].dig(yarn_add_dependency.first)
+        next unless current_package.nil? || current_package != yarn_add_dependency.last
+
+        # all right, time to install the package
+        cmd = "yarn add #{yarn_add_dependency.join("@")}"
+        system cmd
       end
     end
 

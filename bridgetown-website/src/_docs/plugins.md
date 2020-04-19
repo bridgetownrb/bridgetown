@@ -7,9 +7,13 @@ category: plugins
 
 Plugins allow you to extend Bridgetown's behavior to fit your needs. These guides help you with the specifics of creating plugins. We also have some recommended best practices to help structure your plugin.
 
-{:.note}
+{% rendercontent "docs/note", title: "Roll It All Up in a Gem" %}
 If you'd like to maintain separation from your site source code and
-share functionality across multiple projects, we suggest creating a gem for your plugin. This will also help you manage dependencies,  For tips on creating a gem take a look a the [Ruby gems guide](https://guides.rubygems.org/make-your-own-gem/) or look through the source code of an existing plugin such as _bridgetown-feed_.
+share functionality across multiple projects, we suggest creating a gem for your plugin. This will also help you manage dependencies. For tips on creating a gem take a look a the [Ruby gems guide](https://guides.rubygems.org/make-your-own-gem/) or look through the source code of an existing plugin such as [bridgetown-feed](https://github.com/bridgetownrb/bridgetown-feed).
+
+Make sure you [follow these instructions](/docs/plugins/gems-and-webpack/) to integrate your plugin's frontend code
+with the users' Webpack setup!
+{% endrendercontent %}
 
 ## Installation
 
@@ -33,41 +37,41 @@ There are two methods of adding plugins to your site build.
 
 There are six types of plugins in Bridgetown.
 
-### Tags
+### [Tags](/docs/plugins/tags/)
 
-[Tags](/docs/plugins/tags/) create custom Liquid tags which you can add to your content or design templates. For example:
+Tags create custom Liquid tags which you can add to your content or design templates. For example:
 
-* _bridgetown-youtube_
+* [_bridgetown-seo-tag_](https://github.com/bridgetownrb/bridgetown-seo-tag)
 
-### Filters
+### [Filters](/docs/plugins/filters/)
 
-[Filters](/docs/plugins/filters/) create custom Liquid filters to help transform data and content. For example:
+Filters create custom Liquid filters to help transform data and content. For example:
 
 * _bridgetown-time-ago_
 
-### Generators
+### [Generators](/docs/plugins/generators/)
 
-[Generators](/docs/plugins/generators/) create new content on your site in an automated fashion, perhaps via external APIs.
+Generators create new content on your site in an automated fashion, perhaps via external APIs.
 For example:
 
-* _bridgetown-feed_
+* [_bridgetown-feed_](https://github.com/bridgetownrb/bridgetown-feed)
 
-### Converters
+### [Converters](/docs/plugins/converters/)
 
-[Converters](/docs/plugins/converters/) change a markup language from one format to another. For example:
+Converters change a markup language from one format to another. For example:
 
 * _bridgetown-textile-converter_
 
-### Commands
+### [Commands](/docs/plugins/commands/)
 
-[Commands](/docs/plugins/commands/) extend the `bridgetown` executable with
+Commands extend the `bridgetown` executable with
 subcommands. For example:
 
 * _bridgetown-compose_
 
-### Hooks
+### [Hooks](/docs/plugins/hooks/)
 
-[Hooks](/docs/plugins/hooks/) provide fine-grained control to trigger custom functionality at various points in the build process.
+Hooks provide fine-grained control to trigger custom functionality at various points in the build process.
 
 ## Tips for Plugin Development
 
