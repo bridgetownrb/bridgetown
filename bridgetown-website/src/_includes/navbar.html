@@ -38,14 +38,16 @@
             <span class="has-text-weight-bold">Star</span>
           </button>
         </a>
-        <!--<a href="https://github.com/{{ site.github_handle }}" class="navbar-item">
-        <img src="https://img.shields.io/github/stars/{{ site.github_handle }}.svg" alt="GitHub stars">
+        <!--<a href="https://github.com/{{ site.metadata.github }}" class="navbar-item">
+        <img src="https://img.shields.io/github/stars/{{ site.metadata.github }}.svg" alt="GitHub stars">
         </a>-->
-        <a class="navbar-item" href="https://github.com/{{ site.metadata.github }}/issues" target="_blank">
-          <i class="fa fa-bug"></i>&nbsp;Report Issue
+        <a class="navbar-item" href="https://github.com/bridgetownrb/bridgetown/issues/new?assignees=&labels=bug&template=bug_report.md&title=" target="_blank">
+          <span class="icon"><i class="fa fa-bug"></i></span>
+          <span>Report Issue</span>
         </a>
         <a class="navbar-item" href="https://twitter.com/{{ site.metadata.twitter }}" target="_blank">
-          <span class="icon"> <i class="fa fa-twitter"></i> </span>
+          <span class="icon"><i class="fa fa-twitter"></i></span>
+          <span class="is-hidden-tablet">Twitter</span>
         </a>
       </div>
     </div>
