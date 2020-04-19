@@ -5,12 +5,6 @@ module Bridgetown
     class WebpackPath < Liquid::Tag
       include Bridgetown::Filters::URLFilters
 
-      class << self
-        def tag_name
-          name.split("::").last.downcase
-        end
-      end
-
       def initialize(tag_name, asset_type, tokens)
         super
 
@@ -34,7 +28,7 @@ module Bridgetown
             css_path = manifest["main.css"].split("/").last
             [frontend_path, "css", css_path].join("/")
           else
-            Bridgtown.logger.error("Unknown Webpack asset type", @asset_type)
+            Bridgetown.logger.error("Unknown Webpack asset type", @asset_type)
             nil
           end
         else
@@ -45,4 +39,4 @@ module Bridgetown
   end
 end
 
-Liquid::Template.register_tag(Bridgetown::Tags::WebpackPath.tag_name, Bridgetown::Tags::WebpackPath)
+Liquid::Template.register_tag("webpack_path", Bridgetown::Tags::WebpackPath)

@@ -107,7 +107,7 @@ end
 
 #
 
-Given(%r!^I have an? (.*) directory$!) do |dir|
+Given(%r!^I have an? \"?(.*?)\"? directory$!) do |dir|
   unless Paths.root_files.include?(dir)
     dir_in_src = File.join("src", dir)
     unless File.directory?(dir_in_src)

@@ -1,5 +1,13 @@
 # master
 
+# 0.10.1 / 2020-04-18
+
+Add `{% webpack_path [js|css] }` tag which pulls in the Webpack manifest and finds
+the hashed output bundles. Also works in concert with the Watcher so every time
+Webpack rebuilds the bundles, Bridgetown regenerates the site.
+
+[#6](https://github.com/bridgetownrb/bridgetown/pull/6)
+
 # 0.10.0 / 2020-04-17
 
 **Switch gears on _experimental_ component functionality.**
