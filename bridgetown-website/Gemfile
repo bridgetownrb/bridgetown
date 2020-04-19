@@ -7,3 +7,5 @@ gem 'bridgetown-core', path: '../bridgetown-core'
 gem 'bridgetown-paginate', path: '../bridgetown-paginate'
 
 gem "bridgetown-seo-tag", "~> 3.0", :group => :bridgetown_plugins
+
+gem "bridgetown-feed", "~> 1.0", :group => :bridgetown_plugins
