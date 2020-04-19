@@ -5,7 +5,7 @@ order: 0
 category: plugins
 ---
 
-{% include help_needed.md %}
+{% render "docs/help_needed", page: page %}
 
 Bridgetown can be extended with plugins which provide
 subcommands for the `bridgetown` executable. This is possible by including the

@@ -24,17 +24,12 @@ defaults:
       layout: "default"
 ```
 
-<div class="note info">
-  <h5>Stop and rerun <code>bridgetown serve</code> command.</h5>
-  <p>
-    The <code>bridgetown.config.yml</code> master configuration file contains global configurations
-    and variable definitions that are read once at execution time. Changes made to <code>bridgetown.config.yml</code>
-    during automatic regeneration are not loaded until the next execution.
-  </p>
-  <p>
-    Note <a href="{{ '/docs/datafiles' | relative_url }}">Data Files</a> are included and reloaded during automatic regeneration.
-  </p>
-</div>
+{% rendercontent "docs/note", title: "Stop and rerun <code>bridgetown serve</code> command." %}
+The <code>bridgetown.config.yml</code> master configuration file contains global configurations
+    and variable definitions that are read once at execution time. Changes made to <code>bridgetown.config.yml</code> will not trigger an automatic regeneration.
+ 
+Use [Data Files](/docs/datafiles/) to set up metadata variables and other structured content you can be sure will get reloaded during automatic regeneration.
+{% endrendercontent %}
 
 Here, we are scoping the `values` to any file that exists in the path `scope`. Since the path is set as an empty string, it will apply to **all files** in your project. You probably don't want to set a layout on every file in your project - like css files, for example - so you can also specify a `type` value under the `scope` key.
 

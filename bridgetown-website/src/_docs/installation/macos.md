@@ -39,7 +39,7 @@ rbenv global {{ page.ruby_version }}
 ruby -v
 > ruby 2.6.6p146 (2020-03-31 revision 67876) [x86_64-darwin19]
 
-gem install bundler
+gem install bundler -N
 ```
 
 And that's it! Head over [rbenv command references](https://github.com/rbenv/rbenv#command-reference) to learn how to use different versions of Ruby in your projects.
@@ -119,32 +119,6 @@ node -v
 yarn -v
 ```
 
-## Install Bridgetown
+{% render "docs/install/bridgetown" %}
 
-Now all that is left is to install Bridgetown!
-
-```sh
-gem install bridgetown
-```
-
-Now, try to create a new Bridgetown site at `./mysite`:
-
-```sh
-bridgetown new mysite
-cd mysite
-```
-
-Install additional Bridgetown gems and frontend dependencies:
-
-```sh
-$ bundle install
-$ yarn install
-```
-
-Now you should be able to build the site and make it available on a local server:
-
-```sh
-$ yarn build && bundle exec bridgetown serve
-```
-
-Try opening the site up in [http://localhost:4000](http://localhost:4000){:target="_blank"}. See something? Awesome, you're ready to roll! If not, try revisiting your installation and setup steps, and if all else fails, [reach out to the Bridgetown community for support](/docs/community/).
+{% render "docs/install/webpack_watch" %}

@@ -5,7 +5,7 @@ order: 0
 category: plugins
 ---
 
-{% include help_needed.md %}
+{% render "docs/help_needed", page: page %}
 
 If you’d like to include custom [Liquid](/docs/liquid/) tags in your site, you can do so by
 hooking into the tagging system with simple Ruby objects. Built-in examples added by Bridgetown include the

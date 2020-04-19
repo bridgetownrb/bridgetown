@@ -5,8 +5,7 @@ top_section: Templates
 category: liquid
 ---
 
-Bridgetown uses the **Liquid** templating language
-to process templates and content documents.
+Bridgetown uses the **Liquid** template language to process templates and content documents.
 
 Generally in Liquid you output content using two curly braces e.g.
 {% raw %}`{{ variable }}`{% endraw %} and perform logic statements by
@@ -16,7 +15,9 @@ out the [official Liquid Documentation](https://shopify.github.io/liquid/).
 
 The ability to use Liquid within Markdown in posts and pages allows for truly advanced customization of your content pipeline. For example, you can write custom Liquid [tags](/docs/plugins/tags) and [filters](/docs/plugins/filters) and use them throughout your site.
 
-In addition to the standard suite of filters and tags included in Liquid, Bridgetown provides a number of useful additions to help you build your site:
+In addition to Liquid's standard suite of filters and tags, Bridgetown provides a number of useful additions to help you build your site:
 
-* [Filters]({{ '/docs/liquid/filters/' | relative_url }})
-* [Tags]({{ '/docs/liquid/tags/' | relative_url }})
+<div class="buttons" style="justify-content: center" markdown="1">
+[Filters List](/docs/liquid/filters/){:.button.is-warning.is-outlined}
+[Tags List](/docs/liquid/tags/){:.button.is-warning.is-outlined}
+</div>

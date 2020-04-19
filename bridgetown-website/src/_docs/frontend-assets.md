@@ -5,7 +5,7 @@ top_section: Content
 category: frontendassets
 ---
 
-{% include help_needed.md %}
+{% render "docs/help_needed", page: page %}
 
 Bridgetown comes with a default configuration of [Webpack](https://webpack.js.org) to handle building and exporting frontend assets such as Javascript/Typescript/etc., CSS/Sass/etc., and related files that are imported through Webpack (fonts, icons, etc.)
 
@@ -49,16 +49,22 @@ and then add:
 
 to `index.scss`.
 
-## Output
+## Linking to the Output Bundles
 
-Bridgetown's default Webpack configuration is set to place all compiled output into the `_bridgetown` folder in your `output` folder. Bridgetown knows when it regenerates a website not to touch anything in `_bridgetown` as that comes solely from Webpack. It is recommended you do not use the site source folder to add anything to `_bridgetown` as that will not get cleaned and updated by Bridgetown's generation process across multiple builds.
+Bridgetown's default Webpack configuration is set up to place all compiled output into the `_bridgetown` folder in your `output` folder. Bridgetown knows when it regenerates a website not to touch anything in `_bridgetown` as that comes solely from Webpack. It is recommended you do not use the site source folder to add anything to `_bridgetown` as that will not get cleaned and updated by Bridgetown's generation process across multiple builds.
 
-To reference the compiled JS and CSS files from Webpack in your site template, simply include this in your HTML `<head>`:
+To reference the compiled JS and CSS files from Webpack in your site template, simply add the `webpack_path` Liquid tag to your HTML `<head>`:
 
+{% raw %}
 ```liquid
-{% raw %}<link rel="stylesheet" href="/_bridgetown/static/css/all.css{% if bridgetown.environment == 'development' %}?{{ site.time | date: '%I%M%s' }}{% endif %}" />
-<script src="/_bridgetown/static/js/all.js{% if bridgetown.environment == 'development' %}?{{ site.time | date: '%I%M%s' }}{% endif %}"></script>{% endraw %}
+<link rel="stylesheet" href="{% webpack_path css %}" />
+<script src="{% webpack_path js %}" defer></script>
 ```
+{% endraw %}
 
-{:.note}
-In a future version of Bridgetown, there will be built-in Liquid tags to make this task simpler and even account for multiple Webpack chucks across different parts of the site for improved browser load times.
+This will automatically produce HTML tags that look something like this:
+
+```html
+<link rel="stylesheet" href="/_bridgetown/static/css/all.6902d0bf80a552c79eaa.css"/>
+<script src="/_bridgetown/static/js/all.a1286aad43064359dbc8.js" defer></script>
+```
