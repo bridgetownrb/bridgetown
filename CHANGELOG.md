@@ -1,5 +1,21 @@
 # master
 
+# 0.10.2 / 2020-04-19
+
+**Automatic Yarn Step for New Plugins**
+
+Now with Gem-based plugins for Bridgetown, all you need to do is add `yarn-add`
+metadata matching the NPM package name and keep the version the same as the Gem
+version. For example:
+
+```ruby
+  spec.metadata = { "yarn-add" => "my-awesome-plugin@#{MyAwesomePlugin::VERSION}" }
+```
+
+With that bit of metadata, Bridgetown will know always to look for that package in
+the users' `package.json` file when they load Bridgetown, and it will trigger a
+`yarn add` command if the package and exact version number isn't present.
+
 # 0.10.1 / 2020-04-18
 
 Add `{% webpack_path [js|css] }` tag which pulls in the Webpack manifest and finds
