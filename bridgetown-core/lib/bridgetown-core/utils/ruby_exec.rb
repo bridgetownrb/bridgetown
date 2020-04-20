@@ -5,6 +5,7 @@ module Bridgetown
     module RubyExec
       extend self
 
+      # rubocop:disable Metrics/AbcSize
       def search_data_for_ruby_code(convertible, renderer)
         return if convertible.data.empty?
 
@@ -18,6 +19,7 @@ module Bridgetown
           if v.is_a?(Hash)
             v.each do |nested_k, nested_v|
               next unless nested_v.is_a?(Rb)
+
               Bridgetown.logger.warn("Executing inline Ruby…", convertible.relative_path)
               convertible.data[k][nested_k] = run(nested_v, convertible, renderer)
               Bridgetown.logger.warn("Inline Ruby completed!", convertible.relative_path)
@@ -26,9 +28,10 @@ module Bridgetown
             Bridgetown.logger.warn("Executing inline Ruby…", convertible.relative_path)
             convertible.data[k] = run(v, convertible, renderer)
             Bridgetown.logger.warn("Inline Ruby completed!", convertible.relative_path)
-            end
+          end
         end
       end
+      # rubocop:enable Metrics/AbcSize
 
       # Sets up a new context in which to eval Ruby coming from front matter.
       #
