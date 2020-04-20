@@ -212,3 +212,5 @@ These are available out-of-the-box to be used in the front matter for a post.
 ## Advanced Front Matter Data Structures
 
 YAML allows for pretty sophisticated methods of structuring data, for example representing arrays or hashes (key/value). You can also write out longer multi-line strings.
+
+<!-- Add Ruby Front Matter documentation here… -->
