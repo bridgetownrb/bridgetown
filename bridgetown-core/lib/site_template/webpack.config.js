@@ -17,7 +17,7 @@ module.exports = {
     filename: "all.[contenthash].js"
   },
   resolve: {
-    extensions: [".js"]
+    extensions: [".js", ".jsx"]
   },
   plugins: [
     new MiniCssExtractPlugin({
@@ -30,7 +30,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js/,
+        test: /\.(js|jsx)/,
         use: {
           loader: "babel-loader",
           options: {
@@ -38,7 +38,13 @@ module.exports = {
               "@babel/preset-env"
             ],
             plugins: [
-              "@babel/plugin-proposal-class-properties"
+              "@babel/plugin-proposal-class-properties",
+              [
+                "@babel/plugin-transform-runtime",
+                {
+                  "helpers": false
+                }
+              ]
             ]
           }
         }
