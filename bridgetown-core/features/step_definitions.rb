@@ -234,7 +234,6 @@ end
 #
 
 Given(%r!^I have an env var (.*) set to (.*)$!) do |k, v|
-#  ENV["BRIDGETOWN_EXECUTE_FRONT_MATTER_RUBY"] = "true"
   ENV[k] = v
 end
 

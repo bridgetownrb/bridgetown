@@ -145,9 +145,9 @@ Feature: Rendering
     And I have a "index.html" page with layout "simple" that contains "{% for post in site.posts %}{{ post.content }}{% endfor %}"
     And I have a simple layout that contains "{{ content }}"
     And I have a configuration file with "inline_ruby_in_front_matter" set to "true"
-    And I have an env var BRIDGETOWN_EXECUTE_FRONT_MATTER_RUBY set to true
+    And I have an env var BRIDGETOWN_EXECUTE_RUBY_FRONT_MATTER set to true
     When I run bridgetown build
-    And I delete the env var BRIDGETOWN_EXECUTE_FRONT_MATTER_RUBY
+    And I delete the env var BRIDGETOWN_EXECUTE_RUBY_FRONT_MATTER
     Then I should see "Very COOL" in "output/index.html"
 
   Scenario: Don't execute inline Ruby if ENV is not set

@@ -289,7 +289,7 @@ module Bridgetown
     end
 
     def should_execute_inline_ruby?
-      ENV["BRIDGETOWN_EXECUTE_FRONT_MATTER_RUBY"] &&
+      ENV["BRIDGETOWN_EXECUTE_RUBY_FRONT_MATTER"] &&
         self["inline_ruby_in_front_matter"]
     end
 
