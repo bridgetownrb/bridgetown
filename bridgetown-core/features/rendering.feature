@@ -160,3 +160,16 @@ Feature: Rendering
     And I have a configuration file with "inline_ruby_in_front_matter" set to "true"
     When I run bridgetown build
     Then I should not see "Very COOL" in "output/index.html"
+
+  Scenario: Execute nested inline Ruby
+    Given I have a _posts directory
+    And I have the following post:
+      | title  | date | layout  | cool | content |
+      | Page   | 2020-01-01 | simple  | #\n  nested_cool: !ruby/string:Rb \|\n    "Very Very" + " Cool".upcase | Something {{ page.cool.nested_cool }} |
+    And I have a "index.html" page with layout "simple" that contains "{% for post in site.posts %}{{ post.content }}{% endfor %}"
+    And I have a simple layout that contains "{{ content }}"
+    And I have a configuration file with "inline_ruby_in_front_matter" set to "true"
+    And I have an env var BRIDGETOWN_EXECUTE_RUBY_FRONT_MATTER set to true
+    When I run bridgetown build
+    And I delete the env var BRIDGETOWN_EXECUTE_RUBY_FRONT_MATTER
+    Then I should see "Very Very COOL" in "output/index.html"

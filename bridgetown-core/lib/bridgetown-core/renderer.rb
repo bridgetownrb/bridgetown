@@ -97,20 +97,9 @@ module Bridgetown
     def execute_inline_ruby!
       return unless site.config.should_execute_inline_ruby?
 
-      unless document.data.empty?
-        # Iterate using `keys` here so inline Ruby script can add new data keys
-        # if necessary without an error
-        data_keys = document.data.keys
-        data_keys.each do |k|
-          v = document.data[k]
-          next unless v.is_a?(Rb)
-
-          Bridgetown.logger.warn("Executing inline Ruby…", document.relative_path)
-          document.data[k] = Bridgetown::Utils::RubyExec.run(v, document, self)
-          Bridgetown.logger.warn("Inline Ruby completed!", document.relative_path)
-        end
-      end
+      Bridgetown::Utils::RubyExec.search_data_for_ruby_code(document, self)
     end
+
     # rubocop: enable Metrics/AbcSize
 
     # Render the given content with the payload and info

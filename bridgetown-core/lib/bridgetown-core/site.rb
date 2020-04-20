@@ -467,19 +467,7 @@ module Bridgetown
       return unless config.should_execute_inline_ruby?
 
       layouts.each_value do |layout|
-        next if layout.data.empty?
-
-        # Iterate using `keys` here so inline Ruby script can add new data keys
-        # if necessary without an error
-        data_keys = layout.data.keys
-        data_keys.each do |k|
-          v = layout.data[k]
-          next unless v.is_a?(Rb)
-
-          Bridgetown.logger.warn("Executing inline Ruby…", layout.relative_path)
-          layout.data[k] = Bridgetown::Utils::RubyExec.run(v, layout, self)
-          Bridgetown.logger.warn("Inline Ruby completed!", layout.relative_path)
-        end
+        Bridgetown::Utils::RubyExec.search_data_for_ruby_code(layout, self)
       end
     end
 
