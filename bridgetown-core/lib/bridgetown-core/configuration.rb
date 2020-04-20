@@ -288,6 +288,11 @@ module Bridgetown
       config
     end
 
+    def should_execute_inline_ruby?
+      ENV["BRIDGETOWN_EXECUTE_FRONT_MATTER_RUBY"] &&
+        self["inline_ruby_in_front_matter"]
+    end
+
     private
 
     # rubocop:disable Metrics/CyclomaticComplexity #

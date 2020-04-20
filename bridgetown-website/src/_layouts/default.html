@@ -1,3 +1,16 @@
+---
+github_participation: !ruby/string:Rb |
+  require "faraday"
+  endpoint = "https://api.github.com/repos/bridgetownrb/bridgetown/stats/participation"
+
+  resp = Faraday.get(
+    endpoint,
+    nil,
+    {"Accept": "application/vnd.github.v3+json"}
+  )
+  json = JSON.parse(resp.body)
+  json["all"][-4..].sum
+---
 <!doctype html>
 <html lang="en">
   <head>

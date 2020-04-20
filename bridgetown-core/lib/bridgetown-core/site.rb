@@ -192,6 +192,8 @@ module Bridgetown
 
       Bridgetown::Hooks.trigger :site, :pre_render, self, payload
 
+      execute_inline_ruby_for_layouts!
+
       render_docs(payload)
       render_pages(payload)
 
@@ -459,6 +461,26 @@ module Bridgetown
       self.file_read_opts = {}
       file_read_opts[:encoding] = config["encoding"] if config["encoding"]
       self.file_read_opts = Bridgetown::Utils.merged_file_read_opts(self, {})
+    end
+
+    def execute_inline_ruby_for_layouts!
+      return unless config.should_execute_inline_ruby?
+
+      layouts.each_value do |layout|
+        next if layout.data.empty?
+
+        # Iterate using `keys` here so inline Ruby script can add new data keys
+        # if necessary without an error
+        data_keys = layout.data.keys
+        data_keys.each do |k|
+          v = layout.data[k]
+          next unless v.is_a?(Rb)
+
+          Bridgetown.logger.warn("Executing inline Ruby…", layout.relative_path)
+          layout.data[k] = Bridgetown::Utils::RubyExec.run(v, layout, self)
+          Bridgetown.logger.warn("Inline Ruby completed!", layout.relative_path)
+        end
+      end
     end
 
     def render_docs(payload)

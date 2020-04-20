@@ -94,13 +94,8 @@ module Bridgetown
       output
     end
 
-    def should_execute_inline_ruby?
-      ENV["BRIDGETOWN_EXECUTE_FRONT_MATTER_RUBY"] &&
-        site.config["inline_ruby_in_front_matter"]
-    end
-
     def execute_inline_ruby!
-      return unless should_execute_inline_ruby?
+      return unless site.config.should_execute_inline_ruby?
 
       unless document.data.empty?
         # Iterate using `keys` here so inline Ruby script can add new data keys
