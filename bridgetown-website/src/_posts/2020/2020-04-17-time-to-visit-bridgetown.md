@@ -42,7 +42,7 @@ In [a short amount of time](/about/#roadmap), Bridgetown has introduced a slew o
 
 That's why all these changes being made to the codebase now, while perhaps painful in the short term for anyone wanting to quickly migrate from Jekyll to Bridgetown, are vital and necessary, because **we're planning for the next ten years of [Jamstack](/docs/jamstack) technology innovation**.
 
-This includes our **whole-hearted embrace of [Webpack](https://webpack.js.org)**. Webpack (and similar Javascript tools like it) has in fairly short order become absolutely indispensable to modern frontend web development—to the point that I would argue any website framework which _doesn't_ use a tool like Webpack to manage frontend dependencies (along with NPM/Yarn) is _actively harming_ its developer community.
+This includes our **[whole-hearted embrace of Webpack](/docs/frontend-assets/)**. Webpack (and similar Javascript tools like it) has in fairly short order become absolutely indispensable to modern frontend web development—to the point that I would argue any website framework which _doesn't_ use a tool like Webpack to manage frontend dependencies (along with NPM/Yarn) is _actively harming_ its developer community.
 
 Part of the reason people turn to software frameworks to build things is to get **good defaults**. You want something that comes with [everything you need](https://rubyonrails.org/everything-you-need/) to start off right so you don't have to reinvent the wheel or get lost in an industry dead end. This is an active and ongoing focus for Bridgetown, from how the software gets installed, to configuring typical settings and plugins, to best practices in building and deploying the final site.
 

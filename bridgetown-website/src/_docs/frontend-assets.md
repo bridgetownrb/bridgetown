@@ -11,19 +11,37 @@ Bridgetown comes with a default configuration of [Webpack](https://webpack.js.or
 
 Files to be processed by Webpack are placed in the top-level `frontend` folder within your site root. This folder is entirely separate from the Bridgetown source folder where your content, templates, plugins, etc. live. However, using relative paths you can reference files from Webpack that live in the source folder (so you could keep CSS partials alongside Liquid templates, for example).
 
-Bridgetown recommends using [Yarn](https://yarnpkg.com) to install and manage frontend packages and dependencies, but if you prefer using NPM that's perfectly fine.
+Bridgetown uses [Yarn](https://yarnpkg.com) to install and manage frontend NPM-based
+packages and dependencies.
+[Gem-based plugins can instruct Bridgetown](/docs/plugins/gems-and-webpack/) to add
+a related NPM package whenever Bridgetown first loads the gem.
 
 ## Javascript
 
 The starting place for Javascript code lives at `./frontend/javascript/index.js`. Here you can write your custom functionality, use `import` statements to pull in other modules or external packages, and so forth. This is also where you'd import all relevant CSS. (By default it imports `./frontend/styles/index.scss`.)
 
-Because Bridgetown utilizes standard Webpack functionality, you can trick out your Javascript setup with additional language enhancements like Typescript or add well-known frameworks like React, Vue, Stimulus, and many others.
+Because Bridgetown utilizes standard Webpack functionality, you can trick out your Javascript setup with additional language enhancements like Typescript or add well-known frameworks like React, Vue, Stimulus, and many others. For example,
+to add slick page transitions to your website using [Swup](https://swup.js.org/), you would simply run:
+
+```sh
+yarn add swup
+```
+
+And then update `./frontend/javascript/index.js` with:
+
+```js
+import Swup from "swup"
+
+const swup = new Swup()
+```
+
+And the update your HTML layout according to the Swup install guide.
 
 ## CSS
 
 The starting place for CSS code lives at `./frontend/styles/index.scss`. By default Bridgetown uses [Sass](https://sass-lang.com), a pre-processor for CSS, but you can customize your Webpack config to change that to use standard `PostCSS` which is popular with the Webpack community.
 
-Importing common CSS frameworks such as Bootstrap, Foundation, Bulma, Tailwind, and so forth is often as easy as running
+Importing common CSS frameworks such as Bootstrap, Foundation, Bulma, Tailwind, and so forth is often as easy as running:
 
 ```shell
 $ yarn add name-of-css-framework
