@@ -141,7 +141,7 @@ Feature: Rendering
     Given I have a _posts directory
     And I have the following post:
       | title  | date | layout  | cool | content |
-      | Page   | 2020-01-01 | simple  | \|\n  <RUBY>\n  "Very" + " Cool".upcase | Something {{ page.cool }} |
+      | Page   | 2020-01-01 | simple  | !ruby/string:Rb \|\n  "Very" + " Cool".upcase | Something {{ page.cool }} |
     And I have a "index.html" page with layout "simple" that contains "{% for post in site.posts %}{{ post.content }}{% endfor %}"
     And I have a simple layout that contains "{{ content }}"
     And I have a configuration file with "inline_ruby_in_front_matter" set to "true"
@@ -154,7 +154,7 @@ Feature: Rendering
     Given I have a _posts directory
     And I have the following post:
       | title  | date | layout  | cool | content |
-      | Page   | 2020-01-01 | simple  | \|\n  <RUBY>\n  "Very" + " Cool".upcase | Something {{ page.cool }} |
+      | Page   | 2020-01-01 | simple  | !ruby/string:Rb \|\n  "Very" + " Cool".upcase | Something {{ page.cool }} |
     And I have a "index.html" page with layout "simple" that contains "{% for post in site.posts %}{{ post.content }}{% endfor %}"
     And I have a simple layout that contains "{{ content }}"
     And I have a configuration file with "inline_ruby_in_front_matter" set to "true"

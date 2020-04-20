@@ -39,6 +39,10 @@ require "i18n"
 
 SafeYAML::OPTIONS[:suppress_warnings] = true
 
+# Create our little String subclass for Ruby Front Matter
+class Rb < String; end
+SafeYAML::OPTIONS[:whitelisted_tags] = ["!ruby/string:Rb"]
+
 module Bridgetown
   # internal requires
   autoload :Cleaner,             "bridgetown-core/cleaner"

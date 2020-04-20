@@ -1,7 +1,24 @@
 ---
-title: Foo Bar!
-some_value: |
-  <RUBY>
+title: Foo Bar!!
+monster_query: Bar 
+return_items: 3
+ruby_hash: !ruby/string:Rb |
+  require "faraday"
+
+  cache = Bridgetown::Cache.new("foobar")
+
+  json = cache.getset(page.data["monster_query"]) do
+    p "There be monsters!"
+    endpoint = "https://opdb.org/api/search/typeahead"
+    resp = Faraday.get(endpoint, {q: page.data["monster_query"]})
+    JSON.parse(resp.body)
+  end
+
+  {:one => "twooooo",
+    three: "four", "five" => "six",
+    monsters: json[0...page.data["return_items"]]
+  }
+some_value: !ruby/string:Rb |
   def foo
     a = "a"
 
@@ -14,8 +31,6 @@ some_value: |
 
     a + "b"
   end
-
-  sleep 1
 
   dirs = Dir.entries("/Users")
 
@@ -33,3 +48,18 @@ I am a draft!
 Value:
 
 {{ page.some_value }}
+
+----
+
+<pre>
+{{ page.ruby_hash.one }}, {{ page.ruby_hash.three }}, {{ page.ruby_hash.five }}
+
+Monsters!
+
+{% for monster in page.ruby_hash.monsters %}
+- {{ monster.name }} — ({{ monster.supplementary }})
+{% endfor %}
+</pre>
+
+----
+
