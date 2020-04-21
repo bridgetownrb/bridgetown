@@ -10,6 +10,20 @@ Bridgetown generates your site and saves it to the `output` directory by default
 transfer the contents of this directory to almost any hosting provider to get
 your site live.
 
+Bridgetown's included site template automatically provides a Yarn script you can run to
+build both your Webpack bundle and your website. Simply run
+
+```shell
+yarn deploy
+```
+
+as part of your deployment process, which will kick off both the `webpack` and the `bridgetown build` commands in that order.
+
+If you wish to utilize additional logic within your site templates or plugins to
+determine what's a "development" build vs. "production" build, set the `BRIDGETOWN_ENV`
+environment variable to `production` on the machine or service that's building the
+site for deployment. [Read more about environments here.](/docs/configuration/environments/)
+
 ## Automatic Deployment
 
 We recommend setting up an automatic deployment solution at the earliest opportunity. This way every time you push a commit up to your Git repository on a service such as GitHub, your site is automatically rebuilt and deployed quickly.
