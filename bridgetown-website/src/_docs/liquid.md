@@ -1,6 +1,6 @@
 ---
 title: Liquid
-order: 17
+order: 18
 top_section: Templates
 category: liquid
 ---

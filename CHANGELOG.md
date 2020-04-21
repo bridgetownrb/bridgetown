@@ -1,5 +1,24 @@
 # master
 
+# 0.11.0 / 2020-04-21
+
+**Prototype Pages**
+
+You can now create a page, say `categories/category.html`, and add a `prototype` config
+to the Front Matter:
+
+```yaml
+layout: default
+title: Posts in category :prototype-term
+prototype:
+  term: category
+```
+
+And then all the site's different categories will have archives pages at this location
+(e.g. `categories/awesome-movies`, `categories/my-cool-vacation`, etc.) It enables
+pagination automatically, so you'd just use `paginator.documents` to loop through the
+posts.
+
 # 0.10.2 / 2020-04-19
 
 **Automatic Yarn Step for New Plugins**

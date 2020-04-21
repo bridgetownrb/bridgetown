@@ -1,6 +1,6 @@
 ---
 title: Project Goals
-order: 19
+order: 20
 top_section: Philosophy
 category: philosophy
 ---

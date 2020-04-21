@@ -6,8 +6,6 @@ module Bridgetown
 
     def generate(site)
       @site = site
-
-      # TODO: make this configurable
       @configured_collection = "posts"
 
       prototype_pages = site.pages.select do |page|
@@ -34,6 +32,10 @@ module Bridgetown
       search_term = prototype_page.data["prototype"]["term"]
       return nil unless search_term.is_a?(String)
 
+      if prototype_page.data["prototype"]["collection"]
+        @configured_collection = prototype_page.data["prototype"]["collection"]
+      end
+
       # Categories and Tags are unique in that singular and plural front matter
       # can be present for each
       search_term.sub(%r!^category$!, "categories").sub(%r!^tag$!, "tags")
@@ -41,13 +43,15 @@ module Bridgetown
 
     def generate_new_page_from_prototype(prototype_page, search_term, term)
       new_page = PrototypePage.new(prototype_page)
-      new_page.data[search_term] = term
+      # Use the original specified term so we get "tag" back, not "tags":
+      new_page.data[prototype_page.data["prototype"]["term"]] = term
 
       process_title_data_placeholder(new_page, prototype_page, search_term, term)
       process_title_simple_placeholders(new_page, prototype_page, term)
 
       new_page.data["pagination"] = {} unless new_page.data["pagination"].is_a?(Hash)
       new_page.data["pagination"]["enabled"] = true
+      new_page.data["pagination"]["collection"] = @configured_collection
       new_page.data["pagination"]["where_query"] = [search_term, term]
       new_page.slugify_term(term)
       @site.pages << new_page

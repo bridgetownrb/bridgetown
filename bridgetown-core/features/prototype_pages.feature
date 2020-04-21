@@ -38,7 +38,7 @@ Feature: Prototype Pages
       | pagination | { enabled: true, per_page: <num> } |
     And I have a _layouts directory
     And I have a tags directory
-    And I have an "tags/tag.html" page with prototype "{term: tag}" that contains "{{ paginator.documents.size }} {{ paginator.documents[0].title }}"
+    And I have an "tags/tag.html" page with prototype "{term: tag}" that contains "#{{ page.tag }} {{ paginator.documents.size }} {{ paginator.documents[0].title }}"
     And I have a _posts directory
     And I have the following posts:
       | title     | date       | tags                    | content |
@@ -49,6 +49,7 @@ Feature: Prototype Pages
     When I run bridgetown build
     Then the output/tags/scary/page/<exist> directory should exist
     And the "output/tags/scary/page/<exist>/index.html" file should exist
+    And I should see "#scary" in "output/tags/scary/page/<exist>/index.html"
     And I should see "<posts>" in "output/tags/scary/page/<exist>/index.html"
     And the "output/tags/scary/page/<not_exist>/index.html" file should not exist
     And the "output/tags/awful-news/index.html" file should exist

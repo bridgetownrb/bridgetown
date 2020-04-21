@@ -1,6 +1,6 @@
 ---
 title: What’s a Jamstack?
-order: 20
+order: 21
 top_section: Philosophy
 category: jamstack
 ---
