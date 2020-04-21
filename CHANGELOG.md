@@ -17,7 +17,9 @@ prototype:
 And then all the site's different categories will have archives pages at this location
 (e.g. `categories/awesome-movies`, `categories/my-cool-vacation`, etc.) It enables
 pagination automatically, so you'd just use `paginator.documents` to loop through the
-posts.
+posts. [See the docs here.](https://www.bridgetown.com/docs/prototype-pages)
+
+[#11](https://github.com/bridgetownrb/bridgetown/pull/11)
 
 # 0.10.2 / 2020-04-19
 
