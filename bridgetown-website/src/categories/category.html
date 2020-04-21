@@ -1,0 +1,20 @@
+---
+layout: default
+title: "Browse Category: :prototype-term-titleize"
+prototype:
+  term: category
+---
+
+<section class="container mt-12">
+  <div class="columns is-centered">
+    <div class="column is-three-quarters" id="swup">
+      <h1 class="mt-3 mb-10 title is-1 has-text-centered has-text-brown">{{ page.title }}</h1>
+
+      {% for post in paginator.documents %}
+        {% include news_item.html %}
+      {% endfor %}
+
+      {% render "shared/pagination", paginator: paginator %}
+    </div>
+  </div>
+</section>
