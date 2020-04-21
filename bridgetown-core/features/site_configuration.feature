@@ -282,3 +282,17 @@ Feature: Site configuration
     And the output directory should exist
     And I should see "FOO" in "output/index.html"
     And I should not see " " in "output/index.html"
+
+  Scenario: Opt-out of slugified categories
+    Given I have a _posts directory
+    And I have the following post:
+      | title     | date       | category    | content                 |
+      | Star Wars | 2009-03-27 | Big Reveals | Luke, I am your father. |
+    And I have a configuration file with:
+      | key                | value  |
+      | slugify_categories | false  |
+      | permalink          | simple |
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And the output directory should exist
+    And I should see "I am your father" in "output/big reveals/star-wars/index.html"

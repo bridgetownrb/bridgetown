@@ -2,7 +2,7 @@
 title: Pagination
 hide_in_toc: true
 order: 0
-category: content
+category: posts
 ---
 
 {% render "docs/help_needed", page: page %}

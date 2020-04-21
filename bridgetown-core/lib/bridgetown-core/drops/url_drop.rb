@@ -30,7 +30,11 @@ module Bridgetown
       def categories
         category_set = Set.new
         Array(@obj.data["categories"]).each do |category|
-          category_set << category.to_s.downcase
+          category_set << if @obj.site.config["slugify_categories"]
+                            Utils.slugify(category.to_s)
+                          else
+                            category.to_s.downcase
+                          end
         end
         category_set.to_a.join("/")
       end

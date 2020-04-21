@@ -30,7 +30,7 @@ module Bridgetown
             # Only tags and categories come as premade arrays, locale does not,
             # so convert any data elements that are strings into arrays
             document_data = document.data[index_key]
-            document_data = document_data.split(%r!;|,|\s!) if document_data.is_a?(String)
+            document_data = document_data.split(%r!;|,!) if document_data.is_a?(String)
 
             document_data.each do |key|
               key = key.to_s.downcase.strip
