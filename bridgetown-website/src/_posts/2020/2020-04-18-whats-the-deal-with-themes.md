@@ -54,7 +54,7 @@ Yes indeed! Which is why **Bridgetown**—having stripped out the past implement
 {:.my-8}
 **Theme-ified Plugins.**{:.has-text-weight-medium.is-size-5} &nbsp;Many casual users of Jekyll over the years haven't realized just how powerful Jekyll's plugin system could be—no doubt due to the unfortunate fact that [custom plugins have never been supported by GitHub Pages](https://help.github.com/en/github/working-with-github-pages/about-github-pages-and-jekyll) (unless you set up your own Jekyll build process). Bridgetown inherits this robust plugin system and we're keen to extend it even further. But in addition to simply providing automated content generation or extensions to Liquid templates, _wouldn't it be awesome if a plugin could also supply theme files?_
 
-Imaging adding a `cool-new-plugin` Gem to your site and suddenly you have a new navigation bar to use…or a portfolio page…or an interactive map of all the places you've traveled…or, well, the sky's the limit!
+Imagine adding a `cool-new-plugin` Gem to your site and suddenly you have a new navigation bar to use…or a portfolio page…or an interactive map of all the places you've traveled…or, well, the sky's the limit!
 
 This is no small feat because, in addition to allowing multiple plugins to supply templates and assets, we also need to integrate plugins into Bridgetown's new Webpack pipeline. Getting templates, Ruby code, Javascript, stylesheets, images, etc. all working together in harmony across an advanced website build with numerous plugins is going to be a massive undertaking, no doubt about it. **But we think the end result will be well worth the effort.**
 
