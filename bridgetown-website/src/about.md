@@ -24,7 +24,7 @@ As of spring 2020, here is the vision for where Bridgetown is headed. And this i
 - ✅ _DONE!_ Add a `bridgetown console` command to **interactively interact with the site data and plugins** (just like the Rails console).
 - ✅ _DONE!_ Remove the aging asset pipeline and **regroup around a modern solution: Webpack**. (Similar to how Rails adopted Webpack and distanced itself from Sprockets.) [Check out the preliminary documentation here.](/docs/frontend-assets/)
 - ✅ _DONE!_ Integrate **pagination features** directly into the monorepo. [Preliminary docs here.](/docs/content/pagination/)
-- ✅ _DONE!_ Add streamlined **taxonomy pages (for categories, tags, and other metadata)** solution (called [Prototype Pages](/docs/prototype-pages/).)
+- ✅ _DONE!_ Add streamlined **taxonomy pages (for categories, tags, and other metadata)** solution (called [Prototype Pages](/docs/prototype-pages/)).
 - ✅ _DONE!_ Move most site data vars to a **reloadable file** (aka `_data/site_metadata.yml`). Coming soon: env-specific settings (development vs. production).
 - ✳️ _IN PROGRESS…_ Modernize various aspects of the codebase, incrementally **improving
   the developer experience (DX)** on a number of different fronts.

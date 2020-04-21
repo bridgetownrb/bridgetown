@@ -7,8 +7,8 @@ category: prototype_pages
 
 This feature builds upon the [Pagination functionality](/docs/content/pagination/) and
 lets you create automatically generated, paginated archives of your content filtered by
-the search terms provides. For instance you could set it up so every category has its
-own page, or every tag, or some other search term.
+the search terms you provide. For instance you could set it up so every category has its
+own page, every tag has its own page, or virtually any other search term.
 
 Note that this **requires** enabling `pagination` in your site's `bridgetown.config.yml`.
 
@@ -65,14 +65,14 @@ prototype:
   collection: tigers
 ```
 
-/_tigers/bengal.md`
+`/_tigers/bengal.md`
 ```yaml
 ---
 title: Bengal Tiger
 country: India
 ```
 
-Which would produce a generated `tigers/countries/india` page that loops through
+This would produce a generated `tigers/countries/india` page that loops through
 all the tigers in `India`.
 
 
@@ -125,3 +125,5 @@ prototype:
 {% endfor %}
 ```
 {% endraw %}
+
+As you can image, the possibilities are endless!
