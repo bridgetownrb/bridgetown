@@ -9,9 +9,12 @@ Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern
 
 ---
 
-## HEADS UP!
+## Stability Notice…
 
-This is currently considered _"pre-release", experimental software_. A more formal public beta stage will begin later this spring (2020). In other words, feel free to start using Bridgetown…but not yet in production. 🙂
+Given Bridgetown's strong inherited bones (see background below) and our continued
+emphasis on good testing, we're pretty confident Bridgetown is ready to use today.
+But…you might want to exercise a bit of extra caution using this in production. 🙂
+We are already (after all, the Bridgetown website is built with Bridgetown), but YMMV.
 
 ---
 
