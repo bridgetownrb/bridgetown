@@ -54,6 +54,30 @@ Feature: Site pagination
       | 3     | 1     | 6         |
       | 4     | 1     | 7         |
 
+  Scenario Outline: Paginate posts with tags
+    Given I have a configuration file with:
+      | key        | value                              |
+      | pagination | { enabled: true, per_page: <num> } |
+    And I have a _layouts directory
+    And I have an "index.html" page with pagination "{enabled: true, tag: scary}" that contains "{{ paginator.documents.size }} {{ paginator.documents[0].title }}"
+    And I have a _posts directory
+    And I have the following posts:
+      | title     | date       | layout  | tags                     | content  |
+      | Wargames  | 2009-03-27 | default | strange difficult        | The only winning move is not to play.  |
+      | Wargames2 | 2009-04-27 | default | strange, scary           | The only winning move is not to play2. |
+      | Wargames3 | 2009-05-27 | default | ["awful news", "scary"]  | The only winning move is not to play3. |
+      | Wargames4 | 2009-06-27 | default | terrible; scary          | The only winning move is not to play4. |
+    When I run bridgetown build
+    Then the output/page/<exist> directory should exist
+    And the "output/page/<exist>/index.html" file should exist
+    And I should see "<posts>" in "output/page/<exist>/index.html"
+    And the "output/page/<not_exist>/index.html" file should not exist
+
+    Examples:
+      | num | exist | posts | not_exist | title     |
+      | 1   | 3     | 1     | 4         | Wargames2 |
+      | 2   | 2     | 2     | 3         | Wargames3 |
+
   # TODO: this isn't working currently…wondering if it "ever" worked
   Scenario Outline: Setting a custom pagination path with numbered html pages
     Given this scenario should be skipped

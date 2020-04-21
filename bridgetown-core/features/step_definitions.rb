@@ -19,16 +19,14 @@ end
 
 #
 
-Given /skipped/ do
+Given %r!skipped! do
   skip_this_scenario
 end
 
 #
 
 Given(%r!^I have a blank site in "(.*)"$!) do |path|
-  unless File.exist?(path)
-    then FileUtils.mkdir_p(path)
-  end
+  FileUtils.mkdir_p(path) unless File.exist?(path)
 end
 
 #
@@ -40,9 +38,8 @@ end
 #
 
 Given(%r!^I have an? "(.*)" page(?: with (.*) "(.*)")? that contains "(.*)"$!) do |file, key, value, text|
-  unless file.include?("srcsite")
-    FileUtils.mkdir_p("src") unless File.exist?("src")
-    File.write(File.join("src", file), <<~DATA)
+  if file.include?("srcsite")
+    File.write(file, <<~DATA)
       ---
       #{key || "layout"}: #{value || "none"}
       ---
@@ -50,7 +47,8 @@ Given(%r!^I have an? "(.*)" page(?: with (.*) "(.*)")? that contains "(.*)"$!) d
       #{text}
     DATA
   else
-    File.write(file, <<~DATA)
+    FileUtils.mkdir_p("src") unless File.exist?("src")
+    File.write(File.join("src", file), <<~DATA)
       ---
       #{key || "layout"}: #{value || "none"}
       ---
@@ -63,11 +61,11 @@ end
 #
 
 Given(%r!^I have an? "(.*)" file that contains "(.*)"$!) do |file, text|
-  unless Paths.root_files.include?(file.split("/").first)
+  if Paths.root_files.include?(file.split("/").first)
+    File.write(file, text)
+  else
     FileUtils.mkdir_p("src") unless File.exist?("src")
     File.write(File.join("src", file), text)
-  else
-    File.write(file, text)
   end
 end
 
@@ -84,11 +82,11 @@ end
 #
 
 Given(%r!^I have an? "(.*)" file with content:$!) do |file, text|
-  unless Paths.root_files.include?(file.split("/").first)
+  if Paths.root_files.include?(file.split("/").first)
+    File.write(file, text)
+  else
     FileUtils.mkdir_p("src") unless File.exist?("src")
     File.write(File.join("src", file), text)
-  else
-    File.write(file, text)
   end
 end
 
@@ -108,13 +106,11 @@ end
 #
 
 Given(%r!^I have an? \"?(.*?)\"? directory$!) do |dir|
-  unless Paths.root_files.include?(dir)
-    dir_in_src = File.join("src", dir)
-    unless File.directory?(dir_in_src)
-      then FileUtils.mkdir_p(dir_in_src)
-    end
-  else
+  if Paths.root_files.include?(dir)
     FileUtils.mkdir_p(dir)
+  else
+    dir_in_src = File.join("src", dir)
+    FileUtils.mkdir_p(dir_in_src) unless File.directory?(dir_in_src)
   end
 end
 
@@ -126,7 +122,7 @@ Given(%r!^I have the following (page|post)s?(?: (in|under) "([^"]+)")?:$!) do |s
     ext = input_hash["type"] || "markdown"
     filename = "#{title}.#{ext}" if %w(page).include?(status)
     before, after = location(folder, direction)
-    dest_folder = "_posts"  if status == "post"
+    dest_folder = "_posts" if status == "post"
     dest_folder = "" if status == "page"
 
     if status == "post"
@@ -239,27 +235,21 @@ end
 
 When(%r!^I run bridgetown(.*)$!) do |args|
   run_bridgetown(args)
-  if args.include?("--verbose") || ENV["DEBUG"]
-    warn "\n#{bridgetown_run_output}\n"
-  end
+  warn "\n#{bridgetown_run_output}\n" if args.include?("--verbose") || ENV["DEBUG"]
 end
 
 #
 
 When(%r!^I run bundle(.*)$!) do |args|
   run_bundle(args)
-  if args.include?("--verbose") || ENV["DEBUG"]
-    warn "\n#{bridgetown_run_output}\n"
-  end
+  warn "\n#{bridgetown_run_output}\n" if args.include?("--verbose") || ENV["DEBUG"]
 end
 
 #
 
 When(%r!^I run gem(.*)$!) do |args|
   run_rubygem(args)
-  if args.include?("--verbose") || ENV["DEBUG"]
-    warn "\n#{bridgetown_run_output}\n"
-  end
+  warn "\n#{bridgetown_run_output}\n" if args.include?("--verbose") || ENV["DEBUG"]
 end
 
 #
@@ -279,10 +269,10 @@ end
 #
 
 When(%r!^I delete the file "(.*)"$!) do |file|
-  unless Paths.root_files.include?(file)
-    File.delete(File.join("src", file))
-  else
+  if Paths.root_files.include?(file)
     File.delete(file)
+  else
+    File.delete(File.join("src", file))
   end
 end
 

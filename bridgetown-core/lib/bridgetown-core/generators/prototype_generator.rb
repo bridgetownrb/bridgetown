@@ -20,14 +20,23 @@ module Bridgetown
         end
 
         prototype_pages.each do |prototype_page|
-          search_term = prototype_page.data["prototype"]["term"]
-          next unless search_term.is_a?(String)
+          search_term = validate_search_term(prototype_page)
+          next if search_term.nil?
 
           terms_matching_pages(search_term).each do |term|
-            generate_new_page_from_prototype(prototype_page, search_term, term)
+            generate_new_page_from_prototype(prototype_page, search_term, term).data
           end
         end
       end
+    end
+
+    def validate_search_term(prototype_page)
+      search_term = prototype_page.data["prototype"]["term"]
+      return nil unless search_term.is_a?(String)
+
+      # Categories and Tags are unique in that singular and plural front matter
+      # can be present for each
+      search_term.sub(%r!^category$!, "categories").sub(%r!^tag$!, "tags")
     end
 
     def generate_new_page_from_prototype(prototype_page, search_term, term)
@@ -42,14 +51,17 @@ module Bridgetown
       new_page.data["pagination"]["where_query"] = [search_term, term]
       new_page.slugify_term(term)
       @site.pages << new_page
+      new_page
     end
 
     def terms_matching_pages(search_term)
-      @site.documents.map do |document|
-        next unless document.respond_to?(:collection)
+      selected_docs = @site.documents.select do |document|
+        document.respond_to?(:collection) && document.collection.label == @configured_collection
+      end
 
-        document.data[search_term] if document.collection.label == @configured_collection
-      end.compact.uniq
+      Bridgetown::Paginate::Generator::PaginationIndexer.index_documents_by(
+        selected_docs, search_term
+      ).keys
     end
 
     def process_title_data_placeholder(new_page, prototype_page, search_term, term)
