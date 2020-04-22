@@ -386,6 +386,10 @@ module Bridgetown
             # (we don't do this for the first page as it is there to mask the one we removed)
             newpage.data["autogen"] = "bridgetown-paginate" if cur_page_nr > 1
 
+            # If there's only one post (like on a per_page: 1 scenario), let's be
+            # helpful and supply a document variable
+            newpage.data["document"] = using_posts.first if using_posts.size == 1
+
             # Add the page to the site
             @page_add_lambda.call newpage
 

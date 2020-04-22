@@ -1,5 +1,7 @@
 # master
 
+* Add customizable permalinks to Prototype Pages (aka `/path/to/:term/and/beyond").
+
 # 0.11.0 / 2020-04-21
 
 **Prototype Pages**

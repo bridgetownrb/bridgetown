@@ -49,10 +49,14 @@ module Bridgetown
       process_title_data_placeholder(new_page, prototype_page, search_term, term)
       process_title_simple_placeholders(new_page, prototype_page, term)
 
-      new_page.data["pagination"] = {} unless new_page.data["pagination"].is_a?(Hash)
-      new_page.data["pagination"]["enabled"] = true
-      new_page.data["pagination"]["collection"] = @configured_collection
-      new_page.data["pagination"]["where_query"] = [search_term, term]
+      new_page.data["pagination"] = Bridgetown::Utils.deep_merge_hashes(
+        prototype_page.data["pagination"].to_h, {
+          "enabled"     => true,
+          "collection"  => @configured_collection,
+          "where_query" => [search_term, term],
+        }
+      )
+
       new_page.slugify_term(term)
       @site.pages << new_page
       new_page
@@ -120,7 +124,11 @@ module Bridgetown
 
     def slugify_term(term)
       term_slug = Bridgetown::Utils.slugify(term)
-      @url = "/#{@dir}/#{term_slug}/"
+      @url = if permalink.is_a?(String)
+               data["permalink"] = data["permalink"].sub(":term", term_slug)
+             else
+               "/#{@dir}/#{term_slug}/"
+             end
     end
   end
 end
