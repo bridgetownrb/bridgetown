@@ -1,5 +1,7 @@
 # master
 
+* Update sass-loader webpack config to support .sass [#14](https://github.com/bridgetownrb/bridgetown/pull/14) ([jaredmoody](https://github.com/jaredmoody)) 
+
 # 0.11.0 / 2020-04-21
 
 **Prototype Pages**
