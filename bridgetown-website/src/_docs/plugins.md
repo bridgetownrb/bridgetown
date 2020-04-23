@@ -15,18 +15,18 @@ Make sure you [follow these instructions](/docs/plugins/gems-and-webpack/) to in
 with the users' Webpack setup!
 {% endrendercontent %}
 
-## Installation
+## Setup
 
 There are two methods of adding plugins to your site build.
 
-1. In your site's root folder (aka where your config file lives), make a `plugins` folder. Place your plugins here. Any file ending in *.rb inside this folder will be loaded before Bridgetown generates your site.
+1. In your site's root folder (aka where your config file lives), make a `plugins` folder. Write your custom plugins and save them here. Any file ending in `.rb` inside this folder will be loaded before Bridgetown generates your site.
 
 2. Add gem-based plugins to the `bridgetown_plugins` Bundler group in your `Gemfile`. For
    example:
 
    ```ruby
    group :bridgetown_plugins do
-     gem "bridgetown-gist"
+     gem "bridgetown-feed"
      gem "another-bridgetown-plugin"
    end
    ```
@@ -45,9 +45,7 @@ Tags create custom Liquid tags which you can add to your content or design templ
 
 ### [Filters](/docs/plugins/filters/)
 
-Filters create custom Liquid filters to help transform data and content. For example:
-
-* _bridgetown-time-ago_
+Filters create custom Liquid filters to help transform data and content.
 
 ### [Generators](/docs/plugins/generators/)
 
@@ -58,16 +56,11 @@ For example:
 
 ### [Converters](/docs/plugins/converters/)
 
-Converters change a markup language from one format to another. For example:
-
-* _bridgetown-textile-converter_
+Converters change a markup language from one format to another.
 
 ### [Commands](/docs/plugins/commands/)
 
-Commands extend the `bridgetown` executable with
-subcommands. For example:
-
-* _bridgetown-compose_
+Commands extend the `bridgetown` executable with subcommands.
 
 ### [Hooks](/docs/plugins/hooks/)
 
