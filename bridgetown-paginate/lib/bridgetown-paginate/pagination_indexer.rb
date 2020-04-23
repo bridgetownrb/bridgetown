@@ -7,6 +7,12 @@ module Bridgetown
     # filtering said collections when requested by the defined filters.
     #
     class PaginationIndexer
+      @cached_index = {}
+
+      class << self
+        attr_accessor :cached_index
+      end
+
       #
       # Create a hash index for all documents based on a key in the
       # document.data table
@@ -17,6 +23,10 @@ module Bridgetown
 
         # Where queries are a key/value pair, so grab the first key element
         index_key = index_key[0] if index_key.is_a?(Array)
+
+        if found_index = cached_index.dig(all_documents.object_id, index_key)
+          return found_index
+        end
 
         index = {}
         all_documents.each do |document|
@@ -43,6 +53,10 @@ module Bridgetown
           end
         end
 
+        unless cached_index[all_documents.object_id].is_a?(Hash)
+          cached_index[all_documents.object_id] = {}
+        end
+        cached_index[all_documents.object_id][index_key] = index
         index
       end
 

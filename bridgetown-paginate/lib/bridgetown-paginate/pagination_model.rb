@@ -37,6 +37,8 @@ module Bridgetown
           return
         end
 
+        @docs_by_collection_cache = {}
+
         # Now for each template page generate the paginator for it
         templates.each do |template|
           # All pages that should be paginated need to include the pagination
@@ -63,9 +65,15 @@ module Bridgetown
               all_posts = get_docs_in_collections(template_config["collection"])
 
               # Create the necessary indexes for the posts
-              all_categories = PaginationIndexer.index_documents_by(all_posts, "categories")
-              all_tags = PaginationIndexer.index_documents_by(all_posts, "tags")
-              all_locales = PaginationIndexer.index_documents_by(all_posts, "locale")
+              all_categories = if template_config["category"]
+                                 PaginationIndexer.index_documents_by(all_posts, "categories")
+                               end
+              all_tags = if template_config["tag"]
+                           PaginationIndexer.index_documents_by(all_posts, "tags")
+                         end
+              all_locales = if template_config["locale"]
+                              PaginationIndexer.index_documents_by(all_posts, "locale")
+                            end
 
               # Load in custom query index, if specified
               all_where_matches = if template_config["where_query"]
@@ -107,6 +115,10 @@ module Bridgetown
       # raw_collection_names can either be a list of collections separated by a
       # ',' or ' ' or a single string
       def get_docs_in_collections(raw_collection_names)
+        if @docs_by_collection_cache[raw_collection_names]
+          return @docs_by_collection_cache[raw_collection_names]
+        end
+
         collection_names = if raw_collection_names.is_a?(String)
                              raw_collection_names.split %r!/;|,|\s/!
                            else
@@ -123,6 +135,8 @@ module Bridgetown
 
         # Hidden documents should not not be processed anywhere.
         docs = docs.reject { |doc| doc["hidden"] }
+
+        @docs_by_collection_cache[raw_collection_names] = docs
 
         docs
       end
@@ -163,19 +177,6 @@ module Bridgetown
       end
       # rubocop:enable Layout/LineLength
 
-      #
-      # Rolls through all the pages passed in and finds all pages that have
-      # pagination enabled on them.
-      # These pages will be used as templates
-      #
-      # site_pages - All pages in the site
-      #
-      def _discover_paginate_templates(site_pages)
-        site_pages.select do |page|
-          page.data["pagination"].is_a?(Hash) && page.data["pagination"]["enabled"]
-        end
-      end
-
       # Paginates the blog's posts. Renders the index.html file into paginated
       # directories, e.g.: page2/index.html, page3/index.html, etc and adds more
       # site-wide data.
@@ -190,32 +191,39 @@ module Bridgetown
 
         # Now start filtering out any posts that the user doesn't want included
         # in the pagination
-        before = using_posts.size.to_i
-        using_posts = PaginationIndexer.read_config_value_and_filter_documents(
-          config,
-          "category",
-          using_posts,
-          documents_payload[:categories]
-        )
-        _debug_print_filtering_info("Category", before, using_posts.size.to_i)
 
-        before = using_posts.size.to_i
-        using_posts = PaginationIndexer.read_config_value_and_filter_documents(
-          config,
-          "tag",
-          using_posts,
-          documents_payload[:tags]
-        )
-        _debug_print_filtering_info("Tag", before, using_posts.size.to_i)
+        if config["category"]
+          before = using_posts.size.to_i
+          using_posts = PaginationIndexer.read_config_value_and_filter_documents(
+            config,
+            "category",
+            using_posts,
+            documents_payload[:categories]
+          )
+          _debug_print_filtering_info("Category", before, using_posts.size.to_i)
+        end
 
-        before = using_posts.size.to_i
-        using_posts = PaginationIndexer.read_config_value_and_filter_documents(
-          config,
-          "locale",
-          using_posts,
-          documents_payload[:locales]
-        )
-        _debug_print_filtering_info("Locale", before, using_posts.size.to_i)
+        if config["tag"]
+          before = using_posts.size.to_i
+          using_posts = PaginationIndexer.read_config_value_and_filter_documents(
+            config,
+            "tag",
+            using_posts,
+            documents_payload[:tags]
+          )
+          _debug_print_filtering_info("Tag", before, using_posts.size.to_i)
+        end
+
+        if config["locale"]
+          before = using_posts.size.to_i
+          using_posts = PaginationIndexer.read_config_value_and_filter_documents(
+            config,
+            "locale",
+            using_posts,
+            documents_payload[:locales]
+          )
+          _debug_print_filtering_info("Locale", before, using_posts.size.to_i)
+        end
 
         if config["where_query"]
           before = using_posts.size.to_i

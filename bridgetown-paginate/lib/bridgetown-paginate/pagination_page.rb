@@ -42,8 +42,7 @@ module Bridgetown
         validate_data! page_to_copy.path
         validate_permalink! page_to_copy.path
 
-        # TODO: Trigger a page event
-        # Bridgetown::Hooks.trigger :pages, :post_init, self
+        Bridgetown::Hooks.trigger :pages, :post_init, self
       end
 
       # rubocop:disable Naming/AccessorMethodName
