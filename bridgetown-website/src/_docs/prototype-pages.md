@@ -127,3 +127,20 @@ prototype:
 {% endraw %}
 
 As you can image, the possibilities are endless!
+
+## Permalinks
+
+You can also customize the [permalinks](/docs/structure/permalinks/) used in Prototype
+pages using `:term`. For example, using the Tigers example above, you could change the
+URLs that get generated like so:
+
+```yaml
+---
+title: Tigers in country :prototype-term-titleize
+permalink: /animals/:term/tigers
+prototype:
+  term: country
+  collection: tigers
+```
+
+And then you would get pages generated at `/animals/india/tigers`, `/animals/china/tigers`, etc.
