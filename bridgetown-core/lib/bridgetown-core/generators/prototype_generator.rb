@@ -93,6 +93,13 @@ module Bridgetown
       @dir = Pathname.new(prototype_page.relative_path).dirname.to_s
       @path = site.in_source_dir(@dir, @name)
 
+      process_prototype_page_data(prototype_page, collection, search_term, term)
+
+      Bridgetown::Hooks.trigger :pages, :post_init, self
+    end
+
+    def process_prototype_page_data(prototype_page, collection, search_term, term)
+      # Fill in pagination details to be handled later by Bridgetown::Paginate
       data["pagination"] = Bridgetown::Utils.deep_merge_hashes(
         prototype_page.data["pagination"].to_h, {
           "enabled"     => true,
@@ -106,8 +113,6 @@ module Bridgetown
       process_title_data_placeholder(prototype_page, search_term, term)
       process_title_simple_placeholders(term)
       slugify_term(term)
-
-      Bridgetown::Hooks.trigger :pages, :post_init, self
     end
 
     def process_title_data_placeholder(prototype_page, search_term, term)
