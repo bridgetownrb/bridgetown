@@ -151,15 +151,13 @@ module Bridgetown
         end
 
         def git_init(path)
-          begin
-            Dir.chdir(path) do
-              process, output = Bridgetown::Utils::Exec.run("git", "init")
-              output.to_s.each_line do |line|
-                Bridgetown.logger.info("Git:".green, line.strip) unless line.to_s.empty?
-              end
+          Dir.chdir(path) do
+            _process, output = Bridgetown::Utils::Exec.run("git", "init")
+            output.to_s.each_line do |line|
+              Bridgetown.logger.info("Git:".green, line.strip) unless line.to_s.empty?
             end
-          rescue SystemCallError
           end
+        rescue SystemCallError
         end
       end
     end
