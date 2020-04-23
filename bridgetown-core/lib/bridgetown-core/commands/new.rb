@@ -33,6 +33,8 @@ module Bridgetown
                       "try again with `--force` to proceed and overwrite any files."
           end
 
+          Bridgetown.logger.info("Creating:".green, new_site_path)
+
           create_site new_site_path
 
           after_install(new_site_path, args.join(" "), options)
@@ -121,7 +123,9 @@ module Bridgetown
             end
           end
 
-          Bridgetown.logger.info "Success! 🎉 Your new Bridgetown site was" \
+          git_init path
+
+          Bridgetown.logger.info "Success!".green, "🎉 Your new Bridgetown site was" \
                                   " generated in #{cli_path.cyan}."
           Bridgetown.logger.info "Execute cd #{cli_path.cyan} to get started."
           Bridgetown.logger.info "You'll probably also want to #{"yarn install".cyan}" \
@@ -144,6 +148,16 @@ module Bridgetown
 
             raise SystemExit unless process.success?
           end
+        end
+
+        def git_init(path)
+          Dir.chdir(path) do
+            _process, output = Bridgetown::Utils::Exec.run("git", "init")
+            output.to_s.each_line do |line|
+              Bridgetown.logger.info("Git:".green, line.strip) unless line.to_s.empty?
+            end
+          end
+        rescue SystemCallError
         end
       end
     end

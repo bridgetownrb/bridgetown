@@ -44,6 +44,9 @@ Lint/RaiseException:
   Enabled: true
 Lint/StructNewOverride:
   Enabled: true
+Lint/SuppressedException:
+  Exclude:
+    - bridgetown-core/lib/bridgetown-core/commands/new.rb
 Lint/UnreachableCode:
   Severity: error
 Lint/Void:
