@@ -106,7 +106,7 @@ module Bridgetown
       process(@name)
 
       self.data = Bridgetown::Utils.deep_merge_hashes prototype_page.data, {}
-      data["pagination"] = {} unless page.data["pagination"].is_a?(Hash)
+      data["pagination"] = {} unless data["pagination"].is_a?(Hash)
       data["pagination"]["enabled"] = true
       self.content = prototype_page.content
 
