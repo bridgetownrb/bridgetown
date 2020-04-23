@@ -49,8 +49,6 @@ module Bridgetown
       process_title_data_placeholder(new_page, prototype_page, search_term, term)
       process_title_simple_placeholders(new_page, prototype_page, term)
 
-      new_page.data["pagination"] = {} unless new_page.data["pagination"].is_a?(Hash)
-      new_page.data["pagination"]["enabled"] = true
       new_page.data["pagination"]["collection"] = @configured_collection
       new_page.data["pagination"]["where_query"] = [search_term, term]
       new_page.slugify_term(term)
@@ -63,7 +61,7 @@ module Bridgetown
         document.respond_to?(:collection) && document.collection.label == @configured_collection
       end
 
-      Bridgetown::Paginate::Generator::PaginationIndexer.index_documents_by(
+      Bridgetown::Paginate::PaginationIndexer.index_documents_by(
         selected_docs, search_term
       ).keys
     end
@@ -108,6 +106,8 @@ module Bridgetown
       process(@name)
 
       self.data = Bridgetown::Utils.deep_merge_hashes prototype_page.data, {}
+      data["pagination"] = {} unless page.data["pagination"].is_a?(Hash)
+      data["pagination"]["enabled"] = true
       self.content = prototype_page.content
 
       # Perform some validation that is also performed in Bridgetown::Page
@@ -116,6 +116,8 @@ module Bridgetown
 
       @dir = Pathname.new(prototype_page.relative_path).dirname.to_s
       @path = site.in_source_dir(@dir, @name)
+
+      Bridgetown::Hooks.trigger :pages, :post_init, self
     end
 
     def slugify_term(term)
