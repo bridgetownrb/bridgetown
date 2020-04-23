@@ -24,7 +24,7 @@ module Bridgetown
         # Where queries are a key/value pair, so grab the first key element
         index_key = index_key[0] if index_key.is_a?(Array)
 
-        if found_index = cached_index.dig(all_documents.object_id, index_key)
+        if (found_index = cached_index.dig(all_documents.object_id, index_key))
           return found_index
         end
 
