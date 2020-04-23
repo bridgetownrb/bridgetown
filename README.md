@@ -91,10 +91,10 @@ these terms, please let one of our [core team members](mailto:maintainers@bridge
 
 Bridgetown is built by:
 
-|<img src="https://avatars.githubusercontent.com/jaredcwhite?s=256" alt="jaredcwhite" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|
-|@jaredcwhite|You Next?|
-|Portland, OR|Anywhere|
+|<img src="https://avatars.githubusercontent.com/jaredcwhite?s=256" alt="jaredcwhite" width="128" />|<img src="https://avatars.githubusercontent.com/jaredmoody?s=256" alt="jaredmoody" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|
+|@jaredcwhite|@jaredmoody|You Next?|
+|Portland, OR|Portland, OR|Anywhere|
 
 Interested in joining the Bridgetown Core Team? Send a DM to Jared on the [Bridgetown Community forum](https://community.bridgetownrb.com) and let's chat!
 
