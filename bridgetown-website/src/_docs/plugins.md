@@ -19,7 +19,7 @@ with the users' Webpack setup!
 
 There are two methods of adding plugins to your site build.
 
-1. In your site source folder, make a `_plugins` directory. Place your plugins here. Any file ending in *.rb inside this directory will be loaded before Bridgetown generates your site.
+1. In your site's root folder (aka where your config file lives), make a `plugins` folder. Place your plugins here. Any file ending in *.rb inside this folder will be loaded before Bridgetown generates your site.
 
 2. Add gem-based plugins to the `bridgetown_plugins` Bundler group in your `Gemfile`. For
    example:
