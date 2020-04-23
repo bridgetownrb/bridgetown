@@ -1,15 +1,31 @@
 # frozen_string_literal: true
 
+Bridgetown::Hooks.register :pages, :post_init do |page|
+  if page.class != Bridgetown::PrototypePage && page.data["prototype"].is_a?(Hash)
+    Bridgetown::PrototypeGenerator.add_matching_template(page)
+  end
+end
+
 module Bridgetown
   class PrototypeGenerator < Generator
     priority :low
+
+    @matching_templates = []
+
+    def self.add_matching_template(template)
+      @matching_templates << template
+    end
+
+    class << self
+      attr_reader :matching_templates
+    end
 
     def generate(site)
       @site = site
       @configured_collection = "posts"
 
-      prototype_pages = site.pages.select do |page|
-        page.data["prototype"].is_a?(Hash)
+      prototype_pages = self.class.matching_templates.select do |page|
+        site.pages.include? page
       end
 
       if prototype_pages.length.positive?
@@ -42,18 +58,7 @@ module Bridgetown
     end
 
     def generate_new_page_from_prototype(prototype_page, search_term, term)
-      new_page = PrototypePage.new(prototype_page)
-      # Use the original specified term so we get "tag" back, not "tags":
-      new_page.data[prototype_page.data["prototype"]["term"]] = term
-
-      process_title_data_placeholder(new_page, prototype_page, search_term, term)
-      process_title_simple_placeholders(new_page, prototype_page, term)
-
-      new_page.data["pagination"] = {} unless new_page.data["pagination"].is_a?(Hash)
-      new_page.data["pagination"]["enabled"] = true
-      new_page.data["pagination"]["collection"] = @configured_collection
-      new_page.data["pagination"]["where_query"] = [search_term, term]
-      new_page.slugify_term(term)
+      new_page = PrototypePage.new(prototype_page, @configured_collection, search_term, term)
       @site.pages << new_page
       new_page
     end
@@ -63,43 +68,14 @@ module Bridgetown
         document.respond_to?(:collection) && document.collection.label == @configured_collection
       end
 
-      Bridgetown::Paginate::Generator::PaginationIndexer.index_documents_by(
+      Bridgetown::Paginate::PaginationIndexer.index_documents_by(
         selected_docs, search_term
       ).keys
-    end
-
-    def process_title_data_placeholder(new_page, prototype_page, search_term, term)
-      if prototype_page["prototype"]["data"]
-        if new_page.data["title"]&.include?(":prototype-data-label")
-          related_data = @site.data[prototype_page["prototype"]["data"]].dig(term)
-          if related_data
-            new_page.data["#{search_term}_data"] = related_data
-            data_label = related_data[prototype_page["prototype"]["data_label"]]
-            new_page.data["title"] = new_page.data["title"].gsub(
-              ":prototype-data-label", data_label
-            )
-          end
-        end
-      end
-    end
-
-    def process_title_simple_placeholders(new_page, _prototype_page, term)
-      if new_page.data["title"]&.include?(":prototype-term-titleize")
-        new_page.data["title"] = new_page.data["title"].gsub(
-          ":prototype-term-titleize", Bridgetown::Utils.titleize_slug(term)
-        )
-      end
-
-      if new_page.data["title"]&.include?(":prototype-term")
-        new_page.data["title"] = new_page.data["title"].gsub(
-          ":prototype-term", term
-        )
-      end
     end
   end
 
   class PrototypePage < Page
-    def initialize(prototype_page)
+    def initialize(prototype_page, collection, search_term, term)
       @site = prototype_page.site
       @url = ""
       @name = "index.html"
@@ -116,11 +92,65 @@ module Bridgetown
 
       @dir = Pathname.new(prototype_page.relative_path).dirname.to_s
       @path = site.in_source_dir(@dir, @name)
+
+      process_prototype_page_data(prototype_page, collection, search_term, term)
+
+      Bridgetown::Hooks.trigger :pages, :post_init, self
+    end
+
+    def process_prototype_page_data(prototype_page, collection, search_term, term)
+      # Fill in pagination details to be handled later by Bridgetown::Paginate
+      data["pagination"] = Bridgetown::Utils.deep_merge_hashes(
+        prototype_page.data["pagination"].to_h, {
+          "enabled"     => true,
+          "collection"  => collection,
+          "where_query" => [search_term, term],
+        }
+      )
+      # Use the original prototype page term so we get "tag" back, not "tags":
+      data[prototype_page.data["prototype"]["term"]] = term
+      # Process title and slugs/URLs:
+      process_title_data_placeholder(prototype_page, search_term, term)
+      process_title_simple_placeholders(term)
+      slugify_term(term)
+    end
+
+    def process_title_data_placeholder(prototype_page, search_term, term)
+      if prototype_page["prototype"]["data"]
+        if data["title"]&.include?(":prototype-data-label")
+          related_data = @site.data[prototype_page["prototype"]["data"]].dig(term)
+          if related_data
+            data["#{search_term}_data"] = related_data
+            data_label = related_data[prototype_page["prototype"]["data_label"]]
+            data["title"] = data["title"].gsub(
+              ":prototype-data-label", data_label
+            )
+          end
+        end
+      end
+    end
+
+    def process_title_simple_placeholders(term)
+      if data["title"]&.include?(":prototype-term-titleize")
+        data["title"] = data["title"].gsub(
+          ":prototype-term-titleize", Bridgetown::Utils.titleize_slug(term)
+        )
+      end
+
+      if data["title"]&.include?(":prototype-term")
+        data["title"] = data["title"].gsub(
+          ":prototype-term", term
+        )
+      end
     end
 
     def slugify_term(term)
       term_slug = Bridgetown::Utils.slugify(term)
-      @url = "/#{@dir}/#{term_slug}/"
+      @url = if permalink.is_a?(String)
+               data["permalink"] = data["permalink"].sub(":term", term_slug)
+             else
+               "/#{@dir}/#{term_slug}/"
+             end
     end
   end
 end

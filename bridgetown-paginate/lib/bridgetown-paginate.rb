@@ -10,17 +10,16 @@
 require "bridgetown-core"
 require "bridgetown-core/version"
 
-unless ENV["BRIDGETOWN_DISABLE_PAGINATE_GEM"] == "true"
-  module Bridgetown
-    module Paginate
-    end
+module Bridgetown
+  module Paginate
   end
-
-  require "bridgetown-paginate/defaults"
-  require "bridgetown-paginate/utils"
-  require "bridgetown-paginate/pagination_indexer"
-  require "bridgetown-paginate/paginator"
-  require "bridgetown-paginate/pagination_page"
-  require "bridgetown-paginate/pagination_model"
-  require "bridgetown-paginate/pagination_generator"
 end
+
+require "bridgetown-paginate/defaults"
+require "bridgetown-paginate/utils"
+require "bridgetown-paginate/hooks"
+require "bridgetown-paginate/pagination_indexer"
+require "bridgetown-paginate/paginator"
+require "bridgetown-paginate/pagination_page"
+require "bridgetown-paginate/pagination_model"
+require "bridgetown-paginate/pagination_generator"
