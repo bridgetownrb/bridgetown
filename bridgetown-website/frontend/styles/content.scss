@@ -48,10 +48,11 @@ html.is-animating {
   @include mobile {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
-  }  
+  }
 }
 
-.box ul, .box ol {
+.box ul,
+.box ol {
   margin-top: 2rem !important;
   margin-bottom: 2rem !important;
   width: 85%;
@@ -86,39 +87,26 @@ html.is-animating {
   }
 }
 
-.note {
-  background: lighten($green, 25%);
-  padding: 40px;
-  padding-left: calc(2rem - 5px);
-  padding-right: 2rem;
-  border-left: solid 5px $green;
-  font-size: 0.9em;
-  font-weight: 500;
-  margin-left: -2rem;
-  margin-right: -2rem;
-  @include mobile {
-    margin-left: -1rem;
-    margin-right: -1rem;
-  }
-  margin-bottom: 1.5rem;
-  &.warning {
-    border-left-color: $red;
-    background: lighten($red, 35%);
-  }
-}
-
 table.settings {
-  tr > td:first-child { width: 65%; }
+  tr > td:first-child {
+    width: 65%;
+  }
   &.bigger-output {
-    tr > td:first-child { width: 40%; }
+    tr > td:first-child {
+      width: 40%;
+    }
   }
   &.biggest-output {
-    tr > td:first-child { width: 25%; }
+    tr > td:first-child {
+      width: 25%;
+    }
   }
-  .option, .filter {
+  .option,
+  .filter {
     color: darken($blue, 10%);
   }
-  .flag, .output {
+  .flag,
+  .output {
     color: darken($orange, 20%);
   }
   p.default {
@@ -130,7 +118,8 @@ table.settings {
     }
   }
 
-  th, td {
+  th,
+  td {
     &:first-child {
       background: lighten($white-ter, 2.5%);
     }
@@ -142,10 +131,15 @@ table.settings {
 
   @media screen and (max-width: 600px) {
     th {
-      &:first-child:before {content: "👇 " }
-      &:last-child:after { content: " 👇" }
+      &:first-child:before {
+        content: "👇 ";
+      }
+      &:last-child:after {
+        content: " 👇";
+      }
     }
-    th, td {
+    th,
+    td {
       display: block;
       width: 100% !important;
       &:last-child {
@@ -153,8 +147,4 @@ table.settings {
       }
     }
   }
-}
-
-table + .note {
-  margin-top: 1.5rem;
 }

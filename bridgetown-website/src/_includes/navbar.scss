@@ -1,0 +1,76 @@
+.navbar {
+  .bridgetown-logo {
+    width: 152px;
+    margin-left: -6px;
+    margin-right: 6px;
+    opacity: 0.8;
+
+    svg {
+      -webkit-filter: drop-shadow(2px 3px 3px rgba(0, 0, 0, 0.3));
+      filter: drop-shadow(2px 3px 3px rgba(0, 0, 0, 0.3));
+    }
+
+    svg path {
+      fill: white;
+    }
+  }
+
+  .navbar-brand .navbar-item:hover {
+    background: $navbar-item-hover-background-color;
+    .bridgetown-logo {
+      opacity: 1;
+    }
+  }
+
+  .navbar-item .title {
+    color: white;
+    text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .navbar-item,
+  .navbar-link {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  @include desktop {
+    .navbar-dropdown .navbar-item {
+      color: $text;
+    }
+  }
+
+  @include touch {
+    .navbar-menu {
+      background-color: inherit;
+    }
+  }
+
+  .navbar-burger span {
+    background-color: $white-ter;
+  }
+  .navbar-burger:hover span {
+    background-color: $white-ter;
+  }
+
+  @each $name, $pair in $colors {
+    $color: nth($pair, 1);
+    $color-invert: nth($pair, 2);
+
+    &.is-#{$name} {
+      @include touch {
+        .navbar-item,
+        .navbar-link {
+          color: rgba($color-invert, 0.7);
+          &.is-active {
+            color: $color-invert;
+          }
+        }
+      }
+    }
+  }
+
+  &.is-transparent {
+    background-color: transparent;
+  }
+}

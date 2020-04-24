@@ -30,7 +30,7 @@ $warning-invert: #fff;
 
 $scheme-main: $white-ter;
 
-$family-sans-serif: Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$family-sans-serif: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
 $body-size: 18px;
 
 $link: $primary;
@@ -62,3 +62,7 @@ footer.footer strong {
 @import "layout.scss";
 @import "syntax.scss";
 @import "typography.scss";
+
+/* Components and Includes */
+@import "navbar.scss";
+@import "docs/note.scss";

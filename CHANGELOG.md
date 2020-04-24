@@ -1,5 +1,10 @@
 # master
 
+# 0.11.2 / 2020-04-24
+
+* Add components source folder to sass-loader include paths
+* Include missing commit from PR #14
+
 # 0.11.1 / 2020-04-24
 
 * Add a git init step to `bridgetown new` command [#18](https://github.com/bridgetownrb/bridgetown/pull/18)
