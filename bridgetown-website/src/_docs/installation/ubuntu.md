@@ -82,4 +82,4 @@ And that's it! Head over [rbenv command references](https://github.com/rbenv/rbe
 
 {% render "docs/install/node_on_linux" %}
 {% render "docs/install/bridgetown" %}
-{% render "docs/install/webpack_watch" %}
+{% render "docs/install/concurrently" %}
