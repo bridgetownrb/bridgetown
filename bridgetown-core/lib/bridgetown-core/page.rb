@@ -35,12 +35,18 @@ module Bridgetown
     # base - The String path to the source.
     # dir  - The String path between the source and the file.
     # name - The String filename of the file.
-    def initialize(site, base, dir, name)
+    # from_plugin - true if the Page file is located in a Gem-based plugin folder
+    # rubocop:disable Metrics/ParameterLists
+    def initialize(site, base, dir, name, from_plugin: false)
       @site = site
       @base = base
       @dir  = dir
       @name = name
-      @path = site.in_source_dir(base, dir, name)
+      @path = if from_plugin
+                File.join(base, dir, name)
+              else
+                site.in_source_dir(base, dir, name)
+              end
 
       process(name)
       read_yaml(PathManager.join(base, dir), name)
@@ -51,6 +57,7 @@ module Bridgetown
 
       Bridgetown::Hooks.trigger :pages, :post_init, self
     end
+    # rubocop:enable Metrics/ParameterLists
 
     # The generated directory into which the page will be placed
     # upon generation. This is derived from the permalink or, if

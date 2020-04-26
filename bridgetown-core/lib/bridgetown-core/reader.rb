@@ -11,6 +11,7 @@ module Bridgetown
     # Read Site data from disk and load it into internal data structures.
     #
     # Returns nothing.
+    # rubocop:disable Metrics/AbcSize
     def read
       @site.layouts = LayoutReader.new(site).read
       read_directories
@@ -18,7 +19,11 @@ module Bridgetown
       sort_files!
       @site.data = DataReader.new(site).read(site.config["data_dir"])
       CollectionReader.new(site).read
+      Bridgetown::PluginManager.source_manifests.map(&:content).compact.each do |plugin_content_dir|
+        PluginContentReader.new(site, plugin_content_dir).read
+      end
     end
+    # rubocop:enable Metrics/AbcSize
 
     # Sorts posts, pages, and static files.
     def sort_files!

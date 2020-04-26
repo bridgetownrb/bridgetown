@@ -14,6 +14,13 @@ module Bridgetown
           Layout.new(site, layout_directory, layout_file)
       end
 
+      Bridgetown::PluginManager.source_manifests.map(&:layouts).compact.each do |plugin_layouts|
+        layout_entries(plugin_layouts).each do |layout_file|
+          @layouts[layout_name(layout_file)] ||= \
+            Layout.new(site, plugin_layouts, layout_file, from_plugin: true)
+        end
+      end
+
       @layouts
     end
 
@@ -23,8 +30,8 @@ module Bridgetown
 
     private
 
-    def layout_entries
-      entries_in layout_directory
+    def layout_entries(dir = layout_directory)
+      entries_in dir
     end
 
     def entries_in(dir)

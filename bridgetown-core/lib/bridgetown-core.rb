@@ -65,6 +65,7 @@ module Bridgetown
   autoload :LayoutReader,        "bridgetown-core/readers/layout_reader"
   autoload :PostReader,          "bridgetown-core/readers/post_reader"
   autoload :PageReader,          "bridgetown-core/readers/page_reader"
+  autoload :PluginContentReader, "bridgetown-core/readers/plugin_content_reader"
   autoload :StaticFileReader,    "bridgetown-core/readers/static_file_reader"
   autoload :LogAdapter,          "bridgetown-core/log_adapter"
   autoload :Page,                "bridgetown-core/page"

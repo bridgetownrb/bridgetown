@@ -4,6 +4,20 @@ module Bridgetown
   class PluginManager
     attr_reader :site
 
+    @source_manifests = Set.new
+
+    def self.add_source_manifest(source_manifest)
+      unless source_manifest.is_a?(Bridgetown::Plugin::SourceManifest)
+        raise "You must add a SourceManifest instance"
+      end
+
+      @source_manifests << source_manifest
+    end
+
+    class << self
+      attr_reader :source_manifests
+    end
+
     # Create an instance of this class.
     #
     # site - the instance of Bridgetown::Site we're concerned with
