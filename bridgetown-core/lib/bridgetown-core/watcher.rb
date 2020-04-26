@@ -41,7 +41,8 @@ module Bridgetown
       FileUtils.mkdir(webpack_path) unless Dir.exist?(webpack_path)
       Listen.to(
         options["source"],
-        site.in_root_dir(".bridgetown-webpack"),
+        webpack_path,
+        *site.plugin_manager.plugins_path,
         ignore: listen_ignore_paths(options),
         force_polling: options["force_polling"],
         &listen_handler(site)
@@ -124,6 +125,7 @@ module Bridgetown
 
     def process(site, time)
       begin
+        site.plugin_manager.reload_plugin_files
         site.process
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
                                " #{(Time.now - time).ceil(2)} seconds."

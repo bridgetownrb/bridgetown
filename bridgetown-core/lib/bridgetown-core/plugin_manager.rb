@@ -86,6 +86,17 @@ module Bridgetown
       end
     end
 
+    # Reload .rb plugin files via the watcher
+    def reload_plugin_files
+      plugins_path.each do |plugin_search_path|
+        plugin_files = Utils.safe_glob(plugin_search_path, File.join("**", "*.rb"))
+        Array(plugin_files).each do |name|
+          Bridgetown.logger.debug "Reloading:", name.to_s
+          load name
+        end
+      end
+    end
+
     # Public: Setup the plugin search path
     #
     # Returns an Array of plugin search paths
