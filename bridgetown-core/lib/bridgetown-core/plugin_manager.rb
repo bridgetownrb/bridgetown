@@ -27,13 +27,6 @@ module Bridgetown
       @site = site
     end
 
-    # Require all the plugins which are allowed.
-    #
-    # Returns nothing
-    def conscientious_require
-      require_plugin_files
-    end
-
     def self.require_from_bundler
       if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] && File.file?("Gemfile")
         require "bundler"

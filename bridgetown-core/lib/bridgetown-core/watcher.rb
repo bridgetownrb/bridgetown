@@ -125,6 +125,7 @@ module Bridgetown
 
     def process(site, time)
       begin
+        Bridgetown.clear_plugin_bridges(site)
         site.plugin_manager.reload_plugin_files
         site.process
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \

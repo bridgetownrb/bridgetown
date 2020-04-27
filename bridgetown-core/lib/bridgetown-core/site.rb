@@ -117,7 +117,7 @@ module Bridgetown
     def setup
       ensure_not_in_dest
 
-      plugin_manager.conscientious_require
+      plugin_manager.require_plugin_files
 
       self.converters = instantiate_subclasses(Bridgetown::Converter)
       self.generators = instantiate_subclasses(Bridgetown::Generator)

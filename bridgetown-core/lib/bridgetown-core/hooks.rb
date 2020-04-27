@@ -86,6 +86,14 @@ module Bridgetown
     def self.insert_hook(owner, event, priority, &block)
       @hook_priority[block] = [-priority, @hook_priority.size]
       @registry[owner][event] << block
+
+      # return block if anyone still needs it
+      block
+    end
+
+    def self.remove_hook(owner, event, block)
+      @hook_priority.delete(block)
+      @registry[owner][event].delete_if { |item| item == block }
     end
 
     # interface for Bridgetown core components to trigger hooks
