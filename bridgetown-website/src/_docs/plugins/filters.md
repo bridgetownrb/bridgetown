@@ -33,8 +33,6 @@ outputs:
 http://www.example.com/mydynamicfile.js?1586194585
 ```
 
-wee: {{ "mydynamicfile.js" | cache_busting_url }}
-
 <div class="note">
   <h5>Top Tip: Access the site object using Liquid</h5>
   <p>

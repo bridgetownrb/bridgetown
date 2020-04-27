@@ -26,8 +26,8 @@ module Bridgetown
           # Adjust verbosity quickly
           Bridgetown.logger.adjust_verbosity(options)
 
-          Bridgetown.logger.info "#", "Your Bridgetown #{Bridgetown::VERSION}" \
-                                      " build is about to begin…"
+          Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION}" \
+                                      " (codename \"#{Bridgetown::CODE_NAME}\")"
 
           options = configuration_from_options(options)
           @site = Bridgetown::Site.new(options)

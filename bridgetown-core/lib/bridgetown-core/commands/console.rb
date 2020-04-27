@@ -24,9 +24,10 @@ module Bridgetown
         # TODO: is there a way to add a unit test for this command?
         # rubocop:disable Style/GlobalVars, Metrics/AbcSize, Metrics/MethodLength
         def process(options)
-          Bridgetown.logger.info "Starting Bridgetown #{Bridgetown::VERSION} console…"
+          Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION}" \
+                                      " (codename \"#{Bridgetown::CODE_NAME}\")" \
+                                      " console…"
           site = Bridgetown::Site.new(configuration_from_options(options))
-          Bridgetown.logger.info "Loading site…"
           site.reset
           site.read
           site.generate
@@ -37,7 +38,7 @@ module Bridgetown
           irb = IRB::Irb.new(workspace)
           IRB.conf[:MAIN_CONTEXT] = irb.context
           eval("site = $BRIDGETOWN_SITE", workspace.binding, __FILE__, __LINE__)
-          Bridgetown.logger.info "", "Now loaded as " + "site".cyan + " variable."
+          Bridgetown.logger.info "Console:", "Now loaded as " + "site".cyan + " variable."
 
           trap("SIGINT") do
             irb.signal_handle
