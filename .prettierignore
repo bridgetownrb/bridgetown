@@ -1,2 +1,4 @@
 *.md
 *.html
+*.js
+*.liquid

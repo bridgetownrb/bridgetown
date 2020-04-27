@@ -58,9 +58,9 @@ But I’m crazy enough to believe in the bones of the Jekyll software and essent
 
 0. `bridgetown new amazing_website`
 
-0. `cd amazing_website && bundle install && yarn install`
+0. `cd amazing_website`
 
-0. Terminal 1: `yarn dev` Terminal 2: `bundle exec bridgetown serve`
+0. `yarn start`
 
 And instantly you have a forward-looking, functioning website foundation _with full Webpack support_ for adding CSS frameworks like Tailwind and Bulma, Javascript frameworks like Stimulus, Vue, or React, and virtually any module on NPM.
 

@@ -15,6 +15,7 @@ module Bridgetown
 
             c.option "force", "--force", "Force creation even if PATH already exists"
             c.option "skip-bundle", "--skip-bundle", "Skip 'bundle install'"
+            c.option "skip-yarn", "--skip-yarn", "Skip 'yarn install'"
 
             c.action do |args, options|
               Bridgetown::Commands::New.process(args, options)
@@ -109,32 +110,41 @@ module Bridgetown
           "src/_posts/0000-00-00-welcome-to-bridgetown.md.erb"
         end
 
-        # After a new blog has been created, print a success notification and
-        # then automatically execute bundle install from within the new blog dir
-        # unless the user opts to generate a blank blog or skip 'bundle install'.
-        # rubocop:disable Metrics/AbcSize #
+        # After a new site has been created, print a success notification and
+        # then automatically execute bundle install from within the new site dir
+        # unless the user opts to skip 'bundle install'.
+        # rubocop:disable Metrics/AbcSize, Metrics/MethodLength #
         def after_install(path, cli_path, options = {})
-          unless options["blank"] || options["skip-bundle"]
+          logger = Bridgetown.logger
+          git_init path
+
+          unless options["skip-bundle"]
             begin
               require "bundler"
               bundle_install path
             rescue LoadError
-              Bridgetown.logger.info "Could not load Bundler. Bundle install skipped."
+              logger.info "Could not load Bundler. Bundle install skipped."
             end
           end
 
-          git_init path
+          yarn_install path unless options["skip-yarn"]
 
-          Bridgetown.logger.info "Success!".green, "🎉 Your new Bridgetown site was" \
-                                  " generated in #{cli_path.cyan}."
-          Bridgetown.logger.info "Execute cd #{cli_path.cyan} to get started."
-          Bridgetown.logger.info "You'll probably also want to #{"yarn install".cyan}" \
-                                  " to load in your frontend assets."
-          Bridgetown.logger.info "Check out our online documentation for" \
-                                  " next steps: #{DOCSURL.cyan}"
-          Bridgetown.logger.info "Bundle install skipped." if options["skip-bundle"]
+          yarn_start = "yarn start"
+
+          logger.info "Success!".green, "🎉 Your new Bridgetown site was" \
+                      " generated in #{cli_path.cyan}."
+          if options["skip-yarn"]
+            logger.info "You can now #{"cd".cyan} #{cli_path.cyan} to get started."
+            logger.info "You'll probably also want to #{"yarn install".cyan}" \
+                        " to load in your frontend assets."
+          else
+            logger.info "You can now #{"cd".cyan} and run #{yarn_start.cyan} to get started."
+          end
+          logger.info "Then check out our online documentation for" \
+                      " next steps: #{DOCSURL.cyan}"
+          logger.info "Bundle install skipped." if options["skip-bundle"]
         end
-        # rubocop:enable Metrics/AbcSize #
+        # rubocop:enable Metrics/AbcSize, Metrics/MethodLength #
 
         def bundle_install(path)
           Bridgetown.logger.info "Running bundle install in #{path.cyan}..."
@@ -158,6 +168,22 @@ module Bridgetown
             end
           end
         rescue SystemCallError
+        end
+
+        def yarn_install(path)
+          Bridgetown.logger.info "Running yarn install in #{path.cyan}..."
+          Dir.chdir(path) do
+            _process, output = Bridgetown::Utils::Exec.run("yarn", "install")
+            output.to_s.each_line do |line|
+              next if line.to_s.empty? ||
+                line.strip.start_with?("warning ") ||
+                line.include?("No lockfile found")
+
+              Bridgetown.logger.info("Yarn:".green, line.strip)
+            end
+          end
+        rescue SystemCallError
+          Bridgetown.logger.info "Could not load yarn. yarn install skipped."
         end
       end
     end

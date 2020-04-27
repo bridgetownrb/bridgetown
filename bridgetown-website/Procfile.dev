@@ -1,2 +1,0 @@
-bridgetown: bundle exec bridgetown serve
-webpack: yarn dev

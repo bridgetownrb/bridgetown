@@ -102,7 +102,11 @@ You will also need to add `--user-install` to any `gem install` statement you ru
 
 ## Install Node & Yarn {#node}
 
-Node is a Javascript runtime that can execute on a server or development machine. Yarn is a package manager for Node packages. You'll need Node and Yarn in order to install and use Webpack, the frontend asset compiler that runs alongside Bridgetown.
+Node is a Javascript runtime that can execute on a server or development machine. Yarn
+is a package manager for Node packages. You'll need Node and Yarn in order to install
+and use Webpack, the frontend asset compiler that runs alongside Bridgetown. Yarn is
+also used along with Concurrently and Browsersync to spin up a live-reload development
+server.
 
 The easiest way to install Node and Yarn is via Homebrew (which should already be installed after following the instructions above).
 
@@ -121,4 +125,4 @@ yarn -v
 
 {% render "docs/install/bridgetown" %}
 
-{% render "docs/install/webpack_watch" %}
+{% render "docs/install/concurrently" %}
