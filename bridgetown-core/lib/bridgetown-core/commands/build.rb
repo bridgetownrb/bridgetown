@@ -66,7 +66,8 @@ module Bridgetown
                                  (incremental ? "enabled" : "disabled. Enable with --incremental")
           Bridgetown.logger.info "Generating…"
           process_site(@site)
-          Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in #{(Time.now - t).round(3)} seconds."
+          Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
+                                 " #{(Time.now - t).ceil(2)} seconds."
         end
 
         # Private: Watch for file changes and rebuild the site.

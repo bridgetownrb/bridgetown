@@ -1,5 +1,11 @@
 # master
 
+# 0.12.0 "Lovejoy" / 2020-04-27
+
+* Add Concurrently and Browsersync for live reload, plus add new Yarn scripts [#21](https://github.com/bridgetownrb/bridgetown/pull/21)
+* Add some color to terminal output
+* Add code name for minor SemVer version updates
+
 # 0.11.2 / 2020-04-24
 
 * Add components source folder to sass-loader include paths

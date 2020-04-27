@@ -125,7 +125,8 @@ module Bridgetown
     def process(site, time)
       begin
         site.process
-        Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in #{(Time.now - time).round(3)} seconds."
+        Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
+                               " #{(Time.now - time).ceil(2)} seconds."
       rescue StandardError => e
         Bridgetown.logger.warn "Error:", e.message
         Bridgetown.logger.warn "Error:", "Run bridgetown build --trace for more information."

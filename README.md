@@ -55,18 +55,19 @@ $ bundle exec rake # run the full test suite
 After making changes in `bridgetown-core`, if you want to run a single unit test, you can use the command:
 
 ```shell
-$ script/test test/blah_test.rb
+$ script/test test/test_foo.rb
 ```
 
 If you are only updating a Cucumber .feature file, you can use the command:
 
 ```shell
-$ script/cucumber features/blah.feature
+$ script/cucumber features/foo.feature
 ```
 
 Both `script/test` and `script/cucumber` can be run without arguments to run its entire respective suite.
 
-To switch one of your website repos to using the local gem, alter the site's Gemfile as follows:
+To switch one of your website repos to using the local gem, add the local gem path to
+the site's Gemfile as follows:
 
 ```ruby
 gem "bridgetown-core", path: "/path/to/bridgetown/bridgetown-core"
