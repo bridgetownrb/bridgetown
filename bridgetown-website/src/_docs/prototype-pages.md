@@ -20,7 +20,7 @@ All you need to do is create a page, say `categories/category.html`, and add a
 ```yaml
 ---
 layout: default
-title: Posts in category :prototype
+title: Posts in category :prototype-term
 prototype:
   term: category
 ```
@@ -28,7 +28,8 @@ prototype:
 And then all the site's different categories will have archives pages at this location
 (e.g. `categories/awesome-movies`, `categories/my-cool-vacation`, etc.). And it enables
 pagination automatically, so you'd just use `paginator.documents` to loop through the
-posts like on any normal paginated page.
+posts like on any normal paginated page. Using `:prototype-term` in the page title will
+automatically put each archive page's term (aka the category name) in the output title.
 
 You can do the same thing with tags—just use `term: tag` and create a `tags/tag.html`
 file. The exact folder/filename doesn't actually matter—you could create
