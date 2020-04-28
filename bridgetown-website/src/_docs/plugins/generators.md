@@ -95,7 +95,7 @@ module MySite
 
       # Inject data into the generated page:
       data["category"] = category
-      data['title'] = "Category: #{category}"
+      data["title"] = "Category: #{category}"
       data["posts"] = site.posts.docs.select do |post|
         post.data["categories"].include? category
       end
