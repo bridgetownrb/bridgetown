@@ -36,6 +36,6 @@
     "animated-scroll-to": "^2.0.5",
     "bulma": "^0.8.1",
     "fork-awesome": "^1.1.7",
-    "swup": "^2.0.9"
+    "swup": "https://github.com/jaredcwhite/swup#fix-back-button-redirect"
   }
 }
