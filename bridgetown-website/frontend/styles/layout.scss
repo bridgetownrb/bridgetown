@@ -1,7 +1,9 @@
 .container {
-  @include mobile {
+  @include touch {
     /* This fixes a horizontal overscroll bug in iOS Safari */
     overflow: hidden;
+  }
+  @include mobile {
     main & {
       /* Padding here fixes missing box-shadows */
       padding-top: 2rem;
