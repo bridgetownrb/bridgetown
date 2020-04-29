@@ -44,6 +44,20 @@ html.is-animating {
   }
 }
 
+body.docs .content {
+  .heading-anchor {
+    color: $info;
+    font-size: 0.9em;
+    margin-left: 0.5em;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  h2:hover .heading-anchor,
+  h3:hover .heading-anchor {
+    opacity: 1;
+  }
+}
+
 .box.px-8 {
   @include mobile {
     padding-left: 1rem !important;

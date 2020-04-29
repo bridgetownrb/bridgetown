@@ -12,6 +12,18 @@ const toggleMenuIcon = button => {
   button.querySelector(".icon:not(.not-shown)").classList.add("shown")
 }
 
+const addHeadingAnchors = () => {
+  if (document.body.classList.contains("docs")) {
+    document.querySelectorAll(".content h2[id], .content h3[id]").forEach(heading => {
+      const anchorLink = document.createElement("a");
+      anchorLink.innerText = "#";
+      anchorLink.href = "#" + heading.id;
+      anchorLink.classList.add("heading-anchor");
+      heading.appendChild(anchorLink);
+    })
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Docs layout has a sidebar, so we need to adjust Swup accordingly
   let containers, mainEl
@@ -45,12 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
       new SwupSlideTheme({mainElement: mainEl}),
       new SwupBodyClassPlugin(),
       new SwupScrollPlugin({animateScroll: false})
-    ]
+    ],
+    
   })
 
-/*  console.info(swup)
-  swup.preloadPage('/')
-  swup.preloadPage('/docs/')
-  swup.preloadPage('/about/')
-  swup.preloadPage('/blog/') */
+  swup.on('contentReplaced', function() {
+    addHeadingAnchors()
+  })
+
+  addHeadingAnchors()
 })
