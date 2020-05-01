@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.description   = "Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern Jamstack era"
 
   s.files         = `git ls-files -z`.split("\x0").reject do |f|
-    f.match(%r{^(benchmark|features|script|test)/})
+    f.match(%r!^(benchmark|features|script|test)/!)
   end
   s.executables   = ["bridgetown"]
   s.bindir        = "bin"
@@ -26,9 +26,9 @@ Gem::Specification.new do |s|
     "homepage_uri"    => s.homepage,
   }
 
-  s.rdoc_options     = ["--charset=UTF-8"]
+  s.rdoc_options = ["--charset=UTF-8"]
 
-  s.required_ruby_version     = ">= 2.4.0"
+  s.required_ruby_version     = ">= 2.5.0"
   s.required_rubygems_version = ">= 2.7.0"
 
   s.add_runtime_dependency("addressable",           "~> 2.4")

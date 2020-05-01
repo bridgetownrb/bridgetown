@@ -1,5 +1,9 @@
 # master
 
+# 0.12.1 / 2020-05-01
+
+* Update the minimum Ruby version requirement to 2.5
+
 # 0.12.0 "Lovejoy" / 2020-04-27
 
 * Add Concurrently and Browsersync for live reload, plus add new Yarn scripts [#21](https://github.com/bridgetownrb/bridgetown/pull/21)
