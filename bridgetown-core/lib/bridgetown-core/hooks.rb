@@ -2,7 +2,14 @@
 
 module Bridgetown
   module Hooks
-    HookRegistration = Struct.new(:owner, :event, :priority, :reloadable, :block) do
+    HookRegistration = Struct.new(
+      :owner,
+      :event,
+      :priority,
+      :reloadable,
+      :block,
+      keyword_init: true
+    ) do
       def to_s
         "#{owner}:#{event} for #{block}"
       end
@@ -44,11 +51,11 @@ module Bridgetown
       raise Uncallable, "Hooks must respond to :call" unless block.respond_to? :call
 
       @registry[owner] << HookRegistration.new(
-        owner,
-        event,
-        priority_value(priority),
-        reloadable,
-        block
+        owner: owner,
+        event: event,
+        priority: priority_value(priority),
+        reloadable: reloadable,
+        block: block
       )
       if ENV["BRIDGETOWN_LOG_LEVEL"] == "debug"
         if Bridgetown.respond_to?(:logger)

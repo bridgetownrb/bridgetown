@@ -25,18 +25,13 @@ module Bridgetown
     end
 
     def read_content_file(path)
-      # base should stem off what the content dir is in, so if content dir is
-      # /path/to/plugin/assets, base would be simply /path/to/plugin. Thus
-      # /path/to/plugin/assets/logo.jpg would later get referenced as relative path:
-      # /assets/logo.jpg
-      base = Pathname.new(content_dir).dirname.to_s
-      dir = File.dirname(path.sub("#{base}/", ""))
+      dir = File.dirname(path.sub("#{content_dir}/", ""))
       name = File.basename(path)
 
       @content_files << if Utils.has_yaml_header?(path)
-                          Bridgetown::Page.new(site, base, dir, name, from_plugin: true)
+                          Bridgetown::Page.new(site, content_dir, dir, name, from_plugin: true)
                         else
-                          Bridgetown::StaticFile.new(site, base, "/#{dir}", name)
+                          Bridgetown::StaticFile.new(site, content_dir, "/#{dir}", name)
                         end
 
       add_to(site.pages, Bridgetown::Page)

@@ -94,26 +94,55 @@ class TestPluginManager < BridgetownUnitTest
     end
   end
 
-  # TODO: rework when plugin-based multiple theme support arrives
-  # should "conscientious require" do
-  #   site = double(
-  #     :config      => { "theme" => "test-dependency-theme" },
-  #     :in_dest_dir => "/tmp/_site/"
-  #   )
-  #   plugin_manager = PluginManager.new(site)
+  context "third-party plugins can supply content" do
+    setup do
+      fixture_site.process
+    end
 
-  #   expect(site).to receive(:theme).and_return(true)
-  #   expect(site).to receive(:process).and_return(true)
-  #   expect(plugin_manager).to(
-  #     receive_messages([
-  #       :require_theme_deps,
-  #       :require_plugin_files,
-  #       :require_gems,
-  #       :deprecation_checks,
-  #     ])
-  #   )
-  #   plugin_manager.conscientious_require
-  #   site.process
-  #   assert site.in_dest_dir("test.txt")
-  # end
+    context "extra component file" do
+      setup do
+        @result = File.read(dest_dir("plugin_content", "components.html"))
+      end
+
+      should "correctly render plugin component" do
+        assert_match ":This plugin content should come through:", @result
+      end
+
+      should "allow overrides of plugin component" do
+        assert_match ":Yay, it got overridden!:", @result
+      end
+    end
+
+    context "extra page and static file" do
+      setup do
+        @result = File.read(dest_dir("page_from_a_plugin.html"))
+        @static_result = File.read(dest_dir("assets", "static.txt"))
+      end
+
+      should "read plugin page" do
+        assert_match "I am a page from a plugin!", @result
+        assert_match ":This layout content should come through:", @result
+      end
+
+      should "read static file" do
+        assert_match "Static file from a plugin!", @static_result
+      end
+    end
+
+    context "extra layout file" do
+      setup do
+        @result = File.read(dest_dir("plugin_content", "layouts.html"))
+        @override_result = File.read(dest_dir("plugin_content", "layouts_override.html"))
+      end
+
+      should "correctly render plugin layout" do
+        assert_match ":This layout content should come through:", @result
+      end
+
+      should "correctly render overridden layout" do
+        assert_match ":This overriden layout SHOULD come through:", @override_result
+        assert_match "The layout should have been overridden", @override_result
+      end
+    end
+  end
 end

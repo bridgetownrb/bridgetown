@@ -217,6 +217,7 @@ class TestSite < BridgetownUnitTest
         application.coffee
         bar.html
         coffeescript.coffee
+        components.html
         contacts.html
         deal.with.dots.html
         dynamic_file.php
@@ -227,7 +228,10 @@ class TestSite < BridgetownUnitTest
         index.html
         index.html
         info.md
+        layouts.html
+        layouts_override.html
         main.scss
+        page_from_a_plugin.html
         properties.html
         sitemap.xml
         static_files.html

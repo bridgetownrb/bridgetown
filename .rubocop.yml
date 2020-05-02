@@ -100,11 +100,7 @@ Naming/HeredocDelimiterNaming:
   Exclude:
     - bridgetown-core/test/**/*.rb
 Naming/MemoizedInstanceVariableName:
-  Exclude:
-    - bridgetown-core/lib/bridgetown-core/convertible.rb
-    - bridgetown-core/lib/bridgetown-core/drops/site_drop.rb
-    - bridgetown-core/lib/bridgetown-core/drops/unified_payload_drop.rb
-    - bridgetown-core/lib/bridgetown-core/page_without_a_file.rb
+  Enabled: false
 Security/MarshalLoad:
   Exclude:
     - !ruby/regexp /bridgetown-core/test\/.*.rb$/

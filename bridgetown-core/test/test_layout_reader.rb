@@ -12,7 +12,12 @@ class TestLayoutReader < BridgetownUnitTest
 
     should "read layouts" do
       layouts = LayoutReader.new(@site).read
-      assert_equal ["default", "simple", "post/simple"].sort, layouts.keys.sort
+      assert_equal ["default",
+                    "example/overridden_layout",
+                    "example/test_layout",
+                    "simple",
+                    "post/simple",].sort,
+                   layouts.keys.sort
     end
 
     context "when no _layouts directory exists in CWD" do
