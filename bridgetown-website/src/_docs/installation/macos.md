@@ -8,10 +8,6 @@ order: 0
 
 ## Install Ruby
 
-Bridgetown requires **Ruby > {{ site.data.requirements.min_ruby }}**.
-macOS Catalina 10.15 comes with ruby 2.6.3, so you're fine.
-If you're running a previous macOS system, you'll have to install a newer version of Ruby.
-
 ### With rbenv {#rbenv}
 
 People often use [rbenv](https://github.com/rbenv/rbenv) to manage multiple
