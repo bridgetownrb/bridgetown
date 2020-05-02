@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Bridgetown::Hooks.register :pages, :post_init do |page|
+Bridgetown::Hooks.register :pages, :post_init, reloadable: false do |page|
   if page.class != Bridgetown::PrototypePage && page.data["prototype"].is_a?(Hash)
     Bridgetown::PrototypeGenerator.add_matching_template(page)
   end

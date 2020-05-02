@@ -30,11 +30,10 @@ module Bridgetown
       @liquid_renderer = LiquidRenderer.new(self)
 
       Bridgetown.sites << self
+      Bridgetown::Hooks.trigger :site, :after_init, self
 
       reset
       setup
-
-      Bridgetown::Hooks.trigger :site, :after_init, self
     end
 
     # Public: Set the site's configuration. This handles side-effects caused by

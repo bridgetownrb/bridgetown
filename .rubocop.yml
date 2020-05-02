@@ -90,6 +90,8 @@ Metrics/ModuleLength:
     - bridgetown-core/lib/bridgetown-core/filters.rb
 Metrics/ParameterLists:
   Max: 4
+  Exclude:
+    - bridgetown-core/lib/bridgetown-core/hooks.rb
 Metrics/PerceivedComplexity:
   Max: 8
 Naming/FileName:
