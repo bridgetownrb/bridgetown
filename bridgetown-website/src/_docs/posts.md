@@ -9,7 +9,7 @@ Blogging is a key part of Bridgetown. You can write blog posts as text files and
 
 ## The Posts Folder
 
-The `_posts` folder in your source folder (`src`) is where your blog posts live. You typically write posts in [Markdown](https://daringfireball.net/projects/markdown/), but HTML is also supported.
+The `_posts` folder in your source folder (`src`) is where your blog posts live. Typically you'd write posts in Markdown (technically, the superset syntax provided by [Kramdown](https://kramdown.gettalong.org/quickref.html)), but standard HTML is also supported. Markdown posts end in the `.md` extension, but you can also use `.markdown` if you prefer.
 
 ## Creating Posts
 

@@ -111,3 +111,4 @@ For security reasons, please _do not allow_ untrusted content into your reposito
 
 In summary, if you're excited to give Ruby Front Matter a try, all you have to do is [install Bridgetown v0.13 or later](/docs/), set `BRIDGETOWN_RUBY_IN_FRONT_MATTER` to `"true"` in your development environment, and go to town (Bridge…town 😋). And be sure to share your sweet solutions on Twitter with the hashtag [**\#SpinUpBridgetown**](https://twitter.com/search?q=%23SpinUpBridgetown) to let the community know what you've built with Ruby Front Matter!
 
+(Also learn which internal Bridgetown objects are made available to your Ruby code [in the documentation here](/docs/front-matter/#ruby-front-matter).
