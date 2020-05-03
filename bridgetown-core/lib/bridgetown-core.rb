@@ -36,6 +36,7 @@ require "liquid"
 require "kramdown"
 require "colorator"
 require "i18n"
+require "faraday"
 
 SafeYAML::OPTIONS[:suppress_warnings] = true
 

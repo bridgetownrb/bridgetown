@@ -3,7 +3,6 @@
 require "webrick"
 require "mercenary"
 require "helper"
-require "httpclient"
 require "openssl"
 require "tmpdir"
 
