@@ -5,10 +5,22 @@ top_section: Content
 category: front-matter
 ---
 
-Any file that contains a [YAML](https://yaml.org/) front matter block will be
-processed by Bridgetown as a special file. The front matter must be the first thing
-in the file and must take the form of valid YAML set between triple-dashed
-lines. Here is a basic example:
+Front matter is a snippet of [YAML](https://yaml.org/) which sits between two
+triple-dashed lines at the top of a file. You use front matter to add metadata,
+like a title or a description, to files such as pages and posts as well as site
+layouts. Front matter can be used in various ways to set configuration options
+on a per-file basis, and starting with Bridgetown v0.13, you can even write Ruby
+code for dynamic front matter variables ([see details below](/docs/front-matter/#ruby-front-matter)).
+
+## Using Front Matter
+
+Any file that contains a front matter block will be specially processed by
+Bridgetown. Files without front matter are considered [static files](/docs/static_files/)
+and are copied verbatim from the source folder to destination during the build
+process.
+
+The front matter must be the first thing in the file and must take the form of valid
+YAML set between triple-dashed lines. Here is a basic example:
 
 ```yaml
 ---
@@ -18,30 +30,16 @@ title: Blogging Like a Hacker
 ```
 
 Between these triple-dashed lines, you can set predefined variables (see below
-for a reference) or even create custom ones of your own. These variables will
+for a reference) or add custom variables of your own. These variables will
 then be available to you to access using Liquid tags both further down in the
-file and also in any layouts or includes that the page or post in question
-relies on.
+file and also in any layouts or components that the file in question relies on.
 
-<div class="note warning">
-  <h5>UTF-8 Character Encoding Warning</h5>
-  <p>
-    If you use UTF-8 encoding, make sure that no <code>BOM</code> header
-    characters exist in your files or very, very bad things will happen to
-    Bridgetown. This is especially relevant if you’re running
-    <a href="{{ '/docs/installation/windows/' | relative_url }}">Bridgetown on Windows</a>.
-  </p>
-</div>
-
-<div class="note">
-  <h5>Front Matter Variables Are Optional</h5>
-  <p>
-    If you want to use <a href="{{ '/docs/variables/' | relative_url }}">Liquid tags and variables</a>
-    but don’t need anything in your front matter, just leave it empty! The set
-    of triple-dashed lines with nothing in between will still get Bridgetown to
-    process your file. (This is useful for things like RSS feeds!)
-  </p>
-</div>
+{% rendercontent "docs/note", title: "Front matter variables are optional" %}
+  If you want to use [Liquid tags and variables](/docs/variables/)
+  but don’t need anything in your front matter, just leave it empty! The set
+  of triple-dashed lines with nothing in between will still get Bridgetown to
+  process your file. (This is useful for things like RSS feeds.)
+{% endrendercontent %}
 
 ## Predefined Global Variables
 
@@ -71,7 +69,7 @@ front matter of a page or post.
         <ul>
           <li>
             Using <code>null</code> will produce a file without using a layout
-            file. This is overridden if the file is a post/document and has a
+            file. This is overridden if the file is a document and has a
             layout defined in the <a href="{{ '/docs/configuration/front-matter-defaults/' | relative_url }}">
             front matter defaults</a>.
           </li>
@@ -91,10 +89,9 @@ front matter of a page or post.
       <td>
         <p>
 
-          If you need your processed blog post URLs to be something other than
-          the site-wide style (default <code>/year/month/day/title.html</code>), then you can set
-          this variable and it will be used as the final URL.
-
+          If you need your URLs to be something other than what is configured by default,
+          (for posts, the default is <code>/category/year/month/day/title.html</code>),
+          then you can set this variable and it will be used as the final URL.
         </p>
       </td>
     </tr>
@@ -112,17 +109,14 @@ front matter of a page or post.
   </tbody>
 </table>
 
-<div class="note">
-  <h5>Render Posts Marked As Unpublished</h5>
-  <p markdown="1">
-    To preview unpublished pages, run `bridgetown serve` or `bridgetown build`
-    with the `--unpublished` switch.
-  </p>
-</div>
+{% rendercontent "docs/note", title: "Render pages marked as unpublished" %}
+  To preview unpublished pages, run `bridgetown serve` or `bridgetown build` with
+  the `--unpublished` switch.
+{% endrendercontent %}
 
 ## Custom Variables
 
-You can also set your own front matter variables you can access in Liquid. For
+You can set your own front matter variables which become accessible via Liquid. For
 instance, if you set a variable called `food`, you can use that in your page:
 
 {% raw %}
@@ -135,11 +129,13 @@ food: Pizza
 ```
 {% endraw %}
 
-You can also use a page's front matter variables in other places like layouts or includes, and you can even reference those variables in loops through pages or as part of more complex queries (see [Liquid filters](/docs/liquid/filters/) for more information).
+You can also use a document's front matter variables in other places like layouts, and
+you can even reference those variables in loops through documents or as part of more
+complex queries (see [Liquid filters](/docs/liquid/filters/) for more information).
 
 ## Predefined Variables for Posts
 
-These are available out-of-the-box to be used in the front matter for a post.
+For documents in the `posts` collection, these variables are available out-of-the-box:
 
 <table class="settings biggest-output">
   <thead>
@@ -155,10 +151,10 @@ These are available out-of-the-box to be used in the front matter for a post.
       </td>
       <td>
         <p>
-          A date here overrides the date from the name of the post. This can be
-          used to ensure correct sorting of posts. A date is specified in the
-          format <code>YYYY-MM-DD HH:MM:SS +/-TTTT</code>; hours, minutes, seconds, and timezone offset
-          are optional.
+          Specifying a date variable overrides the date from the filename of the post.
+          This can be used to ensure correct sorting of posts. A date is specified in the
+          format <code>YYYY-MM-DD HH:MM:SS +/-TTTT</code>; hours, minutes, seconds, and
+          timezone offset are optional.
         </p>
       </td>
     </tr>
@@ -170,13 +166,12 @@ These are available out-of-the-box to be used in the front matter for a post.
       <td>
         <p>
 
-          Instead of placing posts inside of folders, you can specify one or
-          more categories that the post belongs to. When the site is generated
-          the post will act as though it had been set with these categories
-          normally. Categories (plural key) can be specified as a <a
+          You can specify one or more categories that the post belongs to, and then you can
+          use that to filter posts in various ways or use the "slugified" version of the
+          category name to adjust the permalink for a post. Categories (plural key) can be
+          specified as a <a
           href="https://en.wikipedia.org/wiki/YAML#Basic_components">YAML list</a> or a
           space-separated string.
-
         </p>
       </td>
     </tr>
@@ -186,12 +181,11 @@ These are available out-of-the-box to be used in the front matter for a post.
       </td>
       <td>
         <p>
-
-          Similar to categories, one or multiple tags can be added to a post.
-          Also like categories, tags can be specified as a <a
+          Similar to categories, one or multiple tags can be added to a post as a flexible
+          method of building a lightweight content <a href="https://en.wikipedia.org/wiki/Taxonomy">taxonomy</a>.
+          As with categories, tags can be specified as a <a
           href="https://en.wikipedia.org/wiki/YAML#Basic_components">YAML list</a> or a
           space-separated string.
-
         </p>
       </td>
     </tr>
@@ -211,6 +205,62 @@ These are available out-of-the-box to be used in the front matter for a post.
 
 ## Advanced Front Matter Data Structures
 
-YAML allows for pretty sophisticated methods of structuring data, for example representing arrays or hashes (key/value). You can also write out longer multi-line strings.
+YAML allows for pretty sophisticated methods of structuring data, for example representing arrays or hashes (key/value pairs). You can also write out longer multi-line strings like so:
 
-<!-- Add Ruby Front Matter documentation here… -->
+```yaml
+---
+description: |
+  I am a multiple line
+  string value that can
+  go on and on.
+---
+```
+
+For reference, [here's a side-by-side comparison](https://yaml.org/YAML_for_ruby.html) of YAML data structures and their equivalents in Ruby.
+
+{% rendercontent "docs/note", type: "warning", title: "UTF-8 Character Encoding Warning" %}
+If you use UTF-8 encoding, make sure that no `BOM` header characters exist in your files or
+you may encounter build errors.
+{% endrendercontent %}
+
+## Ruby Front Matter
+
+For advanced use cases where you wish to generate dynamic values for front matter variables, you can use Ruby Front Matter (new in Bridgetown v0.13). This feature is available for pages, posts, and other documents–as well as layouts for site-wide access to your Ruby return values.
+
+{% rendercontent "docs/note" %}
+This requires the environment variable `BRIDGETOWN_RUBY_IN_FRONT_MATTER` to be set to `"true"` in your development and deployment setups. Otherwise the code will not be executed and will be treated as a raw string.
+{% endrendercontent %}
+
+[Here's a blog post with a high-level overview](/feature/supercharge-your-bridgetown-site-with-ruby-front-matter/) of what Ruby Front Matter is capable of and why you might want to use it.
+
+To write Ruby code in your front matter, use the special tagged string `!ruby/string:Rb`. Here is an example:
+
+{% raw %}
+```liquid
+---
+title: I'm a page
+permalink: /ruby-demo
+calculation: !ruby/string:Rb |
+  [2 * 4, 5 + 2].min
+---
+
+Title: {{ page.title }}
+Calc Result: {{ page.calculation }}
+```
+{% endraw %}
+
+In the final page output rendered by Liquid, the value of the `calculation` variable will be the return value of the Ruby code.
+
+You can write any Ruby code into a front matter variable. However, if you need to write a lengthy block of code, or write code that is easily customizable or reusable in multiple contexts, [we still recommended you write a Bridgetown plugin](/docs/plugins/)—either in the `plugins` folder in your site repo or as a separate Gem-based plugin.
+
+Depending on if your Ruby code is added to a document or a layout, certain Ruby objects are provided for your use.
+
+For **layouts**, you can access: `site`, `layout`, and `data`.
+
+For **documents**, you can access: `site`, `page` or `document` (they are equivalent), `renderer`, and `data`.
+
+Documentation on the internal Ruby API for Bridgetown is forthcoming, but meanwhile the easiest way to debug the code you write is to run `bridgetown console` and interact with the API there, then copy working code into your Ruby Front Matter.
+
+{% rendercontent "docs/note", type: "warning" %}
+For security reasons, please _do not allow_ untrusted content into your repository to be executed in an unsafe environment (aka outside of a Docker container or similar). Just like with custom plugins, a malicious content contributor could potentially introduce harmful code into your site and thus any computer system used to build that site. Enable Ruby Front Matter _only_ if you feel confident in your ability to control and monitor all on-going updates to repository files and data.
+{% endrendercontent %}
