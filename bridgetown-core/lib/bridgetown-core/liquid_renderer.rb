@@ -17,6 +17,7 @@ module Bridgetown
       Liquid::Template.file_system = LiquidRenderer::FileSystem.new(
         @site.components_load_paths, "%s.liquid"
       )
+      Liquid::Template.file_system.site = site
 
       Liquid::Template.error_mode = @site.config["liquid"]["error_mode"].to_sym
       reset
