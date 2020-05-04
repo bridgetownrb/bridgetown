@@ -6,7 +6,7 @@ layout: home
 {:.mb-10.has-text-centered.title.is-4.has-text-primary}
 
 <div class="buttons is-centered mb-10">
-  <a href="/docs/" class="button is-info is-large has-mixed-case">Install {% current_bridgetown_version %}</a>
+  <a href="/docs/" class="button is-info is-large has-mixed-case">Install v{{ bridgetown.version }}</a>
   <a href="/docs/jamstack/" class="button is-warning is-large has-mixed-case">Er, Jamwhat?</a>
 </div>
 

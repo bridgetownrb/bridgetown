@@ -102,9 +102,10 @@ module Bridgetown
     # Public: Tells you which Bridgetown environment you are building in so
     # you can skip tasks if you need to.
 
-    def env
+    def environment
       ENV["BRIDGETOWN_ENV"] || "development"
     end
+    alias_method :env, :environment
 
     # Public: Generate a Bridgetown configuration Hash by merging the default
     # options with anything in bridgetown.config.yml, and adding the given

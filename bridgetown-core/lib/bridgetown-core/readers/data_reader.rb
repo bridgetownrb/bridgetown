@@ -18,6 +18,7 @@ module Bridgetown
     def read(dir)
       base = site.in_source_dir(dir)
       read_data_to(base, @content)
+      merge_environment_specific_metadata!
       @content
     end
 
@@ -64,6 +65,15 @@ module Bridgetown
                  encoding: site.config["encoding"]).map(&:to_hash)
       else
         SafeYAML.load_file(path)
+      end
+    end
+
+    def merge_environment_specific_metadata!
+      if @content["site_metadata"]
+        @content["site_metadata"][Bridgetown.environment]&.each_key do |k|
+          @content["site_metadata"][k] = @content["site_metadata"][Bridgetown.environment][k]
+        end
+        @content["site_metadata"].delete(Bridgetown.environment)
       end
     end
 

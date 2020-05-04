@@ -675,6 +675,7 @@ class TestFilters < BridgetownUnitTest
         actual = @filter.jsonify(@filter.site.to_liquid)
         expected = {
           "environment" => "development",
+          "code_name"   => Bridgetown::CODE_NAME,
           "version"     => Bridgetown::VERSION,
         }
         assert_equal expected, JSON.parse(actual)["bridgetown"]

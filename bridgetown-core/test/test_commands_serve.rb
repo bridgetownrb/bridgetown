@@ -134,7 +134,7 @@ class TestCommandsServe < BridgetownUnitTest
 
       context "in development environment" do
         setup do
-          expect(Bridgetown).to receive(:env).and_return("development")
+          allow(Bridgetown).to receive_messages(environment: "development")
           expect(Bridgetown::Commands::Serve).to receive(:start_up_webrick)
         end
         should "set the site url by default to `http://localhost:4000`" do
@@ -160,7 +160,7 @@ class TestCommandsServe < BridgetownUnitTest
 
       context "not in development environment" do
         should "not update the site url" do
-          expect(Bridgetown).to receive(:env).and_return("production")
+          allow(Bridgetown).to receive_messages(environment: "production")
           expect(Bridgetown::Commands::Serve).to receive(:start_up_webrick)
           @merc.execute(:serve, "watch" => false, "url" => "https://bridgetownrb.com/")
 

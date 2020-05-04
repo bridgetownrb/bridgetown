@@ -262,6 +262,10 @@ module Bridgetown
       @site_data ||= (config["data"] || data)
     end
 
+    def metadata
+      data["site_metadata"] || {}
+    end
+
     # The Hash payload containing site-wide data.
     #
     # Returns the Hash: { "site" => data } where data is a Hash with keys:

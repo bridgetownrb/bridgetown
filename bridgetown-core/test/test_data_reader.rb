@@ -3,15 +3,33 @@
 require "helper"
 
 class TestDataReader < BridgetownUnitTest
-  context "#sanitize_filename" do
-    setup do
-      @reader = DataReader.new(fixture_site)
-    end
+  def setup
+    @reader = DataReader.new(fixture_site)
+  end
 
+  context "#sanitize_filename" do
     should "remove evil characters" do
       assert_equal "helpwhathaveIdone", @reader.sanitize_filename(
         "help/what^&$^#*(!^%*!#haveId&&&&&&&&&one"
       )
+    end
+  end
+
+  context "#merge_environment_specific_options!" do
+    should "merge options in that are environment-specific" do
+      @reader.instance_variable_set(:@content, {
+        "site_metadata" => {
+          "title"       => "Normal title",
+          "development" => {
+            "title" => "Development title",
+          },
+        },
+      })
+      metadata = @reader.content["site_metadata"]
+      refute_equal "Development title", metadata["title"]
+      @reader.merge_environment_specific_metadata!
+      assert_equal "Development title", metadata["title"]
+      assert_nil metadata["development"]
     end
   end
 end

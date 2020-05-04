@@ -60,7 +60,7 @@ module Bridgetown
 
               # TODO: this prints the configuration file log message out-of-order
               config = configuration_from_options(opts)
-              config["url"] = default_url(config) if Bridgetown.env == "development"
+              config["url"] = default_url(config) if Bridgetown.environment == "development"
 
               process_with_graceful_fail(cmd, config, Build, Serve)
             end
@@ -69,12 +69,11 @@ module Bridgetown
 
         #
 
-        def process(opts)
-          opts = configuration_from_options(opts)
-          destination = opts["destination"]
+        def process(config)
+          destination = config["destination"]
           setup(destination)
 
-          start_up_webrick(opts, destination)
+          start_up_webrick(config, destination)
         end
 
         def shutdown
@@ -157,8 +156,7 @@ module Bridgetown
                  baseurl: baseurl ? "#{baseurl}/" : "")
         end
 
-        def default_url(opts)
-          config = configuration_from_options(opts)
+        def default_url(config)
           format_url(
             config["ssl_cert"] && config["ssl_key"],
             config["host"] == "127.0.0.1" ? "localhost" : config["host"],

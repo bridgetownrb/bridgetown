@@ -7,3 +7,7 @@ description: >- # this means to ignore newlines until "baseurl:"
 
 twitter: "bridgetownrb"
 github: "bridgetownrb/bridgetown"
+
+# Environment-specific settings
+development:
+  title: Bridgetown (DEV)
