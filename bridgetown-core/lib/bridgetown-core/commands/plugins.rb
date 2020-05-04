@@ -102,7 +102,7 @@ module Bridgetown
 
           directive = args[0].split("/")
           unless directive[1]
-            Bridgetown.logger.info("Oops!", "Your command needs to be in the <origin/dir> format")
+            Bridgetown.logger.warn("Oops!", "Your command needs to be in the <origin/dir> format")
             return
           end
 
@@ -128,7 +128,7 @@ module Bridgetown
             puts
             Bridgetown.logger.info("Done!", "You're back in #{Dir.pwd.green}")
           else
-            Bridgetown.logger.info("Oops!", "I wasn't able to find the #{directive[1]} folder for #{directive[0]}")
+            Bridgetown.logger.warn("Oops!", "I wasn't able to find the #{directive[1]} folder for #{directive[0]}")
           end
         end
       end

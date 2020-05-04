@@ -447,7 +447,7 @@ module Bridgetown
       plugin_components_load_paths = Bridgetown::PluginManager.source_manifests
         .map(&:components).compact
 
-      local_components_load_paths = config["components_dir"].then do |dir|
+      local_components_load_paths = config["components_dir"].yield_self do |dir|
         dir.is_a?(Array) ? dir : [dir]
       end
       local_components_load_paths.map! do |dir|
