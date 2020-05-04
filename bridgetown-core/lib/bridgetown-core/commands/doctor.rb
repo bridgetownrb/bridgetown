@@ -34,7 +34,6 @@ module Bridgetown
         def healthy?(site)
           [
             fsnotify_buggy?(site),
-            !deprecated_relative_permalinks(site),
             !conflicting_urls(site),
             !urls_only_differ_by_case(site),
             proper_site_url?(site),
@@ -54,14 +53,6 @@ module Bridgetown
                                  "Please move '#{posts_at_root}' into the custom directory at " \
                 "'#{site.in_source_dir(site.config["collections_dir"])}'"
           false
-        end
-
-        def deprecated_relative_permalinks(site)
-          if site.config["relative_permalinks"]
-            Bridgetown::Deprecator.deprecation_message "Your site still uses relative permalinks," \
-                                                   " which was removed in Bridgetown v0.1"
-            true
-          end
         end
 
         def conflicting_urls(site)

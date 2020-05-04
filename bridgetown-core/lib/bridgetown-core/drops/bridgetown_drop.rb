@@ -13,13 +13,18 @@ module Bridgetown
         Bridgetown::VERSION
       end
 
+      def code_name
+        Bridgetown::CODE_NAME
+      end
+
       def environment
-        Bridgetown.env
+        Bridgetown.environment
       end
 
       def to_h
         @to_h ||= {
           "version"     => version,
+          "code_name"   => code_name,
           "environment" => environment,
         }
       end

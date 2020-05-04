@@ -252,7 +252,7 @@ class TestConfiguration < BridgetownUnitTest
     end
   end
 
-  context "#validate" do
+  context "#check_include_exclude" do
     setup do
       @config = Configuration[{
         "auto"        => true,
@@ -267,26 +267,12 @@ class TestConfiguration < BridgetownUnitTest
 
     should "raise an error if `exclude` key is a string" do
       config = Configuration[{ "exclude" => "READ-ME.md, Gemfile,CONTRIBUTING.hello.markdown" }]
-      assert_raises(Bridgetown::Errors::InvalidConfigurationError) { config.validate }
+      assert_raises(Bridgetown::Errors::InvalidConfigurationError) { config.check_include_exclude }
     end
 
     should "raise an error if `include` key is a string" do
       config = Configuration[{ "include" => "STOP_THE_PRESSES.txt,.heloses, .git" }]
-      assert_raises(Bridgetown::Errors::InvalidConfigurationError) { config.validate }
-    end
-
-    should "not rename configuration keys" do
-      assert @config.key?("layouts")
-      assert @config.validate.key?("layouts")
-      refute @config.validate.key?("layouts_dir")
-
-      assert @config.key?("data_source")
-      assert @config.validate.key?("data_source")
-      refute @config.validate.key?("data_dir")
-
-      assert @config.key?("gems")
-      assert @config.validate.key?("gems")
-      refute @config.validate.key?("plugins")
+      assert_raises(Bridgetown::Errors::InvalidConfigurationError) { config.check_include_exclude }
     end
   end
 
@@ -456,6 +442,17 @@ class TestConfiguration < BridgetownUnitTest
         Bridgetown.configuration(
           test_config.merge("config" => [@paths[:default], @paths[:other]])
         )
+    end
+  end
+
+  context "#merge_environment_specific_options!" do
+    should "merge options in that are environment-specific" do
+      conf = Configuration[default_configuration]
+      refute conf["unpublished"]
+      conf["development"] = { "unpublished" => true }
+      conf.merge_environment_specific_options!
+      assert conf["unpublished"]
+      assert_nil conf["development"]
     end
   end
 

@@ -50,7 +50,6 @@ module Bridgetown
         @documents ||= @obj.documents
       end
 
-      # TODO: provide a way to set BRIDGETOWN_ENV-specific metadata
       def metadata
         @site_metadata ||= @obj.data["site_metadata"]
       end

@@ -87,7 +87,6 @@ module Bridgetown
                                    "run Bridgetown with --no-watch."
           end
 
-          #          External.require_with_graceful_fail "bridgetown-watch"
           Bridgetown::Watcher.watch(@site, options)
         end
 
@@ -100,6 +99,7 @@ module Bridgetown
           source = File.expand_path(options["source"])
           destination = File.expand_path(options["destination"])
           plugins_dir = File.expand_path(options["plugins_dir"])
+          Bridgetown.logger.info "Environment:", Bridgetown.environment.cyan
           Bridgetown.logger.info "Source:", source
           Bridgetown.logger.info "Destination:", destination
           Bridgetown.logger.info "Custom Plugins:", plugins_dir if Dir.exist?(plugins_dir)

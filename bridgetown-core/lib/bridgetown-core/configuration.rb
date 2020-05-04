@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module Bridgetown
+  # TODO: refactor this whole object! Already had to fix obscure
+  # bugs just making minor changes, and all the indirection is
+  # quite hard to decipher. -JW
   class Configuration < Hash
     # Default options. Overridden by values in bridgetown.config.yml.
     # Strings rather than symbols are used for compatibility with YAML.
@@ -88,7 +91,10 @@ module Bridgetown
       # Returns a Configuration filled with defaults.
       def from(user_config)
         Utils.deep_merge_hashes(DEFAULTS, Configuration[user_config].stringify_keys)
-          .add_default_collections.add_default_excludes
+          .merge_environment_specific_options!
+          .add_default_collections
+          .add_default_excludes
+          .check_include_exclude
       end
     end
 
@@ -178,6 +184,31 @@ module Bridgetown
       Array(config_files)
     end
 
+    # Public: Read in a list of configuration files and merge with this hash
+    #
+    # files - the list of configuration file paths
+    #
+    # Returns the full configuration, with the defaults overridden by the values in the
+    # configuration files
+    def read_config_files(files)
+      config = self
+
+      begin
+        files.each do |config_file|
+          next if config_file.nil? || config_file.empty?
+
+          new_config = read_config_file(config_file)
+          config = Utils.deep_merge_hashes(self, new_config)
+        end
+      rescue ArgumentError => e
+        Bridgetown.logger.warn "WARNING:", "Error reading configuration. Using defaults" \
+                                " (and options)."
+        warn e
+      end
+
+      config
+    end
+
     # Public: Read configuration and return merged Hash
     #
     # file - the path to the YAML file to be read in
@@ -203,74 +234,36 @@ module Bridgetown
       end
     end
 
-    # Public: Read in a list of configuration files and merge with this hash
-    #
-    # files - the list of configuration file paths
-    #
-    # Returns the full configuration, with the defaults overridden by the values in the
-    # configuration files
-    def read_config_files(files)
-      configuration = clone
-
-      begin
-        files.each do |config_file|
-          next if config_file.nil? || config_file.empty?
-
-          new_config = read_config_file(config_file)
-          configuration = Utils.deep_merge_hashes(configuration, new_config)
-        end
-      rescue ArgumentError => e
-        Bridgetown.logger.warn "WARNING:", "Error reading configuration. Using defaults" \
-                                " (and options)."
-        warn e
+    # Merge in environment-specific options, if present
+    def merge_environment_specific_options!
+      self[Bridgetown.environment]&.each_key do |k|
+        self[k] = self[Bridgetown.environment][k]
       end
-
-      configuration.validate.add_default_collections
-    end
-
-    # Public: Split a CSV string into an array containing its values
-    #
-    # csv - the string of comma-separated values
-    #
-    # Returns an array of the values contained in the CSV
-    def csv_to_array(csv)
-      csv.split(",").map(&:strip)
-    end
-
-    # Public: Ensure the proper options are set in the configuration
-    #
-    # Returns the configuration Hash
-    def validate
-      config = clone
-
-      check_include_exclude(config)
-
-      config
+      delete(Bridgetown.environment)
+      self
     end
 
     def add_default_collections
-      config = clone
-
       # It defaults to `{}`, so this is only if someone sets it to null manually.
-      return config if config["collections"].nil?
+      return self if self["collections"].nil?
 
       # Ensure we have a hash.
-      if config["collections"].is_a?(Array)
-        config["collections"] = config["collections"].each_with_object({}) do |collection, hash|
+      if self["collections"].is_a?(Array)
+        self["collections"] = self["collections"].each_with_object({}) do |collection, hash|
           hash[collection] = {}
         end
       end
 
-      config["collections"] = Utils.deep_merge_hashes(
-        { "posts" => {} }, config["collections"]
+      self["collections"] = Utils.deep_merge_hashes(
+        { "posts" => {} }, self["collections"]
       ).tap do |collections|
         collections["posts"]["output"] = true
-        if config["permalink"]
-          collections["posts"]["permalink"] ||= style_to_permalink(config["permalink"])
+        if self["permalink"]
+          collections["posts"]["permalink"] ||= style_to_permalink(self["permalink"])
         end
       end
 
-      config
+      self
     end
 
     DEFAULT_EXCLUDES = %w(
@@ -281,14 +274,11 @@ module Bridgetown
     ).freeze
 
     def add_default_excludes
-      config = clone
-      return config if config["exclude"].nil?
+      return self if self["exclude"].nil?
 
-      config["exclude"].concat(DEFAULT_EXCLUDES).uniq!
-      config
+      self["exclude"].concat(DEFAULT_EXCLUDES).uniq!
+      self
     end
-
-    private
 
     # rubocop:disable Metrics/CyclomaticComplexity #
     def style_to_permalink(permalink_style)
@@ -311,14 +301,15 @@ module Bridgetown
     end
     # rubocop:enable Metrics/CyclomaticComplexity #
 
-    def check_include_exclude(config)
+    def check_include_exclude
       %w(include exclude).each do |option|
-        next unless config.key?(option)
-        next if config[option].is_a?(Array)
+        next unless key?(option)
+        next if self[option].is_a?(Array)
 
         raise Bridgetown::Errors::InvalidConfigurationError,
-              "'#{option}' should be set as an array, but was: #{config[option].inspect}."
+              "'#{option}' should be set as an array, but was: #{self[option].inspect}."
       end
+      self
     end
   end
 end

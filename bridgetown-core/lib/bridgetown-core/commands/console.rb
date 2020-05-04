@@ -24,9 +24,10 @@ module Bridgetown
         # TODO: is there a way to add a unit test for this command?
         # rubocop:disable Style/GlobalVars, Metrics/AbcSize, Metrics/MethodLength
         def process(options)
-          Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION}" \
-                                      " (codename \"#{Bridgetown::CODE_NAME}\")" \
+          Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
+                                      " (codename \"#{Bridgetown::CODE_NAME.yellow}\")" \
                                       " console…"
+          Bridgetown.logger.info "Environment:", Bridgetown.environment.cyan
           site = Bridgetown::Site.new(configuration_from_options(options))
           site.reset
           site.read
