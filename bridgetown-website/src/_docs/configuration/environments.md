@@ -5,9 +5,23 @@ order: 0
 category: configuration
 ---
 
-In the `build` (or `serve`) arguments, you can specify a Bridgetown environment
-and value. The build will then apply this value in any conditional statements
-in your content.
+When running the `build` or `serve` commands, you can specify a Bridgetown
+environment variable: `BRIDGETOWN_ENV`. The build will then apply this value in
+any conditional statements in your content. You specify the environment by
+prepending it to your command:
+
+```sh
+BRIDGETOWN_ENV=production bridgetown build
+```
+
+Alternatively, you can set the environment value using your computer or server
+settings…most hosting companies allow environment variables to be specified via
+a control panel of some kind. Or at the command line, look for a `.bashrc` or
+`.zshrc` file in your home folder and add:
+
+```sh
+export BRIDGETOWN_ENV="production"
+```
 
 For example, suppose you set this conditional statement in your code:
 
@@ -20,19 +34,11 @@ For example, suppose you set this conditional statement in your code:
 {% endraw %}
 
 When you build your Bridgetown site, the content inside the `if` statement won't be
-run unless you also specify a `production` environment in the build command,
-like this:
+rendered unless you also specify a `production` environment.
 
-```sh
-BRIDGETOWN_ENV=production bridgetown build
-```
-
-Specifying an environment value allows you to make certain content available
-only within specific environments.
-
-The default value for `BRIDGETOWN_ENV` is `development`. Therefore if you omit
-`BRIDGETOWN_ENV` from the build arguments, the default value will be
-`BRIDGETOWN_ENV=development`. Any content inside
+The default value for `BRIDGETOWN_ENV` is `development`. Thus if you omit
+`BRIDGETOWN_ENV` from the build/serve commands, the default value will be
+`BRIDGETOWN_ENV="development"`. Any content inside
 {% raw %}`{% if bridgetown.environment == "development" %}`{% endraw %} tags will
 automatically appear in the build.
 
@@ -42,11 +48,43 @@ environments include Disqus comment forms or Google Analytics. Conversely,
 you might want to expose an "Edit me in GitHub" button in a development
 environment but not include it in production environments.
 
-By specifying the option in the build command, you avoid having to change
-values in your configuration files when moving from one environment to another.
+## Environment-specific Configurations
 
-{: .note}
-To switch part of your config settings depending on the environment, use the
-<a href="{{ '/docs/configuration/options/#build-command-options' | relative_url }}">build command option</a>,
-for example <code>--config bridgetown.config.yml,_config_development.yml</code>. Settings
-in later files override settings in earlier files.
+In your `bridgetown.config.yml` config file, as well as the
+`src/_data/site_metadata.yml` metadata file, you can add a block of YAML options
+per environment. For example, given the following metadata:
+
+```yaml
+# src/_data/site_metadata.yml
+
+title: My Website
+
+development:
+  title: My (DEV) Website
+```
+
+Your site title would be "My Website" if built with a `production` environment,
+and "My (DEV) Website" if built with a `development` environment. You can specify any
+number of environment blocks that you wish. For example:
+
+```yaml
+# bridgetown.config.yml
+
+development:
+  unpublished: true
+  future: true
+
+staging:
+  unpublished: true
+```
+
+The `development` environment will build documents that are marked as unpublished as
+well as having a future date, whereas the `staging` environment will only
+build unpublished. And the `production` environment would exclude both sets.
+
+{% rendercontent "docs/note", title: "Top Tip: Your Ruby code and plugins can also access the environment", extra_margin: true %}
+Anywhere in Ruby code you write, you can check the current environment via
+`Bridgetown.environment`. You might decide to perform certain tests or verify data
+or perform some kind of operation in a `development` or `test` environment that
+you'd leave out in a `production` environment (or visa-versa).
+{% endrendercontent %}
