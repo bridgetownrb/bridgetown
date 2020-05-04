@@ -1,5 +1,10 @@
 # master
 
+* Honor the configured site encoding when loading Liquid components [#33](https://github.com/bridgetownrb/bridgetown/pull/33)
+* Allow configuration file as well as site metadata file to pull YAML options out of an environment specific block [#34](https://github.com/bridgetownrb/bridgetown/pull/34)
+* Add Faraday to the default set of gems that get installed with Bridgetown [#30](https://github.com/bridgetownrb/bridgetown/pull/30)
+* Add blank favicon.ico file to prevent error when generating a new site for the first time [#32](https://github.com/bridgetownrb/bridgetown/pull/32) ([jaredmoody](https://github.com/jaredmoody))
+
 # 0.12.1 / 2020-05-01
 
 * Update the minimum Ruby version requirement to 2.5
