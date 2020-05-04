@@ -5,6 +5,7 @@ module Bridgetown
     attr_reader :site
 
     @source_manifests = Set.new
+    @registered_plugins = Set.new
 
     def self.add_source_manifest(source_manifest)
       unless source_manifest.is_a?(Bridgetown::Plugin::SourceManifest)
@@ -14,8 +15,12 @@ module Bridgetown
       @source_manifests << source_manifest
     end
 
+    def self.add_registered_plugin(gem_or_plugin_file)
+      @registered_plugins << gem_or_plugin_file
+    end
+
     class << self
-      attr_reader :source_manifests
+      attr_reader :source_manifests, :registered_plugins
     end
 
     # Create an instance of this class.
@@ -31,11 +36,21 @@ module Bridgetown
       if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] && File.file?("Gemfile")
         require "bundler"
 
-        Bundler.setup
-        required_gems = Bundler.require(:bridgetown_plugins)
+        group_name = :bridgetown_plugins
+
+        required_gems = Bundler.require group_name
+        required_gems.select! do |dep|
+          (dep.groups & [group_name]).any? && dep.should_include?
+        end
+
         install_yarn_dependencies(required_gems)
-        message = "Required #{required_gems.map(&:name).join(", ")}"
-        Bridgetown.logger.debug("PluginManager:", message)
+
+        required_gems.each do |installed_gem|
+          add_registered_plugin installed_gem
+        end
+
+        Bridgetown.logger.debug("PluginManager:",
+                                "Required #{required_gems.map(&:name).join(", ")}")
         ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] = "true"
 
         true
@@ -75,6 +90,9 @@ module Bridgetown
     def require_plugin_files
       plugins_path.each do |plugin_search_path|
         plugin_files = Utils.safe_glob(plugin_search_path, File.join("**", "*.rb"))
+        plugin_files.each do |plugin_file|
+          self.class.add_registered_plugin plugin_file
+        end
         Bridgetown::External.require_with_graceful_fail(plugin_files)
       end
     end
@@ -85,6 +103,7 @@ module Bridgetown
         plugin_files = Utils.safe_glob(plugin_search_path, File.join("**", "*.rb"))
         Array(plugin_files).each do |name|
           Bridgetown.logger.debug "Reloading:", name.to_s
+          self.class.add_registered_plugin name
           load name
         end
       end

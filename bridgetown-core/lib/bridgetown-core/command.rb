@@ -53,11 +53,16 @@ module Bridgetown
       def add_build_options(cmd)
         cmd.option "config", "--config CONFIG_FILE[,CONFIG_FILE2,...]",
                    Array, "Custom configuration file"
-        cmd.option "destination", "-d", "--destination DESTINATION",
-                   "The current folder will be generated into DESTINATION"
-        cmd.option "root_dir", "-r", "--root_dir ROOT_DIR", "The top-level root folder" \
+        cmd.option "source", "-s", "--source [DIR]",
+                   "Source directory (defaults to src)"
+        cmd.option "destination", "-d", "--destination [DIR]",
+                   "Destination directory (defaults to output)"
+        cmd.option "root_dir", "-r", "--root_dir [DIR]", "The top-level root folder" \
                     " where config files are located"
-        cmd.option "source", "-s", "--source SOURCE", "Custom source directory"
+        cmd.option "plugins_dir", "-p", "--plugins PLUGINS_DIR1[,PLUGINS_DIR2[,...]]", Array,
+                   "Plugins directory (defaults to plugins)"
+        cmd.option "layouts_dir", "--layouts [DIR]", String,
+                   "Layouts directory (defaults to src/_layouts)"
         cmd.option "future", "--future", "Publishes posts with a future date"
         cmd.option "limit_posts", "--limit_posts MAX_POSTS", Integer,
                    "Limits the number of posts to parse and publish"
@@ -70,6 +75,7 @@ module Bridgetown
                    "Render posts that were marked as unpublished"
         cmd.option "disable_disk_cache", "--disable-disk-cache",
                    "Disable caching to disk"
+        cmd.option "profile", "--profile", "Generate a Liquid rendering profile"
         cmd.option "quiet", "-q", "--quiet", "Silence output."
         cmd.option "verbose", "-V", "--verbose", "Print verbose output."
         cmd.option "incremental", "-I", "--incremental", "Enable incremental rebuild."
