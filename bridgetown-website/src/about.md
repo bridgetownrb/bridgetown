@@ -42,10 +42,11 @@ As of spring 2020, here is the vision for where Bridgetown is headed. And this i
 - _LONGSHOT…_ Investigate potentially huge wins regarding **headless CMS + Bridgetown integrations** as officially recommended plugins.
 - _LONGSHOT…_ Use the new Liquid Components support to enable a **drag-and-drop visual page builder** plugin.
 
-And generally speaking, as an [open source](https://en.wikipedia.org/wiki/Open_source) project we want to be good stewards of the codebase and community, which starts with striving for a predictable release schedule. Our goal is that there would be a:
+And generally speaking, as an [open source](https://en.wikipedia.org/wiki/Open_source) project we want to be good stewards of the codebase and community, which starts with adhering to a predictable release schedule. Based on [SemVer](https://semver.org), our goal is to strive for:
 
-- **Major** release roughly every three months (1.1, 1.2, 2.0, etc.)
-- **Minor** releases once or twice a month (1.2.5, 1.2.6)
+- **Major** releases every three to six months (1.0, 2.0, 3.0, etc.)
+- **Minor** releases twice a month (1.2, 1.3, 1.4, etc.)
+- **Patch** releases in between as needed (1.3.2, 1.3.3, etc.)
 
 We also want to ensure Bridgetown is a **reliable partner** for commercial solution providers by ensuring their frontline work with clients goes well and feedback flows positively into the Bridgetown feature set. What does this mean in a nutshell? It means if you make a living building websites using Bridgetown and run into major workflow hiccups, [we want to know about it](/docs/community/).
 
