@@ -51,7 +51,7 @@ module Bridgetown
 
               The full error message from Ruby is: '#{e.message}'
 
-              If you run into trouble, you can find helpful resources at https://bridgetownrb.com/help/!
+              If you run into trouble, you can find helpful resources at https://www.bridgetownrb.com/docs/community/
             MSG
             raise Bridgetown::Errors::MissingDependencyException, name
           end

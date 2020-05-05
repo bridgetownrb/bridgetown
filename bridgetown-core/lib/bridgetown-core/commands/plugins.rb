@@ -46,13 +46,20 @@ module Bridgetown
 
         def list(options)
           site = Bridgetown::Site.new(configuration_from_options(options))
+          site.reset
 
           pm = site.plugin_manager
 
-          Bridgetown.logger.info("Registered Plugins:")
+          plugins_list = pm.class.registered_plugins.reject do |plugin|
+            plugin.to_s.end_with? "site_builder.rb"
+          end
 
-          pm.class.registered_plugins.each do |plugin|
-            Bridgetown.logger.info("", plugin.to_s.sub(site.in_root_dir("/"), ""))
+          Bridgetown.logger.info("Registered Plugins:", plugins_list.length.to_s.yellow.bold)
+
+          plugins_list.each do |plugin|
+            unless plugin.to_s.end_with? "site_builder.rb"
+              Bridgetown.logger.info("", plugin.to_s.sub(site.in_root_dir("/"), ""))
+            end
           end
 
           Bridgetown.logger.info("Source Manifests:", "---") unless pm.class.source_manifests.empty?
@@ -66,7 +73,19 @@ module Bridgetown
             Bridgetown.logger.info("", "---")
           end
 
-          Bridgetown.logger.info("Converters:", site.converters.length.to_s.cyan)
+          if defined?(SiteBuilder)
+            Bridgetown.logger.info("Builders:", SiteBuilder.descendants.length.to_s.yellow.bold)
+
+            SiteBuilder.descendants.each do |builder|
+              name = builder.respond_to?(:custom_name) ? builder.custom_name : builder.name
+              name_components = name.split("::")
+              last_name = name_components.pop
+              name_components.push last_name.magenta
+              Bridgetown.logger.info("", name_components.join("::"))
+            end
+          end
+
+          Bridgetown.logger.info("Converters:", site.converters.length.to_s.yellow.bold)
 
           site.converters.each do |converter|
             name = converter.class.respond_to?(:custom_name) ? converter.class.custom_name : converter.class.name
@@ -76,7 +95,7 @@ module Bridgetown
             Bridgetown.logger.info("", name_components.join("::"))
           end
 
-          Bridgetown.logger.info("Generators:", site.generators.length.to_s.cyan)
+          Bridgetown.logger.info("Generators:", site.generators.length.to_s.yellow.bold)
 
           site.generators.each do |generator|
             name = generator.class.respond_to?(:custom_name) ? generator.class.custom_name : generator.class.name
