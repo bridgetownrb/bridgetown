@@ -1,11 +1,19 @@
-# [Bridgetown](https://bridgetownrb.com/)
+<p align="center">
+  <a href="https://www.bridgetownrb.com">
+    <img src="https://www.bridgetownrb.com/images/bridgetown-logo-twitter-card.jpg" alt="Bridgetown" width="750" />
+  <a/>
+</p>
+
+<h1 align="center">
+  <a href="https://www.bridgetownrb.com">Bridgetown</a>
+</h1>
+
+Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern [Jamstack](https://bridgetownrb.com/docs/jamstack/) era. Bridgetown takes your content and frontend assets, renders Markdown and Liquid templates, and exports a complete website ready to be served by Jamstack services like Netlify or traditional web servers like Nginx.
 
 [![Build Status](https://github.com/bridgetownrb/bridgetown/workflows/build/badge.svg)](https://github.com/bridgetownrb/bridgetown/actions?query=workflow%3Abuild+branch%3Amaster)
 [![Gem Version](https://img.shields.io/gem/v/bridgetown.svg)](https://rubygems.org/gems/bridgetown)
 [![Licensed MIT](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](LICENSE)
 [![Join the chat at https://gitter.im/bridgetownrb/bridgetown](https://badges.gitter.im/bridgetownrb/bridgetown.svg)](https://gitter.im/bridgetownrb/bridgetown?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern [Jamstack](https://bridgetownrb.com/docs/jamstack/) era. Bridgetown takes your content and frontend assets, renders Markdown and Liquid templates, and exports a complete website ready to be served by Jamstack services like Netlify or traditional web servers like Nginx.
 
 ---
 
