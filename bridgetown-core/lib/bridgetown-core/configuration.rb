@@ -9,61 +9,62 @@ module Bridgetown
     # Strings rather than symbols are used for compatibility with YAML.
     DEFAULTS = {
       # Where things are
-      "root_dir"            => Dir.pwd,
-      "plugins_dir"         => "plugins",
-      "source"              => File.join(Dir.pwd, "src"),
-      "destination"         => File.join(Dir.pwd, "output"),
-      "collections_dir"     => "",
-      "cache_dir"           => ".bridgetown-cache",
-      "layouts_dir"         => "_layouts",
-      "data_dir"            => "_data",
-      "components_dir"      => "_components",
-      "includes_dir"        => "_includes",
-      "collections"         => {},
+      "root_dir"             => Dir.pwd,
+      "plugins_dir"          => "plugins",
+      "source"               => File.join(Dir.pwd, "src"),
+      "destination"          => File.join(Dir.pwd, "output"),
+      "collections_dir"      => "",
+      "cache_dir"            => ".bridgetown-cache",
+      "layouts_dir"          => "_layouts",
+      "data_dir"             => "_data",
+      "components_dir"       => "_components",
+      "includes_dir"         => "_includes",
+      "collections"          => {},
 
       # Handling Reading
-      "include"             => [".htaccess", "_redirects", ".well-known"],
-      "exclude"             => [],
-      "keep_files"          => [".git", ".svn", "_bridgetown"],
-      "encoding"            => "utf-8",
-      "markdown_ext"        => "markdown,mkdown,mkdn,mkd,md",
-      "strict_front_matter" => false,
-      "slugify_categories"  => true,
+      "include"              => [".htaccess", "_redirects", ".well-known"],
+      "exclude"              => [],
+      "keep_files"           => [".git", ".svn", "_bridgetown"],
+      "encoding"             => "utf-8",
+      "markdown_ext"         => "markdown,mkdown,mkdn,mkd,md",
+      "strict_front_matter"  => false,
+      "slugify_categories"   => true,
 
       # Filtering Content
-      "limit_posts"         => 0,
-      "future"              => false,
-      "unpublished"         => false,
+      "limit_posts"          => 0,
+      "future"               => false,
+      "unpublished"          => false,
+      "ruby_in_front_matter" => true, # requires BRIDGETOWN_RUBY_IN_FRONT_MATTER == "true"
 
       # Conversion
-      "markdown"            => "kramdown",
-      "highlighter"         => "rouge",
-      "lsi"                 => false,
-      "excerpt_separator"   => "\n\n",
-      "incremental"         => false,
+      "markdown"             => "kramdown",
+      "highlighter"          => "rouge",
+      "lsi"                  => false,
+      "excerpt_separator"    => "\n\n",
+      "incremental"          => false,
 
       # Serving
-      "detach"              => false, # default to not detaching the server
-      "port"                => "4000",
-      "host"                => "127.0.0.1",
-      "baseurl"             => nil, # this mounts at /, i.e. no subdirectory
-      "show_dir_listing"    => false,
+      "detach"               => false, # default to not detaching the server
+      "port"                 => "4000",
+      "host"                 => "127.0.0.1",
+      "baseurl"              => nil, # this mounts at /, i.e. no subdirectory
+      "show_dir_listing"     => false,
 
       # Output Configuration
-      "permalink"           => "date",
-      "timezone"            => nil, # use the local timezone
+      "permalink"            => "date",
+      "timezone"             => nil, # use the local timezone
 
-      "quiet"               => false,
-      "verbose"             => false,
-      "defaults"            => [],
+      "quiet"                => false,
+      "verbose"              => false,
+      "defaults"             => [],
 
-      "liquid"              => {
+      "liquid"               => {
         "error_mode"       => "warn",
         "strict_filters"   => false,
         "strict_variables" => false,
       },
 
-      "kramdown"            => {
+      "kramdown"             => {
         "auto_ids"      => true,
         "toc_levels"    => (1..6).to_a,
         "entity_output" => "as_char",
@@ -278,6 +279,11 @@ module Bridgetown
 
       self["exclude"].concat(DEFAULT_EXCLUDES).uniq!
       self
+    end
+
+    def should_execute_inline_ruby?
+      ENV["BRIDGETOWN_RUBY_IN_FRONT_MATTER"] == "true" &&
+        self["ruby_in_front_matter"]
     end
 
     # rubocop:disable Metrics/CyclomaticComplexity #

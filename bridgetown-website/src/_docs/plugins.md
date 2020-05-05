@@ -32,6 +32,13 @@ There are two methods of adding plugins to your site build.
    ```
 
    Now all plugins from your Bundler group will be installed whenever you run `bundle install`.
+   
+## Internal Ruby API
+
+When writing a plugin for Bridgetown, you will be interacting with
+the internal Ruby API. Objects like `Bridgetown::Site`, `Bridgetown::Document`, `Bridgetown::Page`, etc.
+
+Documentation on the internal Ruby API for Bridgetown is forthcoming, but meanwhile, the simplest way to debug the code you write is to run `bridgetown console` and interact with the API there. Then you can copy working code into your plugin.
 
 ## Plugin Types
 

@@ -74,6 +74,8 @@ module Bridgetown
         strict_variables: liquid_options["strict_variables"],
       }
 
+      execute_inline_ruby!
+
       output = document.content
       if document.render_with_liquid?
         Bridgetown.logger.debug "Rendering Liquid:", document.relative_path
@@ -91,24 +93,14 @@ module Bridgetown
 
       output
     end
-    # rubocop: enable Metrics/AbcSize
 
-    # Convert the document using the converters which match this renderer's document.
-    #
-    # Returns String the converted content.
-    def convert(content)
-      converters.reduce(content) do |output, converter|
-        begin
-          converter.convert output
-        rescue StandardError => e
-          Bridgetown.logger.error "Conversion error:",
-                                  "#{converter.class} encountered an error while "\
-                                  "converting '#{document.relative_path}':"
-          Bridgetown.logger.error("", e.to_s)
-          raise e
-        end
-      end
+    def execute_inline_ruby!
+      return unless site.config.should_execute_inline_ruby?
+
+      Bridgetown::Utils::RubyExec.search_data_for_ruby_code(document, self)
     end
+
+    # rubocop: enable Metrics/AbcSize
 
     # Render the given content with the payload and info
     #
@@ -132,6 +124,23 @@ module Bridgetown
       raise e
     end
     # rubocop: enable Lint/RescueException
+
+    # Convert the document using the converters which match this renderer's document.
+    #
+    # Returns String the converted content.
+    def convert(content)
+      converters.reduce(content) do |output, converter|
+        begin
+          converter.convert output
+        rescue StandardError => e
+          Bridgetown.logger.error "Conversion error:",
+                                  "#{converter.class} encountered an error while "\
+                                  "converting '#{document.relative_path}':"
+          Bridgetown.logger.error("", e.to_s)
+          raise e
+        end
+      end
+    end
 
     # Checks if the layout specified in the document actually exists
     #

@@ -6,6 +6,7 @@ module Bridgetown
     autoload :Ansi, "bridgetown-core/utils/ansi"
     autoload :Exec, "bridgetown-core/utils/exec"
     autoload :Internet, "bridgetown-core/utils/internet"
+    autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
     autoload :Platforms, "bridgetown-core/utils/platforms"
     autoload :ThreadEvent, "bridgetown-core/utils/thread_event"
     autoload :WinTZ, "bridgetown-core/utils/win_tz"

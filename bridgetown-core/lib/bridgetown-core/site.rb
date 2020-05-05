@@ -192,6 +192,8 @@ module Bridgetown
 
       Bridgetown::Hooks.trigger :site, :pre_render, self, payload
 
+      execute_inline_ruby_for_layouts!
+
       render_docs(payload)
       render_pages(payload)
 
@@ -463,6 +465,14 @@ module Bridgetown
       self.file_read_opts = {}
       file_read_opts[:encoding] = config["encoding"] if config["encoding"]
       self.file_read_opts = Bridgetown::Utils.merged_file_read_opts(self, {})
+    end
+
+    def execute_inline_ruby_for_layouts!
+      return unless config.should_execute_inline_ruby?
+
+      layouts.each_value do |layout|
+        Bridgetown::Utils::RubyExec.search_data_for_ruby_code(layout, self)
+      end
     end
 
     def render_docs(payload)

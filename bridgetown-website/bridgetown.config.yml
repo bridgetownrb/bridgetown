@@ -1,7 +1,6 @@
 url: "https://www.bridgetownrb.com"
 permalink: simple
 timezone: America/Los_Angeles
-inline_ruby_in_front_matter: true
 
 # components_dir:
 #   - ../shared/components
