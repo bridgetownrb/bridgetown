@@ -231,7 +231,7 @@ For advanced use cases where you wish to generate dynamic values for front matte
 This requires the environment variable `BRIDGETOWN_RUBY_IN_FRONT_MATTER` to be set to `"true"` in your development and deployment setups. Otherwise the code will not be executed and will be treated as a raw string.
 {% endrendercontent %}
 
-[Here's a blog post with a high-level overview](/feature/supercharge-your-bridgetown-site-with-ruby-front-matter/) of what Ruby Front Matter is capable of and why you might want to use it.
+[Here's a blog post with a high-level overview](/feature/supercharge-your-bridgetown-site-with-ruby-front-matter/){:data-no-swup="true"} of what Ruby Front Matter is capable of and why you might want to use it.
 
 To write Ruby code in your front matter, use the special tagged string `!ruby/string:Rb`. Here is an example:
 
