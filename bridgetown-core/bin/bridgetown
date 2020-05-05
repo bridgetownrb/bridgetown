@@ -13,7 +13,7 @@ Bridgetown::PluginManager.require_from_bundler
 Bridgetown::Deprecator.process(ARGV)
 
 Mercenary.program(:bridgetown) do |p|
-  p.version Bridgetown::VERSION
+  p.version "#{Bridgetown::VERSION.magenta} \"#{Bridgetown::CODE_NAME.yellow}\""
   p.description "Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern Jamstack era"
   p.syntax "bridgetown <subcommand> [options]"
 
@@ -23,24 +23,24 @@ Mercenary.program(:bridgetown) do |p|
   # if you do bridgetown build --help — ouch!
   p.option "source", "-s", "--source [DIR]", "Source directory (defaults to src)"
   p.option "destination", "-d", "--destination [DIR]",
-    "Destination directory (defaults to output)"
+           "Destination directory (defaults to output)"
   p.option "plugins_dir", "-p", "--plugins PLUGINS_DIR1[,PLUGINS_DIR2[,...]]", Array,
-    "Plugins directory (defaults to plugins)"
+           "Plugins directory (defaults to plugins)"
   p.option "layouts_dir", "--layouts DIR", String,
-    "Layouts directory (defaults to src/_layouts)"
+           "Layouts directory (defaults to src/_layouts)"
   p.option "profile", "--profile", "Generate a Liquid rendering profile"
 
-#  TODO: this is not the way to bring in extra command gems! 
-#  Bridgetown::External.require_if_present(Bridgetown::External.blessed_gems) do |g, ver_constraint|
-#    cmd = g.split("-").last
-#    p.command(cmd.to_sym) do |c|
-#      c.syntax cmd
-#      c.action do
-#        Bridgetown.logger.abort_with "You must install the '#{g}' gem" \
-#          " version #{ver_constraint} to use the 'bridgetown #{cmd}' command."
-#      end
-#    end
-#  end
+  #  TODO: this is not the way to bring in extra command gems!
+  #  Bridgetown::External.require_if_present(Bridgetown::External.blessed_gems) do |g, ver_constraint|
+  #    cmd = g.split("-").last
+  #    p.command(cmd.to_sym) do |c|
+  #      c.syntax cmd
+  #      c.action do
+  #        Bridgetown.logger.abort_with "You must install the '#{g}' gem" \
+  #          " version #{ver_constraint} to use the 'bridgetown #{cmd}' command."
+  #      end
+  #    end
+  #  end
 
   Bridgetown::Command.subclasses.each { |c| c.init_with_program(p) }
 

@@ -1,5 +1,8 @@
 # master
 
+# 0.13.0 "Klickitat" / 2020-05-05
+
+* Configurable setting to allow executable Ruby code in Front Matter [#9](https://github.com/bridgetownrb/bridgetown/pull/9)
 * Honor the configured site encoding when loading Liquid components [#33](https://github.com/bridgetownrb/bridgetown/pull/33)
 * Allow configuration file as well as site metadata file to pull YAML options out of an environment specific block [#34](https://github.com/bridgetownrb/bridgetown/pull/34)
 * Add Faraday to the default set of gems that get installed with Bridgetown [#30](https://github.com/bridgetownrb/bridgetown/pull/30)
