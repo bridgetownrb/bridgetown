@@ -14,6 +14,7 @@ Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern
 [![Gem Version](https://img.shields.io/gem/v/bridgetown.svg)](https://rubygems.org/gems/bridgetown)
 [![Licensed MIT](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](LICENSE)
 [![Join the chat at https://gitter.im/bridgetownrb/bridgetown](https://badges.gitter.im/bridgetownrb/bridgetown.svg)](https://gitter.im/bridgetownrb/bridgetown?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![PRs welcome!](https://img.shields.io/badge/PRs-welcome-blue.svg)](https://github.com/bridgetownrb/bridgetown/blob/master/CONTRIBUTING.md)
 
 ---
 
