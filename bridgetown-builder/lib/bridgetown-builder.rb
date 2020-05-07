@@ -53,7 +53,7 @@ module Bridgetown
   end
 end
 
-Bridgetown::Hooks.register_one :site, :after_setup, reloadable: false do |site|
+Bridgetown::Hooks.register_one :site, :after_reset, reloadable: false do |site|
   if defined?(SiteBuilder)
     SiteBuilder.descendants.map do |c|
       c.new(c.name, site)
@@ -65,5 +65,5 @@ Bridgetown::Hooks.register_one :site, :before_reload, reloadable: false do |site
   # remove all anonymous generator classes
   site.converters.delete_if { |generator| generator.class.name.nil? }
   site.generators.delete_if { |generator| generator.class.name.nil? }
-  Bridgetown::Build::VirtualGenerator.clear_documents_to_generate
+  Bridgetown::Builders::VirtualGenerator.clear_documents_to_generate
 end
