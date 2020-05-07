@@ -69,6 +69,17 @@ The complete list of available hooks is below:
         <p><code>:site</code></p>
       </td>
       <td>
+        <p><code>:after_setup</code></p>
+      </td>
+      <td>
+        <p>Just after site setup when all custom plugins, generators, etc. have loaded</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>:site</code></p>
+      </td>
+      <td>
         <p><code>:post_read</code></p>
       </td>
       <td>

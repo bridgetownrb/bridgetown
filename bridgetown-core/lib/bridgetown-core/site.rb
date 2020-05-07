@@ -120,6 +120,8 @@ module Bridgetown
 
       self.converters = instantiate_subclasses(Bridgetown::Converter)
       self.generators = instantiate_subclasses(Bridgetown::Generator)
+
+      Bridgetown::Hooks.trigger :site, :after_setup, self
     end
 
     # Check that the destination dir isn't the source dir or a directory

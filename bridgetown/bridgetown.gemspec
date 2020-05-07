@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.license       = "MIT"
   s.author        = "Bridgetown Team"
   s.email         = "maintainers@bridgetownrb.com"
-  s.homepage      = "https://bridgetownrb.com"
+  s.homepage      = "https://www.bridgetownrb.com"
   s.summary       = "A Webpack-aware, Ruby-powered static site generator for the modern Jamstack era"
   s.description   = "Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern Jamstack era"
 
