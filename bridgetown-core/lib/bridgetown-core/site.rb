@@ -180,8 +180,12 @@ module Bridgetown
       generators.each do |generator|
         start = Time.now
         generator.generate(self)
+
+        next unless ENV["BRIDGETOWN_LOG_LEVEL"] == "debug"
+
+        generator_name = generator.class.respond_to?(:custom_name) ? generator.class.custom_name : generator.class.name
         Bridgetown.logger.debug "Generating:",
-                                "#{generator.class} finished in #{Time.now - start} seconds."
+                                "#{generator_name} finished in #{Time.now - start} seconds."
       end
     end
 

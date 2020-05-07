@@ -19,7 +19,7 @@ module Bridgetown
       end
 
       def generate(site)
-        self.class.documents_to_generate.each do |doc_block|
+        self.class.documents_to_generate&.each do |doc_block|
           path, block = doc_block
           doc_builder = DocumentBuilder.new(site, path)
           doc_builder.instance_exec(&block)

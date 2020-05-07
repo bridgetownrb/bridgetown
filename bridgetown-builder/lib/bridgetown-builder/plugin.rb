@@ -42,7 +42,8 @@ module Bridgetown
           end
         end
 
-        site.generators << gen.new(site.config) if site.generators # watcher reload
+        first_low_priority_index = site.generators.find_index { |gen| gen.class.priority == :low }
+        site.generators.insert(first_low_priority_index, gen.new(site.config))
 
         functions << { name: name, generator: gen }
       end
