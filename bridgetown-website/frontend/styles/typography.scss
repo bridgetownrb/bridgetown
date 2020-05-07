@@ -5,7 +5,9 @@
   background-color: $pagination-background-color;
 } */
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   letter-spacing: -0.05em;
 }
 
@@ -25,4 +27,11 @@ body.home main h1.title {
 
 .minimal-line-height pre {
   line-height: 135%;
+}
+
+h2 .tag {
+  margin-bottom: 2px;
+  margin-left: 0.6em;
+  letter-spacing: normal;
+  font-weight: 500;
 }

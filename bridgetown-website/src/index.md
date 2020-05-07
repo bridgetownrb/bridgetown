@@ -16,7 +16,7 @@ Built upon proven open source technology, **Bridgetown** is a _fast_, _scalable_
 
 * **Design with Components.**{:.is-size-5.has-text-brown} &nbsp;Encapsulate common building-blocks of your design which can be reused across multiple pages and contexts or displayed in an always up-to-date style guide. _(experimental; coming soon)_
 
-* **Customize with Plugins.**{:.is-size-5.has-text-brown} &nbsp;Write your own plugins in the delightful Ruby programming language to facilitate totally custom projects, or simply add community gems to supercharge your site build.
+* **Customize with Plugins.**{:.is-size-5.has-text-brown} &nbsp;Write your own plugins in the delightful Ruby programming language to facilitate totally custom projects, or [simply add community gems](/plugins/) to supercharge your site build.
 
 * **Add a Modern Frontend.**{:.is-size-5.has-text-brown} &nbsp;Bridgetown comes with support for **Webpack** out-of-the-box, which means you can add Javascript frameworks like **React**, **Vue**, **Stimulus** as well as CSS frameworks like **Bulma** or **Tailwind** to get a leg up fast.
 

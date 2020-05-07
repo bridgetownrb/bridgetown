@@ -76,7 +76,8 @@ body.docs .content {
   }
 }
 
-.content a:not(.button) {
+.content a:not(.button),
+a.wavy-underline {
   -webkit-text-decoration: $green wavy underline;
   text-decoration: $green wavy underline;
   -webkit-text-decoration-thickness: 2px;

@@ -7,9 +7,16 @@ category: plugins
 
 Plugins allow you to extend Bridgetown's behavior to fit your needs. These guides help you with the specifics of creating plugins. We also have some recommended best practices to help structure your plugin.
 
+In addition, be sure to check out [our growing list of official and third-party plugins](/plugins/)
+for ways you can jazz up your Bridgetown website.
+
 {% rendercontent "docs/note", title: "Roll It All Up in a Gem" %}
 If you'd like to maintain separation from your site source code and
-share functionality across multiple projects, we suggest creating a gem for your plugin. This will also help you manage dependencies. For tips on creating a gem take a look a the [Ruby gems guide](https://guides.rubygems.org/make-your-own-gem/) or look through the source code of an existing plugin such as [bridgetown-feed](https://github.com/bridgetownrb/bridgetown-feed).
+share functionality across multiple projects, we suggest creating a gem for your plugin. This will also help you manage dependencies.
+
+You can [download the source code of our sample plugin project](https://github.com/bridgetownrb/bridgetown-sample-plugin)
+to get started, and read the [Ruby gems guide](https://guides.rubygems.org/make-your-own-gem/)
+for more details on creating and publishing your own gem.
 
 Make sure you [follow these instructions](/docs/plugins/gems-and-webpack/) to integrate your plugin's frontend code
 with the users' Webpack setup!
