@@ -20,7 +20,7 @@ module Bridgetown
 
     # Takes a slug and turns it into a simple title.
     def titleize_slug(slug)
-      slug.split("-").map!(&:capitalize).join(" ")
+      slug.gsub(%r![_ ]!, "-").split("-").map!(&:capitalize).join(" ")
     end
 
     # Non-destructive version of deep_merge_hashes! See that method.
