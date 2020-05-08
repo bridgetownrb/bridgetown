@@ -34,6 +34,10 @@ body.home main {
     @include widescreen {
       margin-left: 4.5em;
     }
+
+    .is-size-5 {
+      margin-right: 0.2em;
+    }
   }
 }
 
