@@ -45,23 +45,20 @@ title: "Welcome to Bridgetown!"
 I hope you like it!
 ```
 
-<div class="note">
-  <h5>Top Tip: Link to other posts</h5>
-  <p markdown="1">
-    Use the `post_url` [Liquid tag](/docs/liquid/tags/#linking-to-posts) to link to other posts without having to worry about the URLs breaking when the site permalink style changes.
-  </p>
-</div>
+{% rendercontent "docs/note", title: "Working with Dates" %}
+If you leave out the date in the filename, the post will still get rendered—however, then you'd need to either (a) specify a date in the front matter, or (b) accept that every time the site is built, the date of the post will be the exact present time—which is usually acceptable only for drafts.
+{% endrendercontent %}
 
-<div class="note">
-  <h5>Top Tip: Set your post layout using front matter defaults</h5>
-  <p markdown="1">
-    To avoid having to include a `layout` variable for every post, try setting a layout as a [front matter default](/docs/configuration/front-matter-defaults/) in your configuration file.
-  </p>
-</div>
+
+{% rendercontent "docs/note", title: "Top Tip: Set your post layout using front matter defaults" %}
+To avoid having to include a `layout` variable for every post, try setting a layout as a [front matter default](/docs/configuration/front-matter-defaults/) in your configuration file.
+{% endrendercontent %}
 
 ## Permalinks
 
 You can configure [permalinks](/docs/structure/permalinks) for full control of the output URL of your blog posts, such as `https://mydomain.com/vacation/2019/disney-world`. Read all about it in the [permalinks documentation](/docs/structure/permalinks).
+
+Use the `post_url` [Liquid tag](/docs/liquid/tags/#linking-to-posts) to link to other posts without having to worry about the URLs breaking when the site permalink style changes.
 
 ## Including images and resources
 
@@ -86,8 +83,48 @@ Linking to a PDF for readers to download:
 ... you can [get the PDF](/assets/mydoc.pdf) directly.
 ```
 
-{:.note}
+### Bundling posts and assets together
+
+As of Bridgetown 0.9, you can also create a folder in `_posts` and save both your
+post content file (whether Markdown or HTML) and your assets in that folder. This
+is useful in cases where you're authoring your content in an app that can display
+images inline and you wish to export the content and images all together.
+
+For example:
+
+```shell
+├── src
+│   ├── _posts
+│   │   ├── post-bundle
+│   │   │   ├── 2020-05-10-my-awesome-post.md
+│   │   │   ├── download.pdf
+│   │   │   └── image.jpg
+```
+
+Then in your post, you could simply reference each filename directly:
+
+```markdown
+[Download](download.pdf) my PDF!
+
+Here's an image! ![img](image.jpg)
+```
+
+**This only works** if you specify a particular permalink for your
+blog post, so that the final HTML file lives in the same output folder as the
+assets. For example:
+
+```yaml
+permalink: /post-bundle/:slug
+```
+
+This would then render out the `output/post-bundle/my-awesome-post.html` file
+along with `output/post-bundle/download.pdf` and `output/post-bundle/image.jpg`.
+Or you could do `permalink: /post-bundle/` and then the final path would simply
+be `output/post-bundle/index.html`.
+
+{% rendercontent "docs/note", title: "Top Tip: Use an Assets Management Service", extra_margin: true %}
 Another alternative is to store images in an assets management service such as [Cloudinary](https://cloudinary.com) and reference those images in your Markdown. You could even write a Liquid filter which lets you specify the image ID and transformation properties in your content and generate the relevant Cloudinary URL. An exercise left for the reader…
+{% endrendercontent %}
 
 ## Displaying an index of posts
 
@@ -194,7 +231,7 @@ Here's an example of outputting a list of blog posts with an excerpt:
 ```
 {% endraw %}
 
-## Hiding In-Progress Posts
+## Hiding In-Progress Posts (aka Drafts)
 
 If you have a posts you're still working on and don't want to publish it yet, you can use the `published` front matter variable. Set it to false and your post won't be published on standard builds:
 
@@ -205,4 +242,18 @@ published: false
 ---
 ```
 
-To preview your site with unpublished posts or pages, run either `bridgetown serve` or `bridgetown build` with the `--unpublished` switch. This will build and output all content files even if `published` is set to `false` in the front matter.
+To preview your site with unpublished posts or pages, run either `bridgetown serve` or `bridgetown build` with the `--unpublished` or `-U` option. This will build and output all content files even if `published` is set to `false` in the front matter.
+
+If you like keeping draft posts together in one place, all you need to do is
+create a `_posts/drafts` folder, put your posts in there, and then use front
+matter defaults to set `published` to `false`:
+
+```yaml
+# bridgetown.config.yml
+
+defaults:
+  - scope:
+      path: _posts/drafts
+    values:
+      published: false
+```

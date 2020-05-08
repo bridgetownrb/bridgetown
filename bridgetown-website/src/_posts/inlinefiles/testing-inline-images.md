@@ -1,7 +1,7 @@
 ---
-title: Testing inline images…
+title: Testing some dope inline images…
 date: 2020-04-15
-permalink: /inlinefiles/:title
+permalink: /inlinefiles/
 published: false
 ---
 
