@@ -78,7 +78,7 @@ module Bridgetown
       Bridgetown.logger.info @liquid_renderer.stats_table
     end
 
-    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     #
     # Reset Site details.
     #
@@ -89,7 +89,7 @@ module Bridgetown
                   else
                     Time.now
                   end
-      self.layouts = {}
+      self.layouts = ActiveSupport::HashWithIndifferentAccess.new
       self.pages = []
       self.static_files = []
       self.data = ActiveSupport::HashWithIndifferentAccess.new
@@ -108,7 +108,7 @@ module Bridgetown
       Bridgetown::Cache.clear_if_config_changed config
       Bridgetown::Hooks.trigger :site, :after_reset, self
     end
-    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
     # Load necessary libraries, plugins, converters, and generators.
     #
@@ -140,7 +140,9 @@ module Bridgetown
     #
     # Returns a Hash containing collection name-to-instance pairs.
     def collections
-      @collections ||= collection_names.each_with_object({}) do |name, hsh|
+      @collections ||= collection_names.each_with_object(
+        ActiveSupport::HashWithIndifferentAccess.new
+      ) do |name, hsh|
         hsh[name] = Bridgetown::Collection.new(self, name)
       end
     end

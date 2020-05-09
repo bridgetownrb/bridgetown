@@ -4,7 +4,7 @@ module Bridgetown
   # TODO: refactor this whole object! Already had to fix obscure
   # bugs just making minor changes, and all the indirection is
   # quite hard to decipher. -JW
-  class Configuration < Hash
+  class Configuration < ActiveSupport::HashWithIndifferentAccess
     # Default options. Overridden by values in bridgetown.config.yml.
     # Strings rather than symbols are used for compatibility with YAML.
     DEFAULTS = {
@@ -91,19 +91,12 @@ module Bridgetown
       #
       # Returns a Configuration filled with defaults.
       def from(user_config)
-        Utils.deep_merge_hashes(DEFAULTS, Configuration[user_config].stringify_keys)
+        Utils.deep_merge_hashes(DEFAULTS, Configuration[user_config])
           .merge_environment_specific_options!
           .add_default_collections
           .add_default_excludes
           .check_include_exclude
       end
-    end
-
-    # Public: Turn all keys into string
-    #
-    # Return a copy of the hash where all its keys are strings
-    def stringify_keys
-      each_with_object({}) { |(k, v), hsh| hsh[k.to_s] = v }
     end
 
     def get_config_value_with_override(config_key, override)

@@ -5,3 +5,10 @@ AllCops:
   Include:
     - lib/**/*.rb
     - spec/**/*.rb
+
+Metrics/AbcSize:
+  Exclude:
+    - lib/bridgetown-builder/dsl/*
+Metrics/MethodLength:
+  Exclude:
+    - lib/bridgetown-builder/dsl/*

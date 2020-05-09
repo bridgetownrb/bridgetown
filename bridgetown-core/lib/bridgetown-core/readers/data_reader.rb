@@ -41,7 +41,10 @@ module Bridgetown
         next if @entry_filter.symlink?(path)
 
         if File.directory?(path)
-          read_data_to(path, data[sanitize_filename(entry)] = {})
+          read_data_to(
+            path,
+            data[sanitize_filename(entry)] = ActiveSupport::HashWithIndifferentAccess.new
+          )
         else
           key = sanitize_filename(File.basename(entry, ".*"))
           data[key] = read_data_file(path)
