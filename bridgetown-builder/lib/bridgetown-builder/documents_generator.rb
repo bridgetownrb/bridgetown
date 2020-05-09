@@ -2,7 +2,7 @@
 
 module Bridgetown
   module Builders
-    class VirtualGenerator < Bridgetown::Generator
+    class DocumentsGenerator < Bridgetown::Generator
       priority :high
 
       def self.add(path, block)

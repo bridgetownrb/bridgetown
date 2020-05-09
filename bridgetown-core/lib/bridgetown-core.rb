@@ -29,6 +29,7 @@ require "csv"
 require "json"
 
 # 3rd party
+require "active_support/core_ext/hash/indifferent_access"
 require "pathutil"
 require "addressable/uri"
 require "safe_yaml/load"

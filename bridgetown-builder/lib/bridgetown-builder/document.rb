@@ -8,7 +8,7 @@ module Bridgetown
       def initialize(site, path)
         @site = site
         @path = path
-        @data = {}.with_indifferent_access
+        @data = ActiveSupport::HashWithIndifferentAccess.new
       end
 
       def front_matter(data)

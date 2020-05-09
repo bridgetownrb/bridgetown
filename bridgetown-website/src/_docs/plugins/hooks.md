@@ -61,7 +61,7 @@ The complete list of available hooks is below:
         <p><code>:after_reset</code></p>
       </td>
       <td>
-        <p>Just after site reset</p>
+        <p>Just after site reset (all internal data structures are in a pristine state)</p>
       </td>
     </tr>
     <tr>
@@ -69,10 +69,10 @@ The complete list of available hooks is below:
         <p><code>:site</code></p>
       </td>
       <td>
-        <p><code>:after_setup</code></p>
+        <p><code>:pre_read</code></p>
       </td>
       <td>
-        <p>Just after site setup when all custom plugins, generators, etc. have loaded</p>
+        <p>After site setup/reset when all custom plugins, generators, etc. have loaded</p>
       </td>
     </tr>
     <tr>

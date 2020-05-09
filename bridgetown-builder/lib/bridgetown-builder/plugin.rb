@@ -35,13 +35,16 @@ module Bridgetown
             attr_reader :custom_name
           end
 
+          attr_reader :site
+
           def inspect
             "#{self.class.custom_name} (Generator)"
           end
 
           def generate(site)
+            @site = site
             block = self.class.generate_block
-            instance_exec(site, &block)
+            instance_exec &block
           end
         end
 
@@ -77,10 +80,13 @@ module Bridgetown
             "#{self.class.custom_name} (Liquid Tag)"
           end
 
+          attr_reader :site
+
           def render(context)
+            @site = context.registers[:site]
             block = self.class.render_block
             instance_exec(
-              @markup.strip, context.registers[:site], context.registers[:page], &block
+              @markup.strip, context.registers[:page], &block
             )
           end
         end
@@ -95,13 +101,13 @@ module Bridgetown
       end
 
       def add_data(data_key)
-        hook(:site, :post_read) do |site|
-          site.data[data_key] = yield(site).with_indifferent_access
+        hook(:site, :post_read) do
+          site.data[data_key] = yield
         end
       end
 
       def doc(path, &block)
-        VirtualGenerator.add(path, block)
+        DocumentsGenerator.add(path, block)
       end
 
       def get(url)

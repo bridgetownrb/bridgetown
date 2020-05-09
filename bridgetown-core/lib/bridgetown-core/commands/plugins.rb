@@ -47,6 +47,7 @@ module Bridgetown
         def list(options)
           site = Bridgetown::Site.new(configuration_from_options(options))
           site.reset
+          Bridgetown::Hooks.trigger :site, :pre_read, site
 
           pm = site.plugin_manager
 
@@ -73,10 +74,11 @@ module Bridgetown
             Bridgetown.logger.info("", "---")
           end
 
-          if defined?(SiteBuilder)
-            Bridgetown.logger.info("Builders:", SiteBuilder.descendants.length.to_s.yellow.bold)
+          unless Bridgetown.autoload? :Builder
+            builders = Bridgetown::Builder.descendants
+            Bridgetown.logger.info("Builders:", builders.length.to_s.yellow.bold)
 
-            SiteBuilder.descendants.each do |builder|
+            builders.each do |builder|
               name = builder.respond_to?(:custom_name) ? builder.custom_name : builder.name
               name_components = name.split("::")
               last_name = name_components.pop

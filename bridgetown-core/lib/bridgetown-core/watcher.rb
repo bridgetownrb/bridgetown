@@ -125,7 +125,7 @@ module Bridgetown
 
     def process(site, time)
       begin
-        Bridgetown::Hooks.trigger :site, :before_reload, site
+        Bridgetown::Hooks.trigger :site, :pre_reload, site
         Bridgetown::Hooks.clear_reloadable_hooks
         site.plugin_manager.reload_plugin_files
         site.process

@@ -3,13 +3,18 @@
 module Bridgetown
   # Superclass for a website's SiteBuilder abstract class
   class Builder < Bridgetown::Builders::PluginBuilder
+    class << self
+      def register
+        Bridgetown::Hooks.register_one :site, :pre_read, reloadable: false do |site|
+          new(name, site)
+        end
+      end
+    end
+
+    # Subclass is expected to implement #build
     def initialize(name, current_site = nil)
       super(name, current_site)
       build
-    end
-
-    def build
-      # subclass
     end
 
     def inspect
@@ -33,7 +38,7 @@ module Bridgetown
     def self.descendants
       @children ||= Set.new
       out = @children.map(&:descendants)
-      out << self unless name == "SiteBuilder"
+      out << self unless ["SiteBuilder", "Bridgetown::Builder"].include?(name)
       Set.new(out).flatten
     end
   end
