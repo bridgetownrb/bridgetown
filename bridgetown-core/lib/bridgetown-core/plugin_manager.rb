@@ -15,6 +15,10 @@ module Bridgetown
       @source_manifests << source_manifest
     end
 
+    def self.new_source_manifest(*args)
+      add_source_manifest(Bridgetown::Plugin::SourceManifest.new(*args))
+    end
+
     def self.add_registered_plugin(gem_or_plugin_file)
       @registered_plugins << gem_or_plugin_file
     end

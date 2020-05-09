@@ -141,13 +141,11 @@ class BridgetownUnitTest < Minitest::Test
 
   def load_plugin_content
     unless @plugin_loaded
-      Bridgetown::PluginManager.add_source_manifest(
-        Bridgetown::Plugin::SourceManifest.new(
-          origin: self,
-          components: test_dir("plugin_content", "components"),
-          content: test_dir("plugin_content", "content"),
-          layouts: test_dir("plugin_content", "layouts")
-        )
+      Bridgetown::PluginManager.new_source_manifest(
+        origin: self,
+        components: test_dir("plugin_content", "components"),
+        content: test_dir("plugin_content", "content"),
+        layouts: test_dir("plugin_content", "layouts")
       )
     end
     @plugin_loaded ||= true
