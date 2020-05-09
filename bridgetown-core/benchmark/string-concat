@@ -1,9 +1,14 @@
 #!/usr/bin/env ruby
-require 'benchmark/ips'
+# frozen_string_literal: true
 
-url = "https://jekyllrb.com"
+require "benchmark/ips"
+
+url = "https://www.bridgetownrb.com"
+urla = [url]
 
 Benchmark.ips do |x|
-  x.report('+=') { url += '/' }
-  x.report('<<') { url << '/' }
+  x.report("+=") { url += "/" }
+  x.report("<<") { url << "/" }
+  x.report("ary <<") { urla << "/" }
+  x.compare!
 end

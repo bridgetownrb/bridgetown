@@ -1,5 +1,9 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
+
+# **NOTE**: this benchmark shows the Schwartzian sort is a bit slower than the
+# sort_by_property_directly method. True for both Ruby 2.6.4 and 2.6.6
+# -JW, 5/9/2020
 #
 # The Ruby documentation for #sort_by describes what's called a Schwartzian transform:
 #
@@ -12,17 +16,17 @@
 #
 # The well-documented efficiency of sort_by is a good reason to use it. However, when a property
 # does not exist on an item being sorted, it can cause issues (no nil's allowed!)
-# In Jekyll::Filters#sort_input, we extract the property in each iteration of #sort,
+# In Bridgetown::Filters#sort_input, we extract the property in each iteration of #sort,
 # which is quite inefficient! How inefficient? This benchmark will tell you just how, and how much
 # it can be improved by using the Schwartzian transform. Thanks, Randall!
 
-require 'benchmark/ips'
-require 'minitest'
-require File.expand_path("../lib/jekyll", __dir__)
+require "benchmark/ips"
+require "minitest"
+require File.expand_path("../lib/bridgetown-core", __dir__)
 
 def site
-  @site ||= Jekyll::Site.new(
-    Jekyll.configuration("source" => File.expand_path("../docs", __dir__))
+  @site ||= Bridgetown::Site.new(
+    Bridgetown.configuration("root_dir" => File.expand_path("../../bridgetown-website", __dir__))
   ).tap(&:reset).tap(&:read)
 end
 
@@ -48,9 +52,9 @@ def sort_by_property_directly(docs, meta_key)
 end
 
 def schwartzian_transform(docs, meta_key)
-  docs.collect! { |d|
+  docs.collect! do |d|
     [d[meta_key], d]
-  }.sort! { |apple, orange|
+  end.sort! do |apple, orange|
     if !apple[0].nil? && !orange[0].nil?
       apple.first <=> orange.first
     elsif !apple[0].nil? && orange[0].nil?
@@ -60,7 +64,7 @@ def schwartzian_transform(docs, meta_key)
     else
       apple[-1] <=> orange[-1]
     end
-  }.collect! { |d| d[-1] }
+  end.collect! { |d| d[-1] }
 end
 
 # Before we test efficiency, do they produce the same output?
@@ -82,13 +86,13 @@ class Correctness
     assert sort_by_property_directly(@docs, @property).is_a?(Array), "sort_by_property_directly must return an array"
     assert schwartzian_transform(@docs, @property).is_a?(Array), "schwartzian_transform must return an array"
     assert_equal sort_by_property_directly(@docs, @property),
-      schwartzian_transform(@docs, @property)
+                 schwartzian_transform(@docs, @property)
     puts "Yeah, ok, correctness all checks out for property #{@property.inspect}"
   end
 end
 
-Correctness.new(site_docs, "redirect_from".freeze).assert!
-Correctness.new(site_docs, "title".freeze).assert!
+Correctness.new(site_docs, "hide_in_toc").assert!
+Correctness.new(site_docs, "title").assert!
 
 def test_property(property, meta_key)
   Benchmark.ips do |x|
@@ -104,7 +108,7 @@ def test_property(property, meta_key)
 end
 
 # First, test with a property only a handful of documents have.
-test_property('sparse', 'redirect_from')
+test_property("sparse", "hide_in_toc")
 
 # Next, test with a property they all have.
-test_property('non-sparse', 'title')
+test_property("non-sparse", "title")
