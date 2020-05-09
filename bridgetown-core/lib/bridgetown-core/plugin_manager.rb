@@ -90,10 +90,19 @@ module Bridgetown
     def require_plugin_files
       plugins_path.each do |plugin_search_path|
         plugin_files = Utils.safe_glob(plugin_search_path, File.join("**", "*.rb"))
-        plugin_files.each do |plugin_file|
+
+        # Require "site_builder.rb" first if present so subclasses can all
+        # inherit from SiteBuilder without needing explicit require statements
+        sorted_plugin_files = plugin_files.select do |path|
+          path.include?("site_builder.rb")
+        end + plugin_files.reject do |path|
+          path.include?("site_builder.rb")
+        end
+
+        sorted_plugin_files.each do |plugin_file|
           self.class.add_registered_plugin plugin_file
         end
-        Bridgetown::External.require_with_graceful_fail(plugin_files)
+        Bridgetown::External.require_with_graceful_fail(sorted_plugin_files)
       end
     end
 
