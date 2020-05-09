@@ -92,7 +92,7 @@ module Bridgetown
       self.layouts = {}
       self.pages = []
       self.static_files = []
-      self.data = {}
+      self.data = ActiveSupport::HashWithIndifferentAccess.new
       @post_attr_hash = {}
       @site_data = nil
       @collections = nil

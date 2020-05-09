@@ -5,7 +5,7 @@ module Bridgetown
     attr_reader :site, :content
     def initialize(site)
       @site = site
-      @content = {}
+      @content = ActiveSupport::HashWithIndifferentAccess.new
       @entry_filter = EntryFilter.new(site)
     end
 
