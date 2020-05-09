@@ -183,7 +183,11 @@ module Bridgetown
 
         next unless ENV["BRIDGETOWN_LOG_LEVEL"] == "debug"
 
-        generator_name = generator.class.respond_to?(:custom_name) ? generator.class.custom_name : generator.class.name
+        generator_name = if generator.class.respond_to?(:custom_name)
+                           generator.class.custom_name
+                         else
+                           generator.class.name
+                         end
         Bridgetown.logger.debug "Generating:",
                                 "#{generator_name} finished in #{Time.now - start} seconds."
       end

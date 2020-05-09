@@ -3,8 +3,8 @@
 module Bridgetown
   # Superclass for a website's SiteBuilder abstract class
   class Builder < Bridgetown::Builders::PluginBuilder
-    def initialize(name, _site = nil)
-      super(name, _site)
+    def initialize(name, current_site = nil)
+      super(name, current_site)
       build
     end
 

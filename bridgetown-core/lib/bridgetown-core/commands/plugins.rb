@@ -40,8 +40,8 @@ module Bridgetown
           end
         end
 
-        def output_supercommand_syntax(c)
-          puts c.to_s
+        def output_supercommand_syntax(supercmd)
+          puts supercmd.to_s
         end
 
         def list(options)
@@ -88,7 +88,7 @@ module Bridgetown
           Bridgetown.logger.info("Converters:", site.converters.length.to_s.yellow.bold)
 
           site.converters.each do |converter|
-            name = converter.class.respond_to?(:custom_name) ? converter.class.custom_name : converter.class.name
+            name = plugin_name_for(converter)
             name_components = name.split("::")
             last_name = name_components.pop
             name_components.push last_name.magenta
@@ -98,7 +98,7 @@ module Bridgetown
           Bridgetown.logger.info("Generators:", site.generators.length.to_s.yellow.bold)
 
           site.generators.each do |generator|
-            name = generator.class.respond_to?(:custom_name) ? generator.class.custom_name : generator.class.name
+            name = plugin_name_for(generator)
             name_components = name.split("::")
             last_name = name_components.pop
             name_components.push last_name.magenta
@@ -125,14 +125,16 @@ module Bridgetown
             return
           end
 
-          manifest = pm.class.source_manifests.find do |manifest|
-            manifest.origin.to_s == directive[0]
+          manifest = pm.class.source_manifests.find do |source_manifest|
+            source_manifest.origin.to_s == directive[0]
           end
 
           if manifest&.respond_to?(directive[1].downcase)
             dir = manifest.send(directive[1].downcase)
-            Bridgetown.logger.info("Opening the #{dir.green} folder for #{manifest.origin.to_s.cyan}…")
-            Bridgetown.logger.info("Type #{"exit".yellow} when you're done to return to your site root.")
+            Bridgetown.logger.info("Opening the #{dir.green} folder for" \
+                                   " #{manifest.origin.to_s.cyan}…")
+            Bridgetown.logger.info("Type #{"exit".yellow} when you're done to" \
+                                   " return to your site root.")
             puts
 
             Dir.chdir dir do
@@ -147,7 +149,16 @@ module Bridgetown
             puts
             Bridgetown.logger.info("Done!", "You're back in #{Dir.pwd.green}")
           else
-            Bridgetown.logger.warn("Oops!", "I wasn't able to find the #{directive[1]} folder for #{directive[0]}")
+            Bridgetown.logger.warn("Oops!", "I wasn't able to find the" \
+                                   " #{directive[1]} folder for #{directive[0]}")
+          end
+        end
+
+        def plugin_name_for(plugin)
+          if plugin.class.respond_to?(:custom_name)
+            plugin.class.custom_name
+          else
+            plugin.class.name
           end
         end
       end

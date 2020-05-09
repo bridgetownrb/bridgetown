@@ -5,13 +5,15 @@ module Bridgetown
     class PluginBuilder
       attr_accessor :functions, :name, :site, :config
 
-      def initialize(name, _site = nil)
+      def initialize(name, current_site = nil)
         self.functions = Set.new
         self.name = name
-        self.site = _site || Bridgetown.sites.first
+        self.site = current_site || Bridgetown.sites.first
 
         self.config = if defined?(self.class::CONFIG_DEFAULTS)
-                        Bridgetown::Utils.deep_merge_hashes(self.class::CONFIG_DEFAULTS, site.config)
+                        Bridgetown::Utils.deep_merge_hashes(
+                          self.class::CONFIG_DEFAULTS, site.config
+                        )
                       else
                         site.config
                       end
@@ -21,9 +23,10 @@ module Bridgetown
         "#{name} (Hook)"
       end
 
+      # rubocop:disable Metrics/AbcSize
       def generator(&block)
         custom_name = name
-        gen = Class.new(Bridgetown::Generator) do
+        new_gen = Class.new(Bridgetown::Generator) do
           @generate_block = block
           @custom_name = custom_name
 
@@ -43,10 +46,11 @@ module Bridgetown
         end
 
         first_low_priority_index = site.generators.find_index { |gen| gen.class.priority == :low }
-        site.generators.insert(first_low_priority_index, gen.new(site.config))
+        site.generators.insert(first_low_priority_index, new_gen.new(site.config))
 
-        functions << { name: name, generator: gen }
+        functions << { name: name, generator: new_gen }
       end
+      # rubocop:enable Metrics/AbcSize
 
       def liquid_filter(filter_name, &block)
         m = Module.new
@@ -64,7 +68,9 @@ module Bridgetown
 
           class << self
             attr_reader :render_block
+            # rubocop:disable Lint/DuplicateMethods
             attr_reader :custom_name
+            # rubocop:enable Lint/DuplicateMethods
           end
 
           def inspect

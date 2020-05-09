@@ -15,6 +15,7 @@ module Bridgetown
         @data.merge!(data)
       end
 
+      # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       def _add_document_to_site
         @collection = (@data[:collection] || :posts).to_s
         collection = @site.collections[@collection]
@@ -24,14 +25,21 @@ module Bridgetown
           @site.collections[@collection] = collection
         end
 
-        doc = Document.new(File.join(collection.directory, @path), site: @site, collection: collection)
+        doc = Document.new(
+          File.join(collection.directory, @path),
+          site: @site,
+          collection: collection
+        )
         doc.send(:merge_defaults)
         doc.content = @data[:content]
         @data.delete(:content)
 
         if @path.start_with?("/")
           pathname = Pathname.new(@path)
-          @data[:permalink] = File.join(pathname.dirname, pathname.basename.sub(pathname.extname, "")) + "/"
+          @data[:permalink] = File.join(
+            pathname.dirname,
+            pathname.basename.sub(pathname.extname, "")
+          ) + "/"
         end
 
         doc.merge_data!(@data)
@@ -39,7 +47,9 @@ module Bridgetown
 
         collection.docs << doc
       end
+      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
+      # rubocop:disable Style/MissingRespondToMissing
       def method_missing(key, value = nil)
         if respond_to?(key)
           super
@@ -47,6 +57,7 @@ module Bridgetown
           @data[key] = value
         end
       end
+      # rubocop:enable Style/MissingRespondToMissing
     end
   end
 end

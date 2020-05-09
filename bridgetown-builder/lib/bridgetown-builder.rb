@@ -23,7 +23,6 @@ Bridgetown::Hooks.register_one :site, :after_reset, reloadable: false do |site|
     end
 
     SiteBuilder.descendants.map do |c|
-      p "Instantiating decendants! #{c.name}"
       c.new(c.name, site)
     end
   end
