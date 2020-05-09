@@ -2,13 +2,13 @@
 
 require "bridgetown-builder/dsl/generators"
 require "bridgetown-builder/dsl/hooks"
-require "bridgetown-builder/dsl/tags"
+require "bridgetown-builder/dsl/liquid"
 module Bridgetown
   module Builders
     class PluginBuilder
       include DSL::Generators
       include DSL::Hooks
-      include DSL::Tags
+      include DSL::Liquid
 
       attr_accessor :functions, :name, :site, :config
 
@@ -19,7 +19,7 @@ module Bridgetown
 
         self.config = if defined?(self.class::CONFIG_DEFAULTS)
                         Bridgetown::Utils.deep_merge_hashes(
-                          self.class::CONFIG_DEFAULTS, site.config
+                          self.class::CONFIG_DEFAULTS.with_indifferent_access, site.config
                         )
                       else
                         site.config

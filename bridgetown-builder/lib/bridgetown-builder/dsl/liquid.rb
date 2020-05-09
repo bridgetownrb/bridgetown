@@ -3,18 +3,18 @@
 module Bridgetown
   module Builders
     module DSL
-      module Tags
+      module Liquid
         def liquid_filter(filter_name, &block)
           m = Module.new
           m.send(:define_method, filter_name, &block)
-          Liquid::Template.register_filter(m)
+          ::Liquid::Template.register_filter(m)
 
           functions << { name: name, filter: m }
         end
 
-        def liquid_tag(tag_name, block_tag: false, &block)
+        def liquid_tag(tag_name, as_block: false, &block)
           custom_name = name
-          tag_class = block_tag ? Liquid::Block : Liquid::Tag
+          tag_class = as_block ? ::Liquid::Block : ::Liquid::Tag
           tag = Class.new(tag_class) do
             @render_block = block
             @custom_name = custom_name
@@ -28,19 +28,19 @@ module Bridgetown
               "#{self.class.custom_name} (Liquid Tag)"
             end
 
-            attr_reader :site
+            attr_reader :site, :content
 
             def render(context)
               @site = context.registers[:site]
-              @content = super if is_a?(Liquid::Block)
+              @content = super if is_a?(::Liquid::Block)
               block = self.class.render_block
               instance_exec(
-                @markup.strip, context.registers[:page], &block
+                @markup.strip, context, &block
               )
             end
           end
 
-          Liquid::Template.register_tag tag_name, tag
+          ::Liquid::Template.register_tag tag_name, tag
           functions << { name: name, tag: [tag_name, tag] }
         end
       end
