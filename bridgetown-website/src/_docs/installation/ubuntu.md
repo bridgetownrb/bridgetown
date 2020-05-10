@@ -1,5 +1,5 @@
 ---
-title: Bridgetown on macOS
+title: Bridgetown on Ubuntu
 hide_in_toc: true
 category: installation
 ruby_version: 2.6.6
