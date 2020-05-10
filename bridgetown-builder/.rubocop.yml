@@ -12,3 +12,6 @@ Metrics/AbcSize:
 Metrics/MethodLength:
   Exclude:
     - lib/bridgetown-builder/dsl/*
+Metrics/ParameterLists:
+  Exclude:
+    - lib/bridgetown-builder/dsl/hooks.rb

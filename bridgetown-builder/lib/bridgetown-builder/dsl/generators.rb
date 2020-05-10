@@ -6,15 +6,11 @@ module Bridgetown
       module Generators
         def generator(method_name = nil, &block)
           block = method(method_name) if method_name.is_a?(Symbol)
+          local_name = name # pull the name method into a local variable
 
-          custom_name = name
           new_gen = Class.new(Bridgetown::Generator) do
             define_method(:_builder_block) { block }
-
-            @custom_name = custom_name
-            class << self
-              attr_reader :custom_name
-            end
+            define_singleton_method(:custom_name) { local_name }
 
             attr_reader :site
 

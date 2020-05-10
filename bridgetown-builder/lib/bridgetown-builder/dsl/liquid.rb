@@ -16,26 +16,21 @@ module Bridgetown
 
         def liquid_tag(tag_name, method_name = nil, as_block: false, &block)
           block = method(method_name) if method_name.is_a?(Symbol)
+          local_name = name # pull the name method into a local variable
 
-          custom_name = name
           tag_class = as_block ? ::Liquid::Block : ::Liquid::Tag
           tag = Class.new(tag_class) do
             define_method(:_builder_block) { block }
-
-            @custom_name = custom_name
-            class << self
-              attr_reader :custom_name
-            end
+            define_singleton_method(:custom_name) { local_name }
 
             def inspect
               "#{self.class.custom_name} (Liquid Tag)"
             end
 
-            attr_reader :site, :content, :context
+            attr_reader :content, :context
 
             def render(context)
               @context = context
-              @site = context.registers[:site]
               @content = super if is_a?(::Liquid::Block)
               _builder_block.call(@markup.strip, self)
             end
