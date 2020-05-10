@@ -5,6 +5,7 @@ require "helper"
 class TestDocuments < BridgetownUnitTest
   context "creating a document" do
     setup do
+      Bridgetown.sites.clear
       @site = Site.new(site_configuration)
       Builders::DocumentsGenerator.clear_documents_to_generate
       @generator = Builders::DocumentsGenerator.new(@site.config)

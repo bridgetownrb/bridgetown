@@ -4,7 +4,9 @@ module Bridgetown
   module Builders
     module DSL
       module Liquid
-        def liquid_filter(filter_name, &block)
+        def liquid_filter(filter_name, method_name = nil, &block)
+          block = method(method_name) if method_name.is_a?(Symbol)
+
           m = Module.new
           m.send(:define_method, filter_name, &block)
           ::Liquid::Template.register_filter(m)
@@ -12,7 +14,9 @@ module Bridgetown
           functions << { name: name, filter: m }
         end
 
-        def liquid_tag(tag_name, as_block: false, &block)
+        def liquid_tag(tag_name, method_name = nil, as_block: false, &block)
+          block = method(method_name) if method_name.is_a?(Symbol)
+
           custom_name = name
           tag_class = as_block ? ::Liquid::Block : ::Liquid::Tag
           tag = Class.new(tag_class) do
@@ -28,14 +32,15 @@ module Bridgetown
               "#{self.class.custom_name} (Liquid Tag)"
             end
 
-            attr_reader :site, :content
+            attr_reader :site, :content, :context
 
             def render(context)
+              @context = context
               @site = context.registers[:site]
               @content = super if is_a?(::Liquid::Block)
               block = self.class.render_block
               instance_exec(
-                @markup.strip, context, &block
+                @markup.strip, self, &block
               )
             end
           end

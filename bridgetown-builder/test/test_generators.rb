@@ -13,6 +13,7 @@ end
 class TestGenerators < BridgetownUnitTest
   context "creating a generator" do
     setup do
+      Bridgetown.sites.clear
       @site = Site.new(site_configuration)
       @builder = GeneratorBuilder.new("Generator Test", @site)
     end

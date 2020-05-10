@@ -26,6 +26,7 @@ end
 class TestHooks < BridgetownUnitTest
   context "builder hooks" do
     setup do
+      Bridgetown.sites.clear
       @site = Site.new(site_configuration)
       @builder = HooksBuilder.new("Hooks Test", @site)
     end

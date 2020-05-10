@@ -13,8 +13,8 @@ class TagsBuilder < Builder
       content.upcase
     end
 
-    liquid_tag "testing_context" do |_attributes, context|
-      "context value #{context.registers[:value]}, #{context["yay"]}"
+    liquid_tag "testing_context" do |_attributes, tag|
+      "context value #{tag.context.registers[:value]}, #{tag.context["yay"]}"
     end
   end
 end
@@ -22,6 +22,7 @@ end
 class TestTagsDSL < BridgetownUnitTest
   context "adding a Liquid tag" do
     setup do
+      Bridgetown.sites.clear
       @site = Site.new(site_configuration)
       @builder = TagsBuilder.new("TagsDSL", @site)
     end

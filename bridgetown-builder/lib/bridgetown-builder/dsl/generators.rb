@@ -4,7 +4,9 @@ module Bridgetown
   module Builders
     module DSL
       module Generators
-        def generator(&block)
+        def generator(method_name = nil, &block)
+          block = method(method_name) if method_name.is_a?(Symbol)
+
           custom_name = name
           new_gen = Class.new(Bridgetown::Generator) do
             @generate_block = block
@@ -29,7 +31,7 @@ module Bridgetown
           end
 
           first_low_priority_index = site.generators.find_index { |gen| gen.class.priority == :low }
-          site.generators.insert(first_low_priority_index, new_gen.new(site.config))
+          site.generators.insert(first_low_priority_index || 0, new_gen.new(site.config))
 
           functions << { name: name, generator: new_gen }
         end
