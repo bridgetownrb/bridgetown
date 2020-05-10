@@ -20,11 +20,10 @@ module Bridgetown
           custom_name = name
           tag_class = as_block ? ::Liquid::Block : ::Liquid::Tag
           tag = Class.new(tag_class) do
-            @render_block = block
-            @custom_name = custom_name
+            define_method(:_builder_block) { block }
 
+            @custom_name = custom_name
             class << self
-              attr_reader :render_block
               attr_reader :custom_name
             end
 
@@ -38,10 +37,7 @@ module Bridgetown
               @context = context
               @site = context.registers[:site]
               @content = super if is_a?(::Liquid::Block)
-              block = self.class.render_block
-              instance_exec(
-                @markup.strip, self, &block
-              )
+              _builder_block.call(@markup.strip, self)
             end
           end
 

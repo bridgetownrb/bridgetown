@@ -9,11 +9,10 @@ module Bridgetown
 
           custom_name = name
           new_gen = Class.new(Bridgetown::Generator) do
-            @generate_block = block
-            @custom_name = custom_name
+            define_method(:_builder_block) { block }
 
+            @custom_name = custom_name
             class << self
-              attr_reader :generate_block
               attr_reader :custom_name
             end
 
@@ -23,10 +22,8 @@ module Bridgetown
               "#{self.class.custom_name} (Generator)"
             end
 
-            def generate(site)
-              @site = site
-              block = self.class.generate_block
-              instance_exec(&block)
+            def generate(_site)
+              _builder_block.call
             end
           end
 
