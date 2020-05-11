@@ -2,12 +2,14 @@
 
 require "bridgetown-builder/dsl/generators"
 require "bridgetown-builder/dsl/hooks"
+require "bridgetown-builder/dsl/http"
 require "bridgetown-builder/dsl/liquid"
 module Bridgetown
   module Builders
     class PluginBuilder
       include DSL::Generators
       include DSL::Hooks
+      include DSL::HTTP
       include DSL::Liquid
 
       attr_accessor :functions, :name, :site, :config
@@ -32,16 +34,6 @@ module Bridgetown
 
       def doc(path, &block)
         DocumentsGenerator.add(path, block)
-      end
-
-      def get(url)
-        body = connection.get(url).body
-        data = JSON.parse(body, symbolize_names: true) rescue nil
-        yield data || body
-      end
-
-      def connection
-        Faraday.new(headers: { "Content-Type" => "application/json" })
       end
     end
   end

@@ -16,7 +16,7 @@ class MethodSymbolsBuilder < Builder
     # to track this down…seemed to be a non-determinisitic artifact of the testing
     # process itself. Finally gave up on it. Hoping something odd like that
     # doesn't come up in actual CLI usage! -JW
-    @site.data[:site_metadata] = { title: "Test Title in Method Symbols" }
+    site.data[:site_metadata] = { title: "Test Title in Method Symbols" }
   end
 
   def upcase_tag(attributes, tag)
