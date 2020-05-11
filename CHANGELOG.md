@@ -1,5 +1,7 @@
 # master
 
+* Add Bundler cache to the build GH action to improve test speed [#40](https://github.com/bridgetownrb/bridgetown/pull/40) ([andrewmcodes](https://github.com/andrewmcodes))
+
 # 0.13.0 "Klickitat" / 2020-05-05
 
 * Configurable setting to allow executable Ruby code in Front Matter [#9](https://github.com/bridgetownrb/bridgetown/pull/9)
