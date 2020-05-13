@@ -1,5 +1,5 @@
 ---
-order: 4
+order: 4.2
 next_page_order: 4.5
 title: Command Line Usage
 top_section: Setup

@@ -13,6 +13,8 @@ During the development process, you will likely be running Bridgetown from the c
 
 For more background on this development approach, [read up on our Jamstack primer](/docs/jamstack/).
 
+For a succinct overview of how the Bridgetown build process works and what goes into creating a site, [read our Core Concepts guide](/docs/core-concepts/).
+
 ## Quick Instructions
 
 Read [requirements]({{ '/docs/installation' | relative_url }}) for more information on what you'll need to have set up in advance.
@@ -49,8 +51,11 @@ $ yarn start
 
 If you encounter any errors during this process, try revisiting your installation and setup steps, and if all else fails, [reach out to the Bridgetown community for support](/docs/community/). Also, make sure you've installed the development headers and other prerequisites as mentioned in the [Requirements](/docs/installation/#requirements) section.
 
-Bridgetown comes with the `bridgetown` CLI tool, so be sure to read up on the [command
-line usage documentation](/docs/command-line-usage).
-
-{:.note}
+{% rendercontent "docs/note" %}
 More detailed installation instructions for macOS, Ubuntu Linux, and Windows 10 are [available here](/docs/installation/#guides).
+{% endrendercontent %}
+
+Bridgetown comes with the `bridgetown` CLI tool as well as several Yarn scripts,
+so be sure to read up on the [command line usage documentation](/docs/command-line-usage).
+
+Also read up on [Bridgetown's Core Concepts](/docs/core-concepts/) to gain familiarity with the basic building blocks and workflow of Bridgetown.

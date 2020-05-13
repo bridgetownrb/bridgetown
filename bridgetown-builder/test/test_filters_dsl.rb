@@ -11,6 +11,11 @@ class FiltersBuilder < Builder
     liquid_filter "multiply_by_anything" do |input, anything|
       input * anything
     end
+
+    liquid_filter "multiply_and_optionally_add" do |input, multiply_by, add_by = nil|
+      value = input * multiply_by
+      add_by ? value + add_by : value
+    end
   end
 end
 
@@ -32,6 +37,16 @@ class TestFilterDSL < BridgetownUnitTest
       content = "5 times 10 equals {{ 5 | multiply_by_anything:10 }}"
       result = Liquid::Template.parse(content).render
       assert_equal "5 times 10 equals 50", result
+    end
+
+    should "support optional arguments" do
+      content = "5 times 10 equals {{ 5 | multiply_and_optionally_add:10 }}"
+      result = Liquid::Template.parse(content).render
+      assert_equal "5 times 10 equals 50", result
+
+      content = "5 times 10 plus 3 equals {{ 5 | multiply_and_optionally_add:10, 3 }}"
+      result = Liquid::Template.parse(content).render
+      assert_equal "5 times 10 plus 3 equals 53", result
     end
   end
 end

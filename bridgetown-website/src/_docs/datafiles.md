@@ -14,7 +14,7 @@ Note that CSV and TSV files *must* contain a header row.
 This powerful feature allows you to avoid repetition in your templates and to
 set site specific options without changing `bridgetown.config.yml`.
 
-Plugins can also leverage Data Files to set configuration variables.
+{% toc %}
 
 ## The Data Folder
 

@@ -8,12 +8,6 @@ category: plugins
 You can write a generator when you need Bridgetown to add data to existing content
 or to programmatically create new pages, posts, and the like.
 
-You define a generator by subclassing `Bridgetown::Generator`. It accepts a
-single `generate` method, which receives an instance of
-[`Bridgetown::Site`](https://github.com/{{ site.metadata.github }}/blob/master/bridgetown-core/lib/bridgetown-core/site.rb). (The return value of `generate` is
-ignored.) Within this `generate` method, you have free reign to modify existing
-content or add new content.
-
 Generators run after Bridgetown has made an inventory of the existing content, but
 before the site is rendered out. Pages with front matter are stored as instances of
 [`Bridgetown::Page`](https://github.com/{{ site.metadata.github }}/blob/master/bridgetown-core/lib/bridgetown-core/page.rb)
@@ -24,6 +18,32 @@ and are available via `site.static_files`. See
 [`Bridgetown::Site`](https://github.com/{{ site.metadata.github }}/blob/master/bridgetown-core/lib/bridgetown-core/site.rb)
 for more details.
 
+## Builder API
+
+Simply add a `generator` call to your `build` method. You can supply a block or pass in a method name as a symbol.
+
+```
+def build
+  generator do
+    # update or add content here
+  end
+
+  generator :build_search_index
+end
+
+def build_search_index
+  # do some search index building :)
+end
+```
+ 
+## Legacy API
+
+You can define a generator by subclassing `Bridgetown::Generator`. It accepts a
+single `generate` method, which receives an instance of
+[`Bridgetown::Site`](https://github.com/{{ site.metadata.github }}/blob/master/bridgetown-core/lib/bridgetown-core/site.rb). (The return value of `generate` is
+ignored.) Within this `generate` method, you have free reign to modify existing
+content or add new content.
+
 ## Adding Data to Existing Pages
 
 A generator can inject values computed at build time into page variables. In the
@@ -31,9 +51,9 @@ following example, the page `reading.html` will have two variables `ongoing` and
 that get added via the generator:
 
 ```ruby
-module Reading
-  class Generator < Bridgetown::Generator
-    def generate(site)
+class BookStatus < SiteBuilder
+  def build
+    generator do
       book_status = remote_data # perhaps fetching data from an API
 
       reading = site.pages.detect {|page| page.name == 'reading.html'}
@@ -70,9 +90,9 @@ Posts:
 
 *plugins/category_pages.rb:*
 ```ruby
-module MySite
-  class CategoryPageGenerator < Bridgetown::Generator
-    def generate(site)
+class CategoryPages < SiteBuilder
+  def build
+    generate do
       if site.layouts.key? "category_index"
         site.categories.each_key do |category|
           site.pages << CategoryPage.new(site, category)
@@ -81,7 +101,7 @@ module MySite
     end
   end
 
-  # A Page subclass used in the `CategoryPageGenerator`
+  # A Page subclass
   class CategoryPage < Bridgetown::Page
     def initialize(site, category)
       @site = site
@@ -110,8 +130,6 @@ logic (just as if the page were literally saved in the source folder), but if yo
 programmatic control over the URL in your page subclass, simply set the `@url` instance
 variable in your page initializer.
 
-{% rendercontent "docs/note" %}
-By default, Bridgetown looks for generators in the `plugins` folder. However, you can
-change the default folder by assigning the desired name to the key `plugins_dir` in the
-config file.
+{% rendercontent "docs/note", title: "Top Tip: Try Using Prototype Pages First" %}
+This example shows you how you can use generators to create new category pages, but you should probably instead create a [Prototype Page](/docs/prototype-pages/). Use generators only when prototype pages aren’t sufficient for your use case.
 {% endrendercontent %}

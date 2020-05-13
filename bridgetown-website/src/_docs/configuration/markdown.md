@@ -58,7 +58,7 @@ end
 ```
 
 Once you've created your class and have it properly set up either as a plugin
-in the `_plugins` folder or as a gem, specify it in your `bridgetown.config.yml`:
+in the `plugins` folder or as a gem, specify it in your `bridgetown.config.yml`:
 
 ```yaml
 markdown: MyCustomProcessor

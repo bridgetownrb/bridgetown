@@ -10,7 +10,9 @@ triple-dashed lines at the top of a file. You use front matter to add metadata,
 like a title or a description, to files such as pages and posts as well as site
 layouts. Front matter can be used in various ways to set configuration options
 on a per-file basis, and starting with Bridgetown v0.13, you can even write Ruby
-code for dynamic front matter variables ([see details below](/docs/front-matter/#ruby-front-matter)).
+code for dynamic front matter variables.
+
+{% toc %}
 
 ## Using Front Matter
 

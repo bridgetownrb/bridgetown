@@ -42,6 +42,10 @@ html.is-animating {
     margin-top: 1em;
     margin-bottom: 1em;
   }
+
+  h2:not(:first-child) {
+    margin-top: 1.4285em;
+  }
 }
 
 body.docs .content {
@@ -161,5 +165,29 @@ table.settings {
         text-align: right !important;
       }
     }
+  }
+}
+
+h2.no_toc {
+  color: $orange;
+}
+ul#markdown-toc {
+  border-left: solid 5px $orange;
+  margin-left: -2rem;
+  margin-bottom: 4.25rem !important;
+
+  list-style-type: none;
+  padding-left: calc(2rem - 5px);
+
+  ul {
+    margin-top: 0.5em !important;
+    margin-bottom: 1em !important;
+  }
+  li + li {
+    margin-top: 0.2em;
+  }
+  a {
+    text-decoration: none;
+    font-weight: 500;
   }
 }

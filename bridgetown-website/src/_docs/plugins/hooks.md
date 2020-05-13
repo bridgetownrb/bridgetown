@@ -16,10 +16,22 @@ custom functionality every time Bridgetown renders a post, you could register a
 hook like this:
 
 ```ruby
+# Builder API
+def build
+  hook :posts, :post_render do |post|
+    # code to call after Bridgetown renders a post
+  end
+end
+```
+
+```ruby
+# Legacy API
 Bridgetown::Hooks.register :posts, :post_render do |post|
   # code to call after Bridgetown renders a post
 end
 ```
+
+Be aware that the `build` method of the Builder API is called during the `pre_read` site event, so you won't be able to write a hook for any earlier events (`after_init` for example). In those cases, you will still need to use the Legacy API.
 
 Bridgetown provides hooks for <code>:site</code>, <code>:pages</code>,
 <code>:posts</code>, <code>:documents</code> and <code>:clean</code>. In all
@@ -30,7 +42,41 @@ payload gives you full control over the variables that are available while
 rendering. In the case of `:site, :post_render`, the payload contains final
 values after rendering all the site (useful for sitemaps, feeds, etc).
 
-The complete list of available hooks is below:
+## Priorities
+
+Hooks can be registered with a priority of high, normal, or low, and are run according to that order. The default priority is normal. To register with a different priority other than normal:
+
+```ruby
+# Builder API
+def build
+  hook :posts, :post_render, priority: :high do |post|
+    # High priority code to call after Bridgetown renders a post
+  end
+end
+```
+
+```ruby
+# Legacy API
+Bridgetown::Hooks.register :posts, :post_render, priority: :low do |post|
+  # Low priority code to call after Bridgetown renders a post
+end
+```
+
+## Reloadable vs. Non-Reloadable Hooks
+
+Starting with Bridgetown 0.14, all hooks are cleared during **watch** mode (aka `bridgetown build -w` or `bridgetown serve`) whenever plugin or content files are updated. This makes sense for plugins that are part of the site repository and are therefore reloaded automatically.
+
+However, for gem-based plugins, you will want to make sure you define your hooks as _non-reloadable_, otherwise your hooks will vanish any time the site is updated during watch mode.
+
+```ruby
+def build
+  hook :site, :post_read, reloadable: false do |post|
+    # do something with site data after it's read from disk
+  end
+end
+```
+
+## Complete List of Hooks
 
 <table class="settings biggest-output">
   <thead>
@@ -72,7 +118,7 @@ The complete list of available hooks is below:
         <p><code>:pre_read</code></p>
       </td>
       <td>
-        <p>After site setup/reset when all custom plugins, generators, etc. have loaded</p>
+        <p>After site reset/setup when all custom plugins, generators, etc. have loaded</p>
       </td>
     </tr>
     <tr>
