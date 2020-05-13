@@ -1240,6 +1240,12 @@ class TestFilters < BridgetownUnitTest
       end
     end
 
+    context "titleize filter" do
+      should "return a titliezed string" do
+        assert_equal "Q Bert Says Howdy There", @filter.titleize("q-bert_says howdy there")
+      end
+    end
+
     context "push filter" do
       should "return a new array with the element pushed to the end" do
         assert_equal %w(hi there bernie), @filter.push(%w(hi there), "bernie")

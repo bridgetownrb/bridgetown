@@ -63,6 +63,16 @@ module Bridgetown
       Utils.slugify(input, mode: mode)
     end
 
+    # Titleize a slug or identifier string.
+    #
+    # input - The string to titleize.
+    #
+    # Returns a transformed string with spaces and capitalized words.
+    # See Utils.titleize_slug for more detail.
+    def titleize(input)
+      Utils.titleize_slug(input)
+    end
+
     # XML escape a string for use. Replaces any special characters with
     # appropriate HTML entity replacements.
     #
