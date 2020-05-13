@@ -5,7 +5,7 @@ module Bridgetown
     attr_reader :site, :content
     def initialize(site)
       @site = site
-      @content = {}
+      @content = ActiveSupport::HashWithIndifferentAccess.new
       @entry_filter = EntryFilter.new(site)
     end
 
@@ -41,7 +41,10 @@ module Bridgetown
         next if @entry_filter.symlink?(path)
 
         if File.directory?(path)
-          read_data_to(path, data[sanitize_filename(entry)] = {})
+          read_data_to(
+            path,
+            data[sanitize_filename(entry)] = ActiveSupport::HashWithIndifferentAccess.new
+          )
         else
           key = sanitize_filename(File.basename(entry, ".*"))
           data[key] = read_data_file(path)

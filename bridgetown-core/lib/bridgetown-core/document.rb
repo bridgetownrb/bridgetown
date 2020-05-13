@@ -59,7 +59,7 @@ module Bridgetown
     # Returns a Hash containing the data. An empty hash is returned if
     #   no data was read.
     def data
-      @data ||= {}
+      @data ||= ActiveSupport::HashWithIndifferentAccess.new
     end
 
     # Merge some data in with this document's data.

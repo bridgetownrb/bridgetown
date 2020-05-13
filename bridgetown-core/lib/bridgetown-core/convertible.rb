@@ -42,7 +42,7 @@ module Bridgetown
                                  **Utils.merged_file_read_opts(site, opts))
         if content =~ Document::YAML_FRONT_MATTER_REGEXP
           self.content = $POSTMATCH
-          self.data = SafeYAML.load(Regexp.last_match(1))
+          self.data = SafeYAML.load(Regexp.last_match(1))&.with_indifferent_access
         end
       rescue Psych::SyntaxError => e
         Bridgetown.logger.warn "YAML Exception reading #{filename}: #{e.message}"
@@ -52,7 +52,7 @@ module Bridgetown
         raise e if site.config["strict_front_matter"]
       end
 
-      self.data ||= {}
+      self.data ||= ActiveSupport::HashWithIndifferentAccess.new
 
       validate_data! filename
       validate_permalink! filename

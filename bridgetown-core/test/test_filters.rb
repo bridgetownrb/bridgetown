@@ -773,7 +773,11 @@ class TestFilters < BridgetownUnitTest
         grouping = @filter.group_by(@filter.site.pages, "layout")
         grouping.each do |g|
           assert(
-            ["default", "nil", ""].include?(g["name"]),
+            ["default",
+             "example/test_layout",
+             "example/overridden_layout",
+             "nil",
+             "",].include?(g["name"]),
             "#{g["name"]} isn't a valid grouping."
           )
           case g["name"]
@@ -782,9 +786,7 @@ class TestFilters < BridgetownUnitTest
               g["items"].is_a?(Array),
               "The list of grouped items for 'default' is not an Array."
             )
-            # adjust array.size to ignore symlinked page in Windows
-            qty = Utils::Platforms.really_windows? ? 4 : 5
-            assert_equal qty, g["items"].size
+            assert_equal 5, g["items"].size
           when "nil"
             assert(
               g["items"].is_a?(Array),
@@ -796,9 +798,7 @@ class TestFilters < BridgetownUnitTest
               g["items"].is_a?(Array),
               "The list of grouped items for '' is not an Array."
             )
-            # adjust array.size to ignore symlinked page in Windows
-            qty = Utils::Platforms.really_windows? ? 14 : 16
-            assert_equal qty, g["items"].size
+            assert_equal 17, g["items"].size
           end
         end
       end
@@ -1066,7 +1066,11 @@ class TestFilters < BridgetownUnitTest
         groups = @filter.group_by_exp(@filter.site.pages, "page", "page.layout | upcase")
         groups.each do |g|
           assert(
-            ["DEFAULT", "NIL", ""].include?(g["name"]),
+            ["DEFAULT",
+             "EXAMPLE/TEST_LAYOUT",
+             "EXAMPLE/OVERRIDDEN_LAYOUT",
+             "NIL",
+             "",].include?(g["name"]),
             "#{g["name"]} isn't a valid grouping."
           )
           case g["name"]
@@ -1075,9 +1079,7 @@ class TestFilters < BridgetownUnitTest
               g["items"].is_a?(Array),
               "The list of grouped items for 'default' is not an Array."
             )
-            # adjust array.size to ignore symlinked page in Windows
-            qty = Utils::Platforms.really_windows? ? 4 : 5
-            assert_equal qty, g["items"].size
+            assert_equal 5, g["items"].size
           when "nil"
             assert(
               g["items"].is_a?(Array),
@@ -1089,9 +1091,7 @@ class TestFilters < BridgetownUnitTest
               g["items"].is_a?(Array),
               "The list of grouped items for '' is not an Array."
             )
-            # adjust array.size to ignore symlinked page in Windows
-            qty = Utils::Platforms.really_windows? ? 14 : 16
-            assert_equal qty, g["items"].size
+            assert_equal 17, g["items"].size
           end
         end
       end

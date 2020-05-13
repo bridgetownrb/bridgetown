@@ -57,7 +57,6 @@ module Bridgetown
       assign_highlighter_options!
       assign_layout_data!
 
-      Bridgetown.logger.debug "Pre-Render Hooks:", document.relative_path
       document.trigger_hooks(:pre_render, payload)
 
       render_document
@@ -130,15 +129,13 @@ module Bridgetown
     # Returns String the converted content.
     def convert(content)
       converters.reduce(content) do |output, converter|
-        begin
-          converter.convert output
-        rescue StandardError => e
-          Bridgetown.logger.error "Conversion error:",
-                                  "#{converter.class} encountered an error while "\
-                                  "converting '#{document.relative_path}':"
-          Bridgetown.logger.error("", e.to_s)
-          raise e
-        end
+        converter.convert output
+      rescue StandardError => e
+        Bridgetown.logger.error "Conversion error:",
+                                "#{converter.class} encountered an error while "\
+                                "converting '#{document.relative_path}':"
+        Bridgetown.logger.error("", e.to_s)
+        raise e
       end
     end
 

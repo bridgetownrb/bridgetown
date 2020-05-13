@@ -8,9 +8,10 @@ require:
 Bridgetown/NoPutsAllowed:
   Exclude:
     - rake/*.rake
+    - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
 
 AllCops:
-  TargetRubyVersion: 2.4
+  TargetRubyVersion: 2.5
   Include:
     - bridgetown-core/lib/**/*.rb
     - bridgetown-core/test/**/*.rb
@@ -54,6 +55,8 @@ Lint/Void:
     - bridgetown-core/lib/bridgetown-core/site.rb
 Metrics/AbcSize:
   Max: 21
+  Exclude:
+    - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
 Metrics/BlockLength:
   Exclude:
     - bridgetown-core/test/**/*.rb
@@ -72,6 +75,7 @@ Metrics/CyclomaticComplexity:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/utils.rb
     - bridgetown-core/lib/bridgetown-core/commands/serve.rb
+    - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
 Layout/LineLength:
   Exclude:
     - !ruby/regexp /bridgetown-core/features\/.*.rb/
@@ -84,25 +88,27 @@ Metrics/MethodLength:
   CountComments: false
   Max: 20
   Severity: error
+  Exclude:
+    - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
 Metrics/ModuleLength:
   Max: 240
   Exclude:
     - bridgetown-core/lib/bridgetown-core/filters.rb
 Metrics/ParameterLists:
   Max: 4
+  Exclude:
+    - bridgetown-core/lib/bridgetown-core/hooks.rb
 Metrics/PerceivedComplexity:
   Max: 8
+  Exclude:
+    - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
 Naming/FileName:
   Enabled: false
 Naming/HeredocDelimiterNaming:
   Exclude:
     - bridgetown-core/test/**/*.rb
 Naming/MemoizedInstanceVariableName:
-  Exclude:
-    - bridgetown-core/lib/bridgetown-core/convertible.rb
-    - bridgetown-core/lib/bridgetown-core/drops/site_drop.rb
-    - bridgetown-core/lib/bridgetown-core/drops/unified_payload_drop.rb
-    - bridgetown-core/lib/bridgetown-core/page_without_a_file.rb
+  Enabled: false
 Security/MarshalLoad:
   Exclude:
     - !ruby/regexp /bridgetown-core/test\/.*.rb$/

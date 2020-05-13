@@ -11,8 +11,6 @@ module Kramdown
       attr_reader :options, :parser
 
       # The implementation is basically the core logic in +Kramdown::Document#initialize+
-      #
-      # rubocop:disable Naming/MemoizedInstanceVariableName
       def setup(options)
         @cache ||= {}
 
@@ -36,7 +34,6 @@ module Kramdown
           end
         end
       end
-      # rubocop:enable Naming/MemoizedInstanceVariableName
 
       private
 

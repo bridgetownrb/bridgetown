@@ -29,14 +29,20 @@ module Bridgetown
     #
     # site - The Site.
     # base - The String path to the source.
-    # name - The String filename of the post file.
-    def initialize(site, base, name)
+    # name - The String filename of the layout file.
+    # from_plugin - true if the layout comes from a Gem-based plugin folder.
+    def initialize(site, base, name, from_plugin: false)
       @site = site
       @base = base
       @name = name
 
-      @base_dir = site.source
-      @path = site.in_source_dir(base, name)
+      if from_plugin
+        @base_dir = base.sub("/layouts", "")
+        @path = File.join(base, name)
+      else
+        @base_dir = site.source
+        @path = site.in_source_dir(base, name)
+      end
       @relative_path = @path.sub(@base_dir, "")
 
       self.data = {}

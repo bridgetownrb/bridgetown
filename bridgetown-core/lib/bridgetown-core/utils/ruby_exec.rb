@@ -59,10 +59,7 @@ module Bridgetown
 
         # This is where the magic happens! DON'T BE EVIL!!! ;-)
         output = obj.instance_eval(ruby_code)
-
-        output = Bridgetown::Utils.stringify_hash_keys(output) if output.is_a?(Hash)
-
-        output
+        output.is_a?(Hash) ? output.with_indifferent_access : output
       end
     end
   end

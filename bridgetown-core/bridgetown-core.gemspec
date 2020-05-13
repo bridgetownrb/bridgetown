@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.license       = "MIT"
   s.author        = "Bridgetown Team"
   s.email         = "maintainers@bridgetownrb.com"
-  s.homepage      = "https://bridgetownrb.com"
+  s.homepage      = "https://www.bridgetownrb.com"
   s.summary       = "A Webpack-aware, Ruby-based static site generator for the modern Jamstack era"
   s.description   = "Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern Jamstack era"
 
@@ -31,9 +31,11 @@ Gem::Specification.new do |s|
   s.required_ruby_version     = ">= 2.5.0"
   s.required_rubygems_version = ">= 2.7.0"
 
+  s.add_runtime_dependency("activesupport",         "~> 6.0")
   s.add_runtime_dependency("addressable",           "~> 2.4")
   s.add_runtime_dependency("colorator",             "~> 1.0")
   s.add_runtime_dependency("faraday",               "~> 1.0")
+  s.add_runtime_dependency("faraday_middleware",    "~> 1.0")
   s.add_runtime_dependency("i18n",                  "~> 1.0")
   s.add_runtime_dependency("kramdown",              "~> 2.1")
   s.add_runtime_dependency("kramdown-parser-gfm",   "~> 1.0")

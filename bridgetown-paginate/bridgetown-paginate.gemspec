@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.author        = "Bridgetown Team"
   spec.email         = "maintainers@bridgetownrb.com"
   spec.summary       = "A Bridgetown plugin to add pagination support for posts and collection indices."
-  spec.homepage      = "https://github.com/bridgetownrb/bridgetown-paginate"
+  spec.homepage      = "https://github.com/bridgetownrb/bridgetown/tree/master/bridgetown-paginate"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r!^(test|script|spec|features)/!) }

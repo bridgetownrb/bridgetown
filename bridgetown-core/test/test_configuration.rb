@@ -41,6 +41,11 @@ class TestConfiguration < BridgetownUnitTest
         "Expected the 'watch' key to not be removed."
       )
     end
+
+    should "allow indifferent access" do
+      result = Configuration.from({})
+      assert result[:collections][:posts][:output]
+    end
   end
 
   context "the effective site configuration" do
@@ -86,7 +91,7 @@ class TestConfiguration < BridgetownUnitTest
 
     should "turn an array into a hash" do
       result = Configuration[{ "collections" => %w(methods) }].add_default_collections
-      assert_instance_of Hash, result["collections"]
+      assert_instance_of ActiveSupport::HashWithIndifferentAccess, result["collections"]
       expected = { "posts" => { "output" => true }, "methods" => {} }
       assert_equal expected, result["collections"]
     end

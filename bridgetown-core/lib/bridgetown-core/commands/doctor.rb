@@ -9,8 +9,7 @@ module Bridgetown
             c.syntax "doctor"
             c.description "Search site and print specific deprecation warnings"
 
-            c.option "config", "--config CONFIG_FILE[,CONFIG_FILE2,...]", Array,
-                     "Custom configuration file"
+            add_build_options(c)
 
             c.action do |_, options|
               Bridgetown::Commands::Doctor.process(options)

@@ -12,8 +12,7 @@ module Bridgetown
             c.description "Invoke an IRB console with the site loaded"
             c.alias :c
 
-            c.option "config", "--config CONFIG_FILE[,CONFIG_FILE2,...]", Array,
-                     "Custom configuration file"
+            add_build_options(c)
 
             c.action do |_, options|
               Bridgetown::Commands::Console.process(options)

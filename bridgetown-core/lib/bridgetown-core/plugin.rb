@@ -10,6 +10,8 @@ module Bridgetown
       high: 10,
     }.freeze
 
+    SourceManifest = Struct.new(:origin, :components, :content, :layouts, keyword_init: true)
+
     #
 
     def self.inherited(const)

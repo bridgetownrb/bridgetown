@@ -30,11 +30,10 @@ module Bridgetown
       @liquid_renderer = LiquidRenderer.new(self)
 
       Bridgetown.sites << self
+      Bridgetown::Hooks.trigger :site, :after_init, self
 
       reset
       setup
-
-      Bridgetown::Hooks.trigger :site, :after_init, self
     end
 
     # Public: Set the site's configuration. This handles side-effects caused by
@@ -79,7 +78,7 @@ module Bridgetown
       Bridgetown.logger.info @liquid_renderer.stats_table
     end
 
-    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     #
     # Reset Site details.
     #
@@ -90,10 +89,10 @@ module Bridgetown
                   else
                     Time.now
                   end
-      self.layouts = {}
+      self.layouts = ActiveSupport::HashWithIndifferentAccess.new
       self.pages = []
       self.static_files = []
-      self.data = {}
+      self.data = ActiveSupport::HashWithIndifferentAccess.new
       @post_attr_hash = {}
       @site_data = nil
       @collections = nil
@@ -109,7 +108,7 @@ module Bridgetown
       Bridgetown::Cache.clear_if_config_changed config
       Bridgetown::Hooks.trigger :site, :after_reset, self
     end
-    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
     # Load necessary libraries, plugins, converters, and generators.
     #
@@ -117,7 +116,7 @@ module Bridgetown
     def setup
       ensure_not_in_dest
 
-      plugin_manager.conscientious_require
+      plugin_manager.require_plugin_files
 
       self.converters = instantiate_subclasses(Bridgetown::Converter)
       self.generators = instantiate_subclasses(Bridgetown::Generator)
@@ -141,7 +140,9 @@ module Bridgetown
     #
     # Returns a Hash containing collection name-to-instance pairs.
     def collections
-      @collections ||= collection_names.each_with_object({}) do |name, hsh|
+      @collections ||= collection_names.each_with_object(
+        ActiveSupport::HashWithIndifferentAccess.new
+      ) do |name, hsh|
         hsh[name] = Bridgetown::Collection.new(self, name)
       end
     end
@@ -167,6 +168,7 @@ module Bridgetown
     #
     # Returns nothing.
     def read
+      Bridgetown::Hooks.trigger :site, :pre_read, self
       reader.read
       limit_posts!
       Bridgetown::Hooks.trigger :site, :post_read, self
@@ -179,8 +181,16 @@ module Bridgetown
       generators.each do |generator|
         start = Time.now
         generator.generate(self)
+
+        next unless ENV["BRIDGETOWN_LOG_LEVEL"] == "debug"
+
+        generator_name = if generator.class.respond_to?(:custom_name)
+                           generator.class.custom_name
+                         else
+                           generator.class.name
+                         end
         Bridgetown.logger.debug "Generating:",
-                                "#{generator.class} finished in #{Time.now - start} seconds."
+                                "#{generator_name} finished in #{Time.now - start} seconds."
       end
     end
 
@@ -444,10 +454,14 @@ module Bridgetown
     end
 
     def configure_component_paths
-      @components_load_paths = config["components_dir"].then do |dir|
+      # Loop through plugins paths first
+      plugin_components_load_paths = Bridgetown::PluginManager.source_manifests
+        .map(&:components).compact
+
+      local_components_load_paths = config["components_dir"].yield_self do |dir|
         dir.is_a?(Array) ? dir : [dir]
       end
-      @components_load_paths.map! do |dir|
+      local_components_load_paths.map! do |dir|
         if !!(dir =~ %r!^\.\.?\/!)
           # allow ./dir or ../../dir type options
           File.expand_path(dir.to_s, root_dir)
@@ -455,6 +469,8 @@ module Bridgetown
           in_source_dir(dir.to_s)
         end
       end
+
+      @components_load_paths = plugin_components_load_paths + local_components_load_paths
     end
 
     def configure_include_paths
