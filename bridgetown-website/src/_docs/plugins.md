@@ -141,6 +141,11 @@ end
 Bridgetown::MyNiftyPlugin::Builder.register
 ```
 
+If you have layouts, static files, pages, and other content you would like your gem
+to provide, use [Source Manifests](/docs/plugins/source-manifests/) to instruct
+the build process where to find them. To provide frontend assets via Webpack,
+[follow these instructions](/docs/plugins/gems-and-webpack/).
+
 ## Internal Ruby API
 
 When writing a plugin for Bridgetown, you may sometimes be interacting with
@@ -164,9 +169,9 @@ Create custom Liquid filters to help transform data and content.
 
 Generators allow you to automate the creating or updating of content in your site.
 
-### HTTP Requests and Document Builders
+### [HTTP Requests and the Document Builder](/docs/plugins/external-apis/)
 
-Easily pull data in from remote APIs, and use a special DSL (Domain-Specific Language) to build documents (posts, etc.) out of that data.
+Easily pull data in from external APIs, and use a special DSL (Domain-Specific Language) to build documents out of that data.
 
 ### [Hooks](/docs/plugins/hooks/)
 
