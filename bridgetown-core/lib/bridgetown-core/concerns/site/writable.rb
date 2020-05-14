@@ -2,6 +2,13 @@
 
 module Bridgetown
   module Site::Writable
+    # Remove orphaned files and empty directories in destination.
+    #
+    # Returns nothing.
+    def cleanup
+      @cleaner.cleanup!
+    end
+
     # Write static files, pages, and posts.
     #
     # Returns nothing.

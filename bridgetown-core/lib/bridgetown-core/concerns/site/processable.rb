@@ -10,8 +10,8 @@ module Bridgetown
       read
       generate  # Extensible
       render    # Renderable
-      cleanup
-      write
+      cleanup   # Writable
+      write     # Writable
       print_stats if config["profile"]
     end
 
@@ -55,17 +55,6 @@ module Bridgetown
       Bridgetown::Hooks.trigger :site, :post_read, self
     end
 
-    # Remove orphaned files and empty directories in destination.
-    #
-    # Returns nothing.
-    def cleanup
-      @cleaner.cleanup!
-    end
-
-    def print_stats
-      Bridgetown.logger.info @liquid_renderer.stats_table
-    end
-
     private
 
     # Limits the current posts; removes the posts which exceed the limit_posts
@@ -76,6 +65,10 @@ module Bridgetown
         limit = posts.docs.length < limit_posts ? posts.docs.length : limit_posts
         posts.docs = posts.docs[-limit, limit]
       end
+    end
+
+    def print_stats
+      Bridgetown.logger.info @liquid_renderer.stats_table
     end
   end
 end
