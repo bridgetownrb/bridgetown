@@ -52,10 +52,11 @@ Lint/UnreachableCode:
   Severity: error
 Lint/Void:
   Exclude:
-    - bridgetown-core/lib/bridgetown-core/site.rb
+    - bridgetown-core/lib/bridgetown-core/concerns/site/configurable.rb
 Metrics/AbcSize:
   Max: 21
   Exclude:
+    - bridgetown-core/lib/bridgetown-core/concerns/site/configurable.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
 Metrics/BlockLength:
   Exclude:
@@ -67,7 +68,6 @@ Metrics/ClassLength:
     - !ruby/regexp /bridgetown-core/features\/.*.rb$/
     - !ruby/regexp /bridgetown-core/test\/.*.rb$/
     - bridgetown-core/lib/bridgetown-core/document.rb
-    - bridgetown-core/lib/bridgetown-core/site.rb
     - bridgetown-core/lib/bridgetown-core/commands/serve.rb
     - bridgetown-core/lib/bridgetown-core/configuration.rb
   Max: 240
@@ -125,6 +125,7 @@ Style/AndOr:
   Severity: error
 Style/ClassAndModuleChildren:
   Exclude:
+    - bridgetown-core/lib/bridgetown-core/concerns/site/*.rb
     - bridgetown-core/test/**/*.rb
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always

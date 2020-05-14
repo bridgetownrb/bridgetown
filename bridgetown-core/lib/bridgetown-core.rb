@@ -50,7 +50,7 @@ module Bridgetown
   autoload :Cleaner,             "bridgetown-core/cleaner"
   autoload :Collection,          "bridgetown-core/collection"
   autoload :Configuration,       "bridgetown-core/configuration"
-  autoload :Convertible,         "bridgetown-core/convertible"
+  autoload :Convertible,         "bridgetown-core/concerns/convertible"
   autoload :Deprecator,          "bridgetown-core/deprecator"
   autoload :Document,            "bridgetown-core/document"
   autoload :EntryFilter,         "bridgetown-core/entry_filter"
