@@ -159,7 +159,7 @@ There are several categories of functionality you can add to your Bridgetown plu
 
 ### [Tags](/docs/plugins/tags/)
 
-Create custom Liquid tags which you can add to your content or design templates. 
+Create custom Liquid tags or "shortcodes" which you can add to your content or design templates. 
 
 ### [Filters](/docs/plugins/filters/)
 

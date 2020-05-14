@@ -5,7 +5,9 @@ order: 0
 category: plugins
 ---
 
-It's easy to add new [Liquid](/docs/liquid/) tags (sometimes also called shortcakes) to your site. Tags provide extra functionality you can use inside of your Markdown content and any HTML template. Built-in examples added by Bridgetown include the
+It's easy to add new [Liquid](/docs/liquid/) tags (sometimes called "shortcodes") to
+your site. Tags provide extra functionality you can use inside of your Markdown
+content and any HTML template. Built-in examples added by Bridgetown include the
 `post_url` and `webpack_path` tags. Below is an example of a custom Liquid tag that
 will output the time the page was rendered:
 
@@ -97,7 +99,8 @@ output: `I AM UPPER CASE`
 
 ## Supporting Multiple Attributes and Accessing Template Variables
 
-If you'd like your tag to support multiple attributes separated by a comma, that's easy to do with the following statement:
+If you'd like your tag to support multiple attributes separated by a comma, that's
+easy to do with the following statement:
 
 ```ruby
 param1, param2 = attributes.split(",").map(&:strip)
@@ -111,7 +114,9 @@ Then you could use the tag like this:
 ```
 {% endraw %}
 
-You can also access local Liquid template variables from within your tag by accessing the `context` object, and that includes nested variables you would normally access such as `{% raw %}{{ page.title }}{% endraw %}`.
+You can also access local Liquid template variables from within your tag by
+accessing the `context` object, and that includes nested variables you would
+normally access such as `{% raw %}{{ page.title }}{% endraw %}`.
 
 Given a page with a title "My Exciting Webpage", you could reference it like this:
 
@@ -121,8 +126,12 @@ tag.context["page"]["title"] # returns "My Exciting Webpage"
 
 ## When to use a Tag vs. a Filter
 
-Tags and Tag Blocks are great when you simply want to insert a customized piece of content/HTML code into a page. If instead you want to _transform_ input data from one format to another and potentially allow multiple transformations to be chained together, then it's probably better to write a [Filter](/docs/plugins/filters/).
+Tags and Tag Blocks are great when you simply want to insert a customized piece of
+content/HTML code into a page. If instead you want to _transform_ input data from
+one format to another and potentially allow multiple transformations to be chained
+together, then it's probably better to write a [Filter](/docs/plugins/filters/).
 
 {% rendercontent "docs/note", extra_margin: true %}
-If you prefer to use the Legacy API (aka `Liquid::Template.register_tag`) to construct Liquid tags, refer to the [Liquid documentation](https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers) here.
+If you prefer to use the Legacy API (aka `Liquid::Template.register_tag`) to
+construct Liquid tags, refer to the [Liquid documentation](https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers) here.
 {% endrendercontent %}
