@@ -1,6 +1,13 @@
 # master
 
+* Use `liquid-render-tag` backport gem and remove references to temporary GitHub fork of Liquid [#52](https://github.com/bridgetownrb/bridgetown/pull/52) ([jaredcwhite](https://github.com/jaredcwhite))
+* Refactor `Bridgetown::Site` into multiple Concerns [#51](https://github.com/bridgetownrb/bridgetown/pull/51) ([jaredcwhite](https://github.com/jaredcwhite))
+* Fix for `start.js` to eliminate junk terminal characters ([jaredcwhite](https://github.com/jaredcwhite))
+* New Unified Plugins API with Builders, Source Manifests, and Autoreload [#41](https://github.com/bridgetownrb/bridgetown/pull/41) ([jaredcwhite](https://github.com/jaredcwhite))
+* Add a Posts page to the new site template [#39](https://github.com/bridgetownrb/bridgetown/pull/39) ([andrewmcodes](https://github.com/andrewmcodes))
+* Add `titleize` Liquid filter and improve `slugify` filter description [#38](https://github.com/bridgetownrb/bridgetown/pull/38) ([jaredcwhite](https://github.com/jaredcwhite))
 * Add Bundler cache to the build GH action to improve test speed [#40](https://github.com/bridgetownrb/bridgetown/pull/40) ([andrewmcodes](https://github.com/andrewmcodes))
+* Bump minimum Node requirement to 10.13 ([jaredcwhite](https://github.com/jaredcwhite))
 
 # 0.13.0 "Klickitat" / 2020-05-05
 
