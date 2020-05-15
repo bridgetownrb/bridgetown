@@ -1,8 +1,5 @@
 source "https://rubygems.org"
 
-# Pull in latest Liquid from Shopify with new Render tag
-gem 'liquid', "> 4.0.3", github: "jaredcwhite/liquid"
-
 gem 'bridgetown-core', path: '../bridgetown-core'
 gem 'bridgetown-builder', path: '../bridgetown-builder'
 gem 'bridgetown-paginate', path: '../bridgetown-paginate'
