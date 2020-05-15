@@ -23,35 +23,6 @@ class TestSite < BridgetownUnitTest
   end
 
   context "configuring sites" do
-    should "look for plugins under the root directory by default" do
-      site = Site.new(site_configuration)
-      assert_equal [site_root_dir("plugins")], site.plugins
-    end
-
-    should "have an array for plugins if passed as a string" do
-      site = Site.new(site_configuration("plugins_dir" => "/tmp/plugins"))
-      array = [temp_dir("plugins")]
-      assert_equal array, site.plugins
-    end
-
-    should "have an array for plugins if passed as an array" do
-      site = Site.new(site_configuration(
-                        "plugins_dir" => ["/tmp/plugins", "/tmp/otherplugins"]
-                      ))
-      array = [temp_dir("plugins"), temp_dir("otherplugins")]
-      assert_equal array, site.plugins
-    end
-
-    should "have an empty array for plugins if nothing is passed" do
-      site = Site.new(site_configuration("plugins_dir" => []))
-      assert_equal [], site.plugins
-    end
-
-    should "have the default for plugins if nil is passed" do
-      site = Site.new(site_configuration("plugins_dir" => nil))
-      assert_equal [site_root_dir("plugins")], site.plugins
-    end
-
     should "default baseurl to `nil`" do
       site = Site.new(default_configuration)
       assert_nil site.baseurl

@@ -24,6 +24,7 @@ module Bridgetown
     def obsolete_files
       out = (existing_files - new_files - new_dirs + replaced_files).to_a
       Bridgetown::Hooks.trigger :clean, :on_obsolete, out
+      @new_files = @new_dirs = nil
       out
     end
 

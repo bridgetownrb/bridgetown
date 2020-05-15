@@ -116,18 +116,3 @@ Feature: Data
     When I run bridgetown build
     Then the "output/index.html" file should exist
     And I should see "Dairy Products" in "output/index.html"
-
-  Scenario: should be backward compatible with site.data in bridgetown.config.yml
-    Given I have a "bridgetown.config.yml" file with content:
-      """
-      data:
-        - name: Jack
-          age: 28
-        - name: Leon
-          age: 34
-      """
-    And I have an "index.html" page that contains "{% for member in site.data %}{{member.name}}{% endfor %}"
-    When I run bridgetown build
-    Then the "output/index.html" file should exist
-    And I should see "Jack" in "output/index.html"
-    And I should see "Leon" in "output/index.html"
