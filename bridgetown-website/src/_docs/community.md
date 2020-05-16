@@ -9,7 +9,7 @@ category: community
 
 * Start by reading the [Bridgetown Documentation](/docs/).
 * Kick off a discussion on the [Bridgetown Community Forum](https://community.bridgetownrb.com/).
-* Chat with Bridgetowners live on our [Gitter channel](https://gitter.im/{{ site.metadata.github }}).
+* Chat with Bridgetowners live on our [Discord server](https://discord.gg/V56yUWR).
 
 There are a bunch of helpful core team and community members available that should be able to point you in the right direction.
 
