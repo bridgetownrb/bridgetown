@@ -13,7 +13,7 @@ Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern
 [![Build Status](https://github.com/bridgetownrb/bridgetown/workflows/build/badge.svg)](https://github.com/bridgetownrb/bridgetown/actions?query=workflow%3Abuild+branch%3Amaster)
 [![Gem Version](https://img.shields.io/gem/v/bridgetown.svg)](https://rubygems.org/gems/bridgetown)
 [![Licensed MIT](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](LICENSE)
-[![Join the chat at https://gitter.im/bridgetownrb/bridgetown](https://badges.gitter.im/bridgetownrb/bridgetown.svg)](https://gitter.im/bridgetownrb/bridgetown?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the Discord Chat](https://img.shields.io/discord/711236503493148733?color=forestgreen&logo=discord)](https://discord.com/channels/711236503493148733)
 [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-blue.svg)](https://github.com/bridgetownrb/bridgetown/blob/master/CONTRIBUTING.md)
 
 ---
@@ -36,7 +36,7 @@ Bridgetown started life as a fork of the granddaddy of static site generators, [
 * [Install](https://bridgetownrb.com/docs/) the Bridgetown gem
 * Familiarize yourself with the [Command Line Usage](https://bridgetownrb.com/docs/command-line-usage/) and [Site Configuration](https://bridgetownrb.com/docs/configuration/)
 * Explore the best options for [Deploying Your Site](https://bridgetown.rb/docs/deployment) when it's ready to go live
-* Have questions? Check out our official [Bridgetown Community form](https://community.bridgetownrb.com/) or [chat on Gitter](https://gitter.im/bridgetownrb/bridgetown)
+* Have questions? Check out our official [Bridgetown Community form](https://community.bridgetownrb.com/) or [chat on Discord](https://discord.com/channels/711236503493148733)
 * [Fork Bridgetown](https://github.com/bridgetownrb/bridgetown/fork) and contribute your own improvements!
 
 ## Get Up to Speed
