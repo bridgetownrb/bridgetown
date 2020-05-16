@@ -23,7 +23,7 @@ Here are some of the tasks they are responsible for:
 - identifying and fixing bugs;
 - triaging issues;
 - reviewing and merging pull requests;
-- providing support via [Gitter](https://gitter.im/bridgetownrb/bridgetown), [Community Forum](https://community.bridgetownrb.com), and other channels;
+- providing support via [Discord chat](https://discord.gg/V56yUWR), [Community Forum](https://community.bridgetownrb.com), and other channels;
 - improving the documentation;
 - providing technical feedback and guidance to contributors;
 - coordinating the work of contributors;
