@@ -49,7 +49,7 @@ end
 
 Then just use it like this:
 
-```Liquid
+```liquid
 {% raw %}
 5 times 10 equals {{ 5 | multiply_and_optionally_add:10 }}
 
@@ -63,7 +63,7 @@ Then just use it like this:
 
 And of course you can chain any number of built-in and custom filters together:
 
-```Liquid
+```liquid
 {% raw %}
 5 times 10 minus 4 equals {{ 5 | multiply_and_optionally_add:10 | minus:4 }}
 
