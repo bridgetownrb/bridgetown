@@ -83,7 +83,7 @@ end
 
 Bridgetown comes with the [Faraday Middleware gem](https://github.com/lostisland/faraday_middleware) out-of-the-box and utilizes a few of its options such as following redirects (if necessary). You can `require` additional middleware to add to your Faraday connection if you like. You can also write your own Faraday middleware, but that's an advanced usage and typically not needed.
 
-{% rendercontent "docs/node" %}
+{% rendercontent "docs/note", title: "What’s the Deal with HTTP Methods?" %}
 Why is only the HTTP GET method supported? What about POST, PUT, etc.? Well the idea behind making requests as part of the site build process is that it's a one-way data flow: you get data from the API to add to your site, and you don't attempt any remote alterations to that data. If your API requires you to make a request using a method such as POST, please let them know you'd like a GET method as well. As a last resort, you can also use the provided Faraday `connection` object to construct a custom request. See the Faraday documentation for further details.
 {% endrendercontent %}
 
