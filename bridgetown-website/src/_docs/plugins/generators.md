@@ -8,6 +8,10 @@ category: plugins
 You can write a generator when you need Bridgetown to add data to existing content
 or to programmatically create new pages, posts, and the like.
 
+{% rendercontent "docs/note" %}
+If all you're doing is creating new documents, perhaps based on data from an external API, you'll likely want to try the new [Document Builder API](/docs/plugins/external-apis) rather than write a custom generator.
+{% endrendercontent %}
+
 Generators run after Bridgetown has made an inventory of the existing content, but
 before the site is rendered out. Pages with front matter are stored as instances of
 [`Bridgetown::Page`](https://github.com/{{ site.metadata.github }}/blob/master/bridgetown-core/lib/bridgetown-core/page.rb)

@@ -165,10 +165,6 @@ Create custom Liquid tags or "shortcodes" which you can add to your content or d
 
 Create custom Liquid filters to help transform data and content.
 
-### [Generators](/docs/plugins/generators/)
-
-Generators allow you to automate the creating or updating of content in your site.
-
 ### [HTTP Requests and the Document Builder](/docs/plugins/external-apis/)
 
 Easily pull data in from external APIs, and use a special DSL (Domain-Specific Language) to build documents out of that data.
@@ -176,6 +172,10 @@ Easily pull data in from external APIs, and use a special DSL (Domain-Specific L
 ### [Hooks](/docs/plugins/hooks/)
 
 Hooks provide fine-grained control to trigger custom functionality at various points in the build process.
+
+### [Generators](/docs/plugins/generators/)
+
+Generators allow you to automate the creating or updating of content in your site using Bridgetown's internal Ruby API.
 
 ## Legacy API-only Plugin Development
 
