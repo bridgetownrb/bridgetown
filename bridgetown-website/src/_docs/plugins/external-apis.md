@@ -244,21 +244,21 @@ def build
   client = Graphlient::Client.new("https://test-graphql-cms.com/graphql")
   response = client.query do
     query do
-      posts do
+      allPost(limit: 10) do
         slug
         title
         body
-        taxonomies do
+        author do
           name
         end
       end
     end
   end
 
-  response.data.posts.each do |post|
-    doc "#{post.slug}" do
+  response.data.all_post.each do |post|
+    doc "#{post.slug}.html" do
       title post.title
-      categories post.taxonomies.map(&:name)
+      author post.author.name
       content post.body
     end
   end
