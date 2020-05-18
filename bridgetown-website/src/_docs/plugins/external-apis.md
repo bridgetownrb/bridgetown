@@ -107,7 +107,7 @@ This is the programmatic equivalent of saving a new file `src/_posts/2020-05-17-
 
 ```yaml
 ---
-title: Way to Go, Bridgetown
+title: Way to Go, Bridgetown!
 author: rlstevenson
 ---
 
@@ -127,7 +127,7 @@ doc "rlstevenson.md" do
 end
 ```
 
-You don't even need to use a collection that's previously been configured in `bridgetown.config.yml`. You can make up new collections and use existing layouts to place your content within the appropriate template, assuming the front matter is compatible.
+You don't even need to use a collection that's previously been configured in `bridgetown.config.yml`. You can make up new collections and use existing layouts to place your content within the appropriate templates, assuming the expected front matter is compatible.
 
 ```ruby
 doc "fake-blog-post.html" do
@@ -145,7 +145,7 @@ Another aspect of the Document Builder to keep in mind is that `content` is a "s
 
 ### Customizing Permalinks
 
-If you'd like to customize the permalink of a new document, you can specifically set the `permalink` front matter variable…but an even easier way to do it is just start your filename with a path. For example:
+If you'd like to customize the [permalink](/structure/permalinks) of a new document, you can specifically set the `permalink` front matter variable…but an even easier way to do it is just start your filename with a path. For example:
 
 ```ruby
 doc "/path/to/the/blog-post.md" do
@@ -175,7 +175,7 @@ end
 
 This is great when you have data coming in from external APIs and you'd just like to inject all of that data into the front matter with a single method call.
 
-Bear in mind that this doesn't include your `content` variable. So you'd still need to set that separately when using the `front_matter` method, for example:
+Bear in mind that this doesn't include your `content` variable. So you'll still need to set that separately when using the `front_matter` method, for example:
 
 ```ruby
 get article_url do |data|
@@ -219,7 +219,7 @@ def build
 end
 ```
 
-You also can't use the `doc` method inside of a [generator](/docs/plugins/generators) block/method or a [Liquid](/docs/plugins/tags) tag/filter, because by the time your code executes the build process has already run the internal generator which handles `doc`-based documents.
+You also can't use the `doc` method inside of a [generator](/docs/plugins/generators) block/method or a [Liquid](/docs/plugins/tags) tag/filter, because by the time your code executes, the build process has already run the internal generator which handles `doc`-based documents.
 
 ```ruby
 def build
@@ -237,7 +237,7 @@ So basically you'll want to contain usage of the Document Builder to either dire
 
 Bridgetown doesn't yet support GraphQL endpoints out-of-the-box, but that doesn't mean you can't use GraphQL today.
 
-[Graphlient](https://github.com/ashkan18/graphlient) is a GraphQL client which lets you use a friendly Ruby DSL to consume GraphQL APIs. Using Graphlient and the Document Builder, you could do something like this:
+[Graphlient](https://github.com/ashkan18/graphlient) is a GraphQL client which lets you use a friendly Ruby DSL to consume GraphQL APIs. Using Graphlient and the Document Builder together, you could do something like this:
 
 ```ruby
 def build
