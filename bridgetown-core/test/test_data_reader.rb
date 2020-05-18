@@ -32,4 +32,12 @@ class TestDataReader < BridgetownUnitTest
       assert_nil metadata["development"]
     end
   end
+
+  context "access keys via HashWithIndifferentAccess" do
+    should "work with JSON data files" do
+      @reader.read("_data")
+      assert_equal "John", @reader.content[:members][1][:name]
+      assert_equal "John", @reader.content["members"][1]["name"]
+    end
+  end
 end
