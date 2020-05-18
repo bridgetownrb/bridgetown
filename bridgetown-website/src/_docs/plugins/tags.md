@@ -5,57 +5,20 @@ order: 0
 category: plugins
 ---
 
-{% render "docs/help_needed", page: page %}
-
-If you’d like to include custom [Liquid](/docs/liquid/) tags in your site, you can do so by
-hooking into the tagging system with simple Ruby objects. Built-in examples added by Bridgetown include the
-`post_url` and `include` tags. Below is an example of a custom Liquid tag that
+It's easy to add new [Liquid](/docs/liquid/) tags (sometimes called "shortcodes") to
+your site. Tags provide extra functionality you can use inside of your Markdown
+content and any HTML template. Built-in examples added by Bridgetown include the
+`post_url` and `webpack_path` tags. Below is an example of a custom Liquid tag that
 will output the time the page was rendered:
 
 ```ruby
-module MySite
-  class RenderTimeTag < Liquid::Tag
-
-    def initialize(tag_name, text, tokens)
-      super
-      @text = text
-    end
-
-    def render(context)
-      "#{@text} #{Time.now}"
+def RenderTime < SiteBuilder
+  def build
+    liquid_tag "render_time" do |attributes|
+      "#{attributes} #{Time.now}"
     end
   end
 end
-
-Liquid::Template.register_tag('render_time', MySite::RenderTimeTag)
-```
-
-At a minimum, Liquid tags must implement:
-
-<table class="settings biggest-output">
-  <thead>
-    <tr>
-      <th>Method</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <p><code>render</code></p>
-      </td>
-      <td>
-        <p>Outputs the content of the tag.</p>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-You must also register the custom tag with the Liquid template engine as
-follows:
-
-```ruby
-Liquid::Template.register_tag('render_time', MySite::RenderTimeTag)
 ```
 
 In the example above, we can place the following tag anywhere in one of our
@@ -75,22 +38,16 @@ And we would get something like this on the page:
 
 ## Tag Blocks
 
-The `render_time` tag seen above can also be rewritten as a tag block by
-inheriting the `Liquid::Block` class. Look at the example below:
+The `render_time` tag seen above can also be rewritten as a _tag block_. Look at this example:
 
 ```ruby
-module MySite
-  class RenderTimeTagBlock < Liquid::Block
-
-    def render(context)
-      text = super
-      "<p>#{text} #{Time.now}</p>"
+def RenderTime < SiteBuilder
+  def build
+    liquid_tag "render_time", as_block: true do |attributes, tag|
+      "#{tag.content} #{Time.now}"
     end
-
   end
 end
-
-Liquid::Template.register_tag('render_time', MySite::RenderTimeTagBlock)
 ```
 
 We can now use the tag block anywhere:
@@ -109,16 +66,72 @@ And we would still get the same output as above on the page:
 <p>page rendered at: Tue June 22 23:38:47 –0500 2010</p>
 ```
 
-{: .note .info}
+{% rendercontent "docs/note" type="warning" %}
 In the above example, the tag block and the tag are both registered with
-the name <code>render_time</code>, but you'll want to avoid registering a tag and a tag block using the same name in the same project as this will lead to conflicts.
+the name `render_time`, but you'll want to avoid registering a tag and a tag block using the same name in the same project as this will lead to conflicts.
+{% endrendercontent %}
 
-<div class="note">
-  <h5>Top Tip: Access the site object using Liquid</h5>
-  <p>
-    Bridgetown lets you access the <code>site</code> object through the
-    <code>context.registers</code> feature of Liquid at <code>context.registers[:site]</code>. For example, you can
-    access the global configuration file <code>bridgetown.config.yml</code> using
-    <code>context.registers[:site].config</code>.
-  </p>
-</div>
+## Using Instance Methods
+
+As with other parts of the Builder API, you can also use an instance method to register your tag:
+
+```ruby
+def Upcase < SiteBuilder
+  def build
+    liquid_tag "upcase", :upcase_tag, as_block: true
+  end
+
+  def upcase_tag(attributes, tag)
+    tag.content.upcase
+  end
+end
+```
+
+{% raw %}
+```liquid
+{% upcase %}
+i am upper case
+{% endupcase %}
+```
+{% endraw %}
+
+output: `I AM UPPER CASE`
+
+## Supporting Multiple Attributes and Accessing Template Variables
+
+If you'd like your tag to support multiple attributes separated by a comma, that's
+easy to do with the following statement:
+
+```ruby
+param1, param2 = attributes.split(",").map(&:strip)
+```
+
+Then you could use the tag like this:
+
+{% raw %}
+```liquid
+{% mytag value1, value2 %}
+```
+{% endraw %}
+
+You can also access local Liquid template variables from within your tag by
+accessing the `context` object, and that includes nested variables you would
+normally access such as `{% raw %}{{ page.title }}{% endraw %}`.
+
+Given a page with a title "My Exciting Webpage", you could reference it like this:
+
+```ruby
+tag.context["page"]["title"] # returns "My Exciting Webpage"
+```
+
+## When to use a Tag vs. a Filter
+
+Tags and Tag Blocks are great when you simply want to insert a customized piece of
+content/HTML code into a page. If instead you want to _transform_ input data from
+one format to another and potentially allow multiple transformations to be chained
+together, then it's probably better to write a [Filter](/docs/plugins/filters/).
+
+{% rendercontent "docs/note", extra_margin: true %}
+If you prefer to use the Legacy API (aka `Liquid::Template.register_tag`) to
+construct Liquid tags, refer to the [Liquid documentation](https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers) here.
+{% endrendercontent %}

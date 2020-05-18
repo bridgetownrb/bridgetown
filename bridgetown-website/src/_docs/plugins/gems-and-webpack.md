@@ -25,6 +25,11 @@ With that bit of metadata, Bridgetown will know always to look for that package 
 the users' `package.json` file when they load Bridgetown, and it will trigger a
 `yarn add` command if the package and exact version number isn't present.
 
+The [SamplePlugin demo repo](https://github.com/bridgetownrb/bridgetown-sample-plugin)
+includes a `script/release` command you can use to run the test suite, release a
+new version of the gem, and release a new version of the NPM package all in one
+go.
+
 {% rendercontent "docs/note", title: "Make sure you update package.json!", type: "warning" %}
 If you bump up your Ruby version number and forget to bump the NPM package version
 at the same time, the packages will get out of sync! So remember always to update

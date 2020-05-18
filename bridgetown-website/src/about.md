@@ -25,17 +25,17 @@ As of spring 2020, here is the vision for where Bridgetown is headed. And this i
 - ✅ _DONE!_ Remove the aging asset pipeline and **regroup around a modern solution: Webpack**. (Similar to how Rails adopted Webpack and distanced itself from Sprockets.) [Check out the preliminary documentation here.](/docs/frontend-assets/)
 - ✅ _DONE!_ Integrate **pagination features** directly into the monorepo. [Preliminary docs here.](/docs/content/pagination/)
 - ✅ _DONE!_ Add streamlined **taxonomy pages (for categories, tags, and other metadata)** solution (called [Prototype Pages](/docs/prototype-pages/)).
-- ✅ _DONE!_ Move most site data vars to a **reloadable file** (aka `_data/site_metadata.yml`). Coming soon: env-specific settings (development vs. production).
+- ✅ _DONE!_ Move most site data vars to a **reloadable file** (aka `_data/site_metadata.yml`) and support [env-specific settings (development vs. production)](/docs/configuration/environments).
+- ✳️ _DONE!_ External theme support is nearly here with the arrival of [Source Manifests](/docs/plugins/source-manifests) in Bridgetown 0.13. Stay tuned for an official guide on how to build modern themes for the next release of Bridgetown.
+- ✳️ _DONE!_ **Auto-reload plugins** during development. (No more stop-and-restart every 5 seconds!)
 - ✳️ _IN PROGRESS…_ Modernize various aspects of the codebase, incrementally **improving
   the developer experience (DX)** on a number of different fronts.
 - ✳️ _IN PROGRESS…_ Ensure all **documentation, configuration, and deployment recommendations are fully up-to-date** and in line with best practices encouraged by the web development industry.
-- ✳️ _IN PROGRESS…_ External theme support has been temporarily removed from the codebase, because we want to add the **ability for any Bridgetown plugin gem to provide content/design**. That will bring back “themes” but in a composable and more flexible way. [Read this article for additional background.]({% post_url 2020/2020-04-18-whats-the-deal-with-themes %})
 - ✳️ _IN PROGRESS…_ **Liquid Components** — this would build upon the new `render` tag functionality and add a ton of new features to make component-based design and authoring a reality, bringing Ruby/Liquid syntax closer to the world of React & Vue. Ready for "Bridgebook"? 😁 (aka integration with Storybook.js). [Preliminary spec here.](https://github.com/bridgetownrb/liquid-component)
 - Straightforward support for **third-party data APIs** (think GraphQL as a first-class citizen).
 - Easy **multilingual setup** right out of the box.
 - **Simple webhooks** — allow remote webhooks to be pinged after a successful build.
   - **“Private” pages** — aka put a website section behind a randomized URL that changes frequently and then allow that to be pinged to a webhook somewhere.
-- **Auto-reload plugins** during development. (No more stop-and-restart every 5 seconds!)
 - Continued improvement of the incremental site generator for **lightning-fast page previews**.
 - Official **site testing framework** to verify content and functionality after new builds.
 - _LONGSHOT…_ **Rails engine** for Bridgetown — it's a missed opportunity that Rails doesn't have a good Jamstack story. This would explore the ability to load and manipulate site content and trigger new builds from within any Rails-based application.

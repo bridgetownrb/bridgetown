@@ -7,6 +7,8 @@ category: posts
 
 Blogging is a key part of Bridgetown. You can write blog posts as text files and Bridgetown provides everything you need to turn those into a blog. Under the hood, posts are simply a built-in type of [collection](/docs/collections), so you're not obligated to use them if a custom collection makes more sense.
 
+{% toc %}
+
 ## The Posts Folder
 
 The `_posts` folder in your source folder (`src`) is where your blog posts live. Typically you'd write posts in Markdown (technically, the superset syntax provided by [Kramdown](https://kramdown.gettalong.org/quickref.html)), but standard HTML is also supported. Markdown posts end in the `.md` extension, but you can also use `.markdown` if you prefer.

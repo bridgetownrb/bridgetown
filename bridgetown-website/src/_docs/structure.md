@@ -121,9 +121,12 @@ The location of pages in your source folder structure will by default be mirrore
       </td>
       <td>
         <p>
-          This is where you can write custom plugins that will be loaded for
-          use by your site. (Third-party plugins are installed as Gems via
-          Bundler.)
+          This is where you'll write custom plugins for your site to use.
+          (Third-party plugins are installed as Gems via Bundler.) Typically
+          there will be one <code>site_builder.rb</code> superclass, and you
+          will add new builder subclasses to the <code>plugins/builders</code>
+          folder. Read all about it in the <a href="/docs/plugins/">Plugins
+          documentation</a>.
         </p>
       </td>
     </tr>

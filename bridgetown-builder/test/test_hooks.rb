@@ -11,6 +11,15 @@ class HooksBuilder < Builder
     hook :site, :pre_read do
       site.config[:pre_read_hook_ran] = true
     end
+
+    hook :site, :post_read do
+      if site.data[:languages]
+        doc "#{site.data[:languages][1]}.md" do
+          title "Ruby"
+          date "2020-05-17"
+        end
+      end
+    end
   end
 end
 
@@ -38,6 +47,17 @@ class TestHooks < BridgetownUnitTest
 
       assert @site.config[:after_reset_hook_ran]
       assert @site.config[:pre_read_hook_ran]
+    end
+
+    should "work alongside Document Builder" do
+      @site.reset
+      @site.setup
+      @site.read
+      @generator = Builders::DocumentsGenerator.new(@site.config)
+      @generator.generate(@site)
+
+      post = @site.posts.docs.find { |doc| doc.data[:title] == "Ruby" }
+      assert_includes post.destination(""), "/dest/2020/05/17/ruby.html"
     end
   end
 

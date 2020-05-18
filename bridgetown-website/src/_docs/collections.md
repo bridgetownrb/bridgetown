@@ -6,7 +6,9 @@ category: collections
 ---
 
 Collections are a great way to group related content like members of a team or
-talks at a conference.
+talks at a conference. Bridgetown comes with one built-in collection, [posts](/docs/posts/), and you can add new collections to support all sorts of content structures and hierarchies. All of the pages on this very website, for example, are contained within a "docs" collection.
+
+{% toc %}
 
 ## Setup
 

@@ -17,6 +17,8 @@ Gemfile.lock
 .DS_Store
 *.swp
 *~
+.Ulysses-Group.plist
+.Ulysses-Settings.plist
 
 # Folders
 /vendor

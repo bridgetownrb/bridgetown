@@ -12,7 +12,9 @@ class HTTPBuilder < Builder
 
   # Inject our test stubs into the default connection
   def connection(headers: {}, parse_json: true)
-    super(headers: headers, parse_json: parse_json) { |b| b.adapter(:test, stubs) }
+    super do |faraday|
+      faraday.adapter(:test, stubs)
+    end
   end
 
   def test_get
