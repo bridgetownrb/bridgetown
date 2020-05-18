@@ -46,11 +46,11 @@ URL `/photo-gallery/portfolio`.
 
 This is also useful in cases where the parent site needs to override some content
 or a layout or whatever in order to make customizations. All the developer would
-need to do is use the [plugins command](/docs/command-line-usage/) to access a
+need to do is use the [plugins command](/docs/commands/plugins) to access a
 folder in the gem and copy a namespaced subfolder over to the site. For example:
 
 ```sh
-$ bridgetown plugins cd AwesomePlugin/layouts
+$ bridgetown plugins cd AwesomePlugin/Layouts
 $ cp -r awesome_plugin $BRIDGETOWN_SITE/src/_layouts
 ```
 
