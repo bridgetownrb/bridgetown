@@ -10,7 +10,7 @@ Plugins allow you to extend Bridgetown's behavior to fit your needs. These guide
 In addition, be sure to check out [our growing list of official and third-party plugins](/plugins/)
 for ways you can jazz up your Bridgetown website.
 
-Whenever you need more information about the plugins installed on your site and what they're doing, you can use the `bridgetown plugins list` command. You can also copy content out of gem-based plugins with the `bridgetown plugins cd` command. [Read the command reference for further details.](/docs//
+Whenever you need more information about the plugins installed on your site and what they're doing, you can use the `bridgetown plugins list` command. You can also copy content out of gem-based plugins with the `bridgetown plugins cd` command. [Read the command reference for further details.](/docs/commands/plugins)
 
 {% rendercontent "docs/note", title: "Roll It All Up in a Gem" %}
 If you'd like to maintain separation from your site source code and

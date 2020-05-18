@@ -2,10 +2,10 @@
 title: Plugins Command
 hide_in_toc: true
 order: 0
-category: cmd_usage
+category: commands
 ---
 
-New in Bridgetown 0.14, the `plugins` command will allow you to display all custom or gem-based plugins you have loaded in the site along with other related infrastructure such as source manifests, generators, and builders.
+New in Bridgetown 0.14, the `plugins` command allows you to display all custom or gem-based plugins you have loaded in the site along with other related infrastructure such as source manifests, generators, and builders.
 
 Simply run `bridgetown plugins list` and you'll get a printout in your terminal that looks something like this:
 
@@ -48,7 +48,7 @@ components from folders in the gem.
 
 If you ever need to _override_ some of that content, you can use the `plugins cd` command. The syntax is as follows:
 
-```sh
+```
 bridgetown plugins cd <origin>/<dir>
 ```
 

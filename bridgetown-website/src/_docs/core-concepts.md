@@ -21,6 +21,7 @@ There's a relatively linear process which occurs every time you run a [build com
 1. First, Bridgetown loads its internal Ruby APIs as well as any Ruby gems specified in the `bridgetown-plugins` group of your `Gemfile`.
 1. Next, Bridgetown looks for a [configuration](/docs/configuration/) file in your current working directory and uses that to instantiate a `site` object.
 1. After loading the configuration, Bridgetown prepares the `site` object for loading the various types of [content in your site repository](/docs/structure/), starting with [custom plugins](/docs/plugins/) in the `plugins` folder.
+1. Plugins are then granted the ability to [generate new content programmatically](/docs/plugins/external-apis) and define other features such as [Liquid tags](/docs/plugins/tags) (aka "shortcodes"). This is the point when you'd create blog posts, collection documents, etc. from data provided by an external API for example.
 1. Once plugins (if any) have loaded, Bridgetown starts systematically reading in files from the source folder (typically `src`):
   * [Layouts](/docs/layouts/)
   * Liquid Components _(coming soon!)_
@@ -30,8 +31,7 @@ There's a relatively linear process which occurs every time you run a [build com
   * [Posts](/docs/posts/)
   * [Collection documents](/docs/collections/)
   * And starting with Bridgetown 0.14, gem-based plugins have the ability to supply their own layouts, components, pages, and static files via [Source Manifests](/docs/plugins/source-manifests/).
-1. At this point, plugins are given the ability to [generate](/docs/plugins/generators/) new content programmatically, or to augment the content already read from disk. This is how you'd create pages, blog posts, etc. from data provided by an external API for example.
-1. Once all of the data structures for the entire website are in place, Bridgetown __renders__ all relevant content objects to prepare them for final output. This is when documents are placed without layouts, [Front Matter](/docs/front-matter/) variables are made available to templates, [Liquid tags and filters](/docs/liquid/) are processed, formats like [Markdown](https://kramdown.gettalong.org/quickref.html) are converted to HTML, and generally everything is finalized in its proper output format (HTML, JSON, images, PDFs, etc.).
+1. Once all of the data structures for the entire website are in place, Bridgetown __renders__ all relevant content objects to prepare them for final output. This is when documents are placed within layouts, [Front Matter](/docs/front-matter/) variables are made available to templates, any [Liquid tags and filters](/docs/liquid/) are processed, formats like [Markdown](https://kramdown.gettalong.org/quickref.html) are converted to HTML, and generally everything is finalized in its proper output format (HTML, JSON, images, PDFs, etc.).
 1. The final step is to write everything to the destination folder (typically `output`). If all has gone well, that folder will contain a complete, fully-functioning website [which can be deployed](/docs/deployment/) to any basic HTTP web server.
 
 Normally during development, you will be running a local dev server, which means
