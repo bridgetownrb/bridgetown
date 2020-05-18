@@ -12,7 +12,7 @@ plugins: !ruby/string:Rb |
     username, token = ENV["BRIDGETOWN_GITHUB_TOKEN"].split(":")
     conn.basic_auth(username, token)
   end
-  items = JSON.parse(conn.get.body)["items"]
+  items = JSON.parse(conn.get.body)["items"].sort_by {|item| item["name"]}
 
   items.each do |item|
     begin
