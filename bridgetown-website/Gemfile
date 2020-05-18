@@ -8,5 +8,3 @@ gem 'bridgetown', path: '../bridgetown'
 gem "bridgetown-seo-tag", "~> 3.0", :group => :bridgetown_plugins
 
 gem "bridgetown-feed", "~> 1.0", :group => :bridgetown_plugins
-
-gem "faraday", "~> 1.0"

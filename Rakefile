@@ -10,10 +10,10 @@ task :test_all do
 end
 
 task :release_all_unsafe do
-  sh "cd bridgetown && bundle exec rake release"
   sh "cd bridgetown-core && bundle exec rake release"
   sh "cd bridgetown-builder && bundle exec rake release"
   sh "cd bridgetown-paginate && bundle exec rake release"
+  sh "cd bridgetown && bundle exec rake release"
 end
 
 desc "Build and release all Bridgetown gems in monorepo"

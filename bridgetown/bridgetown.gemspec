@@ -20,5 +20,6 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 2.7.0"
 
   s.add_dependency("bridgetown-core", Bridgetown::VERSION)
+  s.add_dependency("bridgetown-builder", Bridgetown::VERSION)
   s.add_dependency("bridgetown-paginate", Bridgetown::VERSION)
 end
