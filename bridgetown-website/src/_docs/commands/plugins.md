@@ -2,7 +2,7 @@
 title: Plugins Command
 hide_in_toc: true
 order: 0
-category: commands
+category: command-line-usage
 ---
 
 New in Bridgetown 0.14, the `plugins` command allows you to display all custom or gem-based plugins you have loaded in the site along with other related infrastructure such as source manifests, generators, and builders.
