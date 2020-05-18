@@ -22,6 +22,7 @@ AllCops:
     - bridgetown-core/script/**/*
     - bridgetown-core/vendor/**/*
     - bridgetown-core/tmp/**/*
+    - bridgetown-core/lib/site_template/plugins/site_builder.rb
 Layout/HashAlignment:
   EnforcedHashRocketStyle: table
 Layout/IndentationWidth:
