@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "helper"
+require_all "bridgetown-core/commands/concerns"
 require "bridgetown-core/commands/doctor"
 
 class TestDoctorCommand < BridgetownUnitTest
@@ -16,7 +17,7 @@ class TestDoctorCommand < BridgetownUnitTest
                        ))
       @site.process
       output = capture_stderr do
-        ret = Bridgetown::Commands::Doctor.urls_only_differ_by_case(@site)
+        ret = Bridgetown::Commands::Doctor.new.send(:urls_only_differ_by_case, @site)
         assert_equal false, ret
       end
       assert_equal "", output
@@ -29,7 +30,7 @@ class TestDoctorCommand < BridgetownUnitTest
                        ))
       @site.process
       output = capture_stderr do
-        ret = Bridgetown::Commands::Doctor.urls_only_differ_by_case(@site)
+        ret = Bridgetown::Commands::Doctor.new.send(:urls_only_differ_by_case, @site)
         assert_equal true, ret
       end
       assert_includes output, "Warning: The following URLs only differ by case. "\

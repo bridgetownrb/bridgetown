@@ -45,11 +45,11 @@ module Bridgetown
         *site.plugin_manager.plugins_path,
         ignore: listen_ignore_paths(options),
         force_polling: options["force_polling"],
-        &listen_handler(site)
+        &listen_handler(site, options)
       )
     end
 
-    def listen_handler(site)
+    def listen_handler(site, options)
       proc do |modified, added, removed|
         t = Time.now
         c = modified + added + removed
@@ -59,7 +59,7 @@ module Bridgetown
         Bridgetown.logger.info "", "#{n} file(s) changed at #{t.strftime("%Y-%m-%d %H:%M:%S")}"
 
         c.each { |path| Bridgetown.logger.info "", path["#{site.root_dir}/".length..-1] }
-        process(site, t)
+        process(site, t, options)
       end
     end
 
@@ -123,7 +123,7 @@ module Bridgetown
       loop { sleep 1000 }
     end
 
-    def process(site, time)
+    def process(site, time, options)
       begin
         Bridgetown::Hooks.trigger :site, :pre_reload, site
         Bridgetown::Hooks.clear_reloadable_hooks
@@ -131,9 +131,14 @@ module Bridgetown
         site.process
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
                                " #{(Time.now - time).ceil(2)} seconds."
-      rescue StandardError => e
-        Bridgetown.logger.warn "Error:", e.message
-        Bridgetown.logger.warn "Error:", "Run bridgetown build --trace for more information."
+      rescue Exception => e
+        if options[:trace]
+          Bridgetown.logger.error "Error:", e.message
+          puts e.backtrace
+        else
+          Bridgetown.logger.error "Error:", e.message
+          Bridgetown.logger.warn "Error:", "Use the --trace option for more information."
+        end
       end
       Bridgetown.logger.info ""
     end

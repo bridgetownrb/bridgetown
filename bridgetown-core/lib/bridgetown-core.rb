@@ -39,6 +39,7 @@ require "kramdown"
 require "colorator"
 require "i18n"
 require "faraday"
+require "thor"
 
 SafeYAML::OPTIONS[:suppress_warnings] = true
 
@@ -89,16 +90,15 @@ module Bridgetown
   autoload :Watcher,             "bridgetown-core/watcher"
 
   # extensions
+  require "bridgetown-core/commands/registrations"
   require "bridgetown-core/plugin"
   require "bridgetown-core/converter"
   require "bridgetown-core/generator"
-  require "bridgetown-core/command"
   require "bridgetown-core/liquid_extensions"
   require "bridgetown-core/filters"
 
   require "bridgetown-core/drops/drop"
   require "bridgetown-core/drops/document_drop"
-  require_all "bridgetown-core/commands"
   require_all "bridgetown-core/converters"
   require_all "bridgetown-core/converters/markdown"
   require_all "bridgetown-core/drops"
@@ -137,12 +137,16 @@ module Bridgetown
       end
     end
 
+    # Conveinence method to register a new Thor command
+    def register_command(&block)
+      Bridgetown::Commands::Registrations.register(&block)
+    end
+
     # Public: Set the TZ environment variable to use the timezone specified
     #
     # timezone - the IANA Time Zone
     #
     # Returns nothing
-    # rubocop:disable Naming/AccessorMethodName
     def set_timezone(timezone)
       ENV["TZ"] = if Utils::Platforms.really_windows?
                     Utils::WinTZ.calculate(timezone)
@@ -150,7 +154,6 @@ module Bridgetown
                     timezone
                   end
     end
-    # rubocop:enable Naming/AccessorMethodName
 
     # Public: Fetch the logger instance for this Bridgetown process.
     #

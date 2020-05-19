@@ -2,40 +2,42 @@
 
 module Bridgetown
   module Commands
-    class Clean < Command
-      class << self
-        def init_with_program(prog)
-          prog.command(:clean) do |c|
-            c.syntax "clean [subcommand]"
-            c.description "Clean the site " \
-                  "(removes site output and metadata file) without building."
+    class Clean < Thor::Group
+      Registrations.register do
+        register(Clean, "clean", "clean", Clean.summary)
+      end
 
-            add_build_options(c)
+      extend BuildOptions
+      extend Summarizable
+      include OptionsConfigurable
 
-            c.action do |_, options|
-              Bridgetown::Commands::Clean.process(options)
-            end
-          end
-        end
+      def self.banner
+        "bridgetown clean [options]"
+      end
 
-        def process(options)
-          options = configuration_from_options(options)
-          destination = options["destination"]
-          metadata_file = File.join(options["source"], ".bridgetown-metadata")
-          cache_dir = File.join(options["source"], options["cache_dir"])
+      summary "Clean the site (removes site output and metadata file) without building"
 
-          remove(destination, checker_func: :directory?)
-          remove(metadata_file, checker_func: :file?)
-          remove(cache_dir, checker_func: :directory?)
-        end
+      def clean
+        config = configuration_from_options(options)
+        destination = config["destination"]
+        metadata_file = File.join(config["root_dir"], ".bridgetown-metadata")
+        cache_dir = File.join(config["root_dir"], config["cache_dir"])
+        webpack_dir = File.join(config["root_dir"], ".bridgetown-webpack")
 
-        def remove(filename, checker_func: :file?)
-          if File.public_send(checker_func, filename)
-            Bridgetown.logger.info "Cleaner:", "Removing #{filename}..."
-            FileUtils.rm_rf(filename)
-          else
-            Bridgetown.logger.info "Cleaner:", "Nothing to do for #{filename}."
-          end
+        remove(destination, checker_func: :directory?)
+        remove(metadata_file, checker_func: :file?)
+        remove(cache_dir, checker_func: :directory?)
+        remove(webpack_dir, checker_func: :directory?)
+      end
+
+      protected
+
+      def remove(filename, checker_func: :file?)
+        if File.public_send(checker_func, filename)
+          Bridgetown.logger.info "Cleaner:", "Removing #{filename}..."
+          FileUtils.rm_rf(filename)
+        else
+          Bridgetown.logger.info "Cleaner:", "Nothing to do for #{filename}."
         end
       end
     end
