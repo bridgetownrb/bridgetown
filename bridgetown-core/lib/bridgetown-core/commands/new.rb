@@ -11,6 +11,10 @@ module Bridgetown
 
       extend Summarizable
 
+      class_option :apply,
+                   aliases: "-a",
+                   banner: "PATH|URL",
+                   desc: "Apply a starter kit after creating the site scaffold"
       class_option :force,
                    type: :boolean,
                    desc: "Force creation even if PATH already exists"
@@ -29,6 +33,10 @@ module Bridgetown
 
       DOCSURL = "https://bridgetownrb.com/docs"
 
+      class << self
+        attr_accessor :created_site_dir
+      end
+
       def new_site_path
         raise ArgumentError, "You must specify a path." if args.empty?
 
@@ -43,6 +51,8 @@ module Bridgetown
         Bridgetown.logger.info("Creating:".green, new_site_path)
 
         create_site new_site_path
+
+        self.class.created_site_dir = new_site_path
 
         after_install(new_site_path, args.join(" "), options)
       end
@@ -132,6 +142,8 @@ module Bridgetown
         end
 
         yarn_install path unless options["skip-yarn"]
+
+        invoke(Apply, [], options) if options[:apply]
 
         yarn_start = "yarn start"
 
