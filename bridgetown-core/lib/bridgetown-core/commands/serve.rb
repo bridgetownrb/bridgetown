@@ -9,12 +9,22 @@ module Bridgetown
 
       class_option :host, aliases: "-H", desc: "Host to bind to"
       class_option :port, aliases: "-P", desc: "Port to listen on"
-      class_option :open_url, aliases: "-o", type: :boolean, desc: "Launch your site in a browser"
-      class_option :detach, aliases: "-B", type: :boolean, desc: "Run the server in the background"
+      class_option :open_url,
+                   aliases: "-o",
+                   type: :boolean,
+                   desc: "Launch your site in a browser"
+      class_option :detach,
+                   aliases: "-B",
+                   type: :boolean,
+                   desc: "Run the server in the background"
       class_option :ssl_cert, desc: "X.509 (SSL) certificate."
       class_option :ssl_key, desc: "X.509 (SSL) Private Key."
-      class_option :show_dir_listing, type: :boolean, desc: "Show a directory listing instead of loading your index file."
-      class_option :skip_initial_build, type: :boolean, desc: "Skips the initial site build which occurs before the server is started."
+      class_option :show_dir_listing,
+                   type: :boolean,
+                   desc: "Show a directory listing instead of loading your index file."
+      class_option :skip_initial_build,
+                   type: :boolean,
+                   desc: "Skips the initial site build which occurs before the server is started."
 
       extend BuildOptions
       extend Summarizable
@@ -46,7 +56,7 @@ module Bridgetown
         @run_cond = ConditionVariable.new
         @running = false
 
-        no_watch = options["watch"] === false
+        no_watch = options["watch"] == false
 
         options = Thor::CoreExt::HashWithIndifferentAccess.new(self.options)
 
@@ -109,7 +119,7 @@ module Bridgetown
 
       def start_up_webrick(opts, destination)
         @server = WEBrick::HTTPServer.new(webrick_opts(opts)).tap { |o| o.unmount("") }
-        @server.mount(opts["baseurl"].to_s, Bridgetown::Commands::Serve::Servlet, destination, file_handler_opts)
+        @server.mount(opts["baseurl"].to_s, Servlet, destination, file_handler_opts)
 
         Bridgetown.logger.info "Server address:", server_address(@server, opts)
         launch_browser @server, opts if opts["open_url"]

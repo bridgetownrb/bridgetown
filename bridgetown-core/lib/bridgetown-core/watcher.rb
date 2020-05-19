@@ -95,7 +95,6 @@ module Bridgetown
     # options - A Hash of options passed to the command
     #
     # Returns a list of relative paths from source that should be ignored
-    # rubocop: disable Metrics/AbcSize
     def listen_ignore_paths(options)
       source = Pathname.new(options["source"]).expand_path
       paths  = to_exclude(options)
@@ -117,7 +116,6 @@ module Bridgetown
         end
       end.compact + [%r!^\.bridgetown\-metadata!]
     end
-    # rubocop:enable Metrics/AbcSize
 
     def sleep_forever
       loop { sleep 1000 }
@@ -132,11 +130,11 @@ module Bridgetown
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
                                " #{(Time.now - time).ceil(2)} seconds."
       rescue Exception => e
+        Bridgetown.logger.error "Error:", e.message
+
         if options[:trace]
-          Bridgetown.logger.error "Error:", e.message
-          puts e.backtrace
+          Bridgetown.logger.info e.backtrace
         else
-          Bridgetown.logger.error "Error:", e.message
           Bridgetown.logger.warn "Error:", "Use the --trace option for more information."
         end
       end

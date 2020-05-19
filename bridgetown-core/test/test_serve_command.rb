@@ -5,7 +5,7 @@ require "helper"
 require "openssl"
 require "tmpdir"
 
-class TestCommandsServe < BridgetownUnitTest
+class TestServeCommand < BridgetownUnitTest
   def custom_opts(what)
     @cmd.send(
       :webrick_opts, what
@@ -81,7 +81,10 @@ class TestCommandsServe < BridgetownUnitTest
           allow(Bridgetown).to receive_messages(environment: "development")
         end
         should "set the site url by default to `http://localhost:4000`" do
-          @cmd.options = { "watch" => false, "url" => "https://bridgetownrb.com/" }.with_indifferent_access
+          @cmd.options = {
+            "watch" => false,
+            "url"   => "https://bridgetownrb.com/",
+          }.with_indifferent_access
           @cmd.serve
 
           assert_equal 1, Bridgetown.sites.count
@@ -104,7 +107,10 @@ class TestCommandsServe < BridgetownUnitTest
 
       context "not in development environment" do
         should "not update the site url" do
-          @cmd.options = { "watch" => false, "url" => "https://bridgetownrb.com/" }.with_indifferent_access
+          @cmd.options = {
+            "watch" => false,
+            "url"   => "https://bridgetownrb.com/",
+          }.with_indifferent_access
           allow(Bridgetown).to receive_messages(environment: "production")
           @cmd.serve
 

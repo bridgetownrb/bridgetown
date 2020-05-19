@@ -38,7 +38,9 @@ class TestNewCommand < BridgetownUnitTest
       gemfile = File.join(@full_path, "Gemfile")
       packagejson = File.join(@full_path, "package.json")
       refute_exist @full_path
-      capture_output { Bridgetown::Commands::Base.start(argumentize("#{@args} #{@options}")) }
+      capture_output do
+        Bridgetown::Commands::Base.start(argumentize("#{@args} #{@options}"))
+      end
       assert_exist gemfile
       assert_exist packagejson
       assert_match(%r!gem "bridgetown", "~> #{Bridgetown::VERSION}"!, File.read(gemfile))
@@ -46,7 +48,9 @@ class TestNewCommand < BridgetownUnitTest
     end
 
     should "display a success message" do
-      output = capture_output { Bridgetown::Commands::Base.start(argumentize("#{@args} #{@options}")) }
+      output = capture_output do
+        Bridgetown::Commands::Base.start(argumentize("#{@args} #{@options}"))
+      end
       success_message = "Your new Bridgetown site was generated in" \
                         " #{@path.cyan}."
       bundle_message = "Running bundle install in #{@full_path.cyan}... "
@@ -63,7 +67,9 @@ class TestNewCommand < BridgetownUnitTest
       end
       static_template_files << "/Gemfile"
 
-      capture_output { Bridgetown::Commands::Base.start(argumentize("#{@args} #{@options}")) }
+      capture_output do
+        Bridgetown::Commands::Base.start(argumentize("#{@args} #{@options}"))
+      end
 
       new_site_files = dir_contents(@full_path).reject do |f|
         f.end_with?("welcome-to-bridgetown.md")
@@ -85,7 +91,9 @@ class TestNewCommand < BridgetownUnitTest
         f.gsub! "0000-00-00", stubbed_date
       end
 
-      capture_output { Bridgetown::Commands::Base.start(argumentize("#{@args} #{@options}")) }
+      capture_output do
+        Bridgetown::Commands::Base.start(argumentize("#{@args} #{@options}"))
+      end
 
       new_site_files = dir_contents(@full_path_source).select do |f|
         erb_template_files.include? f
@@ -96,7 +104,9 @@ class TestNewCommand < BridgetownUnitTest
 
     should "force created folder" do
       capture_output { Bridgetown::Commands::Base.start(argumentize("#{@args} #{@options}")) }
-      output = capture_output { Bridgetown::Commands::Base.start(argumentize("#{@args} #{@options} --force")) }
+      output = capture_output do
+        Bridgetown::Commands::Base.start(argumentize("#{@args} #{@options} --force"))
+      end
       assert_match %r!new Bridgetown site was generated in!, output
     end
 

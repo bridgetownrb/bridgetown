@@ -15,7 +15,7 @@ module Bridgetown
       end
 
       class << self
-        # Override single character commands if necessary…
+        # Override single character commands if necessary
         def find_command_possibilities(subcommand)
           if subcommand == "c"
             ["console"]
@@ -31,7 +31,8 @@ module Bridgetown
           klass = Kernel.const_get("Bridgetown::Commands::#{subcommand.capitalize}Thor")
           klass.start(["-h"])
         else
-          puts "Bridgetown v#{Bridgetown::VERSION.magenta} \"#{Bridgetown::CODE_NAME.yellow}\" is a Webpack-aware, Ruby-powered static site generator for the modern Jamstack era"
+          puts "Bridgetown v#{Bridgetown::VERSION.magenta} \"#{Bridgetown::CODE_NAME.yellow}\"" \
+               " is a Webpack-aware, Ruby-powered static site generator for the modern Jamstack era"
           puts ""
           puts "Usage:"
           puts "  bridgetown <command> [options]"
