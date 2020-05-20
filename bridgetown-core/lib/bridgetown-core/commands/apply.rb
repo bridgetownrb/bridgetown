@@ -51,7 +51,7 @@ module Bridgetown
         Bundler.with_clean_env do
           self.destination_root = New.created_site_dir
           inside(New.created_site_dir) do
-            apply(transform_automation_url(options[:apply]))
+            apply_from_url options[:apply]
           end
         end
       end
@@ -66,9 +66,15 @@ module Bridgetown
                                " current folder."
         end
 
-        apply(transform_automation_url(automation_command))
+        Bundler.with_clean_env do
+          apply_from_url automation_command
+        end
       rescue ArgumentError => e
         Bridgetown.logger.warn "Oops!", e.message
+      end
+
+      def apply_from_url(url)
+        apply transform_automation_url(url)
       end
 
       def transform_automation_url(arg)
