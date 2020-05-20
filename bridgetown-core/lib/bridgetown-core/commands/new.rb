@@ -14,7 +14,7 @@ module Bridgetown
       class_option :apply,
                    aliases: "-a",
                    banner: "PATH|URL",
-                   desc: "Apply a starter kit after creating the site scaffold"
+                   desc: "Apply an automation after creating the site scaffold"
       class_option :force,
                    type: :boolean,
                    desc: "Force creation even if PATH already exists"
