@@ -147,6 +147,25 @@ module Bridgetown
         end
       end
 
+      def add_bridgetown_plugin(gemname, version: nil)
+        version = " -v \"#{version}\"" if version
+        run "bundle add #{gemname}#{version} -g bridgetown_plugins"
+      rescue SystemExit
+        say_status :run, "Gem not added due to bundler error", :red
+      end
+
+      def add_yarn_for_gem(gemname)
+        log :add_yarn, gemname
+
+        Bundler.reset!
+        available_gems = Bundler.setup Bridgetown::PluginManager::PLUGINS_GROUP
+        Bridgetown::PluginManager.install_yarn_dependencies(
+          available_gems.requested_specs, gemname
+        )
+      rescue SystemExit
+        say_status :add_yarn, "Package not added due to yarn error", :red
+      end
+
       private
 
       def log(*args) # :doc:

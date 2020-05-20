@@ -97,7 +97,6 @@ module Bridgetown
           # Happy Bridgetowning!
 
           gem "bridgetown", "~> #{Bridgetown::VERSION}"
-
         RUBY
       end
 
@@ -143,7 +142,7 @@ module Bridgetown
             require "bundler"
             bundle_install path
           rescue LoadError
-            logger.info "Could not load Bundler. Bundle install skipped."
+            logger.warn "Could not load Bundler. Bundle install skipped."
           end
         end
 
@@ -176,7 +175,7 @@ module Bridgetown
           end
         end
       rescue SystemExit
-        Bridgetown.logger.error "Problem occured while running bundle install."
+        say_status :run, "Problem occured while running bundle install.", :red
       end
 
       def git_init(path)
@@ -192,7 +191,7 @@ module Bridgetown
           end
         end
       rescue SystemExit
-        Bridgetown.logger.error "Could not load yarn. yarn install skipped."
+        say_status :run, "Could not load yarn. yarn install skipped.", :red
       end
     end
   end

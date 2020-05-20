@@ -2,6 +2,8 @@
 
 module Bridgetown
   class PluginManager
+    PLUGINS_GROUP = :bridgetown_plugins
+
     attr_reader :site
 
     @source_manifests = Set.new
@@ -40,11 +42,9 @@ module Bridgetown
       if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] && File.file?("Gemfile")
         require "bundler"
 
-        group_name = :bridgetown_plugins
-
-        required_gems = Bundler.require group_name
+        required_gems = Bundler.require PLUGINS_GROUP
         required_gems.select! do |dep|
-          (dep.groups & [group_name]).any? && dep.should_include?
+          (dep.groups & [PLUGINS_GROUP]).any? && dep.should_include?
         end
 
         install_yarn_dependencies(required_gems)
@@ -67,13 +67,13 @@ module Bridgetown
     # If that exact package hasn't been installed, execute yarn add
     #
     # Returns nothing.
-    def self.install_yarn_dependencies(required_gems)
+    def self.install_yarn_dependencies(required_gems, gemname = nil)
       return unless File.exist?("package.json")
 
       package_json = JSON.parse(File.read("package.json"))
-
       required_gems.each do |loaded_gem|
         next unless loaded_gem.to_spec&.metadata&.dig("yarn-add")
+        next if gemname && loaded_gem.to_spec&.name != gemname
 
         yarn_add_dependency = loaded_gem.to_spec.metadata["yarn-add"].split("@")
         next unless yarn_add_dependency.length == 2
