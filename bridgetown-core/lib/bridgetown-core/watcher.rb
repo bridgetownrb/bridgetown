@@ -133,7 +133,7 @@ module Bridgetown
         Bridgetown.logger.error "Error:", e.message
 
         if options[:trace]
-          Bridgetown.logger.info e.backtrace
+          Bridgetown.logger.info e.backtrace.join("\n")
         else
           Bridgetown.logger.warn "Error:", "Use the --trace option for more information."
         end

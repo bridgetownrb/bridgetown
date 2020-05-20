@@ -5,6 +5,8 @@ require "erb"
 module Bridgetown
   module Commands
     class New < Thor::Group
+      include Thor::Actions
+
       Registrations.register do
         register(New, "new", "new PATH", New.summary)
       end
@@ -32,6 +34,10 @@ module Bridgetown
       summary "Creates a new Bridgetown site scaffold in PATH"
 
       DOCSURL = "https://bridgetownrb.com/docs"
+
+      def self.exit_on_failure?
+        false
+      end
 
       class << self
         attr_accessor :created_site_dir
@@ -164,42 +170,29 @@ module Bridgetown
 
       def bundle_install(path)
         Bridgetown.logger.info "Running bundle install in #{path.cyan}..."
-        Dir.chdir(path) do
-          exe = Gem.bin_path("bundler", "bundle")
-          process, output = Bridgetown::Utils::Exec.run("ruby", exe, "install")
-
-          output.to_s.each_line do |line|
-            Bridgetown.logger.info("Bundler:".green, line.strip) unless line.to_s.empty?
+        Bundler.with_clean_env do
+          inside(path) do
+            run "bundle install", abort_on_failure: true
           end
-
-          raise SystemExit unless process.success?
         end
+      rescue SystemExit
+        Bridgetown.logger.error "Problem occured while running bundle install."
       end
 
       def git_init(path)
-        Dir.chdir(path) do
-          _process, output = Bridgetown::Utils::Exec.run("git", "init")
-          output.to_s.each_line do |line|
-            Bridgetown.logger.info("Git:".green, line.strip) unless line.to_s.empty?
-          end
+        inside(path) do
+          run "git init"
         end
-      rescue SystemCallError
       end
 
       def yarn_install(path)
-        Bridgetown.logger.info "Running yarn install in #{path.cyan}..."
         Dir.chdir(path) do
-          _process, output = Bridgetown::Utils::Exec.run("yarn", "install")
-          output.to_s.each_line do |line|
-            next if line.to_s.empty? ||
-              line.strip.start_with?("warning ") ||
-              line.include?("No lockfile found")
-
-            Bridgetown.logger.info("Yarn:".green, line.strip)
+          inside(path) do
+            run "yarn install", abort_on_failure: true
           end
         end
-      rescue SystemCallError
-        Bridgetown.logger.info "Could not load yarn. yarn install skipped."
+      rescue SystemExit
+        Bridgetown.logger.error "Could not load yarn. yarn install skipped."
       end
     end
   end
