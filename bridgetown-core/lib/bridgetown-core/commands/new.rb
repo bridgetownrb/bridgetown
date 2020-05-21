@@ -81,6 +81,8 @@ module Bridgetown
       def gemfile_contents
         <<~RUBY
           source "https://rubygems.org"
+          git_source(:github) { |repo| "https://github.com/#{repo}.git" }
+
           # Hello! This is where you manage which Bridgetown version is used to run.
           # When you want to use a different version, change it below, save the
           # file and run `bundle install`. Run Bridgetown with `bundle exec`, like so:
