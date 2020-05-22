@@ -84,6 +84,8 @@ module Bridgetown
           return arg.sub("https://github.com", "https://raw.githubusercontent.com") + "/master/bridgetown.automation.rb"
         end
 
+        # TODO: option to download and confirm remote automation?
+
         arg
       end
     end
