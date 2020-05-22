@@ -49,7 +49,7 @@ module Bridgetown
         Bundler.with_clean_env do
           self.destination_root = New.created_site_dir
           inside(New.created_site_dir) do
-            apply_from_url options[:apply]
+            apply_from_url options[:apply].dup
           end
         end
       end
@@ -65,30 +65,10 @@ module Bridgetown
         end
 
         Bundler.with_clean_env do
-          apply_from_url automation_command
+          apply_from_url automation_command.dup
         end
       rescue ArgumentError => e
         Bridgetown.logger.warn "Oops!", e.message
-      end
-
-      def apply_from_url(url)
-        apply transform_automation_url(url)
-      end
-
-      def transform_automation_url(arg)
-        if arg.start_with?("https://gist.github.com")
-          return arg.sub(
-            "https://gist.github.com", "https://gist.githubusercontent.com"
-          ) + "/raw/bridgetown.automation.rb"
-        elsif arg.start_with?("https://github.com")
-          return arg.sub(
-            "https://github.com", "https://raw.githubusercontent.com"
-          ) + "/master/bridgetown.automation.rb"
-        end
-
-        # TODO: option to download and confirm remote automation?
-
-        arg
       end
     end
   end

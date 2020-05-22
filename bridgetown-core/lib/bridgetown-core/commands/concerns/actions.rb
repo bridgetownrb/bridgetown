@@ -164,7 +164,36 @@ module Bridgetown
         say_status :add_yarn, "Package not added due to yarn error", :red
       end
 
+      def apply_from_url(url)
+        apply transform_automation_url(url)
+      end
+
       private
+
+      def transform_automation_url(arg)
+        remote_file = if arg.end_with?(".rb")
+                        arg.split("/").yield_self do |segments|
+                          arg.sub!(%r!/#{segments.last}$!, "")
+                          segments.last
+                        end
+                      else
+                        "bridgetown.automation.rb"
+                      end
+
+        if arg.start_with?("https://gist.github.com")
+          return arg.sub(
+            "https://gist.github.com", "https://gist.githubusercontent.com"
+          ) + "/raw/#{remote_file}"
+        elsif arg.start_with?("https://github.com")
+          return arg.sub(
+            "https://github.com", "https://raw.githubusercontent.com"
+          ) + "/master/#{remote_file}"
+        end
+
+        # TODO: option to download and confirm remote automation?
+
+        arg
+      end
 
       def log(*args)
         if args.size == 1
