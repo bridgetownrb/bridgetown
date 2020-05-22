@@ -67,6 +67,8 @@ module Bridgetown
     # If that exact package hasn't been installed, execute yarn add
     #
     # Returns nothing.
+    # rubocop:todo Metrics/AbcSize
+    # rubocop:todo Metrics/CyclomaticComplexity
     def self.install_yarn_dependencies(required_gems, gemname = nil)
       return unless File.exist?("package.json")
 
@@ -87,6 +89,8 @@ module Bridgetown
         system cmd
       end
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/AbcSize
 
     # Require all .rb files
     #

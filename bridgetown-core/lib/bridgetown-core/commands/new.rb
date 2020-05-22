@@ -82,6 +82,7 @@ module Bridgetown
       # After a new site has been created, print a success notification and
       # then automatically execute bundle install from within the new site dir
       # unless the user opts to skip 'bundle install'.
+      # rubocop:todo Metrics/CyclomaticComplexity
       def after_install(path, cli_path, options = {})
         git_init path
 
@@ -94,9 +95,7 @@ module Bridgetown
         invoke(Apply, [], options) if options[:apply]
 
         logger = Bridgetown.logger
-
         yarn_start = "yarn start"
-
         logger.info ""
         logger.info "Success!".green, "🎉 Your new Bridgetown site was" \
                     " generated in #{cli_path.cyan}."
@@ -113,6 +112,7 @@ module Bridgetown
         logger.info "Bundle install skipped.".yellow if @skipped_bundle
         logger.info "Yarn install skipped.".yellow if @skipped_yarn
       end
+      # rubocop:enable Metrics/CyclomaticComplexity
 
       def bundle_install(path)
         unless Bridgetown.environment == "test"

@@ -77,9 +77,13 @@ module Bridgetown
 
       def transform_automation_url(arg)
         if arg.start_with?("https://gist.github.com")
-          return arg.sub("https://gist.github.com", "https://gist.githubusercontent.com") + "/raw/bridgetown.automation.rb"
+          return arg.sub(
+            "https://gist.github.com", "https://gist.githubusercontent.com"
+          ) + "/raw/bridgetown.automation.rb"
         elsif arg.start_with?("https://github.com")
-          return arg.sub("https://github.com", "https://raw.githubusercontent.com") + "/master/bridgetown.automation.rb"
+          return arg.sub(
+            "https://github.com", "https://raw.githubusercontent.com"
+          ) + "/master/bridgetown.automation.rb"
         end
 
         # TODO: option to download and confirm remote automation?

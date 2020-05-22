@@ -22,7 +22,7 @@ module Bridgetown
       #   gem "technoweenie-restful-authentication", lib: "restful-authentication", source: "http://gems.github.com/"
       #   gem "rails", "3.0", git: "https://github.com/rails/rails"
       #   gem "RedCloth", ">= 4.1.0", "< 4.2.0"
-      def gem(*args)
+      def gem(*args) # rubocop:todo Metrics/AbcSize
         options = args.extract_options!
         name, *versions = args
 
@@ -31,12 +31,14 @@ module Bridgetown
         parts = [quote(name)]
         message = name.dup
 
+        # rubocop:todo Lint/AssignmentInCondition
         if versions = versions.any? ? versions : options.delete(:version)
-          _versions = Array(versions)
-          _versions.each do |version|
+          # rubocop:enable Lint/AssignmentInCondition
+          versions_arr = Array(versions)
+          versions_arr.each do |version|
             parts << quote(version)
           end
-          message << " (#{_versions.join(", ")})"
+          message << " (#{versions_arr.join(", ")})"
         end
         message = options[:git] if options[:git]
 
@@ -128,11 +130,7 @@ module Bridgetown
 
           last_import = ""
           index_file.each_line do |line|
-            if line.start_with?("import ")
-              last_import = line
-            else
-              break
-            end
+            line.start_with?("import ") ? last_import = line : break
           end
 
           if last_import == ""
@@ -168,7 +166,7 @@ module Bridgetown
 
       private
 
-      def log(*args) # :doc:
+      def log(*args)
         if args.size == 1
           say args.first.to_s unless options.quiet?
         else
@@ -179,7 +177,7 @@ module Bridgetown
 
       # Surround string with single quotes if there is no quotes.
       # Otherwise fall back to double quotes
-      def quote(value) # :doc:
+      def quote(value)
         if value.respond_to? :each_pair
           return value.map do |k, v|
             "#{k}: #{quote(v)}"
@@ -195,19 +193,19 @@ module Bridgetown
       end
 
       # Returns optimized string with indentation
-      def optimize_indentation(value, amount = 0) # :doc:
+      def optimize_indentation(value, amount = 0)
         return "#{value}\n" unless value.is_a?(String)
 
         "#{value.strip_heredoc.indent(amount).chomp}\n"
       end
 
       # Indent the +Gemfile+ to the depth of @indentation
-      def indentation # :doc:
+      def indentation
         "  " * @indentation
       end
 
       # Manage +Gemfile+ indentation for a DSL action block
-      def with_indentation(&block) # :doc:
+      def with_indentation(&block)
         @indentation += 1
         instance_eval(&block)
       ensure
