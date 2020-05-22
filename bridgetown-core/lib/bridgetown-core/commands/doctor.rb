@@ -3,22 +3,21 @@
 module Bridgetown
   module Commands
     class Doctor < Thor::Group
+      extend BuildOptions
+      extend Summarizable
+      include ConfigurationOverridable
+
       Registrations.register do
         register(Doctor, "doctor", "doctor", Doctor.summary)
       end
 
-      extend BuildOptions
-      extend Summarizable
-      include OptionsConfigurable
-
       def self.banner
         "bridgetown doctor [options]"
       end
-
       summary "Search site and print specific deprecation warnings"
 
       def doctor
-        site = Bridgetown::Site.new(configuration_from_options(options))
+        site = Bridgetown::Site.new(configuration_with_overrides(options))
         site.reset
         site.read
         site.generate

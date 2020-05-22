@@ -3,6 +3,8 @@
 module Bridgetown
   module Commands
     class Plugins < Thor
+      include ConfigurationOverridable
+
       Registrations.register do
         desc "plugins <command>", "List installed plugins or access plugin content"
         subcommand "plugins", Plugins
@@ -13,11 +15,9 @@ module Bridgetown
                    banner: "FILE1 FILE2",
                    desc: "Custom configuration file(s)"
 
-      include OptionsConfigurable
-
       desc "list", "List information about installed plugins"
       def list
-        site = Bridgetown::Site.new(configuration_from_options(options))
+        site = Bridgetown::Site.new(configuration_with_overrides(options))
         site.reset
         Bridgetown::Hooks.trigger :site, :pre_read, site
 
@@ -101,7 +101,7 @@ module Bridgetown
       # Now all the plugin's layouts will be in the site repo directly.
       #
       def cd(arg)
-        site = Bridgetown::Site.new(configuration_from_options(options))
+        site = Bridgetown::Site.new(configuration_with_overrides(options))
 
         pm = site.plugin_manager
 

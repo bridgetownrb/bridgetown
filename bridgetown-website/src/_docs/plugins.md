@@ -1,5 +1,6 @@
 ---
 order: 6
+next_page_order: 6.5
 title: Extend with Plugins
 top_section: Configuration
 category: plugins
@@ -22,6 +23,11 @@ for more details on creating and publishing your own gem.
 
 Make sure you [follow these instructions](/docs/plugins/gems-and-webpack/) to integrate your plugin's frontend code
 with the users' Webpack setup. Also read up on [Source Manifests](/docs/plugins/source-manifests/) if you have layouts, static files, and other content you would like your gem to provide.
+
+You can also provide an automation via your gem's GitHub repository by adding
+`bridgetown.automation.rb` to the root of your repo. This is a great way to
+provide advanced and interactive setup for your plugin. [More information on
+automations here.](/docs/automations)
 {% endrendercontent %}
 
 {% toc %}
@@ -179,17 +185,15 @@ Hooks provide fine-grained control to trigger custom functionality at various po
 
 Generators allow you to automate the creating or updating of content in your site using Bridgetown's internal Ruby API.
 
-## Legacy API-only Plugin Development
+### [Commands](/docs/plugins/commands/)
 
-There are two types of plugin features which are only available via the Legacy API.
+Commands extend the `bridgetown` executable using the Thor CLI toolkit.
+
+## Legacy API-only Plugin Development
 
 ### [Converters](/docs/plugins/converters/)
 
 Converters change a markup language from one format to another.
-
-### [Commands](/docs/plugins/commands/)
-
-Commands extend the `bridgetown` executable with subcommands.
 
 {:.mt-8}
 #### Priority Flag

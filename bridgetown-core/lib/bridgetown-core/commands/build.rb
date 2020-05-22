@@ -3,24 +3,23 @@
 module Bridgetown
   module Commands
     class Build < Thor::Group
+      extend BuildOptions
+      extend Summarizable
+      include ConfigurationOverridable
+
       Registrations.register do
         register(Build, "build", "build", Build.summary)
       end
+
+      def self.banner
+        "bridgetown build [options]"
+      end
+      summary "Build your site and save to destination folder"
 
       class_option :watch,
                    type: :boolean,
                    aliases: "-w",
                    desc: "Watch for changes and rebuild"
-
-      extend BuildOptions
-      extend Summarizable
-      include OptionsConfigurable
-
-      def self.banner
-        "bridgetown build [options]"
-      end
-
-      summary "Build your site and save to destination folder"
 
       # Build your bridgetown site
       # Continuously watch if `watch` is set to true in the config.
@@ -30,7 +29,7 @@ module Bridgetown
         Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
                                " (codename \"#{Bridgetown::CODE_NAME.yellow}\")"
 
-        config_options = Serve.loaded_config || configuration_from_options(options)
+        config_options = Serve.loaded_config || configuration_with_overrides(options)
         config_options["serving"] = false unless config_options["serving"]
         @site = Bridgetown::Site.new(config_options)
 

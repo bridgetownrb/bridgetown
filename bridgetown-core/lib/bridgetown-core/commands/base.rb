@@ -28,7 +28,7 @@ module Bridgetown
       desc "help <command>", "Show detailed command usage information and exit"
       def help(subcommand = nil)
         if subcommand && respond_to?(subcommand)
-          klass = Kernel.const_get("Bridgetown::Commands::#{subcommand.capitalize}Thor")
+          klass = Kernel.const_get("Bridgetown::Commands::#{subcommand.capitalize}")
           klass.start(["-h"])
         else
           puts "Bridgetown v#{Bridgetown::VERSION.magenta} \"#{Bridgetown::CODE_NAME.yellow}\"" \

@@ -3,22 +3,21 @@
 module Bridgetown
   module Commands
     class Clean < Thor::Group
+      extend BuildOptions
+      extend Summarizable
+      include ConfigurationOverridable
+
       Registrations.register do
         register(Clean, "clean", "clean", Clean.summary)
       end
 
-      extend BuildOptions
-      extend Summarizable
-      include OptionsConfigurable
-
       def self.banner
         "bridgetown clean [options]"
       end
-
       summary "Clean the site (removes site output and metadata file) without building"
 
       def clean
-        config = configuration_from_options(options)
+        config = configuration_with_overrides(options)
         destination = config["destination"]
         metadata_file = File.join(config["root_dir"], ".bridgetown-metadata")
         cache_dir = File.join(config["root_dir"], config["cache_dir"])

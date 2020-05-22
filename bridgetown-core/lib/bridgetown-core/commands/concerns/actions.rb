@@ -165,7 +165,7 @@ module Bridgetown
       end
 
       def apply_from_url(url)
-        apply transform_automation_url(url)
+        apply transform_automation_url(url.dup)
       end
 
       private

@@ -3,6 +3,10 @@
 module Bridgetown
   module Commands
     class Serve < Thor::Group
+      extend BuildOptions
+      extend Summarizable
+      include ConfigurationOverridable
+
       Registrations.register do
         register(Serve, "serve", "serve", Serve.summary)
       end
@@ -26,14 +30,9 @@ module Bridgetown
                    type: :boolean,
                    desc: "Skips the initial site build which occurs before the server is started."
 
-      extend BuildOptions
-      extend Summarizable
-      include OptionsConfigurable
-
       def self.banner
         "bridgetown serve [options]"
       end
-
       summary "Serve your site locally using WEBrick"
 
       class << self
@@ -64,7 +63,7 @@ module Bridgetown
         options["watch"] = true unless no_watch
 
         # TODO: this prints the configuration file log message out-of-order
-        self.class.loaded_config = configuration_from_options(options)
+        self.class.loaded_config = configuration_with_overrides(options)
         if Bridgetown.environment == "development"
           self.class.loaded_config["url"] = default_url(self.class.loaded_config)
         end

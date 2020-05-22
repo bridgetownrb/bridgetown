@@ -4,12 +4,16 @@ module Bridgetown
   module Commands
     class New < Thor::Group
       include Thor::Actions
+      extend Summarizable
 
       Registrations.register do
         register(New, "new", "new PATH", New.summary)
       end
 
-      extend Summarizable
+      def self.banner
+        "bridgetown new PATH"
+      end
+      summary "Creates a new Bridgetown site scaffold in PATH"
 
       class_option :apply,
                    aliases: "-a",
@@ -24,12 +28,6 @@ module Bridgetown
       class_option :"skip-yarn",
                    type: :boolean,
                    desc: "Skip 'yarn install'"
-
-      def self.banner
-        "bridgetown new PATH"
-      end
-
-      summary "Creates a new Bridgetown site scaffold in PATH"
 
       DOCSURL = "https://bridgetownrb.com/docs"
 

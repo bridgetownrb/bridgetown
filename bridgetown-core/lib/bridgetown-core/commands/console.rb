@@ -5,12 +5,17 @@ require "irb"
 module Bridgetown
   module Commands
     class Console < Thor::Group
+      extend Summarizable
+      include ConfigurationOverridable
+
       Registrations.register do
         register(Console, "console", "console", Console.summary)
       end
 
-      extend Summarizable
-      include OptionsConfigurable
+      def self.banner
+        "bridgetown console [options]"
+      end
+      summary "Invoke an IRB console with the site loaded"
 
       class_option :config,
                    type: :array,
@@ -20,18 +25,12 @@ module Bridgetown
                    type: :boolean,
                    desc: "Skip reading content and running generators before opening console"
 
-      def self.banner
-        "bridgetown console [options]"
-      end
-
-      summary "Invoke an IRB console with the site loaded"
-
       def console
         Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
                                     " (codename \"#{Bridgetown::CODE_NAME.yellow}\")" \
                                     " console…"
         Bridgetown.logger.info "Environment:", Bridgetown.environment.cyan
-        site = Bridgetown::Site.new(configuration_from_options(options))
+        site = Bridgetown::Site.new(configuration_with_overrides(options))
 
         unless options[:blank]
           site.reset

@@ -5,17 +5,15 @@ module Bridgetown
     class Apply < Thor::Group
       include Thor::Actions
       include Actions
+      extend Summarizable
 
       Registrations.register do
         register(Apply, "apply", "apply", Apply.summary)
       end
 
-      extend Summarizable
-
       def self.banner
         "bridgetown apply PATH or URL"
       end
-
       summary "Applies an automation to the current site"
 
       def self.source_root
@@ -49,7 +47,7 @@ module Bridgetown
         Bundler.with_clean_env do
           self.destination_root = New.created_site_dir
           inside(New.created_site_dir) do
-            apply_from_url options[:apply].dup
+            apply_from_url options[:apply]
           end
         end
       end
@@ -65,7 +63,7 @@ module Bridgetown
         end
 
         Bundler.with_clean_env do
-          apply_from_url automation_command.dup
+          apply_from_url automation_command
         end
       rescue ArgumentError => e
         Bridgetown.logger.warn "Oops!", e.message
