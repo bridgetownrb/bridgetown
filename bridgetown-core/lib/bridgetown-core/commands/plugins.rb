@@ -11,11 +11,6 @@ module Bridgetown
         subcommand "plugins", Plugins
       end
 
-      class_option :config,
-                   type: :array,
-                   banner: "FILE1 FILE2",
-                   desc: "Custom configuration file(s)"
-
       desc "list", "List information about installed plugins"
       def list
         site = Bridgetown::Site.new(configuration_with_overrides(options))
@@ -141,7 +136,9 @@ module Bridgetown
         end
       end
 
-      desc "new NAME", "Create a new plugin NAME (please-use-dashes) by cloning the sample plugin repo"
+      desc "new NAME", "Create a new plugin NAME (please-use-dashes) by" \
+                       " cloning the sample plugin repo"
+      # rubocop:disable Layout/LineLength
       def new(plugin_name)
         folder_name = plugin_name.underscore
         name = folder_name.dasherize
@@ -150,7 +147,7 @@ module Bridgetown
         run "git clone https://github.com/bridgetownrb/bridgetown-sample-plugin #{name}"
         new_gemspec = "#{name}.gemspec"
 
-        inside name do
+        inside name do # rubocop:todo Metrics/BlockLength
           run "rm -rf .git"
           run "git init"
 
@@ -193,6 +190,7 @@ module Bridgetown
                                " indentifer, as well as update your README " \
                                " and CHANGELOG files as necessary."
       end
+      # rubocop:enable Layout/LineLength
 
       protected
 
