@@ -6,6 +6,7 @@ module WEBrick
   module HTTPServlet
     class ProcHandler
       alias_method :do_PUT, :do_GET
+      alias_method :do_PATCH, :do_GET
       alias_method :do_DELETE, :do_GET
     end
   end
