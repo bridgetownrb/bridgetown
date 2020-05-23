@@ -6,7 +6,7 @@ top_section: Configuration
 category: automations
 ---
 
-**_New_** in Bridgetown 0.15, you can write automation scripts which act on new
+**_New_** in Bridgetown 0.15: You can write automation scripts which act on new
 or existing sites to perform tasks such as adding gems, updating configuration,
 inserting code, copying files, and much more.
 
@@ -33,7 +33,7 @@ For a new site, you can apply an automation as part of the creation process
 using `--apply=` or -`a`:
 
 ```sh
-bundle exec bridgetown new mysite --apply=/path/to/automation.rb
+bridgetown new mysite --apply=/path/to/automation.rb
 ```
 
 For existing sites, you can use the `apply` command:
@@ -68,4 +68,99 @@ bundle exec bridgetown apply https://github.com/bridgetownrb/automations/netlify
 
 ## Writing Automations
 
-TBC…
+An automation script is nothing more than a Ruby code file run in the context
+of an instance of `Bridgetown::Commands::Apply`. Available to you are [all the
+actions provided by Thor](https://github.com/erikhuda/thor/wiki/Actions), such
+as `run` to run a CLI executable, or `ask` to prompt the user for details, or
+`say_status` to provide helpful messages in the terminal.
+
+Here's an example of a simple automation which creates a new file in a
+site repo:
+
+```ruby
+create_file "netlify.toml" do
+  <<~NETLIFY
+    [build]
+      command = "yarn deploy"
+      publish = "output"
+    [build.environment]
+      NODE_VERSION = "12"
+    [context.production.environment]
+      BRIDGETOWN_ENV = "production"
+  NETLIFY
+end
+```
+
+Bridgetown also provides actions which are useful for working in the context
+of website projects.
+
+Here's an example of a plugin's `bridgetown.automation.rb` which adds itself
+as a gem to a site and updates configuration based on user input:
+
+```ruby
+say_status "Cloudinary", "Installing the bridgetown-cloudinary plugin..."
+
+cloud_name = ask("What's your Cloudinary cloud name?")
+
+add_bridgetown_plugin "bridgetown-cloudinary"
+
+append_to_file "bridgetown.config.yml" do
+  <<~YAML
+
+    cloudinary:
+      cloud_name: #{cloud_name}
+  YAML
+end
+```
+
+There is a whole variety of possible actions at your disposal:
+
+```ruby
+add_bridgetown_plugin("my-plugin") # bundle add…
+add_yarn_for_gem("my-plugin") # yarn add… (looks up yarn metadata in plugin gemspec)
+
+gem "some-other-gem", ">= 4.1.0", "< 4.2.0"
+
+create_builder "my_nifty_builder.rb" do # adds file in plugins/builders
+  <<~RUBY
+    class MyNeatBuilder < SiteBuilder
+      def build
+        puts MyPlugin.hello
+      end
+    end
+  RUBY
+end
+
+javascript_import do # updates frontend/javascript/index.js
+  <<~JS
+    import { MyPlugin } from "my-plugin"
+
+    const myPlugin = MyPlugin.setup({
+      // configuration options
+    })
+  JS
+end
+
+create_file "src/_data/plugin_data.yml" do
+  <<~YAML
+    data:
+      goes:
+        here
+  YAML
+end
+
+color = ask("What's your favorite color?")
+
+append_to_file "bridgetown.config.yml" do
+  <<~YAML
+
+    my_plugin:
+      favorite_color: #{color}
+  YAML
+end
+```
+
+In summary, automations are a fantastic method of saving repeatable setup
+steps for you to reuse later on new projects, or you can share scripts with
+the world at large. Use them for plugins, themes, or just quick one-off
+scripts.
