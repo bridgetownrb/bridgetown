@@ -1,5 +1,9 @@
 # master
 
+# 0.14.1 / 2020-05-23
+
+* Patch to fix PluginManager `yarn add` bug when there is no `dependencies` key in `package.json`
+
 # 0.14.0 "Hazelwood" / 2020-05-17
 
 * Use `liquid-render-tag` backport gem and remove references to temporary GitHub fork of Liquid [#52](https://github.com/bridgetownrb/bridgetown/pull/52) ([jaredcwhite](https://github.com/jaredcwhite))
