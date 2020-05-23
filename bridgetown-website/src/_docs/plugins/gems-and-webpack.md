@@ -45,3 +45,6 @@ import MyAwesomePlugin from "my-awesome-plugin"
 const awesomeness = new MyAwesomePlugin()
 awesomeness.doCoolStuff()
 ```
+
+Consider [writing an automation](/docs/automations) to make this process
+easier for users.

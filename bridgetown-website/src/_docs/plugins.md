@@ -17,9 +17,11 @@ Whenever you need more information about the plugins installed on your site and 
 If you'd like to maintain separation from your site source code and
 share functionality across multiple projects, we suggest creating a gem for your plugin. This will also help you manage dependencies.
 
-You can [download the source code of our sample plugin project](https://github.com/bridgetownrb/bridgetown-sample-plugin)
-to get started, and read the [Ruby gems guide](https://guides.rubygems.org/make-your-own-gem/)
-for more details on creating and publishing your own gem.
+The `bridgetown plugins new NAME` command will create an entire gem scaffold
+for you to customize and publish to the [RubyGems.org](https://rubygems.org)
+and [NPM](https://www.npmjs.com) registries. This is a great way to provide
+[themes](/docs/themes), builders, and other sorts of add-on functionality to
+Bridgetown websites.
 
 Make sure you [follow these instructions](/docs/plugins/gems-and-webpack/) to integrate your plugin's frontend code
 with the users' Webpack setup. Also read up on [Source Manifests](/docs/plugins/source-manifests/) if you have layouts, static files, and other content you would like your gem to provide.
@@ -34,21 +36,20 @@ automations here.](/docs/automations)
 
 ## Setup
 
-There are two methods of adding plugins to your site build.
+There are three methods of adding plugins to your site build.
 
-1. In your site's root folder (aka where your config file lives), make a `plugins` folder. Write your custom plugins and save them here. Any file ending in `.rb` inside this folder will be loaded before Bridgetown generates your site.
+1. In your site's root folder (aka where your config file lives), make a `plugins` folder. Write your custom plugins and save them here. Any file ending in `.rb` inside this folder will be loaded automatically before Bridgetown generates your site.
 
-2. Add gem-based plugins to the `bridgetown_plugins` Bundler group in your `Gemfile`. For
-   example:
+2. Add gem-based plugins to the `bridgetown_plugins` Bundler group in your `Gemfile` by running a command such as:
+  ```sh
+bundle add bridgetown-feed -g bridgetown_plugins
+  ```
 
-   ```ruby
-   group :bridgetown_plugins do
-     gem "bridgetown-feed"
-     gem "another-bridgetown-plugin"
-   end
-   ```
-
-   Now all plugins from your Bundler group will be installed whenever you run `bundle install`.
+3. Running an [automation](/docs/automations) which will install one or more
+plugins along with other set up and configuration:
+  ```sh
+bundle exec bridgetown apply https://github.com/bridgetownrb/bridgetown-cloudinary
+  ```
    
 ## Introduction to the Builder API
 
@@ -152,7 +153,10 @@ Bridgetown::MyNiftyPlugin::Builder.register
 If you have layouts, static files, pages, and other content you would like your gem
 to provide, use [Source Manifests](/docs/plugins/source-manifests/) to instruct
 the build process where to find them. To provide frontend assets via Webpack,
-[follow these instructions](/docs/plugins/gems-and-webpack/).
+[follow these instructions](/docs/plugins/gems-and-webpack/). To aid your
+users in installing your plugin and setting up configuration options and so
+forth, add a `bridgetown.automation.rb` [automation script](/docs/automations)
+to your plugin repo.
 
 ## Internal Ruby API
 

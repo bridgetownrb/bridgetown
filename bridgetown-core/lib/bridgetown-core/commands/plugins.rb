@@ -3,6 +3,7 @@
 module Bridgetown
   module Commands
     class Plugins < Thor
+      include Thor::Actions
       include ConfigurationOverridable
 
       Registrations.register do
@@ -138,6 +139,59 @@ module Bridgetown
           Bridgetown.logger.warn("Oops!", "I wasn't able to find the" \
                                   " #{directive[1]} folder for #{directive[0]}")
         end
+      end
+
+      desc "new NAME", "Create a new plugin NAME (please-use-dashes) by cloning the sample plugin repo"
+      def new(plugin_name)
+        folder_name = plugin_name.underscore
+        name = folder_name.dasherize
+        module_name = folder_name.camelize
+
+        run "git clone https://github.com/bridgetownrb/bridgetown-sample-plugin #{name}"
+        new_gemspec = "#{name}.gemspec"
+
+        inside name do
+          run "rm -rf .git"
+          run "git init"
+
+          run "mv bridgetown-sample-plugin.gemspec #{new_gemspec}"
+          gsub_file new_gemspec, "https://github.com/bridgetownrb/bridgetown-sample-plugin", "https://github.com/username/#{name}"
+          gsub_file new_gemspec, "bridgetown-sample-plugin", name
+          gsub_file new_gemspec, "sample-plugin", name
+          gsub_file new_gemspec, "SamplePlugin", module_name
+
+          gsub_file "package.json", "https://github.com/bridgetownrb/bridgetown-sample-plugin", "https://github.com/username/#{name}"
+          gsub_file "package.json", "bridgetown-sample-plugin", name
+
+          run "mv lib/sample-plugin.rb lib/#{name}.rb"
+          gsub_file "lib/#{name}.rb", "sample-plugin", name
+          gsub_file "lib/#{name}.rb", "SamplePlugin", module_name
+
+          run "mv lib/sample-plugin lib/#{name}"
+          gsub_file "lib/#{name}/builder.rb", "SamplePlugin", module_name
+          gsub_file "lib/#{name}/version.rb", "SamplePlugin", module_name
+
+          run "mv spec/sample-plugin_spec.rb spec/#{name}_spec.rb"
+          gsub_file "spec/#{name}_spec.rb", "SamplePlugin", module_name
+          gsub_file "spec/spec_helper.rb", "sample-plugin", name
+
+          run "mv components/sample_plugin components/#{folder_name}"
+          run "mv content/sample_plugin content/#{folder_name}"
+          run "mv layouts/sample_plugin layouts/#{folder_name}"
+
+          gsub_file "layouts/#{folder_name}/layout.html", "sample_plugin", folder_name
+          gsub_file "content/#{folder_name}/example_page.md", "sample_plugin", folder_name
+          gsub_file "components/#{folder_name}/layout_help.liquid", "sample_plugin", folder_name
+
+          gsub_file "frontend/javascript/index.js", "bridgetown-sample-plugin", name
+          gsub_file "frontend/javascript/index.js", "SamplePlugin", module_name
+        end
+        say ""
+        say_status "Done!", "Have fun writing your new #{name} plugin :)"
+        say_status "Remember:", "Don't forget to rename the SamplePlugin" \
+                               " code identifiers and paths to your own" \
+                               " indentifer, as well as update your README " \
+                               " and CHANGELOG files as necessary."
       end
 
       protected
