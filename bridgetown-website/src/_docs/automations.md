@@ -30,7 +30,7 @@ repo.
 ## Running Automations
 
 For a new site, you can apply an automation as part of the creation process
-using `--apply=` or -`a`:
+using `--apply=` or `-a`:
 
 ```sh
 bridgetown new mysite --apply=/path/to/automation.rb
