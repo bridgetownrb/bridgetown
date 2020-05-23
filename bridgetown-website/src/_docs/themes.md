@@ -30,6 +30,10 @@ components such as navbars or slideshows or ways to display new content types
 you can add to your site templates. Or perhaps the theme will come with layouts
 you can assign to your content such as posts or collection documents.
 
+Sometimes you might want to copy files out of a theme and into your site
+repo directly. The [`bridgetown plugins cd` command](/docs/commands/plugins#copying-files-out-of-plugin-source-folders){:data-no-swup="true"}
+will help you do just that.
+
 {% rendercontent "docs/note" %}
 Looking for a theme to install on your site?
 [Check out our plugins directory](/plugins/) for a growing collection of themes
@@ -38,23 +42,19 @@ and other useful plugins!
 
 ## Creating a Theme
 
-To create a theme to distribute to others, simply create a standard
-[gem-based plugin](/docs/plugins) using the `bridgetown plugins new NAME`
-command.
+To design a theme to distribute to others, simply [create a standard
+gem-based plugin](/docs/plugins#creating-a-gem){:data-no-swup="true"} using the `bridgetown plugins new NAME`
+command. Follow that link for more on live testing strategies and how to
+release and publish your theme.
 
-Use [Source Manifests](/docs/plugins/source-manifests/) to instruct
-the Bridgetown build process where to find your theme files.
+You'll need to use a [Source Manifest](/docs/plugins/source-manifests/) to
+instruct the Bridgetown build process where to find your theme files.
 
 To provide frontend assets via Webpack, [follow these instructions](/docs/plugins/gems-and-webpack/).
 
 To aid your users in installing your plugin and setting up configuration
 options and so forth, add a `bridgetown.automation.rb` [automation script](/docs/automations)
 to your theme repo.
-
-Finally, publish your theme to the [RubyGems.org](https://rubygems.org)
-and [NPM](https://www.npmjs.com) registries. There are instructions in
-the sample README that is present in your new plugin folder under the heading
-**Releasing**.
 
 As always, if you have any questions or need support in creating your theme,
 [check out our community resources](/docs/community).

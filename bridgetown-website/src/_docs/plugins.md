@@ -6,30 +6,24 @@ top_section: Configuration
 category: plugins
 ---
 
-Plugins allow you to extend Bridgetown's behavior to fit your needs. These guides help you with the specifics of creating plugins. We also have some recommended best practices to help structure your plugin.
+Plugins allow you to extend Bridgetown's behavior to fit your needs. You can
+write plugins yourself directly in your website codebase, or install gem-based
+plugins and [themes](/docs/themes) for a limitless source of new features and
+capabilities.
 
-In addition, be sure to check out [our growing list of official and third-party plugins](/plugins/)
-for ways you can jazz up your Bridgetown website.
+Be sure to
+[check out our growing list of official and third-party plugins](/plugins/)
+for ways to jazz up your website.
 
 Whenever you need more information about the plugins installed on your site and what they're doing, you can use the `bridgetown plugins list` command. You can also copy content out of gem-based plugins with the `bridgetown plugins cd` command. [Read the command reference for further details.](/docs/commands/plugins)
 
-{% rendercontent "docs/note", title: "Roll It All Up in a Gem" %}
-If you'd like to maintain separation from your site source code and
-share functionality across multiple projects, we suggest creating a gem for your plugin. This will also help you manage dependencies.
+{% rendercontent "docs/note", title: "Turn Your Plugins into Gems", extra_margin: true %}
+If you'd like to maintain plugin separation from your site source code,
+share functionality across multiple projects, and manage dependencies,
+you can create a Ruby gem for private or public distribution. This is also
+how you'd create a [Bridgetown theme](/docs/themes).
 
-The `bridgetown plugins new NAME` command will create an entire gem scaffold
-for you to customize and publish to the [RubyGems.org](https://rubygems.org)
-and [NPM](https://www.npmjs.com) registries. This is a great way to provide
-[themes](/docs/themes), builders, and other sorts of add-on functionality to
-Bridgetown websites.
-
-Make sure you [follow these instructions](/docs/plugins/gems-and-webpack/) to integrate your plugin's frontend code
-with the users' Webpack setup. Also read up on [Source Manifests](/docs/plugins/source-manifests/) if you have layouts, static files, and other content you would like your gem to provide.
-
-You can also provide an automation via your gem's GitHub repository by adding
-`bridgetown.automation.rb` to the root of your repo. This is a great way to
-provide advanced and interactive setup for your plugin. [More information on
-automations here.](/docs/automations)
+[Read further instructions below on how to create and publish a gem.](#creating-a-gem){:data-no-swup="true"}
 {% endrendercontent %}
 
 {% toc %}
@@ -150,13 +144,7 @@ end
 Bridgetown::MyNiftyPlugin::Builder.register
 ```
 
-If you have layouts, static files, pages, and other content you would like your gem
-to provide, use [Source Manifests](/docs/plugins/source-manifests/) to instruct
-the build process where to find them. To provide frontend assets via Webpack,
-[follow these instructions](/docs/plugins/gems-and-webpack/). To aid your
-users in installing your plugin and setting up configuration options and so
-forth, add a `bridgetown.automation.rb` [automation script](/docs/automations)
-to your plugin repo.
+[Read further instructions below on how to create and publish a gem.](#creating-a-gem){:data-no-swup="true"}
 
 ## Internal Ruby API
 
@@ -218,6 +206,67 @@ module MySite
   end
 end
 ```
+
+## Creating a Gem
+
+The `bridgetown plugins new NAME` command will create an entire gem scaffold
+for you to customize and publish to the [RubyGems.org](https://rubygems.org)
+and [NPM](https://www.npmjs.com) registries. This is a great way to provide
+[themes](/docs/themes), builders, and other sorts of add-on functionality to
+Bridgetown websites. You'll want to make sure you update the `gemspec`,
+`package.json`, `README.md`, and `CHANGELOG.md` files as you work on your
+plugin to ensure all the necessary metadata and user documentation is present
+and accounted for.
+
+Make sure you [follow these instructions](/docs/plugins/gems-and-webpack/) to
+integrate your plugin's frontend code with the users' Webpack setup. Also read
+up on [Source Manifests](/docs/plugins/source-manifests/) if you have layouts,
+components, pages, static files, and other content you would like your gem to
+provide.
+
+You can also provide an automation via your gem's GitHub repository by adding
+`bridgetown.automation.rb` to the root of your repo. This is a great way to
+provide advanced and interactive setup for your plugin. [More information on
+automations here.](/docs/automations)
+
+When you're ready, publish your plugin to the [RubyGems.org](https://rubygems.org)
+and [NPM](https://www.npmjs.com) registries. There are instructions on how to
+do so in the sample README that is present in your new plugin folder under the
+heading **Releasing**. Of course you will also need to make sure you've uploaded
+your plugin to [GitHub](https://github.com) so it can be included in our
+[Plugin Directory](/plugins/) and discovered by Bridgetown site owners far and
+wide. Plus it's a great way to solicit feedback and improvements in the form
+of open source code collaboration and discussion.
+
+As always, if you have any questions or need support in creating your gem,
+[check out our community resources](/docs/community).
+
+{% rendercontent "docs/note", title: "Testing Your Plugin" %}
+As you author your plugin, you'll need a way to _use_ the plugin within a live
+Bridgetown site. The easiest way to do that is to use a relative local path in
+the test site's `Gemfile`.
+
+```ruby
+gem "my-plugin", :path => "../my-plugin", :group => :bridgetown_plugins
+```
+
+You would do something similar in your test site's `package.json` as well:
+
+```json
+"dependencies": {
+  "random-js-package": "2.4.6",
+  "my-plugin": "../my-plugin"
+}
+```
+
+Note that you will need to restart your server to pick up changes you make
+to your gem (unfortunately hot-reload doesn't work with gem-based plugins).
+
+Finally, you should try writing some [RSpec tests](https://relishapp.com/rspec)
+in the `spec` folder of your gem. These tests could ensure your tags, filters,
+and other content are working as expected and won't break in the future as code
+gets updated.
+{% endrendercontent %}
 
 ## Cache API
 

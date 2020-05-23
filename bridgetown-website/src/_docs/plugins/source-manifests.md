@@ -5,9 +5,9 @@ order: 0
 category: plugins
 ---
 
-A Gem-based Plugin can optionally provide a Source Manifest which instructs
-Bridgetown how to load new content such as layouts, pages, static files, and Liquid
-components from folders in the gem.
+A gem-based plugin can optionally provide a Source Manifest which instructs
+Bridgetown how to load new content such as layouts, pages, static files, and
+Liquid components from folders in the gem.
 
 In the main Ruby code of your gem plugin (typically the root file of the `lib`
 folder), underneath your `require` statements, all you need to do is register a new
