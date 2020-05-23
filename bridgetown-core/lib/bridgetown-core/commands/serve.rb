@@ -1,5 +1,16 @@
 # frozen_string_literal: true
 
+require "webrick/httpservlet/prochandler"
+
+module WEBrick
+  module HTTPServlet
+    class ProcHandler
+      alias_method :do_PUT, :do_GET
+      alias_method :do_DELETE, :do_GET
+    end
+  end
+end
+
 module Bridgetown
   module Commands
     class Serve < Thor::Group
@@ -119,6 +130,28 @@ module Bridgetown
       def start_up_webrick(opts, destination)
         @server = WEBrick::HTTPServer.new(webrick_opts(opts)).tap { |o| o.unmount("") }
         @server.mount(opts["baseurl"].to_s, Servlet, destination, file_handler_opts)
+        # experimental:
+        if ENV["BRIDGETOWN_SERVERLESS"]
+          @server.mount_proc "/api" do |req, res|
+            api_folder = File.dirname(req.path).sub("/api", "")
+            endpoint = File.basename(req.path)
+            ruby_path = File.join(opts["root_dir"], "api", api_folder, "#{endpoint}.rb")
+            if File.exist?(ruby_path)
+              original_verbosity = $VERBOSE
+              $VERBOSE = nil
+              load ruby_path
+              $VERBOSE = original_verbosity
+              if Handler.is_a?(Proc)
+                Handler.call(req, res)
+              else
+                handler = Handler.new(@server)
+                handler.service(req, res)
+              end
+            else
+              raise HTTPStatus::NotFound, "`#{req.path}' not found."
+            end
+          end
+        end
 
         Bridgetown.logger.info "Server address:", server_address(@server, opts)
         launch_browser @server, opts if opts["open_url"]
