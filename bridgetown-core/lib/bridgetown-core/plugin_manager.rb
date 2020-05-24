@@ -81,8 +81,10 @@ module Bridgetown
         next unless yarn_add_dependency.length == 2
 
         # check matching version number is see if it's already installed
-        current_package = package_json["dependencies"].dig(yarn_add_dependency.first)
-        next unless current_package.nil? || current_package != yarn_add_dependency.last
+        if package_json["dependencies"]
+          current_package = package_json["dependencies"].dig(yarn_add_dependency.first)
+          next unless current_package.nil? || current_package != yarn_add_dependency.last
+        end
 
         # all right, time to install the package
         cmd = "yarn add #{yarn_add_dependency.join("@")}"

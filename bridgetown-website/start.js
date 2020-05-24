@@ -14,4 +14,4 @@ concurrently([
 ], {
   restartTries: 3,
   killOthers: ['failure', 'success'],
-}).then(() => { console.log("Done.") }, () => {});
+}).then(() => { console.log("Done.");console.log('\033[0G'); }, () => {});

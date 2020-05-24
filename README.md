@@ -89,8 +89,7 @@ If you don't find the answer to your problem in our [docs](https://bridgetownrb.
 ## Code of Conduct
 
 In order to have a more open and welcoming community, Bridgetown adheres to a
-[code of conduct](CODE_OF_CONDUCT.markdown) adapted from the Ruby on Rails code of
-conduct.
+[code of conduct](CODE_OF_CONDUCT.md) adapted from the Contributor Covenant.
 
 Please adhere to this code of conduct in any interactions you have in the
 Bridgetown community. It is strictly enforced on all official Bridgetown
