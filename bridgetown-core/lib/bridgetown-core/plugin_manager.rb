@@ -67,6 +67,7 @@ module Bridgetown
     # If that exact package hasn't been installed, execute yarn add
     #
     # Returns nothing.
+    # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
     def self.install_yarn_dependencies(required_gems)
       return unless File.exist?("package.json")
 
@@ -79,14 +80,17 @@ module Bridgetown
         next unless yarn_add_dependency.length == 2
 
         # check matching version number is see if it's already installed
-        current_package = package_json["dependencies"].dig(yarn_add_dependency.first)
-        next unless current_package.nil? || current_package != yarn_add_dependency.last
+        if package_json["dependencies"]
+          current_package = package_json["dependencies"].dig(yarn_add_dependency.first)
+          next unless current_package.nil? || current_package != yarn_add_dependency.last
+        end
 
         # all right, time to install the package
         cmd = "yarn add #{yarn_add_dependency.join("@")}"
         system cmd
       end
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity
 
     # Require all .rb files
     #
