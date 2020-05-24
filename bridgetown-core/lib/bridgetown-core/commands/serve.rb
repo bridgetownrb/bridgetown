@@ -132,11 +132,13 @@ module Bridgetown
         @server = WEBrick::HTTPServer.new(webrick_opts(opts)).tap { |o| o.unmount("") }
         @server.mount(opts["baseurl"].to_s, Servlet, destination, file_handler_opts)
         # experimental:
-        if ENV["BRIDGETOWN_SERVERLESS"]
-          @server.mount_proc "/api" do |req, res|
-            api_folder = File.dirname(req.path).sub("/api", "")
+        if opts["serverless_api_dir"]
+          full_api_path = File.expand_path(opts["serverless_api_dir"], opts["root_dir"])
+          base_api_folder = File.basename(full_api_path)
+          @server.mount_proc "/#{base_api_folder}" do |req, res|
+            api_folder = File.dirname(req.path).sub("/#{base_api_folder}", "")
             endpoint = File.basename(req.path)
-            ruby_path = File.join(opts["root_dir"], "api", api_folder, "#{endpoint}.rb")
+            ruby_path = File.join(full_api_path, api_folder, "#{endpoint}.rb")
             if File.exist?(ruby_path)
               original_verbosity = $VERBOSE
               $VERBOSE = nil
