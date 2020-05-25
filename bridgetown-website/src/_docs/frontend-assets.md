@@ -20,8 +20,7 @@ a related NPM package whenever Bridgetown first loads the gem.
 
 The starting place for Javascript code lives at `./frontend/javascript/index.js`. Here you can write your custom functionality, use `import` statements to pull in other modules or external packages, and so forth. This is also where you'd import all relevant CSS. (By default it imports `./frontend/styles/index.scss`.)
 
-Because Bridgetown utilizes standard Webpack functionality, you can trick out your Javascript setup with additional language enhancements like Typescript or add well-known frameworks like React, Vue, Stimulus, and many others. For example,
-to add slick page transitions to your website using [Swup](https://swup.js.org/), you would simply run:
+Because Bridgetown utilizes standard Webpack functionality, you can trick out your Javascript setup with additional language enhancements like Typescript or add well-known frameworks like [LitElement](https://lit-element.polymer-project.org), [Stimulus](https://stimulusjs.org), [Alpine](https://github.com/alpinejs/alpine/), [React](https://reactjs.org), [Vue](https://vuejs.org), and many others. For example, to add slick page transitions to your website using [Swup](https://swup.js.org/), you would simply run:
 
 ```sh
 yarn add swup
