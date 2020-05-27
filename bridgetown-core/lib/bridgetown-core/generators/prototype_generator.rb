@@ -63,6 +63,8 @@ module Bridgetown
       new_page
     end
 
+    # TODO: this would be a great use of .try
+    # document.try(:collection).try(:label) == @configured_collection
     def terms_matching_pages(search_term)
       selected_docs = @site.documents.select do |document|
         document.respond_to?(:collection) && document.collection.label == @configured_collection
