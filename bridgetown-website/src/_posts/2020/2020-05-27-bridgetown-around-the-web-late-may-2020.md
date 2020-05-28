@@ -12,7 +12,7 @@ First of all, a _huge_ round of applause for our awesome crew of "Founding Membe
 * Casper Klenz-Kitenge ([@cabgfx](https://twitter.com/cabgfx))
 * Andrew Mason ([@andrewmcodes](https://twitter.com/andrewmcodes))
 
-They're now immortalized in our README file forever. LUV U ❤️
+They're now immortalized in our [README](https://github.com/bridgetownrb/bridgetown/blob/master/README.md) file forever. LUV U ❤️
 
 (Pssst…[You could be on this list too!](https://github.com/sponsors/jaredcwhite))
 
@@ -50,16 +50,17 @@ Bridgetown has been featured in recent issues of [Ruby Insider](https://rubyweek
 
 Thomas Reynolds, the creator of Middleman--another time-honored Ruby-based static site generator--[had kind words to say about Bridgetown](https://twitter.com/tdreyno/status/1263557883150471168?s=21):
 
-![Thomas Reynolds](/images/showcase/thomas-reynolds.jpg)
+{: .has-text-centered}
+![Thomas Reynolds](/images/showcase/thomas-reynolds.jpg){:style="width: 100%;max-width: 600px"}
 
 Plus "[Bridgetown rules](https://twitter.com/middlemanapp/status/1264014892673069057?s=21)" according to the Middleman Twitter account. _Aww shucks_ 😊
 
 Andrew Formera says Bridgetown is "[Pretty neat. Feels very 2020](https://twitter.com/andrewfomera/status/1264400564957278209?s=21)" and prefers it over "the other meh JS frameworks". _No comment._
 
-Finally, [got a shoutout from Netlify](https://twitter.com/netlify/status/1253219555964583936?s=21) which was fun to see (and they just so happen to be where we host this site).
+Finally, we [got a shoutout from Netlify](https://twitter.com/netlify/status/1253219555964583936?s=21) which was fun to see (and they just so happen to be where we host this site).
 
 ## The Merry Merry Month of May
 
-So that's it for this month's installment of Bridgetown Around the Web. Pop back in next month for more tweets, podcasts, links, tutorials, and all that jazz. 🎷
+So that's it for this month's installment of **Bridgetown Around the Web**. Pop back in next month for more tweets, podcasts, links, tutorials, and all that jazz. 🎷
 
 And if you're interesting in trying out Bridgetown or using it fo your next project, [read the docs to get started](https://www.bridgetownrb.com/docs).
