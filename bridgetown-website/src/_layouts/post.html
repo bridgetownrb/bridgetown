@@ -2,49 +2,45 @@
 layout: default
 ---
 
-<section class="container mt-12">
-  <div class="columns is-centered">
-    <div class="column is-three-quarters" id="swup">
-      <div class="box px-8 py-8">
-        <h1 class="mt-3 mb-10 title is-1 is-size-2-mobile has-text-centered has-text-brown">{{ page.title }}</h1>
+{% rendercontent "shared/page_layout" %}
+  {% rendercontent "shared/box" %}
+    <h1 class="mt-3 mb-10 title is-1 is-size-2-mobile has-text-centered has-text-brown">{{ page.title }}</h1>
 
-        <div class="mb-10 author has-text-centered">
-          {% assign author = site.data.authors[page.author] %}
-          <img src="{{ author.avatar }}" alt="{{ author.name }}" class="avatar" />
-          <a href="/authors/{{ page.author }}/" class="has-text-weight-bold">{{ author.name }}</a>
-          on {{ page.date | date: "%B %-d, %Y" }}
-        </div>
-
-        <div class="content">
-          {{ content }}
-        </div>
-
-        {% if page.previous %}
-          <p class="is-pulled-left mt-8 mb-1">
-            <strong class="has-text-info">Previous</strong><br/>
-            <a href="{{ page.previous.url }}" class="mt-2 button is-info is-small">
-              <span class="icon" aria-hidden="true">
-                <i class="fa fa-chevron-left"></i>
-              </span>
-              <span>{{ page.previous.title }}</span>
-            </a>
-          </p>
-        {% endif %}
-
-        {% if page.next %}
-          <p class="is-pulled-right has-text-right mt-8 mb-1">
-            <strong class="has-text-info">Next</strong><br/>
-            <a href="{{ page.next.url }}" class="mt-2 button is-info is-small">
-              <span>{{ page.next.title }}</span>
-              <span class="icon" aria-hidden="true">
-                <i class="fa fa-chevron-right"></i>
-              </span>
-            </a>
-          </p>
-        {% endif %}
-
-        <div class="is-clearfix"></div>
-      </div>
+    <div class="mb-10 author has-text-centered">
+      {% assign author = site.data.authors[page.author] %}
+      <img src="{{ author.avatar }}" alt="{{ author.name }}" class="avatar" />
+      <a href="/authors/{{ page.author }}/" class="has-text-weight-bold">{{ author.name }}</a>
+      on {{ page.date | date: "%B %-d, %Y" }}
     </div>
-  </div>
-</section>
+
+    <div class="content">
+      {{ content }}
+    </div>
+
+    {% if page.previous %}
+      <p class="is-pulled-left mt-8 mb-1">
+        <strong class="has-text-info">Previous</strong><br/>
+        <a href="{{ page.previous.url }}" class="mt-2 button is-info is-small">
+          <span class="icon" aria-hidden="true">
+            <i class="fa fa-chevron-left"></i>
+          </span>
+          <span>{{ page.previous.title }}</span>
+        </a>
+      </p>
+    {% endif %}
+
+    {% if page.next %}
+      <p class="is-pulled-right has-text-right mt-8 mb-1">
+        <strong class="has-text-info">Next</strong><br/>
+        <a href="{{ page.next.url }}" class="mt-2 button is-info is-small">
+          <span>{{ page.next.title }}</span>
+          <span class="icon" aria-hidden="true">
+            <i class="fa fa-chevron-right"></i>
+          </span>
+        </a>
+      </p>
+    {% endif %}
+
+    <div class="is-clearfix"></div>
+  {% endrendercontent %}
+{% endrendercontent %}

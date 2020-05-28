@@ -1,3 +1,10 @@
+---
+name: Table of Contents
+description: Shows in the sidebar of the Documentation layout
+variables:
+  site: [object, Site liquid drop]
+  page: [object, Page liquid drop]
+---
 <ul>
 {% assign current_section = "" %}
 {% for doc_page in docs %}

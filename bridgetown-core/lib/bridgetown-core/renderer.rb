@@ -5,11 +5,16 @@ module Bridgetown
     attr_reader :document, :site
     attr_writer :layouts, :payload
 
+    class << self
+      attr_accessor :cached_partials
+    end
+
     def initialize(site, document, site_payload = nil)
       @site     = site
       @document = document
       @payload  = site_payload
       @layouts  = nil
+      self.class.cached_partials ||= {}
     end
 
     # Fetches the payload used in Liquid rendering.
@@ -67,18 +72,14 @@ module Bridgetown
     # Returns String rendered document output
     # rubocop: disable Metrics/AbcSize
     def render_document
-      info = {
-        registers: { site: site, page: payload["page"] },
-        strict_filters: liquid_options["strict_filters"],
-        strict_variables: liquid_options["strict_variables"],
-      }
+      liquid_context = provide_liquid_context
 
       execute_inline_ruby!
 
       output = document.content
       if document.render_with_liquid?
         Bridgetown.logger.debug "Rendering Liquid:", document.relative_path
-        output = render_liquid(output, payload, info, document.path)
+        output = render_liquid(output, payload, liquid_context, document.path)
       end
 
       Bridgetown.logger.debug "Rendering Markup:", document.relative_path
@@ -87,10 +88,22 @@ module Bridgetown
 
       if document.place_in_layout?
         Bridgetown.logger.debug "Rendering Layout:", document.relative_path
-        output = place_in_layouts(output, payload, info)
+        output = place_in_layouts(output, payload, liquid_context)
       end
 
       output
+    end
+
+    def provide_liquid_context
+      {
+        registers: {
+          site: site,
+          page: payload["page"],
+          cached_partials: self.class.cached_partials,
+        },
+        strict_filters: liquid_options["strict_filters"],
+        strict_variables: liquid_options["strict_variables"],
+      }
     end
 
     def execute_inline_ruby!
@@ -101,21 +114,21 @@ module Bridgetown
 
     # rubocop: enable Metrics/AbcSize
 
-    # Render the given content with the payload and info
+    # Render the given content with the payload and context
     #
     # content -
     # payload -
-    # info    -
+    # context    -
     # path    - (optional) the path to the file, for use in ex
     #
     # Returns String the content, rendered by Liquid.
-    def render_liquid(content, payload, info, path = nil)
+    def render_liquid(content, payload, liquid_context, path = nil)
       template = site.liquid_renderer.file(path).parse(content)
       template.warnings.each do |e|
         Bridgetown.logger.warn "Liquid Warning:",
                                LiquidRenderer.format_error(e, path || document.relative_path)
       end
-      template.render!(payload, info)
+      template.render!(payload, liquid_context)
     # rubocop: disable Lint/RescueException
     rescue Exception => e
       Bridgetown.logger.error "Liquid Exception:",
@@ -151,7 +164,7 @@ module Bridgetown
     # Render layouts and place document content inside.
     #
     # Returns String rendered content
-    def place_in_layouts(content, payload, info)
+    def place_in_layouts(content, payload, liquid_context)
       output = content.dup
       layout = layouts[document.data["layout"].to_s]
       validate_layout(layout)
@@ -162,7 +175,7 @@ module Bridgetown
       payload["layout"] = nil
 
       while layout
-        output = render_layout(output, layout, info)
+        output = render_layout(output, layout, liquid_context)
         add_regenerator_dependencies(layout)
 
         next unless (layout = site.layouts[layout.data["layout"]])
@@ -189,14 +202,14 @@ module Bridgetown
     # Render layout content into document.output
     #
     # Returns String rendered content
-    def render_layout(output, layout, info)
+    def render_layout(output, layout, liquid_context)
       payload["content"] = output
       payload["layout"]  = Utils.deep_merge_hashes(layout.data, payload["layout"] || {})
 
       render_liquid(
         layout.content,
         payload,
-        info,
+        liquid_context,
         layout.path
       )
     end
