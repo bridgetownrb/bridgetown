@@ -1,0 +1,9 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+{% capture page_title %}{{ title | strip_html | strip_newlines }}{% endcapture %}
+<title>{% if page_title != "" %}{{ page_title | escape }} | {{ metadata.title | escape }}{% else %}{{ metadata.title | escape }}: {{ metadata.tagline | escape }}{% endif %}</title>
+
+<meta name="description" content="{{ metadata.description }}" />
+
+<link rel="stylesheet" href="{% webpack_path css %}" />
+<script src="{% webpack_path js %}" defer></script>
