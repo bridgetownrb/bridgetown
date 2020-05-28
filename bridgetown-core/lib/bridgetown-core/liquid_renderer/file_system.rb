@@ -31,7 +31,9 @@ module Bridgetown
         raise Liquid::FileSystemError, "No such template '#{template_path}'" if found_paths.empty?
 
         # Last path in the list wins
-        ::File.read(found_paths.last, site.file_read_opts)
+        LiquidComponent.parse(
+          ::File.read(found_paths.last, site.file_read_opts)
+        ).content
       end
     end
   end
