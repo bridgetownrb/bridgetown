@@ -1,0 +1,22 @@
+---
+layout: page
+title: Bridgetown Website Components
+---
+
+<table class="settings biggest-output">
+  <thead>
+    <tr>
+      <th>Path</th>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% assign components = site.components | sort: "component.relative_path" %}
+    {% for component in components %}
+      <tr>
+        <td><p><code>{{ component.component.relative_path }}</code></p></td>
+        <td><p><a href="{{ component.url }}">{{ component.title }}</a></p></td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
