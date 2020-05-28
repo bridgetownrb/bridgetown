@@ -674,7 +674,7 @@ class TestFilters < BridgetownUnitTest
         @filter.site.read
         actual = @filter.jsonify(@filter.site.to_liquid)
         expected = {
-          "environment" => "development",
+          "environment" => "test",
           "code_name"   => Bridgetown::CODE_NAME,
           "version"     => Bridgetown::VERSION,
         }

@@ -8,6 +8,7 @@ require:
 Bridgetown/NoPutsAllowed:
   Exclude:
     - rake/*.rake
+    - bridgetown-core/lib/bridgetown-core/commands/base.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
 
 AllCops:
@@ -44,6 +45,9 @@ Layout/EndAlignment:
   Severity: error
 Lint/RaiseException:
   Enabled: true
+Lint/RescueException:
+  Exclude:
+    - bridgetown-core/lib/bridgetown-core/watcher.rb
 Lint/StructNewOverride:
   Enabled: true
 Lint/SuppressedException:
@@ -58,7 +62,11 @@ Metrics/AbcSize:
   Max: 21
   Exclude:
     - bridgetown-core/lib/bridgetown-core/concerns/site/configurable.rb
+    - bridgetown-core/lib/bridgetown-core/commands/build.rb
+    - bridgetown-core/lib/bridgetown-core/commands/new.rb
+    - bridgetown-core/lib/bridgetown-core/commands/console.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
+    - bridgetown-core/lib/bridgetown-core/watcher.rb
 Metrics/BlockLength:
   Exclude:
     - bridgetown-core/test/**/*.rb
@@ -90,6 +98,9 @@ Metrics/MethodLength:
   Max: 20
   Severity: error
   Exclude:
+    - bridgetown-core/lib/bridgetown-core/commands/concerns/build_options.rb
+    - bridgetown-core/lib/bridgetown-core/commands/console.rb
+    - bridgetown-core/lib/bridgetown-core/commands/new.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
 Metrics/ModuleLength:
   Max: 240
@@ -138,6 +149,9 @@ Style/FormatStringToken:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/utils/ansi.rb
     - bridgetown-core/lib/bridgetown-core/liquid_renderer/table.rb
+Style/GlobalVars:
+  Exclude:
+    - bridgetown-core/lib/bridgetown-core/commands/console.rb
 Style/GuardClause:
   Enabled: false
 Style/HashEachMethods:

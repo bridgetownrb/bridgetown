@@ -454,10 +454,10 @@ class TestConfiguration < BridgetownUnitTest
     should "merge options in that are environment-specific" do
       conf = Configuration[default_configuration]
       refute conf["unpublished"]
-      conf["development"] = { "unpublished" => true }
+      conf["test"] = { "unpublished" => true }
       conf.merge_environment_specific_options!
       assert conf["unpublished"]
-      assert_nil conf["development"]
+      assert_nil conf["test"]
     end
   end
 

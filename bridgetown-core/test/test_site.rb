@@ -500,11 +500,16 @@ class TestSite < BridgetownUnitTest
 
     context "manipulating the Bridgetown environment" do
       setup do
+        ENV.delete("BRIDGETOWN_ENV")
         @site = Site.new(site_configuration(
                            "incremental" => false
                          ))
         @site.process
         @page = @site.pages.find { |p| p.name == "environment.html" }
+      end
+
+      teardown do
+        ENV["BRIDGETOWN_ENV"] = "test"
       end
 
       should "default to 'development'" do
@@ -519,10 +524,6 @@ class TestSite < BridgetownUnitTest
                            ))
           @site.process
           @page = @site.pages.find { |p| p.name == "environment.html" }
-        end
-
-        teardown do
-          ENV.delete("BRIDGETOWN_ENV")
         end
 
         should "be overridden by BRIDGETOWN_ENV" do

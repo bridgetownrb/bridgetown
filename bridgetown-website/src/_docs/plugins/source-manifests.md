@@ -5,9 +5,9 @@ order: 0
 category: plugins
 ---
 
-A Gem-based Plugin can optionally provide a Source Manifest which instructs
-Bridgetown how to load new content such as layouts, pages, static files, and Liquid
-components from folders in the gem.
+A gem-based plugin can optionally provide a Source Manifest which instructs
+Bridgetown how to load new content such as layouts, pages, static files, and
+Liquid components from folders in the gem.
 
 In the main Ruby code of your gem plugin (typically the root file of the `lib`
 folder), underneath your `require` statements, all you need to do is register a new
@@ -58,13 +58,12 @@ The `awesome_plugin` folder would get copied over to the site's `_layouts` sourc
 folder, still properly namespaced, and the site developer could make further
 changes from there.
 
-### So Can We Create Bridgetown Themes Now?
+### Using Source Manifests to Create Themes
 
-Between source manifest functionality and the ability to publish an NPM module as
-part of your gem repo, the short answer is "mostly".
+Source manifest functionality, along with the ability to publish an NPM module
+with [frontend assets for Webpack](/docs/plugins/gems-and-webpack), plus the
+power of [automations](/docs/automations) to simply the setup process means
+that you can easily design and distribute themes for use by Bridgetown site
+owners.
 
-There's more work that needs to be done around the process of "adding a theme" to
-either an existing Bridgetown website or a brand-new site as part of the
-`bridgetown new` process to make it super straightforward and useful. All of the
-major building blocks are in place now, so stay tuned for an upcoming release which
-pulls the entire experience together.
+[Read more about themes here and how to create one yourself.](/docs/themes)

@@ -6,31 +6,17 @@ STDOUT.sync = true
 $LOAD_PATH.unshift File.expand_path("../../bridgetown/lib", __dir__)
 
 require "bridgetown"
-require "mercenary"
 
 Bridgetown::PluginManager.require_from_bundler
 
-Bridgetown::Deprecator.process(ARGV)
+# Support NO_COLOR: https://no-color.org
+# TODO: need to change behavior of Colorator gem
+ENV["THOR_SHELL"] = "Basic" if ENV["NO_COLOR"]
 
-Mercenary.program(:bridgetown) do |p|
-  p.version "#{Bridgetown::VERSION.magenta} \"#{Bridgetown::CODE_NAME.yellow}\""
-  p.description "Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern Jamstack era"
-  p.syntax "bridgetown <subcommand> [options]"
+output_version = if ARGV[0] == "-v"
+                   puts "bridgetown #{Bridgetown::VERSION} \"#{Bridgetown::CODE_NAME}\""
+                   true
+                 end
 
-  Bridgetown::Command.subclasses.each { |c| c.init_with_program(p) }
-
-  p.action do |args, _|
-    if args.empty?
-      Bridgetown.logger.error "A subcommand is required."
-      puts p
-      abort
-    else
-      subcommand = args.first
-      unless p.has_command? subcommand
-        Bridgetown.logger.abort_with "fatal: 'bridgetown #{args.first}' could not" \
-          " be found. You may need to install the bridgetown-#{args.first} gem" \
-          " or a related gem to be able to use this subcommand."
-      end
-    end
-  end
-end
+require "bridgetown-core/commands/base"
+Bridgetown::Commands::Base.start unless output_version

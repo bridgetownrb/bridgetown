@@ -1,187 +1,152 @@
 # frozen_string_literal: true
 
-require "erb"
-
 module Bridgetown
   module Commands
-    class New < Command
+    class New < Thor::Group
+      include Thor::Actions
+      extend Summarizable
+
+      Registrations.register do
+        register(New, "new", "new PATH", New.summary)
+      end
+
+      def self.banner
+        "bridgetown new PATH"
+      end
+      summary "Creates a new Bridgetown site scaffold in PATH"
+
+      class_option :apply,
+                   aliases: "-a",
+                   banner: "PATH|URL",
+                   desc: "Apply an automation after creating the site scaffold"
+      class_option :force,
+                   type: :boolean,
+                   desc: "Force creation even if PATH already exists"
+      class_option :"skip-bundle",
+                   type: :boolean,
+                   desc: "Skip 'bundle install'"
+      class_option :"skip-yarn",
+                   type: :boolean,
+                   desc: "Skip 'yarn install'"
+
+      DOCSURL = "https://bridgetownrb.com/docs"
+
+      def self.exit_on_failure?
+        false
+      end
+
+      def self.source_root
+        File.expand_path("../../site_template", __dir__)
+      end
+
       class << self
-        DOCSURL = "https://bridgetownrb.com/docs"
+        attr_accessor :created_site_dir
+      end
 
-        def init_with_program(prog)
-          prog.command(:new) do |c|
-            c.syntax "new PATH"
-            c.description "Creates a new Bridgetown site scaffold in PATH"
+      def new_site
+        raise ArgumentError, "You must specify a path." if args.empty?
 
-            c.option "force", "--force", "Force creation even if PATH already exists"
-            c.option "skip-bundle", "--skip-bundle", "Skip 'bundle install'"
-            c.option "skip-yarn", "--skip-yarn", "Skip 'yarn install'"
-
-            c.action do |args, options|
-              Bridgetown::Commands::New.process(args, options)
-            end
-          end
+        new_site_path = File.expand_path(args.join(" "), Dir.pwd)
+        if preserve_source_location?(new_site_path, options)
+          say_status :conflict, "#{new_site_path} exists and is not empty.", :red
+          Bridgetown.logger.abort_with "Ensure #{new_site_path} is empty or else " \
+                    "try again with `--force` to proceed and overwrite any files."
         end
 
-        def process(args, options = {})
-          raise ArgumentError, "You must specify a path." if args.empty?
+        self.destination_root = self.class.created_site_dir = new_site_path
 
-          new_site_path = File.expand_path(args.join(" "), Dir.pwd)
-          FileUtils.mkdir_p new_site_path
-          if preserve_source_location?(new_site_path, options)
-            Bridgetown.logger.error "Conflict:", "#{new_site_path} exists and is not empty."
-            Bridgetown.logger.abort_with "", "Ensure #{new_site_path} is empty or else " \
-                      "try again with `--force` to proceed and overwrite any files."
-          end
+        say_status :create, new_site_path
+        create_site new_site_path
+        after_install new_site_path, args.join(" "), options
+      end
 
-          Bridgetown.logger.info("Creating:".green, new_site_path)
+      protected
 
-          create_site new_site_path
+      def preserve_source_location?(path, options)
+        !options["force"] && Dir.exist?(path)
+      end
 
-          after_install(new_site_path, args.join(" "), options)
-        end
+      def create_site(new_site_path)
+        directory ".", ".", exclude_pattern: %r!\.erb|DS_Store$!
+        FileUtils.chmod_R "u+w", new_site_path
 
-        def scaffold_post_content
-          ERB.new(File.read(File.expand_path(scaffold_path, site_template))).result
-        end
-
-        # Internal: Gets the filename of the sample post to be created
-        #
-        # Returns the filename of the sample post, as a String
-        def initialized_post_name
+        template(
+          "src/_posts/0000-00-00-welcome-to-bridgetown.md.erb",
           "src/_posts/#{Time.now.strftime("%Y-%m-%d")}-welcome-to-bridgetown.md"
+        )
+        template("Gemfile.erb", "Gemfile")
+      end
+
+      # After a new site has been created, print a success notification and
+      # then automatically execute bundle install from within the new site dir
+      # unless the user opts to skip 'bundle install'.
+      # rubocop:todo Metrics/CyclomaticComplexity
+      def after_install(path, cli_path, options = {})
+        git_init path
+
+        @skipped_bundle = true # is set to false if bundle install worked
+        bundle_install path unless options["skip-bundle"]
+
+        @skipped_yarn = true
+        yarn_install path unless options["skip-yarn"]
+
+        invoke(Apply, [], options) if options[:apply]
+
+        logger = Bridgetown.logger
+        yarn_start = "yarn start"
+        logger.info ""
+        logger.info "Success!".green, "🎉 Your new Bridgetown site was" \
+                    " generated in #{cli_path.cyan}."
+        if options["skip-yarn"]
+          logger.info "You can now #{"cd".cyan} #{cli_path.cyan} to get started."
+          logger.info "You'll probably also want to #{"yarn install".cyan}" \
+                      " to load in your frontend assets."
+        else
+          logger.info "You can now #{"cd".cyan} and run #{yarn_start.cyan} to get started."
         end
+        logger.info "Then check out our online documentation for" \
+                    " next steps: #{DOCSURL.cyan}"
 
-        private
+        logger.info "Bundle install skipped.".yellow if @skipped_bundle
+        logger.info "Yarn install skipped.".yellow if @skipped_yarn
+      end
+      # rubocop:enable Metrics/CyclomaticComplexity
 
-        def gemfile_contents
-          <<~RUBY
-            source "https://rubygems.org"
-            # Hello! This is where you manage which Bridgetown version is used to run.
-            # When you want to use a different version, change it below, save the
-            # file and run `bundle install`. Run Bridgetown with `bundle exec`, like so:
-            #
-            #   bundle exec bridgetown serve
-            #
-            # This will help ensure the proper Bridgetown version is running.
-            #
-            # To install a plugin, simply run bundle add and specify the group
-            # "bridgetown_plugins". For example:
-            #
-            #   bundle add some-new-plugin -g bridgetown_plugins
-            #
-            # Happy Bridgetowning!
-
-            gem "bridgetown", "~> #{Bridgetown::VERSION}"
-
-          RUBY
-        end
-
-        def create_site(new_site_path)
-          create_sample_files new_site_path
-
-          File.open(File.expand_path(initialized_post_name, new_site_path), "w") do |f|
-            f.write(scaffold_post_content)
-          end
-
-          File.open(File.expand_path("Gemfile", new_site_path), "w") do |f|
-            f.write(gemfile_contents)
-          end
-        end
-
-        def preserve_source_location?(path, options)
-          !options["force"] && !Dir["#{path}/**/*"].empty?
-        end
-
-        def create_sample_files(path)
-          FileUtils.cp_r site_template + "/.", path
-          FileUtils.chmod_R "u+w", path
-          FileUtils.rm File.expand_path(scaffold_path, path)
-        end
-
-        def site_template
-          File.expand_path("../../site_template", __dir__)
-        end
-
-        def scaffold_path
-          "src/_posts/0000-00-00-welcome-to-bridgetown.md.erb"
-        end
-
-        # After a new site has been created, print a success notification and
-        # then automatically execute bundle install from within the new site dir
-        # unless the user opts to skip 'bundle install'.
-        # rubocop:disable Metrics/AbcSize, Metrics/MethodLength #
-        def after_install(path, cli_path, options = {})
-          logger = Bridgetown.logger
-          git_init path
-
-          unless options["skip-bundle"]
-            begin
-              require "bundler"
-              bundle_install path
-            rescue LoadError
-              logger.info "Could not load Bundler. Bundle install skipped."
+      def bundle_install(path)
+        unless Bridgetown.environment == "test"
+          require "bundler"
+          Bundler.with_clean_env do
+            inside(path) do
+              run "bundle install", abort_on_failure: true
             end
           end
-
-          yarn_install path unless options["skip-yarn"]
-
-          yarn_start = "yarn start"
-
-          logger.info "Success!".green, "🎉 Your new Bridgetown site was" \
-                      " generated in #{cli_path.cyan}."
-          if options["skip-yarn"]
-            logger.info "You can now #{"cd".cyan} #{cli_path.cyan} to get started."
-            logger.info "You'll probably also want to #{"yarn install".cyan}" \
-                        " to load in your frontend assets."
-          else
-            logger.info "You can now #{"cd".cyan} and run #{yarn_start.cyan} to get started."
-          end
-          logger.info "Then check out our online documentation for" \
-                      " next steps: #{DOCSURL.cyan}"
-          logger.info "Bundle install skipped." if options["skip-bundle"]
         end
-        # rubocop:enable Metrics/AbcSize, Metrics/MethodLength #
+        @skipped_bundle = false
+      rescue LoadError
+        say_status :run, "Could not load Bundler. Bundle install skipped.", :red
+      rescue SystemExit
+        say_status :run, "Problem occured while running bundle install.", :red
+      end
 
-        def bundle_install(path)
-          Bridgetown.logger.info "Running bundle install in #{path.cyan}..."
-          Dir.chdir(path) do
-            exe = Gem.bin_path("bundler", "bundle")
-            process, output = Bridgetown::Utils::Exec.run("ruby", exe, "install")
-
-            output.to_s.each_line do |line|
-              Bridgetown.logger.info("Bundler:".green, line.strip) unless line.to_s.empty?
-            end
-
-            raise SystemExit unless process.success?
+      def git_init(path)
+        unless Bridgetown.environment == "test"
+          inside(path) do
+            run "git init", abort_on_failure: true
           end
         end
+      rescue SystemExit
+        say_status :run, "Could not load git. git init skipped.", :red
+      end
 
-        def git_init(path)
-          Dir.chdir(path) do
-            _process, output = Bridgetown::Utils::Exec.run("git", "init")
-            output.to_s.each_line do |line|
-              Bridgetown.logger.info("Git:".green, line.strip) unless line.to_s.empty?
-            end
+      def yarn_install(path)
+        unless Bridgetown.environment == "test"
+          inside(path) do
+            run "yarn install", abort_on_failure: true
           end
-        rescue SystemCallError
         end
-
-        def yarn_install(path)
-          Bridgetown.logger.info "Running yarn install in #{path.cyan}..."
-          Dir.chdir(path) do
-            _process, output = Bridgetown::Utils::Exec.run("yarn", "install")
-            output.to_s.each_line do |line|
-              next if line.to_s.empty? ||
-                line.strip.start_with?("warning ") ||
-                line.include?("No lockfile found")
-
-              Bridgetown.logger.info("Yarn:".green, line.strip)
-            end
-          end
-        rescue SystemCallError
-          Bridgetown.logger.info "Could not load yarn. yarn install skipped."
-        end
+        @skipped_yarn = false
+      rescue SystemExit
+        say_status :run, "Could not load yarn. yarn install skipped.", :red
       end
     end
   end

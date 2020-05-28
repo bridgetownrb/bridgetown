@@ -43,9 +43,9 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("liquid-component",      ">= 0.1")
   s.add_runtime_dependency("liquid-render-tag",     "~> 0.2")
   s.add_runtime_dependency("listen",                "~> 3.0")
-  s.add_runtime_dependency("mercenary",             "~> 0.4.0")
   s.add_runtime_dependency("pathutil",              "~> 0.9")
   s.add_runtime_dependency("rouge",                 "~> 3.0")
   s.add_runtime_dependency("safe_yaml",             "~> 1.0")
   s.add_runtime_dependency("terminal-table",        "~> 1.8")
+  s.add_runtime_dependency("thor",                  "~> 1.0")
 end

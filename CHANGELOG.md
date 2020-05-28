@@ -1,5 +1,9 @@
 # master
 
+# 0.15.0 "Overlook" (Beta)
+
+…
+
 # 0.14.1 / 2020-05-23
 
 * Patch to fix PluginManager `yarn add` bug when there is no `dependencies` key in `package.json`
