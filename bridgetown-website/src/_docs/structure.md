@@ -17,12 +17,12 @@ The typical folder structure for a Bridgetown site usually looks something like 
 │   │   ├── index.scss
 │   └   └── layout.scss
 ├── src # this is where you put your content and design templates
+│   ├── _components
+│   │   ├── footer.html
+│   │   └── header.html
 │   ├── _data
 │   │   ├── members.yml
 │   │   └── site_metadata.yml
-│   ├── _includes
-│   │   ├── footer.html
-│   │   └── header.html
 │   ├── _layouts
 │   │   ├── default.html
 │   │   └── post.html
@@ -56,21 +56,21 @@ The location of pages in your source folder structure will by default be mirrore
   <tbody>
     <tr>
       <td>
-        <p class="default mt-0"><code>src/_data</code></p>
+        <p class="default mt-0"><code>src/_components</code></p>
       </td>
       <td>
         <p>
-          A place for well-formatted structured data. Bridgetown will autoload these files and they will then be accessible via <code>site.data</code>. For example, given <code>members.yml</code>, you can access the contents of that file via <code>site.data.members</code>. Supported formats are: <code>.yml/.yaml</code>, <code>.json</code>, <code>.csv</code>, and <code>.tsv</code>.
+          Liquid components (aka partials) which can be referenced by your layouts, posts, and pages to comprise a design system and facilitate template reuse. The tag <code>{% raw %}{% render "card" %}{% endraw %}</code> would insert the <code>_components/card.liquid</code> component.
         </p>
       </td>
     </tr>
     <tr>
       <td>
-        <p class="default mt-0"><code>src/_includes</code></p>
+        <p class="default mt-0"><code>src/_data</code></p>
       </td>
       <td>
         <p>
-          These are the partials that can be mixed and matched by your layouts, posts, and pages to facilitate reuse. The Liquid tag <code>{% raw %}{% include file.ext %}{% endraw %}</code> can be used to include the <code>_includes/file.ext</code> partial.
+          A place for well-formatted structured data. Bridgetown will autoload these files and they will then be accessible via <code>site.data</code>. For example, given <code>members.yml</code>, you can access the contents of that file via <code>site.data.members</code>. Supported formats are: <code>.yml/.yaml</code>, <code>.json</code>, <code>.csv</code>, and <code>.tsv</code>.
         </p>
       </td>
     </tr>

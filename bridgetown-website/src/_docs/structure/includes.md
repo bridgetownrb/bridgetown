@@ -1,8 +1,8 @@
 ---
 title: Includes
-order: 8
-top_category: Structure
-category: includes
+hide_in_toc: true
+order: 0
+category: structure
 ---
 
 The `include` Liquid tag allows you to include the content from another file stored in the `_includes` folder:
