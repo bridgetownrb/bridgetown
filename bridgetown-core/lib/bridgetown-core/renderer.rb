@@ -5,11 +5,16 @@ module Bridgetown
     attr_reader :document, :site
     attr_writer :layouts, :payload
 
+    class << self
+      attr_accessor :cached_partials
+    end
+
     def initialize(site, document, site_payload = nil)
       @site     = site
       @document = document
       @payload  = site_payload
       @layouts  = nil
+      self.class.cached_partials ||= {}
     end
 
     # Fetches the payload used in Liquid rendering.
@@ -68,7 +73,11 @@ module Bridgetown
     # rubocop: disable Metrics/AbcSize
     def render_document
       info = {
-        registers: { site: site, page: payload["page"] },
+        registers: {
+          site: site,
+          page: payload["page"],
+          cached_partials: self.class.cached_partials,
+        },
         strict_filters: liquid_options["strict_filters"],
         strict_variables: liquid_options["strict_variables"],
       }
