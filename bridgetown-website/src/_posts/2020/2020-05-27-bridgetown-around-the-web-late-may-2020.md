@@ -51,7 +51,7 @@ Bridgetown has been featured in recent issues of [Ruby Insider](https://rubyweek
 Thomas Reynolds, the creator of Middleman--another time-honored Ruby-based static site generator--[had kind words to say about Bridgetown](https://twitter.com/tdreyno/status/1263557883150471168?s=21):
 
 {: .has-text-centered}
-![Thomas Reynolds](/images/showcase/thomas-reynolds.jpg){:style="width: 100%;max-width: 600px"}
+![Thomas Reynolds](/images/showcase/thomas-reynolds.jpg){:style="width: 100%;max-width: 660px"}
 
 Plus "[Bridgetown rules](https://twitter.com/middlemanapp/status/1264014892673069057?s=21)" according to the Middleman Twitter account. _Aww shucks_ 😊
 
