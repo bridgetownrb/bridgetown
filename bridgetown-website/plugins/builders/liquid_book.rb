@@ -13,7 +13,7 @@ class LiquidBook < SiteBuilder
         collection :components
         excerpt ""
         component component_object
-        title component_object["metadata"]["title"]
+        title component_object["metadata"]["name"]
         content layouts["component_preview"].content
       end
     end

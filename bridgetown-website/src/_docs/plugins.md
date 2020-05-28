@@ -250,7 +250,7 @@ the test site's `Gemfile`.
 gem "my-plugin", :path => "../my-plugin", :group => :bridgetown_plugins
 ```
 
-You would do something similar in your test site's `package.json` as well:
+You would do something similar in your test site's `package.json` as well (be sure to run [yarn link](https://classic.yarnpkg.com/en/docs/cli/link) so Yarn knows not to install your local path into `node_modules`):
 
 ```json
 "dependencies": {
@@ -259,8 +259,8 @@ You would do something similar in your test site's `package.json` as well:
 }
 ```
 
-Note that you will need to restart your server to pick up changes you make
-to your gem (unfortunately hot-reload doesn't work with gem-based plugins).
+You may need to restart your server at times to pick up changes you make
+to your gem (unfortunately hot-reload doesn't always work with gem-based plugins).
 
 Finally, you should try writing some [RSpec tests](https://relishapp.com/rspec)
 in the `spec` folder of your gem. These tests could ensure your tags, filters,
