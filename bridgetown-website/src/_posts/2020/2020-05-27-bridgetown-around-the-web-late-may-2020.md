@@ -40,7 +40,7 @@ More podcast appearances are in the works, so keep your ears to the grindstone. 
 
 ## Blog Posts
 
-Konnor Rodgers [wrote about his journey to building a Docker image](https://blog.konnor.site/bridgetownrb/dockerizing-bridgetown/) for spinning up Bridgetown. If you're using Docker you can pull the Dockerfile and docker-compose.yml right from his [GitHub repository](https://github.com/ParamagicDev/getting-started-with-bridgetown). The article is actually the start of whole blog series, so make sure you add Konnor's site to your bookmarks.
+Konnor Rogers [wrote about his journey to building a Docker image](https://blog.konnor.site/bridgetownrb/dockerizing-bridgetown/) for spinning up Bridgetown. If you're using Docker you can pull the Dockerfile and docker-compose.yml right from his [GitHub repository](https://github.com/ParamagicDev/getting-started-with-bridgetown). The article is actually the start of whole blog series, so make sure you add Konnor's site to your bookmarks.
 
 ## Email Newsletters
 
@@ -55,7 +55,7 @@ Thomas Reynolds, the creator of Middleman--another time-honored Ruby-based stati
 
 Plus "[Bridgetown rules](https://twitter.com/middlemanapp/status/1264014892673069057?s=21)" according to the Middleman Twitter account. _Aww shucks_ 😊
 
-Andrew Formera says Bridgetown is "[Pretty neat. Feels very 2020](https://twitter.com/andrewfomera/status/1264400564957278209?s=21)" and prefers it over "the other meh JS frameworks". _No comment._
+Andrew Fomera says Bridgetown is "[Pretty neat. Feels very 2020](https://twitter.com/andrewfomera/status/1264400564957278209?s=21)" and prefers it over "the other meh JS frameworks". _No comment._
 
 Finally, we [got a shoutout from Netlify](https://twitter.com/netlify/status/1253219555964583936?s=21) which was fun to see (and they just so happen to be where we host this site).
 
