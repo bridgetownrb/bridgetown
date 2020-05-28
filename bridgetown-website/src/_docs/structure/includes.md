@@ -5,6 +5,12 @@ order: 0
 category: structure
 ---
 
+{% rendercontent "docs/note", title: "Deprecated and Will Be Removed in Bridgetown 1.0", type: "warning" %}
+The {% raw %}`{% include %}`{% endraw %} tag is being phased out in favor of the new {% raw %}`{% render %}`{% endraw %} tag
+favored by Shopify and used by Bridgetown as the basis of Liquid Components.
+You'll want to update your site to use {% raw %}`{% render %}`{% endraw %} and {% raw %}`{% rendercontent %}`{% endraw %} for any inclusion of partials/templates such as headers, footers, nav bars, etc. Read the [Liquid Components](/docs/components) documentation for details.
+{% endrendercontent %}
+
 The `include` Liquid tag allows you to include the content from another file stored in the `_includes` folder:
 
 {% raw %}
