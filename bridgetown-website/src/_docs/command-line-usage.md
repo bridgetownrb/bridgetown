@@ -10,21 +10,18 @@ The Bridgetown gem makes the `bridgetown` executable available to you in your te
 
 You can use this command in a number of ways:
 
-* `bridgetown new PATH` - Creates a new Bridgetown site with a default configuration
-  at specified path, along with a typical site folder structure and starter
-  templates.
-* `bridgetown build` or `bridgetown b` - Performs a single build of your site to
-  the `output` folder (by default). Add the `-w` flag to also regenerate the site
-  whenever a source file changes.
+* `bridgetown new PATH` - Creates a new Bridgetown site at the specified path with a default configuration and typical site folder structure. Use the `--apply=` or `-a` option to [apply an automation](/docs/automations) to the new site.
+* `bridgetown build` or `bridgetown b` - Performs a single build of your site to the `output` folder (by default). Add the `-w` flag to also regenerate the site whenever a source file changes.
 * `bridgetown serve` or `bridgetown s` - Regenerates your site any time a source file
   changes and serves it locally (http://localhost:4000 by default).
 * `bridgetown console` or `bridgetown c` - Opens up an IRB console and lets you
   inspect your site configuration and content "under the hood" using
   Bridgetown's native Ruby API.
 * [`bridgetown plugins [list|cd]`](/docs/commands/plugins) - Display information about installed plugins or allow you to copy content out of gem-based plugins into your site folders.
-* `bridgetown help` - Shows help, optionally for a given subcommand, e.g. `bridgetown help build`
+* `bridgetown apply` - Run an [automation script](/docs/automations) for your existing site.
+* `bridgetown help` - Shows help, optionally for a given subcommand, e.g. `bridgetown help build`.
 * `bridgetown doctor` - Outputs any deprecation or configuration issues.
-* `bridgetown clean` - Removes all generated files: destination folder, metadata file,  and Bridgetown caches.
+* `bridgetown clean` - Removes all generated files: destination folder, metadata file, and Bridgetown caches.
 
 Typically you'll use `bridgetown serve` while developing locally and
 `bridgetown build` when you need to generate the site for production*.

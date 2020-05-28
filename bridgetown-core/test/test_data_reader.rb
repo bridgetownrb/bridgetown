@@ -19,17 +19,17 @@ class TestDataReader < BridgetownUnitTest
     should "merge options in that are environment-specific" do
       @reader.instance_variable_set(:@content, {
         "site_metadata" => {
-          "title"       => "Normal title",
-          "development" => {
-            "title" => "Development title",
+          "title" => "Normal title",
+          "test"  => {
+            "title" => "Test title",
           },
         },
-      })
-      metadata = @reader.content["site_metadata"]
-      refute_equal "Development title", metadata["title"]
+      }.with_indifferent_access)
+      metadata = @reader.content[:site_metadata]
+      refute_equal "Test title", metadata[:title]
       @reader.merge_environment_specific_metadata!
-      assert_equal "Development title", metadata["title"]
-      assert_nil metadata["development"]
+      assert_equal "Test title", metadata[:title]
+      assert_nil metadata[:test]
     end
   end
 

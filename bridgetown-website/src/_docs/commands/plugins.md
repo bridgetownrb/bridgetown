@@ -43,7 +43,8 @@ You can read more about builders, generators, etc. in the [Plugins documentation
 
 ### Copying Files out of Plugin Source Folders
 
-Bridgetown gem-based plugins which provide [source manifests](/docs/plugins/source-manifests) may add content to your such as layouts, pages, static files, and Liquid
+Bridgetown gem-based plugins/themes which provide [source manifests](/docs/plugins/source-manifests)
+may add content to your site such as layouts, pages, static files, and Liquid
 components from folders in the gem.
 
 If you ever need to _override_ some of that content, you can use the `plugins cd` command. The syntax is as follows:

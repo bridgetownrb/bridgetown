@@ -5,61 +5,70 @@ order: 0
 category: plugins
 ---
 
-{% render "docs/help_needed", page: page %}
+Bridgetown plugins can provide commands for the `bridgetown` executable.
 
-Bridgetown can be extended with plugins which provide
-subcommands for the `bridgetown` executable. This is possible by including the
-relevant plugins in a `Gemfile` group called `:bridgetown_plugins`:
+Commands are built using the [Thor](https://github.com/erikhuda/thor) CLI
+toolkit, which powers many popular Ruby libraries and frameworks including
+Rails, Bundler, and Middleman.
 
-```ruby
-group :bridgetown_plugins do
-  gem "my_fancy_bridgetown_plugin"
-end
+Simply subclass `Thor` in your plugin and use a registration block to notify
+Bridgetown how to include your command. Commands are written in a `command [subcommand]`
+format, so if your base command is `river`, your logic will be contained
+within one or more subcommands:
+
+```
+bridgetown river # outputs a help message about the available subcommands
+bridgetown river bank
+bridgetown river flows
 ```
 
-Each `Command` must be a subclass of the `Bridgetown::Command` class and must
-contain one class method: `init_with_program`. An example:
+You can also use the `ConfigurationOverridable` concern to load the
+`bridgetown.config.yml` configuration and optionally override keys with
+command line options passed to your command.
+
+Here's an example of how to write a `Thor` subclass:
 
 ```ruby
-class MyNewCommand < Bridgetown::Command
-  class << self
-    def init_with_program(prog)
-      prog.command(:new) do |c|
-        c.syntax "new [options]"
-        c.description 'Create a new Bridgetown site.'
+require_all "bridgetown-core/commands/concerns"
 
-        c.option 'dest', '-d DEST', 'Where the site should go.'
+module MyPlugin
+  module Commands
+    class River < Thor
+      include Bridgetown::Commands::ConfigurationOverridable
 
-        c.action do |args, options|
-          Bridgetown::Site.new_site_at(options['dest'])
-        end
+      Bridgetown::Commands::Registrations.register do
+        desc "river <command>", "Take me to the river"
+        subcommand "river", River
+      end
+
+      desc "bank", "Walk along the river bank"
+      def bank
+        puts "Out for a stroll..."
+      end
+
+      desc "flow", "Old man river, he just keeps on rolling along"
+      option :destination, desc: "Override configuration file destination"
+      def flow
+        config = configuration_with_overrides(options)
+        destination = config["destination"]
+
+        puts "Flowing to your destination: #{destination}"
       end
     end
   end
 end
 ```
 
-Commands should implement this single class method:
+In addition, if you want full access to [automations](/docs/automations) from
+within your command, you can include the Thor and custom Bridgetown actions:
 
-<table class="settings bigger-output">
-  <thead>
-    <tr>
-      <th>Method</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <p><code>init_with_program</code></p>
-      </td>
-      <td><p>
-        This method accepts one parameter, the
-        <code><a href="https://github.com/jekyll/mercenary#readme">Mercenary::Program</a></code>
-        instance, which is the Bridgetown program itself. Upon the program,
-        commands may be created using the above syntax. For more details,
-        visit the <a href="https://github.com/jekyll/mercenary">Mercenary repository</a>.
-      </p></td>
-    </tr>
-  </tbody>
-</table>
+```ruby
+include Thor::Actions
+include Bridgetown::Commands::Actions
+```
+
+Then your command can use Thor actions:
+
+```ruby
+say_status :river, "Go with the flow! :)"
+```

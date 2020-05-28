@@ -6,17 +6,29 @@ require "bridgetown-paginate"
 class Paths
   SOURCE_DIR = Pathname.new(File.expand_path("../..", __dir__))
 
-  def self.test_dir; source_dir.join("tmp", "bridgetown"); end
+  def self.test_dir
+    source_dir.join("tmp", "bridgetown")
+  end
 
-  def self.theme_gem_dir; source_dir.join("tmp", "bridgetown", "my-cool-theme"); end
+  def self.theme_gem_dir
+    source_dir.join("tmp", "bridgetown", "my-cool-theme")
+  end
 
-  def self.output_file; test_dir.join("bridgetown_output.txt"); end
+  def self.output_file
+    test_dir.join("bridgetown_output.txt")
+  end
 
-  def self.status_file; test_dir.join("bridgetown_status.txt"); end
+  def self.status_file
+    test_dir.join("bridgetown_status.txt")
+  end
 
-  def self.bridgetown_bin; source_dir.join("bin", "bridgetown"); end
+  def self.bridgetown_bin
+    source_dir.join("bin", "bridgetown")
+  end
 
-  def self.source_dir; SOURCE_DIR; end
+  def self.source_dir
+    SOURCE_DIR
+  end
 
   def self.root_files
     [
@@ -24,7 +36,7 @@ class Paths
       ".bridgetown-webpack/manifest.json",
       "bridgetown.config.yml",
       "plugins",
-      "frontend"
+      "frontend",
     ]
   end
 end
@@ -65,6 +77,7 @@ def all_steps_to_path(path)
 
   dest.ascend do |f|
     break if f == source
+
     paths.unshift f.to_s
   end
 
@@ -138,7 +151,7 @@ def location(folder, direction)
   end
 
   [before || ".",
-    after || ".",]
+   after || ".",]
 end
 
 #

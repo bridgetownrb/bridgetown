@@ -1,6 +1,7 @@
 ---
 title: Folder Structure
 order: 7
+next_page_order: 7.5
 top_section: Structure
 category: structure
 ---
