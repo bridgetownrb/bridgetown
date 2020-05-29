@@ -75,11 +75,18 @@ a,
 nav .search-item input {
   font-size: 1em;
   height: 1.85em;
-  padding: 0.2em 0.1em;
+  padding: 0.2em 0.6em;
   background: white;
   opacity: 0.8;
   width: 100%;
   max-width: 400px;
+  &::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+  &::placeholder {
+    color: #888;
+    opacity: 1;
+  }
 
   border: none;
   &:focus {
