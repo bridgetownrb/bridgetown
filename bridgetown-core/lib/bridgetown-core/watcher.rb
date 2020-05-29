@@ -39,10 +39,14 @@ module Bridgetown
     def build_listener(site, options)
       webpack_path = site.in_root_dir(".bridgetown-webpack")
       FileUtils.mkdir(webpack_path) unless Dir.exist?(webpack_path)
+      plugin_paths_to_watch = site.plugin_manager.plugins_path.select do |path|
+        Dir.exist?(path)
+      end
+
       Listen.to(
         options["source"],
         webpack_path,
-        *site.plugin_manager.plugins_path,
+        *plugin_paths_to_watch,
         ignore: listen_ignore_paths(options),
         force_polling: options["force_polling"],
         &listen_handler(site, options)
