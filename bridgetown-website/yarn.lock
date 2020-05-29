@@ -1479,10 +1479,10 @@ braces@^2.3.1, braces@^2.3.2:
     split-string "^3.0.2"
     to-regex "^3.0.1"
 
-bridgetown-quick-search@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/bridgetown-quick-search/-/bridgetown-quick-search-1.0.1.tgz#a9b721a908a0a8b20007fdb3d4acb4f230c08ec2"
-  integrity sha512-otwRisc0EiWVQOsAZomDT/PMj+oiebl5SixSfWJgmEMrNRjWc9niqEa+gd0iUjejaneMQMzxE2HzsQhxMGkzRA==
+bridgetown-quick-search@1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/bridgetown-quick-search/-/bridgetown-quick-search-1.0.2.tgz#2818a98db43506ed5879e23c278b08940c480002"
+  integrity sha512-/OxhPTUK7RShJSA264bAhvQ2+N5Sx8ueBvOqm0eFoWKoSt/lmb7KVevdSPR8bKNCs8zcINJWCUe+hzYoMGnbPQ==
   dependencies:
     "@babel/runtime" "^7.10.1"
     lit-element "^2.3.1"
