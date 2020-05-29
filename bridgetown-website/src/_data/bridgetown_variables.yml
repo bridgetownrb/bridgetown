@@ -80,7 +80,7 @@ site:
       they'll be easy to access and will regenerate pages when changed. This is a
       good place to put <code>&lt;head&gt;</code> content like site title,
       description, icon, social media handles, etc. Then you can reference
-      {{ site.metadata.title }}, etc. in your Liquid templates. 
+      {{ site.metadata.title }}, etc. in your Liquid templates.
   - name: "site.[CONFIGURATION_DATA]"
     description: >-
       All the variables set via the command line and your <code>bridgetown.config.yml</code> are available
@@ -123,9 +123,8 @@ page:
       <a href="/docs/front-matter/">front matter</a>.
   - name: page.collection
     description: >-
-      The label of the collection to which this document belongs. e.g. <code>posts</code> for a post, or
-      <code>puppies</code> for a document at path <code>_puppies/rover.md</code>. If not part of a
-      collection, an empty string is returned.
+      The collection to which this document belongs. <a href="/docs/collections#liquid-attributes" data-no-swup>Information on collection variables here.</a> If not part of a
+      collection, nothing is returned.
   - name: page.tags
     description: >-
       The list of tags to which this post belongs. These can be specified in the

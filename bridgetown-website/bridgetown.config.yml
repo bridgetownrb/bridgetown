@@ -12,6 +12,7 @@ collections:
     permalink: /:collection/:path
     sort_by: order
     name: Documentation
+    foo: bar
 
 defaults:
   - scope:

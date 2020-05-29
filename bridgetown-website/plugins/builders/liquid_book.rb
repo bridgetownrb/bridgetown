@@ -21,9 +21,10 @@ class LiquidBook < SiteBuilder
     liquid_tag "component_previews", :preview_tag
   end
 
-  def load_liquid_components(dir)
+  def load_liquid_components(dir, root: true)
     @components ||= {}
     @entry_filter ||= Bridgetown::EntryFilter.new(site)
+    @current_root = dir if root
 
     return unless File.directory?(dir) && !@entry_filter.symlink?(dir)
 
@@ -32,18 +33,18 @@ class LiquidBook < SiteBuilder
     end
 
     entries.each do |entry|
-      path = site.in_source_dir(dir, entry)
+      path = File.join(dir, entry)
       next if @entry_filter.symlink?(path)
 
       if File.directory?(path)
-        load_liquid_components(path)
+        load_liquid_components(path, root: false)
       else
         template = ::File.read(path)
         component = LiquidComponent.parse(template)
 
         unless component.name.nil?
           key = sanitize_filename(File.basename(path, ".*"))
-          key = File.join(File.dirname(path.sub(site.in_source_dir("_components") + "/", "")), key)
+          key = File.join(Pathname.new(File.dirname(path)).relative_path_from(@current_root), key)
           @components[key] = component.to_h.deep_stringify_keys.merge({
             "relative_path" => key,
           })
@@ -68,7 +69,7 @@ class LiquidBook < SiteBuilder
     }
 
     template = site.liquid_renderer.file(preview_path).parse(
-      File.read(preview_path)
+      File.exist?(preview_path) ? File.read(preview_path) : ""
     )
     template.warnings.each do |e|
       Bridgetown.logger.warn "Liquid Warning:",

@@ -34,7 +34,8 @@
   transition: opacity 0.2s ease-in-out;
 }
 
-a, .button {
+a,
+.button {
   transition: 0.2s ease-in-out;
   transition-property: background, background-color, color;
 }
@@ -58,7 +59,7 @@ a, .button {
   position: fixed;
   bottom: 60px;
   right: 12px;
-  box-shadow: 0px 3px 9px rgba(0,0,0,0.3);
+  box-shadow: 0px 3px 9px rgba(0, 0, 0, 0.3);
   animation-name: fade-in-button;
   animation-duration: 0.75s;
 
@@ -68,5 +69,33 @@ a, .button {
   .shown {
     animation-name: fade-in-button;
     animation-duration: 0.45s;
+  }
+}
+
+nav .search-item input {
+  font-size: 1em;
+  height: 1.85em;
+  padding: 0.2em 0.1em;
+  background: white;
+  opacity: 0.8;
+  width: 100%;
+  max-width: 400px;
+
+  border: none;
+  &:focus {
+    opacity: 1;
+  }
+
+  @include desktop {
+    width: calc(9vw * 2);
+  }
+}
+bridgetown-search-results {
+  /*  --text-color: green;
+  --link-color: orange;
+  --divider-color: purple; */
+
+  &::part(inner) {
+    //    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.2);
   }
 }

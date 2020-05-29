@@ -1,4 +1,12 @@
 .navbar {
+  .container {
+    .navbar-brand {
+      @include desktop {
+        margin-left: -1.55rem;
+      }
+    }
+  }
+
   .bridgetown-logo {
     width: 152px;
     margin-left: -6px;

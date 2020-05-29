@@ -32,6 +32,9 @@
       </div>
 
       <div class="navbar-end">
+        <div class="navbar-item search-item">
+          {% render "bridgetown_quick_search/search", placeholder: "Search", input_class: "input" %}
+        </div>
         <a class="navbar-item" href="https://github.com/{{ site.metadata.github }}" target="_blank">
           <button class="button is-info is-small">
             <span class="icon"> <i class="fa fa-github is-size-6"></i> </span>
@@ -39,9 +42,9 @@
           </button>
         </a>
 
-        <a class="navbar-item" href="https://github.com/bridgetownrb/bridgetown/issues/new?assignees=&labels=bug&template=bug_report.md&title=" target="_blank">
-          <span class="icon"><i class="fa fa-bug is-size-6"></i></span>
-          <span>Report Issue</span>
+        <a class="navbar-item is-hidden-desktop-only" href="https://github.com/bridgetownrb/bridgetown/issues/new?assignees=&labels=bug&template=bug_report.md&title=" target="_blank">
+          <span class="icon"><i class="fa fa-exclamation-circle is-size-6"></i></span>
+          <span class="is-hidden-tablet">Report Issue</span>
         </a>
         <a class="navbar-item" href="https://twitter.com/{{ site.metadata.twitter }}" target="_blank">
           <span class="icon"><i class="fa fa-twitter is-size-6"></i></span>

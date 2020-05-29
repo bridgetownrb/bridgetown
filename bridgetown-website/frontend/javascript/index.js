@@ -4,6 +4,7 @@ import SwupSlideTheme from "@swup/slide-theme"
 import SwupBodyClassPlugin from "@swup/body-class-plugin"
 import SwupScrollPlugin from "@swup/scroll-plugin"
 import animateScrollTo from "animated-scroll-to"
+import "bridgetown-quick-search"
 
 const toggleMenuIcon = button => {
   button.querySelectorAll(".icon").forEach(item => {

@@ -6,7 +6,7 @@
     </tr>
   </thead>
   <tbody>
-  {% for var in include.scope -%}
+  {% for var in scope -%}
     <tr>
       <td><p><code>{{ var.name }}</code></p></td>
       <td><p>{{- var.description -}}</p></td>
