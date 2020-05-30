@@ -21,8 +21,7 @@ class PurgeCSS < SiteBuilder
 
         Bridgetown.logger.info "PurgeCSS", "Purging #{css_file}"
         oldsize = File.stat(css_path).size / 1000
-        system "./node_modules/.bin/purgecss --help"
-        system "./node_modules/.bin/purgecss -c purgecss.config.js -css #{css_file}"
+        system "./node_modules/.bin/purgecss -c purgecss.config.js -css #{css_path}"
 
         newsize = File.stat(css_path).size / 1000
         if newsize < oldsize
