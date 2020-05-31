@@ -7,7 +7,7 @@ class TestApplyCommand < BridgetownUnitTest
     setup do
       @cmd = Bridgetown::Commands::Apply.new
       File.delete("bridgetown.automation.rb") if File.exist?("bridgetown.automation.rb")
-      @template = <<-TEMPLATE
+      @template = "" + <<-TEMPLATE
         say_status :urltest, "Works!"
       TEMPLATE
       allow(@template).to receive(:read).and_return(@template)
@@ -69,7 +69,6 @@ class TestApplyCommand < BridgetownUnitTest
     should "transform Gist URLs automatically" do
       allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
       file = "https://gist.github.com/jaredcwhite/963d40acab5f21b42152536ad6847575"
-      allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
       output = capture_stdout do
         @cmd.invoke(:apply_automation, [file])
       end
