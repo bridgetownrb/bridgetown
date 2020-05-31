@@ -11,6 +11,17 @@ module Bridgetown
       def create_builder(filename, data = nil)
         say_status :create_builder, filename
         data ||= yield if block_given?
+
+        site_builder = File.join("plugins", "site_builder.rb")
+        unless File.exist?(site_builder)
+          create_file("plugins/site_builder.rb", verbose: true) do
+            <<~RUBY
+              class SiteBuilder < Bridgetown::Builder
+              end
+            RUBY
+          end
+        end
+
         create_file("plugins/builders/#{filename}", data, verbose: false)
       end
 
