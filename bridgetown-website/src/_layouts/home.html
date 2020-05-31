@@ -18,7 +18,7 @@ layout: default
   <h2 class="title is-2 has-text-centered has-text-brown mb-12">News Updates</h2>
 
   {% for post in site.posts limit:4 %}
-    {% include news_item.html %}
+    {% render "content/news_item", post: post, authors: site.data.authors %}
   {% endfor %}
 
   <div class="mt-12 has-text-centered">

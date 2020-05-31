@@ -62,7 +62,4 @@ footer.footer strong {
 @import "layout.scss";
 @import "syntax.scss";
 @import "typography.scss";
-
-/* Components and Includes */
-@import "navbar.scss";
-@import "components.scss";
+@import "components.scss"; // in src/_components

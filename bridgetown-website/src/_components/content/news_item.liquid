@@ -8,7 +8,7 @@
   </div>
 
   <div class="mt-8 author">
-    {% assign author = site.data.authors[post.author] %}
+    {% assign author = authors[post.author] %}
     <img src="{{ author.avatar }}" alt="{{ author.name }}" class="avatar" />
     <a href="/authors/{{ post.author }}/" class="has-text-weight-bold">{{ author.name }}</a>
     on {{ post.date | date: "%B %-d, %Y" }}

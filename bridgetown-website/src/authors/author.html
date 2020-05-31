@@ -24,7 +24,7 @@ prototype:
       </p>
 
       {% for post in paginator.documents %}
-        {% include news_item.html %}
+        {% render "content/news_item", post: post, authors: site.data.authors %}
       {% endfor %}
 
       {% render "shared/pagination", paginator: paginator %}
