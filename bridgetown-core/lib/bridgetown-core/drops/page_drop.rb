@@ -7,7 +7,7 @@ module Bridgetown
 
       mutable false
 
-      def_delegators :@obj, :content, :dir, :name, :path, :url
+      def_delegators :@obj, :content, :dir, :name, :path, :url, :pager
       private def_delegator :@obj, :data, :fallback_data
     end
   end
