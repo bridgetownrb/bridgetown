@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-require "webrick"
 require "helper"
 require "openssl"
-require "tmpdir"
 
 class TestServeCommand < BridgetownUnitTest
   def custom_opts(what)
@@ -12,34 +10,7 @@ class TestServeCommand < BridgetownUnitTest
     )
   end
 
-  def start_server(opts)
-    @thread = Thread.new do
-      merc = nil
-      cmd = Bridgetown::Commands::Serve
-      Mercenary.program(:bridgetown) do |p|
-        merc = cmd.init_with_program(p)
-      end
-      merc.execute(:serve, opts)
-    end
-    @thread.abort_on_exception = true
-
-    Bridgetown::Commands::Serve.mutex.synchronize do
-      unless Bridgetown::Commands::Serve.running?
-        Bridgetown::Commands::Serve.run_cond.wait(Bridgetown::Commands::Serve.mutex)
-      end
-    end
-  end
-
-  def serve(opts)
-    allow(Bridgetown).to receive(:configuration).and_return(opts)
-    allow(Bridgetown::Commands::Build).to receive(:process)
-
-    start_server(opts)
-
-    opts
-  end
-
-  context "with a program" do
+  context "with a serve command" do
     setup do
       @cmd = Bridgetown::Commands::Serve.new
       Bridgetown.sites.clear
