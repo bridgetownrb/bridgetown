@@ -58,7 +58,7 @@ class TestApplyCommand < BridgetownUnitTest
 
     should "transform GitHub repo URLs automatically" do
       allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
-      file = "https://github.com/bridgetownrb/tree/automation/bridgetown-automations"
+      file = "https://github.com/bridgetownrb/bridgetown-automations"
       output = capture_stdout do
         @cmd.invoke(:apply_automation, [file])
       end

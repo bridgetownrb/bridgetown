@@ -90,10 +90,17 @@ module Bridgetown
                         "bridgetown.automation.rb"
                       end
 
+        tree_regex = %r!https://github\.com/(?<path>.*/.*)/tree/(?<branch>.*)/?!
+        match = tree_regex.match(arg)
+
         if arg.start_with?("https://gist.github.com")
           return arg.sub(
             "https://gist.github.com", "https://gist.githubusercontent.com"
           ) + "/raw/#{remote_file}"
+        elsif match
+          return arg.sub(
+            tree_regex, "https://raw.githubusercontent.com"
+          ) + "/#{match[:path]}/#{match[:branch]}/#{remote_file}"
         elsif arg.start_with?("https://github.com")
           return arg.sub(
             "https://github.com", "https://raw.githubusercontent.com"
