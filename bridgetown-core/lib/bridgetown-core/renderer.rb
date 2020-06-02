@@ -63,8 +63,10 @@ module Bridgetown
       assign_layout_data!
 
       document.trigger_hooks(:pre_render, payload)
+      output = render_document
+      document.trigger_hooks(:post_render)
 
-      render_document
+      output
     end
 
     # Render the document.

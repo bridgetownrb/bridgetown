@@ -44,7 +44,6 @@ module Bridgetown
       return unless regenerator.regenerate?(document)
 
       document.output = Bridgetown::Renderer.new(self, document, payload).run
-      document.trigger_hooks(:post_render)
     end
   end
 end

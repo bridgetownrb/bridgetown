@@ -33,14 +33,24 @@ end
 
 Be aware that the `build` method of the Builder API is called during the `pre_read` site event, so you won't be able to write a hook for any earlier events (`after_init` for example). In those cases, you will still need to use the Legacy API.
 
-Bridgetown provides hooks for <code>:site</code>, <code>:pages</code>,
-<code>:posts</code>, <code>:documents</code> and <code>:clean</code>. In all
-cases, Bridgetown calls your hooks with the container object as the first callback
-parameter. All `:pre_render` hooks and the`:site, :post_render` hook will also
+Bridgetown provides hooks for `:site`, `:pages`, `:documents`, `:clean`, and `:[collection_label]` (aka every collection gets a unique hook, such as `posts` or `countries` or `episodes`, etc.).
+
+In all cases, Bridgetown calls your hooks with the container object as the first callback
+parameter. All `:pre_render` hooks and the `:site, :post_render` hook will also
 provide a payload hash as a second parameter. In the case of `:pre_render`, the
 payload gives you full control over the variables that are available while
 rendering. In the case of `:site, :post_render`, the payload contains final
 values after rendering all the site (useful for sitemaps, feeds, etc).
+
+## Post-Write Hook for Performing Special Operations
+
+The `:site, :post_write` hook is particularly useful in that you can use it to
+kick off additional operations which need to happen after the site has been 
+completely built and everything has been saved to the destination folder.
+
+For example, there might be certain files you want to compress, or maybe you
+need to notify an external web service about new updates, or perhaps you'd like
+to run tests against the final output.
 
 ## Priorities
 
@@ -211,7 +221,7 @@ end
     </tr>
     <tr>
       <td>
-        <p><code>:posts</code></p>
+        <p><code>:posts</code><br/><code>:[collection_label]</code></p>
       </td>
       <td>
         <p><code>:post_init</code></p>
@@ -222,7 +232,7 @@ end
     </tr>
     <tr>
       <td>
-        <p><code>:posts</code></p>
+        <p><code>:posts</code><br/><code>:[collection_label]</code></p>
       </td>
       <td>
         <p><code>:pre_render</code></p>
@@ -233,7 +243,7 @@ end
     </tr>
     <tr>
       <td>
-        <p><code>:posts</code></p>
+        <p><code>:posts</code><br/><code>:[collection_label]</code></p>
       </td>
       <td>
         <p><code>:post_render</code></p>
@@ -244,7 +254,7 @@ end
     </tr>
     <tr>
       <td>
-        <p><code>:posts</code></p>
+        <p><code>:posts</code><br/><code>:[collection_label]</code></p>
       </td>
       <td>
         <p><code>:post_write</code></p>
@@ -261,7 +271,7 @@ end
         <p><code>:post_init</code></p>
       </td>
       <td>
-        <p>Whenever a document is initialized</p>
+        <p>Whenever a document (in any collection) is initialized</p>
       </td>
     </tr>
     <tr>
