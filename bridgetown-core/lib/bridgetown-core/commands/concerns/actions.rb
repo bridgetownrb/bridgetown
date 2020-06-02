@@ -95,10 +95,10 @@ module Bridgetown
         remote_file = determine_remote_filename(arg)
 
         github_regex = %r!https://github\.com!
-        github_branch_regex = %r!#{github_regex}/.*/.*/tree/(?<branch>.*)/?!
+        github_tree_regex = %r!#{github_regex}/.*/.*/tree/.*)/?!
 
         github_match = github_regex.match(arg)
-        github_branch_match = github_branch_regex.match(arg)
+        github_tree_match = github_tree_regex.match(arg)
 
         if arg.start_with?("https://gist.github.com")
           return arg.sub(
@@ -107,17 +107,11 @@ module Bridgetown
         elsif github_match
           new_url = arg.sub(github_regex, "https://raw.githubusercontent.com")
 
-          branch = "master"
+          new_url += "/master/" unless github_tree_match
 
-          if github_branch_match
-            branch = github_branch_match[:branch]
+          new_url = new_url.sub(%r!/tree/!, "/")
 
-            # Sub only affects the first match, so it wont affect directories
-            # named "tree"
-            new_url.sub(%r!/tree/!, "/")
-          end
-
-          return new_url + "/#{branch}/#{remote_file}"
+          return new_url + remote_file
         end
 
         arg + "/#{remote_file}"
