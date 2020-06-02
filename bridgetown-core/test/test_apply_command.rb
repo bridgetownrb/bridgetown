@@ -58,11 +58,24 @@ class TestApplyCommand < BridgetownUnitTest
 
     should "transform GitHub repo URLs automatically" do
       allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
-      file = "https://github.com/bridgetownrb/bridgetown-automations"
+      file = "https://github.com/bridgetownrb/tree/automation/bridgetown-automations"
       output = capture_stdout do
         @cmd.invoke(:apply_automation, [file])
       end
       assert_match %r!apply.*?https://raw\.githubusercontent.com/bridgetownrb/bridgetown-automations/master/bridgetown\.automation\.rb!, output
+      assert_match %r!urltest.*?Works\!!, output
+    end
+
+    should "transform GitHub repo URLs and respect branches" do
+      allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
+      # file url includes */tree/<branch>/* for a regular github url
+      file = "https://github.com/bridgetownrb/bridgetown-automations/tree/my-tree"
+      output = capture_stdout do
+        @cmd.invoke(:apply_automation, [file])
+      end
+
+      # when pulling raw content, */tree/<branch>/* transforms to */<branch>/*
+      assert_match %r!apply.*?https://raw\.githubusercontent.com/bridgetownrb/bridgetown-automations/my-tree/bridgetown\.automation\.rb!, output
       assert_match %r!urltest.*?Works\!!, output
     end
 
