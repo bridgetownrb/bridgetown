@@ -53,7 +53,7 @@ module Bridgetown
 
     # Prepare payload and render the document
     #
-    # Returns String rendered document output
+    # Returns nothing
     def run
       Bridgetown.logger.debug "Rendering:", document.relative_path
 
@@ -63,10 +63,8 @@ module Bridgetown
       assign_layout_data!
 
       document.trigger_hooks(:pre_render, payload)
-      output = render_document
+      document.output = render_document
       document.trigger_hooks(:post_render)
-
-      output
     end
 
     # Render the document.

@@ -43,7 +43,7 @@ module Bridgetown
     def render_regenerated(document, payload)
       return unless regenerator.regenerate?(document)
 
-      document.output = Bridgetown::Renderer.new(self, document, payload).run
+      Bridgetown::Renderer.new(self, document, payload).run
     end
   end
 end

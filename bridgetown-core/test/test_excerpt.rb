@@ -13,7 +13,7 @@ class TestExcerpt < BridgetownUnitTest
     @site.layouts = {
       "default" => Layout.new(@site, source_dir("_layouts"), "simple.html"),
     }
-    document.output = Bridgetown::Renderer.new(@site, document, @site.site_payload).run
+    Bridgetown::Renderer.new(@site, document, @site.site_payload).run
   end
 
   context "With extraction disabled" do

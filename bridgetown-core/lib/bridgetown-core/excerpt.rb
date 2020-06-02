@@ -81,7 +81,10 @@ module Bridgetown
     end
 
     def output
-      @output ||= Renderer.new(doc.site, self, site.site_payload).run
+      @output || (
+        Renderer.new(doc.site, self, site.site_payload).run
+        @output
+      )
     end
 
     def place_in_layout?

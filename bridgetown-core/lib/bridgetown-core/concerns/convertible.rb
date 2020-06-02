@@ -188,13 +188,10 @@ module Bridgetown
     #
     # Returns nothing.
     def do_layout(payload, layouts)
-      self.output = _renderer.tap do |renderer|
+      _renderer.tap do |renderer|
         renderer.layouts = layouts
         renderer.payload = payload
       end.run
-
-      Bridgetown.logger.debug "Post-Render Hooks:", relative_path
-      Bridgetown::Hooks.trigger hook_owner, :post_render, self
     ensure
       @_renderer = nil # this will allow the modifications above to disappear
     end
