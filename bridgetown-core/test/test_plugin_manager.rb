@@ -58,6 +58,79 @@ class TestPluginManager < BridgetownUnitTest
     end
   end
 
+  context "find yarn dependencies" do
+    should "work if the metadata exists and is in the right format" do
+      gem_mock = OpenStruct.new(to_spec: OpenStruct.new(metadata: {
+        "yarn-add" => "my-plugin@0.1.0",
+      }))
+      assert_equal ["my-plugin", "0.1.0"], Bridgetown::PluginManager.find_yarn_dependency(gem_mock)
+    end
+
+    should "not work if the metadata doesn't exist" do
+      gem_mock = OpenStruct.new(to_spec: OpenStruct.new)
+      assert_equal nil, Bridgetown::PluginManager.find_yarn_dependency(gem_mock)
+    end
+
+    should "not work if the metadata isn't in the right format" do
+      gem_mock = OpenStruct.new(to_spec: OpenStruct.new(metadata: {
+        "yarn-add" => "gobbledeegook",
+      }))
+      assert_equal nil, Bridgetown::PluginManager.find_yarn_dependency(gem_mock)
+    end
+  end
+
+  context "check package.json for dependency information" do
+    setup do
+      @yarn_dep = ["my-plugin", "0.2.0"]
+      @package_json = {
+        "dependencies" => {
+          "my-plugin" => "0.1.0",
+        },
+      }
+    end
+
+    should "do nothing if there's no yarn dependency" do
+      refute Bridgetown::PluginManager.add_yarn_dependency?(nil, @package_json)
+    end
+
+    should "green-light if package_json dependencies is missing" do
+      assert Bridgetown::PluginManager.add_yarn_dependency?(@yarn_dep, {})
+    end
+
+    should "green-light if package_json dependency is old" do
+      assert Bridgetown::PluginManager.add_yarn_dependency?(@yarn_dep, @package_json)
+    end
+
+    should "do nothing if package_json dependency is the same" do
+      @yarn_dep[1] = "0.1.0"
+      refute Bridgetown::PluginManager.add_yarn_dependency?(@yarn_dep, @package_json)
+    end
+
+    should "green-light if package_json dependency wasn't included" do
+      @package_json["dependencies"].delete("my-plugin")
+      assert Bridgetown::PluginManager.add_yarn_dependency?(@yarn_dep, @package_json)
+    end
+  end
+
+  context "verify yarn package" do
+    should "install if entry in package.json is blank" do
+      assert Bridgetown::PluginManager.package_requires_updating?(nil, "1.0.0")
+    end
+
+    should "install if entry in package.json is outdated" do
+      assert Bridgetown::PluginManager.package_requires_updating?("1.0.0", "1.0.2")
+    end
+
+    should "not install if entry in package.json is the same" do
+      refute Bridgetown::PluginManager.package_requires_updating?("1.0.1", "1.0.1")
+    end
+
+    should "not install if entry in package.json a URL or file path" do
+      refute Bridgetown::PluginManager.package_requires_updating?("../path", "1.0.1")
+      refute Bridgetown::PluginManager.package_requires_updating?("http://domain", "1.0.1")
+    end
+  end
+
   context "site containing plugins" do
     should "require plugin files" do
       site = double(config: { "plugins_dir" => "_plugins" },
