@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "bundler"
-
 module Bridgetown
   module Commands
     class Apply < Thor::Group
