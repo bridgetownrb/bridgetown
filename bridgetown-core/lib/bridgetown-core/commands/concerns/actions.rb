@@ -77,18 +77,22 @@ module Bridgetown
 
       private
 
+      def remote_file(arg)
+        if arg.end_with?(".rb")
+          arg.split("/").yield_self do |segments|
+            arg.sub!(%r!/#{segments.last}$!, "")
+            segments.last
+          end
+        else
+          "bridgetown.automation.rb"
+        end
+      end
+
       # TODO: option to download and confirm remote automation?
       def transform_automation_url(arg)
         return arg unless arg.start_with?("http")
 
-        remote_file = if arg.end_with?(".rb")
-                        arg.split("/").yield_self do |segments|
-                          arg.sub!(%r!/#{segments.last}$!, "")
-                          segments.last
-                        end
-                      else
-                        "bridgetown.automation.rb"
-                      end
+        remote_file = remote_file(arg)
 
         tree_regex = %r!https://github\.com/(?<path>.*/.*)/tree/(?<branch>.*)/?!
         match = tree_regex.match(arg)
