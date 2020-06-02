@@ -5,7 +5,7 @@ module Bridgetown
     class BlockRenderTag < Liquid::Block
       def render(context)
         context.stack({}) do
-          content = super.gsub(%r!^[ \t]+!, "") # unindent the incoming text
+          content = super.strip_heredoc # unindent the incoming text
           regions = gather_content_regions(context)
 
           site = context.registers[:site]
@@ -17,7 +17,7 @@ module Bridgetown
           unless regions.empty?
             regions.each do |region_name, region_content|
               region_name = region_name.sub("content_with_region_", "")
-              context[region_name] = converter.convert(region_content.gsub(%r!^[ \t]+!, ""))
+              context[region_name] = converter.convert(region_content.strip_heredoc)
               render_params.push "#{region_name}: #{region_name}"
             end
           end

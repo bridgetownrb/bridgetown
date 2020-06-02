@@ -19,12 +19,12 @@ github_participation: !ruby/string:Rb |
     {% render "shared/head", metadata: site.metadata, title: page.title %}
   </head>
   <body class="{{ page.layout }} {{ page.page_class }}">
-    {% render "shared/navbar", page: page, metadata: site.metadata %}
+    {% render "shared/navbar", metadata: site.metadata, page: page %}
 
     <main>
       {{ content }}
     </main>
 
-    {% render "shared/footer", bridgetown: bridgetown, metadata: site.metadata %}
+    {% render "shared/footer", metadata: site.metadata, bridgetown: bridgetown %}
   </body>
 </html>
