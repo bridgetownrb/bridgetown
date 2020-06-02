@@ -77,7 +77,7 @@ module Bridgetown
 
       private
 
-      def remote_file(arg)
+      def determine_remote_filename(arg)
         if arg.end_with?(".rb")
           arg.split("/").yield_self do |segments|
             arg.sub!(%r!/#{segments.last}$!, "")
@@ -92,23 +92,32 @@ module Bridgetown
       def transform_automation_url(arg)
         return arg unless arg.start_with?("http")
 
-        remote_file = remote_file(arg)
+        remote_file = determine_remote_filename(arg)
 
-        tree_regex = %r!https://github\.com/(?<path>.*/.*)/tree/(?<branch>.*)/?!
-        match = tree_regex.match(arg)
+        github_regex = %r!https://github\.com!
+        github_branch_regex = %r!#{github_regex}/.*/.*/tree/(?<branch>.*)/?!
+
+        github_match = github_regex.match(arg)
+        github_branch_match = github_branch_regex.match(arg)
 
         if arg.start_with?("https://gist.github.com")
           return arg.sub(
             "https://gist.github.com", "https://gist.githubusercontent.com"
           ) + "/raw/#{remote_file}"
-        elsif match
-          return arg.sub(
-            tree_regex, "https://raw.githubusercontent.com"
-          ) + "/#{match[:path]}/#{match[:branch]}/#{remote_file}"
-        elsif arg.start_with?("https://github.com")
-          return arg.sub(
-            "https://github.com", "https://raw.githubusercontent.com"
-          ) + "/master/#{remote_file}"
+        elsif github_match
+          new_url = arg.sub(github_regex, "https://raw.githubusercontent.com")
+
+          branch = "master"
+
+          if github_branch_match
+            branch = github_branch_match[:branch]
+
+            # Sub only affects the first match, so it wont affect directories
+            # named "tree"
+            new_url.sub(%r!/tree/!, "/")
+          end
+
+          return new_url + "/#{branch}/#{remote_file}"
         end
 
         arg + "/#{remote_file}"
