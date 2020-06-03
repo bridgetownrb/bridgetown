@@ -88,7 +88,6 @@ module Bridgetown
         end
       end
 
-
       # TODO: option to download and confirm remote automation?
       def transform_automation_url(arg)
         return arg unless arg.start_with?("http")

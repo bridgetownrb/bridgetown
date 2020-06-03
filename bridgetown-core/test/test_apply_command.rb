@@ -103,7 +103,6 @@ class TestApplyCommand < BridgetownUnitTest
       assert_match %r!urltest.*?Works\!!, output
     end
 
-
     should "transform Gist URLs automatically" do
       allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
       file = "https://gist.github.com/jaredcwhite/963d40acab5f21b42152536ad6847575"
