@@ -91,6 +91,19 @@ class TestApplyCommand < BridgetownUnitTest
       assert_match %r!urltest.*?Works\!!, output
     end
 
+    should "transform GitHub repo URLs and not cause issues if users name or repo name is 'tree'" do
+      allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
+      file = "https://github.com/tree/bridgetown-automations/tree/my-tree/tree"
+      output = capture_stdout do
+        @cmd.invoke(:apply_automation, [file])
+      end
+
+      # when pulling raw content, */tree/<branch>/* transforms to */<branch>/*
+      assert_match %r!apply.*?https://raw\.githubusercontent.com/tree/bridgetown-automations/my-tree/tree/bridgetown\.automation\.rb!, output
+      assert_match %r!urltest.*?Works\!!, output
+    end
+
+
     should "transform Gist URLs automatically" do
       allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
       file = "https://gist.github.com/jaredcwhite/963d40acab5f21b42152536ad6847575"
