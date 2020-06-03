@@ -3,31 +3,10 @@
 module Bridgetown
   module Tags
     class BlockRenderTag < Liquid::Block
-      def reindent(input)
-        lines = input.lines
-        return input if lines.first.nil?
-
-        starting_indentation = lines.find { |line| line != "\n" }&.match(%r!^\s+!)
-        return input unless starting_indentation
-
-        lines.map do |line|
-          line_indentation = line.match(%r!^\s+!).yield_self do |indent|
-            indent.nil? ? "" : indent[0]
-          end
-          new_indentation = line_indentation.rjust(starting_indentation[0].length, " ")
-
-          if %r!^\s+!.match?(line)
-            line.sub(%r!^\s+!, new_indentation)
-          else
-            line = new_indentation + line
-          end
-        end.join("").strip_heredoc
-      end
-
       def render(context)
         context.stack({}) do
           # unindent the incoming text
-          content = reindent(super)
+          content = Bridgetown::Utils.reindent_for_markdown(super)
 
           regions = gather_content_regions(context)
 

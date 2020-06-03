@@ -287,6 +287,50 @@ module Bridgetown
       merged
     end
 
+    # Returns a string that's been reindented so that Markdown's four+ spaces =
+    # code doesn't get triggered for nested Liquid components
+    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
+    def reindent_for_markdown(input)
+      lines = input.lines
+      return input if lines.first.nil?
+
+      starting_indentation = lines.find { |line| line != "\n" }&.match(%r!^ +!)
+      return input unless starting_indentation
+
+      starting_indent_length = starting_indentation[0].length
+
+      skip_pre_lines = false
+      lines.map do |line|
+        continue_processing = !skip_pre_lines
+
+        if skip_pre_lines
+          skip_pre_lines = false if line.include?("</pre>")
+        end
+        if line.include?("<pre")
+          skip_pre_lines = true
+          continue_processing = false
+        end
+
+        if continue_processing
+          line_indentation = line.match(%r!^ +!).yield_self do |indent|
+            indent.nil? ? "" : indent[0]
+          end
+          new_indentation = line_indentation.rjust(starting_indent_length, " ")
+
+          if %r!^ +!.match?(line)
+            line
+              .sub(%r!^ {1,#{starting_indent_length}}!, new_indentation)
+              .sub(%r!^#{new_indentation}!, "")
+          else
+            line
+          end
+        else
+          line
+        end
+      end.join("")
+    end
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
+
     private
 
     def merge_values(target, overwrite)
