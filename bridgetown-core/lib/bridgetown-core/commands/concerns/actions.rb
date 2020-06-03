@@ -96,7 +96,7 @@ module Bridgetown
         remote_file = determine_remote_filename(arg)
 
         github_regex = %r!https://github\.com!
-        github_tree_regex = %r!#{github_regex}/.*/.*/tree/.*/?!
+        github_tree_regex = %r!#{github_regex}/(?<repo>.*/.*)/tree/(?<path.*)/?!
 
         github_match = github_regex.match(arg)
         github_tree_match = github_tree_regex.match(arg)
