@@ -91,7 +91,7 @@ class TestApplyCommand < BridgetownUnitTest
       assert_match %r!urltest.*?Works\!!, output
     end
 
-    should "transform GitHub repo URLs and not cause issues if users name or repo name is 'tree'" do
+    should "transform GitHub repo URLs and not cause issues if the repo name is 'tree'" do
       allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
       file = "https://github.com/bridgetown/tree/tree/my-tree/tree"
       output = capture_stdout do
