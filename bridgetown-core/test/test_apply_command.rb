@@ -93,13 +93,13 @@ class TestApplyCommand < BridgetownUnitTest
 
     should "transform GitHub repo URLs and not cause issues if users name or repo name is 'tree'" do
       allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
-      file = "https://github.com/tree/bridgetown-automations/tree/my-tree/tree"
+      file = "https://github.com/bridgetown/tree/tree/my-tree/tree"
       output = capture_stdout do
         @cmd.invoke(:apply_automation, [file])
       end
 
       # when pulling raw content, */tree/<branch>/* transforms to */<branch>/*
-      assert_match %r!apply.*?https://raw\.githubusercontent.com/tree/bridgetown-automations/my-tree/tree/bridgetown\.automation\.rb!, output
+      assert_match %r!apply.*?https://raw\.githubusercontent.com/bridgetown/tree/my-tree/tree/bridgetown\.automation\.rb!, output
       assert_match %r!urltest.*?Works\!!, output
     end
 
