@@ -66,6 +66,43 @@ class TestApplyCommand < BridgetownUnitTest
       assert_match %r!urltest.*?Works\!!, output
     end
 
+    should "transform GitHub repo URLs and respect branches" do
+      allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
+      # file url includes */tree/<branch>/* for a regular github url
+      file = "https://github.com/bridgetownrb/bridgetown-automations/tree/my-tree"
+      output = capture_stdout do
+        @cmd.invoke(:apply_automation, [file])
+      end
+
+      # when pulling raw content, */tree/<branch>/* transforms to */<branch>/*
+      assert_match %r!apply.*?https://raw\.githubusercontent.com/bridgetownrb/bridgetown-automations/my-tree/bridgetown\.automation\.rb!, output
+      assert_match %r!urltest.*?Works\!!, output
+    end
+
+    should "transform GitHub repo URLs and preserve directories named 'tree'" do
+      allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
+      file = "https://github.com/bridgetownrb/bridgetown-automations/tree/my-tree/tree"
+      output = capture_stdout do
+        @cmd.invoke(:apply_automation, [file])
+      end
+
+      # when pulling raw content, */tree/<branch>/* transforms to */<branch>/*
+      assert_match %r!apply.*?https://raw\.githubusercontent.com/bridgetownrb/bridgetown-automations/my-tree/tree/bridgetown\.automation\.rb!, output
+      assert_match %r!urltest.*?Works\!!, output
+    end
+
+    should "transform GitHub repo URLs and not cause issues if the repo name is 'tree'" do
+      allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
+      file = "https://github.com/bridgetown/tree/tree/my-tree/tree"
+      output = capture_stdout do
+        @cmd.invoke(:apply_automation, [file])
+      end
+
+      # when pulling raw content, */tree/<branch>/* transforms to */<branch>/*
+      assert_match %r!apply.*?https://raw\.githubusercontent.com/bridgetown/tree/my-tree/tree/bridgetown\.automation\.rb!, output
+      assert_match %r!urltest.*?Works\!!, output
+    end
+
     should "transform Gist URLs automatically" do
       allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
       file = "https://gist.github.com/jaredcwhite/963d40acab5f21b42152536ad6847575"

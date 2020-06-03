@@ -77,27 +77,43 @@ module Bridgetown
 
       private
 
+      def determine_remote_filename(arg)
+        if arg.end_with?(".rb")
+          arg.split("/").yield_self do |segments|
+            arg.sub!(%r!/#{segments.last}$!, "")
+            segments.last
+          end
+        else
+          "bridgetown.automation.rb"
+        end
+      end
+
       # TODO: option to download and confirm remote automation?
       def transform_automation_url(arg)
         return arg unless arg.start_with?("http")
 
-        remote_file = if arg.end_with?(".rb")
-                        arg.split("/").yield_self do |segments|
-                          arg.sub!(%r!/#{segments.last}$!, "")
-                          segments.last
-                        end
-                      else
-                        "bridgetown.automation.rb"
-                      end
+        remote_file = determine_remote_filename(arg)
+
+        github_regex = %r!https://github\.com!
+        github_tree_regex = %r!#{github_regex}/.*/.*/tree/.*/?!
+
+        github_match = github_regex.match(arg)
+        github_tree_match = github_tree_regex.match(arg)
 
         if arg.start_with?("https://gist.github.com")
           return arg.sub(
             "https://gist.github.com", "https://gist.githubusercontent.com"
           ) + "/raw/#{remote_file}"
-        elsif arg.start_with?("https://github.com")
-          return arg.sub(
-            "https://github.com", "https://raw.githubusercontent.com"
-          ) + "/master/#{remote_file}"
+        elsif github_match
+          new_url = arg.sub(github_regex, "https://raw.githubusercontent.com")
+
+          if github_tree_match
+            new_url = new_url.sub("/tree/", "/")
+          else
+            new_url += "/master"
+          end
+
+          return "#{new_url}/#{remote_file}"
         end
 
         arg + "/#{remote_file}"
