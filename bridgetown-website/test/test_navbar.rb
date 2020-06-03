@@ -18,7 +18,7 @@ class TestNavbar < Minitest::Test
     should "have a news link" do
       link = @dom.css("nav .navbar-menu a")[2]
 
-      assert_equal "Newsss", link.text.strip
+      assert_equal "News", link.text.strip
     end
   end
 end
