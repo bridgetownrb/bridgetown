@@ -3,7 +3,7 @@
 require_relative "./helper"
 
 class TestNavbar < Minitest::Test
-  context "navbar" do
+  context "top navbar" do
     setup do
       @page = site.posts.docs.find { |doc| doc.url == "/feature/supercharge-your-bridgetown-site-with-ruby-front-matter/" }
       @dom = nokogiri(@page)
