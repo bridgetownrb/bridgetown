@@ -15,4 +15,5 @@ group :test, optional: true do
   gem "minitest-profile"
   gem "minitest-reporters"
   gem "shoulda"
+  gem "rails-dom-testing"
 end
