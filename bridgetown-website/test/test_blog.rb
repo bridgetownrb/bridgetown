@@ -11,7 +11,8 @@ class TestBlog < Minitest::Test
 
     should "show authors" do
       assert_select ".box .author img" do |imgs|
-        assert_dom_equal imgs.last.to_html, '<img src="/images/jared-white-avatar.jpg" alt="Jared White" class="avatar">'
+        assert_dom_equal imgs.last.to_html,
+                         '<img src="/images/jared-white-avatar.jpg" alt="Jared White" class="avatar">'
       end
     end
   end
