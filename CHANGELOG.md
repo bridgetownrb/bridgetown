@@ -1,6 +1,8 @@
 # master
 
-# 0.15.0.beta3 / 2020-06-05 (`0-15-stable` branch)
+# 0.15.0.beta3 / 2020-06-05
+
+(`0-15-stable` branch)
 
 * New documentation on plugin development (including `bridgetown plugins new`), themes, automations, Liquid components, etc. [now on beta website](https://beta.bridgetownrb.com). Beta site also showcases the upcoming quick search plugin which will be made available to all site devs.
 * Optimizations made internally to the Bridgetown test suite.
