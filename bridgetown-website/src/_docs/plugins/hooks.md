@@ -50,7 +50,7 @@ completely built and everything has been saved to the destination folder.
 
 For example, there might be certain files you want to compress, or maybe you
 need to notify an external web service about new updates, or perhaps you'd like
-to run tests against the final output.
+to [run tests against the final output](/docs/testing).
 
 ## Priorities
 
