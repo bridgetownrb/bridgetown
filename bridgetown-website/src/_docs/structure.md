@@ -19,8 +19,8 @@ The typical folder structure for a Bridgetown site usually looks something like 
 │   └   └── layout.scss
 ├── src # this is where you put your content and design templates
 │   ├── _components
-│   │   ├── footer.html
-│   │   └── header.html
+│   │   ├── footer.liquid
+│   │   └── header.liquid
 │   ├── _data
 │   │   ├── members.yml
 │   │   └── site_metadata.yml

@@ -42,7 +42,7 @@ Why do that? It's so that the plugin name becomes part of the path used to
 reference the content from the parent website. Thus for `layouts/sample_plugin/layout.html`,
 the front matter would be `layout: sample_plugin/layout`. For a page like
 `content/photo-gallery/portfolio.html`, it would be accessible on the site via the
-URL `/photo-gallery/portfolio`.
+URL `/photo-gallery/portfolio`. For a Liquid Component located at `components/sample_plugin/widget.liquid`, you'd render it via `{% render "sample_plugin/widget" %}`.
 
 This is also useful in cases where the parent site needs to override some content
 or a layout or whatever in order to make customizations. All the developer would
