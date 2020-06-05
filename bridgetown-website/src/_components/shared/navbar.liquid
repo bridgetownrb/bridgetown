@@ -1,6 +1,7 @@
 {%- assign about_active = "" -%}
 {%- assign docs_active = "" -%}
 {%- assign news_active = "" -%}
+{%- assign is_beta = "" %}
 
 {%- if page.url == "/about/" -%}
 {%- assign about_active = "is-active" -%}
@@ -9,11 +10,15 @@
 {%- elsif page.url contains "/blog/" or page.layout == "post" %}
 {%- assign news_active = "is-active" -%}
 {%- endif -%}
-<nav class="main-nav navbar" id="topnav">
+{%- if version contains "beta" -%}
+{%- assign is_beta = "beta" %}
+{%- endif -%}
+<nav class="main-nav navbar {{ is_beta }}" id="topnav">
   <div class="container">
     <div class="navbar-brand">
       <a class="navbar-item {{ home_active }}" href="/">
         <span class="bridgetown-logo">{% insert_svg Bridgetown-Logo.svg %}</span>
+        {% if is_beta != "" %}<span class="tag is-warning">Beta</span>{% endif %}
         <h1 class="title is-5">Bridgetown</h1>
       </a>
 

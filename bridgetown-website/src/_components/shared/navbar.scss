@@ -1,4 +1,26 @@
 .navbar {
+  &.beta {
+    background-color: #2b4d5b;
+
+    span.tag {
+      position: absolute;
+      right: 2.9rem;
+      margin-top: 1.3rem;
+      transform: rotate(-9deg);
+    }
+
+    a.navbar-item:focus,
+    a.navbar-item:focus-within,
+    a.navbar-item:hover,
+    a.navbar-item.is-active,
+    .navbar-link:focus,
+    .navbar-link:focus-within,
+    .navbar-link:hover,
+    .navbar-link.is-active {
+      background-color: #1f3b46;
+    }
+  }
+
   .container {
     .navbar-brand {
       @include desktop {
