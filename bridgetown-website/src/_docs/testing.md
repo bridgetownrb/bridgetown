@@ -135,14 +135,14 @@ directory. Lets start by removing the `cypress/integration/examples/` directory.
 rm -rf cypress/integration/examples
 ```
 
-So now lets create our first test. Create a file called `app_test.js`
+So now lets create our first test. Create a file called `navbar.spec.js`
 inside of the `cypress/integrations` directory.
 
 Inside of the file lets add some assertions. (This is assuming you are
 using a new Bridgetown project.)
 
 ```javascript
-// cypress/integrations/app_test.js
+// cypress/integrations/navbar.spec.js
 
 describe("Testing that links exist in the navbar", () => {
   beforeEach(() => {
