@@ -157,3 +157,6 @@ describe("Testing that links exist in the navbar", () => {
 
 Now when we run all specs, they all should pass. And now we have a
 starting point for creating more Cypress tests.
+
+[Reference Repository for Cypress
+Testing](https://github.com/ParamagicDev/bridgetown-example-cypress)
