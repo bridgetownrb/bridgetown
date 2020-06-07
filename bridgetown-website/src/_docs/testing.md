@@ -120,8 +120,10 @@ Now to test our site we simply have to do:
 yarn cy:test
 ```
 
-And our site will be tested with Cypress. So go ahead and run that
-command and you will prepopulate the `cypress` directories where you
+And our site will now be tested with Cypress.
+
+So go ahead and run that
+command and you will prepopulate the `cypress/` directory where you
 will add future tests.
 
 ### Adding Tests
@@ -136,8 +138,8 @@ rm -rf cypress/integration/examples
 So now lets create our first test. Create a file called `app_test.js`
 inside of the `cypress/integrations` directory.
 
-Inside of the file lets add some assertions. (This is for a base
-Bridgetown project.)
+Inside of the file lets add some assertions. (This is assuming you are
+using a new Bridgetown project.)
 
 ```javascript
 // cypress/integrations/app_test.js
