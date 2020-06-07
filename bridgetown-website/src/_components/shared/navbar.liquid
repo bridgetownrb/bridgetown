@@ -3,8 +3,8 @@
 {%- assign news_active = "" -%}
 {%- assign is_beta = "" %}
 
-{%- if page.url == "/about/" -%}
-{%- assign about_active = "is-active" -%}
+{%- if page.url == "/plugins/" -%}
+{%- assign plugins_active = "is-active" -%}
 {%- elsif page.url contains "/docs/" -%}
 {%- assign docs_active = "is-active" -%}
 {%- elsif page.url contains "/blog/" or page.layout == "post" %}
@@ -32,7 +32,7 @@
     <div id="topNavbar" class="navbar-menu">
       <div class="navbar-start">
         <a class="navbar-item {{ docs_active }}" href="/docs/">Documentation</a>
-        <a class="navbar-item {{ about_active }}" href="/about/">Roadmap</a>
+        <a class="navbar-item {{ plugins_active }}" href="/plugins/">Plugins</a>
         <a class="navbar-item {{ news_active }}" href="/blog/">News</a>
       </div>
 

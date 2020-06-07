@@ -25,6 +25,6 @@ github_participation: !ruby/string:Rb |
       {{ content }}
     </main>
 
-    {% render "shared/footer", metadata: site.metadata, bridgetown: bridgetown %}
+    {% render "shared/footer", metadata: site.metadata, bridgetown: bridgetown, github_participation: layout.github_participation %}
   </body>
 </html>
