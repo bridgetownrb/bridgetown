@@ -131,34 +131,34 @@ module Bridgetown
       def start_up_webrick(opts, destination)
         @server = WEBrick::HTTPServer.new(webrick_opts(opts)).tap { |o| o.unmount("") }
         @server.mount(opts["baseurl"].to_s, Servlet, destination, file_handler_opts)
-        # experimental:
-        if opts["serverless_api_dir"]
-          full_api_path = File.expand_path(opts["serverless_api_dir"], opts["root_dir"])
-          base_api_folder = File.basename(full_api_path)
-          @server.mount_proc "/#{base_api_folder}" do |req, res|
-            api_folder = File.dirname(req.path).sub("/#{base_api_folder}", "")
-            endpoint = File.basename(req.path)
-            ruby_path = File.join(full_api_path, api_folder, "#{endpoint}.rb")
-            if File.exist?(ruby_path)
-              original_verbosity = $VERBOSE
-              $VERBOSE = nil
-              load ruby_path
-              $VERBOSE = original_verbosity
-              if Handler.is_a?(Proc)
-                Handler.call(req, res)
-              else
-                handler = Handler.new(@server)
-                handler.service(req, res)
-              end
-            else
-              raise HTTPStatus::NotFound, "`#{req.path}' not found."
-            end
-          end
-        end
+
+        start_up_phaedra(opts) if opts["phaedra_api_dir"]
 
         Bridgetown.logger.info "Server address:", server_address(@server, opts)
         launch_browser @server, opts if opts["open_url"]
         boot_or_detach @server, opts
+      end
+
+      # Experimental support for Phaedra framework
+      def start_up_phaedra(opts)
+        full_api_path = File.expand_path(opts["phaedra_api_dir"] || "api", opts["root_dir"])
+        base_api_folder = File.basename(full_api_path)
+        @server.mount_proc "/#{base_api_folder}" do |req, res|
+          api_folder = File.dirname(req.path).sub("/#{base_api_folder}", "")
+          endpoint = File.basename(req.path)
+          ruby_path = File.join(full_api_path, api_folder, "#{endpoint}.rb")
+          if File.exist?(ruby_path)
+            if Object.constants.include?(:PhaedraFunction)
+              Object.send(:remove_const, :PhaedraFunction)
+            end
+            load ruby_path
+
+            func = PhaedraFunction.new
+            func.service(req, res)
+          else
+            raise HTTPStatus::NotFound, "`#{req.path}' not found."
+          end
+        end
       end
 
       def shutdown
