@@ -212,7 +212,7 @@ module Bridgetown
             else
               File.join(site.config["collections_dir"], page_payload["path"])
             end
-          resource_path.sub!(%r!/#excerpt\z!, "")
+          resource_path.delete_suffix!("/#excerpt")
           site.in_source_dir File.dirname(resource_path)
         end
       end
