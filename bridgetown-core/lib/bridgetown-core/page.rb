@@ -180,7 +180,7 @@ module Bridgetown
 
     # The path to the page source file, relative to the site source
     def relative_path
-      @relative_path ||= File.join(*[@dir, @name].map(&:to_s).reject(&:empty?)).sub(%r!\A\/!, "")
+      @relative_path ||= File.join(*[@dir, @name].map(&:to_s).reject(&:empty?)).delete_prefix("/")
     end
 
     # Obtain destination path.
