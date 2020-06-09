@@ -13,8 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Get the current GitHub slug
-        uses: rlespinasse/github-slug-action@2.0.0
       - name: Set up Ruby 2.6
         uses: actions/setup-ruby@v1
         with:
@@ -22,9 +20,9 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-${{ env.GITHUB_REF_SLUG }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-${{ env.GITHUB_REF_SLUG }}-gems-
+            ${{ runner.os }}-gems-
       - name: Build and test with Rake
         run: |
           gem install bundler
