@@ -23,10 +23,10 @@ Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern
 Say howdy 👋 to our growing list of the first twenty sponsors of Bridgetown on GitHub.
 [You too can join this list and sponsor Bridgetown!](https://github.com/sponsors/jaredcwhite)
 
-|<img src="https://avatars.githubusercontent.com/pilotcph?s=256" alt="pilotcph" width="128" />|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://avatars.githubusercontent.com/miatrinity?s=256" alt="miatrinity" width="128" />|
-|:---:|:---:|:---:|
-|<a href="https://twitter.com/cabgfx">@cabgfx</a>|<a href="https://twitter.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/miatrinity">@miatrinity</a>|You Next?|
-|<a href="http://www.pilotcph.dk">Website</a>|<a href="https://andrewm.codes">Website</a>|<a href="https://railsnew.io/">Website</a>|Anywhere|
+|<img src="https://avatars.githubusercontent.com/pilotcph?s=256" alt="pilotcph" width="128" />|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://avatars.githubusercontent.com/miatrinity?s=256" alt="miatrinity" width="128" />|<img src="https://avatars.githubusercontent.com/marcoroth?s=256" alt="marcoroth" width="128" />|
+|:---:|:---:|:---:|:---:|
+|<a href="https://twitter.com/cabgfx">@cabgfx</a>|<a href="https://twitter.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/miatrinity">@miatrinity</a>|<a href="https://www.twitter.com/marcoroth_">@marcoroth_</a>|You Next?|
+|<a href="http://www.pilotcph.dk">Website</a>|<a href="https://andrewm.codes">Website</a>|<a href="https://railsnew.io/">Website</a>|<a href="https://marcoroth.dev">Website</a>|
 
 ---
 
