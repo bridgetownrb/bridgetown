@@ -66,6 +66,13 @@ class TestPluginManager < BridgetownUnitTest
       assert_equal ["my-plugin", "0.1.0"], Bridgetown::PluginManager.find_yarn_dependency(gem_mock)
     end
 
+    should "work if the metadata package starts with an @ symbol" do
+      gem_mock = OpenStruct.new(to_spec: OpenStruct.new(metadata: {
+        "yarn-add" => "@my-org/my-plugin@0.1.0",
+      }))
+      assert_equal ["@my-org/my-plugin", "0.1.0"], Bridgetown::PluginManager.find_yarn_dependency(gem_mock)
+    end
+
     should "not work if the metadata doesn't exist" do
       gem_mock = OpenStruct.new(to_spec: OpenStruct.new)
       assert_equal nil, Bridgetown::PluginManager.find_yarn_dependency(gem_mock)
@@ -76,15 +83,20 @@ class TestPluginManager < BridgetownUnitTest
         "yarn-add" => "gobbledeegook",
       }))
       assert_equal nil, Bridgetown::PluginManager.find_yarn_dependency(gem_mock)
+
+      gem_mock2 = OpenStruct.new(to_spec: OpenStruct.new(metadata: {
+        "yarn-add" => "gobbledee@gook@",
+      }))
+      assert_equal nil, Bridgetown::PluginManager.find_yarn_dependency(gem_mock2)
     end
   end
 
   context "check package.json for dependency information" do
     setup do
-      @yarn_dep = ["my-plugin", "0.2.0"]
+      @yarn_dep = ["@my-org/my-plugin", "0.2.0"]
       @package_json = {
         "dependencies" => {
-          "my-plugin" => "0.1.0",
+          "@my-org/my-plugin" => "0.1.0",
         },
       }
     end

@@ -3,6 +3,7 @@
 module Bridgetown
   class PluginManager
     PLUGINS_GROUP = :bridgetown_plugins
+    YARN_DEPENDENCY_REGEXP = %r!(.+)@([^@]*)$!.freeze
 
     attr_reader :site
 
@@ -83,10 +84,10 @@ module Bridgetown
     end
 
     def self.find_yarn_dependency(loaded_gem)
-      yarn_dependency = loaded_gem.to_spec&.metadata&.dig("yarn-add")&.split("@")
-      return nil if yarn_dependency&.length != 2
+      yarn_dependency = loaded_gem.to_spec&.metadata&.dig("yarn-add")&.match(YARN_DEPENDENCY_REGEXP)
+      return nil if yarn_dependency&.length != 3 || yarn_dependency[2] == ""
 
-      yarn_dependency
+      yarn_dependency[1..2]
     end
 
     def self.add_yarn_dependency?(yarn_dependency, package_json)
