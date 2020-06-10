@@ -119,7 +119,8 @@ There is a whole variety of possible actions at your disposal:
 add_bridgetown_plugin("my-plugin") # bundle add…
 add_yarn_for_gem("my-plugin") # yarn add… (looks up yarn metadata in plugin gemspec)
 
-gem "some-other-gem", ">= 4.1.0", "< 4.2.0"
+# add another gem, but still continue if there's a Bundler error
+run 'bundle add some-other-gem --version ">= 4.1.0, < 4.3.0"', abort_on_failure: false
 
 create_builder "my_nifty_builder.rb" do # adds file in plugins/builders
   <<~RUBY
