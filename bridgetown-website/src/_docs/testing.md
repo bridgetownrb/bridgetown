@@ -67,7 +67,7 @@ Bridgetown app is running. A tool called `browser-sync` proxies port
 
 ```json
 {
-  "__filename": "package.json",
+  "__filename": "cypress.json",
   "baseUrl": "http://localhost:4000"
 }
 ```
