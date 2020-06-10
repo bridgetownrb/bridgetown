@@ -56,10 +56,10 @@ yarn add -D cypress start-server-and-test
 
 ### Setting a baseUrl
 
-An important part of cypress is to use a set a `baseUrl` inside of your
+An important part of cypress is to set a `baseUrl` inside of your
 `cypress.json` file.
 
-Setting a baseUrl prepends the value anytime you type `cy.visit()`
+Setting a baseUrl prepends the value anytime you type `cy.visit()`. So if you were to type `cy.visit("/")` it would be equivalent to `cy.visit("http://localhost:4000/")`.
 
 We will set our `baseUrl` to 4001 because this is technically where a
 Bridgetown app is running. A tool called `browser-sync` proxies port
@@ -75,14 +75,14 @@ Bridgetown app is running. A tool called `browser-sync` proxies port
 ### Adding Scripts
 
 Bridgetown uses [Webpack](https://webpack.js.org/) under the hood so it
-requires a little bit of extra work to run Cypress. Lets look at the
+requires a little bit of extra work to use with Cypress. Lets look at the
 base commands of Cypress and how we can extend them to add scripts to
 our `package.json` file.
 
 The first command we will look at is `cypress open`.
 
-`cypress open` opens up a browser and provides an automated browser
-testing that you can see. To run it in your project, type the following
+`cypress open` opens up a GUI to allow you to select which test(s) you
+would like to run. To run it in your project, type the following
 into your terminal:
 
 ```bash
@@ -91,8 +91,8 @@ yarn start-server-and-test 'yarn start' http-get://localhost:4001 'yarn cy:open'
 
 The other command you can run is `cypress run`.
 
-`cypress run` runs an automated browser test in the terminal. It is
-meant for things like CI environments that cannot open up a browser. To
+`cypress run` runs a headless browser which outputs testing progress to the terminal. It is
+meant for things like CI environments that cannot open up a headed browser. To
 run this command simply type the following in your project:
 
 ```bash
@@ -105,6 +105,7 @@ To save time, lets add some useful scripts to our `package.json` file.
 
 ```json
 {
+  "__filename": "package.json",
   "scripts": {
     "cy:open": "cypress open",
     "cy:test": "start-server-and-test 'yarn start' http-get://localhost:4001 'yarn cy:open'",
@@ -117,13 +118,13 @@ To save time, lets add some useful scripts to our `package.json` file.
 Now to test our site we simply have to do:
 
 ```bash
-yarn cy:test
+yarn cy:open
 ```
 
 And our site will now be tested with Cypress.
 
 So go ahead and run that
-command and you will prepopulate the `cypress/` directory where you
+command and this will prepopulate the `cypress/` directory where you
 will add future tests.
 
 ### Adding Tests
@@ -159,7 +160,6 @@ describe("Testing that links exist in the navbar", () => {
     cy.url().should("eq", baseUrl + "/posts/");
 
     cy.get('[href="/about"]').click();
-
     cy.url().should("eq", baseUrl + "/about/");
   });
 });
