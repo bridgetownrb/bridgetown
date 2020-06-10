@@ -96,9 +96,9 @@ module Bridgetown
 
         github_regex = %r!https://github\.com!
         github_tree_regex = %r!#{github_regex}/.*/.*/tree/.*/?!
+        github_blob_regex = %r!#{github_regex}/.*/.*/blob/!
 
         github_match = github_regex.match(arg)
-        github_tree_match = github_tree_regex.match(arg)
 
         if arg.start_with?("https://gist.github.com")
           return arg.sub(
@@ -106,9 +106,13 @@ module Bridgetown
           ) + "/raw/#{remote_file}"
         elsif github_match
           new_url = arg.sub(github_regex, "https://raw.githubusercontent.com")
+          github_tree_match = github_tree_regex.match(arg)
+          github_blob_match = github_blob_regex.match(arg)
 
           if github_tree_match
             new_url = new_url.sub("/tree/", "/")
+          elsif github_blob_match
+            new_url = new_url.sub("/blob/", "/")
           else
             new_url += "/master"
           end
