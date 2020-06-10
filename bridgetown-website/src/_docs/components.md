@@ -123,6 +123,8 @@ As part of a component-based design system, you might want to include CSS and/or
 
 _(Documentation on how to configure Webpack to use those sidecar assets forthcoming…)_
 
+_(Describe how to set up hybrid Liquid + Web Components easily with LitElement…)_
+
 ## Component Previews
 
 Using the reflection provided by the Liquid Component spec, we've built a preview tool to show off some of the components used on this site. [Take a peek here.](/components)
