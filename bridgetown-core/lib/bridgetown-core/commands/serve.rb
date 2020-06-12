@@ -29,6 +29,11 @@ module Bridgetown
       class_option :skip_initial_build,
                    type: :boolean,
                    desc: "Skips the initial site build which occurs before the server is started."
+      class_option :watch,
+                   type: :boolean,
+                   aliases: "-w",
+                   default: true,
+                   desc: "Watch for changes and rebuild"
 
       def self.banner
         "bridgetown serve [options]"

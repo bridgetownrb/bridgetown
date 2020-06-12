@@ -8,6 +8,10 @@ require "active_support/core_ext/string/indent"
 module Bridgetown
   module Commands
     module Actions
+      GITHUB_REGEX = %r!https://github\.com!.freeze
+      GITHUB_TREE_REGEX = %r!#{GITHUB_REGEX}/.*/.*/tree/.*/?!.freeze
+      GITHUB_BLOB_REGEX = %r!#{GITHUB_REGEX}/.*/.*/blob/!.freeze
+
       def create_builder(filename, data = nil)
         say_status :create_builder, filename
         data ||= yield if block_given?
@@ -89,39 +93,36 @@ module Bridgetown
       end
 
       # TODO: option to download and confirm remote automation?
+      # rubocop:disable Metrics/MethodLength
       def transform_automation_url(arg)
         return arg unless arg.start_with?("http")
 
         remote_file = determine_remote_filename(arg)
+        github_match = GITHUB_REGEX.match(arg)
 
-        github_regex = %r!https://github\.com!
-        github_tree_regex = %r!#{github_regex}/.*/.*/tree/.*/?!
-        github_blob_regex = %r!#{github_regex}/.*/.*/blob/!
+        arg = if arg.start_with?("https://gist.github.com")
+                arg.sub(
+                  "https://gist.github.com", "https://gist.githubusercontent.com"
+                ) + "/raw"
+              elsif github_match
+                new_url = arg.sub(GITHUB_REGEX, "https://raw.githubusercontent.com")
+                github_tree_match = GITHUB_TREE_REGEX.match(arg)
+                github_blob_match = GITHUB_BLOB_REGEX.match(arg)
 
-        github_match = github_regex.match(arg)
+                if github_tree_match
+                  new_url.sub("/tree/", "/")
+                elsif github_blob_match
+                  new_url.sub("/blob/", "/")
+                else
+                  "#{new_url}/master"
+                end
+              else
+                arg
+              end
 
-        if arg.start_with?("https://gist.github.com")
-          return arg.sub(
-            "https://gist.github.com", "https://gist.githubusercontent.com"
-          ) + "/raw/#{remote_file}"
-        elsif github_match
-          new_url = arg.sub(github_regex, "https://raw.githubusercontent.com")
-          github_tree_match = github_tree_regex.match(arg)
-          github_blob_match = github_blob_regex.match(arg)
-
-          if github_tree_match
-            new_url = new_url.sub("/tree/", "/")
-          elsif github_blob_match
-            new_url = new_url.sub("/blob/", "/")
-          else
-            new_url += "/master"
-          end
-
-          return "#{new_url}/#{remote_file}"
-        end
-
-        arg + "/#{remote_file}"
+        "#{arg}/#{remote_file}"
       end
+      # rubocop:enable Metrics/MethodLength
     end
   end
 end

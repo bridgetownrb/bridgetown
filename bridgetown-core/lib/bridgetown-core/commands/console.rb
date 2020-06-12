@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "irb"
-
 module Bridgetown
   module Commands
     class Console < Thor::Group
@@ -26,6 +24,9 @@ module Bridgetown
                    desc: "Skip reading content and running generators before opening console"
 
       def console
+        require "irb"
+        require "awesome_print"
+
         Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
                                     " (codename \"#{Bridgetown::CODE_NAME.yellow}\")" \
                                     " console…"
@@ -56,6 +57,10 @@ module Bridgetown
 
         begin
           catch(:IRB_EXIT) do
+            AwesomePrint.defaults = {
+              indent: 2,
+            }
+            AwesomePrint.irb!
             irb.eval_input
           end
         end
