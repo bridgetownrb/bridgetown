@@ -7,7 +7,13 @@ category: liquid-components
 
 Templates in Bridgetown websites are powered by the [Liquid template engine](/docs/liquid). You can use Liquid in layouts and HTML pages as well as inside of content such as Markdown text.
 
-A key aspect of Bridgetown's configuration of Liquid is the ability to render Liquid Components. A component is a reusable piece of template logic (sometimes referred to as a "partial") that can be included in any part of the site, and a full suite of components can comprise what's often called a "design system".
+A key aspect of Bridgetown's configuration of Liquid is the ability to render Liquid Components. A component is a reusable piece of template logic (sometimes referred to as a "partial") that can be included in any part of the site, and a full suite of components can comprise what is often called a "design system".
+
+Liquid Components can be combined with front-end component strategies using Web Components or other Javascript libraries/frameworks for a hybrid static/dynamic approach.
+
+{% toc %}
+
+## Usage
 
 Including a component within a content document or design template is done via a `render` tag or `rendercontent` tag. Here is a simple example:
 
@@ -76,7 +82,7 @@ You can use components [provided by others via plugins](/docs/plugins/source-man
 ```
 {% endraw %}
 
-### Component Front Matter
+## Component Front Matter
 
 A fully-fledged Liquid Component includes [front matter](/docs/front-matter) which describes the component and the variables it accepts. This can be used as part of a tool which provides "component previews", and in the future, it would allow for on-the-fly validation of incoming variable data.
 
@@ -95,7 +101,6 @@ variables:
   theme?: object # optional variable
   content: markdown
 ---
-
 <div class="widget card {{ theme | default: "default" }}">
   <div class="card-title">{{ title }}</div>
   <div class="card-body">{{ content }}</div>
@@ -106,6 +111,12 @@ variables:
 ```
 {% endraw %}
 
+## Component Previews
+
+Using the reflection provided by the Liquid Component spec, we've built a preview tool to show off some of the components used on this site. [Take a peek here.](/components)
+
+Our goal is to eventually release this as a standalone plugin, but in the meantime feel free to [grab the code out of our repository](https://github.com/bridgetownrb/bridgetown/tree/master/bridgetown-website).
+
 ## Sidecar Frontend Assets
 
 As part of a component-based design system, you might want to include CSS and/or Javascript files alongside your components, so that the styles for your components are defined in the same folder structure as the component templates themselves, and any client-side interactivity related to the component is also defined in-place. Here's an example file structure:
@@ -114,22 +125,175 @@ As part of a component-based design system, you might want to include CSS and/or
 .
 ├── src
 │   ├── _components
-│   │   ├── navbar.scss
-│   │   ├── navbar.js
-│   │   ├── navbar.liquid
-│   │   └── card.scss
-│   │   └── card.liquid
+│   │   ├── card.liquid
+│   │   ├── card.scss
+│   │   ├── shared
+│   │   │   ├── navbar.scss
+│   │   │   ├── navbar.js
+│   │   │   └── navbar.liquid
 ```
 
-_(Documentation on how to configure Webpack to use those sidecar assets forthcoming…)_
+Bridgetown comes with a built-in Sass configuration so you can import `.scss` files from the `src/_components` folder. In the above example, to import `card.scss` and `shared/navbar.scss` into your stylesheet, add the following to `frontend/styles/index.scss`:
 
-_(Describe how to set up hybrid Liquid + Web Components easily with LitElement…)_
+```scss
+@import "components.scss"; // in src/_components
+```
 
-## Component Previews
+And then add the imports to the `src/_components/components.scss` file:
 
-Using the reflection provided by the Liquid Component spec, we've built a preview tool to show off some of the components used on this site. [Take a peek here.](/components)
+```scss
+@import "card.scss";
+@import "shared/navbar.scss";
+```
 
-Our goal is to eventually release this as a standalone plugin, but in the meantime feel free to [grab the code out of our repository](https://github.com/bridgetownrb/bridgetown/tree/master/bridgetown-website).
+To import Javascript files, you can set up a configuration which will automatically require any matching `.js` files in `src/_components`. Simply update your Webpack config by adding an alias under resolve:
+
+```js
+// webpack.config.js
+
+  // ...
+  resolve: {
+    extensions: [".js", ".jsx"],
+    alias: {
+      liquidComponents: path.resolve(__dirname, "src/_components")
+    }
+  },
+  // ...
+```
+
+Then add a Javascript index file to load the components:
+
+```js
+// src/_components/index.js
+
+function importAll(r) {
+  r.keys().forEach(r)
+}
+
+importAll(require.context(".", true, /.js$/))
+```
+
+Finally, import that components index file in your main frontend index file:
+
+```js
+// frontend/javascript/index.js
+
+import "liquidComponents"
+```
+
+### Hybrid Liquid + Web Components
+
+One of the interesting design patterns that emerges when defining Liquid Components this way is the interplay between statically-rendered markup and Javascript-powered interactivity. Unlike static site generators built around client-side technologies such as React, Bridgetown starts you off with the strategic concept that everything originates with "server-rendered" content. What you choose to do with that built HTML _after_ it's presented in the browser is up to you. However, an approach we've come to deeply appreciate is combining a Liquid Component with a Web Component.
+
+[Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_components) is an open standard, an integral part of the fabric of the web and supported by all modern, evergreen browsers. A web component starts life as a custom element in HTML markup which contains one or more dashes, for example `<my-button>` or `<card-heading-title>`. You then direct the browser to load that custom element as a custom Javascript object through use of the `window.customElements.define` method. A web component also comes with a suite of features such as Shadow DOM, Slots, and CSS Shadow Parts to give the component a degree of autonomy and clean separation from the styling and markup concerns of the parent document.
+
+While you can author a web component without using libraries or frameworks of any kind, we recommend using a small library called [LitElement](https://lit-element.polymer-project.org) (or even its tinier sibling [lit-html](https://lit-html.polymer-project.org)) which makes web component development as conceptually straightforward as legacy component frameworks such as Vue or React.
+
+By building "default" markup into your Liquid component, and then using a "hydration-like" strategy to enhance the component in Javascript, you get lightning-fast static markup which works even without Javascript enabled—while at the same time taking advantage of advanced client-side user interface capabilities. You can also take advantage of APIs to render up-to-date content in real-time in the browser after possibly-stale static content has first loaded.
+
+{% rendercontent "docs/note" %}
+You don't _have_ to use web components to take advantage of this pattern. You can use any light-weight "Javascript sprinkles" library such as [Stimulus](https://stimulusjs.org) or [Alpine](https://github.com/alpinejs/alpine/) and the concepts remain relatively the same.
+{% endrendercontent %}
+
+Here's an example of a component which shows a product price and an Add to Cart button. We'll first define it as a Liquid component and display the price directly as statically-generated HTML. Then we'll define a LitElement-powered web component which updates the price and checks if the product is in stock before enabling the shopping cart interactivity of the button.
+
+`src/_components/product.liquid`:
+
+{% raw %}
+```html
+---
+name: Product Price
+description: Displays the price of a product along with an Add to Cart button.
+variables:
+  sku: [string, Product SKU]
+  price: [number, The price of the product]
+  class: [string, Additional CSS class names]
+---
+<product-price class="{{ class }}" sku="{{ sku }}">
+  <strong slot="price">${{ price }}</strong>
+  <button class="button is-primary" slot="add-to-cart">Add to Cart</button>
+</product-price>
+```
+{% endraw %}
+
+After running `yarn add lit-element` to add LitElement to your Webpack config, add the following Javascript:
+
+`src/_components/product.js`:
+
+```js
+import { css, customElement, html, LitElement, property } from "lit-element"
+import registry from "../../frontend/javascript/productStockRegistry.js"
+
+@customElement("product-price")
+class ProductPrice extends LitElement {
+  @property()
+  sku = ""
+
+  static styles = css`
+    .loading {
+      opacity: 0.5;
+    }
+  `
+
+  // Render the component template to the document DOM
+  render() {
+    return html`
+      <aside class="${!this.productLoaded? "loading" : ""}">
+        <div><slot name="price"></slot></div>
+        <div>
+          ${ this.product.inventory > 0 ?
+            html`<slot @click="${this.addToCartHandler}" name="add-to-cart"></slot>` :
+            html`We're sorry, this product is currently out of stock.`
+          }
+        </div>
+      </aside>
+    `
+  }
+
+  // After render, update the text within the price slot
+  updated() {
+    if (this.product.price) {
+      this.querySelector("[slot=price]").textContent = `\$${this.product.price}`
+    }
+  }
+
+  // Kick off loading the remote product data
+  connectedCallback() {
+    this.loadProduct()
+    super.connectedCallback()
+  }
+
+  // Load in the remote product data, then trigger a re-render
+  async loadProduct() {
+    this.product = {inventory: 1} // initial state
+    this.product = await registry.stockForProduct(this.sku)
+    this.productLoaded = true
+    this.requestUpdate()
+  }
+
+  // Event handler for when the Add to Cart button is clicked
+  addToCartHandler(e) {
+    if (this.productLoaded) {
+      // Add the product to the cart! :)
+    } else {
+      // Uh oh, we don't know if there's real inventory yet
+      console.warn("Inventory not yet loaded…")
+    }
+  }
+}
+```
+
+(The stock registry object and the API call it makes to retrieve external data is left as an exercise for the reader.)
+
+Finally, to render the Liquid component and thus instantiate the web component on the client side, all you need to do is add this to a Bridgetown page or template:
+
+{% raw %}
+```liquid
+{% render "product", class: "highlighted", price: product.price, sku: product.sku %}
+```
+{% endraw %}
+
+In this case, the `product` data would likely come from the same remote API during the Bridgetown build process as what the client side uses.
 
 ## The Include Tag (Deprecated)
 
