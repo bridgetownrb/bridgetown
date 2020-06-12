@@ -19,13 +19,16 @@ module Bridgetown
                    type: :array,
                    banner: "FILE1 FILE2",
                    desc: "Custom configuration file(s)"
+      class_option :"bypass-ap",
+                   type: :boolean,
+                   desc: "Don't load AwesomePrint when IRB opens"
       class_option :blank,
                    type: :boolean,
                    desc: "Skip reading content and running generators before opening console"
 
       def console
         require "irb"
-        require "awesome_print"
+        require "awesome_print" unless options[:"bypass-ap"]
 
         Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
                                     " (codename \"#{Bridgetown::CODE_NAME.yellow}\")" \
@@ -57,10 +60,12 @@ module Bridgetown
 
         begin
           catch(:IRB_EXIT) do
-            AwesomePrint.defaults = {
-              indent: 2,
-            }
-            AwesomePrint.irb!
+            unless options[:"bypass-ap"]
+              AwesomePrint.defaults = {
+                indent: 2,
+              }
+              AwesomePrint.irb!
+            end
             irb.eval_input
           end
         end
