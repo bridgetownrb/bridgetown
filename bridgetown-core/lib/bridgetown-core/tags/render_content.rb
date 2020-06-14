@@ -19,7 +19,15 @@ module Bridgetown
           unless regions.empty?
             regions.each do |region_name, region_content|
               region_name = region_name.sub("content_with_region_", "")
-              context[region_name] = converter.convert(region_content.strip_heredoc)
+
+              if region_name.end_with? ":markdown"
+                region_name.sub!(%r!:markdown$!, "")
+                context[region_name] = converter.convert(
+                  Bridgetown::Utils.reindent_for_markdown(region_content)
+                )
+              else
+                context[region_name] = region_content
+              end
               render_params.push "#{region_name}: #{region_name}"
             end
           end
