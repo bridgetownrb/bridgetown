@@ -1,16 +1,16 @@
-<div class="box px-8 py-8 mb-10">
-  <a href="{{ post.url }}">
+<div class="box px-8 py-8 mb-10 h-entry">
+  <a href="{{ post.url }}" class="u-url">
     <h2 class="mb-8 title is-3 has-text-info">{{ post.title }}</h2>
   </a>
 
-  <div class="content">
+  <div class="content p-summary">
     {{ post.subtitle }}
   </div>
 
-  <div class="mt-8 author">
+  <div class="mt-8 author p-author">
     {% assign author = authors[post.author] %}
-    <img src="{{ author.avatar }}" alt="{{ author.name }}" class="avatar" />
-    <a href="/authors/{{ post.author }}/" class="has-text-weight-bold">{{ author.name }}</a>
+    <img src="{{ author.avatar }}" alt="{{ author.name }}" class="avatar u-photo" />
+    <a href="/authors/{{ post.author }}/" class="has-text-weight-bold u-url p-name">{{ author.name }}</a>
     on {{ post.date | date: "%B %-d, %Y" }}
   </div>
 </div>
