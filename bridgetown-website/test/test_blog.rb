@@ -12,8 +12,14 @@ class TestBlog < Minitest::Test
     should "show authors" do
       assert_select ".box .author img" do |imgs|
         assert_dom_equal imgs.last.to_html,
-                         '<img src="/images/jared-white-avatar.jpg" alt="Jared White" class="avatar">'
+                         '<img src="/images/jared-white-avatar.jpg" alt="Jared White" class="avatar u-photo">'
       end
+    end
+
+    should "have correct microformat markup" do
+      assert_select ".h-entry h2.p-name"
+      assert_select ".h-entry div.p-summary"
+      assert_select ".h-entry div.p-author"
     end
   end
 
@@ -40,8 +46,8 @@ class TestBlog < Minitest::Test
     end
 
     should "display a Builder code example" do
-      assert_select ".box > h1" do |h1|
-        assert_dom_equal h1.to_html, '<h1 class="mt-3 mb-10 title is-1 is-size-2-mobile has-text-centered has-text-brown">A Bridge to the Future: What’s New in Bridgetown 0.14 “Hazelwood”</h1>'
+      assert_select ".box > article > h1" do |h1|
+        assert_dom_equal h1.to_html, '<h1 class="mt-3 mb-10 title is-1 is-size-2-mobile has-text-centered has-text-brown p-name">A Bridge to the Future: What’s New in Bridgetown 0.14 “Hazelwood”</h1>'
       end
 
       code_example = <<~RUBY

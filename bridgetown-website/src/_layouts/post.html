@@ -5,7 +5,7 @@ layout: default
 {% rendercontent "shared/page_layout" %}
   {% rendercontent "shared/box" %}
     <article class="h-entry">
-      <h1 class="mt-3 mb-10 title is-1 is-size-2-mobile has-text-centered has-text-brown p-time">{{ page.title }}</h1>
+      <h1 class="mt-3 mb-10 title is-1 is-size-2-mobile has-text-centered has-text-brown p-name">{{ page.title }}</h1>
 
       <div class="mb-10 author has-text-centered p-author">
         {% assign author = site.data.authors[page.author] %}
@@ -14,7 +14,7 @@ layout: default
         on {{ page.date | date: "%B %-d, %Y" }}
       </div>
 
-      <div class="e-content">
+      <div class="content e-content">
         {{ content }}
       </div>
 
