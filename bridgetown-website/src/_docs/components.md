@@ -82,6 +82,74 @@ You can use components [provided by others via plugins](/docs/plugins/source-man
 ```
 {% endraw %}
 
+## The "with" Tag
+
+Instead of passing variable data to a block-style component inline with the `rendercomponent` definition, you can also use the `with` tag. This is great for components which combine a bunch of content regions into a single markup composition.
+
+Here's an example of how you might author a navbar component using `with`. First we'll define the component itself:
+
+{% raw %}
+```liquid
+<nav class="navbar">
+  <div class="navbar-logo">
+    {{ logo }}
+  </div>
+
+  <div class="navbar-start">
+    {{ items_start }}
+  </div>
+
+  <div class="navbar-end">
+    {{ items_end }}      
+  </div>
+</nav>
+```
+{% endraw %}
+
+Now we can render that component and fill in the `logo`, `items_start`, and `items_end` regions:
+
+{% raw %}
+```html
+{% rendercontent "navbar" %}
+  {% with logo %}
+    <a class="navbar-item" href="/">
+      Awesome Site
+    </a>
+  {% endwith %}
+
+  {% with items_start %}
+    <a class="navbar-item" href="/">Home</a>
+    <a class="navbar-item" href="/about">About</a>
+    <a class="navbar-item" href="/posts">Posts</a>
+  {% endwith %}
+
+  {% with items_end %}
+    <div class="navbar-item search-item">
+      {% render "bridgetown_quick_search/search", placeholder: "Search", input_class: "input" %}
+    </div>
+    <a class="navbar-item is-hidden-desktop-only" href="https://twitter.com/{{ metadata.twitter }}" target="_blank">
+      <span class="icon"><i class="fa fa-twitter is-size-6"></i></span>
+      <span class="is-hidden-tablet">Twitter</span>
+    </a>
+  {% endwith %}
+{% endrendercontent %}
+```
+{% endraw %}
+
+Normally content inside of `with` tags is not processed as Markdown (unlike the default behavior of `rendercontent`). However, you can add a `:markdown` suffix to tell `with` to treat it as Markdown. Example:
+
+{% raw %}
+```liquid
+{% rendercontent "article" %}
+  {% with title:markdown %}
+    ## Article Title
+  {% endwith %}
+
+  Some _nifty_ content here.
+{% endrendercontent %}
+```
+{% endraw %}
+
 ## Component Front Matter
 
 A fully-fledged Liquid Component includes [front matter](/docs/front-matter) which describes the component and the variables it accepts. This can be used as part of a tool which provides "component previews", and in the future, it would allow for on-the-fly validation of incoming variable data.
