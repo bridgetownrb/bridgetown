@@ -212,7 +212,9 @@ module Bridgetown
             else
               File.join(site.config["collections_dir"], page_payload["path"])
             end
+          # rubocop:disable Performance/DeleteSuffix
           resource_path.sub!(%r!/#excerpt\z!, "")
+          # rubocop:enable Performance/DeleteSuffix
           site.in_source_dir File.dirname(resource_path)
         end
       end
