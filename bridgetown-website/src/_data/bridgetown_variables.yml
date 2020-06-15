@@ -31,13 +31,6 @@ site:
   - name: site.posts
     description: >-
       A reverse chronological list of all Posts.
-  - name: site.related_posts
-    description: >-
-      If the page being processed is a Post, this contains a list of up to ten related Posts.
-      By default, these are the ten most recent posts. For high quality but slow to compute
-      results, run the <code>bridgetown</code> command with the <code>--lsi</code>
-      (<a href="https://en.wikipedia.org/wiki/Latent_semantic_analysis#Latent_semantic_indexing">latent semantic indexing</a>)
-      option.
   - name: site.static_files
     description: >-
       A list of all <a href="/docs/static-files/">static files</a> (i.e.
@@ -148,6 +141,13 @@ page:
     description: >-
       The previous post relative to the position of the current post in <code>site.posts</code>.
       Returns <code>nil</code> for the first entry.
+  - name: page.related_posts
+    description: >-
+      If the page being processed is a Post, this contains a list of up to ten related Posts.
+      By default, these are the ten most recent posts. For high quality but slow to compute
+      results, run the <code>bridgetown</code> command with the <code>--lsi</code>
+      (<a href="https://en.wikipedia.org/wiki/Latent_semantic_analysis#Latent_semantic_indexing">latent semantic indexing</a>)
+      option.
 
 paginator:
   - name: paginator.page

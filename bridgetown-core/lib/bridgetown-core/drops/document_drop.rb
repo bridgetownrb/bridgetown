@@ -12,7 +12,15 @@ module Bridgetown
       mutable false
 
       def_delegator :@obj, :relative_path, :path
-      def_delegators :@obj, :id, :output, :content, :to_s, :relative_path, :url, :date
+      def_delegators :@obj,
+                     :id,
+                     :output,
+                     :content,
+                     :to_s,
+                     :relative_path,
+                     :url,
+                     :date,
+                     :related_posts
 
       private def_delegator :@obj, :data, :fallback_data
 
