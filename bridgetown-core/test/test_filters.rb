@@ -667,6 +667,9 @@ class TestFilters < BridgetownUnitTest
         }
         actual = JSON.parse(@filter.jsonify(@filter.site.docs_to_write.first.to_liquid))
 
+        related_posts = actual.delete("related_posts")
+        assert related_posts.is_a?(Array), "doc.related_posts should be an array"
+
         next_doc = actual.delete("next")
         refute_nil next_doc
         assert next_doc.is_a?(Hash), "doc.next should be an object"
