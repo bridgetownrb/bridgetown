@@ -22,11 +22,11 @@ Minitest::Test.class_eval do
   end
 
   def nokogiri(input)
-    input.respond_to?(:output) ? Nokogiri::HTML(input.output) : input
+    input.respond_to?(:output) ? Nokogiri::HTML(input.output) : Nokogiri::HTML(input)
   end
 
   def document_root(root)
-    @document_root = root
+    @document_root = root.is_a?(Nokogiri::XML::Document) ? root : nokogiri(root)
   end
 
   def document_root_element

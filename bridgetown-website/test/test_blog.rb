@@ -6,7 +6,7 @@ class TestBlog < Minitest::Test
   context "blog page" do
     setup do
       page = site.pages.find { |doc| doc.url == "/blog/index.html" }
-      document_root nokogiri(page)
+      document_root page
     end
 
     should "show authors" do

@@ -10,9 +10,21 @@ Running an automated test suite after your Bridgetown site has been built is a g
 
 Bridgetown doesn't come with an opinionated testing setup, so you're welcome to choose from a variety of approaches—and perhaps even use several at once!
 
+{% toc %}
+
 ## Use Ruby and Minitest to Test HTML Directly
 
-New in Bridgetown 0.15, you can apply an automation to your site to add a [`post_write` hook plugin](/docs/plugins/hooks) that kicks off a Minitest-based test suite. The plugin will automatically detect if the [Bridgetown environment](/docs/configuration/environments) isn't `development` (aka it's `test` or `production`) and if the optional set of test gems (Minitest, Nokogiri, etc.) are available. If so, the tests will run after the site has been built.
+New in Bridgetown 0.15, you can apply an automation to your site to add a [`post_write` hook plugin](/docs/plugins/hooks) which kicks off a Minitest-based test suite. The plugin will automatically detect if the [Bridgetown environment](/docs/configuration/environments) isn't `development` (aka it's `test` or `production`) and if the optional set of test gems (Minitest, Nokogiri, etc.) are available. If so, the tests will run after the site has been built.
+
+One of the benefits of this testing approach is it's _very_ fast, due to the fact that all the static HTML has been built and is in memory when the test suite runs.
+
+In install, apply the following automation:
+
+```sh
+bundle exec bridgetown apply https://github.com/bridgetownrb/automations/minitesting.rb
+```
+
+This will set up the plugin, test gems, and an example test suite in the `test` folder.
 
 The tests you write will be simple DOM selection assertions that operate on the output HTML that's in memory after the site has been rendered, so they run extremely fast. You use the native Ruby APIs provided by Bridgetown to find pages to test, and use assertions you may be familiar with from the Ruby on Rails framework (such as `assert_select` and `assert_dom_equal`). Here's an example of such a test:
 
@@ -23,7 +35,7 @@ class TestBlog < Minitest::Test
   context "blog page" do
     setup do
       page = site.pages.find { |doc| doc.url == "/blog/index.html" }
-      document_root nokogiri(page)
+      document_root page
     end
 
     should "show authors" do
@@ -36,14 +48,28 @@ class TestBlog < Minitest::Test
 end
 ```
 
-TBC…
+You can add additional contexts and "should" blocks to a test file, and you can create as many test files as you want to handle various parts of the site.
+
+As part of the automation setup mentioned above, you should now have new scripts in `package.json`: `test` and `deploy:test`.
+
+* `test`: Builds the site using the **test** environment (requires you first to run `bundle install --with test` on your machine).
+* `deploy:test`: Installs the test gems and then runs `deploy`. Note this does not specify a particular environment—it's up to you to set that to **production** or otherwise as part of your deployment context.
 
 ## Headless Browser Testing with Cypress
 
-### Installation
 
 There are a couple of ways to add Cypress to your testing setup. The first
 option is to use an automation like [bridgetown-automation-cypress](https://github.com/ParamagicDev/bridgetown-automation-cypress). The other option is to add it manually.
+
+To install via an automation, run:
+
+```sh
+bundle exec bridgetown apply https://github.com/ParamagicDev/bridgetown-automation-cypress
+```
+
+then skip down to the **Adding Tests** section.
+
+### Manual Installation
 
 To add Cypress manually, first you must install
 [Cypress](https://www.cypress.io/) as well as a package called [start-server-and-test](https://github.com/bahmutov/start-server-and-test).
@@ -74,9 +100,7 @@ Bridgetown app is running. A tool called `browser-sync` proxies port
 
 ### Adding Scripts
 
-Bridgetown uses [Webpack](https://webpack.js.org/) under the hood so it
-requires a little bit of extra work to use with Cypress. Lets look at the
-base commands of Cypress and how we can extend them to add scripts to
+Let's look at the base commands of Cypress and how we can access them by adding scripts to
 our `package.json` file.
 
 The first command we will look at is `cypress open`.
@@ -101,7 +125,7 @@ yarn start-server-and-test 'yarn start' http-get://localhost:4001 'yarn cy:open'
 
 #### package.json scripts
 
-To save time, lets add some useful scripts to our `package.json` file.
+To save time, let's add some useful scripts to our `package.json` file.
 
 ```json
 {
@@ -136,10 +160,10 @@ directory. Lets start by removing the `cypress/integration/examples/` directory.
 rm -rf cypress/integration/examples
 ```
 
-So now lets create our first test. Create a file called `navbar.spec.js`
+So now let's create our first test. Create a file called `navbar.spec.js`
 inside of the `cypress/integrations` directory.
 
-Inside of the file lets add some assertions. (This is assuming you are
+Inside of the file let's add some assertions. (This is assuming you are
 using a new Bridgetown project.)
 
 ```javascript

@@ -6,7 +6,6 @@ unless Bridgetown.environment == "development"
     require "nokogiri"
     Dir["test/**/*.rb"].each { |file| require_relative("../#{file}") }
   rescue LoadError
-    # To allow test suite to run:
-    # bundle install --with test
+    Bridgetown.logger.warn "Testing:", "To run tests, you must first run `bundle install --with test`"
   end
 end

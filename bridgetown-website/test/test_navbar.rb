@@ -6,7 +6,7 @@ class TestNavbar < Minitest::Test
   context "top navbar" do
     setup do
       page = site.pages.find { |doc| doc.url == "/about/" }
-      document_root nokogiri(page)
+      document_root page
     end
 
     should "have a star link" do
