@@ -21,7 +21,7 @@ repeatable and automatic fashion.
 Automations can be loaded from a local path, or they can be loaded from remote
 URLs including GitHub repositories and gists.
 
-{% rendercontent "docs/note" %}
+{% rendercontent "docs/note", title: "Automations Galore!" %}
 For a directory of useful automations built by the Bridgetown community, check
 out the [Bridgetown Automations](https://github.com/bridgetownrb/automations)
 repo.
@@ -62,7 +62,7 @@ bundle exec bridgetown apply https://github.com/bridgetownrb/bridgetown-cloudina
 You can also load a file other than `bridgetown.automation.rb` from GitHub:
 
 ```sh
-# Install and configure the bridgetown-cloudinary gem
+# Set up a default configuration for Netlify hosting
 bundle exec bridgetown apply https://github.com/bridgetownrb/automations/netlify.rb
 ```
 
@@ -162,6 +162,6 @@ end
 ```
 
 In summary, automations are a fantastic method of saving repeatable setup
-steps for you to reuse later on new projects, or you can share scripts with
+steps for you to reuse later in new projects, or you can share scripts with
 the world at large. Use them for plugins, themes, or just quick one-off
 scripts.

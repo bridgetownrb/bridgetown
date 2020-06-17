@@ -5,8 +5,6 @@ order: 0
 category: plugins
 ---
 
-{% render "docs/help_needed", page: page %}
-
 When authoring a [plugin](/docs/plugins#creating-a-gem){:data-no-swup="true"}
 or [theme](/docs/themes) for Bridgetown, you may find
 yourself wanting to ensure users of your plugin are able to load in your
@@ -29,7 +27,7 @@ the users' `package.json` file when they load Bridgetown, and it will trigger a
 The [SamplePlugin demo repo](https://github.com/bridgetownrb/bridgetown-sample-plugin)
 includes a `script/release` command you can use to run the test suite, release a
 new version of the gem, and release a new version of the NPM package all in one
-go.
+go. (This will also be present if you set up your plugin using the `bridgetown plugins new` command.)
 
 {% rendercontent "docs/note", title: "Make sure you update package.json!", type: "warning" %}
 If you bump up your Ruby version number and forget to bump the NPM package version
