@@ -16,7 +16,7 @@ github_participation: !ruby/string:Rb |
 <!doctype html>
 <html lang="en">
   <head>
-    {% include head.html %}
+    {% render "shared/head", metadata: site.metadata, title: page.title %}
     <!-- Thanks to Polymer LitElement/HTML project for the BLM inspiration: -->
     <style>
       .blm-banner {
@@ -52,12 +52,12 @@ github_participation: !ruby/string:Rb |
         <a href="https://www.joincampaignzero.org/" target="_blank" rel="noopener noreferrer" >Campaign Zero</a>.</p> 
       </div>
     {% endif %}
-    {% include navbar.html %}
+    {% render "shared/navbar", metadata: site.metadata, page: page, version: bridgetown.version %}
 
     <main>
       {{ content }}
     </main>
 
-    {% include footer.html %}
+    {% render "shared/footer", metadata: site.metadata, bridgetown: bridgetown, github_participation: layout.github_participation %}
   </body>
 </html>

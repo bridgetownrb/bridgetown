@@ -12,15 +12,15 @@ The following is a reference of the available data.
 
 ## Global Variables
 
-{% include docs_variables_table.html scope=site.data.bridgetown_variables.global %}
+{% render "docs/variables_table", scope: site.data.bridgetown_variables.global %}
 
 ## Site Variables
 
-{% include docs_variables_table.html scope=site.data.bridgetown_variables.site %}
+{% render "docs/variables_table", scope: site.data.bridgetown_variables.site %}
 
 ## Page Variables
 
-{% include docs_variables_table.html scope=site.data.bridgetown_variables.page %}
+{% render "docs/variables_table", scope: site.data.bridgetown_variables.page %}
 
 <div class="note">
   <h5>Top Tip: Use Custom Front Matter</h5>

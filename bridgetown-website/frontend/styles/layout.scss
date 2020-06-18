@@ -15,6 +15,12 @@
   }
 }
 
+nav > .container {
+  @include touch {
+    overflow: visible;
+  }
+}
+
 .hero {
   // Colors
   .navbar {

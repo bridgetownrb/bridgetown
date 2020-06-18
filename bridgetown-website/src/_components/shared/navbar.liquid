@@ -1,0 +1,61 @@
+{%- assign about_active = "" -%}
+{%- assign docs_active = "" -%}
+{%- assign news_active = "" -%}
+{%- assign is_beta = "" %}
+
+{%- if page.url == "/plugins/" -%}
+{%- assign plugins_active = "is-active" -%}
+{%- elsif page.url contains "/docs/" -%}
+{%- assign docs_active = "is-active" -%}
+{%- elsif page.url contains "/blog/" or page.layout == "post" %}
+{%- assign news_active = "is-active" -%}
+{%- endif -%}
+{%- if version contains "beta" -%}
+{%- assign is_beta = "beta" %}
+{%- endif -%}
+<nav class="main-nav navbar {{ is_beta }}" id="topnav">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item {{ home_active }}" href="/">
+        <span class="bridgetown-logo">{% insert_svg Bridgetown-Logo.svg %}</span>
+        {% if is_beta != "" %}<span class="tag is-warning">Beta</span>{% endif %}
+        <h1 class="title is-5">Bridgetown</h1>
+      </a>
+
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" onclick="this.classList.toggle('is-active');document.querySelector('#topNavbar').classList.toggle('is-active')">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="topNavbar" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item {{ docs_active }}" href="/docs/">Documentation</a>
+        <a class="navbar-item {{ plugins_active }}" href="/plugins/">Plugins</a>
+        <a class="navbar-item {{ news_active }}" href="/blog/">News</a>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item search-item">
+          {% render "bridgetown_quick_search/search", placeholder: "Search", input_class: "input" %}
+        </div>
+        <a class="navbar-item" href="https://github.com/{{ metadata.github }}" target="_blank">
+          <button class="button is-info is-small">
+            <span class="icon"> <i class="fa fa-github is-size-6"></i> </span>
+            <span class="has-text-weight-bold">Star</span>
+          </button>
+        </a>
+
+        <a class="navbar-item is-hidden-desktop-only" href="https://github.com/bridgetownrb/bridgetown/issues/new?assignees=&labels=bug&template=bug_report.md&title=" target="_blank">
+          <span class="icon"><i class="fa fa-exclamation-circle is-size-6"></i></span>
+          <span class="is-hidden-tablet">Report Issue</span>
+        </a>
+        <a class="navbar-item is-hidden-desktop-only" href="https://twitter.com/{{ metadata.twitter }}" target="_blank">
+          <span class="icon"><i class="fa fa-twitter is-size-6"></i></span>
+          <span class="is-hidden-tablet">Twitter</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>

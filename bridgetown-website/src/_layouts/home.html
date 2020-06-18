@@ -2,30 +2,31 @@
 layout: default
 ---
 
-<section class="container mt-12">
-  <div class="columns is-centered">
-    <div class="column is-three-quarters" id="swup">
-      <div class="box px-8 py-8">
-        <div class="bridgetown-logo">{% insert_svg Bridgetown-Logo.svg %}</div>
-
-        <h1 class="mt-3 mb-10 title has-text-centered has-text-brown">Bridgetown</h1>
-
-        <div class="content">
-          {{ content }}
-        </div>
-      </div>
-
-      <div class="my-10 py-2"></div>
-
-      <h2 class="title is-2 has-text-centered has-text-brown mb-12">News Updates</h2>
-
-      {% for post in site.posts limit:2 %}
-        {% include news_item.html %}
-      {% endfor %}
-
-      <div class="mt-12 has-text-centered">
-        <a href="/blog/" class="button is-warning is-small"><span>Previous Updates</span> <span class="icon"><i class="fa fa-arrow-right"></i></span></a>
-      </div>
+{% rendercontent "shared/page_layout" %}
+  {% if bridgetown.version contains "beta" %}
+    <div class="mb-12 has-text-centered">
+      <em>You’re looking at the beta site for the latest pre-release of Bridgetown.</em> <a href="https://www.bridgetownrb.com" class="has-text-weight-bold">Switch to the current production site.</a>
     </div>
+  {% endif %}
+  {% rendercontent "shared/box" %}
+    <div class="bridgetown-logo">{% insert_svg Bridgetown-Logo.svg %}</div>
+
+    <h1 class="mt-3 mb-10 title has-text-centered has-text-brown">Bridgetown</h1>
+
+    <div class="content">
+      {{ content }}
+    </div>
+  {% endrendercontent %}
+
+  <div class="my-10 py-2"></div>
+
+  <h2 class="title is-2 has-text-centered has-text-brown mb-12">News Updates</h2>
+
+  {% for post in site.posts limit:4 %}
+    {% render "content/news_item", post: post, authors: site.data.authors %}
+  {% endfor %}
+
+  <div class="mt-12 has-text-centered">
+    <a href="/blog/" class="button is-warning is-small"><span>Previous Updates</span> <span class="icon"><i class="fa fa-arrow-right"></i></span></a>
   </div>
-</section>
+{% endrendercontent %}

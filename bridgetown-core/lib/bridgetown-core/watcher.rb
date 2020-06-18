@@ -39,17 +39,21 @@ module Bridgetown
     def build_listener(site, options)
       webpack_path = site.in_root_dir(".bridgetown-webpack")
       FileUtils.mkdir(webpack_path) unless Dir.exist?(webpack_path)
+      plugin_paths_to_watch = site.plugin_manager.plugins_path.select do |path|
+        Dir.exist?(path)
+      end
+
       Listen.to(
         options["source"],
         webpack_path,
-        *site.plugin_manager.plugins_path,
+        *plugin_paths_to_watch,
         ignore: listen_ignore_paths(options),
         force_polling: options["force_polling"],
-        &listen_handler(site)
+        &listen_handler(site, options)
       )
     end
 
-    def listen_handler(site)
+    def listen_handler(site, options)
       proc do |modified, added, removed|
         t = Time.now
         c = modified + added + removed
@@ -59,7 +63,7 @@ module Bridgetown
         Bridgetown.logger.info "", "#{n} file(s) changed at #{t.strftime("%Y-%m-%d %H:%M:%S")}"
 
         c.each { |path| Bridgetown.logger.info "", path["#{site.root_dir}/".length..-1] }
-        process(site, t)
+        process(site, t, options)
       end
     end
 
@@ -95,7 +99,6 @@ module Bridgetown
     # options - A Hash of options passed to the command
     #
     # Returns a list of relative paths from source that should be ignored
-    # rubocop: disable Metrics/AbcSize
     def listen_ignore_paths(options)
       source = Pathname.new(options["source"]).expand_path
       paths  = to_exclude(options)
@@ -117,13 +120,12 @@ module Bridgetown
         end
       end.compact + [%r!^\.bridgetown\-metadata!]
     end
-    # rubocop:enable Metrics/AbcSize
 
     def sleep_forever
       loop { sleep 1000 }
     end
 
-    def process(site, time)
+    def process(site, time, options)
       begin
         Bridgetown::Hooks.trigger :site, :pre_reload, site
         Bridgetown::Hooks.clear_reloadable_hooks
@@ -131,9 +133,14 @@ module Bridgetown
         site.process
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
                                " #{(Time.now - time).ceil(2)} seconds."
-      rescue StandardError => e
-        Bridgetown.logger.warn "Error:", e.message
-        Bridgetown.logger.warn "Error:", "Run bridgetown build --trace for more information."
+      rescue Exception => e
+        Bridgetown.logger.error "Error:", e.message
+
+        if options[:trace]
+          Bridgetown.logger.info e.backtrace.join("\n")
+        else
+          Bridgetown.logger.warn "Error:", "Use the --trace option for more information."
+        end
       end
       Bridgetown.logger.info ""
     end

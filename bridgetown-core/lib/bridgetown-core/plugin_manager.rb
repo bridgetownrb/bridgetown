@@ -2,6 +2,9 @@
 
 module Bridgetown
   class PluginManager
+    PLUGINS_GROUP = :bridgetown_plugins
+    YARN_DEPENDENCY_REGEXP = %r!(.+)@([^@]*)$!.freeze
+
     attr_reader :site
 
     @source_manifests = Set.new
@@ -40,11 +43,9 @@ module Bridgetown
       if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] && File.file?("Gemfile")
         require "bundler"
 
-        group_name = :bridgetown_plugins
-
-        required_gems = Bundler.require group_name
+        required_gems = Bundler.require PLUGINS_GROUP
         required_gems.select! do |dep|
-          (dep.groups & [group_name]).any? && dep.should_include?
+          (dep.groups & [PLUGINS_GROUP]).any? && dep.should_include?
         end
 
         install_yarn_dependencies(required_gems)
@@ -67,30 +68,43 @@ module Bridgetown
     # If that exact package hasn't been installed, execute yarn add
     #
     # Returns nothing.
-    # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity
     def self.install_yarn_dependencies(required_gems)
       return unless File.exist?("package.json")
 
       package_json = JSON.parse(File.read("package.json"))
 
       required_gems.each do |loaded_gem|
-        next unless loaded_gem.to_spec&.metadata&.dig("yarn-add")
-
-        yarn_add_dependency = loaded_gem.to_spec.metadata["yarn-add"].split("@")
-        next unless yarn_add_dependency.length == 2
-
-        # check matching version number is see if it's already installed
-        if package_json["dependencies"]
-          current_package = package_json["dependencies"].dig(yarn_add_dependency.first)
-          next unless current_package.nil? || current_package != yarn_add_dependency.last
-        end
+        yarn_dependency = find_yarn_dependency(loaded_gem)
+        next unless add_yarn_dependency?(yarn_dependency, package_json)
 
         # all right, time to install the package
-        cmd = "yarn add #{yarn_add_dependency.join("@")}"
+        cmd = "yarn add #{yarn_dependency.join("@")}"
         system cmd
       end
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity
+
+    def self.find_yarn_dependency(loaded_gem)
+      yarn_dependency = loaded_gem.to_spec&.metadata&.dig("yarn-add")&.match(YARN_DEPENDENCY_REGEXP)
+      return nil if yarn_dependency&.length != 3 || yarn_dependency[2] == ""
+
+      yarn_dependency[1..2]
+    end
+
+    def self.add_yarn_dependency?(yarn_dependency, package_json)
+      return false if yarn_dependency.nil?
+
+      # check matching version number is see if it's already installed
+      if package_json["dependencies"]
+        current_version = package_json["dependencies"].dig(yarn_dependency.first)
+        package_requires_updating?(current_version, yarn_dependency.last)
+      else
+        true
+      end
+    end
+
+    def self.package_requires_updating?(current_version, dep_version)
+      current_version.nil? || current_version != dep_version && !current_version.include?("/")
+    end
 
     # Require all .rb files
     #

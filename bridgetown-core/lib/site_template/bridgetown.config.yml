@@ -10,12 +10,14 @@
 # For reloadable site metadata like title, SEO description, social media
 # handles, etc., take a look at src/_data/site_metadata.yml
 #
-# If you need help with YAML syntax, here are some quick references for you: 
+# If you need help with YAML syntax, here are some quick references for you:
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
 # https://learnxinyminutes.com/docs/yaml/
 #
 
 baseurl: "" # OPTIONAL: the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: "" # the base hostname & protocol for your site, e.g. https://example.com
 
-# Additional build settings go here
+permalink: pretty
+
+# timezone: America/Los_Angeles

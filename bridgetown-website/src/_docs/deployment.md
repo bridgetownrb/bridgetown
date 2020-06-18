@@ -1,6 +1,6 @@
 ---
 order: 4.5
-next_page_order: 5
+next_page_order: 4.7
 title: Deploying Your Site
 top_section: Setup
 category: deployment

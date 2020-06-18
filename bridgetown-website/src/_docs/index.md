@@ -15,7 +15,7 @@ For more background on this development approach, [read up on our Jamstack prime
 
 For a succinct overview of how the Bridgetown build process works and what goes into creating a site, [read our Core Concepts guide](/docs/core-concepts/).
 
-## Quick Instructions
+## Quick Instructions {% if bridgetown.version contains "beta" %}(BETA RELEASE){% endif %}
 
 Read [requirements]({{ '/docs/installation' | relative_url }}) for more information on what you'll need to have set up in advance.
 
@@ -26,9 +26,16 @@ The basic installation process is as follows:
 2. Install **Node** and **Yarn** to handle frontend assets and spin up a live-reload development server.
 
 3. Install **Bridgetown** and related gems:
+{%- if bridgetown.version contains "beta" %}
+```
+$ gem install bundler -N
+$ gem install bridgetown -N -v {{ bridgetown.version }}
+```
+{%- else %}
 ```
 $ gem install bundler bridgetown -N
 ```
+{%- endif %}
 
 4. Create a new Bridgetown site at `./mysite`.
 ```

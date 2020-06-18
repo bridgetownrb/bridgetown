@@ -1,8 +1,3 @@
-////////////////////////////////////////////////
-// BASED ON SANDSTONE:
-// https://github.com/jenil/bulmaswatch/tree/gh-pages/sandstone
-////////////////////////////////////////////////
-
 @import "~fork-awesome";
 @import "../fonts/inter.css";
 
@@ -62,7 +57,4 @@ footer.footer strong {
 @import "layout.scss";
 @import "syntax.scss";
 @import "typography.scss";
-
-/* Components and Includes */
-@import "navbar.scss";
-@import "docs/note.scss";
+@import "components.scss"; // in src/_components

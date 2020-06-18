@@ -2,6 +2,8 @@
 
 $VERBOSE = nil
 
+ENV["BRIDGETOWN_ENV"] = "test"
+
 if ENV["CI"]
   require "simplecov"
   SimpleCov.start
@@ -22,6 +24,7 @@ require "minitest/reporters"
 require "minitest/profile"
 require "rspec/mocks"
 require_relative "../lib/bridgetown-core.rb"
+require_relative "../lib/bridgetown-core/commands/base.rb"
 
 Bridgetown.logger = Logger.new(StringIO.new, :error)
 
@@ -184,13 +187,14 @@ class BridgetownUnitTest < Minitest::Test
   end
 
   def capture_output(level = :debug)
-    buffer = StringIO.new
+    $stdout = buffer = StringIO.new
     Bridgetown.logger = Logger.new(buffer)
     Bridgetown.logger.log_level = level
     yield
     buffer.rewind
     buffer.string.to_s
   ensure
+    $stdout = STDOUT
     Bridgetown.logger = Logger.new(StringIO.new, :error)
   end
   alias_method :capture_stdout, :capture_output

@@ -1,0 +1,73 @@
+<footer class="footer">
+  <div class="container">
+    <div class="columns">
+      <div class="column is-5">
+        <div class="bridgetown-logo">{% insert_svg Bridgetown-Logo.svg %}</div>
+
+        <h4>
+          <strong>Bridgetown</strong> is a Ruby-powered static site generator.
+        </h4>
+
+        <div>
+          Version: <strong>v{{ bridgetown.version }}</strong> (codename “<strong>{{ bridgetown.code_name }}</strong>”)<br/>
+          Monthly GitHub Commits: <strong><a href="https://github.com/{{ metadata.github }}/graphs/commit-activity">{{ github_participation }}</a></strong><br/>
+          Follow Us: <strong><a href="https://twitter.com/{{ metadata.twitter }}">@{{ metadata.twitter }}</strong></a><br/>
+          Read About Our <strong><a href="/about/">History &amp; Roadmap</a></strong>
+        </div>
+
+        <div class="mt-6 is-size-7">
+          Source code licensed <a href="https://opensource.org/licenses/mit-license.php" target="_blank">MIT</a>
+          <br>
+          Website content licensed <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>
+        </div>
+
+      </div>
+      <div class="column is-4">
+        <h4 style="margin-top: 1.8rem">
+          <strong>Contribute</strong> on GitHub
+        </h4>
+
+        <div class="mt-6">
+          <a href="https://github.com/{{ metadata.github }}/issues">Browse Issues</a><br/>
+          <a href="https://github.com/{{ metadata.github }}/pulls">Submit a Pull Request</a><br/>
+          <a href="https://github.com/{{ metadata.github }}/blob/master/CODE_OF_CONDUCT.md">Code of Conduct</a>
+        </div>
+
+        <div class="mt-6">
+          <a href="https://community.bridgetownrb.com">Community Forum</a><br/>
+          <a href="https://jamstack.org/slack">Jamstack Slack (#bridgetown)</a><br/>
+          <a href="https://discord.gg/V56yUWR">Discord Chat</a>
+        </div>
+      </div>
+      <div class="column is-3">
+        <h4 style="margin-top: 1.8rem">
+          <strong>Share</strong> on Social Media
+        </h4>
+
+        <div class="mt-6">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbridgetownrb.com&via=bridgetownrb&text=Check%20out%20this%20awesome%20new%20static%20site%20generator%20built%20in%20Ruby%21&hashtags=SpinUpBridgetown%2CJamstack" class="button is-info">
+            <span class="icon"> <i class="fa fa-twitter is-size-5"></i> </span>
+            <span class="has-text-weight-bold">Tweet</span>
+          </a>
+        </div>
+
+        <div class="mt-6 is-size-7">
+          Use hashtag <strong>#SpinUpBridgetown</strong> <br/>and spread the word! 😃
+        </div>
+
+        <div class="mt-8">
+          <a href="/feed.xml" class="button is-warning is-small">
+            <span class="icon"> <i class="fa fa-rss"></i> </span>
+            <span class="has-text-weight-bold">News Feed</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <p class="mt-12 has-text-centered">
+      <strong style="opacity:.7">we</strong> 
+      <img src="/images/ruby.svg" alt="Ruby" style="height: 1.5rem;vertical-align:middle;margin: 0 0.5rem" /> 
+      <strong style="opacity:.7">ruby</strong>
+    </p>
+  </div>
+</footer>

@@ -3,6 +3,10 @@
 module Bridgetown
   module Tags
     class IncludeTag < Liquid::Tag
+      class << self
+        attr_accessor :deprecation_message_shown
+      end
+
       VALID_SYNTAX = %r!
         ([\w-]+)\s*=\s*
         (?:"([^"\\]*(?:\\.[^"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)'|([\w\.-]+))
@@ -18,6 +22,14 @@ module Bridgetown
 
       def initialize(tag_name, markup, tokens)
         super
+
+        unless self.class.deprecation_message_shown
+          Bridgetown.logger.warn "NOTICE: the {% include %} tag is deprecated and" \
+                                 " will be removed in Bridgetown 1.0. You should" \
+                                 " use the {% render %} tag instead."
+          self.class.deprecation_message_shown = true
+        end
+
         matched = markup.strip.match(VARIABLE_SYNTAX)
         if matched
           @file = matched["variable"].strip

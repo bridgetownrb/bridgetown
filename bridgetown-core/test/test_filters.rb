@@ -163,6 +163,10 @@ class TestFilters < BridgetownUnitTest
       assert_equal "1, 2, 3, or 4", @filter.array_to_sentence_string([1, 2, 3, 4], "or")
     end
 
+    should "number_of_words filter" do
+      assert_equal 7, @filter.number_of_words("These aren't the droids you're looking for.")
+    end
+
     context "normalize_whitespace filter" do
       should "replace newlines with a space" do
         assert_equal "a b", @filter.normalize_whitespace("a\nb")
@@ -663,6 +667,9 @@ class TestFilters < BridgetownUnitTest
         }
         actual = JSON.parse(@filter.jsonify(@filter.site.docs_to_write.first.to_liquid))
 
+        related_posts = actual.delete("related_posts")
+        assert related_posts.is_a?(Array), "doc.related_posts should be an array"
+
         next_doc = actual.delete("next")
         refute_nil next_doc
         assert next_doc.is_a?(Hash), "doc.next should be an object"
@@ -674,7 +681,7 @@ class TestFilters < BridgetownUnitTest
         @filter.site.read
         actual = @filter.jsonify(@filter.site.to_liquid)
         expected = {
-          "environment" => "development",
+          "environment" => "test",
           "code_name"   => Bridgetown::CODE_NAME,
           "version"     => Bridgetown::VERSION,
         }

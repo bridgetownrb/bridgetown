@@ -1,5 +1,29 @@
 # master
 
+# 0.15.0 "Overlook" / 2020-06-18
+
+* Final release of 0.15! Woo hoo! Keep reading for what's new since 0.14
+
+# 0.15.0.beta4 / 2020-06-15
+
+(`0-15-stable` branch)
+
+* Add documentation for Cypress testing [#75](https://github.com/bridgetownrb/bridgetown/pull/75) ([ParamagicDev](https://github.com/ParamagicDev))
+* Add missing related_posts to Document drop [#78](https://github.com/bridgetownrb/bridgetown/pull/78) ([jaredcwhite](https://github.com/jaredcwhite))
+* Use AwesomePrint gem for console [#76](https://github.com/bridgetownrb/bridgetown/pull/76) ([jaredcwhite](https://github.com/jaredcwhite))
+
+# 0.15.0.beta3 / 2020-06-05
+
+(`0-15-stable` branch)
+
+* New documentation on plugin development (including `bridgetown plugins new`), themes, automations, Liquid components, etc. [now on beta website](https://beta.bridgetownrb.com). Beta site also showcases the upcoming quick search plugin which will be made available to all site devs.
+* Optimizations made internally to the Bridgetown test suite.
+* Bridgetown website experiment with test suite [#69](https://github.com/bridgetownrb/bridgetown/pull/69) ([jaredcwhite](https://github.com/jaredcwhite))
+* Fix for GitHub branch URLs in automations [#66](https://github.com/bridgetownrb/bridgetown/pull/66) ([ParamagicDev](https://github.com/ParamagicDev))
+* Migrate CLI from Mercenery to Thor and Enable Automations [#56](https://github.com/bridgetownrb/bridgetown/pull/56) ([jaredcwhite](https://github.com/jaredcwhite))
+* First implementation of Liquid Components as well as a preview tool on the Bridgetown website [#26](https://github.com/bridgetownrb/bridgetown/pull/26) ([jaredcwhite](https://github.com/jaredcwhite))
+* Deprecate the include tag and standardize around the render tag [#46](https://github.com/bridgetownrb/bridgetown/pull/46) ([jaredcwhite](https://github.com/jaredcwhite))
+
 # 0.14.1 / 2020-05-23
 
 * Patch to fix PluginManager `yarn add` bug when there is no `dependencies` key in `package.json`

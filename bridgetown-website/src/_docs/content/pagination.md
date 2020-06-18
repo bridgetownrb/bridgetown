@@ -73,4 +73,4 @@ To display pagination links, simply use the `paginator` Liquid object as follows
 
 The `paginator` Liquid object provides the following attributes:
 
-{% include docs_variables_table.html scope=site.data.bridgetown_variables.paginator %}
+{% render "docs/variables_table", scope: site.data.bridgetown_variables.paginator %}

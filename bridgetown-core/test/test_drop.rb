@@ -87,6 +87,16 @@ class TestDrop < BridgetownUnitTest
           assert @drop.class.mutable?
         end
       end
+
+      context "related_posts" do
+        should "return the document array" do
+          last_post = @site.posts.last
+          last_post_drop = @site.posts.last.to_liquid
+          last_ten_recent_posts = (@site.posts.docs.reverse - [last_post]).first(10)
+
+          assert_equal last_ten_recent_posts, last_post_drop.related_posts
+        end
+      end
     end
 
     context "key?" do

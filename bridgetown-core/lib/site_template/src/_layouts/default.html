@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en">
   <head>
-    {% include head.html %}
+    {% render "head", metadata: site.metadata, title: page.title %}
   </head>
   <body class="{{ page.layout }} {{ page.page_class }}">
-    {% include navbar.html %}
+    {% render "navbar", metadata: site.metadata, page: page %}
 
     <main>
       {{ content }}
     </main>
 
-    {% include footer.html %}
+    {% render "footer", metadata: site.metadata %}
   </body>
 </html>
