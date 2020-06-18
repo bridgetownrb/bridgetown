@@ -5,7 +5,7 @@ gem 'bridgetown-builder', path: '../bridgetown-builder'
 gem 'bridgetown-paginate', path: '../bridgetown-paginate'
 gem 'bridgetown', path: '../bridgetown'
 
-gem "bridgetown-seo-tag", "3.0.5.beta1", :group => :bridgetown_plugins
+gem "bridgetown-seo-tag", "3.0.5", :group => :bridgetown_plugins
 gem "bridgetown-feed", "~> 1.0", :group => :bridgetown_plugins
 gem "bridgetown-quick-search", "~> 1.0.3", group: :bridgetown_plugins
 

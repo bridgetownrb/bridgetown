@@ -22,6 +22,14 @@ Built upon proven open source technology, **Bridgetown** is a _fast_, _scalable_
 
 * <span class="icon is-medium"><i class="fa fa-globe is-size-4 has-text-primary"></i></span>**Deploy Anywhere.**{:.is-size-5.has-text-brown} Use an automated hosting service like [Netlify](https://www.netlify.com) to deploy your site upon every update, or just sync the `output` folder to a standard web server and you're done. It's without a doubt the most flexible publishing system available.
 
+### Watch the Comprehensive Overview Video
+{: .has-text-centered .has-text-danger .mt-10}
+
+<figure class="image is-16by9 mx-0">
+  <iframe class="has-ratio" width="560" height="315" src="https://www.youtube-nocookie.com/embed/gSij_P3iaIE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</figure>
+
+
 <div class="buttons is-centered mt-12 mb-4">
   <a href="/docs/" class="button is-info is-large has-mixed-case">Get Started</a>
   <a href="/docs/community/" class="button is-warning is-large has-mixed-case">Need Help?</a>

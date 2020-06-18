@@ -28,16 +28,17 @@ As of spring 2020, here is the vision for where Bridgetown is headed. And this i
 - ✅ _DONE!_ Move most site data vars to a **reloadable file** (aka `_data/site_metadata.yml`) and support [env-specific settings (development vs. production)](/docs/configuration/environments).
 - ✳️ _DONE!_ External theme support is nearly here with the arrival of [Source Manifests](/docs/plugins/source-manifests) in Bridgetown 0.13. Stay tuned for an official guide on how to build modern themes for the next release of Bridgetown.
 - ✳️ _DONE!_ **Auto-reload plugins** during development. (No more stop-and-restart every 5 seconds!)
+- ✳️ _DONE!_ **Liquid Components** — this would build upon the new `render` tag functionality and [add a ton of new features](/docs/components) to make component-based design and authoring a reality, bringing Ruby/Liquid syntax closer to the world of React & Vue.
+- ✳️ _DONE!_ Officially-sanctioned **site testing framework** to [verify content and functionality](/docs/testing) after new builds.
 - ✳️ _IN PROGRESS…_ Modernize various aspects of the codebase, incrementally **improving
   the developer experience (DX)** on a number of different fronts.
 - ✳️ _IN PROGRESS…_ Ensure all **documentation, configuration, and deployment recommendations are fully up-to-date** and in line with best practices encouraged by the web development industry.
-- ✳️ _IN PROGRESS…_ **Liquid Components** — this would build upon the new `render` tag functionality and add a ton of new features to make component-based design and authoring a reality, bringing Ruby/Liquid syntax closer to the world of React & Vue. Ready for "Bridgebook"? 😁 (aka integration with Storybook.js). [Preliminary spec here.](https://github.com/bridgetownrb/liquid-component)
 - Straightforward support for **third-party data APIs** (think GraphQL as a first-class citizen).
 - Easy **multilingual setup** right out of the box.
+- Support **additional template languages** popular in the Ruby community such as ERB, HAML, and Slim.
 - **Simple webhooks** — allow remote webhooks to be pinged after a successful build.
   - **“Private” pages** — aka put a website section behind a randomized URL that changes frequently and then allow that to be pinged to a webhook somewhere.
 - Continued improvement of the incremental site generator for **lightning-fast page previews**.
-- Official **site testing framework** to verify content and functionality after new builds.
 - _LONGSHOT…_ **Rails engine** for Bridgetown — it's a missed opportunity that Rails doesn't have a good Jamstack story. This would explore the ability to load and manipulate site content and trigger new builds from within any Rails-based application.
 - _LONGSHOT…_ Investigate potentially huge wins regarding **headless CMS + Bridgetown integrations** as officially recommended plugins.
 - _LONGSHOT…_ Use the new Liquid Components support to enable a **drag-and-drop visual page builder** plugin.
