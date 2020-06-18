@@ -1,5 +1,17 @@
 # master
 
+# 0.15.0 "Overlook" / 2020-06-18
+
+* Final release of 0.15! Woo hoo! Keep reading for what's new since 0.14
+
+# 0.15.0.beta4 / 2020-06-15
+
+(`0-15-stable` branch)
+
+* Add documentation for Cypress testing [#75](https://github.com/bridgetownrb/bridgetown/pull/75) ([ParamagicDev](https://github.com/ParamagicDev))
+* Add missing related_posts to Document drop [#78](https://github.com/bridgetownrb/bridgetown/pull/78) ([jaredcwhite](https://github.com/jaredcwhite))
+* Use AwesomePrint gem for console [#76](https://github.com/bridgetownrb/bridgetown/pull/76) ([jaredcwhite](https://github.com/jaredcwhite))
+
 # 0.15.0.beta3 / 2020-06-05
 
 (`0-15-stable` branch)
