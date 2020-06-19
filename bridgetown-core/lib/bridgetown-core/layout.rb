@@ -25,6 +25,12 @@ module Bridgetown
     # Gets/Sets the content of this layout.
     attr_accessor :content
 
+    # Gets/Sets the current document (for layout-compatible converters)
+    attr_accessor :current_document
+
+    # Gets/Sets the document output (for layout-compatible converters)
+    attr_accessor :current_document_output
+
     # Initialize a new Layout.
     #
     # site - The Site.
