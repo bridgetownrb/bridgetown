@@ -83,6 +83,7 @@ module Bridgetown
   autoload :RelatedPosts,        "bridgetown-core/related_posts"
   autoload :Renderer,            "bridgetown-core/renderer"
   autoload :LiquidRenderer,      "bridgetown-core/liquid_renderer"
+  autoload :RubyTemplateView,    "bridgetown-core/ruby_template_view"
   autoload :LogWriter,           "bridgetown-core/log_writer"
   autoload :Site,                "bridgetown-core/site"
   autoload :StaticFile,          "bridgetown-core/static_file"

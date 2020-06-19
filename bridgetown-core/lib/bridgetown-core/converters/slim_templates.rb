@@ -1,32 +1,18 @@
 # frozen_string_literal: true
 
-require "tilt/erb"
-require "active_support/core_ext/hash/keys"
+require "slim"
 
 module Bridgetown
-  class ERBView < RubyTemplateView
-    include ERB::Util
-
+  class SlimView < RubyTemplateView
     def partial_render(partial_name, options = {})
-      Tilt::ERBTemplate.new(
-        site.in_source_dir("_partials", "#{partial_name}.erb"), trim: "<>-", outvar: "@_erbout"
+      Slim::Template.new(
+        site.in_source_dir("_partials", "#{partial_name}.slim")
       ).render(self, options)
-    end
-
-    def markdownify
-      previous_buffer_state = @_erbout
-      @_erbout = +""
-      result = yield
-      @_erbout = previous_buffer_state
-
-      content = Bridgetown::Utils.reindent_for_markdown(result)
-      converter = site.find_converter_instance(Bridgetown::Converters::Markdown)
-      converter.convert(content).strip
     end
   end
 
   module Converters
-    class ERBTemplates < Converter
+    class SlimTemplates < Converter
       # Does the given extension match this converter's list of acceptable extensions?
       # Takes one argument: the file's extension (including the dot).
       #
@@ -34,7 +20,7 @@ module Bridgetown
       #
       # Returns true if it matches, false otherwise.
       def matches(ext)
-        ext.casecmp(".erb").zero?
+        ext.casecmp(".slim").zero?
       end
 
       # Public: The extension to be given to the output file (including the dot).
@@ -52,16 +38,16 @@ module Bridgetown
       #
       # Returns a String of the converted content.
       def convert(content, convertible)
-        erb_view = Bridgetown::ERBView.new(convertible)
+        slim_view = Bridgetown::SlimView.new(convertible)
 
-        erb_renderer = Tilt::ERBTemplate.new(trim: "<>-", outvar: "@_erbout") { content }
+        slim_renderer = Slim::Template.new { content }
 
         if convertible.is_a?(Bridgetown::Layout)
-          erb_renderer.render(erb_view) do
+          slim_renderer.render(slim_view) do
             convertible.current_document_output
           end
         else
-          erb_renderer.render(erb_view)
+          slim_renderer.render(slim_view)
         end
       end
     end
