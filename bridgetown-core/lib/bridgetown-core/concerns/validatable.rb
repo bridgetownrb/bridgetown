@@ -49,7 +49,7 @@ module Bridgetown
       end
     end
 
-    # FIXME: Layouts don't have permalinks…d'oh
+    # FIXME: Layouts don't have permalinks...d'oh
     def validate_permalink!(filename)
       if self.data["permalink"]&.to_s&.empty?
         raise Errors::InvalidPermalinkError, "Invalid permalink in #{filename}"

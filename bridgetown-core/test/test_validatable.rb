@@ -3,7 +3,7 @@
 require "helper"
 require "ostruct"
 
-class TestConvertible < BridgetownUnitTest
+class TestValidatable < BridgetownUnitTest
   context "YAML front matter" do
     setup do
       @convertible = OpenStruct.new(
@@ -11,7 +11,7 @@ class TestConvertible < BridgetownUnitTest
                              "source" => File.expand_path("fixtures", __dir__)
                            ))
       )
-      @convertible.extend Bridgetown::Convertible
+      @convertible.extend Bridgetown::Validatable
       @base = File.expand_path("fixtures", __dir__)
     end
 

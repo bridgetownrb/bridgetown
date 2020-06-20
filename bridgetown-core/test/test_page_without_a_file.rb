@@ -34,7 +34,7 @@ class TestPageWithoutAFile < BridgetownUnitTest
       end
 
       should "identify itself properly" do
-        assert_equal '#<Bridgetown::PageWithoutAFile @relative_path="properties.html">',
+        assert_equal "#<Bridgetown::PageWithoutAFile properties.html>",
                      @page.inspect
       end
 
@@ -47,22 +47,18 @@ class TestPageWithoutAFile < BridgetownUnitTest
       should "have basic attributes defined in it" do
         regular_page = setup_page("properties.html", klass: Page)
         # assert a couple of attributes accessible in a regular Bridgetown::Page instance
-        assert_equal "All the properties.\n", regular_page["content"]
-        assert_equal "properties.html", regular_page["name"]
+        assert_equal "All the properties.\n", regular_page.content
+        assert_equal "properties.html", regular_page.name
 
         basic_attrs = %w(dir name path url)
         attrs = {
           "content"   => "All the properties.\n",
-          "dir"       => "/",
           "excerpt"   => nil,
           "foo"       => "bar",
           "layout"    => "default",
-          "name"      => "properties.html",
-          "path"      => "properties.html",
           "permalink" => "/properties/",
           "published" => nil,
           "title"     => "Properties Page",
-          "url"       => "/properties.html",
         }
         attrs.each do |prop, value|
           # assert that all attributes (of a Bridgetown::PageWithoutAFile instance) other than

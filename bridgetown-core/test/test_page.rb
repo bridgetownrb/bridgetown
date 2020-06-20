@@ -16,7 +16,9 @@ class TestPage < BridgetownUnitTest
     layouts = {
       "default" => Layout.new(@site, source_dir("_layouts"), "simple.html"),
     }
-    page.render(layouts, @site.site_payload)
+    renderer = Bridgetown::Renderer.new(@site, page)
+    renderer.layouts = layouts
+    renderer.render_document
   end
 
   context "A Page" do
@@ -123,17 +125,12 @@ class TestPage < BridgetownUnitTest
       should "make properties accessible through #[]" do
         page = setup_page("properties.html")
         attrs = {
-          content: "All the properties.\n",
-          dir: "/properties/",
           excerpt: nil,
           foo: "bar",
           layout: "default",
-          name: "properties.html",
-          path: "properties.html",
           permalink: "/properties/",
           published: nil,
           title: "Properties Page",
-          url: "/properties/",
         }
 
         attrs.each do |attr, val|
