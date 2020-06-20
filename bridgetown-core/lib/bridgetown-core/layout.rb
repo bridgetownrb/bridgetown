@@ -2,7 +2,8 @@
 
 module Bridgetown
   class Layout
-    include Convertible
+    include DataAccessible
+    include Validatable
 
     # Gets the Site object.
     attr_reader :site
@@ -51,6 +52,14 @@ module Bridgetown
       read_yaml(base, name)
     end
 
+    # The inspect string for this document.
+    # Includes the relative path and the collection label.
+    #
+    # Returns the inspect string for this document.
+    def inspect
+      "#<#{self.class} #{@path}>"
+    end
+
     # Extract information from the layout filename.
     #
     # name - The String filename of the layout file.
@@ -58,6 +67,13 @@ module Bridgetown
     # Returns nothing.
     def process(name)
       self.ext = File.extname(name)
+    end
+
+    # Provide this Layout's data to a Hash suitable for use by Liquid.
+    #
+    # Returns the Hash representation of this Layout.
+    def to_liquid
+      data
     end
   end
 end

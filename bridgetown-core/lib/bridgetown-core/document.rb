@@ -2,8 +2,12 @@
 
 module Bridgetown
   class Document
-    include Comparable
     extend Forwardable
+    include DataAccessible
+    include Comparable
+    include LayoutPlaceable
+    include LiquidRenderable
+    include Publishable
 
     attr_reader :path, :site, :extname, :collection, :type
     attr_accessor :content, :output
@@ -146,32 +150,6 @@ module Bridgetown
       YAML_FILE_EXTS.include?(extname)
     end
 
-    # Determine whether the file should be rendered with Liquid.
-    #
-    # Returns false if the document is either an asset file or a yaml file,
-    #   or if the document doesn't contain any Liquid Tags or Variables,
-    #   true otherwise.
-    def render_with_liquid?
-      return false if data["render_with_liquid"] == false
-
-      !(yaml_file? || !Utils.has_liquid_construct?(content))
-    end
-
-    # Determine whether the file should be rendered with a layout.
-    #
-    # Returns true if the Front Matter specifies that `layout` is set to `none`.
-    def no_layout?
-      data["layout"] == "none"
-    end
-
-    # Determine whether the file should be placed into layouts.
-    #
-    # Returns false if the document is set to `layouts: none`, or is either an
-    #   asset file or a yaml file. Returns true otherwise.
-    def place_in_layout?
-      !(yaml_file? || no_layout?)
-    end
-
     # The URL template where the document would be accessible.
     #
     # Returns the URL template for the document.
@@ -206,10 +184,6 @@ module Bridgetown
       ).to_s
     end
 
-    def [](key)
-      data[key]
-    end
-
     # The full path to the output file.
     #
     # base_directory - the base path of the output directory
@@ -238,14 +212,6 @@ module Bridgetown
       File.write(path, output, mode: "wb")
 
       trigger_hooks(:post_write)
-    end
-
-    # Whether the file is published or not, as indicated in YAML front-matter
-    #
-    # Returns 'false' if the 'published' key is specified in the
-    # YAML front-matter and is 'false'. Otherwise returns 'true'.
-    def published?
-      !(data.key?("published") && data["published"] == false)
     end
 
     # Read in the file and assign the content and data based on the file contents.
@@ -282,13 +248,6 @@ module Bridgetown
     # Returns the inspect string for this document.
     def inspect
       "#<#{self.class} #{relative_path} collection=#{collection.label}>"
-    end
-
-    # The string representation for this document.
-    #
-    # Returns the content of the document
-    def to_s
-      output || content || "NO CONTENT"
     end
 
     # Compare this document against another document.

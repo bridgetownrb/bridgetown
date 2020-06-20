@@ -2,7 +2,11 @@
 
 module Bridgetown
   class Page
-    include Convertible
+    include DataAccessible
+    include LayoutPlaceable
+    include LiquidRenderable
+    include Publishable
+    include Validatable
 
     attr_writer :dir
     attr_accessor :site, :pager
@@ -10,15 +14,6 @@ module Bridgetown
     attr_accessor :data, :content, :output
 
     alias_method :extname, :ext
-
-    # Attributes for Liquid templates
-    ATTRIBUTES_FOR_LIQUID = %w(
-      content
-      dir
-      name
-      path
-      url
-    ).freeze
 
     # A set of extensions that are considered HTML or HTML-like so we
     # should not alter them,  this includes .xhtml through XHTM5.
@@ -143,19 +138,6 @@ module Bridgetown
       self.basename = name[0..-ext.length - 1].gsub(%r!\.*\z!, "")
     end
 
-    # Add any necessary layouts to this post
-    #
-    # layouts      - The Hash of {"name" => "layout"}.
-    # site_payload - The site payload Hash.
-    #
-    # Returns String rendered page.
-    def render(layouts, site_payload)
-      site_payload["page"] = to_liquid
-      site_payload["paginator"] = pager.to_liquid
-
-      do_layout(site_payload, layouts)
-    end
-
     # The path to the source file
     #
     # Returns the path to the source file
@@ -166,6 +148,16 @@ module Bridgetown
     # The path to the page source file, relative to the site source
     def relative_path
       @relative_path ||= File.join(*[@dir, @name].map(&:to_s).reject(&:empty?)).delete_prefix("/")
+    end
+
+    # FIXME: spinning up a new Renderer object just to get an extension
+    # seems excessive
+    #
+    # The output extension of the page.
+    #
+    # Returns the output extension
+    def output_ext
+      @output_ext ||= Bridgetown::Renderer.new(site, self).output_ext
     end
 
     # Obtain destination path.
@@ -180,9 +172,22 @@ module Bridgetown
       path
     end
 
+    # Write the generated page file to the destination directory.
+    #
+    # dest - The String path to the destination dir.
+    #
+    # Returns nothing.
+    def write(dest)
+      path = destination(dest)
+      FileUtils.mkdir_p(File.dirname(path))
+      Bridgetown.logger.debug "Writing:", path
+      File.write(path, output, mode: "wb")
+      Bridgetown::Hooks.trigger :pages, :post_write, self
+    end
+
     # Returns the object as a debug String.
     def inspect
-      "#<#{self.class} @relative_path=#{relative_path.inspect}>"
+      "#<#{self.class} #{relative_path}>"
     end
 
     # Returns the Boolean of whether this Page is HTML or not.
@@ -197,6 +202,10 @@ module Bridgetown
 
     def trigger_hooks(hook_name, *args)
       Bridgetown::Hooks.trigger :pages, hook_name, self, *args
+    end
+
+    def type
+      :pages
     end
 
     def write?
