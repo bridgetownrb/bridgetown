@@ -95,6 +95,9 @@ module Bridgetown
       @relative_path ||= path.sub("#{site.collections_path}/", "")
     end
 
+    # FIXME: spinning up a new Renderer object just to get an extension
+    # seems excessive
+    #
     # The output extension of the document.
     #
     # Returns the output extension
@@ -143,12 +146,6 @@ module Bridgetown
       YAML_FILE_EXTS.include?(extname)
     end
 
-    # TODO: Depricated
-    # Used to determine CoffeeScript and Sass/SCSS files.
-    def asset_file?
-      false
-    end
-
     # Determine whether the file should be rendered with Liquid.
     #
     # Returns false if the document is either an asset file or a yaml file,
@@ -172,7 +169,7 @@ module Bridgetown
     # Returns false if the document is set to `layouts: none`, or is either an
     #   asset file or a yaml file. Returns true otherwise.
     def place_in_layout?
-      !(asset_file? || yaml_file? || no_layout?)
+      !(yaml_file? || no_layout?)
     end
 
     # The URL template where the document would be accessible.

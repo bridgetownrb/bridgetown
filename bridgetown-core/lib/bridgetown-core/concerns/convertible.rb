@@ -21,11 +21,17 @@ module Bridgetown
       content || ""
     end
 
+    # FIXME: this is identical to Document#published? -- let's merge!
+    #
     # Whether the file is published or not, as indicated in YAML front-matter
     def published?
       !(data.key?("published") && data["published"] == false)
     end
 
+    # FIXME: there should be ONE TRUE METHOD to read the YAML frontmatter
+    # in the entire project. Both this and the equivalent Document method
+    # should be extracted and generalized.
+    #
     # Read the YAML frontmatter.
     #
     # base - The String path to the dir containing the file.
@@ -61,6 +67,7 @@ module Bridgetown
     end
     # rubocop:enable Metrics/AbcSize
 
+    # FIXME: why doesn't Document validate data too?
     def validate_data!(filename)
       unless self.data.is_a?(Hash)
         raise Errors::InvalidYAMLFrontMatterError,
@@ -74,7 +81,7 @@ module Bridgetown
       end
     end
 
-    # TODO: this method never seems to get called...why's it here?
+    # FIXME: this method never seems to get called...why's it here?
     # Transform the contents based on the content type.
     #
     # Returns the transformed contents.
@@ -82,6 +89,8 @@ module Bridgetown
       _renderer.convert(content)
     end
 
+    # FIXME: can we extract this to something Document can use too?
+    #
     # Determine the extension depending on content_type.
     #
     # Returns the String extension for the output file.
@@ -90,6 +99,8 @@ module Bridgetown
       _renderer.output_ext
     end
 
+    # FIXME: this appears not to be used anywhere!
+    #
     # Determine which converter to use based on this convertible's
     # extension.
     #
@@ -98,6 +109,8 @@ module Bridgetown
       _renderer.converters
     end
 
+    # FIXME: this appears not to be used anywhere!
+    #
     # Render Liquid in the content
     #
     # content - the raw Liquid content to render
@@ -109,6 +122,8 @@ module Bridgetown
       _renderer.render_liquid(content, payload, info, path)
     end
 
+    # FIXME: Page has its own implementaion, so this is Layout-only
+    #
     # Convert this Convertible's data to a Hash suitable for use by Liquid.
     #
     # Returns the Hash representation of this Convertible.
@@ -122,7 +137,7 @@ module Bridgetown
       Utils.deep_merge_hashes defaults, Utils.deep_merge_hashes(data, further_data)
     end
 
-    # The type of a document,
+    # The type of a document (used in Liquid templates),
     #   i.e., its classname downcase'd and to_sym'd.
     #
     # Returns the type of self.
@@ -135,12 +150,8 @@ module Bridgetown
       :pages if is_a?(Page)
     end
 
-    # TODO: Depricated
-    # Used to determine CoffeeScript and Sass/SCSS files.
-    def asset_file?
-      false
-    end
-
+    # FIXME: this is virtually duplicated between Document, Excerpt, and here
+    #
     # Determine whether the file should be rendered with Liquid.
     #
     # Returns true if the file has Liquid Tags or Variables, false otherwise.
@@ -150,14 +161,18 @@ module Bridgetown
       Bridgetown::Utils.has_liquid_construct?(content)
     end
 
+    # FIXME: this is virtually duplicated between Document and here
+    #
     # Determine whether the file should be placed into layouts.
     #
     # Returns false if the document is an asset file or if the front matter
     #   specifies `layout: none`
     def place_in_layout?
-      !(asset_file? || no_layout?)
+      !no_layout?
     end
 
+    # FIXME: this appears not to be used anywhere!
+    #
     # Checks if the layout specified in the document actually exists
     #
     # layout - the layout to check
@@ -167,6 +182,8 @@ module Bridgetown
       !data["layout"].nil? && layout.nil? && !(is_a? Bridgetown::Excerpt)
     end
 
+    # FIXME: this appears not to be used anywhere!
+    #
     # Recursively render layouts
     #
     # layouts - a list of the layouts
@@ -181,6 +198,8 @@ module Bridgetown
       @_renderer = nil # this will allow the modifications above to disappear
     end
 
+    # FIXME: this is used ONLY by Page
+    #
     # Add any necessary layouts to this convertible document.
     #
     # payload - The site payload Drop or Hash.
@@ -196,6 +215,8 @@ module Bridgetown
       @_renderer = nil # this will allow the modifications above to disappear
     end
 
+    # FIXME: this is used ONLY by Page
+    #
     # Write the generated page file to the destination directory.
     #
     # dest - The String path to the destination dir.
