@@ -15,7 +15,7 @@ end
 
 require 'yard'
 YARD::Rake::YardocTask.new(:yard) do |t|
- t.files   = ['lib/**/*.rb']   # optional
- t.options = ['--any', '--extra', '--opts'] # optional
- t.stats_options = ['--list-undoc']         # optional
+ t.files   = ['lib/**/*.rb']
+ t.options = ['--any', '--extra', '--opts', '--no-output']
+ t.stats_options = ['--list-undoc']
 end
