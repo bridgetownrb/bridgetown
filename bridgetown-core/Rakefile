@@ -19,3 +19,10 @@ YARD::Rake::YardocTask.new(:yard) do |t|
  t.options = ['--no-output']
  t.stats_options = ['--list-undoc']
 end
+
+namespace :yard do
+  task :serve do
+    port = ENV['YARD_PORT'] || "8808"
+    sh("yard server --reload -p #{port}")
+  end
+end
