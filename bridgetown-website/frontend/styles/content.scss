@@ -4,7 +4,7 @@
   transition: opacity 0.2s, transform 0.3s;
 
   @media screen and (prefers-reduced-motion: reduce) {
-    transition: opacity 0s, transform 0s;
+    transition-property: none;
   }
 }
 
