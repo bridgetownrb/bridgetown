@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     containers = [mainEl, "#topnav"]
   }
 
-  if(!window.matchMedia('(prefers-reduced-motion)')) {
+  if(!window.matchMedia('(prefers-reduced-motion)').matches) {
     const swup = new Swup({
       containers: containers,
       plugins: [
