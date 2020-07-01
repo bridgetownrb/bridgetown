@@ -12,3 +12,10 @@ Rake::TestTask.new(:test) do |test|
   test.pattern = "test/**/test_*.rb"
   test.verbose = true
 end
+
+require 'yard'
+YARD::Rake::YardocTask.new(:yard) do |t|
+ t.files   = ['lib/**/*.rb']   # optional
+ t.options = ['--any', '--extra', '--opts'] # optional
+ t.stats_options = ['--list-undoc']         # optional
+end
