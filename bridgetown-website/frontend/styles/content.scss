@@ -2,8 +2,10 @@
 // override theme speeds
 .swup-transition-main {
   transition: opacity 0.2s, transform 0.3s;
+}
 
-  @media screen and (prefers-reduced-motion: reduce) {
+@media screen and (prefers-reduced-motion: reduce) {
+  .swup-transition-main {
     transition-property: none;
   }
 }
