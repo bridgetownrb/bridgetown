@@ -34,6 +34,7 @@ end
 group :bridgetown_optional_dependencies do
   gem "mime-types", "~> 3.0"
   gem "rdoc", "~> 6.0"
+  gem "yard", "~> 0.9"
   gem "tomlrb", "~> 1.2"
   gem "classifier-reborn", "~> 2.2"
   gem "liquid-c", "~> 4.0"
