@@ -2,12 +2,17 @@
 
 module Bridgetown
   module Site::Configurable
-    # Public: Set the site's configuration. This handles side-effects caused by
-    # changing values in the configuration.
+    # Set the site's configuration. This handles side-effects caused by
+    #   changing values in the configuration.
     #
-    # config - a Bridgetown::Configuration, containing the new configuration.
+    # @param config [Bridgetown::Configuration]
+    #   An instance of {Bridgetown::Configuration},
+    #   containing the new configuration.
     #
-    # Returns the new configuration.
+    # @return [Bridgetown::Configuration]
+    #   A new instance of {Bridgetown::Configuration}
+    #
+    # @see Bridgetown::Configuration
     def config=(config)
       @config = config.clone
 
@@ -32,81 +37,94 @@ module Bridgetown
       @config
     end
 
-    # Returns the FrontmatterDefaults or creates a new FrontmatterDefaults
-    # if it doesn't already exist.
+    # Returns the current instance of {FrontmatterDefaults} or
+    # creates a new instance {FrontmatterDefaults} if it doesn't already exist.
     #
-    # Returns The FrontmatterDefaults
+    # @return [FrontmatterDefaults]
+    #   Returns an instance of {FrontmatterDefaults}
     def frontmatter_defaults
       @frontmatter_defaults ||= FrontmatterDefaults.new(self)
     end
 
-    # Whether to perform a full rebuild without incremental regeneration
-    #
-    # Returns a Boolean: true for a full rebuild, false for normal build
+    # Whether to perform a full rebuild without incremental regeneration.
+    # @param [Hash] override
+    #   An override hash to override the current config value
+    # @option override [Boolean] "incremental" Whether to incrementally build
+    # @return [Boolean] true for full rebuild, false for normal build
     def incremental?(override = {})
       override["incremental"] || config["incremental"]
     end
 
-    # Returns the publisher or creates a new publisher if it doesn't
-    # already exist.
+    # Returns the current instance of {Publisher} or creates a new instance of
+    # {Publisher} if one doesn't exist.
     #
-    # Returns The Publisher
+    # @return [Publisher] Returns an instance of {Publisher}
     def publisher
       @publisher ||= Publisher.new(self)
     end
 
-    # Public: Prefix a given path with the root directory.
+    # Prefix a path or paths with the {#root_dir} directory.
     #
-    # paths - (optional) path elements to a file or directory within the
-    #         root directory
+    # @see Bridgetown.sanitized_path
+    # @param paths [Array<String>]
+    #   An array of paths to prefix with the root_dir directory using the
+    #   {Bridgetown.sanitized_path} method.
     #
-    # Returns a path which is prefixed with the root_dir directory.
+    # @return [String, Array<String>] Return an array of updated paths.
     def in_root_dir(*paths)
       paths.reduce(root_dir) do |base, path|
         Bridgetown.sanitized_path(base, path)
       end
     end
 
-    # Public: Prefix a given path with the source directory.
+    # Prefix a path or paths with the {#source} directory.
     #
-    # paths - (optional) path elements to a file or directory within the
-    #         source directory
+    # @see Bridgetown.sanitized_path
+    # @param paths [Array<String>]
+    #   An array of paths to prefix with the source directory using the
+    #   {Bridgetown.sanitized_path} method.
     #
-    # Returns a path which is prefixed with the source directory.
+    # @return [String, Array<String>] Return an array of updated paths.
     def in_source_dir(*paths)
       paths.reduce(source) do |base, path|
         Bridgetown.sanitized_path(base, path)
       end
     end
 
-    # Public: Prefix a given path with the destination directory.
+    # Prefix a path or paths with the {#dest} directory.
     #
-    # paths - (optional) path elements to a file or directory within the
-    #         destination directory
+    # @see Bridgetown.sanitized_path
+    # @param paths [Array<String>]
+    #   An array of paths to prefix with the destination directory using the
+    #   {Bridgetown.sanitized_path} method.
     #
-    # Returns a path which is prefixed with the destination directory.
+    # @return [String, Array<String>] Return an array of updated paths.
     def in_dest_dir(*paths)
       paths.reduce(dest) do |base, path|
         Bridgetown.sanitized_path(base, path)
       end
     end
 
-    # Public: Prefix a given path with the cache directory.
+    # Prefix a path or paths with the {#cache_dir} directory.
     #
-    # paths - (optional) path elements to a file or directory within the
-    #         cache directory
+    # @see Bridgetown.sanitized_path
+    # @param paths [Array<String>]
+    #   An array of paths to prefix with the {#cache_dir} directory using the
+    #   {Bridgetown.sanitized_path} method.
     #
-    # Returns a path which is prefixed with the cache directory.
+    # @return [Array<String>] Return an array of updated paths.
     def in_cache_dir(*paths)
       paths.reduce(cache_dir) do |base, path|
         Bridgetown.sanitized_path(base, path)
       end
     end
 
-    # Public: The full path to the directory that houses all the collections registered
-    # with the current site.
+    # The full path to the directory that houses all the registered collections
+    # for the current site.
     #
-    # Returns the source directory or the absolute path to the custom collections_dir
+    # @see #config
+    #
+    # @return [String] the source directory or the absolute path to the custom collections_dir
     def collections_path
       dir_str = config["collections_dir"]
       @collections_path ||= dir_str.empty? ? source : in_source_dir(dir_str)
