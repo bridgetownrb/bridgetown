@@ -28,3 +28,4 @@ bbin/
 */test/dest
 */tmp/*
 .vscode
+.yardoc

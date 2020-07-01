@@ -5,4 +5,3 @@ node_modules
 .bridgetown-metadata
 .bridgetown-webpack
 vendor
-.yardoc
