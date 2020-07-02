@@ -110,10 +110,11 @@ Bridgetown is built by:
 
 |<img src="https://avatars.githubusercontent.com/jaredcwhite?s=256" alt="jaredcwhite" width="128" />|<img src="https://avatars.githubusercontent.com/jaredmoody?s=256" alt="jaredmoody" width="128" />|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://avatars.githubusercontent.com/ParamagicDev?s=256" alt="ParamagicDev" width="128" />|<img src="https://avatars.githubusercontent.com/MikeRogers0?s=256" alt="MikeRogers0" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|@jaredcwhite|@jaredmoody|@andrewmcodes|@ParamagicDev|@MikeRogers0|
+|<a href="https://github.com/jaredcwhite">@jaredcwhite</a>|<a href="https://github.com/jaredmoody">@jaredmoody</a>|<a href="https://github.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/ParamagicDev">@ParamagicDev</a>|<a href="https://github.com/MikeRogers0">@MikeRogers0</a>|
 |Portland, OR|Portland, OR|Wilmington, NC|Providence, RI|Ny-Ålesund, Svalbard|
 
 |<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|
 |You Next?|
 |Anywhere|
 
