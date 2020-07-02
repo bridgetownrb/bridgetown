@@ -73,7 +73,6 @@ module Bridgetown
     #   An array of paths to prefix with the root_dir directory using the
     #   {Bridgetown.sanitized_path} method.
     #
-    # @return [String] Return an updated path if 1 path given
     # @return [Array<String>] Return an array of updated paths if multiple paths given.
     def in_root_dir(*paths)
       paths.reduce(root_dir) do |base, path|
@@ -87,8 +86,6 @@ module Bridgetown
     # @param paths [Array<String>]
     #   An array of paths to prefix with the source directory using the
     #   {Bridgetown.sanitized_path} method.
-    #
-    # @return [String] Return an updated path if 1 path given
     # @return [Array<String>] Return an array of updated paths if multiple paths given.
     def in_source_dir(*paths)
       paths.reduce(source) do |base, path|
@@ -103,7 +100,6 @@ module Bridgetown
     #   An array of paths to prefix with the destination directory using the
     #   {Bridgetown.sanitized_path} method.
     #
-    # @return [String] Return an updated path if 1 path given
     # @return [Array<String>] Return an array of updated paths if multiple paths given.
     def in_dest_dir(*paths)
       paths.reduce(dest) do |base, path|
@@ -118,7 +114,6 @@ module Bridgetown
     #   An array of paths to prefix with the {#cache_dir} directory using the
     #   {Bridgetown.sanitized_path} method.
     #
-    # @return [String] Return an updated path if 1 path given
     # @return [Array<String>] Return an array of updated paths if multiple paths given.
     def in_cache_dir(*paths)
       paths.reduce(cache_dir) do |base, path|
