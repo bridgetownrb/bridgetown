@@ -108,7 +108,7 @@ module Bridgetown
     # @return [Hash{String, Symbol => Bridgetown::Collection}] A Hash
     #   containing a collection name-to-instance pairs.
     #
-    # @return [{}] Returns a new hash if no items found
+    # @return [Hash] Returns a blank hash if no items found
     # @see Collection
     def collections
       @collections ||= collection_names.each_with_object(

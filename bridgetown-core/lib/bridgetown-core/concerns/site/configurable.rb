@@ -3,7 +3,7 @@
 module Bridgetown
   module Site::Configurable
     # Set the site's configuration. This handles side-effects caused by
-    #   changing values in the configuration.
+    # changing values in the configuration.
     #
     # @param config [Bridgetown::Configuration]
     #   An instance of {Bridgetown::Configuration},
@@ -47,6 +47,9 @@ module Bridgetown
     end
 
     # Whether to perform a full rebuild without incremental regeneration.
+    # If either +override+["incremental"] or +config+["incremental"] are true,
+    # fully rebuild the site. If not, incrementally build the site.
+    #
     # @param [Hash] override
     #   An override hash to override the current config value
     # @option override [Boolean] "incremental" Whether to incrementally build
@@ -128,7 +131,7 @@ module Bridgetown
     #
     # @see #config
     #
-    # @return [String] the source directory or the absolute path to the custom collections_dir
+    # @return [String] Returns #source value if not nil. If nil, returns +config+["collections_dir"]
     def collections_path
       dir_str = config["collections_dir"]
       @collections_path ||= dir_str.empty? ? source : in_source_dir(dir_str)

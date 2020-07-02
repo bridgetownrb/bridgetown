@@ -2,9 +2,14 @@
 
 module Bridgetown
   module Site::Processable
-    # Public: Read, process, and write this Site to output.
-    #
-    # Returns nothing.
+    # Reset, Read, Generate, Render, Cleanup, Process, and Write this Site to output.
+    # @return [void]
+    # @see #reset
+    # @see #read
+    # @see #generate
+    # @see #render
+    # @see #cleanup
+    # @see #write
     def process
       reset
       read
@@ -16,10 +21,9 @@ module Bridgetown
     end
 
     # rubocop:disable Metrics/AbcSize
-    #
+
     # Reset Site details.
-    #
-    # Returns nothing
+    # @return [void]
     def reset
       self.time = if config["time"]
                     Utils.parse_date(config["time"].to_s, "Invalid time in bridgetown.config.yml.")
@@ -43,11 +47,11 @@ module Bridgetown
       Bridgetown::Cache.clear_if_config_changed config
       Bridgetown::Hooks.trigger :site, :after_reset, self
     end
+
     # rubocop:enable Metrics/AbcSize
 
     # Read Site data from disk and load it into internal data structures.
-    #
-    # Returns nothing.
+    # @return [void]
     def read
       Bridgetown::Hooks.trigger :site, :pre_read, self
       reader.read
@@ -58,8 +62,6 @@ module Bridgetown
     private
 
     # Limits the current posts; removes the posts which exceed the limit_posts
-    #
-    # Returns nothing
     def limit_posts!
       if limit_posts.positive?
         limit = posts.docs.length < limit_posts ? posts.docs.length : limit_posts
