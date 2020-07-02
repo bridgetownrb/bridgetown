@@ -47,13 +47,14 @@ module Bridgetown
       post_attr_hash("tags")
     end
 
-    # Returns a hash of "categories" using {#post_attr_hash} where each tag is a key
-    # and each value is a post which contains the key.
+    # Returns a hash of "categories" using {#post_attr_hash} where each tag is
+    # a key and each value is a post which contains the key.
     # @example
     #   categories
     #   # => { 'tech': [<Post A>, <Post B>],
     #   #      'ruby': [<Post C> }
-    # @return [Hash{String, Array<Post>}] Returns a hash of all categories and their corresponding posts
+    # @return [Hash{String, Array<Post>}] Returns a hash of all categories and
+    #   their corresponding posts
     # @see post_attr_hash
     def categories
       post_attr_hash("categories")
