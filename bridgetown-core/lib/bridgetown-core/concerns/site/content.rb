@@ -119,8 +119,25 @@ module Bridgetown
     end
 
     # An array of collection names.
-    #
-    # @return [Array<String>] an array of collection names from the configuration,
+    # @return [Array<Collection>] an array of collection names from the configuration,
+    #   or an empty array if the +config+["collections"] key is not set.
+    # @raise ArgumentError Raise an error if +config+["collections"] is not
+    #   an Array or a Hash
+    def collection_names
+      case config["collections"]
+      when Hash
+        config["collections"].keys
+      when Array
+        config["collections"]
+      when nil
+        []
+      else
+        raise ArgumentError, "Your `collections` key must be a hash or an array."
+      end
+    end
+
+    # An Array of collection names
+    # @return [Array<String>] an array of collection names from the configuration
     def documents
       collections.each_with_object(Set.new) do |(_, collection), set|
         set.merge(collection.docs).merge(collection.files)
