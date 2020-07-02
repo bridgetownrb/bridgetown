@@ -1,6 +1,7 @@
 ---
 title: Introducing Our Latest Sponsor and a New Core Team Member
 subtitle: Today's post may be short, but it is exciting nonetheless! Please give a warm welcome to Martin Tomav and Konnor Rogers.
+author: jared
 category: news
 ---
 
