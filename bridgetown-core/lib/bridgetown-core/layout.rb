@@ -3,6 +3,7 @@
 module Bridgetown
   class Layout
     include DataAccessible
+    include LiquidRenderable
     include Validatable
 
     # Gets the Site object.

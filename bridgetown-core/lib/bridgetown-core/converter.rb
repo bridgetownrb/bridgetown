@@ -51,23 +51,22 @@ module Bridgetown
       @config = config
     end
 
-    # Override in Converter subclasses.
     # Does the given extension match this converter's list of acceptable extensions?
-    # Takes one argument: the file's extension (including the dot).
     #
-    # ext - The String extension to check
+    # @param [String] ext
+    #   The file's extension (including the dot)
     #
-    # Returns true since it always matches.
+    # @return [Boolean] Whether the extension matches one in the list
     def matches(ext)
       (self.class.extname_list || []).include?(ext.downcase)
     end
 
-    # Override in Converter subclasses.
-    # The extension to be given to the output file (including the dot).
+    # You can override this in Converter subclasses as needed. Default is ".html"
     #
-    # ext - The String extension or original file.
+    # @param [String] ext
+    #   The extension of the original file
     #
-    # Returns The String output file extension.
+    # @return [String] The output file extension (including the dot)
     def output_ext(_ext)
       ".html"
     end
