@@ -21,7 +21,10 @@ module Bridgetown
     end
 
     # Yields the pages from {#pages}, {#static_files}, and {#docs_to_write}.
-    # @yieldparam item [Document, Page, StaticFile] Yields a {#Bridgetown::Page}, {#Bridgetown::StaticFile}, or {#Bridgetown::Document} object.
+    #
+    # @yieldparam item [Document, Page, StaticFile] Yields a
+    # {#Bridgetown::Page}, {#Bridgetown::StaticFile}, or
+    # {#Bridgetown::Document} object.
     #
     # @return [void]
     #
