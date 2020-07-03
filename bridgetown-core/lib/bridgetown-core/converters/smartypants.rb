@@ -30,16 +30,6 @@ module Bridgetown
         @config[:input] = :SmartyPants
       end
 
-      # Does the given extension match this converter's list of acceptable extensions?
-      # Takes one argument: the file's extension (including the dot).
-      #
-      # ext - The String extension to check.
-      #
-      # Returns true if it matches, false otherwise.
-      def matches(_ext)
-        false
-      end
-
       # Public: The extension to be given to the output file (including the dot).
       #
       # ext - The String extension or original file.

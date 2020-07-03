@@ -2,6 +2,20 @@
 
 module Bridgetown
   class Converter < Plugin
+    class << self
+      attr_accessor :extname_list
+
+      # Converters can provide one or more extensions they accept. Examples:
+      #
+      # * `input :erb`
+      # * `input %i(xls xlsx)`
+      def input(extnames)
+        extnames = Array(extnames)
+        self.extname_list ||= []
+        self.extname_list += extnames.map { |e| ".#{e.to_s.downcase}" }
+      end
+    end
+
     # Public: Get or set the highlighter prefix. When an argument is specified,
     # the prefix will be set. If no argument is specified, the current prefix
     # will be returned.
@@ -35,6 +49,27 @@ module Bridgetown
     # Returns an initialized Converter.
     def initialize(config = {})
       @config = config
+    end
+
+    # Override in Converter subclasses.
+    # Does the given extension match this converter's list of acceptable extensions?
+    # Takes one argument: the file's extension (including the dot).
+    #
+    # ext - The String extension to check
+    #
+    # Returns true since it always matches.
+    def matches(ext)
+      (self.class.extname_list || []).include?(ext.downcase)
+    end
+
+    # Override in Converter subclasses.
+    # The extension to be given to the output file (including the dot).
+    #
+    # ext - The String extension or original file.
+    #
+    # Returns The String output file extension.
+    def output_ext(_ext)
+      ".html"
     end
 
     # Get the highlighter prefix.
