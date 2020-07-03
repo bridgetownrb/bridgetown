@@ -124,9 +124,20 @@ module Bridgetown
     # The full path to the directory that houses all the registered collections
     # for the current site.
     #
-    # @see #config
+    # If +@collections_path+ is specified use its value.
     #
-    # @return [String] Returns #source value if not nil. If nil, returns +config+["collections_dir"]
+    # If +@collections+ is not specified and +config+["collections_dir"] is
+    # specified, prepend it with {#source} and assign it to
+    # {#collections_path}.
+    #
+    # If +@collections+ is not specified and +config+["collections_dir"] is not
+    # specified, assign {#source} to +@collections_path+
+    #
+    # @return [String] Returns the full path to the collections directory
+    # @see #config
+    # @see #source
+    # @see #collections_path
+    # @see #in_source_dir
     def collections_path
       dir_str = config["collections_dir"]
       @collections_path ||= dir_str.empty? ? source : in_source_dir(dir_str)

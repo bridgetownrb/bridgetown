@@ -17,8 +17,9 @@ module Bridgetown
       Bridgetown::Hooks.trigger :site, :post_render, self, payload
     end
 
-    # Executes inline ruby frontmatter if
+    # Executes inline Ruby frontmatter if
     # +ENV+["BRIDGETOWN_RUBY_IN_FRONTMATTER"] equals "true"
+    #
     # @example
     #   calculation: !ruby/string:Rb |
     #     [2 * 4, 5 + 2].min
@@ -54,7 +55,7 @@ module Bridgetown
       end
     end
 
-    # Regenerates a site using {Bridgetown::Renderer} and runs a new instance.
+    # Regenerates a site using {Bridgetown::Renderer}
     # @param document [Post] The document to regenerate.
     # @param payload [Hash] A hash of site data.
     # @return [void]

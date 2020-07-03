@@ -103,8 +103,11 @@ module Bridgetown
     alias_method :to_liquid, :site_payload
 
     # The list of {#collections} and their corresponding {Bridgetown::Collection} instances.
+    #
     # If +config+['collections'] is set, a new instance of {Bridgetown::Collection} is created
-    # for each item in the collection. A new hash is returned otherwise.
+    # for each entry in the collections configuration.
+    #
+    # If +config+["collections"] is not specified, a blank hash is returned.
     #
     # @return [Hash{String, Symbol => Bridgetown::Collection}] A Hash
     #   containing a collection name-to-instance pairs.
@@ -137,20 +140,20 @@ module Bridgetown
       end
     end
 
-    # An Array of collection names
-    # @return [Array<String>] an array of collection names from the configuration
+    # Get all documents.
+    # @return [Array<String>] an array of documents from the configuration
     def documents
       collections.each_with_object(Set.new) do |(_, collection), set|
         set.merge(collection.docs).merge(collection.files)
       end.to_a
     end
 
-    # Get the to be written documents
+    # Get the documents to be written
     #
     # @return [Array<String, File>] an Array of Documents which should be written and
     #   that +respond_to :write?+
     # @see #documents
-    # @see Colleciton
+    # @see Collection
     def docs_to_write
       documents.select(&:write?)
     end
