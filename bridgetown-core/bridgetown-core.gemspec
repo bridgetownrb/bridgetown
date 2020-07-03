@@ -37,7 +37,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("colorator",             "~> 1.0")
   s.add_runtime_dependency("faraday",               "~> 1.0")
   s.add_runtime_dependency("faraday_middleware",    "~> 1.0")
-  s.add_runtime_dependency("haml",                  "~> 5.1")
   s.add_runtime_dependency("i18n",                  "~> 1.0")
   s.add_runtime_dependency("kramdown",              "~> 2.1")
   s.add_runtime_dependency("kramdown-parser-gfm",   "~> 1.0")
@@ -48,7 +47,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("pathutil",              "~> 0.9")
   s.add_runtime_dependency("rouge",                 "~> 3.0")
   s.add_runtime_dependency("safe_yaml",             "~> 1.0")
-  s.add_runtime_dependency("slim",                  "~> 4.1")
   s.add_runtime_dependency("terminal-table",        "~> 1.8")
   s.add_runtime_dependency("thor",                  "~> 1.0")
+  s.add_runtime_dependency("tilt",                  "~> 2.0")
 end

@@ -9,7 +9,9 @@ module Bridgetown
 
     def partial_render(partial_name, options = {})
       Tilt::ERBTemplate.new(
-        site.in_source_dir("_partials", "#{partial_name}.erb"), trim: "<>-", outvar: "@_erbout"
+        site.in_source_dir(site.config[:partials_dir], "#{partial_name}.erb"),
+        trim: "<>-",
+        outvar: "@_erbout"
       ).render(self, options)
     end
 
