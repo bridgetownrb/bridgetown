@@ -3,6 +3,7 @@
 module Bridgetown
   class Excerpt
     extend Forwardable
+    include LiquidRenderable
 
     attr_accessor :doc
     attr_accessor :content, :ext
@@ -89,12 +90,6 @@ module Bridgetown
 
     def place_in_layout?
       false
-    end
-
-    def render_with_liquid?
-      return false if data["render_with_liquid"] == false
-
-      !(yaml_file? || !Utils.has_liquid_construct?(content))
     end
 
     protected

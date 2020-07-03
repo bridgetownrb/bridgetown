@@ -52,19 +52,21 @@ document.addEventListener('DOMContentLoaded', () => {
     containers = [mainEl, "#topnav"]
   }
 
-  const swup = new Swup({
-    containers: containers,
-    plugins: [
-      new SwupSlideTheme({mainElement: mainEl}),
-      new SwupBodyClassPlugin(),
-      new SwupScrollPlugin({animateScroll: false})
-    ],
-    
-  })
+  if(!window.matchMedia('(prefers-reduced-motion)').matches) {
+    const swup = new Swup({
+      containers: containers,
+      plugins: [
+        new SwupSlideTheme({mainElement: mainEl}),
+        new SwupBodyClassPlugin(),
+        new SwupScrollPlugin({animateScroll: false})
+      ],
 
-  swup.on('contentReplaced', function() {
-    addHeadingAnchors()
-  })
+    })
+
+    swup.on('contentReplaced', function() {
+      addHeadingAnchors()
+    })
+  }
 
   addHeadingAnchors()
 })

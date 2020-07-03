@@ -23,10 +23,15 @@ Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern
 Say howdy 👋 to our growing list of the first twenty sponsors of Bridgetown on GitHub.
 [You too can join this list and sponsor Bridgetown!](https://github.com/sponsors/jaredcwhite)
 
-|<img src="https://avatars.githubusercontent.com/pilotcph?s=256" alt="pilotcph" width="128" />|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://avatars.githubusercontent.com/miatrinity?s=256" alt="miatrinity" width="128" />|<img src="https://avatars.githubusercontent.com/marcoroth?s=256" alt="marcoroth" width="128" />|
-|:---:|:---:|:---:|:---:|
-|<a href="https://twitter.com/cabgfx">@cabgfx</a>|<a href="https://twitter.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/miatrinity">@miatrinity</a>|<a href="https://www.twitter.com/marcoroth_">@marcoroth_</a>|You Next?|
-|<a href="http://www.pilotcph.dk">Website</a>|<a href="https://andrewm.codes">Website</a>|<a href="https://railsnew.io/">Website</a>|<a href="https://marcoroth.dev">Website</a>|
+|<img src="https://avatars.githubusercontent.com/pilotcph?s=256" alt="pilotcph" width="128" />|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://avatars.githubusercontent.com/miatrinity?s=256" alt="miatrinity" width="128" />|<img src="https://avatars.githubusercontent.com/marcoroth?s=256" alt="marcoroth" width="128" />|<img src="https://avatars.githubusercontent.com/mtomov?s=256" alt="mtomov" width="128" />|
+|:---:|:---:|:---:|:---:|:---:|
+|<a href="https://twitter.com/cabgfx">@cabgfx</a>|<a href="https://twitter.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/miatrinity">@miatrinity</a>|<a href="https://www.twitter.com/marcoroth_">@marcoroth_</a>|<a href="https://github.com/mtomov">@mtomov</a>|
+|<a href="http://www.pilotcph.dk">Website</a>|<a href="https://andrewm.codes">Website</a>|<a href="https://railsnew.io/">Website</a>|<a href="https://marcoroth.dev">Website</a>||
+
+|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|
+|You Next?|
+||
 
 ---
 
@@ -103,10 +108,15 @@ these terms, please let one of our [core team members](mailto:maintainers@bridge
 
 Bridgetown is built by:
 
-|<img src="https://avatars.githubusercontent.com/jaredcwhite?s=256" alt="jaredcwhite" width="128" />|<img src="https://avatars.githubusercontent.com/jaredmoody?s=256" alt="jaredmoody" width="128" />|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://avatars.githubusercontent.com/ParamagicDev?s=256" alt="ParamagicDev" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|<img src="https://avatars.githubusercontent.com/jaredcwhite?s=256" alt="jaredcwhite" width="128" />|<img src="https://avatars.githubusercontent.com/jaredmoody?s=256" alt="jaredmoody" width="128" />|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://avatars.githubusercontent.com/ParamagicDev?s=256" alt="ParamagicDev" width="128" />|<img src="https://avatars.githubusercontent.com/MikeRogers0?s=256" alt="MikeRogers0" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|@jaredcwhite|@jaredmoody|@andrewmcodes|@ParamagicDev|You Next?|
-|Portland, OR|Portland, OR|Wilmington, NC|Providence, RI|Anywhere|
+|<a href="https://github.com/jaredcwhite">@jaredcwhite</a>|<a href="https://github.com/jaredmoody">@jaredmoody</a>|<a href="https://github.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/ParamagicDev">@ParamagicDev</a>|<a href="https://github.com/MikeRogers0">@MikeRogers0</a>|
+|Portland, OR|Portland, OR|Wilmington, NC|Providence, RI|Ny-Ålesund, Svalbard|
+
+|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|
+|You Next?|
+|Anywhere|
 
 Interested in joining the Bridgetown Core Team? Send a DM to Jared on the [Bridgetown Community forum](https://community.bridgetownrb.com) and let's chat!
 

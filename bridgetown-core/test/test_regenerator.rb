@@ -20,7 +20,6 @@ class TestRegenerator < BridgetownUnitTest
       @page = @site.pages.first
       @post = @site.posts.first
       @document = @site.docs_to_write.first
-      @asset_file = @site.pages.find(&:asset_file?)
       @regenerator = @site.regenerator
     end
 
@@ -28,7 +27,6 @@ class TestRegenerator < BridgetownUnitTest
       assert @regenerator.regenerate?(@page)
       assert @regenerator.regenerate?(@post)
       assert @regenerator.regenerate?(@document)
-      assert @regenerator.regenerate?(@asset_file)
     end
 
     should "not regenerate if not changed" do
@@ -36,11 +34,10 @@ class TestRegenerator < BridgetownUnitTest
       @regenerator.regenerate?(@page)
       @regenerator.regenerate?(@post)
       @regenerator.regenerate?(@document)
-      @regenerator.regenerate?(@asset_file)
 
       # we need to create the destinations for these files,
       # because regenerate? checks if the destination exists
-      [@page, @post, @document, @asset_file].each do |item|
+      [@page, @post, @document].each do |item|
         next unless item.respond_to?(:destination)
 
         dest = item.destination(@site.dest)
@@ -62,13 +59,12 @@ class TestRegenerator < BridgetownUnitTest
       @regenerator.regenerate?(@page)
       @regenerator.regenerate?(@post)
       @regenerator.regenerate?(@document)
-      @regenerator.regenerate?(@asset_file)
 
       @regenerator.write_metadata
       @regenerator = Regenerator.new(@site)
 
       # make sure the files don't actually exist
-      [@page, @post, @document, @asset_file].each do |item|
+      [@page, @post, @document].each do |item|
         if item.respond_to?(:destination)
           dest = item.destination(@site.dest)
           File.unlink(dest) if File.exist?(dest)
@@ -80,10 +76,6 @@ class TestRegenerator < BridgetownUnitTest
       assert @regenerator.regenerate?(@page)
       assert @regenerator.regenerate?(@post)
       assert @regenerator.regenerate?(@document)
-    end
-
-    should "always regenerate asset files" do
-      assert @regenerator.regenerate?(@asset_file)
     end
 
     should "always regenerate objects that don't respond to :path" do
