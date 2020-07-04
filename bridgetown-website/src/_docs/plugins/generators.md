@@ -14,12 +14,12 @@ If all you're doing is creating new documents, perhaps based on data from an ext
 
 Generators run after Bridgetown has made an inventory of the existing content, but
 before the site is rendered out. Pages with front matter are stored as instances of
-[`Bridgetown::Page`](https://github.com/{{ site.metadata.github }}/blob/master/bridgetown-core/lib/bridgetown-core/page.rb)
+[`Bridgetown::Page`](https://github.com/{{ site.metadata.github }}/blob/main/bridgetown-core/lib/bridgetown-core/page.rb)
 and are available via `site.pages`. Static files become instances of
-[`Bridgetown::StaticFile`](https://github.com/{{ site.metadata.github }}/blob/master/bridgetown-core/lib/bridgetown-core/static_file.rb)
+[`Bridgetown::StaticFile`](https://github.com/{{ site.metadata.github }}/blob/main/bridgetown-core/lib/bridgetown-core/static_file.rb)
 and are available via `site.static_files`. See
 [the Variables documentation page](/docs/variables/) and
-[`Bridgetown::Site`](https://github.com/{{ site.metadata.github }}/blob/master/bridgetown-core/lib/bridgetown-core/site.rb)
+[`Bridgetown::Site`](https://github.com/{{ site.metadata.github }}/blob/main/bridgetown-core/lib/bridgetown-core/site.rb)
 for more details.
 
 ## Builder API
@@ -44,7 +44,7 @@ end
 
 You can define a generator by subclassing `Bridgetown::Generator`. It accepts a
 single `generate` method, which receives an instance of
-[`Bridgetown::Site`](https://github.com/{{ site.metadata.github }}/blob/master/bridgetown-core/lib/bridgetown-core/site.rb). (The return value of `generate` is
+[`Bridgetown::Site`](https://github.com/{{ site.metadata.github }}/blob/main/bridgetown-core/lib/bridgetown-core/site.rb). (The return value of `generate` is
 ignored.) Within this `generate` method, you have free reign to modify existing
 content or add new content.
 

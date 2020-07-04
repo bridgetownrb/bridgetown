@@ -183,7 +183,7 @@ variables:
 
 Using the reflection provided by the Liquid Component spec, we've built a preview tool to show off some of the components used on this site. [Take a peek here.](/components)
 
-Our goal is to eventually release this as a standalone plugin, but in the meantime feel free to [grab the code out of our repository](https://github.com/bridgetownrb/bridgetown/tree/master/bridgetown-website).
+Our goal is to eventually release this as a standalone plugin, but in the meantime feel free to [grab the code out of our repository](https://github.com/bridgetownrb/bridgetown/tree/main/bridgetown-website).
 
 ## Sidecar Frontend Assets
 

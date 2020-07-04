@@ -12,7 +12,7 @@ First of all, a _huge_ round of applause for our awesome crew of "Founding Membe
 * Casper Klenz-Kitenge ([@cabgfx](https://twitter.com/cabgfx))
 * Andrew Mason ([@andrewmcodes](https://twitter.com/andrewmcodes))
 
-They're now immortalized in our [README](https://github.com/bridgetownrb/bridgetown/blob/master/README.md) file forever. LUV U ❤️
+They're now immortalized in our [README](https://github.com/bridgetownrb/bridgetown/blob/main/README.md) file forever. LUV U ❤️
 
 (Pssst…[You could be on this list too!](https://github.com/sponsors/jaredcwhite))
 
