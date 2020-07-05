@@ -32,7 +32,7 @@ module Bridgetown
 
         # Last path in the list wins
         LiquidComponent.parse(
-          ::File.read(found_paths.last, site.file_read_opts)
+          ::File.read(found_paths.last, **site.file_read_opts)
         ).content
       end
     end
