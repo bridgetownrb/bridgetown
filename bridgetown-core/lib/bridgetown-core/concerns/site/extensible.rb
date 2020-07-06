@@ -3,17 +3,19 @@
 module Bridgetown
   module Site::Extensible
     # Load necessary libraries, plugins, converters, and generators.
-    #
-    # Returns nothing.
+    # @see Bridgetown::Converter
+    # @see Bridgetown::Generator
+    # @see PluginManager
+    # @return [void]
     def setup
       plugin_manager.require_plugin_files
       self.converters = instantiate_subclasses(Bridgetown::Converter)
       self.generators = instantiate_subclasses(Bridgetown::Generator)
     end
 
-    # Run each of the Generators.
-    #
-    # Returns nothing.
+    # Run all Generators.
+    # @see Bridgetown::Generator
+    # @return [void]
     def generate
       generators.each do |generator|
         start = Time.now
@@ -32,8 +34,9 @@ module Bridgetown
     end
 
     # Get the implementation class for the given Converter.
-    # Returns the Converter instance implementing the given Converter.
-    # klass - The Class of the Converter to fetch.
+    # @param klass [Object] The Class of the Converter to fetch.
+    # @return [Bridgetown::Converter] Returns the {Bridgetown::Converter}
+    #   instance implementing the given +Converter+.
     def find_converter_instance(klass)
       @find_converter_instance ||= {}
       @find_converter_instance[klass] ||= begin
@@ -42,11 +45,11 @@ module Bridgetown
       end
     end
 
-    # klass - class or module containing the subclasses.
-    # Returns array of instances of subclasses of parameter.
-    # Create array of instances of the subclasses of the class or module
-    # passed in as argument.
-
+    # Create an array of instances of the subclasses of the class or module
+    #   passed in as argument.
+    # @param klass [Class, Module] - class or module containing the subclasses.
+    # @return [Array<Object>] Returns an array of instances of subclasses of
+    #   +klass+.
     def instantiate_subclasses(klass)
       klass.descendants.sort.map do |c|
         c.new(config)

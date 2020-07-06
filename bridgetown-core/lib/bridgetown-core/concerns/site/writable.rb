@@ -4,14 +4,14 @@ module Bridgetown
   module Site::Writable
     # Remove orphaned files and empty directories in destination.
     #
-    # Returns nothing.
+    # @return [void]
     def cleanup
       @cleaner.cleanup!
     end
 
     # Write static files, pages, and posts.
     #
-    # Returns nothing.
+    # @return [void]
     def write
       each_site_file do |item|
         item.write(dest) if regenerator.regenerate?(item)
@@ -20,6 +20,20 @@ module Bridgetown
       Bridgetown::Hooks.trigger :site, :post_write, self
     end
 
+    # Yields the pages from {#pages}, {#static_files}, and {#docs_to_write}.
+    #
+    # @yieldparam item [Document, Page, StaticFile] Yields a
+    # {#Bridgetown::Page}, {#Bridgetown::StaticFile}, or
+    # {#Bridgetown::Document} object.
+    #
+    # @return [void]
+    #
+    # @see #pages
+    # @see #static_files
+    # @see #docs_to_write
+    # @see Page
+    # @see StaticFile
+    # @see Document
     def each_site_file
       %w(pages static_files docs_to_write).each do |type|
         send(type).each do |item|
