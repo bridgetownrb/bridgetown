@@ -49,6 +49,22 @@ SafeYAML::OPTIONS[:suppress_warnings] = true
 class Rb < String; end
 SafeYAML::OPTIONS[:whitelisted_tags] = ["!ruby/string:Rb"]
 
+require "zeitwerk"
+loader = Zeitwerk::Loader.for_gem
+loader.collapse("**/*actions")
+loader.collapse("**/*generators")
+loader.collapse("**/*readers")
+
+loader.inflector.inflect(
+  "url" => "URL",
+  "highlight", => "HighlightBlock",
+  "" => "",
+  "" => "",
+  "" => "",
+)
+loader.setup
+loader.eager_load
+
 module Bridgetown
   # internal requires
   autoload :Cleaner,             "bridgetown-core/cleaner"
