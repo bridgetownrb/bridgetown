@@ -101,6 +101,7 @@ Feature: WebpackPath Tag
     When I run bridgetown build
     Then the "output/index.html" file should not exist
     And I should see "WebpackAssetError" in the build output
+    And I should see "Liquid Exception" in the build output
 
   Scenario: Broken Webpack manifest (js)
     Given I have a _layouts directory
@@ -127,3 +128,4 @@ Feature: WebpackPath Tag
     When I run bridgetown build
     Then the "output/index.html" file should not exist
     And I should see "WebpackAssetError" in the build output
+    And I should see "Liquid Exception" in the build output
