@@ -28,31 +28,17 @@ module Bridgetown
       # @return [String] Returns "MISSING_WEBPACK_MANIFEST" if the manifest
       # file isnt found
       # @return [nil] Returns nil if the asset isnt found
-      # @return [Array] Returns an array if rendered without issue
+      # @return [String] Returns the path to the asset if no issues parsing
       #
       # @raise [WebpackAssetError] if unable to find css or js in the manifest
       # file
       def render(context)
         @context = context
         site = context.registers[:site]
+
         manifest_file = site.in_root_dir(".bridgetown-webpack", "manifest.json")
 
-        if File.exist?(manifest_file)
-          manifest = JSON.parse(File.read(manifest_file))
-          if @asset_type == "js"
-            js_path = manifest["main.js"].split("/").last
-            [frontend_path, "js", js_path].join("/")
-          elsif @asset_type == "css"
-            css_path = manifest["main.css"].split("/").last
-            [frontend_path, "css", css_path].join("/")
-          else
-            Bridgetown.logger.error("Unknown Webpack asset type", @asset_type)
-            nil
-          end
-        else
-          "MISSING_WEBPACK_MANIFEST"
-        end
-        # parse_manifest_file(manifest_file)
+        parse_manifest_file(manifest_file)
       end
 
       private
@@ -68,10 +54,10 @@ module Bridgetown
         if known_assets.include?(@asset_type)
           asset_path = manifest["main.#{@asset_type}"]
 
-          raise_manifest_error(@asset_type) if asset_path.nil?
+          raise_asset_error(@asset_type) if asset_path.nil?
 
           asset_path = asset_path.split("/").last
-          return [frontend_path, @asset_type, asset_path]
+          return [frontend_path, @asset_type, asset_path].join("/")
         end
 
         Bridgetown.logger.error("Unknown Webpack asset type", @asset_type)
