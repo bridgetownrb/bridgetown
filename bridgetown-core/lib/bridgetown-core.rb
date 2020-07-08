@@ -51,16 +51,21 @@ SafeYAML::OPTIONS[:whitelisted_tags] = ["!ruby/string:Rb"]
 
 require "zeitwerk"
 loader = Zeitwerk::Loader.for_gem
-loader.collapse("**/*actions")
+loader.collapse("**/*concerns")
 loader.collapse("**/*generators")
 loader.collapse("**/*readers")
 
+loader.ignore(File.expand_path(__dir__, "site_template"))
+
 loader.inflector.inflect(
-  "url" => "URL",
-  "highlight", => "HighlightBlock",
-  "" => "",
-  "" => "",
-  "" => "",
+  "bridgetown-core" => "Bridgetown",
+  "highlight"       => "HighlightBlock",
+  "render_content"  => "BlockRenderTag",
+  "smartypants"     => "SmartyPants",
+  "url"             => "URL",
+  "url_filters"     => "URLFilters",
+  "win_tz"          => "WinTZ",
+  "with"            => "WithTag"
 )
 loader.setup
 loader.eager_load

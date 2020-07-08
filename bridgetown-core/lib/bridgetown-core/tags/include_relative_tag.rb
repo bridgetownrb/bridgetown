@@ -1,5 +1,10 @@
+# frozen_string_literal: true
+
+# Due to IncludeTag being in same namespace, this must be here for Zeitwerk
+require_relative "include_tag"
+
 module Bridgetown
-  module Tag
+  module Tags
     class IncludeRelativeTag < IncludeTag
       def tag_includes_dirs(context)
         Array(page_path(context)).freeze
