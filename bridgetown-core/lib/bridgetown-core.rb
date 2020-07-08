@@ -68,7 +68,7 @@ loader.inflector.inflect(
   "with"            => "WithTag"
 )
 loader.setup
-loader.eager_load
+# loader.eager_load
 
 module Bridgetown
   # internal requires
