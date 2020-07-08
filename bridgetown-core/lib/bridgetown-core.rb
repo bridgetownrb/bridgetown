@@ -68,7 +68,6 @@ loader.inflector.inflect(
   "with"            => "WithTag"
 )
 loader.setup
-# loader.eager_load
 
 module Bridgetown
   # internal requires
@@ -241,3 +240,7 @@ module Bridgetown
     Bridgetown::External.require_if_present("liquid/c")
   end
 end
+
+# Call to eager_load comes after the module
+# https://github.com/fxn/zeitwerk#synopsis
+loader.eager_load
