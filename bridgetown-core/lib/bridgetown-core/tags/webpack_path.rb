@@ -74,12 +74,6 @@ module Bridgetown
           Bridgetown.logger.info(stack_trace + "\n\n")
           error.message
         end
-
-        # Bridgetown.logger.abort_with(Errors::WebpackAssetError) do
-        #   Bridgetown.logger.warn(error_message)
-        #   Bridgetown.logger.info(stack_trace)
-        #   Bridgetown.logger.error(error_message)
-        # end
       end
     end
   end
