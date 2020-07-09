@@ -7,9 +7,6 @@ module Bridgetown
     class WebpackPath < Liquid::Tag
       include Bridgetown::Filters::URLFilters
 
-      class WebpackAssetError < RuntimeError
-      end
-
       # @param tag_name [String] Name of the tag
       # @param asset_type [String] The type of asset to parse (js, css)
       # @param options [Hash] An options hash
@@ -65,17 +62,24 @@ module Bridgetown
       end
 
       def raise_webpack_asset_error(asset_type)
+        stack_trace = caller.join("\n")
         error_message = "
-                There was an error parsing your #{asset_type} files.
-                Please check your #{asset_type} for any errors.\n\n"
+          There was an error parsing your #{asset_type} files.
+          Please check your #{asset_type} for any errors.\n\n"
 
-        begin
-          raise WebpackAssetError, error_message
-        rescue StandardError => e
-          Bridgetown.logger.info(e.message)
-          Bridgetown.logger.info(e.backtrace.join("\n"))
-          Bridgetown.logger.abort_with(WebpackAssetError, error_message)
+        error = Errors::WebpackAssetError.new(error_message)
+
+        Bridgetown.logger.abort_with(error.class) do
+          Bridgetown.logger.info(error.message)
+          Bridgetown.logger.info(stack_trace + "\n\n")
+          error.message
         end
+
+        # Bridgetown.logger.abort_with(Errors::WebpackAssetError) do
+        #   Bridgetown.logger.warn(error_message)
+        #   Bridgetown.logger.info(stack_trace)
+        #   Bridgetown.logger.error(error_message)
+        # end
       end
     end
   end
