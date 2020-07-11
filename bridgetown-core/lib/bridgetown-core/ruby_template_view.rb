@@ -33,7 +33,7 @@ module Bridgetown
       render_statement = _render_statement(component, options)
 
       template = site.liquid_renderer.file(
-        "#{page.path}.#{Digest::SHA1.hexdigest(render_statement)}"
+        "#{page.path}.#{Digest::SHA2.hexdigest(render_statement)}"
       ).parse(render_statement)
       template.warnings.each do |e|
         Bridgetown.logger.warn "Liquid Warning:",
