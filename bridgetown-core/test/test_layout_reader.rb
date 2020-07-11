@@ -13,6 +13,7 @@ class TestLayoutReader < BridgetownUnitTest
     should "read layouts" do
       layouts = LayoutReader.new(@site).read
       assert_equal ["default",
+                    "erblayout",
                     "example/overridden_layout",
                     "example/test_layout",
                     "simple",

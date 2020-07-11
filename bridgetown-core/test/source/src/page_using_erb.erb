@@ -1,0 +1,18 @@
+---
+layout: erblayout
+title: I'm an ERB Page
+page_var: 123
+---
+
+One two three: <%= page[:page_var] * 10 %>
+
+<%= liquid_render "test_component", param: "Liquid FTW!" %>
+
+Oats, <%= array_to_sentence_string ["peas", "beans", "barley"] %> grow.
+
+  <% markdownify do %>
+      ## I'm a header!
+
+      * Yay!
+      <%= "* Nifty!" %>
+  <% end %>

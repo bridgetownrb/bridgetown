@@ -1,0 +1,10 @@
+---
+permalink: /authors/index.json
+---
+
+{
+<% site.data[:authors].each_with_index do |author, index| -%>
+  "<%= author[0] %>": <%= author[1].to_json %>
+<%= index < site.data[:authors].length - 1 ? "," : nil -%>
+<% end -%>
+}

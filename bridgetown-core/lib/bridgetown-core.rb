@@ -86,6 +86,7 @@ module Bridgetown
   autoload :Renderer,            "bridgetown-core/renderer"
   autoload :LiquidRenderable,    "bridgetown-core/concerns/liquid_renderable"
   autoload :LiquidRenderer,      "bridgetown-core/liquid_renderer"
+  autoload :RubyTemplateView,    "bridgetown-core/ruby_template_view"
   autoload :LogWriter,           "bridgetown-core/log_writer"
   autoload :Site,                "bridgetown-core/site"
   autoload :StaticFile,          "bridgetown-core/static_file"

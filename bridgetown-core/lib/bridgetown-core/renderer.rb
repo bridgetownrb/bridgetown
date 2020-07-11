@@ -58,6 +58,7 @@ module Bridgetown
       Bridgetown.logger.debug "Rendering:", document.relative_path
 
       assign_pages!
+      # TODO: this can be eliminated I think:
       assign_current_document!
       assign_highlighter_options!
       assign_layout_data!
@@ -83,7 +84,7 @@ module Bridgetown
       end
 
       Bridgetown.logger.debug "Rendering Markup:", document.relative_path
-      output = convert(output.to_s)
+      output = convert(output.to_s, document)
       document.content = output
 
       if document.place_in_layout?
@@ -140,9 +141,13 @@ module Bridgetown
     # Convert the document using the converters which match this renderer's document.
     #
     # Returns String the converted content.
-    def convert(content)
+    def convert(content, document)
       converters.reduce(content) do |output, converter|
-        converter.convert output
+        if converter.method(:convert).arity == 1
+          converter.convert output
+        else
+          converter.convert output, document
+        end
       rescue StandardError => e
         Bridgetown.logger.error "Conversion error:",
                                 "#{converter.class} encountered an error while "\
@@ -202,17 +207,38 @@ module Bridgetown
     # Render layout content into document.output
     #
     # Returns String rendered content
+    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     def render_layout(output, layout, liquid_context)
-      payload["content"] = output
-      payload["layout"]  = Utils.deep_merge_hashes(layout.data, payload["layout"] || {})
+      if layout.render_with_liquid?
+        payload["content"] = output
+        payload["layout"]  = Utils.deep_merge_hashes(layout.data, payload["layout"] || {})
 
-      render_liquid(
-        layout.content,
-        payload,
-        liquid_context,
-        layout.path
-      )
+        render_liquid(
+          layout.content,
+          payload,
+          liquid_context,
+          layout.path
+        )
+      else
+        layout_converters ||= site.converters.select { |c| c.matches(layout.ext) }.sort
+
+        layout_content = layout.content.dup
+        layout_converters.reduce(layout_content) do |layout_output, converter|
+          next(layout_output) unless converter.method(:convert).arity == 2
+
+          layout.current_document = document
+          layout.current_document_output = output
+          converter.convert layout_output, layout
+        rescue StandardError => e
+          Bridgetown.logger.error "Conversion error:",
+                                  "#{converter.class} encountered an error while "\
+                                  "converting '#{document.relative_path}':"
+          Bridgetown.logger.error("", e.to_s)
+          raise e
+        end
+      end
     end
+    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
     def add_regenerator_dependencies(layout)
       return unless document.write?
