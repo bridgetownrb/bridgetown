@@ -781,6 +781,7 @@ class TestFilters < BridgetownUnitTest
         grouping.each do |g|
           assert(
             ["default",
+             "erblayout",
              "example/test_layout",
              "example/overridden_layout",
              "nil",
@@ -1074,6 +1075,7 @@ class TestFilters < BridgetownUnitTest
         groups.each do |g|
           assert(
             ["DEFAULT",
+             "ERBLAYOUT",
              "EXAMPLE/TEST_LAYOUT",
              "EXAMPLE/OVERRIDDEN_LAYOUT",
              "NIL",

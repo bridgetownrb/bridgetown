@@ -29,7 +29,8 @@ module Bridgetown
 
       content = Bridgetown::Utils.reindent_for_markdown(result)
       converter = site.find_converter_instance(Bridgetown::Converters::Markdown)
-      converter.convert(content).strip
+      md_output = converter.convert(content).strip
+      @_erbout << md_output
     end
   end
 
