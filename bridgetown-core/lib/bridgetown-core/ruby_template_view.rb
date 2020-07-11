@@ -1,7 +1,13 @@
 # frozen_string_literal: true
 
+require "digest"
+
 module Bridgetown
   class RubyTemplateView
+    class Helpers
+      include Bridgetown::Filters
+    end
+
     attr_reader :layout, :page, :site, :content
 
     def initialize(convertible)
@@ -15,7 +21,7 @@ module Bridgetown
       @site = page.site
     end
 
-    def partial_render(_partial_name, _options = {})
+    def partial(_partial_name, _options = {})
       raise "Must be implemented in a subclass"
     end
 
@@ -24,16 +30,32 @@ module Bridgetown
     end
 
     def liquid_render(component, options = {})
-      render_statement = _render_statement(component, options).join
+      render_statement = _render_statement(component, options)
 
       template = site.liquid_renderer.file(
-        "#{page.path}#{render_statement.hash}"
+        "#{page.path}.#{Digest::SHA1.hexdigest(render_statement)}"
       ).parse(render_statement)
       template.warnings.each do |e|
         Bridgetown.logger.warn "Liquid Warning:",
                                LiquidRenderer.format_error(e, path || document.relative_path)
       end
       template.render!(options.deep_stringify_keys, _liquid_context)
+    end
+
+    def helpers
+      @helpers ||= Helpers.new
+    end
+
+    def method_missing(method, *args, &block)
+      if helpers.respond_to?(method.to_sym)
+        helpers.send method.to_sym, *args, &block
+      else
+        super
+      end
+    end
+
+    def respond_to_missing?(method, include_private = false)
+      helpers.respond_to?(method.to_sym, include_private) || super
     end
 
     private
@@ -44,6 +66,7 @@ module Bridgetown
         render_statement << ", " + options.keys.map { |k| "#{k}: #{k}" }.join(", ")
       end
       render_statement << " %}"
+      render_statement.join
     end
 
     def _liquid_context

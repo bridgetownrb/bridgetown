@@ -7,7 +7,13 @@ module Bridgetown
   class ERBView < RubyTemplateView
     include ERB::Util
 
-    def partial_render(partial_name, options = {})
+    def partial(partial_name, options = {})
+      options.merge!(options[:locals]) if options[:locals]
+
+      partial_segments = partial_name.split("/")
+      partial_segments.last.sub!(%r!^!, "_")
+      partial_name = partial_segments.join("/")
+
       Tilt::ERBTemplate.new(
         site.in_source_dir(site.config[:partials_dir], "#{partial_name}.erb"),
         trim: "<>-",
