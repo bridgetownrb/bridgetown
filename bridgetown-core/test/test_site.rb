@@ -203,6 +203,7 @@ class TestSite < BridgetownUnitTest
         layouts_override.html
         main.scss
         page_from_a_plugin.html
+        page_using_erb.erb
         properties.html
         sitemap.xml
         static_files.html

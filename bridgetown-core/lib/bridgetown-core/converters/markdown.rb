@@ -8,6 +8,12 @@ module Bridgetown
       highlighter_prefix "\n"
       highlighter_suffix "\n"
 
+      def initialize(config = {})
+        super
+
+        self.class.input @config["markdown_ext"].split(",")
+      end
+
       def setup
         return if @setup ||= false
 
@@ -51,25 +57,6 @@ module Bridgetown
         self.class.constants - [:KramdownParser, :PRIORITIES]
       end
 
-      # Does the given extension match this converter's list of acceptable extensions?
-      # Takes one argument: the file's extension (including the dot).
-      #
-      # ext - The String extension to check.
-      #
-      # Returns true if it matches, false otherwise.
-      def matches(ext)
-        extname_list.include?(ext.downcase)
-      end
-
-      # Public: The extension to be given to the output file (including the dot).
-      #
-      # ext - The String extension or original file.
-      #
-      # Returns The String output file extension.
-      def output_ext(_ext)
-        ".html"
-      end
-
       # Logic to do the content conversion.
       #
       # content - String content of file (without front matter).
@@ -80,10 +67,6 @@ module Bridgetown
         @cache.getset(content) do
           @parser.convert(content)
         end
-      end
-
-      def extname_list
-        @extname_list ||= @config["markdown_ext"].split(",").map! { |e| ".#{e.downcase}" }
       end
 
       private
