@@ -1,10 +1,9 @@
 # frozen_string_literal: true
-require 'set'
+
+require "set"
 
 module Bridgetown
   module Tags
-
-
     # A ClassMap class is meant to take a hash and append styles based on if the
     # value is truthy or falsy
     #
@@ -25,7 +24,7 @@ module Bridgetown
       # @see https://api.rubyonrails.org/classes/ActiveModel/Type/Boolean.html
       FALSE_VALUES = [
         nil, "nil", "NIL", false, 0, "0", :"0", "f", :f, "F", :F, "false",
-        :false, "FALSE", :FALSE
+        false, "FALSE", :FALSE,
       ].to_set.freeze
 
       # @param tag_name [String] The name to use for the tag
@@ -48,8 +47,8 @@ module Bridgetown
       def to_class_ary(string, context)
         ary = []
 
-        string.split(/,\s+/).each do |item|
-          kv_pair = item.split(/:\s+/)
+        string.split(%r!,\s+!).each do |item|
+          kv_pair = item.split(%r!:\s+!)
           klass = kv_pair[0]
           variable = kv_pair[1]
           variable = find_variable(context, variable)
