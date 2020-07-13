@@ -51,7 +51,7 @@ module Bridgetown
         if known_assets.include?(@asset_type)
           asset_path = manifest["main.#{@asset_type}"]
 
-          raise_webpack_asset_error(@asset_type) if asset_path.nil?
+          log_webpack_asset_error(@asset_type) if asset_path.nil?
 
           asset_path = asset_path.split("/").last
           return [frontend_path, @asset_type, asset_path].join("/")
@@ -61,19 +61,12 @@ module Bridgetown
         nil
       end
 
-      def raise_webpack_asset_error(asset_type)
-        stack_trace = caller.join("\n")
-        error_message = "
+      def log_webpack_asset_error(asset_type)
+        error_message = "\n\n
           There was an error parsing your #{asset_type} files.
           Please check your #{asset_type} for any errors.\n\n"
 
-        error = Errors::WebpackAssetError.new(error_message)
-
-        Bridgetown.logger.abort_with(error.class) do
-          Bridgetown.logger.info(error.message)
-          Bridgetown.logger.info(stack_trace + "\n\n")
-          error.message
-        end
+        Bridgetown.logger.warn(Errors::WebpackAssetError, error_message)
       end
     end
   end
