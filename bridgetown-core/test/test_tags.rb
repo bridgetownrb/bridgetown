@@ -720,7 +720,7 @@ class TestTags < BridgetownUnitTest
   end
 
   context "class_map tag" do
-    context "renders without issues" do
+    context "renders without error" do
       setup do
         content = <<~CONTENT
           ---
@@ -732,7 +732,7 @@ class TestTags < BridgetownUnitTest
           {% assign filled = nil %}
           {% assign red-background = false %}
 
-          <button class="{% class_map is-small: small, has-text-center: centered, outlined: !filled, red-bg: red-background, nodef: notdefined %}">Button</button>
+          <button class="{% class_map   is-small: small,  has-text-center:   centered, outlined:  !filled, red-bg: red-background, nodef: notdefined %}">Button</button>
         CONTENT
         create_post(content,
                     "permalink"   => "pretty",
@@ -741,8 +741,35 @@ class TestTags < BridgetownUnitTest
                     "read_posts"  => true)
       end
 
-      should "correctly output class names" do
+      should "correctly output names" do
         assert_match "<button class=\"is-small has-text-center outlined\">Button</button>", @result
+      end
+    end
+
+    context "Returns an error if not properly formatted" do
+      setup do
+        content = <<~CONTENT
+          ---
+          title: Class Map parameters
+          ---
+
+          {% assign small = true %}
+          {% assign centered = "centered" %}
+          {% assign filled = nil %}
+          {% assign red-background = false %}
+
+          <button class="{% class_map is-small => small, has-text-center, centered, outlined: !filled, red-bg: red-background, nodef: notdefined %}">Button</button>
+        CONTENT
+        create_post(content,
+                    "permalink"   => "pretty",
+                    "source"      => source_dir,
+                    "destination" => dest_dir,
+                    "read_posts"  => true)
+      end
+
+      should "return an error due to improper formatting" do
+        refute_match "<button class=\"is-small has-text-center outlined\">Button</button>", @result
+        assert_match "<button class=\"invalid-class-map\">Button</button>", @result
       end
     end
   end

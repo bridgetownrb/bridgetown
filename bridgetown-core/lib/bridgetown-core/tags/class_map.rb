@@ -39,12 +39,12 @@ module Bridgetown
       end
 
       def render(context)
-        to_class_ary(@input, context).join(" ")
+        class_map(@input, context)
       end
 
       private
 
-      def to_class_ary(string, context)
+      def class_map(string, context)
         ary = []
 
         string.split(%r!,\s+!).each do |item|
@@ -67,7 +67,9 @@ module Bridgetown
           end
         end
 
-        ary
+        ary.join(" ")
+      rescue NoMethodError
+        "invalid-class-map"
       end
 
       def find_variable(context, variable)
