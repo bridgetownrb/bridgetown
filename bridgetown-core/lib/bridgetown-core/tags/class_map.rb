@@ -51,8 +51,20 @@ module Bridgetown
           kv_pair = item.split(%r!:\s+!)
           klass = kv_pair[0]
           variable = kv_pair[1]
+
+          # Check if a user wants the opposite of the variable
+          if variable[0] == "!"
+            check_opposite = true
+            variable.slice!(1..-1)
+          end
+
           variable = find_variable(context, variable)
-          ary.push(klass) unless FALSE_VALUES.include?(variable)
+
+          if check_opposite
+            ary.push(klass) if FALSE_VALUES.include?(variable)
+          else
+            ary.push(klass) unless FALSE_VALUES.include?(variable)
+          end
         end
 
         ary

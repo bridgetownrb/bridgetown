@@ -718,4 +718,32 @@ class TestTags < BridgetownUnitTest
       end
     end
   end
+
+  context "class_map tag" do
+    context "renders without issues" do
+      setup do
+        content = <<~CONTENT
+          ---
+          title: Class Map parameters
+          ---
+
+          {% assign small = true %}
+          {% assign centered = "centered" %}
+          {% assign filled = nil %}
+          {% assign red-background = false %}
+
+          <button class="{% class_map is-small: small, has-text-center: centered, outlined: !filled, red-bg: red-background, nodef: notdefined %}">Button</button>
+        CONTENT
+        create_post(content,
+                    "permalink"   => "pretty",
+                    "source"      => source_dir,
+                    "destination" => dest_dir,
+                    "read_posts"  => true)
+      end
+
+      should "correctly output class names" do
+        assert_match "<button class=\"is-small has-text-center outlined\">Button</button>", @result
+      end
+    end
+  end
 end
