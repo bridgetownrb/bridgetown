@@ -1,5 +1,12 @@
 # master
 
+* Add ERB template support (with Slim/Haml coming as additional plugins) [#79](https://github.com/bridgetownrb/bridgetown/pull/79) ([jaredcwhite](https://github.com/jaredcwhite))
+* Add/update Yard documentation for Site concerns [#85](https://github.com/bridgetownrb/bridgetown/pull/85) ([ParamagicDev](https://github.com/ParamagicDev))
+* Resolve deprecation warnings for Ruby 2.7 [#92](https://github.com/bridgetownrb/bridgetown/pull/92) ([jaredcwhite](https://github.com/jaredcwhite))
+* Switched the default branch from master to main
+* Remove the Convertible concern and refactor into additional concerns [#80](https://github.com/bridgetownrb/bridgetown/pull/80) ([jaredcwhite](https://github.com/jaredcwhite))
+* Reducing animation for users who prefer reduced motion [#84](https://github.com/bridgetownrb/bridgetown/pull/84) ([MikeRogers0](https://github.com/MikeRogers0))
+
 # 0.15.0 "Overlook" / 2020-06-18
 
 * Final release of 0.15! Woo hoo! Keep reading for what's new since 0.14

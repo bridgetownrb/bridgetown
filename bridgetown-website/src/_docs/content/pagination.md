@@ -23,7 +23,7 @@ To facilitate pagination on a page (like `index.html`, `blog.md`, etc.) then sim
 ``` yml
 ---
 layout: page
-pagination: 
+pagination:
   enabled: true
 ---
 ```
@@ -44,6 +44,14 @@ Normally the paginated documents are of a [Post](/docs/posts/) type, but to load
 pagination:
   enabled: true
   collection: tigers
+```
+
+By default, paginated documents will have 10 items per page. You can change this in your config by modifying the `per_page` key like so:
+
+```yml
+pagination:
+  enabled: true
+  per_page: 4
 ```
 
 ## Pagination Links

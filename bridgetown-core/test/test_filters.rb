@@ -579,10 +579,10 @@ class TestFilters < BridgetownUnitTest
       should "not return the url by reference" do
         filter = make_filter_mock(baseurl: nil)
         page = Page.new(filter.site, test_dir("fixtures"), "", "front_matter.erb")
-        assert_equal "/front_matter.erb", page.url
+        assert_equal "/front_matter.html", page.url
         url = filter.relative_url(page.url)
         url << "foo"
-        assert_equal "/front_matter.erb", page.url
+        assert_equal "/front_matter.html", page.url
       end
 
       should "transform the input baseurl to a string" do
@@ -781,6 +781,7 @@ class TestFilters < BridgetownUnitTest
         grouping.each do |g|
           assert(
             ["default",
+             "erblayout",
              "example/test_layout",
              "example/overridden_layout",
              "nil",
@@ -1074,6 +1075,7 @@ class TestFilters < BridgetownUnitTest
         groups.each do |g|
           assert(
             ["DEFAULT",
+             "ERBLAYOUT",
              "EXAMPLE/TEST_LAYOUT",
              "EXAMPLE/OVERRIDDEN_LAYOUT",
              "NIL",

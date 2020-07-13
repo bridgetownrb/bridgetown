@@ -30,6 +30,7 @@ module Bridgetown
       ).convert(input.to_s)
     end
 
+    # TODO: This should be removed, there is no Sass converter
     # Convert a Sass string into CSS output.
     #
     # input - The Sass String to convert.
@@ -41,6 +42,7 @@ module Bridgetown
       ).convert(input)
     end
 
+    # TODO: This should be removed, there is no Scss converter
     # Convert a Scss string into CSS output.
     #
     # input - The Scss String to convert.
