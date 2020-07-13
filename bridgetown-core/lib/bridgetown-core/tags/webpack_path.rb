@@ -62,9 +62,8 @@ module Bridgetown
       end
 
       def log_webpack_asset_error(asset_type)
-        error_message = "\n\n
-          There was an error parsing your #{asset_type} files.
-          Please check your #{asset_type} for any errors.\n\n"
+        error_message = "There was an error parsing your #{asset_type} files. \
+          Please check your #{asset_type} for any errors."
 
         Bridgetown.logger.warn(Errors::WebpackAssetError, error_message)
       end
