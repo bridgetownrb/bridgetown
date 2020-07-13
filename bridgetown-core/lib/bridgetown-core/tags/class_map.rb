@@ -68,6 +68,8 @@ module Bridgetown
         end
 
         ary.join(" ")
+
+      # Gracefully handle if syntax is improper
       rescue NoMethodError
         "invalid-class-map"
       end
