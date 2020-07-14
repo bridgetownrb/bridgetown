@@ -1,13 +1,13 @@
 ---
 title: Variables
-order: 19
+order: 20
 top_section: Templates
 category: variables
 ---
 
 Bridgetown traverses your site looking for files to process. Any files with
 [front matter](/docs/front-matter/) are subject to processing. For each of these
-files, Bridgetown makes a variety of data available via the [Liquid](/docs/liquid/).
+files, Bridgetown makes a variety of data available via the [Liquid](/docs/liquid/) template language.
 The following is a reference of the available data.
 
 ## Global Variables
