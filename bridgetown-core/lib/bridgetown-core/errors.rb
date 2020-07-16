@@ -16,5 +16,7 @@ module Bridgetown
     PostURLError                = Class.new(FatalException)
     InvalidURLError             = Class.new(FatalException)
     InvalidConfigurationError   = Class.new(FatalException)
+
+    WebpackAssetError           = Class.new(FatalException)
   end
 end
