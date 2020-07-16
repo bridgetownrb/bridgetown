@@ -1,5 +1,8 @@
-# master
+# main
 
+* Improve handling of Webpack manifest errors [#96](https://github.com/bridgetownrb/bridgetown/pull/96) ([ParamagicDev](https://github.com/ParamagicDev))
+* Add a class_map Liquid tag [#99](https://github.com/bridgetownrb/bridgetown/pull/99) ([ParamagicDev](https://github.com/ParamagicDev))
+* Update pagination documentation [#98](https://github.com/bridgetownrb/bridgetown/pull/98) ([andrewmcodes](https://github.com/andrewmcodes))
 * Add ERB template support (with Slim/Haml coming as additional plugins) [#79](https://github.com/bridgetownrb/bridgetown/pull/79) ([jaredcwhite](https://github.com/jaredcwhite))
 * Add/update Yard documentation for Site concerns [#85](https://github.com/bridgetownrb/bridgetown/pull/85) ([ParamagicDev](https://github.com/ParamagicDev))
 * Resolve deprecation warnings for Ruby 2.7 [#92](https://github.com/bridgetownrb/bridgetown/pull/92) ([jaredcwhite](https://github.com/jaredcwhite))
