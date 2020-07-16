@@ -17,41 +17,8 @@ github_participation: !ruby/string:Rb |
 <html lang="en">
   <head>
     {% render "shared/head", metadata: site.metadata, title: page.title %}
-    <!-- Thanks to Polymer LitElement/HTML project for the BLM inspiration: -->
-    <style>
-      .blm-banner {
-        background: #696969;
-        color: #fff;
-      }
-      .blm-banner {
-        position: relative;
-        background: #000;
-        height: 60px;
-        display: flex;
-        justify-content: center;
-        align-content: center;
-        padding: 0 20px 0 20px;
-      }
-
-      .blm-banner p {
-        margin: auto;
-        text-align: center;
-      }
-
-      .blm-banner a {
-        color: #f47c3c;
-      }
-    </style>
   </head>
   <body class="{{ page.layout }} {{ page.page_class }}">
-    {% if page.layout == "home" %}
-      <div class="blm-banner">
-        <p>
-        <a href="https://blacklivesmatter.com" target="_blank" rel="noopener noreferrer">Black Lives Matter.</a> Support the 
-        <a href="https://eji.org/" target="_blank" rel="noopener noreferrer">Equal Justice Initiative</a> and 
-        <a href="https://www.joincampaignzero.org/" target="_blank" rel="noopener noreferrer" >Campaign Zero</a>.</p> 
-      </div>
-    {% endif %}
     {% render "shared/navbar", metadata: site.metadata, page: page, version: bridgetown.version %}
 
     <main>
