@@ -1,5 +1,9 @@
 # main
 
+# 0.16.0.beta1 / 2020-07-16
+
+(`0-16-stable` branch)
+
 * Improve handling of Webpack manifest errors [#96](https://github.com/bridgetownrb/bridgetown/pull/96) ([ParamagicDev](https://github.com/ParamagicDev))
 * Add a class_map Liquid tag [#99](https://github.com/bridgetownrb/bridgetown/pull/99) ([ParamagicDev](https://github.com/ParamagicDev))
 * Update pagination documentation [#98](https://github.com/bridgetownrb/bridgetown/pull/98) ([andrewmcodes](https://github.com/andrewmcodes))
