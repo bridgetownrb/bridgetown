@@ -5,7 +5,7 @@ top_section: Templates
 category: liquid
 ---
 
-Bridgetown uses the **Liquid** template language to process templates and content documents.
+Bridgetown provides comprehensive support for rich presentation of data and design via the **Liquid** template language, available within documents as well as layouts and [components](/docs/components). If you find that Liquid doesn't suit your needs when building your site templates, [Bridgetown also allows for using ERB (Embedded RuBy)](/docs/erb-and-beyond). You can mix and match ERB and Liquid templates freely throughout your site.
 
 Generally in Liquid you output content using two curly braces e.g.
 {% raw %}`{{ variable }}`{% endraw %} and perform logic statements by
