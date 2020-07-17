@@ -6,6 +6,19 @@ module Bridgetown
   class RubyTemplateView
     class Helpers
       include Bridgetown::Filters
+
+      Context = Struct.new(:registers)
+
+      def initialize(site)
+        @site = site
+
+        # duck typing for Liquid context
+        @context = Context.new({ site: @site })
+      end
+
+      def webpack_path(asset_type)
+        Bridgetown::Utils.parse_webpack_manifest_file(@site, asset_type.to_s)
+      end
     end
 
     attr_reader :layout, :page, :site, :content
@@ -43,7 +56,7 @@ module Bridgetown
     end
 
     def helpers
-      @helpers ||= Helpers.new
+      @helpers ||= Helpers.new(@site)
     end
 
     def method_missing(method, *args, &block)
