@@ -73,8 +73,8 @@ Feature: WebpackPath Tag
     }
     """
     When I run bridgetown build
-    Then the "output/index.html" file should not exist
-    And I should see "Liquid Exception" in the build output
+    Then the "output/index.html" file should exist
+    And I should see "Unknown Webpack asset type" in the build output
 
   Scenario: Broken Webpack manifest (css)
     Given I have a _layouts directory
@@ -99,9 +99,8 @@ Feature: WebpackPath Tag
     }
     """
     When I run bridgetown build
-    Then the "output/index.html" file should not exist
+    Then the "output/index.html" file should exist
     And I should see "WebpackAssetError" in the build output
-    And I should see "Liquid Exception" in the build output
 
   Scenario: Broken Webpack manifest (js)
     Given I have a _layouts directory
@@ -126,6 +125,35 @@ Feature: WebpackPath Tag
     }
     """
     When I run bridgetown build
-    Then the "output/index.html" file should not exist
+    Then the "output/index.html" file should exist
     And I should see "WebpackAssetError" in the build output
-    And I should see "Liquid Exception" in the build output
+
+  Scenario: Use Webpack manifest in an ERB layout
+    Given I have a _layouts directory
+    And I have a "_layouts/default.erb" file with content:
+      """
+      <html>
+      <head>
+      <link rel="stylesheet" href="<%= webpack_path :css %>" />
+      <script src="<%= webpack_path :js %>" defer></script>
+      </head>
+      <body>
+      Static: <%= relative_url "_bridgetown" %>
+      <%= yield %>
+      </body>
+      </html>
+      """
+    And I have an "index.html" page with layout "default" that contains "page content"
+    And I have a ".bridgetown-webpack" directory
+    And I have a ".bridgetown-webpack/manifest.json" file with content:
+    """
+    {
+      "main.js": "all.hashgoeshere.js",
+      "main.css": "all.hashgoeshere.css"
+    }
+    """
+    When I run bridgetown build
+    Then the "output/index.html" file should exist
+    And I should see "/_bridgetown/static/js/all.hashgoeshere.js" in "output/index.html"
+    And I should see "Static: /_bridgetown" in "output/index.html"
+    And I should not see "MISSING_WEBPACK_MANIFEST" in "output/index.html"
