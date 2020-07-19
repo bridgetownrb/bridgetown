@@ -38,11 +38,13 @@ module Bridgetown
     class ERBTemplates < Converter
       input :erb
 
-      # Logic to do the content conversion.
+      # Logic to do the ERB content conversion.
       #
-      # content - String content of file (without front matter).
+      # @param content [String] Content of the file (without front matter).
+      # @params convertible [Bridgetown::Page, Bridgetown::Document, Bridgetown::Layout]
+      #   The instantiated object which is processing the file.
       #
-      # Returns a String of the converted content.
+      # @return [String] The converted content.
       def convert(content, convertible)
         erb_view = Bridgetown::ERBView.new(convertible)
 

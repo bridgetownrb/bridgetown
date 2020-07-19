@@ -181,8 +181,6 @@ Generators allow you to automate the creating or updating of content in your sit
 
 Commands extend the `bridgetown` executable using the Thor CLI toolkit.
 
-## Legacy API-only Plugin Development
-
 ### [Converters](/docs/plugins/converters/)
 
 Converters change a markup language from one format to another.
