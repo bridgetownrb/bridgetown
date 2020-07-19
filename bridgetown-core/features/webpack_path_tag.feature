@@ -29,6 +29,7 @@ Feature: WebpackPath Tag
     When I run bridgetown build
     Then the "output/index.html" file should exist
     And I should see "/_bridgetown/static/js/all.hashgoeshere.js" in "output/index.html"
+    And I should not see "//_bridgetown/static/js/all.hashgoeshere.js" in "output/index.html"
     And I should not see "MISSING_WEBPACK_MANIFEST" in "output/index.html"
 
   Scenario: Missing Webpack manifest

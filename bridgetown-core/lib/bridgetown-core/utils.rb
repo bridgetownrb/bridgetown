@@ -364,9 +364,8 @@ module Bridgetown
 
     def static_frontend_path(site)
       path_parts = [site.config["baseurl"].to_s.chomp("/"), "_bridgetown/static"]
-      Addressable::URI.parse(
-        path_parts.map { |input| input.start_with?("/") ? input : "/#{input}" }.join
-      ).normalize.to_s
+      path_parts[0] = "/#{path_parts[0]}" unless path_parts[0].empty?
+      Addressable::URI.parse(path_parts.join("/")).normalize.to_s
     end
 
     def log_webpack_asset_error(asset_type)
