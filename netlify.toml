@@ -14,8 +14,8 @@
   bundle = false
   minify = false
 [build.processing.js]
-  bundle = false
-  minify = false
+  bundle = true
+  minify = true
 [build.processing.html]
   pretty_urls = true
 [build.processing.images]
