@@ -3,19 +3,14 @@
   command = "yarn deploy && ./bin/netlify.sh"
   publish = "output"
 
-[build.environment]
-  NODE_ENV = "production"
-  NODE_VERSION = "12"
-  BRIDGETOWN_ENV = "production"
-
 [build.processing]
   skip_processing = false
 [build.processing.css]
   bundle = false
   minify = false
 [build.processing.js]
-  bundle = true
-  minify = true
+  bundle = false
+  minify = false
 [build.processing.html]
   pretty_urls = true
 [build.processing.images]
@@ -24,25 +19,49 @@
 [[headers]]
   for = "*"
   [headers.values]
+    Link = [
+      "<CSS_PATH>; rel=preload; as=style",
+      "<JS_PATH>; rel=preload; as=script",
+      "</apple-touch-icon.png>; rel=prefetch; as=image",
+      "<https://www.youtube-nocookie.com>; rel=preconnect",
+      "<https://NETLIFY_IMAGES_CDN_DOMAIN>; rel=preconnect"
+    ]
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
-    Content-Security-Policy = "default-src 'self' https: blob:; font-src 'self' https: data:; img-src 'self' https: data:; object-src 'none'; worker-src 'self' blob: ; script-src 'self' https: 'unsafe-inline'; style-src 'self' https: 'unsafe-inline'; upgrade-insecure-requests"
+    Content-Security-Policy = '''
+      default-src 'self' https:;
+      object-src  'none';
+      worker-src  'none';
+      manifest-src 'self';
+      block-all-mixed-content;
+      upgrade-insecure-requests;'''
     Strict-Transport-Security = "max-age=15552000; includeSubDomains"
     Referrer-Policy = "no-referrer-when-downgrade"
-    Access-Control-Allow-Origin = "*"
     Cache-Control = "public, max-age=604800, s-max-age=604800"
-    Link = '''
-    <JS_PATH>; rel=preload; as=script,
-    <CSS_PATH>; rel=preload; as=style,
-    <https://NETLIFY_IMAGES_CDN_DOMAIN>; rel=preconnect,
-    <https://NETLIFY_IMAGES_CDN_DOMAIN>; rel=dns-prefetch,
-    <https://www.youtube-nocookie.com>; rel=preconnect,
-    <https://www.youtube-nocookie.com>; rel=dns-prefetch,
-    </apple-touch-icon.png>; rel=prefetch,
-    </favicon-16x16.png>; rel=prefetch'''
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Link = [
+      "<CSS_PATH>; rel=preload; as=style",
+      "<JS_PATH>; rel=preload; as=script",
+      "</apple-touch-icon.png>; rel=prefetch; as=image",
+      "<https://www.youtube-nocookie.com/embed/gSij_P3iaIE>; rel=preload",
+      "<https://NETLIFY_IMAGES_CDN_DOMAIN>; rel=preconnect"
+    ]
+
+[[headers]]
+  for = "/*.(txt|xml|json)"
+  [headers.values]
+    Link = [
+      "</>; rel=dns-prefetch;"
+    ]
 
 [[headers]]
   for = "/*.(png|jpg|js|css|svg|woff|ttf|eot|ico)"
   [headers.values]
     Cache-Control = "public, max-age=31536000, s-max-age=31536000"
+    Link = [
+      "</>; rel=dns-prefetch;"
+    ]
