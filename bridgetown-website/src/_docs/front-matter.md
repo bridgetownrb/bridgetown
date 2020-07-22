@@ -172,7 +172,7 @@ For documents in the `posts` collection, these variables are available out-of-th
           use that to filter posts in various ways or use the "slugified" version of the
           category name to adjust the permalink for a post. Categories (plural key) can be
           specified as a <a
-          href="https://en.wikipedia.org/wiki/YAML#Basic_components">YAML list</a> or a
+          href="https://en.wikipedia.org/wiki/YAML#Basic_components" rel="noopener">YAML list</a> or a
           space-separated string.
         </p>
       </td>
@@ -184,9 +184,9 @@ For documents in the `posts` collection, these variables are available out-of-th
       <td>
         <p>
           Similar to categories, one or multiple tags can be added to a post as a flexible
-          method of building a lightweight content <a href="https://en.wikipedia.org/wiki/Taxonomy">taxonomy</a>.
+          method of building a lightweight content <a href="https://en.wikipedia.org/wiki/Taxonomy" rel="noopener">taxonomy</a>.
           As with categories, tags can be specified as a <a
-          href="https://en.wikipedia.org/wiki/YAML#Basic_components">YAML list</a> or a
+          href="https://en.wikipedia.org/wiki/YAML#Basic_components" rel="noopener">YAML list</a> or a
           space-separated string.
         </p>
       </td>

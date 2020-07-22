@@ -40,18 +40,18 @@
         <div class="navbar-item search-item">
           {% render "bridgetown_quick_search/search", placeholder: "Search", input_class: "input" %}
         </div>
-        <a class="navbar-item" href="https://github.com/{{ metadata.github }}" target="_blank">
+        <a class="navbar-item" href="https://github.com/{{ metadata.github }}" target="_blank" rel="noopener">
           <button class="button is-info is-small">
             <span class="icon"> <i class="fa fa-github is-size-6"></i> </span>
             <span class="has-text-weight-bold">Star</span>
           </button>
         </a>
 
-        <a class="navbar-item is-hidden-desktop-only" href="https://github.com/bridgetownrb/bridgetown/issues/new?assignees=&labels=bug&template=bug_report.md&title=" target="_blank">
+        <a class="navbar-item is-hidden-desktop-only" href="https://github.com/bridgetownrb/bridgetown/issues/new?assignees=&labels=bug&template=bug_report.md&title=" target="_blank" rel="noopener">
           <span class="icon"><i class="fa fa-exclamation-circle is-size-6"></i></span>
           <span class="is-hidden-tablet">Report Issue</span>
         </a>
-        <a class="navbar-item is-hidden-desktop-only" href="https://twitter.com/{{ metadata.twitter }}" target="_blank">
+        <a class="navbar-item is-hidden-desktop-only" href="https://twitter.com/{{ metadata.twitter }}" target="_blank" rel="noopener">
           <span class="icon"><i class="fa fa-twitter is-size-6"></i></span>
           <span class="is-hidden-tablet">Twitter</span>
         </a>

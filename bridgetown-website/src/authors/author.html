@@ -18,9 +18,9 @@ prototype:
         Connect with
         {{ author.name }}
         on the
-        <a href="{{ author.website }}" class="has-text-weight-bold">Web</a>
+        <a href="{{ author.website }}" class="has-text-weight-bold" rel="noopener">Web</a>
         or
-        <a class="has-text-weight-bold" href="https://twitter.com/{{ author.twitter }}">Twitter</a>
+        <a class="has-text-weight-bold" href="https://twitter.com/{{ author.twitter }}" rel="noopener">Twitter</a>
       </p>
 
       {% for post in paginator.documents %}

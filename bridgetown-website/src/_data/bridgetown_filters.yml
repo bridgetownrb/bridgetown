@@ -157,7 +157,7 @@
   description: >-
     Percent encodes any special characters in a URI.
     URI escape normally replaces a space with <code>%20</code>.
-    <a href="https://en.wikipedia.org/wiki/Percent-encoding#Types_of_URI_characters">Reserved characters</a>
+    <a href="https://en.wikipedia.org/wiki/Percent-encoding#Types_of_URI_characters" rel="noopener">Reserved characters</a>
     will not be escaped.
   examples:
     - input: '{{ "http://foo.com/?q=foo, \bar?" | uri_escape }}'
@@ -202,7 +202,7 @@
 #
 
 - name: Slugify
-  description: Convert a string into a lowercase URL "slug". <a href="http://localhost:4000/docs/liquid/filters/#options-for-the-slugify-filter">See below for options</a>.
+  description: Convert a string into a lowercase URL "slug". <a href="http://localhost:4000/docs/liquid/filters/#options-for-the-slugify-filter" rel="noopener">See below for options</a>.
   examples:
     - input: '{{ "The _config.yml file" | slugify }}'
       output: "the-config-yml-file"

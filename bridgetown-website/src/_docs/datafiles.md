@@ -66,7 +66,7 @@ You can now render the list of members in a template:
 <ul>
 {% for member in site.data.members %}
   <li>
-    <a href="https://github.com/{{ member.github }}">
+    <a href="https://github.com/{{ member.github }}" rel="noopener">
       {{ member.name }}
     </a>
   </li>
@@ -114,7 +114,7 @@ file name:
 {% for org_hash in site.data.orgs %}
 {% assign org = org_hash[1] %}
   <li>
-    <a href="https://github.com/{{ org.username }}">
+    <a href="https://github.com/{{ org.username }}" rel="noopener">
       {{ org.name }}
     </a>
     ({{ org.members | size }} members)
@@ -148,7 +148,7 @@ author: dave
 {% assign author = site.data.people[page.author] %}
 <a rel="author"
   href="https://twitter.com/{{ author.twitter }}"
-  title="{{ author.name }}">
+  title="{{ author.name }}" rel="noopener">
     {{ author.name }}
 </a>
 ```
