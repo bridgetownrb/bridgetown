@@ -30,6 +30,15 @@
     Referrer-Policy = "no-referrer-when-downgrade"
     Access-Control-Allow-Origin = "*"
     Cache-Control = "public, max-age=604800, s-max-age=604800"
+    Link = '''
+    <JS_PATH>; rel=preload; as=script,
+    <CSS_PATH>; rel=preload; as=style,
+    <https://NETLIFY_IMAGES_CDN_DOMAIN>; rel=preconnect,
+    <https://NETLIFY_IMAGES_CDN_DOMAIN>; rel=dns-prefetch,
+    <https://www.youtube-nocookie.com>; rel=preconnect,
+    <https://www.youtube-nocookie.com>; rel=dns-prefetch,
+    </apple-touch-icon.png>; rel=prefetch,
+    </favicon-32x32.png>; rel=prefetch'''
 
 [[headers]]
   for = "/*.(png|jpg|js|css|svg|woff|ttf|eot|ico)"
