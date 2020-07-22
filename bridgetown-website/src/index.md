@@ -26,7 +26,7 @@ Built upon proven open source technology, **Bridgetown** is a _fast_, _scalable_
 {: .has-text-centered .has-text-danger .mt-10}
 
 <figure class="image is-16by9 mx-0">
-  <iframe class="has-ratio" width="560" height="315" src="https://www.youtube-nocookie.com/embed/gSij_P3iaIE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+  <iframe class="has-ratio" width="560" height="315" src="https://www.youtube-nocookie.com/embed/gSij_P3iaIE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy" title="Introduction to Bridgetown / Ruby-powered Static Site Generator"></iframe>
 </figure>
 
 
