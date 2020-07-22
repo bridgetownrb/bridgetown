@@ -39,3 +39,6 @@ pagination:
 # Environment-specific settings
 development:
   unpublished: true
+
+svg:
+  optimize: true
