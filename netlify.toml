@@ -1,7 +1,7 @@
 [build]
   base = "bridgetown-website/"
   command = "yarn deploy && ./bin/netlify.sh"
-  publish = "bridgetown-website/output"
+  publish = "output"
 
 [build.environment]
   NODE_VERSION = "12"
