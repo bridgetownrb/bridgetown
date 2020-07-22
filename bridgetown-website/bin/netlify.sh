@@ -12,3 +12,5 @@ echo "JS Path: ${JS_PATH}"
 sed -i s,CSS_PATH,${CSS_PATH},g ../netlify.toml
 sed -i s,JS_PATH,${JS_PATH},g ../netlify.toml
 sed -i s,NETLIFY_IMAGES_CDN_DOMAIN,${NETLIFY_IMAGES_CDN_DOMAIN},g ../netlify.toml
+
+cat ../netlify.toml
