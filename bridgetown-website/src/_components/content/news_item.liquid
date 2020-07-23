@@ -9,7 +9,7 @@
 
   <div class="mt-8 author p-author">
     {% assign author = authors[post.author] %}
-    <img src="{{ author.avatar }}" alt="{{ author.name }}" class="avatar u-photo" />
+    <img src="{{ author.avatar }}" alt="{{ author.name }}" class="avatar u-photo" loading="lazy" />
     <a href="/authors/{{ post.author }}/" class="has-text-weight-bold u-url p-name">{{ author.name }}</a>
     on {{ post.date | date: "%B %-d, %Y" }}
   </div>
