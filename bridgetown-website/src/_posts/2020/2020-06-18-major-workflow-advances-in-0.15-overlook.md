@@ -14,7 +14,7 @@ It's time to unveil some of those initiatives today with the release of Bridgeto
 Before we get into the meat of the release, there's a brand-new overview video you can watch to learn more about Bridgetown!
 
 <figure class="image is-16by9 mx-0">
-  <iframe class="has-ratio" width="560" height="315" src="https://www.youtube-nocookie.com/embed/gSij_P3iaIE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <iframe class="has-ratio" width="560" height="315" src="https://www.youtube-nocookie.com/embed/gSij_P3iaIE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
 </figure>
 
 This is the first video in an ongoing series, so keep an eye out for future installments.
