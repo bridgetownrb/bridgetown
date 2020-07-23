@@ -9,13 +9,12 @@
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 
-<link rel="preload" href="{% webpack_path css %}" as="style" />
+<link rel="stylesheet" href="{% webpack_path css %}" />
+<script src="{% webpack_path js %}" defer></script>
+
 <link rel="prefetch" href="/docs/" />
 <link rel="prefetch" href="/docs/jamstack/" />
 <link rel="prefetch" href="/about/" />
-
-<link rel="stylesheet" href="{% webpack_path css %}" />
-<script src="{% webpack_path js %}" defer></script>
 
 {% seo title=false %}
 {% feed_meta %}
