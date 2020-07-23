@@ -12,8 +12,51 @@
   compress = true
 
 [[headers]]
-  for = "/*"
+  for = "*"
   [headers.values]
+    Link = [
+      "<CSS_PATH>; rel=preload; as=style",
+      "<JS_PATH>; rel=preload; as=script",
+      "</apple-touch-icon.png>; rel=prefetch; as=image",
+      "<https://www.youtube-nocookie.com>; rel=preconnect",
+      "<https://NETLIFY_IMAGES_CDN_DOMAIN>; rel=preconnect"
+    ]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Content-Security-Policy = '''
+      default-src 'self' https:;
+      object-src  'none';
+      worker-src  'none';
+      manifest-src 'self';
+      block-all-mixed-content;
+      upgrade-insecure-requests;'''
     Strict-Transport-Security = "max-age=15552000; includeSubDomains"
     Referrer-Policy = "no-referrer-when-downgrade"
     Cache-Control = "public, max-age=604800, s-max-age=604800"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Link = [
+      "<CSS_PATH>; rel=preload; as=style",
+      "<JS_PATH>; rel=preload; as=script",
+      "</apple-touch-icon.png>; rel=prefetch; as=image",
+      "<https://www.youtube-nocookie.com/embed/gSij_P3iaIE>; rel=preload",
+      "<https://NETLIFY_IMAGES_CDN_DOMAIN>; rel=preconnect"
+    ]
+
+[[headers]]
+  for = "/*.(txt|xml|json)"
+  [headers.values]
+    Link = [
+      "</>; rel=dns-prefetch;"
+    ]
+
+[[headers]]
+  for = "/*.(png|jpg|js|css|svg|woff|ttf|eot|ico)"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, s-max-age=31536000"
+    Link = [
+      "</>; rel=dns-prefetch;"
+    ]

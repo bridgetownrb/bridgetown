@@ -1,0 +1,4 @@
+[build]
+  base = "bridgetown-website/"
+  command = "yarn deploy && ./bin/netlify.sh"
+  publish = "output"
