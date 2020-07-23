@@ -146,9 +146,9 @@ author: dave
 ---
 
 {% assign author = site.data.people[page.author] %}
-<a rel="author"
+<a rel="author noopener"
   href="https://twitter.com/{{ author.twitter }}"
-  title="{{ author.name }}" rel="noopener">
+  title="{{ author.name }}">
     {{ author.name }}
 </a>
 ```
