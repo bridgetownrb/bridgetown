@@ -1,16 +1,11 @@
-[build]
-  base = "bridgetown-website/"
-  command = "yarn deploy"
-  publish = "output"
-
 [build.processing]
   skip_processing = false
 [build.processing.css]
-  bundle = false
-  minify = false
+  bundle = true
+  minify = true
 [build.processing.js]
-  bundle = false
-  minify = false
+  bundle = true
+  minify = true
 [build.processing.html]
   pretty_urls = true
 [build.processing.images]
