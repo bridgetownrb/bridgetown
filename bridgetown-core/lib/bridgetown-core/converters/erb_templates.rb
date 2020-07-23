@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "tilt/erubi"
+require "erubi/capture_end"
 
 module Bridgetown
   class ERBView < RubyTemplateView
@@ -17,7 +18,8 @@ module Bridgetown
 
       Tilt::ErubiTemplate.new(
         site.in_source_dir(site.config[:partials_dir], "#{partial_name}.erb"),
-        outvar: "@_erbout"
+        outvar: "@_erbout",
+        engine_class: Erubi::CaptureEndEngine
       ).render(self, options)
     end
 
@@ -48,7 +50,11 @@ module Bridgetown
       def convert(content, convertible)
         erb_view = Bridgetown::ERBView.new(convertible)
 
-        erb_renderer = Tilt::ErubiTemplate.new(convertible.relative_path, outvar: "@_erbout") { content }
+        erb_renderer = Tilt::ErubiTemplate.new(
+          convertible.relative_path,
+          outvar: "@_erbout",
+          engine_class: Erubi::CaptureEndEngine
+        ) { content }
 
         if convertible.is_a?(Bridgetown::Layout)
           erb_renderer.render(erb_view) do
