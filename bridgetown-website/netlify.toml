@@ -28,13 +28,6 @@
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
-    Content-Security-Policy = '''
-      default-src 'self' https:;
-      object-src  'none';
-      worker-src  'none';
-      manifest-src 'self';
-      block-all-mixed-content;
-      upgrade-insecure-requests;'''
     Strict-Transport-Security = "max-age=15552000; includeSubDomains"
     Referrer-Policy = "no-referrer-when-downgrade"
     Cache-Control = "public, max-age=604800, s-max-age=604800"
