@@ -99,10 +99,7 @@ module MyFilters
 end
 
 Liquid::Template.register_filter MyFilters
-
-Bridgetown::RubyTemplateView::Helpers.class_eval do
-  include MyFilters
-end
+Bridgetown::RubyTemplateView::Helpers.include MyFilters
 ```
 
 Usage is pretty straightforward:

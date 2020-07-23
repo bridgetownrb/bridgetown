@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "digest"
+require "active_support/core_ext/hash/keys"
 
 module Bridgetown
   class RubyTemplateView
