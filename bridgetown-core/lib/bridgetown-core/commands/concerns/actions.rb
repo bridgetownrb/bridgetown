@@ -11,6 +11,7 @@ module Bridgetown
       GITHUB_REGEX = %r!https://github\.com!.freeze
       GITHUB_TREE_REGEX = %r!#{GITHUB_REGEX}/.*/.*/tree/.*/?!.freeze
       GITHUB_BLOB_REGEX = %r!#{GITHUB_REGEX}/.*/.*/blob/!.freeze
+      GITHUB_REPO_REGEX = %r!github\.com/(.*?/[^/]*)!.freeze
 
       def create_builder(filename, data = nil)
         say_status :create_builder, filename
@@ -114,7 +115,7 @@ module Bridgetown
                 elsif github_blob_match
                   new_url.sub("/blob/", "/")
                 else
-                  "#{new_url}/master"
+                  "#{new_url}/#{Bridgetown::Utils.default_github_branch_name(arg)}"
                 end
               else
                 arg
