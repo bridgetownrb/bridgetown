@@ -68,12 +68,20 @@ module Bridgetown
     # If that exact package hasn't been installed, execute yarn add
     #
     # Returns nothing.
-    def self.install_yarn_dependencies(required_gems)
+    def self.install_yarn_dependencies(required_gems, single_gemname = nil)
       return unless File.exist?("package.json")
 
       package_json = JSON.parse(File.read("package.json"))
 
-      required_gems.each do |loaded_gem|
+      gems_to_search = if single_gemname
+                         required_gems.select do |loaded_gem|
+                           loaded_gem.to_spec&.name == single_gemname.to_s
+                         end
+                       else
+                         required_gems
+                       end
+
+      gems_to_search.each do |loaded_gem|
         yarn_dependency = find_yarn_dependency(loaded_gem)
         next unless add_yarn_dependency?(yarn_dependency, package_json)
 
