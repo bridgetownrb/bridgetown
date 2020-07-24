@@ -37,7 +37,7 @@ plugins: !ruby/string:Rb |
 
       {% for plugin in page.plugins %}
         <div class="box px-8 py-8 mb-10">
-          <a href="{{ plugin.html_url }}">
+          <a href="{{ plugin.html_url }}" rel="noopener">
             <h2 class="mb-8 title is-3 has-text-info">
               {{ plugin.name }}
               {% if plugin.gem_version %}
@@ -52,7 +52,7 @@ plugins: !ruby/string:Rb |
         
           <div class="mt-8 author">
             <img src="{{ plugin.owner.avatar_url }}" alt="{{ plugin.owner.login }}" class="avatar" loading="lazy" />
-            <a href="{{ plugin.owner.html_url }}" class="has-text-weight-bold">{{ plugin.owner.login }}</a>
+            <a href="{{ plugin.owner.html_url }}" class="has-text-weight-bold" rel="noopener">{{ plugin.owner.login }}</a>
           </div>
         </div>
       {% endfor %}

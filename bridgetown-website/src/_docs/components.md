@@ -127,7 +127,7 @@ Now we can render that component and fill in the `logo`, `items_start`, and `ite
     <div class="navbar-item search-item">
       {% render "bridgetown_quick_search/search", placeholder: "Search", input_class: "input" %}
     </div>
-    <a class="navbar-item is-hidden-desktop-only" href="https://twitter.com/{{ metadata.twitter }}" target="_blank">
+    <a class="navbar-item is-hidden-desktop-only" href="https://twitter.com/{{ metadata.twitter }}" target="_blank" rel="noopener">
       <span class="icon"><i class="fa fa-twitter is-size-6"></i></span>
       <span class="is-hidden-tablet">Twitter</span>
     </a>

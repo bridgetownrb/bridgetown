@@ -107,9 +107,9 @@ class="flag">flags</code> (specified on the command-line) that control them.
             Set the time zone for site generation. This sets the <code>TZ</code>
             environment variable, which Ruby uses to handle time and date
             creation and manipulation. Any entry from the
-            <a href="https://en.wikipedia.org/wiki/Tz_database">IANA Time Zone
+            <a href="https://en.wikipedia.org/wiki/Tz_database" rel="noopener">IANA Time Zone
             Database</a> is valid, e.g. <code>America/New_York</code>. A list of all
-            available values can be found <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">
+            available values can be found <a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones" rel="noopener">
             here</a>. When serving on a local machine, the default time zone is set by your operating system. But when served on a remote host/server, the default time zone depends on the server's setting or location.
         </p>
       </td>
@@ -222,7 +222,7 @@ a staging area and copy files from there to your web server.
       <td>
         <p class="name"><strong>LSI</strong></p>
         <p class="description">Produce an index for related posts. Requires the
-          <a href="http://www.classifier-reborn.com/">classifier-reborn</a> plugin.</p>
+          <a href="http://www.classifier-reborn.com/" rel="noopener">classifier-reborn</a> plugin.</p>
       </td>
       <td class="has-text-centered">
         <p><code class="option">lsi: BOOL</code></p>
