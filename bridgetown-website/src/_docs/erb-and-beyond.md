@@ -157,6 +157,13 @@ A standard Liquid page. {{ page.layout }}
 ```
 {% endraw %}
 
+If in your layout or a layout partial you need to output the paths to your Webpack assets, you can do so with a `webpack_path` helper just like with Liquid layouts:
+
+```eruby
+<link rel="stylesheet" href="<%= webpack_path :css %>" />
+<script src="<%= webpack_path :js %>" defer></script>
+```
+
 ## Markdown
 
 When authoring a document using ERB, you might find yourself wanting to embed some Markdown within the document content. That's easy to do using a `markdownify` block:
@@ -176,6 +183,45 @@ You can also pass any string variable via an inline block as well:
 <% markdownify { some_string_var } %>
 ```
 
+## Capture Helper
+
+If you need to capture a part of your template and store it in a variable for later use, you can use the `capture` helper.
+
+```eruby
+<% test_capturing = capture do %>
+  This is how <%= "#{"cap"}turing" %> works!
+<% end %>
+
+<%= test_capturing.reverse %>
+```
+
+One interesting use case for capturing is you could assign the captured text to a layout data variable. Using memoization, you could calculate an expensive bit of template once and then reuse it either in that layout or in a partial.
+
+Example:
+
+```eruby
+<% # add this code to a layout: %>
+<% layout.data[:save_this_for_later] ||= capture do
+  puts "saving this into the layout!"
+%>An <%= "expensive " + "routine" %> to be saved<% end %>
+
+Some text...
+
+<%= partial "use_the_saved_variable" %>
+```
+
+```eruby
+<% # src/_partials/_use_the_saved_variable.erb #>
+Print this: <%= layout[:save_this_for_later] %>
+```
+
+Because of the use of the `||=` operator, you'll only see "saving this into the layout!" print to the console once when the site builds even if you use the layout on thousands of pages!
+
 ## Haml and Slim
 
-…plugins info…TBC…
+Bridgetown comes with ERB support out-of-the-box, but you can easily add support for either Haml or Slim by installing our officially supported plugins.
+
+* [`bridgetown-haml`](https://github.com/bridgetownrb/bridgetown-haml)
+* [`bridgetown-slim`](https://github.com/bridgetownrb/bridgetown-slim)
+
+All you'd need to do is run `bundle add bridgetown-haml -g bridgetown_plugins` (or `bridgetown-slim`) to install the plugin, and then you can immediately start using `.haml` or `.slim` pages, layouts, and partials in your Bridgetown site.
