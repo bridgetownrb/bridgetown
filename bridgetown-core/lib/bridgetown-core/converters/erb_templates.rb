@@ -34,6 +34,15 @@ module Bridgetown
       md_output = converter.convert(content).strip
       @_erbout << md_output
     end
+
+    def capture
+      previous_buffer_state = @_erbout
+      @_erbout = +""
+      result = yield
+      @_erbout = previous_buffer_state
+
+      result
+    end
   end
 
   module Converters

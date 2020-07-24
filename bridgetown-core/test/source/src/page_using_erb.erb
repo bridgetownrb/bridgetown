@@ -16,3 +16,9 @@ Oats, <%= array_to_sentence_string ["peas", "beans", "barley"] %> grow.
       * Yay!
       <%= "* Nifty!" %>
   <% end %>
+
+<% test_capturing = capture do %>
+  This is how <%= "#{"cap"}turing" %> works!
+<% end %>
+
+<%= test_capturing.reverse %>
