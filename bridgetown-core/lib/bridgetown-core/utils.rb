@@ -331,6 +331,59 @@ module Bridgetown
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
 
+    # Return an asset path based on the Webpack manifest file
+    # @param site [Bridgetown::Site] The current site object
+    # @param asset_type [String] js or css
+    #
+    # @return [String] Returns "MISSING_WEBPACK_MANIFEST" if the manifest
+    # file isnt found
+    # @return [nil] Returns nil if the asset isnt found
+    # @return [String] Returns the path to the asset if no issues parsing
+    #
+    # @raise [WebpackAssetError] if unable to find css or js in the manifest
+    # file
+    def parse_webpack_manifest_file(site, asset_type)
+      manifest_file = site.in_root_dir(".bridgetown-webpack", "manifest.json")
+      return "MISSING_WEBPACK_MANIFEST" unless File.exist?(manifest_file)
+
+      manifest = JSON.parse(File.read(manifest_file))
+
+      known_assets = %w(js css)
+      if known_assets.include?(asset_type)
+        asset_path = manifest["main.#{asset_type}"]
+
+        log_webpack_asset_error(asset_type) && return if asset_path.nil?
+
+        asset_path = asset_path.split("/").last
+        return [static_frontend_path(site), asset_type, asset_path].join("/")
+      end
+
+      Bridgetown.logger.error("Unknown Webpack asset type", asset_type)
+      nil
+    end
+
+    def static_frontend_path(site)
+      path_parts = [site.config["baseurl"].to_s.chomp("/"), "_bridgetown/static"]
+      path_parts[0] = "/#{path_parts[0]}" unless path_parts[0].empty?
+      Addressable::URI.parse(path_parts.join("/")).normalize.to_s
+    end
+
+    def log_webpack_asset_error(asset_type)
+      error_message = "There was an error parsing your #{asset_type} files. \
+        Please check your #{asset_type} for any errors."
+
+      Bridgetown.logger.warn(Errors::WebpackAssetError, error_message)
+    end
+
+    def default_github_branch_name(repo_url)
+      repo_match = Bridgetown::Commands::Actions::GITHUB_REPO_REGEX.match(repo_url)
+      api_endpoint = "https://api.github.com/repos/#{repo_match[1]}"
+      JSON.parse(Faraday.get(api_endpoint).body)["default_branch"] || "master"
+    rescue StandardError => e
+      Bridgetown.logger.warn("Unable to connect to GitHub API: #{e.message}")
+      "master"
+    end
+
     private
 
     def merge_values(target, overwrite)

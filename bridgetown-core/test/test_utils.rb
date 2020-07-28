@@ -422,6 +422,16 @@ class TestUtils < BridgetownUnitTest
     end
   end
 
+  context "The \`Utils.default_github_branch_name\` method" do
+    should "return the correct default branch name" do
+      assert_equal "main", Utils.default_github_branch_name("https://github.com/whitefusionhq/phaedra/abc/12344")
+    end
+
+    should "return master if all else fails" do
+      assert_equal "master", Utils.default_github_branch_name("https://github.com/thisorgdoesntexist/thisrepoistotallybogus")
+    end
+  end
+
   context "Utils::Internet.connected?" do
     should "return true if there's internet" do
       assert Utils::Internet.connected?
