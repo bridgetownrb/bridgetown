@@ -1,6 +1,6 @@
 ---
 title: "To ERB and Beyond! What’s New in Bridgetown 0.16 “Crystal Springs”"
-subtitle: 
+subtitle: It's the height of summer, and we’re here with a real treat for Rubyists everywhere! At last you can have your cake and eat it too with the release of Bridgetown 0.16 “Crystal Springs”—write site templates in your choice of ERB, Haml, or Slim all while enjoying the benefits of Bridgetown’s Jekyll-inspired ease of configuration and rapid content development process.
 author: jared
 category: release
 ---
