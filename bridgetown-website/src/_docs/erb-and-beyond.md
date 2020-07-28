@@ -253,7 +253,7 @@ All you'd need to do is run `bundle add bridgetown-haml -g bridgetown_plugins` (
 
 ## Turning off Liquid processing
 
-For pages/documents, Bridgetown will automatically detect if you use Liquid tags {% raw %}(aka `{% %}` or `{{ }}`){% raw %} and process your file with Liquid even if it's using ERB or another template language. This happens prior to any other conversions, so you can in theory using both Liquid and ERB in the same file.
+For pages/documents, Bridgetown will automatically detect if you use Liquid tags {% raw %}(aka `{% %}` or `{{ }}`){% endraw %} and process your file with Liquid even if it's using ERB or another template language. This happens prior to any other conversions, so you can in theory using both Liquid and ERB in the same file.
 
 You can however turn that off with front matter:
 
