@@ -1,5 +1,9 @@
 # main
 
+# 0.16.0 "Crystal Springs" / 2020-07-28
+
+* Final release of 0.16! Yipee yay! Keep reading for what's new since 0.15.
+
 # 0.16.0.beta2 / 2020-07-24
 
 (`0-16-stable` branch)
