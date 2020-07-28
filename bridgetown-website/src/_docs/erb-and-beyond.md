@@ -217,6 +217,31 @@ Print this: <%= layout[:save_this_for_later] %>
 
 Because of the use of the `||=` operator, you'll only see "saving this into the layout!" print to the console once when the site builds even if you use the layout on thousands of pages!
 
+## Extensions and Permalinks
+
+Sometimes you may want to output a file that doesn't end in `.html`. Perhaps you want to create a JSON index of a collection, or a special XML feed. If you have familiarity with other Ruby site generators or frameworks, you might instinctively reach for the solution where you use a double extension, say, `posts.json.erb` to indicate the final extension (`json`) and the template type (`erb`).
+
+Bridgetown doesn't do anything with double extensions by default, but you can use them regardless—as long as you also set the file's permalink using front matter. Here's an example of `posts.json.erb` using a [custom permalink](/docs/structure/permalinks):
+
+```eruby
+---
+permalink: /posts.json
+---
+[
+  <%
+    site.posts.docs.each_with_index do |post, index|
+      last_item = index == site.posts.docs.length - 1
+  %>
+    {
+      "title": <%= jsonify post[:title].strip %>,
+      "url": "<%= absolute_url post.url %>"<%= "," unless last_item %>
+    }
+  <% end %>
+]
+```
+
+The ensures the final relative URL will be `/posts.json`. (Of course you can also set the permalink to anything you want, regardless of the filename itself.)
+
 ## Haml and Slim
 
 Bridgetown comes with ERB support out-of-the-box, but you can easily add support for either Haml or Slim by installing our officially supported plugins.
