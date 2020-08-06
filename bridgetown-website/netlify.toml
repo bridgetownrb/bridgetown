@@ -2,6 +2,11 @@
   command = "yarn deploy && ./bin/netlify.sh"
   publish = "output"
 
+[build.environment]
+  NODE_ENV = "development"
+  NODE_VERSION = "12"
+  BRIDGETOWN_ENV = "production"
+
 [build.processing]
   skip_processing = false
 [build.processing.css]
