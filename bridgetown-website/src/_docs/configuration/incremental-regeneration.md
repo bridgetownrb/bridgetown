@@ -34,6 +34,6 @@ configuration file.
   <p>
     While incremental regeneration will work for the most common cases, it will
     not work correctly in every scenario. Please report any problems not listed above by
-    <a href="https://github.com/bridgetownrb/bridgetown/issues/new">opening an issue on GitHub</a>.
+    <a href="https://github.com/bridgetownrb/bridgetown/issues/new" rel="noopener">opening an issue on GitHub</a>.
   </p>
 </div>

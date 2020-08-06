@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
-require "tilt/erb"
-require "active_support/core_ext/hash/keys"
+require "tilt/erubi"
+require "erubi/capture_end"
 
 module Bridgetown
   class ERBView < RubyTemplateView
-    include ERB::Util
+    def h(input)
+      Erubi.h(input)
+    end
 
     def partial(partial_name, options = {})
       options.merge!(options[:locals]) if options[:locals]
@@ -14,10 +16,10 @@ module Bridgetown
       partial_segments.last.sub!(%r!^!, "_")
       partial_name = partial_segments.join("/")
 
-      Tilt::ERBTemplate.new(
+      Tilt::ErubiTemplate.new(
         site.in_source_dir(site.config[:partials_dir], "#{partial_name}.erb"),
-        trim: "<>-",
-        outvar: "@_erbout"
+        outvar: "@_erbout",
+        engine_class: Erubi::CaptureEndEngine
       ).render(self, options)
     end
 
@@ -32,21 +34,36 @@ module Bridgetown
       md_output = converter.convert(content).strip
       @_erbout << md_output
     end
+
+    def capture
+      previous_buffer_state = @_erbout
+      @_erbout = +""
+      result = yield
+      @_erbout = previous_buffer_state
+
+      result
+    end
   end
 
   module Converters
     class ERBTemplates < Converter
       input :erb
 
-      # Logic to do the content conversion.
+      # Logic to do the ERB content conversion.
       #
-      # content - String content of file (without front matter).
+      # @param content [String] Content of the file (without front matter).
+      # @params convertible [Bridgetown::Page, Bridgetown::Document, Bridgetown::Layout]
+      #   The instantiated object which is processing the file.
       #
-      # Returns a String of the converted content.
+      # @return [String] The converted content.
       def convert(content, convertible)
         erb_view = Bridgetown::ERBView.new(convertible)
 
-        erb_renderer = Tilt::ERBTemplate.new(trim: "<>-", outvar: "@_erbout") { content }
+        erb_renderer = Tilt::ErubiTemplate.new(
+          convertible.relative_path,
+          outvar: "@_erbout",
+          engine_class: Erubi::CaptureEndEngine
+        ) { content }
 
         if convertible.is_a?(Bridgetown::Layout)
           erb_renderer.render(erb_view) do

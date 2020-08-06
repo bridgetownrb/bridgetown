@@ -1,6 +1,6 @@
 ---
 title: What’s a Jamstack?
-order: 21
+order: 22
 top_section: Philosophy
 category: jamstack
 ---
@@ -38,11 +38,11 @@ Because **Bridgetown** is a Jamstack framework/site generator, this is how you'd
 
 There are typically three different ways to author, manage, save, and publish website content when working with Jamstack sites. Some are easier for programmers, others are easier for visually-focused content creators and editors.
 
-0. **Save Files in the Git Repository.** Because Jamstack sites are typically located in a version-controlled code repository using Git, and saved onto a central repo service such as GitHub, you can clone the site files directly to your device, add Markdown posts and other site content, and _commit_ those changes to the repository. Once you _push_ those changes back up to GitHub (for example), that usually triggers an automated build process to publish the latest changes to the web. Jamstack-focused services such as [Netlify](https://www.netlify.com) are a great way to build and publish the website. Unlike hosting services of the past, Netlify's starting price can't be beat: **it's free** 😁.
+1. **Save Files in the Git Repository.** Because Jamstack sites are typically located in a version-controlled code repository using Git, and saved onto a central repo service such as GitHub, you can clone the site files directly to your device, add Markdown posts and other site content, and _commit_ those changes to the repository. Once you _push_ those changes back up to GitHub (for example), that usually triggers an automated build process to publish the latest changes to the web. Jamstack-focused services such as [Netlify](https://www.netlify.com) are a great way to build and publish the website. Unlike hosting services of the past, Netlify's starting price can't be beat: **it's free** 😁.
 
-0. **Use a CMS-like editing interface.** There is a growing number of tools which provide a familiar visual editing interface on the web, but under the hood modify the same files in the repo (Markdown posts, data collections, etc.) much like the first process above. Examples of these kinds of tools are Forestry, Siteleaf, Netlify CMS, and many others.
+1. **Use a CMS-like editing interface.** There is a growing number of tools which provide a familiar visual editing interface on the web, but under the hood modify the same files in the repo (Markdown posts, data collections, etc.) much like the first process above. Examples of these kinds of tools are Forestry, Siteleaf, Netlify CMS, and many others.
 
-0. **Store content inside a "headless" CMS.** This utilizes a process closest to the previous era of dynamic CMS applications. With what's called a "headless" CMS, you author content interactively using the CMS, and content is stored in that CMS' database. When content is ready to get published, a build process is triggered for the Jamstack site generator (aka **Bridgetown**), but at that point the generator uses the headless CMS' API to download all relevant data and produce the final website for deployment. There are many headless CMS tools available, and you can even use WordPress itself as one! (Although that's not typically recommended… 😋)
+1. **Store content inside a "headless" CMS.** This utilizes a process closest to the previous era of dynamic CMS applications. With what's called a "headless" CMS, you author content interactively using the CMS, and content is stored in that CMS' database. When content is ready to get published, a build process is triggered for the Jamstack site generator (aka **Bridgetown**), but at that point the generator uses the headless CMS' API to download all relevant data and produce the final website for deployment. There are many headless CMS tools available, and you can even use WordPress itself as one! (Although that's not typically recommended… 😋)
 
 {:.mt-12}
 ## How Do I Get Started Building a Jamstack Website?
