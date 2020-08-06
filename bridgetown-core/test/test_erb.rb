@@ -27,6 +27,10 @@ class TestERB < BridgetownUnitTest
       assert_includes @erb_page.output, "<li>Yay!</li>"
       assert_includes @erb_page.output, "<li>Nifty!</li>"
     end
+
+    should "allow capturing into a variable" do
+      assert_includes @erb_page.output, "This is how capturing works!".reverse
+    end
   end
 
   context "ERB layout" do

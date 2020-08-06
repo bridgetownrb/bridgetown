@@ -1,5 +1,23 @@
 # main
 
+# 0.16.0 "Crystal Springs" / 2020-07-28
+
+* Final release of 0.16! Yipee yay! Keep reading for what's new since 0.15.
+
+# 0.16.0.beta2 / 2020-07-24
+
+(`0-16-stable` branch)
+
+* Fix the "add_yarn_for_gem" action [#114](https://github.com/bridgetownrb/bridgetown/pull/114) ([jaredcwhite](https://github.com/jaredcwhite))
+* Call GitHub API to determine default branch name [#115](https://github.com/bridgetownrb/bridgetown/pull/115) ([jaredcwhite](https://github.com/jaredcwhite))
+* Add capture helper to ERB templates
+* Switch to Erubi for ERB template parsing
+* Move webpack parsing code to the Utils module and enable for ERB templates [#105](https://github.com/bridgetownrb/bridgetown/pull/105) ([jaredcwhite](https://github.com/jaredcwhite))
+
+# 0.16.0.beta1 / 2020-07-16
+
+(`0-16-stable` branch)
+
 * Improve handling of Webpack manifest errors [#96](https://github.com/bridgetownrb/bridgetown/pull/96) ([ParamagicDev](https://github.com/ParamagicDev))
 * Add a class_map Liquid tag [#99](https://github.com/bridgetownrb/bridgetown/pull/99) ([ParamagicDev](https://github.com/ParamagicDev))
 * Update pagination documentation [#98](https://github.com/bridgetownrb/bridgetown/pull/98) ([andrewmcodes](https://github.com/andrewmcodes))

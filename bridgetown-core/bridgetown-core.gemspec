@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("addressable",           "~> 2.4")
   s.add_runtime_dependency("awesome_print",         "~> 1.8")
   s.add_runtime_dependency("colorator",             "~> 1.0")
+  s.add_runtime_dependency("erubi",                 "~> 1.9")
   s.add_runtime_dependency("faraday",               "~> 1.0")
   s.add_runtime_dependency("faraday_middleware",    "~> 1.0")
   s.add_runtime_dependency("i18n",                  "~> 1.0")
