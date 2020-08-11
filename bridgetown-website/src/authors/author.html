@@ -20,7 +20,11 @@ prototype:
         on the
         <a href="{{ author.website }}" class="has-text-weight-bold" rel="noopener">Web</a>
         or
-        <a class="has-text-weight-bold" href="https://twitter.com/{{ author.twitter }}" rel="noopener">Twitter</a>
+        {% if author.twitter %}
+          <a class="has-text-weight-bold" href="https://twitter.com/{{ author.twitter }}" rel="noopener">Twitter</a>
+        {% elsif author.github %}
+          <a class="has-text-weight-bold" href="https://github.com/{{ author.github }}" rel="noopener">GitHub</a>
+        {% endif %}
       </p>
 
       {% for post in paginator.documents %}
