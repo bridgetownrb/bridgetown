@@ -20,6 +20,12 @@ plugins: !ruby/string:Rb |
       result = Faraday.get(gem_url).body
       item["gem_version"] = result.match(/VERSION = "(.*?)"/)[1]
     rescue
+      begin
+        gem_url = "https://raw.githubusercontent.com/#{item["full_name"]}/main/lib/#{item["name"]}/version.rb"
+        result = Faraday.get(gem_url).body
+        item["gem_version"] = result.match(/VERSION = "(.*?)"/)[1]
+      rescue
+      end
     end
   end
 
