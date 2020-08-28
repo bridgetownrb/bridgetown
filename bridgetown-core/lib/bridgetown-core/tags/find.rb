@@ -7,6 +7,7 @@ module Bridgetown
       include Bridgetown::LiquidExtensions
 
       SYNTAX = %r!^(.*?) (where|in) (.*?),(.*)$!.freeze
+      CONDITIONS_SEP = "~FINDSEP~"
 
       def initialize(tag_name, markup, tokens)
         super
@@ -14,7 +15,7 @@ module Bridgetown
           @new_var_name = Regexp.last_match(1).strip
           @single_or_group = Regexp.last_match(2)
           @arr_name = Regexp.last_match(3).strip
-          @conditions = Regexp.last_match(4).strip
+          @conditions = process_conditions(Regexp.last_match(4).strip)
         else
           raise SyntaxError, <<~MSG
             Syntax Error in tag 'find' while parsing the following markup:
@@ -32,8 +33,8 @@ module Bridgetown
 
         @group = @group.values if @group.is_a?(Hash)
 
-        expression = @conditions.split(",").map do |condition|
-          "__find_tag_item__.#{condition}"
+        expression = @conditions.split(CONDITIONS_SEP).map do |condition|
+          "__find_tag_item__.#{condition.strip}"
         end.join(" and ")
         @liquid_condition = parse_condition(expression)
 
@@ -47,6 +48,19 @@ module Bridgetown
       end
 
       private
+
+      def process_conditions(conditions)
+        processed_conditions = +""
+        in_quotes = false
+
+        conditions.each_char do |c|
+          in_quotes = !in_quotes if c == '"'
+
+          processed_conditions << (c == "," && !in_quotes ? CONDITIONS_SEP : c)
+        end
+
+        processed_conditions
+      end
 
       def group_evaluate(context)
         context.stack do

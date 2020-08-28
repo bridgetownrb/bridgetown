@@ -33,8 +33,9 @@ module Bridgetown
         first_condition
       end
 
-      # Generates a Liquid::Condition object from a Liquid::Parser object based on whether the parsed
-      # expression involves a "comparison" operator (e.g. <, ==, >, !=, etc)
+      # Generates a Liquid::Condition object from a Liquid::Parser object based
+      # on whether the parsed expression involves a "comparison" operator
+      # (e.g. <, ==, >, !=, etc)
       #
       #  - parser: an instance of Liquid::Parser
       #
