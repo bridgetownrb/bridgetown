@@ -13,7 +13,7 @@ of the filter, and you can also support multiple method arguments (and even opti
 Example:
 
 ```ruby
-def Filters < SiteBuilder
+class Filters < SiteBuilder
   def build
     liquid_filter "cache_busting_url" do |url|
       "http://www.example.com/#{url}?#{Time.now.to_i}"
