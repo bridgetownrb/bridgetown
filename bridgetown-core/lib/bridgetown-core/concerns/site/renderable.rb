@@ -17,8 +17,7 @@ module Bridgetown
       Bridgetown::Hooks.trigger :site, :post_render, self, payload
     end
 
-    # Executes inline Ruby frontmatter if
-    # +ENV+["BRIDGETOWN_RUBY_IN_FRONTMATTER"] equals "true"
+    # Executes inline Ruby frontmatter
     #
     # @example
     #   calculation: !ruby/string:Rb |
