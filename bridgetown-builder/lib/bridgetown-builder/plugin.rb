@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "bridgetown-builder/dsl/generators"
+require "bridgetown-builder/dsl/helpers"
 require "bridgetown-builder/dsl/hooks"
 require "bridgetown-builder/dsl/http"
 require "bridgetown-builder/dsl/liquid"
@@ -8,6 +9,7 @@ module Bridgetown
   module Builders
     class PluginBuilder
       include DSL::Generators
+      include DSL::Helpers
       include DSL::Hooks
       include DSL::HTTP
       include DSL::Liquid
