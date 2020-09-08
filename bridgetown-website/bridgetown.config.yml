@@ -14,25 +14,6 @@ collections:
     name: Documentation
     foo: bar
 
-defaults:
-  - scope:
-      path: ""
-    values:
-      image: /images/bridgetown-logo-twitter-card.jpg
-  - scope:
-      path: _docs
-    values:
-      layout: docs
-  - scope:
-      path: _posts
-    values:
-      layout: post
-      category: news
-  - scope:
-      path: _posts/drafts
-    values:
-      published: false
-
 pagination:
   enabled: true
 
