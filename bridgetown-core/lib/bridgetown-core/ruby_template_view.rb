@@ -20,6 +20,10 @@ module Bridgetown
       def webpack_path(asset_type)
         Bridgetown::Utils.parse_webpack_manifest_file(@site, asset_type.to_s)
       end
+
+      def t(*args)
+        I18n.send :t, *args
+      end
     end
 
     attr_reader :layout, :page, :site, :content

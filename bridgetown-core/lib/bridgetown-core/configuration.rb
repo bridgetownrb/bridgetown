@@ -52,6 +52,8 @@ module Bridgetown
       "show_dir_listing"     => false,
 
       # Output Configuration
+      "available_locales"    => ["en"],
+      "default_locale"       => "en",
       "permalink"            => "date",
       "timezone"             => nil, # use the local timezone
 
