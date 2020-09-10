@@ -72,6 +72,22 @@ def Helpers < SiteBuilder
 end
 ```
 
+## Helper Execution Scope
+
+By default, the code within the helper block or method is executed within the scope of the builder object. This means you will not have access to other helpers you may expecting to call. For example, if you want to call `slugify` from your helper, it will cause an error.
+
+To remedy this, simply pass the `helpers_scope: true` argument when defining a helper block. Then you can call other helpers as part of your code block (but not methods within your builder).
+
+```ruby
+def Helpers < SiteBuilder
+  def build
+    helper "slugify_and_upcase", helpers_scope: true do |url|
+      slugify(url).upcase
+    end
+  end
+end
+```
+
 ## Helpers vs. Filters vs. Tags
 
 Filters and tags are aspects of the [Liquid](/docs/liquid) template engine which comes installed by default. The behavior of both filters and tags are roughly analogous to helpers in [Tilt-based templates](/docs/erb-and-beyond). Specialized Bridgetown filters are also made available as helpers, as are a few tags such as `webpack_path`.
