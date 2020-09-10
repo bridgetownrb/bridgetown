@@ -33,10 +33,10 @@ layout: default
           {% unless next_order %}
             {% assign next_order = page.order | plus: 1 %}
           {% endunless %}
-          {% assign next_page = site.docs | where_exp: "item", "item.order == next_order" %}
-          {% if next_page.size > 0 %}
-            <p class="has-text-right mt-8 mb-1"><a href="{{ next_page[0].url }}" class="button is-info is-small">
-              <span>Next: {{ next_page[0].title }}</span>
+          {% find next_page in site.docs, order == next_order %}
+          {% if next_page %}
+            <p class="has-text-right mt-8 mb-1"><a href="{{ next_page.url }}" class="button is-info is-small">
+              <span>Next: {{ next_page.title }}</span>
               <span class="icon" aria-hidden="true">
                 <i class="fa fa-chevron-right"></i>
               </span>
