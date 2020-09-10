@@ -4,11 +4,11 @@ module Bridgetown
   module Builders
     module DSL
       module Helpers
-        def helper(filter_name, method_name = nil, helpers_scope: false, &block)
+        def helper(helper_name, method_name = nil, helpers_scope: false, &block)
           block = if block
-                    unless helpers_scope
-                      self.class.define_method "_#{filter_name}_helper", &block
-                      method("_#{filter_name}_helper")
+                    if !helpers_scope
+                      self.class.define_method "_#{helper_name}_helper", &block
+                      method("_#{helper_name}_helper")
                     else
                       block
                     end
@@ -17,7 +17,7 @@ module Bridgetown
                   end
 
           m = Module.new
-          m.define_method filter_name, &block
+          m.define_method helper_name, &block
           Bridgetown::RubyTemplateView::Helpers.include(m)
 
           functions << { name: name, filter: m }
