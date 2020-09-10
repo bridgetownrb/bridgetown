@@ -5,10 +5,15 @@ module Bridgetown
     module DSL
       module Liquid
         def liquid_filter(filter_name, method_name = nil, &block)
-          block = method(method_name) if method_name.is_a?(Symbol)
+          block = if block
+                    self.class.define_method "_#{filter_name}_filter", &block
+                    method("_#{filter_name}_filter")
+                  elsif method_name
+                    method(method_name)
+                  end
 
           m = Module.new
-          m.send(:define_method, filter_name, &block)
+          m.define_method filter_name, &block
           ::Liquid::Template.register_filter(m)
 
           functions << { name: name, filter: m }

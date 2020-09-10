@@ -16,6 +16,10 @@ class FiltersBuilder < Builder
       value = input * multiply_by
       add_by ? value + add_by : value
     end
+
+    liquid_filter "site_config" do |input|
+      input.to_s + " #{site.root_dir}"
+    end
   end
 end
 
@@ -47,6 +51,12 @@ class TestFilterDSL < BridgetownUnitTest
       content = "5 times 10 plus 3 equals {{ 5 | multiply_and_optionally_add:10, 3 }}"
       result = Liquid::Template.parse(content).render
       assert_equal "5 times 10 plus 3 equals 53", result
+    end
+
+    should "allow access to local builder scope" do
+      content = "root_dir: {{ 'is' | site_config }}"
+      result = Liquid::Template.parse(content).render
+      assert_equal "root_dir: is #{@site.root_dir}", result
     end
   end
 end
