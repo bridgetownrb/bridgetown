@@ -35,7 +35,7 @@ module Bridgetown
       "limit_posts"          => 0,
       "future"               => false,
       "unpublished"          => false,
-      "ruby_in_front_matter" => true, # requires BRIDGETOWN_RUBY_IN_FRONT_MATTER == "true"
+      "ruby_in_front_matter" => true,
 
       # Conversion
       "markdown"             => "kramdown",
@@ -276,7 +276,7 @@ module Bridgetown
     end
 
     def should_execute_inline_ruby?
-      ENV["BRIDGETOWN_RUBY_IN_FRONT_MATTER"] == "true" &&
+      ENV["BRIDGETOWN_RUBY_IN_FRONT_MATTER"] != "false" &&
         self["ruby_in_front_matter"]
     end
 

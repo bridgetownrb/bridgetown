@@ -137,19 +137,17 @@ Feature: Rendering
     And I should see "Hi there, John Doe!" in "output/index.html"
     And I should not see "Build Warning:" in the build output
 
-  Scenario: Execute inline Ruby if ENV is set
+  Scenario: Execute inline Ruby
     Given I have a _posts directory
     And I have the following post:
       | title  | date | layout  | cool | content |
       | Page   | 2020-01-01 | simple  | !ruby/string:Rb \|\n  "Very" + " Cool".upcase | Something {{ page.cool }} |
     And I have a "index.html" page with layout "simple" that contains "{% for post in site.posts %}{{ post.content }}{% endfor %}"
     And I have a simple layout that contains "{{ content }}"
-    And I have an env var BRIDGETOWN_RUBY_IN_FRONT_MATTER set to true
     When I run bridgetown build
-    And I delete the env var BRIDGETOWN_RUBY_IN_FRONT_MATTER
     Then I should see "Very COOL" in "output/index.html"
 
-  Scenario: Don't execute inline Ruby if ENV is not set
+  Scenario: Don't execute inline Ruby if ENV is set to false
     Given I have a _posts directory
     And I have the following post:
       | title  | date | layout  | cool | content |
@@ -181,7 +179,5 @@ Feature: Rendering
       | Page   | 2020-01-01 | simple  | #\n  nested_cool: !ruby/string:Rb \|\n    "Very Very" + " Cool".upcase | Something {{ page.cool.nested_cool }} |
     And I have a "index.html" page with layout "simple" that contains "{% for post in site.posts %}{{ post.content }}{% endfor %}"
     And I have a simple layout that contains "{{ content }}"
-    And I have an env var BRIDGETOWN_RUBY_IN_FRONT_MATTER set to true
     When I run bridgetown build
-    And I delete the env var BRIDGETOWN_RUBY_IN_FRONT_MATTER
     Then I should see "Very Very COOL" in "output/index.html"
