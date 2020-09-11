@@ -54,6 +54,10 @@ module Bridgetown
     #
     # Returns the default value or nil if none was found
     def find(path, type, setting)
+      merged_data = {}
+      merge_data_cascade_for_path(path, merged_data)
+      return merged_data[setting] if merged_data.key?(setting)
+
       value = nil
       old_scope = nil
 
@@ -74,6 +78,9 @@ module Bridgetown
     # Returns a hash with all default values (an empty hash if there are none)
     def all(path, type)
       defaults = {}
+
+      merge_data_cascade_for_path(path, defaults)
+
       old_scope = nil
       matching_sets(path, type).each do |set|
         if has_precedence?(old_scope, set["scope"])
@@ -87,6 +94,16 @@ module Bridgetown
     end
 
     private
+
+    def merge_data_cascade_for_path(path, merged_data)
+      absolute_path = @site.in_source_dir(path)
+      @site.defaults_reader.path_defaults
+        .select { |k, _v| absolute_path.include? k }
+        .sort_by { |k, _v| k.length }
+        .each do |defaults|
+          merged_data.merge!(defaults[1])
+        end
+    end
 
     # Checks if a given default setting scope matches the given path and type
     #

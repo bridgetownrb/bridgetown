@@ -53,7 +53,7 @@ class TestSite < BridgetownUnitTest
   context "creating sites" do
     setup do
       @site = Site.new(site_configuration)
-      @num_invalid_posts = 5
+      @num_invalid_posts = 7
     end
 
     teardown do

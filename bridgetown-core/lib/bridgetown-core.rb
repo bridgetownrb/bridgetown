@@ -68,6 +68,7 @@ module Bridgetown
   autoload :Cache,               "bridgetown-core/cache"
   autoload :CollectionReader,    "bridgetown-core/readers/collection_reader"
   autoload :DataReader,          "bridgetown-core/readers/data_reader"
+  autoload :DefaultsReader,      "bridgetown-core/readers/defaults_reader"
   autoload :LayoutReader,        "bridgetown-core/readers/layout_reader"
   autoload :PostReader,          "bridgetown-core/readers/post_reader"
   autoload :PageReader,          "bridgetown-core/readers/page_reader"

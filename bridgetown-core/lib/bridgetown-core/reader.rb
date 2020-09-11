@@ -13,6 +13,7 @@ module Bridgetown
     # Returns nothing.
     # rubocop:disable Metrics/AbcSize
     def read
+      @site.defaults_reader.read
       @site.layouts = LayoutReader.new(site).read
       read_directories
       read_included_excludes

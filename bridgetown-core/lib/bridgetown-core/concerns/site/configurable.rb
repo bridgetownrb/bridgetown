@@ -37,6 +37,10 @@ module Bridgetown
       @config
     end
 
+    def defaults_reader
+      @defaults_reader ||= DefaultsReader.new(self)
+    end
+
     # Returns the current instance of {FrontmatterDefaults} or
     # creates a new instance {FrontmatterDefaults} if it doesn't already exist.
     #

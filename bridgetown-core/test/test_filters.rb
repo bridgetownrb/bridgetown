@@ -657,6 +657,7 @@ class TestFilters < BridgetownUnitTest
           "categories"    => [
             "publish_test",
           ],
+          "ruby3"         => "groovy",
           "layout"        => "default",
           "title"         => "Publish",
           "category"      => "publish_test",
