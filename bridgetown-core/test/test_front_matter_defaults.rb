@@ -222,4 +222,19 @@ class TestFrontMatterDefaults < BridgetownUnitTest
       assert(@site.posts.find { |page| page.data["date"] == date })
     end
   end
+
+  context "A site with front matter data cascade" do
+    setup do
+      @site = fixture_site
+      @site.process
+    end
+
+    should "have a post with a value from the defaults file" do
+      assert(@site.posts.find { |page| page.data[:title] == "Post with Permalink" }.data[:ruby3] == "groovy")
+    end
+
+    should "have an overridden value in a subtree" do
+      assert(@site.posts.find { |page| page.data[:title] == "Further Nested" }.data[:ruby3] == "trippin")
+    end
+  end
 end

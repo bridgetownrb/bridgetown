@@ -10,7 +10,9 @@ module Bridgetown
     end
 
     def read
-      entries = Dir.chdir(site.in_source_dir) do
+      return unless File.directory?(site.source)
+
+      entries = Dir.chdir(site.source) do
         Dir["**/_defaults.{yaml,yml,json}"]
       end
 
