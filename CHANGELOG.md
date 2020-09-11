@@ -1,5 +1,19 @@
 # main
 
+* Process data cascade for folder-based frontmatter defaults [#139](https://github.com/bridgetownrb/bridgetown/pull/139) ([jaredcwhite](https://github.com/jaredcwhite))
+* Execute block-based filters within object scope [#142](https://github.com/bridgetownrb/bridgetown/pull/142) ([jaredcwhite](https://github.com/jaredcwhite))
+* Provide a Liquid find tag as easier alternative to where_exp [#101](https://github.com/bridgetownrb/bridgetown/pull/101) ([jaredcwhite](https://github.com/jaredcwhite))
+* First pass at implementing site locales and translations [#131](https://github.com/bridgetownrb/bridgetown/pull/131) ([jaredcwhite](https://github.com/jaredcwhite))
+* Add international character slug improvements [#138](https://github.com/bridgetownrb/bridgetown/pull/138) ([jaredcwhite](https://github.com/jaredcwhite) & [swanson](https://github.com/swanson))
+* Switch to processing Ruby front matter by default [#136](https://github.com/bridgetownrb/bridgetown/pull/136) ([jaredcwhite](https://github.com/jaredcwhite))
+* Switch from AwesomePrint to AmazingPrint [#127](https://github.com/bridgetownrb/bridgetown/pull/127) ([jaredcwhite](https://github.com/jaredcwhite))
+
+# Website updates
+
+* Fix filter plugin doc [#130](https://github.com/bridgetownrb/bridgetown/pull/130) ([julianrubisch](https://github.com/julianrubisch))
+* Try out a couple of improvements for Lighthouse score [#128](https://github.com/bridgetownrb/bridgetown/pull/128) ([jaredcwhite](https://github.com/jaredcwhite))
+* Adding netlify.toml to add caching & hint headers [#112](https://github.com/bridgetownrb/bridgetown/pull/112) ([MikeRogers0](https://github.com/MikeRogers0))
+
 # 0.16.0 "Crystal Springs" / 2020-07-28
 
 * Final release of 0.16! Yipee yay! Keep reading for what's new since 0.15.
