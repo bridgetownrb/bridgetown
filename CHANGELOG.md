@@ -1,5 +1,8 @@
 # main
 
+# 0.17.0 "Mount Scott" / 2020-09-17
+
+* Helper DSL for plugins (similar to the Liquid Filter DSL) [#135](https://github.com/bridgetownrb/bridgetown/pull/135) ([jaredcwhite](https://github.com/jaredcwhite))
 * Process data cascade for folder-based frontmatter defaults [#139](https://github.com/bridgetownrb/bridgetown/pull/139) ([jaredcwhite](https://github.com/jaredcwhite))
 * Execute block-based filters within object scope [#142](https://github.com/bridgetownrb/bridgetown/pull/142) ([jaredcwhite](https://github.com/jaredcwhite))
 * Provide a Liquid find tag as easier alternative to where_exp [#101](https://github.com/bridgetownrb/bridgetown/pull/101) ([jaredcwhite](https://github.com/jaredcwhite))
