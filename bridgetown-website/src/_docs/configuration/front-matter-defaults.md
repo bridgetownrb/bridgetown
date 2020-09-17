@@ -7,11 +7,43 @@ category: configuration
 
 Using [front matter](/docs/front-matter/) is one way that you can specify configuration in the pages and posts for your site. Setting things like a default layout, or customizing the title, or specifying a more precise date/time for the post can all be added to your page or post front matter.
 
-Often times, you will find that you are repeating a lot of configuration options. Setting the same layout in each file, adding the same category - or categories - to a post, etc. You can even add custom variables like author names, which might be the same for the majority of posts on your blog.
+Often times, you will find that you are repeating a lot of configuration options. Setting the same layout in each file, adding the same category to a post, etc. You can even add custom variables like author names, which might be the same for the majority of posts on your blog.
 
-Instead of repeating this configuration each time you create a new post or page, Bridgetown provides a way to set these defaults in the site configuration. To do this, you can specify site-wide defaults using the `defaults` key in the `bridgetown.config.yml` file in your project's root directory.
+There are two ways to accomplish this: the data cascade, and via your site's configuration file.
 
-The `defaults` key holds an array of scope/values pairs that define what defaults should be set for a particular file path, and optionally, a file type in that path.
+# The Data Cascade
+
+New in Bridgetown 0.17, you can add `_defaults.yml` (also `.yaml` or `.json`) files anywhere in your source tree, which will then cause a "data cascade". In other words, any pages/documents in that folder or in a subfolder will use the front matter data contained in the defaults file. Defaults files in subfolders can also potentially overwrite values contained in parent folders (hence the term "cascade").
+
+For example, if you want all posts to have the layout "post" without having to write `layout: post` in each post's front matter, simply add `_defaults.yml` to the `src/_posts` folder:
+
+```yaml
+layout: post
+```
+
+Now, if you have some posts in a subfolder (let's say `fancy_posts`) and you want those posts to use the "fancy\_post" layout, you could add a second `_defaults.yml` file in that subfolder like so:
+
+```yaml
+layout: fancy_post
+```
+
+Now all the `fancy_posts` posts will use the `fancy_post` layout. If you had other front matter variables in the parent `_defaults.yml` in `src/_posts`, those would carry over to the `fancy_posts` defaults unless you decide to override them explicitly.
+
+Also, keep in mind these are "default" values, so if you were to add `layout: some_other_layout` to a post, it would overwrite either `layout: post` or `layout: fancy_post`. This is what makes front matter defaults so powerful!
+
+{% rendercontent "docs/note" %}
+Defaults files work well for custom collections! Just add a `_defaults.yml` to the collection root folder to set layouts and other variables for your entire collection.
+{% endrendercontent %}
+
+{% rendercontent "docs/note" %}
+You can also add a defaults file to `src` itself! For example, if you wanted every document on your site (posts, pages, custom collections) to start off with a default thumbnail image, you could simply add `image: /images/thumbnail_image.jpg` to a defaults file in `src` and it would apply globally.
+{% endrendercontent %}
+
+## Configuration-based Front Matter Defaults
+
+Instead of (or in addition to) the data cascade, you can set front matter defaults in your configuration file using a special rules-based syntax.
+
+To do this, add a `defaults` key to the `bridgetown.config.yml` file in your project's root folder. The `defaults` key holds an array of scope/values pairs that define what defaults should be set for a particular file path, and optionally, a file type in that path.
 
 Let's say that you want to add a default layout to all pages and posts in your site. You would add this to your `bridgetown.config.yml` file:
 

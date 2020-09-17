@@ -12,6 +12,12 @@ layouts. Front matter can be used in various ways to set configuration options
 on a per-file basis, and starting with Bridgetown v0.13, you can even write Ruby
 code for dynamic front matter variables.
 
+{% rendercontent "docs/note", title: "Don't repeat yourself" %}
+If you'd like to avoid repeating your frequently used variables
+over and over, you can define [front matter defaults](/docs/configuration/front-matter-defaults) for them and only override them where necessary (or not at all). This works
+both for predefined and custom variables.
+{% endrendercontent %}
+
 {% toc %}
 
 ## Using Front Matter
@@ -193,17 +199,6 @@ For documents in the `posts` collection, these variables are available out-of-th
     </tr>
   </tbody>
 </table>
-
-<div class="note">
-  <h5>Don't repeat yourself</h5>
-  <p>
-    If you don't want to repeat your frequently used front matter variables
-    over and over, define
-    <a href="{{ '/docs/configuration/front-matter-defaults/' | relative_url }}" title="Front Matter defaults">defaults</a>
-    for them and only override them where necessary (or not at all). This works
-    both for predefined and custom variables.
-  </p>
-</div>
 
 ## Advanced Front Matter Data Structures
 

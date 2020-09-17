@@ -93,7 +93,7 @@
 #
 
 - name: Where Expression
-  description: Select all the objects in an array where the expression is true.
+  description: Select all the objects in an array where the expression is true. (<strong>Tip:</strong> You might want to try using the <a href="/docs/liquid/tags/#find-tag" data-no-swup="true">find tag</a> instead.)
   version_badge: 3.2.0
   examples:
     - input: |-
