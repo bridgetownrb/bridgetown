@@ -9,7 +9,7 @@ Bridgetown's primary template language is [**Liquid**](/docs/liquid), due to his
 
 However, Bridgetown's implementation language, Ruby, has a rich history of promoting [ERB (Embedded RuBy)](https://docs.ruby-lang.org/en/2.7.0/ERB.html) for templates and view layers across a wide variety of tools and frameworks, and other template languages such as [Haml](http://haml.info) and [Slim](http://slim-lang.com) boast their fair share of enthusiasts.
 
-So, starting with Bridgetown 0.16, you can now add ERB-based templates and pages (and partials too) to your site. In additional, there are plugins you can easily install for Haml and Slim as well.
+So, starting with Bridgetown 0.16, you can now add ERB-based templates and pages (and partials too) to your site. In additional, there are plugins you can easily install for Haml and Slim as well. Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process these Ruby templates.
 
 {% toc %}
 
@@ -69,50 +69,7 @@ Bridgetown includes access to some helpful [custom Liquid filters](/docs/liquid/
 <%= date_to_string site.time, "ordinal" %>
 ```
 
-These helpers are actually methods of the `helper` object which is an instance of `Bridgetown::RubyTemplateView::Helpers`.  If you wanted to add your own custom helpers to ERB templates, you could open the class up in a plugin and define additional methods:
-
-```ruby
-# plugins/site_builder.rb
-
-Bridgetown::RubyTemplateView::Helpers.class_eval do
-  def uppercase_string(input)
-    input.upcase
-  end
-end
-```
-
-```eruby
-<%= uppercase_string "i'm a string" %>
-
-<!-- output: I'M A STRING -->
-```
-
-As a best practice, it would be best to define your helpers as methods of a dedicated `Module` which could then be used for both Liquid filters and ERB helpers simultaneously. Here's how you might go about that in your plugin:
-
-```ruby
-# plugins/filters.rb
-
-module MyFilters
-  def lowercase_string(input)
-    input.downcase
-  end
-end
-
-Liquid::Template.register_filter MyFilters
-Bridgetown::RubyTemplateView::Helpers.include MyFilters
-```
-
-Usage is pretty straightforward:
-
-{% raw %}
-```eruby
-<%= lowercase_string "WAY DOWN LOW" %>
-```
-
-```Liquid
-{{ "WAY DOWN LOW" | lowercase_string }}
-```
-{% endraw %}
+These helpers are actually methods of the `helper` object which is an instance of `Bridgetown::RubyTemplateView::Helpers`.
 
 In addition to using Liquid helpers, you can also render [Liquid components](/docs/components) from within your ERB templates via the `liquid_render` helper.
 
@@ -241,6 +198,55 @@ permalink: /posts.json
 ```
 
 The ensures the final relative URL will be `/posts.json`. (Of course you can also set the permalink to anything you want, regardless of the filename itself.)
+
+## Custom Helpers
+
+If you'd like to add your own custom template helpers, you can use the `helper` DSL within builder plugins. [Read this documentation to learn more](/docs/plugins/helpers).
+
+Alternatively, you could open up the `Helpers` class and define additional methods:
+
+```ruby
+# plugins/site_builder.rb
+
+Bridgetown::RubyTemplateView::Helpers.class_eval do
+  def uppercase_string(input)
+    input.upcase
+  end
+end
+```
+
+```eruby
+<%= uppercase_string "i'm a string" %>
+
+<!-- output: I'M A STRING -->
+```
+
+As a best practice, it would be best to define your helpers as methods of a dedicated `Module` which could then be used for both Liquid filters and ERB helpers simultaneously. Here's how you might go about that in your plugin:
+
+```ruby
+# plugins/filters.rb
+
+module MyFilters
+  def lowercase_string(input)
+    input.downcase
+  end
+end
+
+Liquid::Template.register_filter MyFilters
+Bridgetown::RubyTemplateView::Helpers.include MyFilters
+```
+
+Usage is pretty straightforward:
+
+{% raw %}
+```eruby
+<%= lowercase_string "WAY DOWN LOW" %>
+```
+
+```Liquid
+{{ "WAY DOWN LOW" | lowercase_string }}
+```
+{% endraw %}
 
 ## Haml and Slim
 
