@@ -59,6 +59,31 @@ Each expression (separated by a comma) adds an "AND" clause to the conditional l
 ```
 {% endraw %}
 
+## Class Map tag
+
+If you've ever had to write a bunch of conditional code and variable assigns to toggle on/off CSS classes based on input variables, you know it can get pretty messy.
+
+But not anymore! Introducing `class_map`:
+
+{% raw %}
+```liquid
+<div class="{% class_map has-centered-text: page.centered, is-small: small-var %}">
+  …
+</div>
+```
+{% endraw %}
+
+In this example, the `class_map` tag will include `has-text-centered` only if `page.centered` is truthy, and likewise `is-small` only if `small-var` is truthy. If you need to run a comparison with a specific value, you'll still need to use `assign` but it'll still be simpler than in the past:
+
+{% raw %}
+```liquid
+{% if product.feature_in == "socks" %}{% assign should_bold = true %}{% endif %}
+<div class="{% class_map product: true, bold-text: should_bold, float-right: true %}">
+  …
+</div>
+```
+{% endraw %}
+
 ## Code snippet highlighting
 
 Bridgetown has built in support for syntax highlighting of over 100 languages

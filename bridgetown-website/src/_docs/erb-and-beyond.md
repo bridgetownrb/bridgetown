@@ -60,9 +60,9 @@ You can also pass variables to partials using either a `locals` hash or as keywo
 <%= partial "some/partial", locals: { key: "value", another_key: 123 } %>
 ```
 
-## Liquid Filters and Components
+## Liquid Filters, Tags, and Components
 
-Bridgetown includes access to some helpful [custom Liquid filters](/docs/liquid/filters) as helpers within your ERB templates:
+Bridgetown includes access to some helpful [Liquid filters](/docs/liquid/filters) as helpers within your ERB templates:
 
 ```eruby
 <!-- July 9th, 2020 -->
@@ -70,6 +70,8 @@ Bridgetown includes access to some helpful [custom Liquid filters](/docs/liquid/
 ```
 
 These helpers are actually methods of the `helper` object which is an instance of `Bridgetown::RubyTemplateView::Helpers`.
+
+A few Liquid tags are also available as helpers too, such as [`class_map`](/docs/liquid/tags#class-map-tag){:data-no-swup="true"} and [`webpack_path`](/docs/frontend-assets#linking-to-the-output-bundles){:data-no-swup="true"}.
 
 In addition to using Liquid helpers, you can also render [Liquid components](/docs/components) from within your ERB templates via the `liquid_render` helper.
 
