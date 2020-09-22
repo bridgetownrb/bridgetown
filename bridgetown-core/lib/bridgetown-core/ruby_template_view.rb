@@ -25,9 +25,7 @@ module Bridgetown
       #
       # @return [String] Space-separated keys where the values are truthy.
       def class_map(pairs = {})
-        pairs.select do |key, truthy|
-          !!truthy
-        end.keys.join(" ")
+        pairs.select { |_key, truthy| truthy }.keys.join(" ")
       end
 
       def t(*args)
