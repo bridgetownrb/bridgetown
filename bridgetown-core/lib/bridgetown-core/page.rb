@@ -14,6 +14,7 @@ module Bridgetown
     attr_accessor :data, :content, :output
 
     alias_method :extname, :ext
+    alias_method :paginator, :pager
 
     # A set of extensions that are considered HTML or HTML-like so we
     # should not alter them,  this includes .xhtml through XHTM5.
