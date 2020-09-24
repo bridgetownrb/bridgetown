@@ -167,6 +167,17 @@ class TestFilters < BridgetownUnitTest
       assert_equal 7, @filter.number_of_words("These aren't the droids you're looking for.")
     end
 
+    should "reading_time filter" do
+      assert_equal 3, @filter.reading_time("word " * 551)
+
+      new_wpm_filter = make_filter_mock(
+        "reading_time_wpm" => 300
+      )
+
+      assert_equal 2, new_wpm_filter.reading_time("word " * 551)
+      assert_equal 1.84, new_wpm_filter.reading_time("word " * 551, 2)
+    end
+
     context "normalize_whitespace filter" do
       should "replace newlines with a space" do
         assert_equal "a b", @filter.normalize_whitespace("a\nb")

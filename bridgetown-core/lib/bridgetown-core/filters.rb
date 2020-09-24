@@ -138,6 +138,14 @@ module Bridgetown
       input.split.length
     end
 
+    # Calculates the average reading time of the supplied content.
+    # @param input [String] the String of content to analyze.
+    # @return [Float] the number of minutes required to read the content.
+    def reading_time(input, round_to = 0)
+      wpm = @context.registers[:site].config[:reading_time_wpm] || 250
+      (number_of_words(input).to_f / wpm).ceil(round_to)
+    end
+
     # Join an array of things into a string by separating with commas and the
     # word "and" for the last one.
     #
