@@ -311,6 +311,10 @@ module Bridgetown
         raise Bridgetown::Errors::InvalidConfigurationError,
               "'#{option}' should be set as an array, but was: #{self[option].inspect}."
       end
+
+      # add _pages to includes set
+      self[:include] << "_pages"
+
       self
     end
   end

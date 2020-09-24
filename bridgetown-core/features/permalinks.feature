@@ -142,3 +142,13 @@ Feature: Fancy permalinks
     And the output directory should exist
     And I should see "I am PHP" in "output/2016/i-am-php.php"
     And I should see "I am also PHP" in "output/i-am-also-php.php"
+
+  Scenario: Ensure putting pages in _pages doesn't add _pages to permalink
+    Given I have a _pages/test directory
+    And I have a "_pages/test/mypage.md" page that contains "I am a page!"
+    And I have a "_pages/anotherpage.md" page with permalink "/some/other/page" that contains "I am another page!"
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And the output directory should exist
+    And I should see "I am a page!" in "output/test/mypage.html"
+    And I should see "I am another page!" in "output/some/other/page.html"
