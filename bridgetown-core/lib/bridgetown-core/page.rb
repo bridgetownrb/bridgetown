@@ -9,12 +9,11 @@ module Bridgetown
     include Validatable
 
     attr_writer :dir
-    attr_accessor :site, :pager
+    attr_accessor :site, :pager, :paginator
     attr_accessor :name, :ext, :basename
     attr_accessor :data, :content, :output
 
     alias_method :extname, :ext
-    alias_method :paginator, :pager
 
     # A set of extensions that are considered HTML or HTML-like so we
     # should not alter them,  this includes .xhtml through XHTM5.

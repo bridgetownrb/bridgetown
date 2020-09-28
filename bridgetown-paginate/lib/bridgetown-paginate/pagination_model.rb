@@ -340,7 +340,7 @@ module Bridgetown
 
           # 3. Create the pager logic for this page, pass in the prev and next
           # page numbers, assign pager to in-memory page
-          newpage.pager = newpage.paginator = Paginator.new(
+          newpage.pager = Paginator.new(
             config["per_page"],
             first_index_page_url,
             paginated_page_url,
@@ -350,6 +350,8 @@ module Bridgetown
             index_page_name,
             index_page_ext
           )
+
+          newpage.paginator = newpage.pager
 
 
           # Create the url for the new page, make sure we prepend any permalinks
