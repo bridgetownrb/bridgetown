@@ -353,7 +353,6 @@ module Bridgetown
 
           newpage.paginator = newpage.pager
 
-
           # Create the url for the new page, make sure we prepend any permalinks
           # that are defined in the template page before
           if newpage.pager.page_path.end_with? "/"
