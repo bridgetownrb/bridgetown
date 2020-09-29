@@ -235,35 +235,39 @@ So basically you'll want to contain usage of the Document Builder to either dire
 
 ## What About GraphQL?
 
-Bridgetown doesn't yet support GraphQL endpoints out-of-the-box, but that doesn't mean you can't use GraphQL today.
+Bridgetown has first-class support for GraphQL using a plugin called
+[Graphtown](https://github.com/whitefusionhq/graphtown).
 
-[Graphlient](https://github.com/ashkan18/graphlient) is a GraphQL client which lets you use a friendly Ruby DSL to consume GraphQL APIs. Using Graphlient and the Document Builder together, you could do something like this:
+Graphtown allows you to consume GraphQL APIs for your Bridgetown website
+using a tidy Builder DSL on top of the
+[Graphlient](https://github.com/ashkan18/graphlient) gem.
 
-```ruby
-def build
-  client = Graphlient::Client.new("https://test-graphql-cms.com/graphql")
-  response = client.query do
-    query do
-      allPost(limit: 10) do
-        slug
-        title
-        body
-        author do
-          name
-        end
-      end
-    end
-  end
+Get started by simply running `bundle add graphtown -g
+bridgetown_plugins` in your bridgetown site.
 
-  response.data.all_post.each do |post|
-    doc "#{post.slug}.html" do
-      title post.title
-      author post.author.name
-      content post.body
-    end
-  end
+Then, navigate to your `plugins/site_builder.rb` file and add the
+Graphtown mixin.
+
+```rb
+# plugins/site_builder.rb
+
+class SiteBuilder < Bridgetown::Builder
+  include Graphtown::QueryBuilder
 end
 ```
+
+Setup your `graphql_endpoint` in your `bridgetown.config.yml` and
+you're ready to rock and roll.
+
+```rb
+# bridgetown.config.yml
+
+graphql_endpoint: http://localhost:1337/graphql
+```
+
+For more details on how to use the Graphtown gem to pull in your data
+from a CMS, check out the project on Github.
+[https://github.com/whitefusionhq/graphtown](https://github.com/whitefusionhq/graphtown)
 
 ## Conclusion
 
