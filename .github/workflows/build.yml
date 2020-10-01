@@ -14,10 +14,11 @@ jobs:
     strategy:
       matrix:
         ruby_version: [2.5.x, 2.6.x, 2.7.x, head, debug]
+    continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
     steps:
       - uses: actions/checkout@master
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1.46
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby_version }}
       - uses: actions/cache@v2
