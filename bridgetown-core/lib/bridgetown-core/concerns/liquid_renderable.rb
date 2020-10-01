@@ -15,11 +15,11 @@ module Bridgetown
 
     def liquid_engine_configured?
       (
-        data["template_engine"] && data["template_engine"] == "Liquid"
+        data["template_engine"] && data["template_engine"] == "liquid"
       ) ||
         (
           data["template_engine"].nil? && (
-            site.config[:template_engine].nil? || site.config[:template_engine] == "Liquid"
+            site.config[:template_engine].nil? || site.config[:template_engine] == "liquid"
           )
         )
     end
