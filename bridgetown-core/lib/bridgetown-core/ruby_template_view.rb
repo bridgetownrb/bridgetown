@@ -102,7 +102,7 @@ module Bridgetown
       {
         registers: {
           site: site,
-          page: page,
+          page: page.to_liquid,
           cached_partials: Bridgetown::Renderer.cached_partials,
         },
         strict_filters: site.config["liquid"]["strict_filters"],

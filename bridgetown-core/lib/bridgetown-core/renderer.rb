@@ -41,7 +41,13 @@ module Bridgetown
     #
     # Returns Array of Converter instances.
     def converters
-      @converters ||= site.converters.select { |c| c.matches(document.extname) }.sort
+      @converters ||= site.converters.select do |converter|
+        if converter.method(:matches).arity == 1
+          converter.matches(document.extname)
+        else
+          converter.matches(document.extname, document)
+        end
+      end.sort
     end
 
     # Determine the extname the outputted file should have
@@ -73,12 +79,13 @@ module Bridgetown
     # Returns String rendered document output
     # rubocop: disable Metrics/AbcSize
     def render_document
-      liquid_context = provide_liquid_context
+      liquid_context = nil
 
       execute_inline_ruby!
 
       output = document.content
       if document.render_with_liquid?
+        liquid_context = provide_liquid_context
         Bridgetown.logger.debug "Rendering Liquid:", document.relative_path
         output = render_liquid(output, payload, liquid_context, document.path)
       end
@@ -95,6 +102,12 @@ module Bridgetown
       output
     end
 
+    def execute_inline_ruby!
+      return unless site.config.should_execute_inline_ruby?
+
+      Bridgetown::Utils::RubyExec.search_data_for_ruby_code(document, self)
+    end
+
     def provide_liquid_context
       {
         registers: {
@@ -105,12 +118,6 @@ module Bridgetown
         strict_filters: liquid_options["strict_filters"],
         strict_variables: liquid_options["strict_variables"],
       }
-    end
-
-    def execute_inline_ruby!
-      return unless site.config.should_execute_inline_ruby?
-
-      Bridgetown::Utils::RubyExec.search_data_for_ruby_code(document, self)
     end
 
     # rubocop: enable Metrics/AbcSize
@@ -204,12 +211,24 @@ module Bridgetown
         "in #{document.relative_path} does not exist."
     end
 
+    def converters_for_layout(layout)
+      site.converters.select do |converter|
+        if converter.method(:matches).arity == 1
+          converter.matches(layout.ext)
+        else
+          converter.matches(layout.ext, layout)
+        end
+      end.sort
+    end
+
     # Render layout content into document.output
     #
     # Returns String rendered content
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     def render_layout(output, layout, liquid_context)
       if layout.render_with_liquid?
+        liquid_context = provide_liquid_context if liquid_context.nil?
+
         payload["content"] = output
         payload["layout"]  = Utils.deep_merge_hashes(layout.data, payload["layout"] || {})
 
@@ -220,7 +239,7 @@ module Bridgetown
           layout.path
         )
       else
-        layout_converters ||= site.converters.select { |c| c.matches(layout.ext) }.sort
+        layout_converters = converters_for_layout(layout)
 
         layout_content = layout.content.dup
         layout_converters.reduce(layout_content) do |layout_output, converter|

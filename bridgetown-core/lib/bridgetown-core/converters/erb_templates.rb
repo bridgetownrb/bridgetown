@@ -47,6 +47,7 @@ module Bridgetown
 
   module Converters
     class ERBTemplates < Converter
+      priority :highest
       input :erb
 
       # Logic to do the ERB content conversion.
@@ -72,6 +73,20 @@ module Bridgetown
         else
           erb_renderer.render(erb_view)
         end
+      end
+
+      def matches(ext, convertible)
+        if convertible.data[:template_engine] == "erb" ||
+            (convertible.data[:template_engine].nil? &&
+              @config[:template_engine] == "erb")
+          return true
+        end
+
+        super(ext)
+      end
+
+      def output_ext(ext)
+        ext == ".erb" ? ".html" : ext
       end
     end
   end
