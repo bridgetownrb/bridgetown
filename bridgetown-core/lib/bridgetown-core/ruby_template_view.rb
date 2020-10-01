@@ -59,6 +59,7 @@ module Bridgetown
     end
 
     def liquid_render(component, options = {})
+      options[:_block_content] = yield if block_given?
       render_statement = _render_statement(component, options)
 
       template = site.liquid_renderer.file(
@@ -90,11 +91,19 @@ module Bridgetown
     private
 
     def _render_statement(component, options)
-      render_statement = ["{% render \"#{component}\""]
+      render_statement = if options[:_block_content]
+                           ["{% rendercontent \"#{component}\""]
+                         else
+                           ["{% render \"#{component}\""]
+                         end
       unless options.empty?
         render_statement << ", " + options.keys.map { |k| "#{k}: #{k}" }.join(", ")
       end
       render_statement << " %}"
+      if options[:_block_content]
+        render_statement << options[:_block_content]
+        render_statement << "{% endrendercontent %}"
+      end
       render_statement.join
     end
 
