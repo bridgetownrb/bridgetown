@@ -170,7 +170,7 @@ module Bridgetown
     #
     # Returns the permalink or nil if no permalink was set in the data.
     def permalink
-      data&.is_a?(Hash) && data["permalink"]
+      data&.permalink
     end
 
     # The computed URL for the document. See `Bridgetown::URL#to_s` for more details.
