@@ -33,11 +33,12 @@ class TestDataReader < BridgetownUnitTest
     end
   end
 
-  context "access keys via HashWithIndifferentAccess" do
+  context "access keys via HashWithDotAccess" do
     should "work with JSON data files" do
       @reader.read("_data")
       assert_equal "John", @reader.content[:members][1][:name]
       assert_equal "John", @reader.content["members"][1]["name"]
+      assert_equal "John", @reader.content.members[1].name
     end
   end
 end

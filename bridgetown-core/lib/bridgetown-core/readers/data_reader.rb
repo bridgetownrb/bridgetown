@@ -20,7 +20,7 @@ module Bridgetown
       base = site.in_source_dir(dir)
       read_data_to(base, @content)
       merge_environment_specific_metadata!
-      @content.with_dot_access
+      @content = @content.with_dot_access
     end
 
     # Read and parse all .yaml, .yml, .json, .csv and .tsv
