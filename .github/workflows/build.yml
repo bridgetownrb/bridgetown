@@ -13,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby_version: [2.5.x, 2.6.x, 2.7.x, 3.0.x]
+        ruby_version: [2.5.x, 2.6.x, 2.7.x, head, debug]
     steps:
       - uses: actions/checkout@master
       - name: Setup Ruby
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1.46
         with:
           ruby-version: ${{ matrix.ruby_version }}
       - uses: actions/cache@v2
@@ -26,9 +26,11 @@ jobs:
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
-      - name: Build and test with Rake
-        run: |
-          gem install bundler
-          bundle config path vendor/bundle
-          bundle install --jobs 4 --retry 3
-          bundle exec rake
+      - name: Install Bundler
+        run: gem install bundler
+      - name: Configure vendor path
+        run: bundle config path vendor/bundle
+      - name: Bundle Install
+        run: bundle install --jobs 4 --retry 3
+      - name: Test with Rake
+        run: bundle exec rake
