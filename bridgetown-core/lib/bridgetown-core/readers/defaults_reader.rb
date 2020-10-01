@@ -6,7 +6,7 @@ module Bridgetown
 
     def initialize(site)
       @site = site
-      @path_defaults = ActiveSupport::HashWithIndifferentAccess.new
+      @path_defaults = HashWithDotAccess::Hash.new
     end
 
     def read

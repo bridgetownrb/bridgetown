@@ -4,7 +4,7 @@ module Bridgetown
   # TODO: refactor this whole object! Already had to fix obscure
   # bugs just making minor changes, and all the indirection is
   # quite hard to decipher. -JW
-  class Configuration < ActiveSupport::HashWithIndifferentAccess
+  class Configuration < HashWithDotAccess::Hash
     # Default options. Overridden by values in bridgetown.config.yml.
     # Strings rather than symbols are used for compatibility with YAML.
     DEFAULTS = {

@@ -91,7 +91,7 @@ class TestConfiguration < BridgetownUnitTest
 
     should "turn an array into a hash" do
       result = Configuration[{ "collections" => %w(methods) }].add_default_collections
-      assert_instance_of ActiveSupport::HashWithIndifferentAccess, result["collections"]
+      assert_instance_of HashWithDotAccess::Hash, result["collections"]
       expected = { "posts" => { "output" => true }, "methods" => {} }
       assert_equal expected, result["collections"]
     end

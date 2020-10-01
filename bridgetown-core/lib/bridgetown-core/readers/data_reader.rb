@@ -6,7 +6,7 @@ module Bridgetown
 
     def initialize(site)
       @site = site
-      @content = ActiveSupport::HashWithIndifferentAccess.new
+      @content = HashWithDotAccess::Hash.new
       @entry_filter = EntryFilter.new(site)
     end
 
@@ -44,7 +44,7 @@ module Bridgetown
         if File.directory?(path)
           read_data_to(
             path,
-            data[sanitize_filename(entry)] = ActiveSupport::HashWithIndifferentAccess.new
+            data[sanitize_filename(entry)] = HashWithDotAccess::Hash.new
           )
         else
           key = sanitize_filename(File.basename(entry, ".*"))

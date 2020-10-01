@@ -24,7 +24,7 @@ class TestDataReader < BridgetownUnitTest
             "title" => "Test title",
           },
         },
-      }.with_indifferent_access)
+      }.with_dot_access)
       metadata = @reader.content[:site_metadata]
       refute_equal "Test title", metadata[:title]
       @reader.merge_environment_specific_metadata!
