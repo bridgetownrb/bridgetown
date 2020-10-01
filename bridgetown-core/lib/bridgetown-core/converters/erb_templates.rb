@@ -11,6 +11,7 @@ module Bridgetown
 
     def partial(partial_name, options = {})
       options.merge!(options[:locals]) if options[:locals]
+      options[:content] = yield if block_given?
 
       partial_segments = partial_name.split("/")
       partial_segments.last.sub!(%r!^!, "_")
@@ -23,13 +24,8 @@ module Bridgetown
       ).render(self, options)
     end
 
-    def markdownify
-      previous_buffer_state = @_erbout
-      @_erbout = +""
-      result = yield
-      @_erbout = previous_buffer_state
-
-      content = Bridgetown::Utils.reindent_for_markdown(result)
+    def markdownify(&block)
+      content = Bridgetown::Utils.reindent_for_markdown(capture(&block))
       converter = site.find_converter_instance(Bridgetown::Converters::Markdown)
       md_output = converter.convert(content).strip
       @_erbout << md_output
