@@ -11,13 +11,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby_version: [2.5.x, 2.6.x, 2.7.x, 3.0.x]
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Ruby 2.6
+      - uses: actions/checkout@master
+      - name: Setup Ruby
         uses: actions/setup-ruby@v1
         with:
-          ruby-version: 2.6.x
-      - uses: actions/cache@v1
+          ruby-version: ${{ matrix.ruby_version }}
+      - uses: actions/cache@v2
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
