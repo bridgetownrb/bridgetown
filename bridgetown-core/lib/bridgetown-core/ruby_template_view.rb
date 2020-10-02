@@ -21,6 +21,13 @@ module Bridgetown
         Bridgetown::Utils.parse_webpack_manifest_file(@site, asset_type.to_s)
       end
 
+      # @param pairs [Hash] A hash of key/value pairs.
+      #
+      # @return [String] Space-separated keys where the values are truthy.
+      def class_map(pairs = {})
+        pairs.select { |_key, truthy| truthy }.keys.join(" ")
+      end
+
       def t(*args)
         I18n.send :t, *args
       end
