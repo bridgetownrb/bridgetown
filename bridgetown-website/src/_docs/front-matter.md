@@ -137,6 +137,16 @@ food: Pizza
 ```
 {% endraw %}
 
+Or if you're using the ERB template engine:
+
+```eruby
+---
+food: Pad Thai
+---
+
+<h1><%= page.data[:food] %></h1>
+```
+
 You can also use a document's front matter variables in other places like layouts, and
 you can even reference those variables in loops through documents or as part of more
 complex queries (see [Liquid filters](/docs/liquid/filters/) for more information).

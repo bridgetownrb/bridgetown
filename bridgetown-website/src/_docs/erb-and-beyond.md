@@ -22,14 +22,32 @@ Simply define a page/document with an `.erb` extension, rather than `.html`. You
 title: I'm a page!
 ---
 
-<h1><%= page[:title] %></h1>
+<h1><%= page.data[:title] %></h1>
 
 <p>Welcome to <%= Bridgetown.name.to_s %>!</p>
 
 <footer>Authored by <%= site.data[:authors].first[:name] %></footer>
 ```
 
+Front matter is accessible via the `data` method on pages, posts, layouts, and other documents. Site config values are accessible via the `site.config` method, and loaded data files via `site.data` as you would expect.
+
 In addition to `site`, you can also access the `site_drop` object which will provide similar access to various data and config values similar to the `site` variable in Liquid.
+
+## Dot Access Hashes (available starting in v0.17.1)
+
+Instead of traditional Ruby hash key access, you can use "dot access" instead for a more familar look (coming from Liquid templates, or perhaps ActiveRecord objects in Rails). For example:
+
+```eruby
+<%= post.data.title %>
+
+<%= page.data.author %>
+
+<%= site.data.authors.lakshmi.twitter.handle %>
+
+<% # You can freely mix hash access and dot access: %>
+
+<%= site.data.authors[page.author].github %>
+```
 
 ## Partials
 
@@ -45,7 +63,7 @@ To include a partial in your ERB template, add a `_partials` folder to your sour
 title: I'm a page!
 ---
 
-<h1><%= page[:title] %></h1>
+<h1><%= page.data[:title] %></h1>
 
 <p>Welcome to <%= Bridgetown.name %>!</p>
 
@@ -96,9 +114,12 @@ You can add an `.erb` layout and use it in much the same way as a Liquid-based l
 ```eruby
 ---
 layout: default
+somevalue: 123
 ---
 
-<div>An ERB layout! <%= layout.name %></div>
+<h1><%= page.data[:title] %></h1>
+
+<div>An ERB layout! <%= layout.name %> / somevalue: <%= layout.data[:somevalue] %></div>
 
 <%= yield %>
 ```
@@ -169,7 +190,7 @@ Some text...
 
 ```eruby
 <% # src/_partials/_use_the_saved_variable.erb #>
-Print this: <%= layout[:save_this_for_later] %>
+Print this: <%= layout.data[:save_this_for_later] %>
 ```
 
 Because of the use of the `||=` operator, you'll only see "saving this into the layout!" print to the console once when the site builds even if you use the layout on thousands of pages!
@@ -190,7 +211,7 @@ permalink: /posts.json
       last_item = index == site.posts.docs.length - 1
   %>
     {
-      "title": <%= jsonify post[:title].strip %>,
+      "title": <%= jsonify post.data[:title].strip %>,
       "url": "<%= absolute_url post.url %>"<%= "," unless last_item %>
     }
   <% end %>
