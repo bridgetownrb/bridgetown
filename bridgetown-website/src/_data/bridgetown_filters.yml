@@ -173,6 +173,15 @@
 
 #
 
+- name: Reading Time
+  description: Returns the average number of minutes to read the supplied content. Based on 250 WPM but that can be changed using the <code>reading_time_wpm</code> configuration variable. You can also pass an argument to specify which decimal point to round to (defaults to 0 for no decimals).
+  examples:
+    - input: "{{ page.content | reading_time }} minutes"
+      output: "4 minutes"
+    - input: "{{ page.content | reading_time: 1 }} minutes"
+      output: "3.2 minutes"
+#
+
 - name: Array to Sentence
   description: >-
     Convert an array into a sentence. Useful for listing tags.
