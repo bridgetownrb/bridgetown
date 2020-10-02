@@ -9,7 +9,7 @@ class HelpersBuilder < Builder
     end
 
     helper "within_helpers_scope", helpers_scope: true do |something|
-      "Within Helpers Scope Based #{something} #{self.class} #{slugify("I Am Groot")}"
+      "Within Helpers Scope Based #{something} #{self.class} #{slugify("I Am Groot")} #{view.class} #{site.class}"
     end
 
     helper "method_based", :method_based
@@ -53,7 +53,9 @@ class TestHelpers < BridgetownUnitTest
         engine_class: Erubi::CaptureEndEngine
       ) { content }
       result = tmpl.render(@erb_view)
-      assert_equal "This is the Within Helpers Scope Based I'm a post! Bridgetown::RubyTemplateView::Helpers i-am-groot helper", result
+      assert_equal "This is the Within Helpers Scope Based I'm a post! " \
+        "Bridgetown::RubyTemplateView::Helpers i-am-groot Bridgetown::ERBView " \
+        "Bridgetown::Site helper", result
     end
 
     should "work with methods" do
