@@ -20,7 +20,7 @@ Benchmark.ips do |x|
     h[:foo]
   end
   x.report("hash with indifferent access via new method") do
-    h = ActiveSupport::HashWithIndifferentAccess.new
+    h = HashWithDotAccess::Hash.new
     h["foo"] = "bar"
     h[:foo]
   end

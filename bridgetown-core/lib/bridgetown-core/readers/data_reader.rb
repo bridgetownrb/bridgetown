@@ -6,7 +6,7 @@ module Bridgetown
 
     def initialize(site)
       @site = site
-      @content = ActiveSupport::HashWithIndifferentAccess.new
+      @content = {}
       @entry_filter = EntryFilter.new(site)
     end
 
@@ -20,7 +20,7 @@ module Bridgetown
       base = site.in_source_dir(dir)
       read_data_to(base, @content)
       merge_environment_specific_metadata!
-      @content
+      @content = @content.with_dot_access
     end
 
     # Read and parse all .yaml, .yml, .json, .csv and .tsv
@@ -44,7 +44,7 @@ module Bridgetown
         if File.directory?(path)
           read_data_to(
             path,
-            data[sanitize_filename(entry)] = ActiveSupport::HashWithIndifferentAccess.new
+            data[sanitize_filename(entry)] = {}
           )
         else
           key = sanitize_filename(File.basename(entry, ".*"))

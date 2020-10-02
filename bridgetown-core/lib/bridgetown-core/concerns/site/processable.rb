@@ -30,10 +30,10 @@ module Bridgetown
                   else
                     Time.now
                   end
-      self.layouts = ActiveSupport::HashWithIndifferentAccess.new
+      self.layouts = HashWithDotAccess::Hash.new
       self.pages = []
       self.static_files = []
-      self.data = ActiveSupport::HashWithIndifferentAccess.new
+      self.data = HashWithDotAccess::Hash.new
       @post_attr_hash = {}
       @collections = nil
       @documents = nil

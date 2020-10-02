@@ -23,7 +23,7 @@ module Bridgetown
 
         self.config = if defined?(self.class::CONFIG_DEFAULTS)
                         Bridgetown::Utils.deep_merge_hashes(
-                          self.class::CONFIG_DEFAULTS.with_indifferent_access, site.config
+                          self.class::CONFIG_DEFAULTS.with_dot_access, site.config
                         )
                       else
                         site.config

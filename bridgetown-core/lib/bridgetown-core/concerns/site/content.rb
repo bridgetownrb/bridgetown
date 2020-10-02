@@ -61,10 +61,10 @@ module Bridgetown
     end
 
     # Returns the value of +data+["site_metadata"] or creates a new instance of
-    # +ActiveSupport::HashWithIndifferentAccess+
+    # +HashWithDotAccess::Hash+
     # @return [Hash] Returns a hash of site metadata
     def metadata
-      data["site_metadata"] ||= ActiveSupport::HashWithIndifferentAccess.new
+      data["site_metadata"] ||= HashWithDotAccess::Hash.new
     end
 
     # The Hash payload containing site-wide data.
@@ -116,7 +116,7 @@ module Bridgetown
     # @see Collection
     def collections
       @collections ||= collection_names.each_with_object(
-        ActiveSupport::HashWithIndifferentAccess.new
+        HashWithDotAccess::Hash.new
       ) do |name, hsh|
         hsh[name] = Bridgetown::Collection.new(self, name)
       end
