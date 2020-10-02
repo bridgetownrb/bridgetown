@@ -26,7 +26,7 @@ module Bridgetown
       end
     end
 
-    attr_reader :layout, :page, :site, :content
+    attr_reader :layout, :page, :paginator, :site, :content
 
     def initialize(convertible)
       if convertible.is_a?(Layout)
@@ -36,6 +36,7 @@ module Bridgetown
       else
         @page = convertible
       end
+      @paginator = page.paginator if page.respond_to?(:paginator)
       @site = page.site
     end
 
