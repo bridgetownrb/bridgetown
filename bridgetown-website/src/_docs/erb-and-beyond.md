@@ -46,7 +46,7 @@ Instead of traditional Ruby hash key access, you can use "dot access" instead fo
 
 <% # You can freely mix hash access and dot access: %>
 
-<%= site.data.authors[page.author].github %>
+<%= site.data.authors[page.data.author].github %>
 ```
 
 ## Partials
