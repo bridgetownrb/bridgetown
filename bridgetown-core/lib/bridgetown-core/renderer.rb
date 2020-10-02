@@ -249,12 +249,12 @@ module Bridgetown
       )
     end
 
-    # Set page content to payload and assign pager if document has one.
+    # Set page content to payload and assign paginator if document has one.
     #
     # Returns nothing
     def assign_pages!
       payload["page"] = document.to_liquid
-      payload["paginator"] = (document.pager.to_liquid if document.respond_to?(:pager))
+      payload["paginator"] = document.paginator.to_liquid if document.respond_to?(:paginator)
     end
 
     # Set related posts to payload if document is a post.
