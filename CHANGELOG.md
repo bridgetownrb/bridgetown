@@ -6,7 +6,7 @@
 * Add view reference to template helpers object [#153](https://github.com/bridgetownrb/bridgetown/pull/153) ([jaredcwhite](https://github.com/jaredcwhite))
 * Support a _pages folder in the source tree [#151](https://github.com/bridgetownrb/bridgetown/pull/151) ([jaredcwhite](https://github.com/jaredcwhite))
 * Add reading_time filter/helper [#150](https://github.com/bridgetownrb/bridgetown/pull/150) ([jaredcwhite](https://github.com/jaredcwhite))
-* Rename pager variable to paginator [#148](https://github.com/bridgetownrb/bridgetown/pull/148) ([jaredcwhite](https://github.com/jaredcwhite) & [ParamagicDev](https://github.com/ParamagicDev))
+* Rename pager variable to paginator [#148](https://github.com/bridgetownrb/bridgetown/pull/148) ([ParamagicDev](https://github.com/ParamagicDev) & [jaredcwhite](https://github.com/jaredcwhite))
 * Add Class Map helper and usage info in docs [#147](https://github.com/bridgetownrb/bridgetown/pull/147) ([jaredcwhite](https://github.com/jaredcwhite))
 
 # 0.17.0 "Mount Scott" / 2020-09-17
