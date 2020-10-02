@@ -121,10 +121,16 @@ module Bridgetown
     # desired placeholder replacements. For details see "url.rb"
     def url_placeholders
       {
-        path: @dir,
+        path: qualified_pages_path_for_url,
         basename: basename,
         output_ext: output_ext,
       }
+    end
+
+    # Strips _pages prefix off if needed for the url/destination generation
+    # @return [String]
+    def qualified_pages_path_for_url
+      @dir.sub(%r!^/_pages!, "")
     end
 
     # Extract information from the page filename.

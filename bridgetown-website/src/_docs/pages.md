@@ -16,7 +16,7 @@ a homepage, an about page, and a contact page, here’s what the source folder
 and associated URLs might look like:
 
 ```
-.
+src
 ├── about.md    # => http://example.com/about.html
 ├── index.html    # => http://example.com/
 └── contact.html  # => http://example.com/contact.html
@@ -25,12 +25,24 @@ and associated URLs might look like:
 If you have a lot of pages, you can organize them into subfolders. The same subfolders that are used to group your pages in your project's source will then exist in the `output` folder when your site builds. However, when a page has a *different* permalink set in the front matter, the subfolder at `output` changes accordingly.
 
 ```
-.
+src
 ├── about.md          # => http://example.com/about.html
 ├── documentation     # folder containing pages
 │   └── doc1.md       # => http://example.com/documentation/doc1.html
 ├── design            # folder containing pages
 │   └── draft.md      # => http://example.com/design/draft.html
+```
+
+You can also choose to place the pages folder tree within a top-level `src/_pages` folder to line up with `_posts`, `_data`, and any other collections you've configured.
+
+```
+src
+└── _pages
+    ├── about.md          # => http://example.com/about.html
+    ├── documentation     # folder containing pages
+    │   └── doc1.md       # => http://example.com/documentation/doc1.html
+    ├── design            # folder containing pages
+    │   └── draft.md      # => http://example.com/design/draft.html
 ```
 
 ## Changing the output URL
@@ -53,7 +65,13 @@ Front matter variables are available in Liquid via the `page` variable. For exam
 {% raw %}{{ page.my_number }}{% endraw %}
 ```
 
-Note that in order for Bridgetown to process any Liquid tags on your page, you must include front matter on it. The most minimal snippet of front matter you can include is:
+Or if you're using ERB template engine:
+
+```erb
+<%= page.data.my_number %>
+```
+
+Note that in order for Bridgetown to process pages through Liquid, ERB, etc., you must include front matter on it. The most minimal snippet of front matter you can include is:
 
 ```yaml
 ---
