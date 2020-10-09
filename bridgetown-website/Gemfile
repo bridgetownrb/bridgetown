@@ -20,3 +20,5 @@ group :test, optional: true do
   gem "shoulda"
   gem "rails-dom-testing"
 end
+
+gem "ruby2js", github: "jaredcwhite/ruby2js", branch: "es-import-filter"

@@ -5,25 +5,7 @@ import SwupBodyClassPlugin from "@swup/body-class-plugin"
 import SwupScrollPlugin from "@swup/scroll-plugin"
 import animateScrollTo from "animated-scroll-to"
 import "bridgetown-quick-search"
-
-const toggleMenuIcon = button => {
-  button.querySelectorAll(".icon").forEach(item => {
-    item.classList.toggle("not-shown")
-  })
-  button.querySelector(".icon:not(.not-shown)").classList.add("shown")
-}
-
-const addHeadingAnchors = () => {
-  if (document.body.classList.contains("docs")) {
-    document.querySelectorAll(".content h2[id], .content h3[id]").forEach(heading => {
-      const anchorLink = document.createElement("a");
-      anchorLink.innerText = "#";
-      anchorLink.href = "#" + heading.id;
-      anchorLink.classList.add("heading-anchor");
-      heading.appendChild(anchorLink);
-    })
-  }
-}
+import { toggleMenuIcon, addHeadingAnchors } from "./lib/functions.js.rb"
 
 document.addEventListener('DOMContentLoaded', () => {
   // Docs layout has a sidebar, so we need to adjust Swup accordingly
