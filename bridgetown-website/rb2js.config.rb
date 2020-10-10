@@ -1,8 +1,8 @@
 require "ruby2js/filter/functions"
 require "ruby2js/filter/camelCase"
-require "ruby2js/filter/tagged_templates"
 require "ruby2js/filter/return"
-require "ruby2js/filter/esimports"
+require "ruby2js/filter/esm"
+require "ruby2js/filter/tagged_templates"
 
 module Ruby2JS
   class Loader

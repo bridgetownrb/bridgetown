@@ -16,5 +16,3 @@ export add_heading_anchors = ->() do
     end
   end
 end
-
-
