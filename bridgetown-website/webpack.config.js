@@ -2,6 +2,27 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 
+const babelConfig = {
+  loader: "babel-loader",
+  options: {
+    presets: [["@babel/preset-env",
+      {
+        targets: [">1%", "not ie 11", "not samsung 4"]
+      }
+    ]],
+    plugins: [
+      ["@babel/plugin-proposal-decorators", { "legacy": true }],
+      ["@babel/plugin-proposal-class-properties", { "loose" : true }],
+      [
+        "@babel/plugin-transform-runtime",
+        {
+          helpers: false,
+        },
+      ],
+    ],
+  },
+}
+
 module.exports = {
   entry: "./frontend/javascript/index.js",
   devtool: "source-map",
@@ -31,40 +52,12 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx)/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env"],
-            plugins: [
-              ["@babel/plugin-proposal-decorators", { "legacy": true }],
-              ["@babel/plugin-proposal-class-properties", { "loose" : true }],
-              [
-                "@babel/plugin-transform-runtime",
-                {
-                  helpers: false,
-                },
-              ],
-            ],
-          },
-        },
+        use: babelConfig
       },
       {
         test: /\.js\.rb$/,
         use: [
-          {
-            loader: "babel-loader",
-            options: {
-            presets: ["@babel/preset-env"],
-              plugins: [
-                [
-                  "@babel/plugin-transform-runtime",
-                  {
-                    helpers: false,
-                  },
-                ],
-              ],
-            }
-          },
+          babelConfig,
           "rb2js-loader"
         ]
       },
