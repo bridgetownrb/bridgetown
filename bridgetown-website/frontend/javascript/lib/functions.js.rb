@@ -6,13 +6,13 @@ export toggle_menu_icon = ->(button) do
 end
 
 export add_heading_anchors = ->() do
-  if document.body.class_list.contains("docs")
+  if document.body.class_list.include?("docs")
     document.query_selector_all(".content h2[id], .content h3[id]").each do |heading|
-      anchorLink = document.create_element("a")
-      anchorLink.inner_text = "#"
-      anchorLink.href = "#" + heading.id
-      anchorLink.class_list.add "heading-anchor"
-      heading.append_child anchorLink
+      anchor_link = document.create_element("a")
+      anchor_ink.inner_text = "#"
+      anchor_ink.href = "##{heading.id}"
+      anchor_ink.class_list.add ".heading-anchor".slice(1) # purgecss
+      heading.append_child anchor_link
     end
   end
 end
