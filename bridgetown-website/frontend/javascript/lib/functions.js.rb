@@ -6,7 +6,7 @@ export toggle_menu_icon = ->(button) do
 end
 
 export add_heading_anchors = ->() do
-  if document.body.class_list.include?("docs")
+  if document.body.class_list.contains? "docs"
     document.query_selector_all(".content h2[id], .content h3[id]").each do |heading|
       anchor_link = document.create_element("a")
       anchor_ink.inner_text = "#"
