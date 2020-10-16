@@ -266,6 +266,12 @@ end
 
 #
 
+When(%r!^I should see the output folder$!) do
+  warn "\n#{`ls output`}\n"
+end
+
+#
+
 When(%r!^I change "(.*)" to contain "(.*)"$!) do |file, text|
   File.open(file, "a") do |f|
     f.write(text)
