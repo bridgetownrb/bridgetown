@@ -44,6 +44,7 @@ module Bridgetown
         @page = layout.current_document
         @content = layout.current_document_output
       else
+        @layout = convertible.site.layouts[convertible.data["layout"]]
         @page = convertible
       end
       @paginator = page.paginator if page.respond_to?(:paginator)
@@ -112,7 +113,7 @@ module Bridgetown
         registers: {
           site: site,
           page: page.to_liquid,
-          cached_partials: Bridgetown::Renderer.cached_partials,
+          cached_partials: Bridgetown::Converters::LiquidTemplates.cached_partials,
         },
         strict_filters: site.config["liquid"]["strict_filters"],
         strict_variables: site.config["liquid"]["strict_variables"],

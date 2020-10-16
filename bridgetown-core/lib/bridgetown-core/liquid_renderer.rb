@@ -26,7 +26,7 @@ module Bridgetown
     def reset
       @stats = {}
       @cache = {}
-      Renderer.cached_partials = {}
+      Bridgetown::Converters::LiquidTemplates.cached_partials = {}
     end
 
     def file(filename)

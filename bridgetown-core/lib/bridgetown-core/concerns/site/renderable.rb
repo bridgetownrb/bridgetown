@@ -5,16 +5,11 @@ module Bridgetown
     # Render the site to the destination.
     # @return [void]
     def render
-      payload = site_payload
-
-      Bridgetown::Hooks.trigger :site, :pre_render, self, payload
-
+      Bridgetown::Hooks.trigger :site, :pre_render, self
       execute_inline_ruby_for_layouts!
-
-      render_docs(payload)
-      render_pages(payload)
-
-      Bridgetown::Hooks.trigger :site, :post_render, self, payload
+      render_docs
+      render_pages
+      Bridgetown::Hooks.trigger :site, :post_render, self
     end
 
     # Executes inline Ruby frontmatter
@@ -33,36 +28,33 @@ module Bridgetown
     end
 
     # Renders all documents
-    # @param payload [Hash] A hash of site data.
     # @return [void]
     # @see Bridgetown::Site::Content#site_payload
-    def render_docs(payload)
+    def render_docs
       collections.each_value do |collection|
         collection.docs.each do |document|
-          render_regenerated(document, payload)
+          render_regenerated document
         end
       end
     end
 
     # Renders all pages
-    # @param payload [Hash] A hash of site data.
     # @return [void]
     # @see Bridgetown::Site::Content#site_payload
-    def render_pages(payload)
+    def render_pages
       pages.each do |page|
-        render_regenerated(page, payload)
+        render_regenerated page
       end
     end
 
     # Regenerates a site using {Bridgetown::Renderer}
     # @param document [Post] The document to regenerate.
-    # @param payload [Hash] A hash of site data.
     # @return [void]
     # @see Bridgetown::Renderer
-    def render_regenerated(document, payload)
+    def render_regenerated(document)
       return unless regenerator.regenerate?(document)
 
-      Bridgetown::Renderer.new(self, document, payload).run
+      Bridgetown::Renderer.new(self, document).run
     end
   end
 end

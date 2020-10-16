@@ -17,8 +17,7 @@ class TestTags < BridgetownUnitTest
 
     info = { filters: [Bridgetown::Filters], registers: { site: site } }
     @converter = site.converters.find { |c| c.class == converter_class }
-    payload = { "highlighter_prefix" => @converter.highlighter_prefix,
-                "highlighter_suffix" => @converter.highlighter_suffix, }
+    payload = {}
     payload["posts"] = site.posts.docs.map(&:to_liquid) if site.posts.docs
 
     @result = Liquid::Template.parse(content).render!(payload, info)
@@ -274,7 +273,7 @@ class TestTags < BridgetownUnitTest
 
       should "should stop highlighting at boundary with rouge" do
         expected = <<~EOS
-          <p>This is not yet highlighted</p>\n
+          <p>This is not yet highlighted</p>
           <figure class="highlight"><pre><code class="language-php" data-lang="php"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
           </pre></td><td class="code"><pre><span class="n">test</span>\n</pre></td></tr></tbody></table></code></pre></figure>\n
           <p>This should not be highlighted, right?</p>
