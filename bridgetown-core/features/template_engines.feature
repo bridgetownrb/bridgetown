@@ -79,3 +79,20 @@ Feature: Template Engines
     Then I should get a zero exit status
     And I should see the output folder
     And I should see "\{\"key\":\[1,2,3\]\}" in "output/data.json"
+
+  Scenario: Rendering a site with default ERB but file template engine is none
+    Given I have a _layouts directory
+    And I have a _posts directory
+    And I have a "_layouts/simple.html" file that contains "<h1><%= page.data.title %></h1> <%= yield %>"
+    And I have the following post:
+      | title     | date       | layout | template_engine | content                 |
+      | Star Wars | 2009-03-27 | simple | none            | _Luke_, <%= ["I", "am"].join(" ") %> your father. |
+    And I have a configuration file with:
+      | key                | value |
+      | template_engine    | erb   |
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And I should see "<p><em>Luke</em>, &lt;%= " in "output/2009/03/27/star-wars.html"
+    And I should see ".join" in "output/2009/03/27/star-wars.html"
+    And I should see " %&gt; your father.</p>" in "output/2009/03/27/star-wars.html"
+    And I should see "<h1>Star Wars</h1>" in "output/2009/03/27/star-wars.html"
