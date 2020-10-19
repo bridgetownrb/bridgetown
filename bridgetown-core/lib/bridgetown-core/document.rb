@@ -330,24 +330,6 @@ module Bridgetown
       data.key?(method.to_s) || super
     end
 
-    def populate_categories
-      categories = Array(data["categories"]) + Utils.pluralized_array_from_hash(
-        data, "category", "categories"
-      )
-      categories.map!(&:to_s)
-      categories.flatten!
-      categories.uniq!
-
-      merge_data!({ "categories" => categories })
-    end
-
-    def populate_tags
-      tags = Utils.pluralized_array_from_hash(data, "tag", "tags")
-      tags.flatten!
-
-      merge_data!({ "tags" => tags })
-    end
-
     private
 
     def merge_categories!(other)
@@ -384,6 +366,7 @@ module Bridgetown
       populate_title
       populate_categories
       populate_tags
+      determine_locale
       generate_excerpt
     end
 
@@ -416,6 +399,36 @@ module Bridgetown
       # Only overwrite slug & ext if they aren't specified.
       data["slug"]  ||= slug
       data["ext"]   ||= ext
+    end
+
+    def populate_categories
+      categories = Array(data["categories"]) + Utils.pluralized_array_from_hash(
+        data, "category", "categories"
+      )
+      categories.map!(&:to_s)
+      categories.flatten!
+      categories.uniq!
+
+      merge_data!({ "categories" => categories })
+    end
+
+    def populate_tags
+      tags = Utils.pluralized_array_from_hash(data, "tag", "tags")
+      tags.flatten!
+
+      merge_data!({ "tags" => tags })
+    end
+
+    def determine_locale
+      unless data["locale"]
+        # if locale key isn't directly set, look for alternative front matter
+        # or look at the filename pattern: slug.locale.ext
+        alernative = data["language"] || data["lang"] ||
+          basename_without_ext.split(".")[1..-1].last
+
+        data["locale"] = alernative if !alernative.nil? &&
+          site.config[:available_locales].include?(alernative)
+      end
     end
 
     def modify_date(date)

@@ -39,7 +39,9 @@ module Bridgetown
     def render_docs(payload)
       collections.each_value do |collection|
         collection.docs.each do |document|
-          render_regenerated(document, payload)
+          render_with_locale(document) do
+            render_regenerated(document, payload)
+          end
         end
       end
     end
@@ -51,6 +53,21 @@ module Bridgetown
     def render_pages(payload)
       pages.each do |page|
         render_regenerated(page, payload)
+      end
+    end
+
+    # Renders a document while ensuring site locale is set if the data is available.
+    # @param document [Bridgetown::Document] The document to render
+    # @yield Runs the block in between locale setting and resetting
+    # @return [void]
+    def render_with_locale(document)
+      if document.data["locale"]
+        previous_locale = locale
+        self.locale = document.data["locale"]
+        yield
+        self.locale = previous_locale
+      else
+        yield
       end
     end
 
