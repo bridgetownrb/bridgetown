@@ -136,7 +136,9 @@ module Bridgetown
       def qualified_slug_data
         slug_data = @obj.data["slug"] || @obj.basename_without_ext
         if @obj.data["locale"]
-          slug_data.split(".").reject { |component| component == @obj.data["locale"] }.join(".")
+          slug_data.split(".").tap do |segments|
+            segments.pop if segments.length > 1 && segments.last == @obj.data["locale"]
+          end.join(".")
         else
           slug_data
         end
