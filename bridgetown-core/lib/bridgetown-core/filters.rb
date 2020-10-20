@@ -79,16 +79,15 @@ module Bridgetown
     # XML escape a string for use. Replaces any special characters with
     # appropriate HTML entity replacements.
     #
-    # input - The String to escape.
-    #
     # Examples
     #
     #   xml_escape('foo "bar" <baz>')
     #   # => "foo &quot;bar&quot; &lt;baz&gt;"
     #
-    # Returns the escaped String.
+    # @param input [String] The String to escape.
+    # @return [String] the escaped String.
     def xml_escape(input)
-      input.to_s.encode(xml: :attr).gsub(%r!\A"|"\Z!, "")
+      Utils.xml_escape(input)
     end
 
     # CGI escape a string for use in a URL. Replaces any special characters
