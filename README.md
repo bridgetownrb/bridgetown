@@ -113,10 +113,10 @@ Bridgetown is built by:
 |<a href="https://github.com/jaredcwhite">@jaredcwhite</a>|<a href="https://github.com/jaredmoody">@jaredmoody</a>|<a href="https://github.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/ParamagicDev">@ParamagicDev</a>|<a href="https://github.com/MikeRogers0">@MikeRogers0</a>|
 |Portland, OR|Portland, OR|Wilmington, NC|Providence, RI|Ny-Ålesund, Svalbard|
 
-|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/codemargaret?s=256" alt="" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|:---:|
-|<a href="https://github.com/wout">@wout</a>|<a href="https://github.com/codemargaret">@codemargaret</a>|You Next?|
-|Brighton, UK|Portland, OR|Anywhere|
+|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/codemargaret?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/julianrubisch?s=256" alt="" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/wout">@wout</a>|<a href="https://github.com/codemargaret">@codemargaret</a>|<a href="https://github.com/julianrubisch">@julianrubisch</a>|You Next?|
+|Brighton, UK|Portland, OR|Vienna, Austria|Anywhere|
 
 Interested in joining the Bridgetown Core Team? Send a DM to Jared on the [Bridgetown Community forum](https://community.bridgetownrb.com) and let's chat!
 

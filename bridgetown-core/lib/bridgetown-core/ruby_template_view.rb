@@ -8,21 +8,35 @@ module Bridgetown
     class Helpers
       include Bridgetown::Filters
 
+      attr_reader :view, :site
+
       Context = Struct.new(:registers)
 
-      def initialize(site)
+      def initialize(view, site)
+        @view = view
         @site = site
 
         # duck typing for Liquid context
-        @context = Context.new({ site: @site })
+        @context = Context.new({ site: site })
       end
 
       def webpack_path(asset_type)
-        Bridgetown::Utils.parse_webpack_manifest_file(@site, asset_type.to_s)
+        Bridgetown::Utils.parse_webpack_manifest_file(site, asset_type.to_s)
+      end
+
+      # @param pairs [Hash] A hash of key/value pairs.
+      #
+      # @return [String] Space-separated keys where the values are truthy.
+      def class_map(pairs = {})
+        pairs.select { |_key, truthy| truthy }.keys.join(" ")
+      end
+
+      def t(*args)
+        I18n.send :t, *args
       end
     end
 
-    attr_reader :layout, :page, :site, :content
+    attr_reader :layout, :page, :paginator, :site, :content
 
     def initialize(convertible)
       if convertible.is_a?(Layout)
@@ -32,6 +46,7 @@ module Bridgetown
       else
         @page = convertible
       end
+      @paginator = page.paginator if page.respond_to?(:paginator)
       @site = page.site
     end
 
@@ -57,7 +72,7 @@ module Bridgetown
     end
 
     def helpers
-      @helpers ||= Helpers.new(@site)
+      @helpers ||= Helpers.new(self, site)
     end
 
     def method_missing(method, *args, &block)

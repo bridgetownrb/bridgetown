@@ -76,7 +76,7 @@ And of course you can chain any number of built-in and custom filters together:
 As with other parts of the Builder API, you can also use an instance method to register your filter:
 
 ```ruby
-def Upcase < SiteBuilder
+def Filters < SiteBuilder
   def build
     liquid_filter "cache_busting_url", :bust_it
   end

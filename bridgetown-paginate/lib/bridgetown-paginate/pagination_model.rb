@@ -311,7 +311,7 @@ module Bridgetown
 
         # Now for each pagination page create it and configure the ranges for
         # the collection
-        # The .pager member is a built in thing in Bridgetown and references the
+        # The .paginator member is a built in thing in Bridgetown and references the
         # paginator implementation
         # rubocop:disable Metrics/BlockLength
         (1..total_pages).each do |cur_page_nr|
@@ -338,9 +338,10 @@ module Bridgetown
                                  end
           paginated_page_url = File.join(first_index_page_url, paginated_page_url)
 
-          # 3. Create the pager logic for this page, pass in the prev and next
-          # page numbers, assign pager to in-memory page
-          newpage.pager = Paginator.new(
+          # 3. Create the paginator logic for this page, pass in the prev and next
+          # page numbers, assign paginator to in-memory page
+          # TODO: remove .pager by v1.0, deprecated
+          newpage.paginator = newpage.pager = Paginator.new(
             config["per_page"],
             first_index_page_url,
             paginated_page_url,
@@ -353,17 +354,17 @@ module Bridgetown
 
           # Create the url for the new page, make sure we prepend any permalinks
           # that are defined in the template page before
-          if newpage.pager.page_path.end_with? "/"
-            newpage.set_url(File.join(newpage.pager.page_path, index_page_with_ext))
-          elsif newpage.pager.page_path.end_with? index_page_ext.to_s
+          if newpage.paginator.page_path.end_with? "/"
+            newpage.set_url(File.join(newpage.paginator.page_path, index_page_with_ext))
+          elsif newpage.paginator.page_path.end_with? index_page_ext.to_s
             # Support for direct .html files
-            newpage.set_url(newpage.pager.page_path)
+            newpage.set_url(newpage.paginator.page_path)
           else
             # Support for extensionless permalinks
-            newpage.set_url(newpage.pager.page_path + index_page_ext.to_s)
+            newpage.set_url(newpage.paginator.page_path + index_page_ext.to_s)
           end
 
-          newpage.data["permalink"] = newpage.pager.page_path if template.data["permalink"]
+          newpage.data["permalink"] = newpage.paginator.page_path if template.data["permalink"]
 
           # Transfer the title across to the new page
           tmp_title = if !template.data["title"]
@@ -416,7 +417,7 @@ module Bridgetown
           if trail_before.positive? || trail_after.positive?
             newpages.select do |npage|
               # Selecting the beginning of the trail
-              idx_start = [npage.pager.page - trail_before - 1, 0].max
+              idx_start = [npage.paginator.page - trail_before - 1, 0].max
               # Selecting the end of the trail
               idx_end = [idx_start + trail_length, newpages.size.to_i].min
 
@@ -433,11 +434,11 @@ module Bridgetown
 
               # Convert the newpages array into a two dimensional array that has
               # [index, page_url] as items
-              npage.pager.page_trail = newpages[idx_start...idx_end] \
+              npage.paginator.page_trail = newpages[idx_start...idx_end] \
                 .each_with_index.map do |ipage, idx|
                 PageTrail.new(
                   idx_start + idx + 1,
-                  ipage.pager.page_path,
+                  ipage.paginator.page_path,
                   ipage.data["title"]
                 )
               end

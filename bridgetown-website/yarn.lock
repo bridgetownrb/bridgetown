@@ -4692,6 +4692,11 @@ raw-body@^2.3.2:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
+rb2js-loader@^1.0.2:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/rb2js-loader/-/rb2js-loader-1.0.4.tgz#e719d7d3f41f6b2f669dc4b388ff98c37d689615"
+  integrity sha512-msk+ZgvoKv4Qhw3O+xB89+uRhbO9Bl8v5B3b2KCJ3i7nCWo4ir4DB/obhExmXiaFsHcJU1GhctSGrfzsjaz2xA==
+
 read-pkg-up@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/read-pkg-up/-/read-pkg-up-1.0.1.tgz#9d63c13276c065918d57f002a57f40a1b643fb02"

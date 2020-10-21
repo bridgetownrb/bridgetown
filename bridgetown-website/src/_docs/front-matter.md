@@ -12,6 +12,12 @@ layouts. Front matter can be used in various ways to set configuration options
 on a per-file basis, and starting with Bridgetown v0.13, you can even write Ruby
 code for dynamic front matter variables.
 
+{% rendercontent "docs/note", title: "Don't repeat yourself" %}
+If you'd like to avoid repeating your frequently used variables
+over and over, you can define [front matter defaults](/docs/configuration/front-matter-defaults) for them and only override them where necessary (or not at all). This works
+both for predefined and custom variables.
+{% endrendercontent %}
+
 {% toc %}
 
 ## Using Front Matter
@@ -131,6 +137,16 @@ food: Pizza
 ```
 {% endraw %}
 
+Or if you're using the ERB template engine:
+
+```eruby
+---
+food: Pad Thai
+---
+
+<h1><%= page.data[:food] %></h1>
+```
+
 You can also use a document's front matter variables in other places like layouts, and
 you can even reference those variables in loops through documents or as part of more
 complex queries (see [Liquid filters](/docs/liquid/filters/) for more information).
@@ -194,17 +210,6 @@ For documents in the `posts` collection, these variables are available out-of-th
   </tbody>
 </table>
 
-<div class="note">
-  <h5>Don't repeat yourself</h5>
-  <p>
-    If you don't want to repeat your frequently used front matter variables
-    over and over, define
-    <a href="{{ '/docs/configuration/front-matter-defaults/' | relative_url }}" title="Front Matter defaults">defaults</a>
-    for them and only override them where necessary (or not at all). This works
-    both for predefined and custom variables.
-  </p>
-</div>
-
 ## Advanced Front Matter Data Structures
 
 YAML allows for pretty sophisticated methods of structuring data, for example representing arrays or hashes (key/value pairs). You can also write out longer multi-line strings like so:
@@ -230,7 +235,7 @@ you may encounter build errors.
 For advanced use cases where you wish to generate dynamic values for front matter variables, you can use Ruby Front Matter (new in Bridgetown v0.13). This feature is available for pages, posts, and other documents–as well as layouts for site-wide access to your Ruby return values.
 
 {% rendercontent "docs/note" %}
-This requires the environment variable `BRIDGETOWN_RUBY_IN_FRONT_MATTER` to be set to `"true"` in your development and deployment setups. Otherwise the code will not be executed and will be treated as a raw string.
+Prior to v0.17, this required the environment variable `BRIDGETOWN_RUBY_IN_FRONT_MATTER` to be set to `"true"`, otherwise the code would not be executed and would be treated as a raw string.
 {% endrendercontent %}
 
 [Here's a blog post with a high-level overview](/feature/supercharge-your-bridgetown-site-with-ruby-front-matter/){:data-no-swup="true"} of what Ruby Front Matter is capable of and why you might want to use it.

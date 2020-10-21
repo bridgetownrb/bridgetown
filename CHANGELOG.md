@@ -1,5 +1,31 @@
 # main
 
+# 0.17.1 / 2020-10-02
+
+* Use HashWithDotAccess::Hash for all data/config hashes [#158](https://github.com/bridgetownrb/bridgetown/pull/158) ([jaredcwhite](https://github.com/jaredcwhite))
+* Add view reference to template helpers object [#153](https://github.com/bridgetownrb/bridgetown/pull/153) ([jaredcwhite](https://github.com/jaredcwhite))
+* Support a _pages folder in the source tree [#151](https://github.com/bridgetownrb/bridgetown/pull/151) ([jaredcwhite](https://github.com/jaredcwhite))
+* Add reading_time filter/helper [#150](https://github.com/bridgetownrb/bridgetown/pull/150) ([jaredcwhite](https://github.com/jaredcwhite))
+* Rename pager variable to paginator [#148](https://github.com/bridgetownrb/bridgetown/pull/148) ([ParamagicDev](https://github.com/ParamagicDev) & [jaredcwhite](https://github.com/jaredcwhite))
+* Add Class Map helper and usage info in docs [#147](https://github.com/bridgetownrb/bridgetown/pull/147) ([jaredcwhite](https://github.com/jaredcwhite))
+
+# 0.17.0 "Mount Scott" / 2020-09-17
+
+* Helper DSL for plugins (similar to the Liquid Filter DSL) [#135](https://github.com/bridgetownrb/bridgetown/pull/135) ([jaredcwhite](https://github.com/jaredcwhite))
+* Process data cascade for folder-based frontmatter defaults [#139](https://github.com/bridgetownrb/bridgetown/pull/139) ([jaredcwhite](https://github.com/jaredcwhite))
+* Execute block-based filters within object scope [#142](https://github.com/bridgetownrb/bridgetown/pull/142) ([jaredcwhite](https://github.com/jaredcwhite))
+* Provide a Liquid find tag as easier alternative to where_exp [#101](https://github.com/bridgetownrb/bridgetown/pull/101) ([jaredcwhite](https://github.com/jaredcwhite))
+* First pass at implementing site locales and translations [#131](https://github.com/bridgetownrb/bridgetown/pull/131) ([jaredcwhite](https://github.com/jaredcwhite))
+* Add international character slug improvements [#138](https://github.com/bridgetownrb/bridgetown/pull/138) ([jaredcwhite](https://github.com/jaredcwhite) & [swanson](https://github.com/swanson))
+* Switch to processing Ruby front matter by default [#136](https://github.com/bridgetownrb/bridgetown/pull/136) ([jaredcwhite](https://github.com/jaredcwhite))
+* Switch from AwesomePrint to AmazingPrint [#127](https://github.com/bridgetownrb/bridgetown/pull/127) ([jaredcwhite](https://github.com/jaredcwhite))
+
+# Website updates
+
+* Fix filter plugin doc [#130](https://github.com/bridgetownrb/bridgetown/pull/130) ([julianrubisch](https://github.com/julianrubisch))
+* Try out a couple of improvements for Lighthouse score [#128](https://github.com/bridgetownrb/bridgetown/pull/128) ([jaredcwhite](https://github.com/jaredcwhite))
+* Adding netlify.toml to add caching & hint headers [#112](https://github.com/bridgetownrb/bridgetown/pull/112) ([MikeRogers0](https://github.com/MikeRogers0))
+
 # 0.16.0 "Crystal Springs" / 2020-07-28
 
 * Final release of 0.16! Yipee yay! Keep reading for what's new since 0.15.

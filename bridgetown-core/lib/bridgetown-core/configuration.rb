@@ -4,7 +4,7 @@ module Bridgetown
   # TODO: refactor this whole object! Already had to fix obscure
   # bugs just making minor changes, and all the indirection is
   # quite hard to decipher. -JW
-  class Configuration < ActiveSupport::HashWithIndifferentAccess
+  class Configuration < HashWithDotAccess::Hash
     # Default options. Overridden by values in bridgetown.config.yml.
     # Strings rather than symbols are used for compatibility with YAML.
     DEFAULTS = {
@@ -35,7 +35,7 @@ module Bridgetown
       "limit_posts"          => 0,
       "future"               => false,
       "unpublished"          => false,
-      "ruby_in_front_matter" => true, # requires BRIDGETOWN_RUBY_IN_FRONT_MATTER == "true"
+      "ruby_in_front_matter" => true,
 
       # Conversion
       "markdown"             => "kramdown",
@@ -52,6 +52,8 @@ module Bridgetown
       "show_dir_listing"     => false,
 
       # Output Configuration
+      "available_locales"    => ["en"],
+      "default_locale"       => "en",
       "permalink"            => "date",
       "timezone"             => nil, # use the local timezone
 
@@ -276,7 +278,7 @@ module Bridgetown
     end
 
     def should_execute_inline_ruby?
-      ENV["BRIDGETOWN_RUBY_IN_FRONT_MATTER"] == "true" &&
+      ENV["BRIDGETOWN_RUBY_IN_FRONT_MATTER"] != "false" &&
         self["ruby_in_front_matter"]
     end
 
@@ -309,6 +311,10 @@ module Bridgetown
         raise Bridgetown::Errors::InvalidConfigurationError,
               "'#{option}' should be set as an array, but was: #{self[option].inspect}."
       end
+
+      # add _pages to includes set
+      self[:include] << "_pages"
+
       self
     end
   end

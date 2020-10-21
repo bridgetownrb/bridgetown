@@ -102,7 +102,7 @@ The location of pages in your source folder structure will by default be mirrore
       </td>
       <td>
         <p>
-          Provided that the file has a <a href="/docs/front-matter/">front matter</a> section, it will be transformed by Bridgetown. You can create subfolders (and subfolders of subfolders) to organize your pages.
+          Provided that the file has a <a href="/docs/front-matter/">front matter</a> section, it will be transformed by Bridgetown. You can create subfolders (and subfolders of subfolders) to organize your pages. You can also locate pages within <code>_pages</code> to line up with <code>_posts</code>, <code>_data</code>, etc.
         </p>
       </td>
     </tr>

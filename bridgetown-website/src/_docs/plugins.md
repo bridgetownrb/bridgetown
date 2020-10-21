@@ -157,31 +157,35 @@ Documentation on the internal Ruby API for Bridgetown is forthcoming, but meanwh
 
 There are several categories of functionality you can add to your Bridgetown plugin:
 
-### [Tags](/docs/plugins/tags/)
+### [Tags](/docs/plugins/tags)
 
 Create custom Liquid tags or "shortcodes" which you can add to your content or design templates. 
 
-### [Filters](/docs/plugins/filters/)
+### [Filters](/docs/plugins/filters)
 
 Create custom Liquid filters to help transform data and content.
 
-### [HTTP Requests and the Document Builder](/docs/plugins/external-apis/)
+### [Helpers](/docs/plugins/helpers)
+
+For Tilt-based templates such as [ERB, Slim, etc.](/docs/erb-and-beyond), you can provide custom helpers which can be called from your templates.
+
+### [HTTP Requests and the Document Builder](/docs/plugins/external-apis)
 
 Easily pull data in from external APIs, and use a special DSL (Domain-Specific Language) to build documents out of that data.
 
-### [Hooks](/docs/plugins/hooks/)
+### [Hooks](/docs/plugins/hooks)
 
 Hooks provide fine-grained control to trigger custom functionality at various points in the build process.
 
-### [Generators](/docs/plugins/generators/)
+### [Generators](/docs/plugins/generators)
 
 Generators allow you to automate the creating or updating of content in your site using Bridgetown's internal Ruby API.
 
-### [Commands](/docs/plugins/commands/)
+### [Commands](/docs/plugins/commands)
 
 Commands extend the `bridgetown` executable using the Thor CLI toolkit.
 
-### [Converters](/docs/plugins/converters/)
+### [Converters](/docs/plugins/converters)
 
 Converters change a markup language from one format to another.
 

@@ -9,7 +9,7 @@ Bridgetown's primary template language is [**Liquid**](/docs/liquid), due to his
 
 However, Bridgetown's implementation language, Ruby, has a rich history of promoting [ERB (Embedded RuBy)](https://docs.ruby-lang.org/en/2.7.0/ERB.html) for templates and view layers across a wide variety of tools and frameworks, and other template languages such as [Haml](http://haml.info) and [Slim](http://slim-lang.com) boast their fair share of enthusiasts.
 
-So, starting with Bridgetown 0.16, you can now add ERB-based templates and pages (and partials too) to your site. In additional, there are plugins you can easily install for Haml and Slim as well.
+So, starting with Bridgetown 0.16, you can now add ERB-based templates and pages (and partials too) to your site. In additional, there are plugins you can easily install for Haml and Slim as well. Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process these Ruby templates.
 
 {% toc %}
 
@@ -22,14 +22,32 @@ Simply define a page/document with an `.erb` extension, rather than `.html`. You
 title: I'm a page!
 ---
 
-<h1><%= page[:title] %></h1>
+<h1><%= page.data[:title] %></h1>
 
 <p>Welcome to <%= Bridgetown.name.to_s %>!</p>
 
 <footer>Authored by <%= site.data[:authors].first[:name] %></footer>
 ```
 
+Front matter is accessible via the `data` method on pages, posts, layouts, and other documents. Site config values are accessible via the `site.config` method, and loaded data files via `site.data` as you would expect.
+
 In addition to `site`, you can also access the `site_drop` object which will provide similar access to various data and config values similar to the `site` variable in Liquid.
+
+## Dot Access Hashes (available starting in v0.17.1)
+
+Instead of traditional Ruby hash key access, you can use "dot access" instead for a more familar look (coming from Liquid templates, or perhaps ActiveRecord objects in Rails). For example:
+
+```eruby
+<%= post.data.title %>
+
+<%= page.data.author %>
+
+<%= site.data.authors.lakshmi.twitter.handle %>
+
+<% # You can freely mix hash access and dot access: %>
+
+<%= site.data.authors[page.data.author].github %>
+```
 
 ## Partials
 
@@ -45,7 +63,7 @@ To include a partial in your ERB template, add a `_partials` folder to your sour
 title: I'm a page!
 ---
 
-<h1><%= page[:title] %></h1>
+<h1><%= page.data[:title] %></h1>
 
 <p>Welcome to <%= Bridgetown.name %>!</p>
 
@@ -60,59 +78,18 @@ You can also pass variables to partials using either a `locals` hash or as keywo
 <%= partial "some/partial", locals: { key: "value", another_key: 123 } %>
 ```
 
-## Liquid Filters and Components
+## Liquid Filters, Tags, and Components
 
-Bridgetown includes access to some helpful [custom Liquid filters](/docs/liquid/filters) as helpers within your ERB templates:
+Bridgetown includes access to some helpful [Liquid filters](/docs/liquid/filters) as helpers within your ERB templates:
 
 ```eruby
 <!-- July 9th, 2020 -->
 <%= date_to_string site.time, "ordinal" %>
 ```
 
-These helpers are actually methods of the `helper` object which is an instance of `Bridgetown::RubyTemplateView::Helpers`.  If you wanted to add your own custom helpers to ERB templates, you could open the class up in a plugin and define additional methods:
+These helpers are actually methods of the `helper` object which is an instance of `Bridgetown::RubyTemplateView::Helpers`.
 
-```ruby
-# plugins/site_builder.rb
-
-Bridgetown::RubyTemplateView::Helpers.class_eval do
-  def uppercase_string(input)
-    input.upcase
-  end
-end
-```
-
-```eruby
-<%= uppercase_string "i'm a string" %>
-
-<!-- output: I'M A STRING -->
-```
-
-As a best practice, it would be best to define your helpers as methods of a dedicated `Module` which could then be used for both Liquid filters and ERB helpers simultaneously. Here's how you might go about that in your plugin:
-
-```ruby
-# plugins/filters.rb
-
-module MyFilters
-  def lowercase_string(input)
-    input.downcase
-  end
-end
-
-Liquid::Template.register_filter MyFilters
-Bridgetown::RubyTemplateView::Helpers.include MyFilters
-```
-
-Usage is pretty straightforward:
-
-{% raw %}
-```eruby
-<%= lowercase_string "WAY DOWN LOW" %>
-```
-
-```Liquid
-{{ "WAY DOWN LOW" | lowercase_string }}
-```
-{% endraw %}
+A few Liquid tags are also available as helpers too, such as [`class_map`](/docs/liquid/tags#class-map-tag){:data-no-swup="true"} and [`webpack_path`](/docs/frontend-assets#linking-to-the-output-bundles){:data-no-swup="true"}.
 
 In addition to using Liquid helpers, you can also render [Liquid components](/docs/components) from within your ERB templates via the `liquid_render` helper.
 
@@ -139,9 +116,12 @@ You can add an `.erb` layout and use it in much the same way as a Liquid-based l
 ```eruby
 ---
 layout: default
+somevalue: 123
 ---
 
-<div>An ERB layout! <%= layout.name %></div>
+<h1><%= page.data[:title] %></h1>
+
+<div>An ERB layout! <%= layout.name %> / somevalue: <%= layout.data[:somevalue] %></div>
 
 <%= yield %>
 ```
@@ -212,7 +192,7 @@ Some text...
 
 ```eruby
 <% # src/_partials/_use_the_saved_variable.erb #>
-Print this: <%= layout[:save_this_for_later] %>
+Print this: <%= layout.data[:save_this_for_later] %>
 ```
 
 Because of the use of the `||=` operator, you'll only see "saving this into the layout!" print to the console once when the site builds even if you use the layout on thousands of pages!
@@ -233,7 +213,7 @@ permalink: /posts.json
       last_item = index == site.posts.docs.length - 1
   %>
     {
-      "title": <%= jsonify post[:title].strip %>,
+      "title": <%= jsonify post.data[:title].strip %>,
       "url": "<%= absolute_url post.url %>"<%= "," unless last_item %>
     }
   <% end %>
@@ -241,6 +221,55 @@ permalink: /posts.json
 ```
 
 The ensures the final relative URL will be `/posts.json`. (Of course you can also set the permalink to anything you want, regardless of the filename itself.)
+
+## Custom Helpers
+
+If you'd like to add your own custom template helpers, you can use the `helper` DSL within builder plugins. [Read this documentation to learn more](/docs/plugins/helpers).
+
+Alternatively, you could open up the `Helpers` class and define additional methods:
+
+```ruby
+# plugins/site_builder.rb
+
+Bridgetown::RubyTemplateView::Helpers.class_eval do
+  def uppercase_string(input)
+    input.upcase
+  end
+end
+```
+
+```eruby
+<%= uppercase_string "i'm a string" %>
+
+<!-- output: I'M A STRING -->
+```
+
+As a best practice, it would be best to define your helpers as methods of a dedicated `Module` which could then be used for both Liquid filters and ERB helpers simultaneously. Here's how you might go about that in your plugin:
+
+```ruby
+# plugins/filters.rb
+
+module MyFilters
+  def lowercase_string(input)
+    input.downcase
+  end
+end
+
+Liquid::Template.register_filter MyFilters
+Bridgetown::RubyTemplateView::Helpers.include MyFilters
+```
+
+Usage is pretty straightforward:
+
+{% raw %}
+```eruby
+<%= lowercase_string "WAY DOWN LOW" %>
+```
+
+```Liquid
+{{ "WAY DOWN LOW" | lowercase_string }}
+```
+{% endraw %}
 
 ## Haml and Slim
 

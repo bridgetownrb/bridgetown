@@ -19,6 +19,7 @@ class TestTags < BridgetownUnitTest
     @converter = site.converters.find { |c| c.class == converter_class }
     payload = { "highlighter_prefix" => @converter.highlighter_prefix,
                 "highlighter_suffix" => @converter.highlighter_suffix, }
+    payload["posts"] = site.posts.docs.map(&:to_liquid) if site.posts.docs
 
     @result = Liquid::Template.parse(content).render!(payload, info)
     @result = @converter.convert(@result)
@@ -770,6 +771,56 @@ class TestTags < BridgetownUnitTest
       should "return an error due to improper formatting" do
         refute_match "<button class=\"is-small has-text-center outlined\">Button</button>", @result
         assert_match "<button class=\"invalid-class-map\">Button</button>", @result
+      end
+    end
+  end
+
+  context "find tag" do
+    context "can find a single post" do
+      setup do
+        content = <<~EOS
+          ---
+          title: This is a test
+          ---
+
+          {% find post in posts, title == "Category in YAML" %}
+
+          POST: {{ post.content }}
+        EOS
+        create_post(content,
+                    "permalink"   => "pretty",
+                    "source"      => source_dir,
+                    "destination" => dest_dir,
+                    "read_all"    => true)
+      end
+
+      should "return the post" do
+        expected = "POST: Best <em>post</em> ever"
+        assert_match(expected, @result)
+      end
+    end
+
+    context "can find multiple posts" do
+      setup do
+        content = <<~EOS
+          ---
+          title: This is a test
+          ---
+
+          {% find found where posts, title != "Categories", layout contains "efaul" %}
+
+          POST: {{ found[1].title }}
+        EOS
+        create_post(content,
+                    "permalink"   => "pretty",
+                    "source"      => source_dir,
+                    "destination" => dest_dir,
+                    "read_all"    => true)
+      end
+
+      should "return the post" do
+        expected = "POST: Foo Bar"
+        assert_match(expected, @result)
       end
     end
   end

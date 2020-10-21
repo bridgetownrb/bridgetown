@@ -59,7 +59,7 @@ module Bridgetown
 
         # This is where the magic happens! DON'T BE EVIL!!! ;-)
         output = obj.instance_eval(ruby_code)
-        output.is_a?(Hash) ? output.with_indifferent_access : output
+        output.is_a?(Hash) ? output.with_dot_access : output
       end
     end
   end

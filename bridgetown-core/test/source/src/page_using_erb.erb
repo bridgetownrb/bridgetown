@@ -22,3 +22,5 @@ Oats, <%= array_to_sentence_string ["peas", "beans", "barley"] %> grow.
 <% end %>
 
 <%= test_capturing.reverse %>
+
+<p class="<%= class_map blank: !''.empty?, truthy: true, 'more-truthy' => 'yes' == 'yes', falsy: nil, 'more-falsy' => 'no' == 'yes' %>">classes!</p>

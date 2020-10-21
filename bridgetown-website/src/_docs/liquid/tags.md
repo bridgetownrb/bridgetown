@@ -10,10 +10,79 @@ All of the standard Liquid
 Bridgetown has a few built in tags to help you build your site. You can also create
 your own tags using [plugins]({{ '/docs/plugins/tags/' | relative_url }}).
 
-## Includes
+## Component rendering
 
-If you have page snippets that you use repeatedly across your site, an
-[include]({{ '/docs/includes/' | relative_url }}) is the perfect way to make this more maintainable.
+You can use the `render` and `rendercontent` tags to embed content and template partials into your main templates. [Read the documentation here](/docs/components).
+
+## Find tag
+
+New in Bridgetown 0.17, you can now use the `find` tag to loop through a data object or collection and pull out one or more items to use in your Liquid template. Whereas before you could use the [`where_exp` filter](/docs/liquid/filters/#binary-operators-in-where_exp-filter){:data-no-swup="true"} to accomplish a similar purpose, this tag is more succinct and has support for single item variables.
+
+The syntax of the tag is as follows:
+
+{% raw %}
+```liquid
+# Single item:
+
+{% find [item] in [array/collection], [expressions] %}
+
+# Multiple items:
+
+{% find [items] where [array/collection], [expressions] %}
+```
+{% endraw %}
+
+For example, to find a single entry in the `albums` collection and assign it to the variable `album`:
+
+{% raw %}
+```liquid
+{% find album in site.albums, band == page.band, year >= 1980, categories contains "Rock" %}
+```
+{% endraw %}
+
+Or to find multiple items and assign that array to the variable `albums`:
+
+{% raw %}
+```liquid
+{% find albums where site.albums, band == page.band, year >= 1980, categories contains "Rock" %}
+```
+{% endraw %}
+
+Each expression (separated by a comma) adds an "AND" clause to the conditional logic. If you need OR logic instead, you can still use the `where_exp` filter, or you can write additional `find` tags and [concat](https://shopify.github.io/liquid/filters/concat/){:rel="noopener"} the arrays together (you'll probably also want to use the `uniq` filter to ensure you don't end up with duplicates).
+
+{% raw %}
+```liquid
+{% find rock_albums where site.albums, band == page.band, year >= 1980, categories contains "Rock" %}
+{% find folk_albums where site.albums, band == page.band, year >= 1980, categories contains "Folk" %}
+
+{% assign albums = rock_albums | concat: folk_albums | uniq %}
+```
+{% endraw %}
+
+## Class Map tag
+
+If you've ever had to write a bunch of conditional code and variable assigns to toggle on/off CSS classes based on input variables, you know it can get pretty messy.
+
+But not anymore! Introducing `class_map`:
+
+{% raw %}
+```liquid
+<div class="{% class_map has-centered-text: page.centered, is-small: small-var %}">
+  …
+</div>
+```
+{% endraw %}
+
+In this example, the `class_map` tag will include `has-text-centered` only if `page.centered` is truthy, and likewise `is-small` only if `small-var` is truthy. If you need to run a comparison with a specific value, you'll still need to use `assign` but it'll still be simpler than in the past:
+
+{% raw %}
+```liquid
+{% if product.feature_in == "socks" %}{% assign should_bold = true %}{% endif %}
+<div class="{% class_map product: true, bold-text: should_bold, float-right: true %}">
+  …
+</div>
+```
+{% endraw %}
 
 ## Code snippet highlighting
 

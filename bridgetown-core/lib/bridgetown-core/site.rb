@@ -7,6 +7,7 @@ module Bridgetown
     include Configurable
     include Content
     include Extensible
+    include Localizable
     include Processable
     include Renderable
     include Writable
@@ -25,6 +26,7 @@ module Bridgetown
     # config - A Hash containing site configuration details.
     def initialize(config)
       self.config = config
+      locale
 
       @plugin_manager  = PluginManager.new(self)
       @cleaner         = Cleaner.new(self)

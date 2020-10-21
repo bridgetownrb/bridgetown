@@ -220,6 +220,15 @@ a staging area and copy files from there to your web server.
     </tr>
     <tr class="setting">
       <td>
+        <p class="name"><strong>Ruby Front Matter</strong></p>
+        <p class="description">Process <a href="/docs/front-matter/#ruby-front-matter" data-no-swup="true">Ruby front matter</a> (default true)</p>
+      </td>
+      <td class="has-text-centered">
+        <p><code class="option">ruby_in_front_matter: BOOL</code></p>
+      </td>
+    </tr>
+    <tr class="setting">
+      <td>
         <p class="name"><strong>LSI</strong></p>
         <p class="description">Produce an index for related posts. Requires the
           <a href="http://www.classifier-reborn.com/" rel="noopener">classifier-reborn</a> plugin.</p>
