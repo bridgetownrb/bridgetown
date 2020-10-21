@@ -397,21 +397,21 @@ class TestFilters < BridgetownUnitTest
 
     should "obfuscate email addresses" do
       assert_match(
-        %r{<a href=\"obfuscated\".*this\.href = 'mailto:},
+        %r!<a href=\"obfuscated\".*this\.href = 'mailto:!,
         @filter.obfuscate_link("test@example.com")
       )
     end
 
     should "obfuscate phone numbers" do
       assert_match(
-        %r{<a href=\"obfuscated\".*this\.href = 'tel:},
+        %r!<a href=\"obfuscated\".*this\.href = 'tel:!,
         @filter.obfuscate_link("+1 234 567", "tel:")
       )
     end
 
     should "obfuscate sms targets" do
       assert_match(
-        %r{<a href=\"obfuscated\".*this\.href = 'sms:},
+        %r!<a href=\"obfuscated\".*this\.href = 'sms:!,
         @filter.obfuscate_link("&body=Hello", "sms:")
       )
     end
