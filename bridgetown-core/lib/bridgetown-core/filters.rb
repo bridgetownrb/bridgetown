@@ -120,6 +120,20 @@ module Bridgetown
       Addressable::URI.normalize_component(input)
     end
 
+    # Obfuscate an email, telephone number etc.
+    #
+    # @param input[String] the String containing the contact information (email, phone etc.)
+    # @param prefix[String] the URL scheme to prefix (default "mailto")
+    # @return [String] a link that is unreadable for bots but will be recovered on focus or mouseover
+    def obfuscate_link(input, prefix="mailto")
+      output = "<a href=\"obfuscated\" "
+      output += "style=\"unicode-bidi: bidi-override; direction: rtl\" "
+      output += "onfocus=\"this.href = '#{prefix}:#{input}'\" "
+      output += "onmouseover=\"this.href = '#{prefix}:#{input}'\">"
+      output += "<script type=\"text/javascript\">document.write(\"#{input}\".split('').reverse().join('').replace('(', ')').replace(')', '('));</script></a>"
+      output
+    end
+
     # Replace any whitespace in the input string with a single space
     #
     # input - The String on which to operate.

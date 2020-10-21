@@ -395,6 +395,27 @@ class TestFilters < BridgetownUnitTest
       )
     end
 
+    should "obfuscate email addresses" do
+      assert_match(
+        %r{<a href=\"obfuscated\".*this\.href = 'mailto:},
+        @filter.obfuscate_link("test@example.com")
+      )
+    end
+
+    should "obfuscate phone numbers" do
+      assert_match(
+        %r{<a href=\"obfuscated\".*this\.href = 'tel:},
+        @filter.obfuscate_link("+1 234 567", "tel:")
+      )
+    end
+
+    should "obfuscate sms targets" do
+      assert_match(
+        %r{<a href=\"obfuscated\".*this\.href = 'sms:},
+        @filter.obfuscate_link("&body=Hello", "sms:")
+      )
+    end
+
     context "absolute_url filter" do
       should "produce an absolute URL from a page URL" do
         page_url = "/about/my_favorite_page/"
