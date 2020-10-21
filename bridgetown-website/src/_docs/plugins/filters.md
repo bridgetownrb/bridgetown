@@ -37,7 +37,7 @@ http://www.example.com/mydynamicfile.js?1586194585
 You can accept multiple arguments to your filter by simply adding them to your block or method, and optional ones are simply specified with a default value (perhaps `nil` or `false`). For example:
 
 ```ruby
-def Filters < SiteBuilder
+class Filters < SiteBuilder
   def build
     liquid_filter "multiply_and_optionally_add" do |input, multiply_by, add_by = nil|
       value = input * multiply_by
@@ -76,7 +76,7 @@ And of course you can chain any number of built-in and custom filters together:
 As with other parts of the Builder API, you can also use an instance method to register your filter:
 
 ```ruby
-def Filters < SiteBuilder
+class Filters < SiteBuilder
   def build
     liquid_filter "cache_busting_url", :bust_it
   end
