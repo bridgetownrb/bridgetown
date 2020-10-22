@@ -181,7 +181,7 @@ module Bridgetown
     # Get all pages and documents (posts and collection items) in a single array.
     #
     # @return [Array]
-    def all_documents
+    def contents
       pages + documents
     end
   end

@@ -102,6 +102,13 @@ class TestSite < BridgetownUnitTest
       assert before_time <= @site.time
     end
 
+    should "provide access to all content" do
+      clear_dest
+      @site.process
+
+      assert_equal @site.documents.length + @site.pages.length, @site.contents.length
+    end
+
     should "write only modified static files" do
       clear_dest
       StaticFile.reset_cache
