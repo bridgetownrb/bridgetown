@@ -126,15 +126,13 @@ module Bridgetown
     # @param prefix[String] the URL scheme to prefix (default "mailto")
     # @return [String] a link unreadable for bots but will be recovered on focus or mouseover
     def obfuscate_link(input, prefix = "mailto")
-      output = "<a href=\"obfuscated\" "
-      output += "style=\"unicode-bidi: bidi-override; direction: rtl\" "
-      output += "onfocus=\"this.href = '#{prefix}:#{input}'\" "
-      output += "onmouseover=\"this.href = '#{prefix}:#{input}'\">"
-      output += "<script type=\"text/javascript\">"
-      output += "document.write(\"#{input}\".split('').reverse().join('')"
-      output += ".replace('(', ')').replace(')', '('));"
-      output += "</script></a>"
-      output
+      link = "<a href=\"#{prefix}:#{input}\">#{input}</a>"
+      script = "<script type=\"text/javascript\">document.currentScript.insertAdjacentHTML("
+      script += "beforebegin', '#{rot47(link)}'.replace(/[!-~]/g,"
+      script += "function(c){{var j=c.charCodeAt(0);if((j>=33)&&(j<=126)){"
+      script += "return String.fromCharCode(33+((j+ 14)%94));}"
+      script += "else{return String.fromCharCode(j);}}}));</script>"
+      script
     end
 
     # Replace any whitespace in the input string with a single space
@@ -341,6 +339,11 @@ module Bridgetown
     end
 
     private
+
+    # Perform a rot47 rotation for obfuscation
+    def rot47(input)
+      input.tr "!-~", "P-~!-O"
+    end
 
     # Sort the input Enumerable by the given property.
     # If the property doesn't exist, return the sort order respective of

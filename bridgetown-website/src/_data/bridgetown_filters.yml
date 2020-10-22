@@ -168,12 +168,11 @@
 - name: Obfuscate Link
   description: >-
     Obfuscate emails, telephone numbers etc.
-    The link text is replaced by a reversed text on which the reading direction has also be reversed (thus it appears correct).
-    The link href is populated with the original target on focus or mouseover.
+    The link text is replaced by a ciphered string (using the ROT47 algorithm, so numbers are
+    included). On page load, this cipher is reversed, so the string is readable again.
     Takes an optional argument to specify the URI scheme prefix (default "mailto")
   examples:
     - input: '{{ "+1 234 567" | obfuscate_link:"tel" }}'
-      output: '<a href="obfuscated" ...></a>'
 
 #
 
