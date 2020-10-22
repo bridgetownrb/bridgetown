@@ -54,6 +54,14 @@ module Bridgetown
       raise "Must be implemented in a subclass"
     end
 
+    def render(item, options = {}, &block)
+      if item.respond_to?(:render_in)
+        item.render_in(self, &block)
+      else
+        partial(item, options, &block)
+      end
+    end
+
     def site_drop
       site.site_payload.site
     end

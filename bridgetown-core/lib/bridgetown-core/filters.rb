@@ -316,10 +316,12 @@ module Bridgetown
 
     # Convert an object into its String representation for debugging
     #
-    # input - The Object to be converted
+    # @param input [Object] The Object to be converted
     #
-    # Returns a String representation of the object.
-    def inspect(input)
+    # @return [String] the representation of the object.
+    def inspect(input = nil)
+      return super() if input.nil?
+
       xml_escape(input.inspect)
     end
 
