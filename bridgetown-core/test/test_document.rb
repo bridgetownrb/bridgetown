@@ -514,8 +514,8 @@ class TestDocument < BridgetownUnitTest
       assert @document.write?
     end
 
-    should "be in the list of docs_to_write" do
-      assert @site.docs_to_write.include?(@document)
+    should "be in the list of static_files_to_write" do
+      assert @site.static_files_to_write.include?(@document)
     end
 
     should "be output in the correct place" do
