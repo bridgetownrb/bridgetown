@@ -35,13 +35,13 @@ module Bridgetown
       @_erbout << md_output
     end
 
-    def capture
+    def capture(obj = nil)
       previous_buffer_state = @_erbout
       @_erbout = +""
-      result = yield
+      result = obj ? yield(obj) : yield
       @_erbout = previous_buffer_state
 
-      result
+      result.respond_to?(:html_safe) ? result.html_safe : result
     end
   end
 
