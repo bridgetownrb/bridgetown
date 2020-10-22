@@ -76,10 +76,7 @@ module Bridgetown
     def retrieve_posts(dir)
       return if outside_configured_directory?(dir)
 
-      post_reader.read_posts(dir).tap do |entries|
-        site.posts.docs.concat(entries.select { |entry| entry.is_a?(Document) })
-        site.posts.files.concat(entries.select { |entry| entry.is_a?(StaticFile) })
-      end
+      post_reader.read_posts(dir)
     end
 
     # Recursively traverse directories with the read_directories function.

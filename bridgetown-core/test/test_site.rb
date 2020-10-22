@@ -12,10 +12,7 @@ class TestSite < BridgetownUnitTest
   end
 
   def read_posts
-    PostReader.new(@site).read_posts("").tap do |entries|
-      @site.posts.docs.concat(entries.select { |entry| entry.is_a?(Document) })
-      @site.posts.files.concat(entries.select { |entry| entry.is_a?(StaticFile) })
-    end
+    PostReader.new(@site).read_posts("")
     posts = Dir[source_dir("_posts", "**", "*")]
     posts.delete_if do |post|
       File.directory?(post) && post !~ Document::DATE_FILENAME_MATCHER
