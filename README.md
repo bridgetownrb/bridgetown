@@ -8,7 +8,7 @@
   <a href="https://www.bridgetownrb.com">Bridgetown</a>
 </h1>
 
-Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern [Jamstack](https://bridgetownrb.com/docs/jamstack/) era. Bridgetown takes your content and frontend assets, renders Markdown and Liquid templates, and exports a complete website ready to be served by Jamstack services like Netlify or traditional web servers like Nginx.
+Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern [Jamstack](https://bridgetownrb.com/docs/jamstack/) era. Bridgetown takes your content, API data, and frontend assets; renders templates in Markdown, Liquid, ERB, and many other formats; and exports a complete website ready to be served by fast Jamstack services like Netlify or traditional web servers like Nginx.
 
 [![Build Status](https://github.com/bridgetownrb/bridgetown/workflows/build/badge.svg)](https://github.com/bridgetownrb/bridgetown/actions?query=workflow%3Abuild+branch%3Amaster)
 [![Gem Version](https://img.shields.io/gem/v/bridgetown.svg)](https://rubygems.org/gems/bridgetown)
@@ -16,7 +16,7 @@ Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern
 [![Join the Discord Chat](https://img.shields.io/discord/711236503493148733?color=forestgreen&logo=discord)](https://discord.gg/V56yUWR)
 [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-blue.svg)](https://github.com/bridgetownrb/bridgetown/blob/master/CONTRIBUTING.md)
 
----
+----
 
 ## Special Thanks to Our Founding Members! 🙏 🎉
 
@@ -33,11 +33,11 @@ Say howdy 👋 to our growing list of the first twenty sponsors of Bridgetown on
 |<a href="https://github.com/johnchambers">@johnchambers</a>|<a href="https://github.com/wout">@wout</a>|You Next?|
 ||<a href="https://tilishop.com">Website</a>||
 
----
+## Commercial Support
 
-## Background
+Bridgetown development is spearheaded by Portland-based web studio [Whitefusion](https://whitefusion.io). Contact us if you need commercial support for your Bridgetown content strategy, site design, or deployment.
 
-Bridgetown started life as a fork of the granddaddy of static site generators, [Jekyll](https://jekyllrb.com). Spearheaded by Portland-based web studio [Whitefusion](https://whitefusion.io) and with a brand new set of [project goals](https://bridgetownrb.com/docs/philosophy/) and [a future roadmap](https://bridgetownrb.com/about/), our pledge is to ramp up adding new features at a steady and predictable pace, grow the open source community around the project, and ensure a lively future for a top-tier Ruby-based static site generator moving forward. 
+----
 
 ## Start Here
 
