@@ -26,7 +26,7 @@ class Bridgetown::Site
     # @return [void]
     def reset
       self.time = if config["time"]
-                    Utils.parse_date(config["time"].to_s, "Invalid time in bridgetown.config.yml.")
+                    Bridgetown::Utils.parse_date(config["time"].to_s, "Invalid time in bridgetown.config.yml.")
                   else
                     Time.now
                   end
