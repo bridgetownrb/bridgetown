@@ -123,7 +123,7 @@ module Bridgetown
     end
 
     # An array of collection names.
-    # @return [Array<Collection>] an array of collection names from the configuration,
+    # @return [Array<String>] an array of collection names from the configuration,
     #   or an empty array if the +config+["collections"] key is not set.
     # @raise ArgumentError Raise an error if +config+["collections"] is not
     #   an Array or a Hash
@@ -141,17 +141,18 @@ module Bridgetown
     end
 
     # Get all documents.
-    # @return [Array<String>] an array of documents from the configuration
+    # @return [Array<Bridgetown::Document>] an array of documents from the
+    # configuration
     def documents
       collections.each_with_object(Set.new) do |(_, collection), set|
-        set.merge(collection.docs).merge(collection.files)
+        set.merge(collection.docs)
       end.to_a
     end
 
     # Get the documents to be written
     #
-    # @return [Array<String, File>] an Array of Documents which should be written and
-    #   that +respond_to :write?+
+    # @return [Array<Bridgetown::Document>] an array of documents which should be
+    # written and that +respond_to :write?+
     # @see #documents
     # @see Collection
     def docs_to_write
@@ -165,6 +166,23 @@ module Bridgetown
     # @see Collection
     def posts
       collections["posts"] ||= Collection.new(self, "posts")
+    end
+
+    # Get the static files to be written
+    #
+    # @return [Array<Bridgetown::StaticFile>] an array of files which should be
+    # written and that +respond_to :write?+
+    # @see #static_files
+    # @see StaticFile
+    def static_files_to_write
+      static_files.select(&:write?)
+    end
+
+    # Get all pages and documents (posts and collection items) in a single array.
+    #
+    # @return [Array]
+    def contents
+      pages + documents
     end
   end
 end

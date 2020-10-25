@@ -2,7 +2,10 @@
 
 module Bridgetown
   class Collection
-    attr_reader :site, :label, :metadata
+    # @return [Bridgetown::Site]
+    attr_reader :site
+
+    attr_reader :label, :metadata
     attr_writer :docs
 
     # Create a new Collection.
@@ -65,6 +68,7 @@ module Bridgetown
           read_static_file(file_path, full_path)
         end
       end
+      site.static_files.concat(files)
       sort_docs!
     end
 

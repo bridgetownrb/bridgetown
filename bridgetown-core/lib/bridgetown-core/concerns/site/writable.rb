@@ -20,7 +20,8 @@ module Bridgetown
       Bridgetown::Hooks.trigger :site, :post_write, self
     end
 
-    # Yields the pages from {#pages}, {#static_files}, and {#docs_to_write}.
+    # Yields the pages from {#pages}, {#static_files_to_write}, and
+    # {#docs_to_write}.
     #
     # @yieldparam item [Document, Page, StaticFile] Yields a
     # {#Bridgetown::Page}, {#Bridgetown::StaticFile}, or
@@ -29,13 +30,13 @@ module Bridgetown
     # @return [void]
     #
     # @see #pages
-    # @see #static_files
+    # @see #static_files_to_write
     # @see #docs_to_write
     # @see Page
     # @see StaticFile
     # @see Document
     def each_site_file
-      %w(pages static_files docs_to_write).each do |type|
+      %w(pages static_files_to_write docs_to_write).each do |type|
         send(type).each do |item|
           yield item
         end
