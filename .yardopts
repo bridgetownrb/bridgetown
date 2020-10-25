@@ -1,0 +1,4 @@
+bridgetown-core/lib/**/*.rb
+bridgetown-builder/lib/**/*.rb
+bridgetown-paginate/lib/**/*.rb
+-m markdown
