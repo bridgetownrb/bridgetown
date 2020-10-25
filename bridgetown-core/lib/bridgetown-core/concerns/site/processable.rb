@@ -25,11 +25,12 @@ class Bridgetown::Site
     # Reset all in-memory data and content.
     # @return [void]
     def reset
-      self.time = if config["time"]
-                    Bridgetown::Utils.parse_date(config["time"].to_s, "Invalid time in bridgetown.config.yml.")
-                  else
-                    Time.now
-                  end
+      self.time = Time.now
+      if config["time"]
+        self.time = Bridgetown::Utils.parse_date(
+          config["time"].to_s, "Invalid time in bridgetown.config.yml."
+        )
+      end
       self.layouts = HashWithDotAccess::Hash.new
       self.pages = []
       self.static_files = []
