@@ -1,27 +1,24 @@
 # frozen_string_literal: true
 
-module Bridgetown
-  module Site::Content
+class Bridgetown::Site
+  # Content is king!
+  module Content
     # Construct a Hash of Posts indexed by the specified Post attribute.
+    #
+    # Returns a hash like so: `{ attr => posts }` where:
+    #
+    # * `attr` - One of the values for the requested attribute.
+    # * `posts` - The array of Posts with the given attr value.
     #
     # @param post_attr [String] The String name of the Post attribute.
     #
     # @example
-    #   Returns a hash like so: { attr => posts } where
-    #
-    #   attr  - One of the values for the requested attribute.
-    #
-    #   posts - The Array of Posts with the given attr value.
-    #
-    # @example
-    #
     #   post_attr_hash('categories')
     #   # => { 'tech' => [<Post A>, <Post B>],
     #   #      'ruby' => [<Post B>] }
     #
     # @return [Hash{String, Symbol => Array<Post>}]
     #   Returns a hash of !{attr => posts}
-    #
     def post_attr_hash(post_attr)
       # Build a hash map based on the specified post attribute ( post attr =>
       # array of posts ) then sort each array in reverse order.
@@ -36,7 +33,7 @@ module Bridgetown
     end
 
     # Returns a hash of "tags" using {#post_attr_hash} where each tag is a key
-    # and each value is a post which contains the key.
+    #  and each value is a post which contains the key.
     # @example
     #   tags
     #   # => { 'tech': [<Post A>, <Post B>],
@@ -48,7 +45,7 @@ module Bridgetown
     end
 
     # Returns a hash of "categories" using {#post_attr_hash} where each tag is
-    # a key and each value is a post which contains the key.
+    #  a key and each value is a post which contains the key.
     # @example
     #   categories
     #   # => { 'tech': [<Post A>, <Post B>],
@@ -60,8 +57,8 @@ module Bridgetown
       post_attr_hash("categories")
     end
 
-    # Returns the value of +data+["site_metadata"] or creates a new instance of
-    # +HashWithDotAccess::Hash+
+    # Returns the value of `data["site_metadata"]` or creates a new instance of
+    #   `HashWithDotAccess::Hash`
     # @return [Hash] Returns a hash of site metadata
     def metadata
       data["site_metadata"] ||= HashWithDotAccess::Hash.new
@@ -98,22 +95,21 @@ module Bridgetown
     #
     # @see #post_attr_hash
     def site_payload
-      Drops::UnifiedPayloadDrop.new self
+      Bridgetown::Drops::UnifiedPayloadDrop.new self
     end
     alias_method :to_liquid, :site_payload
 
-    # The list of {#collections} and their corresponding {Bridgetown::Collection} instances.
+    # The list of collections labels and their corresponding {Collection} instances.
     #
-    # If +config+['collections'] is set, a new instance of {Bridgetown::Collection} is created
-    # for each entry in the collections configuration.
+    #  If `config['collections']` is set, a new instance of {Collection} is created
+    #  for each entry in the collections configuration.
     #
-    # If +config+["collections"] is not specified, a blank hash is returned.
+    #  If `config["collections"]` is not specified, a blank hash is returned.
     #
-    # @return [Hash{String, Symbol => Bridgetown::Collection}] A Hash
+    # @return [Hash{String, Symbol => Collection}] A Hash
     #   containing a collection name-to-instance pairs.
     #
     # @return [Hash] Returns a blank hash if no items found
-    # @see Collection
     def collections
       @collections ||= collection_names.each_with_object(
         HashWithDotAccess::Hash.new
@@ -124,8 +120,8 @@ module Bridgetown
 
     # An array of collection names.
     # @return [Array<String>] an array of collection names from the configuration,
-    #   or an empty array if the +config+["collections"] key is not set.
-    # @raise ArgumentError Raise an error if +config+["collections"] is not
+    #   or an empty array if the `config["collections"]` key is not set.
+    # @raise ArgumentError Raise an error if `config["collections"]` is not
     #   an Array or a Hash
     def collection_names
       case config["collections"]
@@ -141,7 +137,7 @@ module Bridgetown
     end
 
     # Get all documents.
-    # @return [Array<Bridgetown::Document>] an array of documents from the
+    # @return [Array<Document>] an array of documents from the
     # configuration
     def documents
       collections.each_with_object(Set.new) do |(_, collection), set|
@@ -151,8 +147,8 @@ module Bridgetown
 
     # Get the documents to be written
     #
-    # @return [Array<Bridgetown::Document>] an array of documents which should be
-    # written and that +respond_to :write?+
+    # @return [Array<Document>] an array of documents which should be
+    #   written and that `respond_to :write?`
     # @see #documents
     # @see Collection
     def docs_to_write
@@ -161,17 +157,16 @@ module Bridgetown
 
     # Get all posts.
     #
-    # @return [Collection] A #Collection of posts. Returns +#collections+["posts"]
-    # @return [Collection] Return a new #Collection if +#collections+["posts"] is nil
+    # @return [Collection] Returns {#collections}`["posts"]`, creating it if need be
     # @see Collection
     def posts
-      collections["posts"] ||= Collection.new(self, "posts")
+      collections["posts"] ||= Bridgetown::Collection.new(self, "posts")
     end
 
     # Get the static files to be written
     #
-    # @return [Array<Bridgetown::StaticFile>] an array of files which should be
-    # written and that +respond_to :write?+
+    # @return [Array<StaticFile>] an array of files which should be
+    #   written and that `respond_to :write?`
     # @see #static_files
     # @see StaticFile
     def static_files_to_write

@@ -10,6 +10,9 @@ module Bridgetown
   class PrototypeGenerator < Generator
     priority :low
 
+    # @return [Bridgetown::Site]
+    attr_reader :site
+
     @matching_templates = []
 
     def self.add_matching_template(template)
@@ -52,6 +55,8 @@ module Bridgetown
         @configured_collection = prototype_page.data["prototype"]["collection"]
       end
 
+      return nil unless site.collections[@configured_collection]
+
       # Categories and Tags are unique in that singular and plural front matter
       # can be present for each
       search_term.sub(%r!^category$!, "categories").sub(%r!^tag$!, "tags")
@@ -59,19 +64,13 @@ module Bridgetown
 
     def generate_new_page_from_prototype(prototype_page, search_term, term)
       new_page = PrototypePage.new(prototype_page, @configured_collection, search_term, term)
-      @site.pages << new_page
+      site.pages << new_page
       new_page
     end
 
-    # TODO: this would be a great use of .try
-    # document.try(:collection).try(:label) == @configured_collection
     def terms_matching_pages(search_term)
-      selected_docs = @site.documents.select do |document|
-        document.respond_to?(:collection) && document.collection.label == @configured_collection
-      end
-
       Bridgetown::Paginate::PaginationIndexer.index_documents_by(
-        selected_docs, search_term
+        site.collections[@configured_collection].docs, search_term
       ).keys
     end
   end
@@ -120,7 +119,7 @@ module Bridgetown
     def process_title_data_placeholder(prototype_page, search_term, term)
       if prototype_page["prototype"]["data"]
         if data["title"]&.include?(":prototype-data-label")
-          related_data = @site.data[prototype_page["prototype"]["data"]].dig(term)
+          related_data = site.data[prototype_page["prototype"]["data"]].dig(term)
           if related_data
             data["#{search_term}_data"] = related_data
             data_label = related_data[prototype_page["prototype"]["data_label"]]

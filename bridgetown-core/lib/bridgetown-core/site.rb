@@ -17,13 +17,13 @@ module Bridgetown
                   :includes_load_paths
 
     # All files not pages/documents or structured data in the source folder
-    # @return [Array<Bridgetown::StaticFile>]
+    # @return [Array<StaticFile>]
     attr_accessor :static_files
 
-    # @return [Array<Bridgetown::Layout>]
+    # @return [Array<Layout>]
     attr_accessor :layouts
 
-    # @return [Array<Bridgetown::Page>]
+    # @return [Array<Page>]
     attr_accessor :pages
 
     attr_accessor :exclude, :include, :lsi, :highlighter, :permalink_style,

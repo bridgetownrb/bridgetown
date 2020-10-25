@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
-module Bridgetown
-  module Site::Renderable
-    # Render the site to the destination.
+class Bridgetown::Site
+  module Renderable
+    # Render all pages & documents so they're ready to be written out to disk.
     # @return [void]
+    # @see Page
+    # @see Document
     def render
       payload = site_payload
 
@@ -33,9 +35,7 @@ module Bridgetown
     end
 
     # Renders all documents
-    # @param payload [Hash] A hash of site data.
     # @return [void]
-    # @see Bridgetown::Site::Content#site_payload
     def render_docs(payload)
       collections.each_value do |collection|
         collection.docs.each do |document|
@@ -45,20 +45,16 @@ module Bridgetown
     end
 
     # Renders all pages
-    # @param payload [Hash] A hash of site data.
     # @return [void]
-    # @see Bridgetown::Site::Content#site_payload
     def render_pages(payload)
       pages.each do |page|
         render_regenerated(page, payload)
       end
     end
 
-    # Regenerates a site using {Bridgetown::Renderer}
+    # Regenerates a site using {Renderer}
     # @param document [Post] The document to regenerate.
-    # @param payload [Hash] A hash of site data.
     # @return [void]
-    # @see Bridgetown::Renderer
     def render_regenerated(document, payload)
       return unless regenerator.regenerate?(document)
 
