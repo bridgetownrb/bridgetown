@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Bridgetown
-  module Site::Processable
+class Bridgetown::Site
+  module Processable
     # Reset, Read, Generate, Render, Cleanup, Process, and Write this Site to output.
     # @return [void]
     # @see #reset
@@ -22,14 +22,15 @@ module Bridgetown
 
     # rubocop:disable Metrics/AbcSize
 
-    # Reset Site details.
+    # Reset all in-memory data and content.
     # @return [void]
     def reset
-      self.time = if config["time"]
-                    Utils.parse_date(config["time"].to_s, "Invalid time in bridgetown.config.yml.")
-                  else
-                    Time.now
-                  end
+      self.time = Time.now
+      if config["time"]
+        self.time = Bridgetown::Utils.parse_date(
+          config["time"].to_s, "Invalid time in bridgetown.config.yml."
+        )
+      end
       self.layouts = HashWithDotAccess::Hash.new
       self.pages = []
       self.static_files = []
@@ -50,7 +51,7 @@ module Bridgetown
 
     # rubocop:enable Metrics/AbcSize
 
-    # Read Site data from disk and load it into internal data structures.
+    # Read data from disk and load it into internal memory.
     # @return [void]
     def read
       Bridgetown::Hooks.trigger :site, :pre_read, self
