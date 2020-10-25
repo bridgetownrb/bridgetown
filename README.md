@@ -1,7 +1,7 @@
 <p align="center">
   <a href="https://www.bridgetownrb.com">
     <img src="https://www.bridgetownrb.com/images/bridgetown-logo-twitter-card.jpg" alt="Bridgetown" width="750" />
-  <a/>
+  </a>
 </p>
 
 <h1 align="center">
