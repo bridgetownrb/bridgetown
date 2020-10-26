@@ -146,7 +146,7 @@ module Bridgetown
 
     # Conveinence method to register a new Thor command
     #
-    # @see {Bridgetown::Commands::Registrations.register}
+    # @see Bridgetown::Commands::Registrations.register
     def register_command(&block)
       Bridgetown::Commands::Registrations.register(&block)
     end
