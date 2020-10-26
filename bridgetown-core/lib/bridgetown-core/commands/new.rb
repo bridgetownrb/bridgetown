@@ -115,7 +115,7 @@ module Bridgetown
       def bundle_install(path)
         unless Bridgetown.environment == "test"
           require "bundler"
-          Bundler.with_clean_env do
+          Bridgetown.with_unbundled_env do
             inside(path) do
               run "bundle install", abort_on_failure: true
             end
