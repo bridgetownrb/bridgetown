@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby_version: [2.5.8, 2.6.6, 2.7.1, ruby-head, debug]
+        ruby_version: [2.5.8, 2.6.6, 2.7.2]
     continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
     steps:
       - uses: actions/checkout@master
