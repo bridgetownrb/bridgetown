@@ -149,7 +149,7 @@ If in your layout or a layout partial you need to output the paths to your Webpa
 When authoring a document using ERB, you might find yourself wanting to embed some Markdown within the document content. That's easy to do using a `markdownify` block:
 
 ```eruby
-<% markdownify do %>
+<%= markdownify do %>
    ## I'm a header!
 
    * Yay!
@@ -157,10 +157,10 @@ When authoring a document using ERB, you might find yourself wanting to embed so
 <% end %>
 ```
 
-You can also pass any string variable via an inline block as well:
+You can also pass in any string variable as a method argument:
 
 ```eruby
-<% markdownify { some_string_var } %>
+<%= markdownify some_string_var %>
 ```
 
 ## Capture Helper

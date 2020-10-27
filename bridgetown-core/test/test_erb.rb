@@ -23,7 +23,7 @@ class TestERB < BridgetownUnitTest
     end
 
     should "allow Markdown content via a helper" do
-      assert_includes @erb_page.output, "<h2 id=\"im-a-header\">I’m a header!</h2>"
+      assert_includes @erb_page.output, "<h2 id=\"im-a-header\">I&#8217;m a header!</h2>"
       assert_includes @erb_page.output, "<li>Yay!</li>"
       assert_includes @erb_page.output, "<li>Nifty!</li>"
     end
