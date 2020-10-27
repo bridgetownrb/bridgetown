@@ -39,8 +39,7 @@ class TestHelpers < BridgetownUnitTest
     should "work with blocks" do
       content = "This is the <%= block_based page[:title] %> helper"
       tmpl = Tilt::ErubiTemplate.new(
-        outvar: "@_erbout",
-        engine_class: Erubi::CaptureEndEngine
+        outvar: "@_erbout"
       ) { content }
       result = tmpl.render(@erb_view)
       assert_equal "This is the Block Based I'm a post! HelpersBuilder helper", result
@@ -49,8 +48,7 @@ class TestHelpers < BridgetownUnitTest
     should "allow execution within helpers scope" do
       content = "This is the <%= within_helpers_scope page[:title] %> helper"
       tmpl = Tilt::ErubiTemplate.new(
-        outvar: "@_erbout",
-        engine_class: Erubi::CaptureEndEngine
+        outvar: "@_erbout"
       ) { content }
       result = tmpl.render(@erb_view)
       assert_equal "This is the Within Helpers Scope Based I'm a post! " \
@@ -61,8 +59,7 @@ class TestHelpers < BridgetownUnitTest
     should "work with methods" do
       content = "This is the <%= method_based page[:title] %> helper"
       tmpl = Tilt::ErubiTemplate.new(
-        outvar: "@_erbout",
-        engine_class: Erubi::CaptureEndEngine
+        outvar: "@_erbout"
       ) { content }
       result = tmpl.render(@erb_view)
       assert_equal "This is the Method Based I'm a post! HelpersBuilder helper", result
