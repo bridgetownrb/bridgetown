@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "zeitwerk"
+
 module Bridgetown
   class PluginManager
     PLUGINS_GROUP = :bridgetown_plugins
