@@ -162,9 +162,10 @@ module Bridgetown
       end
     end
 
+    # rubocop:disable Metrics/AbcSize
     def setup_component_loaders
-      if @component_loaders.keys.length > 0
-        @component_loaders.each do |path, loader|
+      unless @component_loaders.keys.empty?
+        @component_loaders.each do |_path, loader|
           loader.unload
         end
         @component_loaders = {}
@@ -172,7 +173,8 @@ module Bridgetown
 
       site.components_load_paths.each do |load_path|
         next unless Dir.exist? load_path
-        next if Zeitwerk::Registry.loaders.find {|loader| loader.manages?(load_path) }
+        next if Zeitwerk::Registry.loaders.find { |loader| loader.manages?(load_path) }
+
         @component_loaders[load_path] = Zeitwerk::Loader.new
         @component_loaders[load_path].push_dir(load_path)
         @component_loaders[load_path].enable_reloading if load_path.start_with?(site.root_dir)
@@ -180,6 +182,7 @@ module Bridgetown
         @component_loaders[load_path].setup
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     def reload_component_loaders
       @component_loaders.each do |path, loader|
