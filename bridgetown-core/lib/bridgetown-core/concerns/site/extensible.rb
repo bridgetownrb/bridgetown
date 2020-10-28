@@ -9,6 +9,7 @@ module Bridgetown
     # @return [void]
     def setup
       plugin_manager.require_plugin_files
+      plugin_manager.setup_component_loaders
       self.converters = instantiate_subclasses(Bridgetown::Converter)
       self.generators = instantiate_subclasses(Bridgetown::Generator)
     end
