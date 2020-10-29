@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Bridgetown
-  module Site::Writable
+class Bridgetown::Site
+  module Writable
     # Remove orphaned files and empty directories in destination.
     #
     # @return [void]
@@ -9,7 +9,7 @@ module Bridgetown
       @cleaner.cleanup!
     end
 
-    # Write static files, pages, and posts.
+    # Write static files, pages, and documents to the destination folder.
     #
     # @return [void]
     def write
@@ -20,22 +20,14 @@ module Bridgetown
       Bridgetown::Hooks.trigger :site, :post_write, self
     end
 
-    # Yields the pages from {#pages}, {#static_files}, and {#docs_to_write}.
+    # Yields all content objects while looping through {#pages},
+    #   {#static_files_to_write}, and {#docs_to_write}.
     #
-    # @yieldparam item [Document, Page, StaticFile] Yields a
-    # {#Bridgetown::Page}, {#Bridgetown::StaticFile}, or
-    # {#Bridgetown::Document} object.
+    # @yieldparam item [Document, Page, StaticFile]
     #
     # @return [void]
-    #
-    # @see #pages
-    # @see #static_files
-    # @see #docs_to_write
-    # @see Page
-    # @see StaticFile
-    # @see Document
     def each_site_file
-      %w(pages static_files docs_to_write).each do |type|
+      %w(pages static_files_to_write docs_to_write).each do |type|
         send(type).each do |item|
           yield item
         end

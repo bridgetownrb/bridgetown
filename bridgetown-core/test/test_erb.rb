@@ -23,7 +23,7 @@ class TestERB < BridgetownUnitTest
     end
 
     should "allow Markdown content via a helper" do
-      assert_includes @erb_page.output, "<h2 id=\"im-a-header\">I’m a header!</h2>"
+      assert_includes @erb_page.output, "<h2 id=\"im-a-header\">I&#8217;m a header!</h2>"
       assert_includes @erb_page.output, "<li>Yay!</li>"
       assert_includes @erb_page.output, "<li>Nifty!</li>"
     end
@@ -32,8 +32,18 @@ class TestERB < BridgetownUnitTest
       assert_includes @erb_page.output, "This is how capturing works!".reverse
     end
 
-    should "provide class_map helper" do
-      assert_includes @erb_page.output, "<p class=\"truthy more-truthy\">"
+    should "properly handle block expressions" do
+      assert_includes @erb_page.output, "\n===\n+Value: value+\n---\n"
+    end
+  end
+
+  context "Ruby components" do
+    should "should render" do
+      assert_includes @erb_page.output, "Here's the page title! <strong>I'm an ERB Page</strong>"
+    end
+
+    should "allow source components to override plugin components" do
+      assert_includes @erb_page.output, "Yay, it got overridden!"
     end
   end
 

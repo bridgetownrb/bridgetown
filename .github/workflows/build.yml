@@ -11,21 +11,27 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby_version: [2.5.8, 2.6.6, 2.7.2]
+    continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up Ruby 2.6
-        uses: actions/setup-ruby@v1
+      - uses: actions/checkout@master
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6.x
-      - uses: actions/cache@v1
+          ruby-version: ${{ matrix.ruby_version }}
+      - uses: actions/cache@v2
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-gems-
-      - name: Build and test with Rake
-        run: |
-          gem install bundler
-          bundle config path vendor/bundle
-          bundle install --jobs 4 --retry 3
-          bundle exec rake
+      - name: Install Bundler
+        run: gem install bundler
+      - name: Configure vendor path
+        run: bundle config path vendor/bundle
+      - name: Bundle Install
+        run: bundle install --jobs 4 --retry 3
+      - name: Test with Rake
+        run: bundle exec rake

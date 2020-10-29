@@ -30,6 +30,8 @@ The typical folder structure for a Bridgetown site usually looks something like 
 │   ├── _posts
 │   │   ├── 2019-10-29-why-im-dressing-up-as-thanos-this-year.md
 │   │   └── 2020-04-12-isolation-is-really-getting-to-me.md
+│   ├── images
+│   │   └── logo.svg
 │   ├── 404.html
 │   ├── some_page.md
 │   └── index.html # or index.md
@@ -97,12 +99,22 @@ The location of pages in your source folder structure will by default be mirrore
     </tr>
     <tr>
       <td>
+        <p class="default mt-0"><code>src/images</code></p>
+      </td>
+      <td>
+        <p>
+          You can save images here and reference them in both your markup and CSS (e.g. <code>/images/logo.svg</code>). The name of the <code>images</code> folder is completely arbitrary…feel free to rename it, relocate it under a parent `assets` folder, or however you'd like to set things up.
+        </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
         <p class="default mt-0"><code>src/index.html</code> or <code>src/index.md</code> and other HTML,
         Markdown, etc. pages</p>
       </td>
       <td>
         <p>
-          Provided that the file has a <a href="/docs/front-matter/">front matter</a> section, it will be transformed by Bridgetown. You can create subfolders (and subfolders of subfolders) to organize your pages. You can also locate pages within <code>_pages</code> to line up with <code>_posts</code>, <code>_data</code>, etc.
+          Provided that the file has a <a href="/docs/front-matter">front matter</a> section, it will be transformed by Bridgetown. You can create subfolders (and subfolders of subfolders) to organize your pages. You can also locate pages within <code>_pages</code> to line up with <code>_posts</code>, <code>_data</code>, etc.
         </p>
       </td>
     </tr>
@@ -112,7 +124,7 @@ The location of pages in your source folder structure will by default be mirrore
       </td>
       <td>
         <p>
-          Every other directory and file except for those listed above—such as images folders, downloadable files, <code>favicon.ico</code> files, and so forth—will be copied verbatim to the generated site.
+          Every other directory and file except for those listed above—such as downloadable files, <code>favicon.ico</code>, <code>robots.txt</code>, and so forth—will be copied verbatim to the generated site as <a href="/docs/static_files">Static Files<a>.
         </p>
       </td>
     </tr>

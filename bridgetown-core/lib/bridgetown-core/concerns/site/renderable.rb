@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
-module Bridgetown
-  module Site::Renderable
-    # Render the site to the destination.
+class Bridgetown::Site
+  module Renderable
+    # Render all pages & documents so they're ready to be written out to disk.
     # @return [void]
+    # @see Page
+    # @see Document
     def render
       Bridgetown::Hooks.trigger :site, :pre_render, self
       execute_inline_ruby_for_layouts!
@@ -29,7 +31,6 @@ module Bridgetown
 
     # Renders all documents
     # @return [void]
-    # @see Bridgetown::Site::Content#site_payload
     def render_docs
       collections.each_value do |collection|
         collection.docs.each do |document|
@@ -40,17 +41,15 @@ module Bridgetown
 
     # Renders all pages
     # @return [void]
-    # @see Bridgetown::Site::Content#site_payload
     def render_pages
       pages.each do |page|
         render_regenerated page
       end
     end
 
-    # Regenerates a site using {Bridgetown::Renderer}
+    # Regenerates a site using {Renderer}
     # @param document [Post] The document to regenerate.
     # @return [void]
-    # @see Bridgetown::Renderer
     def render_regenerated(document)
       return unless regenerator.regenerate?(document)
 

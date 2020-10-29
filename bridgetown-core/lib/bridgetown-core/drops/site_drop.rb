@@ -50,6 +50,10 @@ module Bridgetown
         @documents ||= @obj.documents
       end
 
+      def contents
+        @contents ||= @obj.contents
+      end
+
       def metadata
         @site_metadata ||= @obj.data["site_metadata"]
       end

@@ -44,7 +44,7 @@ module Bridgetown
 
       def apply_after_new_command
         # Coming from the new command, so set up proper bundler env
-        Bundler.with_clean_env do
+        Bridgetown.with_unbundled_env do
           self.destination_root = New.created_site_dir
           inside(New.created_site_dir) do
             apply_from_url options[:apply]
@@ -62,7 +62,7 @@ module Bridgetown
                                " current folder."
         end
 
-        Bundler.with_clean_env do
+        Bridgetown.with_unbundled_env do
           apply_from_url automation_command
         end
       rescue ArgumentError => e

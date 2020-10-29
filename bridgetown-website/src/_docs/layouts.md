@@ -57,9 +57,6 @@ You have full access to the front matter of the origin. In the
 example above, `page.title` comes from the page front matter.
 
 Next you need to specify what layout you're using in your page's front matter.
-You can also use
-[front matter defaults](/docs/configuration/front-matter-defaults/) to save you
-from having to set this on every page.
 
 ```markdown
 ---
@@ -95,6 +92,10 @@ The rendered output of this page is:
   </body>
 </html>
 ```
+
+You can also use
+[front matter defaults](/docs/configuration/front-matter-defaults/) to save you
+from having to set a layout for every page. Note that if you have defaults in place and you _don't_ want a certain page to render in a layout, you can specify `layout: none` in the page's front matter.
 
 ## Inheritance
 

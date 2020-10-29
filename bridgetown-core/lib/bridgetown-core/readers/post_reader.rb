@@ -21,13 +21,13 @@ module Bridgetown
     # Read all the files in <source>/<dir>/<magic_dir> and create a new
     # Document object with each one insofar as it matches the regexp matcher.
     #
-    # dir - The String relative path of the directory to read.
+    # @param dir [String] relative path of the directory to read.
     #
-    # Returns nothing.
+    # @return [Array<Document, StaticFile>]
     def read_publishable(dir, magic_dir, matcher)
       read_content(dir, magic_dir, matcher)
-        .tap { |entries| entries.select { |entry| entry.respond_to?(:read) }.each(&:read) }
-        .select { |entry| processable?(entry) }
+        .tap { |items| items.select { |item| item.respond_to?(:read) }.each(&:read) }
+        .select { |item| item_added_to_site?(item) }
     end
 
     # Read all the content files from <source>/<dir>/magic_dir
@@ -70,26 +70,39 @@ module Bridgetown
       )
     end
 
-    def processable?(doc)
-      return true if doc.is_a?(StaticFile)
+    def processable?(item)
+      return true if item.is_a?(StaticFile)
 
-      if doc.content.nil?
-        Bridgetown.logger.debug "Skipping:", "Content in #{doc.relative_path} is nil"
+      if item.content.nil?
+        Bridgetown.logger.debug "Skipping:", "Content in #{item.relative_path} is nil"
         false
-      elsif !doc.content.valid_encoding?
-        Bridgetown.logger.debug "Skipping:", "#{doc.relative_path} is not valid UTF-8"
+      elsif !item.content.valid_encoding?
+        Bridgetown.logger.debug "Skipping:", "#{item.relative_path} is not valid UTF-8"
         false
       else
-        publishable?(doc)
+        publishable?(item)
       end
     end
 
-    def publishable?(doc)
-      site.publisher.publish?(doc).tap do |will_publish|
-        if !will_publish && site.publisher.hidden_in_the_future?(doc)
-          Bridgetown.logger.warn "Skipping:", "#{doc.relative_path} has a future date"
+    def publishable?(item)
+      site.publisher.publish?(item).tap do |will_publish|
+        if !will_publish && site.publisher.hidden_in_the_future?(item)
+          Bridgetown.logger.warn "Skipping:", "#{item.relative_path} has a future date"
         end
       end
+    end
+
+    def item_added_to_site?(item)
+      return false unless processable?(item)
+
+      if item.is_a?(Document)
+        site.posts.docs << item
+      elsif item.is_a?(StaticFile)
+        site.posts.files << item
+        site.static_files << item
+      end
+
+      true
     end
   end
 end

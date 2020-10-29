@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+require "zeitwerk"
+
 module Bridgetown
   class PluginManager
     PLUGINS_GROUP = :bridgetown_plugins
     YARN_DEPENDENCY_REGEXP = %r!(.+)@([^@]*)$!.freeze
 
-    attr_reader :site
+    attr_reader :site, :component_loaders
 
     @source_manifests = Set.new
     @registered_plugins = Set.new
@@ -37,6 +39,7 @@ module Bridgetown
     # Returns nothing
     def initialize(site)
       @site = site
+      @component_loaders = {}
     end
 
     def self.require_from_bundler
@@ -156,6 +159,36 @@ module Bridgetown
         [site.in_root_dir(site.config["plugins_dir"])]
       else
         Array(site.config["plugins_dir"]).map { |d| File.expand_path(d) }
+      end
+    end
+
+    # rubocop:disable Metrics/AbcSize
+    def setup_component_loaders
+      unless @component_loaders.keys.empty?
+        @component_loaders.each do |_path, loader|
+          loader.unload
+        end
+        @component_loaders = {}
+      end
+
+      # Because "first constant wins" in Zeitwerk, we need to load the local
+      # source components _before_ we load any from plugins
+      site.components_load_paths.reverse_each do |load_path|
+        next unless Dir.exist? load_path
+        next if Zeitwerk::Registry.loaders.find { |loader| loader.manages?(load_path) }
+
+        @component_loaders[load_path] = Zeitwerk::Loader.new
+        @component_loaders[load_path].push_dir(load_path)
+        @component_loaders[load_path].enable_reloading if load_path.start_with?(site.root_dir)
+        @component_loaders[load_path].ignore(File.join(load_path, "**", "*.js.rb"))
+        @component_loaders[load_path].setup
+      end
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    def reload_component_loaders
+      @component_loaders.each do |path, loader|
+        loader.reload if path.start_with?(site.root_dir)
       end
     end
   end

@@ -10,6 +10,9 @@ module Bridgetown
   class PrototypeGenerator < Generator
     priority :low
 
+    # @return [Bridgetown::Site]
+    attr_reader :site
+
     @matching_templates = []
 
     def self.add_matching_template(template)
@@ -17,6 +20,7 @@ module Bridgetown
     end
 
     class << self
+      # @return [Array<Page>]
       attr_reader :matching_templates
     end
 
@@ -44,13 +48,21 @@ module Bridgetown
       end
     end
 
+    # Check incoming prototype configuration and normalize options.
+    #
+    # @param prototype_page [PrototypePage]
+    #
+    # @return [String, nil]
     def validate_search_term(prototype_page)
+      # @type [String]
       search_term = prototype_page.data["prototype"]["term"]
       return nil unless search_term.is_a?(String)
 
       if prototype_page.data["prototype"]["collection"]
         @configured_collection = prototype_page.data["prototype"]["collection"]
       end
+
+      return nil unless site.collections[@configured_collection]
 
       # Categories and Tags are unique in that singular and plural front matter
       # can be present for each
@@ -59,71 +71,75 @@ module Bridgetown
 
     def generate_new_page_from_prototype(prototype_page, search_term, term)
       new_page = PrototypePage.new(prototype_page, @configured_collection, search_term, term)
-      @site.pages << new_page
+      site.pages << new_page
       new_page
     end
 
-    # TODO: this would be a great use of .try
-    # document.try(:collection).try(:label) == @configured_collection
+    # Provide a list of all relevent indexed values for the given term.
+    #
+    # @param search_term [String]
+    #
+    # @return [Array<String>]
     def terms_matching_pages(search_term)
-      selected_docs = @site.documents.select do |document|
-        document.respond_to?(:collection) && document.collection.label == @configured_collection
-      end
-
       Bridgetown::Paginate::PaginationIndexer.index_documents_by(
-        selected_docs, search_term
+        site.collections[@configured_collection].docs, search_term
       ).keys
     end
   end
 
   class PrototypePage < Page
-    def initialize(prototype_page, collection, search_term, term)
-      @site = prototype_page.site
+    # @return [Page]
+    attr_reader :prototyped_page
+
+    def initialize(prototyped_page, collection, search_term, term)
+      @prototyped_page = prototyped_page
+      @site = prototyped_page.site
       @url = ""
       @name = "index.html"
-      @path = prototype_page.path
+      @path = prototyped_page.path
 
       process(@name)
 
-      self.data = Bridgetown::Utils.deep_merge_hashes prototype_page.data, {}
-      self.content = prototype_page.content
+      self.data = Bridgetown::Utils.deep_merge_hashes prototyped_page.data, {}
+      self.content = prototyped_page.content
 
       # Perform some validation that is also performed in Bridgetown::Page
-      validate_data! prototype_page.path
-      validate_permalink! prototype_page.path
+      validate_data! prototyped_page.path
+      validate_permalink! prototyped_page.path
 
-      @dir = Pathname.new(prototype_page.relative_path).dirname.to_s
+      @dir = Pathname.new(prototyped_page.relative_path).dirname.to_s
       @path = site.in_source_dir(@dir, @name)
 
-      process_prototype_page_data(prototype_page, collection, search_term, term)
+      process_prototype_page_data(collection, search_term, term)
 
       Bridgetown::Hooks.trigger :pages, :post_init, self
     end
 
-    def process_prototype_page_data(prototype_page, collection, search_term, term)
+    def process_prototype_page_data(collection, search_term, term)
       # Fill in pagination details to be handled later by Bridgetown::Paginate
       data["pagination"] = Bridgetown::Utils.deep_merge_hashes(
-        prototype_page.data["pagination"].to_h, {
+        prototyped_page.data["pagination"].to_h, {
           "enabled"     => true,
           "collection"  => collection,
           "where_query" => [search_term, term],
         }
       )
       # Use the original prototype page term so we get "tag" back, not "tags":
-      data[prototype_page.data["prototype"]["term"]] = term
+      data[prototyped_page.data["prototype"]["term"]] = term
       # Process title and slugs/URLs:
-      process_title_data_placeholder(prototype_page, search_term, term)
+      process_title_data_placeholder(search_term, term)
       process_title_simple_placeholders(term)
       slugify_term(term)
     end
 
-    def process_title_data_placeholder(prototype_page, search_term, term)
-      if prototype_page["prototype"]["data"]
+    # rubocop:disable Metrics/AbcSize
+    def process_title_data_placeholder(search_term, term)
+      if prototyped_page.data["prototype"]["data"]
         if data["title"]&.include?(":prototype-data-label")
-          related_data = @site.data[prototype_page["prototype"]["data"]].dig(term)
+          related_data = site.data[prototyped_page.data["prototype"]["data"]].dig(term)
           if related_data
             data["#{search_term}_data"] = related_data
-            data_label = related_data[prototype_page["prototype"]["data_label"]]
+            data_label = related_data[prototyped_page.data["prototype"]["data_label"]]
             data["title"] = data["title"].gsub(
               ":prototype-data-label", data_label
             )
@@ -131,6 +147,7 @@ module Bridgetown
         end
       end
     end
+    # rubocop:enable Metrics/AbcSize
 
     def process_title_simple_placeholders(term)
       if data["title"]&.include?(":prototype-term-titleize")
