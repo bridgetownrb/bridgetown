@@ -1,20 +1,21 @@
 # frozen_string_literal: true
 
-module Bridgetown
-  module Site::Extensible
+class Bridgetown::Site
+  module Extensible
     # Load necessary libraries, plugins, converters, and generators.
-    # @see Bridgetown::Converter
-    # @see Bridgetown::Generator
+    # @see Converter
+    # @see Generator
     # @see PluginManager
     # @return [void]
     def setup
       plugin_manager.require_plugin_files
+      plugin_manager.setup_component_loaders
       self.converters = instantiate_subclasses(Bridgetown::Converter)
       self.generators = instantiate_subclasses(Bridgetown::Generator)
     end
 
     # Run all Generators.
-    # @see Bridgetown::Generator
+    # @see Generator
     # @return [void]
     def generate
       generators.each do |generator|
@@ -33,10 +34,10 @@ module Bridgetown
       end
     end
 
-    # Get the implementation class for the given Converter.
-    # @param klass [Object] The Class of the Converter to fetch.
-    # @return [Bridgetown::Converter] Returns the {Bridgetown::Converter}
-    #   instance implementing the given +Converter+.
+    # Get the implementation for the given Converter class.
+    # @param klass [Class] The Class of the Converter to fetch.
+    # @return [Converter] Returns the {Converter}
+    #   instance implementing the given `Converter` class.
     def find_converter_instance(klass)
       @find_converter_instance ||= {}
       @find_converter_instance[klass] ||= begin
@@ -45,11 +46,11 @@ module Bridgetown
       end
     end
 
-    # Create an array of instances of the subclasses of the class or module
+    # Create an array of instances of the subclasses of the class
     #   passed in as argument.
-    # @param klass [Class, Module] - class or module containing the subclasses.
-    # @return [Array<Object>] Returns an array of instances of subclasses of
-    #   +klass+.
+    # @param klass [Class] - class which is the parent of the subclasses.
+    # @return [Array<Converter, Generator>] Returns an array of instances of
+    #   subclasses of `klass`.
     def instantiate_subclasses(klass)
       klass.descendants.sort.map do |c|
         c.new(config)

@@ -1,20 +1,17 @@
 # frozen_string_literal: true
 
-module Bridgetown
-  module Site::Renderable
-    # Render the site to the destination.
+class Bridgetown::Site
+  module Renderable
+    # Render all pages & documents so they're ready to be written out to disk.
     # @return [void]
+    # @see Page
+    # @see Document
     def render
-      payload = site_payload
-
-      Bridgetown::Hooks.trigger :site, :pre_render, self, payload
-
+      Bridgetown::Hooks.trigger :site, :pre_render, self
       execute_inline_ruby_for_layouts!
-
-      render_docs(payload)
-      render_pages(payload)
-
-      Bridgetown::Hooks.trigger :site, :post_render, self, payload
+      render_docs
+      render_pages
+      Bridgetown::Hooks.trigger :site, :post_render, self
     end
 
     # Executes inline Ruby frontmatter
@@ -33,31 +30,27 @@ module Bridgetown
     end
 
     # Renders all documents
-    # @param payload [Hash] A hash of site data.
     # @return [void]
-    # @see Bridgetown::Site::Content#site_payload
-    def render_docs(payload)
+    def render_docs
       collections.each_value do |collection|
         collection.docs.each do |document|
           render_with_locale(document) do
-            render_regenerated(document, payload)
+            render_regenerated document
           end
         end
       end
     end
 
     # Renders all pages
-    # @param payload [Hash] A hash of site data.
     # @return [void]
-    # @see Bridgetown::Site::Content#site_payload
-    def render_pages(payload)
+    def render_pages
       pages.each do |page|
-        render_regenerated(page, payload)
+        render_regenerated page
       end
     end
 
     # Renders a document while ensuring site locale is set if the data is available.
-    # @param document [Bridgetown::Document] The document to render
+    # @param document [Document] The document to render
     # @yield Runs the block in between locale setting and resetting
     # @return [void]
     def render_with_locale(document)
@@ -71,15 +64,13 @@ module Bridgetown
       end
     end
 
-    # Regenerates a site using {Bridgetown::Renderer}
-    # @param document [Post] The document to regenerate.
-    # @param payload [Hash] A hash of site data.
+    # Regenerates a site using {Renderer}
+    # @param document [Document] The document to regenerate.
     # @return [void]
-    # @see Bridgetown::Renderer
-    def render_regenerated(document, payload)
+    def render_regenerated(document)
       return unless regenerator.regenerate?(document)
 
-      Bridgetown::Renderer.new(self, document, payload).run
+      Bridgetown::Renderer.new(self, document).run
     end
   end
 end

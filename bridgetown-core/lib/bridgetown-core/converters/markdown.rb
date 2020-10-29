@@ -5,9 +5,6 @@ module Bridgetown
     # Markdown converter.
     # For more info on converters see https://bridgetownrb.com/docs/plugins/converters/
     class Markdown < Converter
-      highlighter_prefix "\n"
-      highlighter_suffix "\n"
-
       def initialize(config = {})
         super
 

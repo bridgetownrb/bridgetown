@@ -57,15 +57,14 @@ class LiquidBook < SiteBuilder
     component = tag.context.registers[:page]["component"]
     preview_path = site.in_source_dir("_components", component["relative_path"] + ".preview.html")
 
-    liquid_options = site.config["liquid"]
     info = {
       registers: {
         site: site,
         page: tag.context.registers[:page],
-        cached_partials: Bridgetown::Renderer.cached_partials,
+        cached_partials: Bridgetown::Converters::LiquidTemplates.cached_partials,
       },
-      strict_filters: liquid_options["strict_filters"],
-      strict_variables: liquid_options["strict_variables"],
+      strict_filters: site.config["liquid"]["strict_filters"],
+      strict_variables: site.config["liquid"]["strict_variables"],
     }
 
     template = site.liquid_renderer.file(preview_path).parse(

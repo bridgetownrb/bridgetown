@@ -28,20 +28,6 @@ Feature: Hooks
     And the output directory should exist
     And I should see "mytinypage" in "output/foo.html"
 
-  Scenario: Modify the payload before rendering the site
-    Given I have a plugins directory
-    And I have a "index.html" page that contains "{{ site.injected }}!"
-    And I have a "plugins/ext.rb" file with content:
-    """
-    Bridgetown::Hooks.register :site, :pre_render do |site, payload|
-      payload['site']['injected'] = 'myparam'
-    end
-    """
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "myparam!" in "output/index.html"
-
   Scenario: Modify the site contents after reading
     Given I have a plugins directory
     And I have a "page1.html" page that contains "page1"
@@ -89,20 +75,6 @@ Feature: Hooks
     And the output directory should exist
     And I should see "page1" in "output/renamed.html"
 
-  Scenario: Alter the payload for one page but not another
-    Given I have a plugins directory
-    And I have a "plugins/ext.rb" file with content:
-    """
-    Bridgetown::Hooks.register :pages, :pre_render do |page, payload|
-      payload['page']['myparam'] = 'special' if page.name == 'page1.html'
-    end
-    """
-    And I have a "page1.html" page that contains "{{ page.myparam }}"
-    And I have a "page2.html" page that contains "{{ page.myparam }}"
-    When I run bridgetown build
-    Then I should see "special" in "output/page1.html"
-    And I should not see "special" in "output/page2.html"
-
   Scenario: Modify page contents before writing to disk
     Given I have a plugins directory
     And I have a "index.html" page that contains "WRAP ME"
@@ -147,25 +119,25 @@ Feature: Hooks
     And the output directory should exist
     And I should see "pbagrag sbe ragel1." in "output/2015/03/14/entry1.html"
 
-  Scenario: Alter the payload for certain posts
+  Scenario: Alter frontmatter data for certain posts
     Given I have a plugins directory
     And I have a "plugins/ext.rb" file with content:
     """
     # Add myvar = 'old' to posts before 2015-03-15, and myvar = 'new' for
     # others
-    Bridgetown::Hooks.register :posts, :pre_render do |post, payload|
+    Bridgetown::Hooks.register :posts, :pre_render do |post|
       if post.date < Time.new(2015, 3, 15)
-        payload['myvar'] = 'old'
+        post.data.myvar = 'old'
       else
-        payload['myvar'] = 'new'
+        post.data.myvar = 'new'
       end
     end
     """
     And I have a _posts directory
     And I have the following posts:
-      | title  | date       | layout | content          |
-      | entry1 | 2015-03-14 | nil    | {{ myvar }} post |
-      | entry2 | 2015-03-15 | nil    | {{ myvar }} post |
+      | title  | date       | layout | content               |
+      | entry1 | 2015-03-14 | nil    | {{ page.myvar }} post |
+      | entry2 | 2015-03-15 | nil    | {{ page.myvar }} post |
     When I run bridgetown build
     Then I should see "old post" in "output/2015/03/14/entry1.html"
     And I should see "new post" in "output/2015/03/15/entry2.html"
@@ -333,28 +305,3 @@ Feature: Hooks
     Then I should get a zero exit status
     And the output directory should exist
     And I should see "Wrote document 0" in "output/document-build.log"
-
-  Scenario: Set a custom payload['page'] property
-    Given I have a plugins directory
-    And I have a "plugins/ext.rb" file with content:
-    """
-    Bridgetown::Hooks.register :pages, :pre_render do |page, payload|
-        payload['page']['foo'] = "hello world"
-    end
-    """
-    And I have a _layouts directory
-    And I have a "_layouts/custom.html" file with content:
-      """
-      ---
-      ---
-      {{ content }} {% include foo.html %}
-      """
-    And I have a _includes directory
-    And I have a "_includes/foo.html" file with content:
-      """
-      {{page.foo}}
-      """
-    And I have an "index.html" page with layout "custom" that contains "page content"
-    When I run bridgetown build
-    Then the "output/index.html" file should exist
-    And I should see "page content\n hello world" in "output/index.html"

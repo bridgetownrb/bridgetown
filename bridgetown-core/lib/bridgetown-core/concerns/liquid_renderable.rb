@@ -8,8 +8,18 @@ module Bridgetown
     # contain any Liquid Tags or Variables, true otherwise.
     def render_with_liquid?
       return false if data["render_with_liquid"] == false
+      return false unless liquid_engine_configured?
 
       !(yaml_file? || !Utils.has_liquid_construct?(content))
+    end
+
+    def liquid_engine_configured?
+      data["template_engine"] == "liquid" ||
+        (
+          data["template_engine"].nil? && (
+            site.config[:template_engine].nil? || site.config[:template_engine] == "liquid"
+          )
+        )
     end
 
     # Override in individual classes

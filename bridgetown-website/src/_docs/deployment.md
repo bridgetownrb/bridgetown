@@ -7,8 +7,8 @@ category: deployment
 ---
 
 Bridgetown generates your site and saves it to the `output` directory by default. You can
-transfer the contents of this directory to almost any hosting provider to get
-your site live.
+transfer the contents of this directory to almost any hosting provider to make
+your site go live.
 
 Bridgetown's included site template automatically provides a Yarn script you can run to
 build both your Webpack bundle and your website. Simply run
@@ -30,17 +30,13 @@ We recommend setting up an automatic deployment solution at the earliest opportu
 
 Some popular services include:
 
+## Vercel
+
+[Vercel](https://www.vercel.com) combines the best developer experience with an obsessive focus on end-user performance. Changes instantly go live on their global edge network. Everything is taken care of for you, from SSL encryption to asset compression and cache invalidation. Vercel is the platform for developers and designers…and those who aspire to become one.
+
 ### Netlify
 
-[Netlify](https://www.netlify.com) provides Global CDN, Continuous Deployment, one click HTTPS and [much more](https://www.netlify.com/features/), providing developers a robust toolset for modern web projects without added complexity.
-
-## Aerobatic
-
-[Aerobatic](https://www.aerobatic.com) has custom domains, global CDN distribution, basic auth, CORS proxying, and a growing list of plugins all included.
-
-### GitHub Actions
-
-_description coming soon_
+[Netlify](https://www.netlify.com) is a web developer platform which focuses on productivity and global scale without requiring costly infrastructure. Get set up with continuous deployment, lead gen forms, one click HTTPS, and so much more.
 
 ## Manual Deployment
 
@@ -52,11 +48,15 @@ Rsync is similar to scp except it can be faster as it will only send changed
 parts of files as opposed to the entire file. You can learn more about using
 rsync in the [Digital Ocean tutorial](https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps).
 
+### GitHub Actions
+
+_description coming soon_
+
 ### dokku
 
 [Dokku](http://dokku.viewdocs.io/dokku) is great if you either want Heroku-style
 deployments on a budget or you want more control over your server stack.
-Deploying to Dokku is ridiculously easy, but as always, there are a few settings
+Deploying to Dokku is quite easy, but as always, there are a few settings
 required to make everything run smoothly.
 
 This guide assumes you've got a fully-functioning Dokku server up and running

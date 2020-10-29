@@ -33,7 +33,7 @@ Front matter is accessible via the `data` method on pages, posts, layouts, and o
 
 In addition to `site`, you can also access the `site_drop` object which will provide similar access to various data and config values similar to the `site` variable in Liquid.
 
-## Dot Access Hashes (available starting in v0.17.1)
+## Dot Access Hashes
 
 Instead of traditional Ruby hash key access, you can use "dot access" instead for a more familar look (coming from Liquid templates, or perhaps ActiveRecord objects in Rails). For example:
 
@@ -51,7 +51,7 @@ Instead of traditional Ruby hash key access, you can use "dot access" instead fo
 
 ## Partials
 
-To include a partial in your ERB template, add a `_partials` folder to your source folder, and save a partial starting with `_` in the filename. Then you can reference it using the `<%= partial "filename" %>` helper. For example, if we were to move the footer above into a partial:
+To include a partial in your ERB template, add a `_partials` folder to your source folder, and save a partial starting with `_` in the filename. Then you can reference it using the `<%= render "filename" %>` helper (or use the `partial` alias if you're more comfortable with that). For example, if we were to move the footer above into a partial:
 
 ```eruby
 <!-- src/_partials/_author_footer.erb -->
@@ -67,16 +67,71 @@ title: I'm a page!
 
 <p>Welcome to <%= Bridgetown.name %>!</p>
 
-<%= partial "author_footer" %>
+<%= render "author_footer" %>
 ```
 
 You can also pass variables to partials using either a `locals` hash or as keyword arguments:
 
 ```eruby
-<%= partial "some/partial", key: "value", another_key: 123 %>
+<%= render "some/partial", key: "value", another_key: 123 %>
 
-<%= partial "some/partial", locals: { key: "value", another_key: 123 } %>
+<%= render "some/partial", locals: { key: "value", another_key: 123 } %>
 ```
+
+## Rendering Ruby Components
+
+Starting in Bridgetown 0.18, you can even render Ruby objects directly! This opens the door to a fully-featured view component architecture for ERB and other Ruby-based template languages in Bridgetown, and we will have more to announce on that front going forward.
+
+Bridgetown automatically loads `.rb` files you add to the `src/_components` folder, so that's likely where you'll want to save your component class definitions. It also load components from plugins which provide a `components` source manifest. Bridgetown's component loader is based on [Zeitwerk](https://github.com/fxn/zeitwerk), so you'll need to make sure you class names and namespaces line up with your component folder hierarchy.
+
+To create a Ruby component, all you have to do is define a `render_in` method which accepts a single `view_context` argument as well as optional block. Whatever string value you return from the method will be inserted into the template. For example:
+
+```ruby
+class MyComponent
+  def render_in(view_context, &block)
+    "Hello from MyComponent!"
+  end
+end
+```
+
+```eruby
+<%= render MyComponent.new %>
+
+  output: Hello from MyComponent!
+```
+
+To pass variables along to a component, simply write an `initialize` method:
+
+```ruby
+class FieldComponent
+  def initialize(type: "text", name:, label:)
+    @type, @name, @label = type, name, label
+  end
+
+  def render_in(view_context)
+    <<~HTML
+    <field-component>
+      <label>#{@label}</label>
+      <input type="#{@type}" name="#{@name}" />
+    </field-component>
+    HTML
+  end
+end
+```
+
+```eruby
+<%= render FieldComponent.new(type: "email", name: "email_address", label: "Email Address") %>
+
+  output:
+  <field-component>
+    <label>Email Address</label>
+    <input type="email" name="email_address" />
+  </field-component>
+```
+
+{% rendercontent "docs/note", type: "warning", extra_margin: true %}
+Bear in mind that Ruby components aren't accessible from Liquid templates. So if you need a component which can be used in either templating system, consider writing a Liquid component (see below).
+{% endrendercontent %}
 
 ## Liquid Filters, Tags, and Components
 
@@ -149,7 +204,7 @@ If in your layout or a layout partial you need to output the paths to your Webpa
 When authoring a document using ERB, you might find yourself wanting to embed some Markdown within the document content. That's easy to do using a `markdownify` block:
 
 ```eruby
-<% markdownify do %>
+<%= markdownify do %>
    ## I'm a header!
 
    * Yay!
@@ -157,10 +212,80 @@ When authoring a document using ERB, you might find yourself wanting to embed so
 <% end %>
 ```
 
-You can also pass any string variable via an inline block as well:
+You can also pass in any string variable as a method argument:
 
 ```eruby
-<% markdownify { some_string_var } %>
+<%= markdownify some_string_var %>
+```
+
+## Extensions and Permalinks
+
+Sometimes you may want to output a file that doesn't end in `.html`. Perhaps you want to create a JSON index of a collection, or a special XML feed. If you have familiarity with other Ruby site generators or frameworks, you might instinctively reach for the solution where you use a double extension, say, `posts.json.erb` to indicate the final extension (`json`) and the template type (`erb`).
+
+Bridgetown doesn't do anything with double extensions by default, but you can use them regardless—as long as you also set the file's permalink using front matter. Here's an example of `posts.json.erb` using a [custom permalink](/docs/structure/permalinks):
+
+```eruby
+---
+permalink: /posts.json
+---
+[
+  <%
+    site.posts.docs.each_with_index do |post, index|
+      last_item = index == site.posts.docs.length - 1
+  %>
+    {
+      "title": <%= jsonify post.data[:title].strip %>,
+      "url": "<%= absolute_url post.url %>"<%= "," unless last_item %>
+    }
+  <% end %>
+]
+```
+
+The ensures the final relative URL will be `/posts.json`. (Of course you can also set the permalink to anything you want, regardless of the filename itself.)
+
+## Link and URL Helpers
+
+The `link_to` and `url_for` helpers let you create anchor tags which will link to any source page/document/static file (or any relative/absolute URL you pass in).
+
+To link to source content, pass in a path to file in your `src` folder that translates to a published URL. For example, if you have a blog post saved at `src/_posts/2020-10-29-my-nifty-article.md`
+
+```eruby
+<%= link_to "Click me!", "_posts/2020-10-29-my-nifty-article.md" %>
+
+<!-- output: -->
+<a href="/blog/my-nifty-article">Click me!</a>
+```
+
+The `link_to` helper uses `url_for`, so you can use that to get the url directly:
+
+```eruby
+<% article_url = url_for("_posts/2020-10-29-my-nifty-article.md") %>
+```
+
+Note that `url_for` is also aliased to `link` in order to provide compatibility with [the link Liquid tag](/docs/liquid/tags#link){:data-no-swup="true"}.
+
+You can pass additional keyword arguments to `link_to` which will be translated to HTML attributes:
+
+```eruby
+<%= link_to "Join our livestream!", "_events/livestream.md", class: "event", data_expire: "2020-11-08" %>
+
+<!-- output: -->
+<a href="/events/livestream" class="event" data-expire="2020-11-08">Join our livestream!</a>
+```
+
+You can also pass relative or aboslute URLs to `link_to` and they'll just pass-through to the anchor tag without change:
+
+```eruby
+<%= link_to "Visit Bridgetown", "https://www.bridgetownrb.com" %>
+```
+
+Finally, if you pass a Ruby object (i.e., it responds to `url`), it will work as you'd expect:
+
+```eruby
+<%= link_to "My last page", @site.pages.last %>
+
+<!-- output: -->
+<a href="/this/is/my-last-page">My last page</a>
 ```
 
 ## Capture Helper
@@ -197,31 +322,6 @@ Print this: <%= layout.data[:save_this_for_later] %>
 
 Because of the use of the `||=` operator, you'll only see "saving this into the layout!" print to the console once when the site builds even if you use the layout on thousands of pages!
 
-## Extensions and Permalinks
-
-Sometimes you may want to output a file that doesn't end in `.html`. Perhaps you want to create a JSON index of a collection, or a special XML feed. If you have familiarity with other Ruby site generators or frameworks, you might instinctively reach for the solution where you use a double extension, say, `posts.json.erb` to indicate the final extension (`json`) and the template type (`erb`).
-
-Bridgetown doesn't do anything with double extensions by default, but you can use them regardless—as long as you also set the file's permalink using front matter. Here's an example of `posts.json.erb` using a [custom permalink](/docs/structure/permalinks):
-
-```eruby
----
-permalink: /posts.json
----
-[
-  <%
-    site.posts.docs.each_with_index do |post, index|
-      last_item = index == site.posts.docs.length - 1
-  %>
-    {
-      "title": <%= jsonify post.data[:title].strip %>,
-      "url": "<%= absolute_url post.url %>"<%= "," unless last_item %>
-    }
-  <% end %>
-]
-```
-
-The ensures the final relative URL will be `/posts.json`. (Of course you can also set the permalink to anything you want, regardless of the filename itself.)
-
 ## Custom Helpers
 
 If you'd like to add your own custom template helpers, you can use the `helper` DSL within builder plugins. [Read this documentation to learn more](/docs/plugins/helpers).
@@ -241,7 +341,8 @@ end
 ```eruby
 <%= uppercase_string "i'm a string" %>
 
-<!-- output: I'M A STRING -->
+<!-- output: -->
+I'M A STRING
 ```
 
 As a best practice, it would be best to define your helpers as methods of a dedicated `Module` which could then be used for both Liquid filters and ERB helpers simultaneously. Here's how you might go about that in your plugin:
