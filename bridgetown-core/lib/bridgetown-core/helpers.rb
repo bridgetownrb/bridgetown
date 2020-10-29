@@ -30,13 +30,17 @@ module Bridgetown
 
       # This helper will generate the correct permalink URL for the file path.
       #
-      # @param relative_path [String] source file path, e.g.
-      #   "_posts/2020-10-20-my-post.md"
+      # @param relative_path [String, Object] source file path, e.g.
+      #   "_posts/2020-10-20-my-post.md", or object that responds to `url`
       # @return [String] the permalink URL for the file
       # @raise [ArgumentError] if the file cannot be found
       def url_for(relative_path)
+        path_string = !relative_path.is_a?(String) ? relative_path.url : relative_path
+
+        return path_string if path_string.start_with?("/", "http")
+
         site.each_site_file do |item|
-          if item.relative_path == relative_path || item.relative_path == "/#{relative_path}"
+          if item.relative_path == path_string || item.relative_path == "/#{path_string}"
             return relative_url(item)
           end
         end
@@ -52,8 +56,8 @@ module Bridgetown
       # This helper will generate the correct permalink URL for the file path.
       #
       # @param text [String] the content inside the anchor tag
-      # @param relative_path [String] source file path, e.g.
-      #   "_posts/2020-10-20-my-post.md"
+      # @param relative_path [String, Object] source file path, e.g.
+      #   "_posts/2020-10-20-my-post.md", or object that responds to `url`
       # @param options [Hash] key-value pairs of HTML attributes to add to the tag
       # @return [String] the anchor tag HTML
       # @raise [ArgumentError] if the file cannot be found

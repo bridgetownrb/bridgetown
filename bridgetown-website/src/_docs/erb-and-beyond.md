@@ -163,6 +163,76 @@ You can also pass any string variable via an inline block as well:
 <% markdownify { some_string_var } %>
 ```
 
+## Extensions and Permalinks
+
+Sometimes you may want to output a file that doesn't end in `.html`. Perhaps you want to create a JSON index of a collection, or a special XML feed. If you have familiarity with other Ruby site generators or frameworks, you might instinctively reach for the solution where you use a double extension, say, `posts.json.erb` to indicate the final extension (`json`) and the template type (`erb`).
+
+Bridgetown doesn't do anything with double extensions by default, but you can use them regardless—as long as you also set the file's permalink using front matter. Here's an example of `posts.json.erb` using a [custom permalink](/docs/structure/permalinks):
+
+```eruby
+---
+permalink: /posts.json
+---
+[
+  <%
+    site.posts.docs.each_with_index do |post, index|
+      last_item = index == site.posts.docs.length - 1
+  %>
+    {
+      "title": <%= jsonify post.data[:title].strip %>,
+      "url": "<%= absolute_url post.url %>"<%= "," unless last_item %>
+    }
+  <% end %>
+]
+```
+
+The ensures the final relative URL will be `/posts.json`. (Of course you can also set the permalink to anything you want, regardless of the filename itself.)
+
+## Link and URL Helpers
+
+The `link_to` and `url_for` helpers let you create anchor tags which will link to any source page/document/static file (or any relative/absolute URL you pass in).
+
+To link to source content, pass in a path to file in your `src` folder that translates to a published URL. For example, if you have a blog post saved at `src/_posts/2020-10-29-my-nifty-article.md`
+
+```eruby
+<%= link_to "Click me!", "_posts/2020-10-29-my-nifty-article.md" %>
+
+<!-- output: -->
+<a href="/blog/my-nifty-article">Click me!</a>
+```
+
+The `link_to` helper uses `url_for`, so you can use that to get the url directly:
+
+```eruby
+<% article_url = url_for("_posts/2020-10-29-my-nifty-article.md") %>
+```
+
+Note that `url_for` is also aliased to `link` in order to provide compatibility with [the link Liquid tag](/docs/liquid/tags#link){:data-no-swup="true"}.
+
+You can pass additional keyword arguments to `link_to` which will be translated to HTML attributes:
+
+```eruby
+<%= link_to "Join our livestream!", "_events/livestream.md", class: "event", data_expire: "2020-11-08" %>
+
+<!-- output: -->
+<a href="/events/livestream" class="event" data-expire="2020-11-08">Join our livestream!</a>
+```
+
+You can also pass relative or aboslute URLs to `link_to` and they'll just pass-through to the anchor tag without change:
+
+```eruby
+<%= link_to "Visit Bridgetown", "https://www.bridgetownrb.com" %>
+```
+
+Finally, if you pass a Ruby object (i.e., it responds to `url`), it will work as you'd expect:
+
+```eruby
+<%= link_to "My last page", @site.pages.last %>
+
+<!-- output: -->
+<a href="/this/is/my-last-page">My last page</a>
+```
+
 ## Capture Helper
 
 If you need to capture a part of your template and store it in a variable for later use, you can use the `capture` helper.
@@ -197,31 +267,6 @@ Print this: <%= layout.data[:save_this_for_later] %>
 
 Because of the use of the `||=` operator, you'll only see "saving this into the layout!" print to the console once when the site builds even if you use the layout on thousands of pages!
 
-## Extensions and Permalinks
-
-Sometimes you may want to output a file that doesn't end in `.html`. Perhaps you want to create a JSON index of a collection, or a special XML feed. If you have familiarity with other Ruby site generators or frameworks, you might instinctively reach for the solution where you use a double extension, say, `posts.json.erb` to indicate the final extension (`json`) and the template type (`erb`).
-
-Bridgetown doesn't do anything with double extensions by default, but you can use them regardless—as long as you also set the file's permalink using front matter. Here's an example of `posts.json.erb` using a [custom permalink](/docs/structure/permalinks):
-
-```eruby
----
-permalink: /posts.json
----
-[
-  <%
-    site.posts.docs.each_with_index do |post, index|
-      last_item = index == site.posts.docs.length - 1
-  %>
-    {
-      "title": <%= jsonify post.data[:title].strip %>,
-      "url": "<%= absolute_url post.url %>"<%= "," unless last_item %>
-    }
-  <% end %>
-]
-```
-
-The ensures the final relative URL will be `/posts.json`. (Of course you can also set the permalink to anything you want, regardless of the filename itself.)
-
 ## Custom Helpers
 
 If you'd like to add your own custom template helpers, you can use the `helper` DSL within builder plugins. [Read this documentation to learn more](/docs/plugins/helpers).
@@ -241,7 +286,8 @@ end
 ```eruby
 <%= uppercase_string "i'm a string" %>
 
-<!-- output: I'M A STRING -->
+<!-- output: -->
+I'M A STRING
 ```
 
 As a best practice, it would be best to define your helpers as methods of a dedicated `Module` which could then be used for both Liquid filters and ERB helpers simultaneously. Here's how you might go about that in your plugin:
