@@ -35,6 +35,20 @@ class TestERB < BridgetownUnitTest
     should "provide class_map helper" do
       assert_includes @erb_page.output, "<p class=\"truthy more-truthy\">"
     end
+
+    should "properly handle block expressions" do
+      assert_includes @erb_page.output, "\n===\n+Value: value+\n---\n"
+    end
+  end
+
+  context "Ruby components" do
+    should "should render" do
+      assert_includes @erb_page.output, "Here's the page title! <strong>I'm an ERB Page</strong>"
+    end
+
+    should "allow source components to override plugin components" do
+      assert_includes @erb_page.output, "Yay, it got overridden!"
+    end
   end
 
   context "ERB layout" do

@@ -171,7 +171,9 @@ module Bridgetown
         @component_loaders = {}
       end
 
-      site.components_load_paths.each do |load_path|
+      # Because "first constant wins" in Zeitwerk, we need to load the local
+      # source components _before_ we load any from plugins
+      site.components_load_paths.reverse_each do |load_path|
         next unless Dir.exist? load_path
         next if Zeitwerk::Registry.loaders.find { |loader| loader.manages?(load_path) }
 
