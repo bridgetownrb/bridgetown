@@ -1,10 +1,27 @@
 # main
 
-* Add render method for Ruby templates [#169](https://github.com/bridgetownrb/bridgetown/pull/158) ([jaredcwhite](https://github.com/jaredcwhite))
+# 0.18.0 / 2020-10-29
+
+* Configurable template engines on a per-site or per-document basis [#157](https://github.com/bridgetownrb/bridgetown/pull/157) ([jaredcwhite](https://github.com/jaredcwhite))
+  * Set a `template_engine` key in your config file. The default is assumed to be liquid, but you can change it to `erb` (or other things in the future as this gets rolled out). Once that is set, you don't even have to name all your ERB files with an `.erb` extension—it will process even `.html.`, `.md`, `.json`, etc. It also means Liquid won't try to "preprocess" any ERB files, etc.
+  * Regardless of what is configured site-wide, you can also set the `template_engine` in front matter (whether that's in an individual file or using front matter defaults), allowing you to swap out template engines wherever it's needed.
+  * Front matter defaults support setting `template_engine` to none or anything else for a part of the source tree.
+  * Liquid pages/layouts with a `.liquid` extension are processed as Liquid even if the configured engine is something else.
+  * **Breaking change:** previously it was possible in Liquid for a child layout to set a front matter variable and a parent layout to access the child layout's variable value, aka `{{ layout.variable_from_child_layout }}`. That's no longer the case now…each layout has access to only its own front matter data.
+  * **Breaking change:** a few pre-render hooks were provided access to Liquid's global payload hash. That meant they could alter the hash and thus the data being fed to Liquid templates. The problem is that there was no visibility into those changes from any other part of the system. Plugins accessing actual page/layout/site/etc. data wouldn't pick up those changes, nor would other template engines like ERB. Now if a hook needs to alter data, it needs to alter actual Ruby model data, and Liquid's payload should always reflect that model data.
+* Add render method for Ruby templates [#169](https://github.com/bridgetownrb/bridgetown/pull/169) ([jaredcwhite](https://github.com/jaredcwhite))
   * Add Zeitwerk loaders for component folders (any `*.rb` file will now be accessible from Ruby templates). _Note:_ Zeitwerk will not load classes from plugins if they're already present in the source folder, so if you want a component to "reopen" a class from a plugin, you'll need to `require` the plugin class explicitly in your local component.
   * Allow ERB capture to pass object argument to its block.
   * **Breaking change:** the previous `<%|= output_block do %>…<%| end %>` block style is out in favor of: `<%= output_block do %>…<% end %>`, so you don't have to change a thing coming from Rails. _Note:_ if you're coming from Middleman where blocks output by default without `<%=`, you'll need to switch to Rails-style block expressions.
   * **Breaking change:** the `markdownify` helper in ERB now just returns a string rather than directly outputting to the template, so use `<%= markdownify do %>…<% end %>`.
+* Site documents array should exclude static files [#168](https://github.com/bridgetownrb/bridgetown/pull/168) ([jaredcwhite](https://github.com/jaredcwhite))
+* Obfuscate link filter [#167](https://github.com/bridgetownrb/bridgetown/pull/167) ([julianrubisch](https://github.com/julianrubisch))
+* Add link/url_for and link_to helpers [#164](https://github.com/bridgetownrb/bridgetown/pull/164) ([jaredcwhite](https://github.com/jaredcwhite))
+* False value in front matter is now supported to ensure no layout is rendered [#163](https://github.com/bridgetownrb/bridgetown/pull/163) ([jaredcwhite](https://github.com/jaredcwhite))
+* Support per-document locale permalinks and config [#162](https://github.com/bridgetownrb/bridgetown/pull/162) ([jaredcwhite](https://github.com/jaredcwhite))
+  * This isn't yet documented because an even more comprehensive i18n solution and announcement is forthcoming.
+* Add blank src/images folder [#172](https://github.com/bridgetownrb/bridgetown/pull/172) ([jaredcwhite](https://github.com/jaredcwhite))
+* chore: Prototype pages optimizations and improvements to YARD docs [#171](https://github.com/bridgetownrb/bridgetown/pull/171) ([jaredcwhite](https://github.com/jaredcwhite))
 
 # 0.17.1 / 2020-10-02
 
