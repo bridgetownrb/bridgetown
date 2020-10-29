@@ -124,7 +124,7 @@ The location of pages in your source folder structure will by default be mirrore
       </td>
       <td>
         <p>
-          Every other directory and file except for those listed above—such as downloadable files, <code>favicon.ico</code>, robots.txt, and so forth—will be copied verbatim to the generated site as <a href="/docs/static_files">Static Files<a>.
+          Every other directory and file except for those listed above—such as downloadable files, <code>favicon.ico</code>, <code>robots.txt</code>, and so forth—will be copied verbatim to the generated site as <a href="/docs/static_files">Static Files<a>.
         </p>
       </td>
     </tr>
