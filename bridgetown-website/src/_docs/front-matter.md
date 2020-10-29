@@ -82,10 +82,8 @@ front matter of a page or post.
             front matter defaults</a>.
           </li>
           <li>
-            Using <code>none</code> in a post/document will
-            produce a file without using a layout file regardless of front matter defaults.
-            Using <code>none</code> in a page will cause Bridgetown to attempt to
-            use a layout named "none".
+            Using <code>none</code> will produce a file without using a layout file
+            regardless of front matter defaults.
           </li>
         </ul>
       </td>
