@@ -19,13 +19,18 @@ module Bridgetown
       end
 
       def title
-        Utils.slugify(@obj.data["slug"], mode: "pretty", cased: true) ||
-          Utils.slugify(@obj.basename_without_ext, mode: "pretty", cased: true)
+        Utils.slugify(qualified_slug_data, mode: "pretty", cased: true)
       end
 
       def slug
-        Utils.slugify(@obj.data["slug"]) || Utils.slugify(@obj.basename_without_ext)
+        Utils.slugify(qualified_slug_data)
       end
+
+      def locale
+        locale_data = @obj.data["locale"]
+        @obj.site.config["available_locales"].include?(locale_data) ? locale_data : nil
+      end
+      alias_method :lang, :locale
 
       def categories
         category_set = Set.new
@@ -127,6 +132,17 @@ module Bridgetown
       end
 
       private
+
+      def qualified_slug_data
+        slug_data = @obj.data["slug"] || @obj.basename_without_ext
+        if @obj.data["locale"]
+          slug_data.split(".").tap do |segments|
+            segments.pop if segments.length > 1 && segments.last == @obj.data["locale"]
+          end.join(".")
+        else
+          slug_data
+        end
+      end
 
       def fallback_data
         @fallback_data ||= {}

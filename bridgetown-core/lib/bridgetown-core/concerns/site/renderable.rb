@@ -34,7 +34,9 @@ class Bridgetown::Site
     def render_docs
       collections.each_value do |collection|
         collection.docs.each do |document|
-          render_regenerated document
+          render_with_locale(document) do
+            render_regenerated document
+          end
         end
       end
     end
@@ -47,8 +49,23 @@ class Bridgetown::Site
       end
     end
 
+    # Renders a document while ensuring site locale is set if the data is available.
+    # @param document [Document] The document to render
+    # @yield Runs the block in between locale setting and resetting
+    # @return [void]
+    def render_with_locale(document)
+      if document.data["locale"]
+        previous_locale = locale
+        self.locale = document.data["locale"]
+        yield
+        self.locale = previous_locale
+      else
+        yield
+      end
+    end
+
     # Regenerates a site using {Renderer}
-    # @param document [Post] The document to regenerate.
+    # @param document [Document] The document to regenerate.
     # @return [void]
     def render_regenerated(document)
       return unless regenerator.regenerate?(document)

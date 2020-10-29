@@ -115,7 +115,7 @@ Feature: Fancy permalinks
     And the output directory should exist
     And I should see "Totally wordpress." in "output/2009/03/27/Pretty-Permalink-Schema/index.html"
 
-  Scenario: Use custom permalink schema with cased file name
+  Scenario: Use custom permalink schema with lowercase file name
     Given I have a _posts directory
     And I have an "_posts/2009-03-27-Custom-Schema.md" page with title "Custom Schema" that contains "Totally awesome"
     And I have a configuration file with "permalink" set to "/:year/:month/:day/:slug/"
@@ -123,6 +123,158 @@ Feature: Fancy permalinks
     Then I should get a zero exit status
     And the output directory should exist
     And I should see "Totally awesome" in "output/2009/03/27/custom-schema/index.html"
+
+  Scenario: Use custom permalink schema with language
+    Given I have a _posts directory
+    And I have an "_posts/2009-03-27-multi-lingual.es.md" file with content:
+      """
+      ---
+      title: Custom Locale
+      ---
+      Impresionante!
+      """
+    And I have a configuration file with:
+      | key               | value                           |
+      | permalink         | /:lang/:year/:month/:day/:slug/ |
+      | available_locales | [en, es]                        |
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And the output directory should exist
+    And I should see "Impresionante!" in "output/es/2009/03/27/multi-lingual/index.html"
+
+  Scenario: Use custom permalink schema with language and title placeholder
+    Given I have a _posts directory
+    And I have an "_posts/2009-03-27-multi-lingual.es.md" file with content:
+      """
+      ---
+      title: Custom Locale
+      ---
+      Impresionante!
+      """
+    And I have a configuration file with:
+      | key               | value                            |
+      | permalink         | /:lang/:year/:month/:day/:title/ |
+      | available_locales | [en, es]                         |
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And the output directory should exist
+    And I should see "Impresionante!" in "output/es/2009/03/27/multi-lingual/index.html"
+
+  Scenario: Don't use language permalink if locales aren't configured
+    Given I have a _posts directory
+    And I have an "_posts/2009-03-27-not-multi-lingual.es.md" file with content:
+      """
+      ---
+      title: Custom Locale
+      ---
+      Impresionante!
+      """
+    And I have a configuration file with:
+      | key       | value                           |
+      | permalink | /:lang/:year/:month/:day/:slug/ |
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And the output directory should exist
+    And I should see "Impresionante!" in "output/2009/03/27/not-multi-lingual-es/index.html"
+
+  Scenario: Use custom permalink schema with multiple languages
+    Given I have a _posts directory
+    And I have an "_posts/2009-03-27-multi-lingual.en.md" file with content:
+      """
+      ---
+      title: English Locale
+      ---
+      Awesome! {{ site.locale }}
+      """
+    And I have an "_posts/2009-03-27-multi-lingual.es.md" file with content:
+      """
+      ---
+      title: Custom Locale
+      language: es
+      ---
+      Impresionante! {{ site.locale }}
+      """
+    And I have a configuration file with:
+      | key               | value                            |
+      | permalink         | /:lang/:year/:month/:day/:title/ |
+      | available_locales | [en, es]                         |
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And the output directory should exist
+    And I should see "Awesome! en" in "output/en/2009/03/27/multi-lingual/index.html"
+    And I should see "Impresionante! es" in "output/es/2009/03/27/multi-lingual/index.html"
+
+  Scenario: Use custom permalink schema with multiple languages and a default path
+    Given I have a _posts directory
+    And I have an "_posts/2009-03-27-multi-lingual.md" file with content:
+      """
+      ---
+      title: English Locale
+      ---
+      Awesome!
+      """
+    And I have an "_posts/2009-03-27-multi-lingual.es.md" file with content:
+      """
+      ---
+      title: Custom Locale
+      ---
+      Impresionante!
+      """
+    And I have a configuration file with:
+      | key               | value                              |
+      | permalink         | /:locale/:year/:month/:day/:title/ |
+      | available_locales | [en, es]                           |
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And the output directory should exist
+    And I should see "Awesome!" in "output/2009/03/27/multi-lingual/index.html"
+    And I should see "Impresionante!" in "output/es/2009/03/27/multi-lingual/index.html"
+
+  Scenario: Use custom collection permalink with multiple languages and a default path
+    Given I have a _blogs directory
+    And I have an "_blogs/2009-03-27-multi-lingual.md" file with content:
+      """
+      ---
+      title: English Locale
+      ---
+      Awesome! {{ site.locale }}
+      """
+    And I have an "_blogs/2009-03-27-multi-lingual.es.md" file with content:
+      """
+      ---
+      title: Custom Locale
+      language: es
+      ---
+      Impresionante! {{ site.locale }}
+      """
+    And I have a configuration file with:
+      | key               | value                            |
+      | collections       | {blogs: {output: true, permalink: "/:locale/:collection/:title/"}} |
+      | available_locales | [en, es]                         |
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And the output directory should exist
+    And I should see "Awesome! en" in "output/blogs/multi-lingual/index.html"
+    And I should see "Impresionante! es" in "output/es/blogs/multi-lingual/index.html"
+
+  Scenario: Use custom permalink for locale if front matter is set
+    Given I have a _posts directory
+    And I have an "_posts/2009-03-27-multi-lingual.md" file with content:
+      """
+      ---
+      title: Custom Locale
+      locale: es
+      ---
+      Impresionante!
+      """
+    And I have a configuration file with:
+      | key               | value                           |
+      | permalink         | /:lang/:year/:month/:day/:slug/ |
+      | available_locales | [en, es]                        |
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And the output directory should exist
+    And I should see "Impresionante!" in "output/es/2009/03/27/multi-lingual/index.html"
 
   Scenario: Use pretty permalink schema with title containing underscore
     Given I have a _posts directory
