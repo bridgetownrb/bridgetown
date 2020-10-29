@@ -31,10 +31,6 @@ class TestERB < BridgetownUnitTest
     should "allow capturing into a variable" do
       assert_includes @erb_page.output, "This is how capturing works!".reverse
     end
-
-    should "provide class_map helper" do
-      assert_includes @erb_page.output, "<p class=\"truthy more-truthy\">"
-    end
   end
 
   context "ERB layout" do
