@@ -15,6 +15,7 @@ module Bridgetown
         @page = layout.current_document
         @content = layout.current_document_output
       else
+        @layout = convertible.site.layouts[convertible.data["layout"]]
         @page = convertible
       end
       @paginator = page.paginator if page.respond_to?(:paginator)
@@ -38,6 +39,7 @@ module Bridgetown
     end
 
     def liquid_render(component, options = {})
+      options[:_block_content] = yield if block_given?
       render_statement = _render_statement(component, options)
 
       template = site.liquid_renderer.file(
@@ -69,11 +71,19 @@ module Bridgetown
     private
 
     def _render_statement(component, options)
-      render_statement = ["{% render \"#{component}\""]
+      render_statement = if options[:_block_content]
+                           ["{% rendercontent \"#{component}\""]
+                         else
+                           ["{% render \"#{component}\""]
+                         end
       unless options.empty?
         render_statement << ", " + options.keys.map { |k| "#{k}: #{k}" }.join(", ")
       end
       render_statement << " %}"
+      if options[:_block_content]
+        render_statement << options[:_block_content]
+        render_statement << "{% endrendercontent %}"
+      end
       render_statement.join
     end
 
@@ -81,8 +91,8 @@ module Bridgetown
       {
         registers: {
           site: site,
-          page: page,
-          cached_partials: Bridgetown::Renderer.cached_partials,
+          page: page.to_liquid,
+          cached_partials: Bridgetown::Converters::LiquidTemplates.cached_partials,
         },
         strict_filters: site.config["liquid"]["strict_filters"],
         strict_variables: site.config["liquid"]["strict_variables"],

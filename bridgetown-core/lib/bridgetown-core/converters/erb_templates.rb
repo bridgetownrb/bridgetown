@@ -46,6 +46,7 @@ module Bridgetown
 
     def partial(partial_name, options = {})
       options.merge!(options[:locals]) if options[:locals]
+      options[:content] = yield if block_given?
 
       partial_segments = partial_name.split("/")
       partial_segments.last.sub!(%r!^!, "_")
@@ -89,6 +90,7 @@ module Bridgetown
 
   module Converters
     class ERBTemplates < Converter
+      priority :highest
       input :erb
 
       # Logic to do the ERB content conversion.
@@ -115,6 +117,20 @@ module Bridgetown
         else
           erb_renderer.render(erb_view)
         end
+      end
+
+      def matches(ext, convertible)
+        if convertible.data[:template_engine] == "erb" ||
+            (convertible.data[:template_engine].nil? &&
+              @config[:template_engine] == "erb")
+          return true
+        end
+
+        super(ext)
+      end
+
+      def output_ext(ext)
+        ext == ".erb" ? ".html" : ext
       end
     end
   end

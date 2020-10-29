@@ -7,16 +7,11 @@ class Bridgetown::Site
     # @see Page
     # @see Document
     def render
-      payload = site_payload
-
-      Bridgetown::Hooks.trigger :site, :pre_render, self, payload
-
+      Bridgetown::Hooks.trigger :site, :pre_render, self
       execute_inline_ruby_for_layouts!
-
-      render_docs(payload)
-      render_pages(payload)
-
-      Bridgetown::Hooks.trigger :site, :post_render, self, payload
+      render_docs
+      render_pages
+      Bridgetown::Hooks.trigger :site, :post_render, self
     end
 
     # Executes inline Ruby frontmatter
@@ -36,29 +31,29 @@ class Bridgetown::Site
 
     # Renders all documents
     # @return [void]
-    def render_docs(payload)
+    def render_docs
       collections.each_value do |collection|
         collection.docs.each do |document|
-          render_regenerated(document, payload)
+          render_regenerated document
         end
       end
     end
 
     # Renders all pages
     # @return [void]
-    def render_pages(payload)
+    def render_pages
       pages.each do |page|
-        render_regenerated(page, payload)
+        render_regenerated page
       end
     end
 
     # Regenerates a site using {Renderer}
     # @param document [Post] The document to regenerate.
     # @return [void]
-    def render_regenerated(document, payload)
+    def render_regenerated(document)
       return unless regenerator.regenerate?(document)
 
-      Bridgetown::Renderer.new(self, document, payload).run
+      Bridgetown::Renderer.new(self, document).run
     end
   end
 end

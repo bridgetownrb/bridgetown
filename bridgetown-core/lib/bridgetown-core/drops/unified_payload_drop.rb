@@ -6,7 +6,6 @@ module Bridgetown
       mutable true
 
       attr_accessor :page, :layout, :content, :paginator
-      attr_accessor :highlighter_prefix, :highlighter_suffix
 
       def bridgetown
         BridgetownDrop.global

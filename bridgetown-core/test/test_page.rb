@@ -13,11 +13,7 @@ class TestPage < BridgetownUnitTest
   end
 
   def do_render(page)
-    layouts = {
-      "default" => Layout.new(@site, source_dir("_layouts"), "simple.html"),
-    }
     renderer = Bridgetown::Renderer.new(@site, page)
-    renderer.layouts = layouts
     renderer.render_document
   end
 
