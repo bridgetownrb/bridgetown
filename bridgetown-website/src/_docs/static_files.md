@@ -8,7 +8,13 @@ category: staticfiles
 A static file is a file that does not contain any front matter. These
 include images, PDFs, and other un-rendered content.
 
-They're accessible in Liquid via `site.static_files` and contain the
+You can save static files in any subfolder or directly within the source folder (`src`). A common place to save images specifically is the `src/images` folder. You can reference them from both markup and CSS simply using a relative URL (for example, `/images/logo.svg`).
+
+{% rendercontent "docs/note" %}
+If you're interested in a full-featured image management solution with the ability to resize and optimize your media sizes, check out [Cloudinary](https://www.cloudinary.com){:rel="noopener"} and the [bridgetown-cloudinary plugin](https://github.com/bridgetownrb/bridgetown-cloudinary){:rel="noopener"}.
+{% endrendercontent %}
+
+Static files can be searched and accessed in templates via `site.static_files` and contain the
 following metadata:
 
 <table class="settings biggest-output">
@@ -63,7 +69,7 @@ following metadata:
   </tbody>
 </table>
 
-Note that in the above table, `file` can be anything. It's an arbitrarily set variable used in your own logic (such as in a for loop). It isn't a global site or page variable.
+Note that in the above table, `file` representes a variable used in logic such as a for loop—you can name it whatever you wish in your own code.
 
 ## Add front matter to static files
 
@@ -76,14 +82,14 @@ In your `bridgetown.config.yml` file, add the following values to the `defaults`
 ```yaml
 defaults:
   - scope:
-      path: "assets/img"
+      path: "images"
     values:
       image: true
 ```
 
-This assumes that your Bridgetown site has a folder path of `assets/img` where  you have images (static files) stored. When Bridgetown builds the site, it will treat each image as if it had the front matter value of `image: true`.
+When Bridgetown builds the site, it will treat each image as if it had the front matter value of `image: true`.
 
-Suppose you want to list all your image assets as contained in `assets/img`. You could use this for loop to look in the `static_files` object and get all static files that have this front matter property:
+Now suppose you want to list all your image assets as contained in `src/images`. You could use this Liquid `for` loop to look in the `static_files` object and get all static files that have this front matter property:
 
 {% raw %}
 ```liquid
