@@ -1,18 +1,16 @@
 # frozen_string_literal: true
 
-module Bridgetown
-  module Site::Configurable
+class Bridgetown::Site
+  module Configurable
     # Set the site's configuration. This handles side-effects caused by
-    # changing values in the configuration.
+    #   changing values in the configuration.
     #
-    # @param config [Bridgetown::Configuration]
-    #   An instance of {Bridgetown::Configuration},
+    # @param config [Configuration]
+    #   An instance of {Configuration},
     #   containing the new configuration.
     #
-    # @return [Bridgetown::Configuration]
-    #   A new instance of {Bridgetown::Configuration}
-    #
-    # @see Bridgetown::Configuration
+    # @return [Configuration]
+    #   The processed instance of {Configuration}
     def config=(config)
       @config = config.clone
 
@@ -38,21 +36,21 @@ module Bridgetown
     end
 
     def defaults_reader
-      @defaults_reader ||= DefaultsReader.new(self)
+      @defaults_reader ||= Bridgetown::DefaultsReader.new(self)
     end
 
     # Returns the current instance of {FrontmatterDefaults} or
-    # creates a new instance {FrontmatterDefaults} if it doesn't already exist.
+    #   creates a new instance {FrontmatterDefaults} if it doesn't already exist.
     #
     # @return [FrontmatterDefaults]
     #   Returns an instance of {FrontmatterDefaults}
     def frontmatter_defaults
-      @frontmatter_defaults ||= FrontmatterDefaults.new(self)
+      @frontmatter_defaults ||= Bridgetown::FrontmatterDefaults.new(self)
     end
 
     # Whether to perform a full rebuild without incremental regeneration.
-    # If either +override+["incremental"] or +config+["incremental"] are true,
-    # fully rebuild the site. If not, incrementally build the site.
+    #   If either `override["incremental"]` or `config["incremental"]` are true,
+    #   fully rebuild the site. If not, incrementally build the site.
     #
     # @param [Hash] override
     #   An override hash to override the current config value
@@ -63,11 +61,11 @@ module Bridgetown
     end
 
     # Returns the current instance of {Publisher} or creates a new instance of
-    # {Publisher} if one doesn't exist.
+    #   {Publisher} if one doesn't exist.
     #
     # @return [Publisher] Returns an instance of {Publisher}
     def publisher
-      @publisher ||= Publisher.new(self)
+      @publisher ||= Bridgetown::Publisher.new(self)
     end
 
     # Prefix a path or paths with the {#root_dir} directory.
@@ -126,16 +124,16 @@ module Bridgetown
     end
 
     # The full path to the directory that houses all the registered collections
-    # for the current site.
+    #  for the current site.
     #
-    # If +@collections_path+ is specified use its value.
+    #  If `@collections_path` is specified use its value.
     #
-    # If +@collections+ is not specified and +config+["collections_dir"] is
-    # specified, prepend it with {#source} and assign it to
-    # {#collections_path}.
+    #  If `@collections` is not specified and `config["collections_dir"]` is
+    #  specified, prepend it with {#source} and assign it to
+    #  {#collections_path}.
     #
-    # If +@collections+ is not specified and +config+["collections_dir"] is not
-    # specified, assign {#source} to +@collections_path+
+    #  If `@collections` is not specified and `config["collections_dir"]` is not
+    #  specified, assign {#source} to `@collections_path`
     #
     # @return [String] Returns the full path to the collections directory
     # @see #config

@@ -99,6 +99,7 @@ Feature: Rendering
     Given I have a "index.md" page with layout "none" that contains "Hi there, {{ site.author }}!"
     And I have a _trials directory
     And I have a "_trials/no-layout.md" page with layout "none" that contains "Hi there, {{ site.author }}!"
+    And I have a "_trials/false-layout.md" page with layout "false" that contains "Hi there, {{ site.author }}!"
     And I have a "_trials/test.md" page with layout "null" that contains "Hi there, {{ site.author }}!"
     And I have a none layout that contains "{{ content }}Welcome!"
     And I have a page layout that contains "{{ content }}Check this out!"
@@ -112,6 +113,7 @@ Feature: Rendering
     And the output directory should exist
     And I should not see "Welcome!" in "output/trials/no-layout.html"
     And I should not see "Check this out!" in "output/trials/no-layout.html"
+    And I should not see "Check this out!" in "output/trials/false-layout.html"
     But I should see "Check this out!" in "output/trials/test.html"
     And I should see "Hi there, John Doe!" in "output/index.html"
     And I should not see "Welcome!" in "output/index.html"

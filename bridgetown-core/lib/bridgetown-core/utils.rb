@@ -23,6 +23,20 @@ module Bridgetown
       slug.gsub(%r![_ ]!, "-").split("-").map!(&:capitalize).join(" ")
     end
 
+    # XML escape a string for use. Replaces any special characters with
+    # appropriate HTML entity replacements.
+    #
+    # Examples
+    #
+    #   xml_escape('foo "bar" <baz>')
+    #   # => "foo &quot;bar&quot; &lt;baz&gt;"
+    #
+    # @param input [String] The String to escape.
+    # @return [String] the escaped String.
+    def xml_escape(input)
+      input.to_s.encode(xml: :attr).gsub(%r!\A"|"\Z!, "")
+    end
+
     # Non-destructive version of deep_merge_hashes! See that method.
     #
     # Returns the merged hashes.

@@ -32,10 +32,6 @@ class TestERB < BridgetownUnitTest
       assert_includes @erb_page.output, "This is how capturing works!".reverse
     end
 
-    should "provide class_map helper" do
-      assert_includes @erb_page.output, "<p class=\"truthy more-truthy\">"
-    end
-
     should "properly handle block expressions" do
       assert_includes @erb_page.output, "\n===\n+Value: value+\n---\n"
     end

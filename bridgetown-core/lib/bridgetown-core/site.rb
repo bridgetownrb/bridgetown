@@ -15,8 +15,18 @@ module Bridgetown
     attr_reader   :root_dir, :source, :dest, :cache_dir, :config,
                   :regenerator, :liquid_renderer, :components_load_paths,
                   :includes_load_paths
-    attr_accessor :layouts, :pages, :static_files,
-                  :exclude, :include, :lsi, :highlighter, :permalink_style,
+
+    # All files not pages/documents or structured data in the source folder
+    # @return [Array<StaticFile>]
+    attr_accessor :static_files
+
+    # @return [Array<Layout>]
+    attr_accessor :layouts
+
+    # @return [Array<Page>]
+    attr_accessor :pages
+
+    attr_accessor :exclude, :include, :lsi, :highlighter, :permalink_style,
                   :time, :future, :unpublished, :limit_posts,
                   :keep_files, :baseurl, :data, :file_read_opts,
                   :plugin_manager, :converters, :generators, :reader

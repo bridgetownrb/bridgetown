@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-module Bridgetown
-  module Site::Localizable
+class Bridgetown::Site
+  module Localizable
+    # Returns the current and/or default configured locale
+    # @return String
     def locale
       if @locale
         @locale
@@ -13,6 +15,8 @@ module Bridgetown
       end
     end
 
+    # Sets the current locale for the site
+    # @param new_locale [String] for example: "en" for English, "es" for Spanish
     def locale=(new_locale)
       I18n.locale = @locale = new_locale.to_sym
     end

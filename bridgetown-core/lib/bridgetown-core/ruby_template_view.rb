@@ -5,36 +5,7 @@ require "active_support/core_ext/hash/keys"
 
 module Bridgetown
   class RubyTemplateView
-    class Helpers
-      include Bridgetown::Filters
-
-      attr_reader :view, :site
-
-      Context = Struct.new(:registers)
-
-      def initialize(view, site)
-        @view = view
-        @site = site
-
-        # duck typing for Liquid context
-        @context = Context.new({ site: site })
-      end
-
-      def webpack_path(asset_type)
-        Bridgetown::Utils.parse_webpack_manifest_file(site, asset_type.to_s)
-      end
-
-      # @param pairs [Hash] A hash of key/value pairs.
-      #
-      # @return [String] Space-separated keys where the values are truthy.
-      def class_map(pairs = {})
-        pairs.select { |_key, truthy| truthy }.keys.join(" ")
-      end
-
-      def t(*args)
-        I18n.send :t, *args
-      end
-    end
+    require "bridgetown-core/helpers"
 
     attr_reader :layout, :page, :paginator, :site, :content
 

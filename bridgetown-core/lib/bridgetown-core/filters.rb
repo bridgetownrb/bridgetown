@@ -79,16 +79,15 @@ module Bridgetown
     # XML escape a string for use. Replaces any special characters with
     # appropriate HTML entity replacements.
     #
-    # input - The String to escape.
-    #
     # Examples
     #
     #   xml_escape('foo "bar" <baz>')
     #   # => "foo &quot;bar&quot; &lt;baz&gt;"
     #
-    # Returns the escaped String.
+    # @param input [String] The String to escape.
+    # @return [String] the escaped String.
     def xml_escape(input)
-      input.to_s.encode(xml: :attr).gsub(%r!\A"|"\Z!, "")
+      Utils.xml_escape(input)
     end
 
     # CGI escape a string for use in a URL. Replaces any special characters
@@ -118,6 +117,21 @@ module Bridgetown
     # Returns the escaped String.
     def uri_escape(input)
       Addressable::URI.normalize_component(input)
+    end
+
+    # Obfuscate an email, telephone number etc.
+    #
+    # @param input[String] the String containing the contact information (email, phone etc.)
+    # @param prefix[String] the URL scheme to prefix (default "mailto")
+    # @return [String] a link unreadable for bots but will be recovered on focus or mouseover
+    def obfuscate_link(input, prefix = "mailto")
+      link = "<a href=\"#{prefix}:#{input}\">#{input}</a>"
+      script = "<script type=\"text/javascript\">document.currentScript.insertAdjacentHTML("
+      script += "beforebegin', '#{rot47(link)}'.replace(/[!-~]/g,"
+      script += "function(c){{var j=c.charCodeAt(0);if((j>=33)&&(j<=126)){"
+      script += "return String.fromCharCode(33+((j+ 14)%94));}"
+      script += "else{return String.fromCharCode(j);}}}));</script>"
+      script
     end
 
     # Replace any whitespace in the input string with a single space
@@ -326,6 +340,11 @@ module Bridgetown
     end
 
     private
+
+    # Perform a rot47 rotation for obfuscation
+    def rot47(input)
+      input.tr "!-~", "P-~!-O"
+    end
 
     # Sort the input Enumerable by the given property.
     # If the property doesn't exist, return the sort order respective of

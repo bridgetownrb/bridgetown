@@ -114,24 +114,23 @@ module Bridgetown
   require_all "bridgetown-core/tags"
 
   class << self
-    # Public: Tells you which Bridgetown environment you are building in so
-    # you can skip tasks if you need to.
-
+    # Tells you which Bridgetown environment you are building in so
+    #   you can skip tasks if you need to.
     def environment
       ENV["BRIDGETOWN_ENV"] || "development"
     end
     alias_method :env, :environment
 
-    # Public: Generate a Bridgetown configuration Hash by merging the default
-    # options with anything in bridgetown.config.yml, and adding the given
-    # options on top.
+    # Generate a Bridgetown configuration hash by merging the default
+    #   options with anything in bridgetown.config.yml, and adding the given
+    #   options on top.
     #
-    # override - A Hash of config directives that override any options in both
-    #            the defaults and the config file.
-    #            See Bridgetown::Configuration::DEFAULTS for a
-    #            list of option names and their defaults.
+    # @param override [Hash] - A an optional hash of config directives that override
+    #   any options in both the defaults and the config file. See
+    #   {Bridgetown::Configuration::DEFAULTS} for a list of option names and their
+    #   defaults.
     #
-    # Returns the final configuration Hash.
+    # @return [Hash] The final configuration hash.
     def configuration(override = {})
       config = Configuration.new
       override = Configuration[override].stringify_keys
@@ -146,15 +145,29 @@ module Bridgetown
     end
 
     # Conveinence method to register a new Thor command
+    #
+    # @see Bridgetown::Commands::Registrations.register
     def register_command(&block)
       Bridgetown::Commands::Registrations.register(&block)
     end
 
-    # Public: Set the TZ environment variable to use the timezone specified
+    # Determines the correct Bundler environment block method to use and passes
+    # the block on to it.
     #
-    # timezone - the IANA Time Zone
+    # @return [void]
+    def with_unbundled_env(&block)
+      if Bundler.bundler_major_version >= 2
+        Bundler.method(:with_unbundled_env).call(&block)
+      else
+        Bundler.method(:with_clean_env).call(&block)
+      end
+    end
+
+    # Set the TZ environment variable to use the timezone specified
     #
-    # Returns nothing
+    # @param timezone [String] the IANA Time Zone
+    #
+    # @return [void]
     # rubocop:disable Naming/AccessorMethodName
     def set_timezone(timezone)
       ENV["TZ"] = if Utils::Platforms.really_windows?
@@ -165,38 +178,39 @@ module Bridgetown
     end
     # rubocop:enable Naming/AccessorMethodName
 
-    # Public: Fetch the logger instance for this Bridgetown process.
+    # Fetch the logger instance for this Bridgetown process.
     #
-    # Returns the LogAdapter instance.
+    # @return [LogAdapter]
     def logger
       @logger ||= LogAdapter.new(LogWriter.new, (ENV["BRIDGETOWN_LOG_LEVEL"] || :info).to_sym)
     end
 
-    # Public: Set the log writer.
-    #         New log writer must respond to the same methods
-    #         as Ruby's interal Logger.
+    # Set the log writer. New log writer must respond to the same methods as Ruby's
+    #   internal Logger.
     #
-    # writer - the new Logger-compatible log transport
+    # @param writer [Object] the new Logger-compatible log transport
     #
-    # Returns the new logger.
+    # @return [LogAdapter]
     def logger=(writer)
       @logger = LogAdapter.new(writer, (ENV["BRIDGETOWN_LOG_LEVEL"] || :info).to_sym)
     end
 
-    # Public: An array of sites
+    # An array of sites. Currently only ever a single entry.
     #
-    # Returns the Bridgetown sites created.
+    # @return [Array<Bridgetown::Site>] the Bridgetown sites created.
     def sites
       @sites ||= []
     end
 
-    # Public: Ensures the questionable path is prefixed with the base directory
-    #         and prepends the questionable path with the base directory if false.
+    # Ensures the questionable path is prefixed with the base directory
+    #   and prepends the questionable path with the base directory if false.
     #
-    # base_directory - the directory with which to prefix the questionable path
-    # questionable_path - the path we're unsure about, and want prefixed
+    # @param base_directory [String] the directory with which to prefix the
+    #   questionable path
+    # @param questionable_path [String] the path we're unsure about, and want
+    #   prefixed
     #
-    # Returns the sanitized path.
+    # @return [String] the sanitized path
     def sanitized_path(base_directory, questionable_path)
       return base_directory if base_directory.eql?(questionable_path)
 
