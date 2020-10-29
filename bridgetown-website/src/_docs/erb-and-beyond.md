@@ -33,7 +33,7 @@ Front matter is accessible via the `data` method on pages, posts, layouts, and o
 
 In addition to `site`, you can also access the `site_drop` object which will provide similar access to various data and config values similar to the `site` variable in Liquid.
 
-## Dot Access Hashes (available starting in v0.17.1)
+## Dot Access Hashes
 
 Instead of traditional Ruby hash key access, you can use "dot access" instead for a more familar look (coming from Liquid templates, or perhaps ActiveRecord objects in Rails). For example:
 
