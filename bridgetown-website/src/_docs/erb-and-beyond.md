@@ -33,7 +33,7 @@ Front matter is accessible via the `data` method on pages, posts, layouts, and o
 
 In addition to `site`, you can also access the `site_drop` object which will provide similar access to various data and config values similar to the `site` variable in Liquid.
 
-## Dot Access Hashes (available starting in v0.17.1)
+## Dot Access Hashes
 
 Instead of traditional Ruby hash key access, you can use "dot access" instead for a more familar look (coming from Liquid templates, or perhaps ActiveRecord objects in Rails). For example:
 
@@ -51,7 +51,7 @@ Instead of traditional Ruby hash key access, you can use "dot access" instead fo
 
 ## Partials
 
-To include a partial in your ERB template, add a `_partials` folder to your source folder, and save a partial starting with `_` in the filename. Then you can reference it using the `<%= partial "filename" %>` helper. For example, if we were to move the footer above into a partial:
+To include a partial in your ERB template, add a `_partials` folder to your source folder, and save a partial starting with `_` in the filename. Then you can reference it using the `<%= render "filename" %>` helper (or use the `partial` alias if you're more comfortable with that). For example, if we were to move the footer above into a partial:
 
 ```eruby
 <!-- src/_partials/_author_footer.erb -->
@@ -67,16 +67,71 @@ title: I'm a page!
 
 <p>Welcome to <%= Bridgetown.name %>!</p>
 
-<%= partial "author_footer" %>
+<%= render "author_footer" %>
 ```
 
 You can also pass variables to partials using either a `locals` hash or as keyword arguments:
 
 ```eruby
-<%= partial "some/partial", key: "value", another_key: 123 %>
+<%= render "some/partial", key: "value", another_key: 123 %>
 
-<%= partial "some/partial", locals: { key: "value", another_key: 123 } %>
+<%= render "some/partial", locals: { key: "value", another_key: 123 } %>
 ```
+
+## Rendering Ruby Components
+
+Starting in Bridgetown 0.18, you can even render Ruby objects directly! This opens the door to a fully-featured view component architecture for ERB and other Ruby-based template languages in Bridgetown, and we will have more to announce on that front going forward.
+
+Bridgetown automatically loads `.rb` files you add to the `src/_components` folder, so that's likely where you'll want to save your component class definitions. It also load components from plugins which provide a `components` source manifest. Bridgetown's component loader is based on [Zeitwerk](https://github.com/fxn/zeitwerk), so you'll need to make sure you class names and namespaces line up with your component folder hierarchy.
+
+To create a Ruby component, all you have to do is define a `render_in` method which accepts a single `view_context` argument as well as optional block. Whatever string value you return from the method will be inserted into the template. For example:
+
+```ruby
+class MyComponent
+  def render_in(view_context, &block)
+    "Hello from MyComponent!"
+  end
+end
+```
+
+```eruby
+<%= render MyComponent.new %>
+
+  output: Hello from MyComponent!
+```
+
+To pass variables along to a component, simply write an `initialize` method:
+
+```ruby
+class FieldComponent
+  def initialize(type: "text", name:, label:)
+    @type, @name, @label = type, name, label
+  end
+
+  def render_in(view_context)
+    <<~HTML
+    <field-component>
+      <label>#{@label}</label>
+      <input type="#{@type}" name="#{@name}" />
+    </field-component>
+    HTML
+  end
+end
+```
+
+```eruby
+<%= render FieldComponent.new(type: "email", name: "email_address", label: "Email Address") %>
+
+  output:
+  <field-component>
+    <label>Email Address</label>
+    <input type="email" name="email_address" />
+  </field-component>
+```
+
+{% rendercontent "docs/note", type: "warning", extra_margin: true %}
+Bear in mind that Ruby components aren't accessible from Liquid templates. So if you need a component which can be used in either templating system, consider writing a Liquid component (see below).
+{% endrendercontent %}
 
 ## Liquid Filters, Tags, and Components
 
@@ -149,7 +204,7 @@ If in your layout or a layout partial you need to output the paths to your Webpa
 When authoring a document using ERB, you might find yourself wanting to embed some Markdown within the document content. That's easy to do using a `markdownify` block:
 
 ```eruby
-<% markdownify do %>
+<%= markdownify do %>
    ## I'm a header!
 
    * Yay!
@@ -157,10 +212,10 @@ When authoring a document using ERB, you might find yourself wanting to embed so
 <% end %>
 ```
 
-You can also pass any string variable via an inline block as well:
+You can also pass in any string variable as a method argument:
 
 ```eruby
-<% markdownify { some_string_var } %>
+<%= markdownify some_string_var %>
 ```
 
 ## Extensions and Permalinks

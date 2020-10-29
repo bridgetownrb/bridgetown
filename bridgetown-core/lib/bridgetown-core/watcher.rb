@@ -130,6 +130,7 @@ module Bridgetown
         Bridgetown::Hooks.trigger :site, :pre_reload, site
         Bridgetown::Hooks.clear_reloadable_hooks
         site.plugin_manager.reload_plugin_files
+        site.plugin_manager.reload_component_loaders
         site.process
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
                                " #{(Time.now - time).ceil(2)} seconds."

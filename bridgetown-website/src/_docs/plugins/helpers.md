@@ -90,6 +90,32 @@ end
 
 When using the helpers scope, you have access to two variables: `site` and `view`. `site` is of course an instance of `Bridgetown::Site`, and `view` will be a subclassed instance of `Bridgetown::RubyTemplateView` which reflects the current template engine in use. For example, it will be `Bridgetown::ERBView` for ERB templates. This gives you access to engine-specific view methods such as `partial`, as well as any other custom methods that may have been defined for the view to use.
 
+## Using the Capture Helper
+
+Within the helpers scope, you can "capture" the contents of a block and use that text inside your helper. Optionally, you can pass an object to the block itself from your helper. For example:
+
+```ruby
+def Helpers < SiteBuilder
+  def build
+    helper "capture_and_upcase", helpers_scope: true do |&block|
+      label = "upcased"
+      view.capture(label, &block).upcase
+    end
+  end
+end
+
+```
+
+Now just call that helper in your template and use the `label` argument:
+
+```eruby
+<%= capture_and_upcase do |label| %>
+  I have been <%= label %>!
+<% end %>
+
+  output: I HAVE BEEN UPCASED!
+```
+
 ## Helpers vs. Filters vs. Tags
 
 Filters and tags are aspects of the [Liquid](/docs/liquid) template engine which comes installed by default. The behavior of both filters and tags are roughly analogous to helpers in [Tilt-based templates](/docs/erb-and-beyond). Specialized Bridgetown filters are also made available as helpers, as are a few tags such as `webpack_path`.

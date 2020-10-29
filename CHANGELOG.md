@@ -1,5 +1,11 @@
 # main
 
+* Add render method for Ruby templates [#169](https://github.com/bridgetownrb/bridgetown/pull/158) ([jaredcwhite](https://github.com/jaredcwhite))
+  * Add Zeitwerk loaders for component folders (any `*.rb` file will now be accessible from Ruby templates). _Note:_ Zeitwerk will not load classes from plugins if they're already present in the source folder, so if you want a component to "reopen" a class from a plugin, you'll need to `require` the plugin class explicitly in your local component.
+  * Allow ERB capture to pass object argument to its block.
+  * **Breaking change:** the previous `<%|= output_block do %>…<%| end %>` block style is out in favor of: `<%= output_block do %>…<% end %>`, so you don't have to change a thing coming from Rails. _Note:_ if you're coming from Middleman where blocks output by default without `<%=`, you'll need to switch to Rails-style block expressions.
+  * **Breaking change:** the `markdownify` helper in ERB now just returns a string rather than directly outputting to the template, so use `<%= markdownify do %>…<% end %>`.
+
 # 0.17.1 / 2020-10-02
 
 * Use HashWithDotAccess::Hash for all data/config hashes [#158](https://github.com/bridgetownrb/bridgetown/pull/158) ([jaredcwhite](https://github.com/jaredcwhite))

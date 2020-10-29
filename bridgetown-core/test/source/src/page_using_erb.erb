@@ -10,7 +10,7 @@ One two three: <%= page[:page_var] * 10 %>
 
 Oats, <%= array_to_sentence_string ["peas", "beans", "barley"] %> grow.
 
-  <% markdownify do %>
+  <%= markdownify do %>
       ## I'm a header!
 
       * Yay!
@@ -24,3 +24,13 @@ Oats, <%= array_to_sentence_string ["peas", "beans", "barley"] %> grow.
 <%= test_capturing.reverse %>
 
 <p class="<%= class_map blank: !''.empty?, truthy: true, 'more-truthy' => 'yes' == 'yes', falsy: nil, 'more-falsy' => 'no' == 'yes' %>">classes!</p>
+
+<%= render RubyComponent.new %>
+
+<%= render Example::OverrideComponent.new %>
+
+===
+<%= test_block_helpers do |item| %>
+<%= item[:value] %>
+<% end %>
+---
