@@ -38,8 +38,8 @@ module Bridgetown
       site.site_payload.site
     end
 
-    def liquid_render(component, options = {})
-      options[:_block_content] = yield if block_given?
+    def liquid_render(component, options = {}, &block)
+      options[:_block_content] = capture(&block) if block && respond_to?(:capture)
       render_statement = _render_statement(component, options)
 
       template = site.liquid_renderer.file(
