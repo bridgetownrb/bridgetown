@@ -12,6 +12,8 @@ However, Bridgetown's implementation language, Ruby, has a rich history of promo
 
 So, starting with Bridgetown 0.16, you can now add ERB-based templates and pages (and partials too) to your site. In additional, there are plugins you can easily install for Haml and Slim as well. Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process these Ruby templates.
 
+Interested in switching your entire site to use ERB? [It's now possible to do that too!](/docs/template-engines)
+
 <%= toc %>
 
 ## Usage
@@ -225,11 +227,13 @@ You can also pass in any string variable as a method argument:
 <%%= markdownify some_string_var %>
 ```
 
+Alternatively, you can author a document with a `.md` extension and configure it via `template_engine: erb` to get processed through ERB. (Continue reading for additional information.)
+
 ## Extensions and Permalinks
 
 Sometimes you may want to output a file that doesn't end in `.html`. Perhaps you want to create a JSON index of a collection, or a special XML feed. If you have familiarity with other Ruby site generators or frameworks, you might instinctively reach for the solution where you use a double extension, say, `posts.json.erb` to indicate the final extension (`json`) and the template type (`erb`).
 
-Bridgetown doesn't do anything with double extensions by default, but you can use them regardless—as long as you also set the file's permalink using front matter. Here's an example of `posts.json.erb` using a [custom permalink](/docs/structure/permalinks):
+Bridgetown doesn't support double extensions but rather provides a couple of alternative mechanisms to specify your template engine of choice. The first option is to set the file's permalink using front matter. Here's an example of `posts.json.erb` using a [custom permalink](/docs/structure/permalinks):
 
 ```eruby
 ---
@@ -249,6 +253,8 @@ permalink: /posts.json
 ```
 
 The ensures the final relative URL will be `/posts.json`. (Of course you can also set the permalink to anything you want, regardless of the filename itself.)
+
+The second option is to switch template engines using front matter or site-wide configuration. That will allow you to write `posts.json` and have it use ERB automatically (instead of the default which is Liquid). [Find out more about choosing template engines here.](/docs/template-engines)
 
 ## Link and URL Helpers
 
@@ -381,14 +387,14 @@ Usage is pretty straightforward:
 
 Bridgetown comes with ERB support out-of-the-box, but you can easily add support for either Haml or Slim by installing our officially supported plugins.
 
-* [`bridgetown-haml`](https://github.com/bridgetownrb/bridgetown-haml)
-* [`bridgetown-slim`](https://github.com/bridgetownrb/bridgetown-slim)
+* [`bridgetown-haml`](https://github.com/bridgetownrb/bridgetown-haml){:rel="noopener"}
+* [`bridgetown-slim`](https://github.com/bridgetownrb/bridgetown-slim){:rel="noopener"}
 
 All you'd need to do is run `bundle add bridgetown-haml -g bridgetown_plugins` (or `bridgetown-slim`) to install the plugin, and then you can immediately start using `.haml` or `.slim` pages, layouts, and partials in your Bridgetown site.
 
 ## Turning off Liquid processing
 
-For pages/documents, Bridgetown will automatically detect if you use Liquid tags (aka `{% %}` or `{{ }}`) and process your file with Liquid even if it's using ERB or another template language. This happens prior to any other conversions, so you can in theory using both Liquid and ERB in the same file.
+For pages/documents, Bridgetown will automatically detect if you use Liquid tags (aka `{% %}` or `{{ }}`) and process your file with Liquid even if it's using ERB or another template language (unless you've configured your site such that Liquid is no longer the default template engine). This happens prior to any other conversions, so you can in theory using both Liquid and ERB in the same file.
 
 You can however turn that off with front matter:
 
@@ -396,4 +402,10 @@ You can however turn that off with front matter:
 render_with_liquid: false
 ```
 
-If you wish to turn off Liquid across a variety of files, you can use [front matter defaults](/docs/configuration/front-matter-defaults) to set `render_with_liquid` to `false` without having to add that to each file's front matter.
+Or manually specify a template engine:
+
+```yaml
+template_engine: slim
+```
+
+If you wish to turn off Liquid across a variety of files, you can use [front matter defaults](/docs/configuration/front-matter-defaults) to set `render_with_liquid` to `false` without having to add that to each file's front matter, or you can [switch template engines](/docs/template-engines) for your entire site. It's up to you.

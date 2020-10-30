@@ -32,8 +32,6 @@ The following is a reference of the available data.
   <p>
     If you specify front matter in a layout, access that via <code>layout</code>.
     For example, if you specify <code>class: full_page</code> in a layout’s front matter,
-    that value will be available as <code>layout.class</code> in the layout and its parents.
+    that value will be available as <code>layout.class</code> in the layout.
   </p>
 </div>
-
-<!-- ## Paginator -->

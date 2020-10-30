@@ -1,6 +1,7 @@
 ---
 title: Liquid
-order: 18
+order: 18.5
+next_page_order: 19
 top_section: Templates
 category: liquid
 ---
