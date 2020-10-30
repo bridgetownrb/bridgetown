@@ -252,7 +252,7 @@ permalink: /posts.json
 ]
 ```
 
-The ensures the final relative URL will be `/posts.json`. (Of course you can also set the permalink to anything you want, regardless of the filename itself.)
+This ensures the final relative URL will be `/posts.json`. (Of course you can also set the permalink to anything you want, regardless of the filename itself.)
 
 The second option is to switch template engines using front matter or site-wide configuration. That will allow you to write `posts.json` and have it use ERB automatically (instead of the default which is Liquid). [Find out more about choosing template engines here.](/docs/template-engines)
 

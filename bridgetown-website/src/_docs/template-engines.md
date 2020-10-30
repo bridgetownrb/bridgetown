@@ -36,7 +36,7 @@ Besides adding `template_engine` directly in your file's front matter, you could
 
 ## Site-wide Configuration
 
-Most likely, however, you'll want to switch your site wholesale from one engine to another. That's where `bridgetown.config.yml` comes in. Simply add `template_engine: erb` right in your config, and suddenly *everything* will get processed through ERB regardless of file extension. Write HTML, XML, Markdown, JSON, CSV, whatever you like—and _still_ access the full power of your Ruby template language of choice.
+Most likely, however, you'll want to switch your site wholesale from one engine to another. That's where `bridgetown.config.yml` comes in. Simply add `template_engine: erb` right in your config, and suddenly *everything* will get processed through ERB regardless of file extension. Write HTML, XML, Markdown, JSON, CSV, whatever you like—and _still_ access the full power of your Ruby template language of choice. You don't even need to give up on Liquid completely—just save files with `.liquid` or use `template_engine: liquid` front matter.
 
 It's worth noting that by combining Markdown, ERB, components, and frontend Javascript "sprinkles" (or "spices" as we like to say), you can author extremely sophisticated documents which boast stunning performance and SEO scores while at the same time providing impressive interactivity in the browser. This is quickly becoming a "best practice" in the web development industry, and Bridgetown will help get you there.
 
