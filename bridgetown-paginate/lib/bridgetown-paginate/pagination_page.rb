@@ -11,6 +11,7 @@ module Bridgetown
     # not read from disk
     #
     class PaginationPage < Bridgetown::Page
+      # rubocop:todo Metrics/AbcSize
       def initialize(page_to_copy, cur_page_nr, total_pages, index_pageandext, template_ext)
         @site = page_to_copy.site
         @base = ""
@@ -44,6 +45,7 @@ module Bridgetown
 
         Bridgetown::Hooks.trigger :pages, :post_init, self
       end
+      # rubocop:enable Metrics/AbcSize
 
       # rubocop:disable Naming/AccessorMethodName
       def set_url(url_value)
