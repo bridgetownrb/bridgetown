@@ -1,17 +1,25 @@
 ---
-title: Liquid Components
+title: Components
 order: 8
 top_section: Structure
-category: liquid-components
+category: components
 ---
 
-Templates in Bridgetown websites are powered by the [Liquid template engine](/docs/liquid). You can use Liquid in layouts and HTML pages as well as inside of content such as Markdown text.
+Thinking of your website design as a collection of loosely-coupled, independent components which can be placed anywhere, nested, and reused, is one of the most exciting developments in the practice of building for the modern web.
+
+While it's tempting to think of components as applicable to frontend development only (via popular frameworks such as React), component-based design is actually something you can accomplish using SSR (server-side rendering) or static rendering as well, and there are a myriad of ways you can wire up generated component markup served to the browser with frontend dynamism using Javascript. Bridgetown provides a mechanism to do this today using the [Liquid template engine](/docs/liquid), and—starting with v0.18 and improving over the next several releases—[you can utilize the full power of Ruby-based view components within ERB templates (and beyond!)](/docs/erb-and-beyond#rendering-ruby-components){:data-no-swup="true"}.
+
+With that preamble out of the way, let's dive into Liquid Components.
+
+{% toc %}
+
+## What is Liquid?
+
+By default, templates in Bridgetown websites are powered by the [Liquid template engine](/docs/liquid). You can use Liquid in layouts and HTML pages as well as inside of content such as Markdown text.
 
 A key aspect of Bridgetown's configuration of Liquid is the ability to render Liquid Components. A component is a reusable piece of template logic (sometimes referred to as a "partial") that can be included in any part of the site, and a full suite of components can comprise what is often called a "design system".
 
 Liquid Components can be combined with front-end component strategies using Web Components or other Javascript libraries/frameworks for a hybrid static/dynamic approach.
-
-{% toc %}
 
 ## Usage
 
