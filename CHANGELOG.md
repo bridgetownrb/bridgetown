@@ -1,5 +1,9 @@
 # main
 
+# 0.18.1 / 2020-10-29
+
+* Bugfix: Use capture helper for liquid_render [#174](https://github.com/bridgetownrb/bridgetown/pull/174) ([jaredcwhite](https://github.com/jaredcwhite))
+
 # 0.18.0 / 2020-10-29
 
 * Configurable template engines on a per-site or per-document basis [#157](https://github.com/bridgetownrb/bridgetown/pull/157) ([jaredcwhite](https://github.com/jaredcwhite))
