@@ -93,7 +93,7 @@ You can also pass variables to partials using either a `locals` hash or as keywo
 
 Starting in Bridgetown 0.18, you can even render Ruby objects directly! This opens the door to a fully-featured view component architecture for ERB and other Ruby-based template languages in Bridgetown, and we will have more to announce on that front going forward.
 
-Bridgetown automatically loads `.rb` files you add to the `src/_components` folder, so that's likely where you'll want to save your component class definitions. It also load components from plugins which provide a `components` source manifest. Bridgetown's component loader is based on [Zeitwerk](https://github.com/fxn/zeitwerk), so you'll need to make sure you class names and namespaces line up with your component folder hierarchy.
+Bridgetown automatically loads `.rb` files you add to the `src/_components` folder, so that's likely where you'll want to save your component class definitions. It also load components from plugins which provide a `components` source manifest. Bridgetown's component loader is based on [Zeitwerk](https://github.com/fxn/zeitwerk){:rel="noopener"}, so you'll need to make sure you class names and namespaces line up with your component folder hierarchy.
 
 To create a Ruby component, all you have to do is define a `render_in` method which accepts a single `view_context` argument as well as optional block. Whatever string value you return from the method will be inserted into the template. For example:
 
