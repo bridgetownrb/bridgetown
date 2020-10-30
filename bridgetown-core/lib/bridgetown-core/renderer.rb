@@ -79,8 +79,7 @@ module Bridgetown
       rescue StandardError => e
         Bridgetown.logger.error "Conversion error:",
                                 "#{converter.class} encountered an error while "\
-                                "converting '#{document.relative_path}':"
-        Bridgetown.logger.error("", e.to_s)
+                                "converting `#{document.relative_path}'"
         raise e
       end
     end
@@ -145,13 +144,12 @@ module Bridgetown
         layout.current_document = document
         layout.current_document_output = output
         converter.convert layout_output, layout
+      rescue StandardError => e
+        Bridgetown.logger.error "Conversion error:",
+                                "#{converter.class} encountered an error while "\
+                                "converting `#{document.relative_path}'"
+        raise e
       end
-    rescue StandardError => e
-      Bridgetown.logger.error "Conversion error:",
-                              "#{converter.class} encountered an error while "\
-                              "converting '#{document.relative_path}':"
-      Bridgetown.logger.error("", e.to_s)
-      raise e
     end
 
     def add_regenerator_dependencies(layout)
