@@ -20,8 +20,6 @@ class Bridgetown::Site
       print_stats if config["profile"]
     end
 
-    # rubocop:disable Metrics/AbcSize
-
     # Reset all in-memory data and content.
     # @return [void]
     def reset
@@ -48,8 +46,6 @@ class Bridgetown::Site
       Bridgetown::Cache.clear_if_config_changed config
       Bridgetown::Hooks.trigger :site, :after_reset, self
     end
-
-    # rubocop:enable Metrics/AbcSize
 
     # Read data from disk and load it into internal memory.
     # @return [void]

@@ -59,9 +59,8 @@ Lint/Void:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/concerns/site/configurable.rb
 Metrics/AbcSize:
-  Max: 21
+  Max: 24
   Exclude:
-    - bridgetown-core/lib/bridgetown-core/concerns/site/configurable.rb
     - bridgetown-core/lib/bridgetown-core/commands/build.rb
     - bridgetown-core/lib/bridgetown-core/commands/new.rb
     - bridgetown-core/lib/bridgetown-core/commands/console.rb

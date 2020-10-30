@@ -2,13 +2,16 @@
 
 class TagsBuilder < SiteBuilder
   def build
-    liquid_tag "toc" do
-      <<~TAG
-        ## Table of Contents
-        {:.no_toc}
-        * …
-        {:toc}
-      TAG
-    end
+    liquid_tag "toc", :toc_template
+    helper "toc", :toc_template
+  end
+
+  def toc_template(attributes=nil, tag=nil)
+    <<~TAG
+      ## Table of Contents
+      {:.no_toc}
+      * …
+      {:toc}
+    TAG
   end
 end

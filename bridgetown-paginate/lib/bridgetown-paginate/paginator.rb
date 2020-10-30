@@ -13,7 +13,7 @@ module Bridgetown
 
       # Initialize a new Paginator.
       #
-      def initialize(
+      def initialize( # rubocop:todo Metrics/AbcSize
         config_per_page,
         first_index_page_url,
         paginated_page_url,
