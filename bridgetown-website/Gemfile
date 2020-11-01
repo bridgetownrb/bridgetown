@@ -21,4 +21,4 @@ group :test, optional: true do
   gem "rails-dom-testing"
 end
 
-gem "ruby2js", github: "rubys/ruby2js"
+gem "ruby2js", ">= 3.5"
