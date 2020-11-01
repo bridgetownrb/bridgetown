@@ -23,6 +23,8 @@ module Bridgetown
       #
       # @return [String] The converted content.
       def convert(content, convertible)
+        return content if convertible.data[:template_engine] != "liquid"
+
         self.class.cached_partials ||= {}
 
         @site = convertible.site
@@ -53,9 +55,14 @@ module Bridgetown
       # rubocop: enable Metrics/AbcSize
 
       def matches(ext, convertible)
-        return true if convertible.render_with_liquid?
+        if convertible.render_with_liquid?
+          convertible.data[:template_engine] = "liquid"
+          return true
+        end
 
-        super(ext)
+        super(ext).tap do |ext_matches|
+          convertible.data[:template_engine] = "liquid" if ext_matches
+        end
       end
 
       def output_ext(ext)

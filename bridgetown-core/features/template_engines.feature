@@ -7,32 +7,52 @@ Feature: Template Engines
     And I have a _posts directory
     And I have a "_layouts/simple.html" file that contains "<h1><%= page.data.title %></h1> <%= yield %>"
     And I have the following post:
-      | title     | date       | layout | content                 |
+      | title     | date       | layout | content                                           |
       | Star Wars | 2009-03-27 | simple | _Luke_, <%= ["I", "am"].join(" ") %> your father. |
     And I have a configuration file with:
-      | key                | value |
-      | template_engine    | erb   |
+      | key             | value |
+      | template_engine | erb   |
     When I run bridgetown build
     Then I should get a zero exit status
     And I should see "<p><em>Luke</em>, I am your father.</p>" in "output/2009/03/27/star-wars.html"
     And I should see "<h1>Star Wars</h1>" in "output/2009/03/27/star-wars.html"
 
-  Scenario: Rendering a site with default ERB but Liquid template
+  Scenario: Rendering a site with default ERB but Liquid layout
     Given I have a _layouts directory
     And I have a _posts directory
     And I have a "_layouts/simple.liquid" file that contains "<h1>{{ page.title }}</h1> {{ content }}"
     And I have the following post:
-      | title     | date       | layout | content                 |
+      | title     | date       | layout | content                                         |
       | Star Wars | 2009-03-27 | simple | Luke, <%= ["I", "am"].join(" ") %> your father. |
     And I have a configuration file with:
-      | key                | value |
-      | template_engine    | erb   |
+      | key             | value |
+      | template_engine | erb   |
     When I run bridgetown build
     Then I should get a zero exit status
     And I should see "<p>Luke, I am your father.</p>" in "output/2009/03/27/star-wars.html"
     And I should see "<h1>Star Wars</h1>" in "output/2009/03/27/star-wars.html"
 
-  Scenario: Rendering a site with default ERB but Liquid template via front matter
+  Scenario: Rendering a site with default ERB but Liquid page
+    Given I have a _layouts directory
+    And I have a _posts directory
+    And I have a "_layouts/simple.html" file that contains "<h1><%= page.data.title %></h1> <%= page.data.template_engine %> <%= yield %>"
+    And I have a "liquidpage.liquid" file with content:
+      """
+      ---
+      title: Star Wars
+      layout: simple
+      ---
+      Luke, {{ "I,am" | split: "," | join: " " }} your <%= 'father'.upcase %>.
+      """
+    And I have a configuration file with:
+      | key             | value |
+      | template_engine | erb   |
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And I should see "Luke, I am your <%= 'father'.upcase %>." in "output/liquidpage.html"
+    And I should see "<h1>Star Wars</h1>" in "output/liquidpage.html"
+
+  Scenario: Rendering a site with default ERB but Liquid layout via front matter
     Given I have a _layouts directory
     And I have a _posts directory
     And I have an "_layouts/simple.html" file with content:
@@ -43,11 +63,11 @@ Feature: Template Engines
       <h1>{{ page.title }}</h1> {{ content }}
       """
     And I have the following post:
-      | title     | date       | layout | content                 |
+      | title     | date       | layout | content                                         |
       | Star Wars | 2009-03-27 | simple | Luke, <%= ["I", "am"].join(" ") %> your father. |
     And I have a configuration file with:
-      | key                | value |
-      | template_engine    | erb   |
+      | key             | value |
+      | template_engine | erb   |
     When I run bridgetown build
     Then I should get a zero exit status
     And I should see "<p>Luke, I am your father.</p>" in "output/2009/03/27/star-wars.html"
@@ -58,7 +78,7 @@ Feature: Template Engines
     And I have a _posts directory
     And I have a "_layouts/simple.html" file that contains "<h1>{{ page.title }}</h1> {{ content }}"
     And I have the following post:
-      | title     | date       | layout | template_engine | content                 |
+      | title     | date       | layout | template_engine | content                                         |
       | Star Wars | 2009-03-27 | simple | erb             | Luke, <%= ["I", "am"].join(" ") %> your father. |
     When I run bridgetown build
     Then I should get a zero exit status
@@ -73,8 +93,8 @@ Feature: Template Engines
       <%= jsonify({key: [1, 1+1, 1+1+1]}) %>
       """
     And I have a configuration file with:
-      | key                | value |
-      | template_engine    | erb   |
+      | key             | value |
+      | template_engine | erb   |
     When I run bridgetown build
     Then I should get a zero exit status
     And I should see the output folder
@@ -85,11 +105,11 @@ Feature: Template Engines
     And I have a _posts directory
     And I have a "_layouts/simple.html" file that contains "<h1><%= page.data.title %></h1> <%= yield %>"
     And I have the following post:
-      | title     | date       | layout | template_engine | content                 |
+      | title     | date       | layout | template_engine | content                                           |
       | Star Wars | 2009-03-27 | simple | none            | _Luke_, <%= ["I", "am"].join(" ") %> your father. |
     And I have a configuration file with:
-      | key                | value |
-      | template_engine    | erb   |
+      | key             | value |
+      | template_engine | erb   |
     When I run bridgetown build
     Then I should get a zero exit status
     And I should see "<p><em>Luke</em>, &lt;%= " in "output/2009/03/27/star-wars.html"
