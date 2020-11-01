@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  VERSION = "0.18.2"
+  VERSION = "0.18.3"
   CODE_NAME = "Taylor Street"
 end

@@ -1,5 +1,13 @@
 # main
 
+# 0.18.3 / 2020-11-01
+
+* Bugfix: For template engine converters, set template_engine frontmatter automatically [#177](https://github.com/bridgetownrb/bridgetown/pull/177) ([jaredcwhite](https://github.com/jaredcwhite))
+
+# 0.18.2 / 2020-10-30
+
+* Bugfix: Resolve bug in converter error notifications
+
 # 0.18.1 / 2020-10-29
 
 * Bugfix: Use capture helper for liquid_render [#174](https://github.com/bridgetownrb/bridgetown/pull/174) ([jaredcwhite](https://github.com/jaredcwhite))
