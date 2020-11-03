@@ -6,7 +6,7 @@ module Bridgetown
 
     def initialize(site)
       @site = site
-      @layouts = {}
+      @layouts = HashWithDotAccess::Hash.new
     end
 
     def read
