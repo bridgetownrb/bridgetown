@@ -1,5 +1,10 @@
 # main
 
+# 0.18.4 / 2020-11-05
+
+* Bugfix: reset payload for each Liquid template conversion
+* Change site.layouts hash to dot access
+
 # 0.18.3 / 2020-11-01
 
 * Bugfix: For template engine converters, set template_engine frontmatter automatically [#177](https://github.com/bridgetownrb/bridgetown/pull/177) ([jaredcwhite](https://github.com/jaredcwhite))

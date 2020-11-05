@@ -26,6 +26,7 @@ module Bridgetown
         return content if convertible.data[:template_engine] != "liquid"
 
         self.class.cached_partials ||= {}
+        @payload = nil
 
         @site = convertible.site
         if convertible.is_a?(Bridgetown::Layout)
