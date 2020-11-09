@@ -25,6 +25,9 @@ site:
   - name: site.time
     description: >-
       The current time (when you run the <code>bridgetown</code> command).
+  - name: site.contents
+    description: >-
+      A combined list of all Pages and Documents (from posts and other collections).
   - name: site.pages
     description: >-
       A list of all Pages.

@@ -5,36 +5,7 @@ require "active_support/core_ext/hash/keys"
 
 module Bridgetown
   class RubyTemplateView
-    class Helpers
-      include Bridgetown::Filters
-
-      attr_reader :view, :site
-
-      Context = Struct.new(:registers)
-
-      def initialize(view, site)
-        @view = view
-        @site = site
-
-        # duck typing for Liquid context
-        @context = Context.new({ site: site })
-      end
-
-      def webpack_path(asset_type)
-        Bridgetown::Utils.parse_webpack_manifest_file(site, asset_type.to_s)
-      end
-
-      # @param pairs [Hash] A hash of key/value pairs.
-      #
-      # @return [String] Space-separated keys where the values are truthy.
-      def class_map(pairs = {})
-        pairs.select { |_key, truthy| truthy }.keys.join(" ")
-      end
-
-      def t(*args)
-        I18n.send :t, *args
-      end
-    end
+    require "bridgetown-core/helpers"
 
     attr_reader :layout, :page, :paginator, :site, :content
 
@@ -44,6 +15,7 @@ module Bridgetown
         @page = layout.current_document
         @content = layout.current_document_output
       else
+        @layout = convertible.site.layouts[convertible.data["layout"]]
         @page = convertible
       end
       @paginator = page.paginator if page.respond_to?(:paginator)
@@ -54,11 +26,20 @@ module Bridgetown
       raise "Must be implemented in a subclass"
     end
 
+    def render(item, options = {}, &block)
+      if item.respond_to?(:render_in)
+        item.render_in(self, &block)
+      else
+        partial(item, options, &block)
+      end
+    end
+
     def site_drop
       site.site_payload.site
     end
 
-    def liquid_render(component, options = {})
+    def liquid_render(component, options = {}, &block)
+      options[:_block_content] = capture(&block) if block && respond_to?(:capture)
       render_statement = _render_statement(component, options)
 
       template = site.liquid_renderer.file(
@@ -90,11 +71,19 @@ module Bridgetown
     private
 
     def _render_statement(component, options)
-      render_statement = ["{% render \"#{component}\""]
+      render_statement = if options[:_block_content]
+                           ["{% rendercontent \"#{component}\""]
+                         else
+                           ["{% render \"#{component}\""]
+                         end
       unless options.empty?
         render_statement << ", " + options.keys.map { |k| "#{k}: #{k}" }.join(", ")
       end
       render_statement << " %}"
+      if options[:_block_content]
+        render_statement << options[:_block_content]
+        render_statement << "{% endrendercontent %}"
+      end
       render_statement.join
     end
 
@@ -102,8 +91,8 @@ module Bridgetown
       {
         registers: {
           site: site,
-          page: page,
-          cached_partials: Bridgetown::Renderer.cached_partials,
+          page: page.to_liquid,
+          cached_partials: Bridgetown::Converters::LiquidTemplates.cached_partials,
         },
         strict_filters: site.config["liquid"]["strict_filters"],
         strict_variables: site.config["liquid"]["strict_variables"],

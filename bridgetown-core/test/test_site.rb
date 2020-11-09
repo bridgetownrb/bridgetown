@@ -12,10 +12,7 @@ class TestSite < BridgetownUnitTest
   end
 
   def read_posts
-    PostReader.new(@site).read_posts("").tap do |entries|
-      @site.posts.docs.concat(entries.select { |entry| entry.is_a?(Document) })
-      @site.posts.files.concat(entries.select { |entry| entry.is_a?(StaticFile) })
-    end
+    PostReader.new(@site).read_posts("")
     posts = Dir[source_dir("_posts", "**", "*")]
     posts.delete_if do |post|
       File.directory?(post) && post !~ Document::DATE_FILENAME_MATCHER
@@ -100,6 +97,13 @@ class TestSite < BridgetownUnitTest
       assert_equal before_pages, @site.pages.length
       assert_equal before_static_files, @site.static_files.length
       assert before_time <= @site.time
+    end
+
+    should "provide access to all content" do
+      clear_dest
+      @site.process
+
+      assert_equal @site.documents.length + @site.pages.length, @site.contents.length
     end
 
     should "write only modified static files" do

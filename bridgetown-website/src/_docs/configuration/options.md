@@ -45,6 +45,16 @@ class="flag">flags</code> (specified on the command-line) that control them.
     </tr>
     <tr class="setting">
       <td>
+        <p class="name"><strong>Template Engine</strong></p>
+        <p class="description">Change the <a href="/docs/template-engines">template engine</a> Bridgetown uses by default to process content files.</p>
+        <p class="default">Default: <code class="default">liquid</code></p>
+      </td>
+      <td class="has-text-centered">
+        <p><code class="option">template_engine: ENGINE (erb, slim, haml, etc.)</code></p>
+      </td>
+    </tr>
+    <tr class="setting">
+      <td>
         <p class="name">
           <strong>Disable Disk Cache</strong>
         </p>

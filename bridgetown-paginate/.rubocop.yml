@@ -12,13 +12,6 @@ Bridgetown/NoPutsAllowed:
 Layout/CommentIndentation:
   Exclude:
     - lib/bridgetown-paginate/defaults.rb
-Metrics/AbcSize:
-  Exclude:
-    - lib/bridgetown-paginate/pagination_generator.rb
-    - lib/bridgetown-paginate/pagination_indexer.rb
-    - lib/bridgetown-paginate/pagination_model.rb
-    - lib/bridgetown-paginate/pagination_page.rb
-    - lib/bridgetown-paginate/paginator.rb
 Metrics/BlockNesting:
   Exclude:
     - lib/bridgetown-paginate/pagination_model.rb

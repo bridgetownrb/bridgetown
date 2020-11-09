@@ -7,7 +7,7 @@ category: front-matter
 
 Front matter is a snippet of [YAML](https://yaml.org/) which sits between two
 triple-dashed lines at the top of a file. You use front matter to add metadata,
-like a title or a description, to files such as pages and posts as well as site
+like a title or a description, to files such as pages and documents as well as site
 layouts. Front matter can be used in various ways to set configuration options
 on a per-file basis, and starting with Bridgetown v0.13, you can even write Ruby
 code for dynamic front matter variables.
@@ -52,7 +52,7 @@ file and also in any layouts or components that the file in question relies on.
 ## Predefined Global Variables
 
 There are a number of predefined global variables that you can set in the
-front matter of a page or post.
+front matter of a page or document.
 
 <table class="settings biggest-output">
   <thead>
@@ -82,12 +82,20 @@ front matter of a page or post.
             front matter defaults</a>.
           </li>
           <li>
-            Using <code>none</code> in a post/document will
-            produce a file without using a layout file regardless of front matter defaults.
-            Using <code>none</code> in a page will cause Bridgetown to attempt to
-            use a layout named "none".
+            Using <code>none</code> will produce a file without using a layout file
+            regardless of front matter defaults.
           </li>
         </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>template_engine</code></p>
+      </td>
+      <td>
+        <p>
+          You can change the <a href="/docs/template-engines">template engine</a> Bridgetown uses to process the file.
+        </p>
       </td>
     </tr>
     <tr>

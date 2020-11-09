@@ -5,26 +5,6 @@ Feature: Layout data
 
   Scenario: Use custom layout data
     Given I have a _layouts directory
-    And I have a "_layouts/999.html" file with content:
-      """
-      ---
-      ---
-      {{ content }} layout content
-      """
-    And I have an "index.html" page with layout "custom" that contains "page content"
-    And I have an "index.html" file with content:
-      """
-      ---
-      layout: 999
-      ---
-      page content
-      """
-    When I run bridgetown build
-    Then the "output/index.html" file should exist
-    And I should see "page content layout content" in "output/index.html"
-
-  Scenario: Use custom layout data
-    Given I have a _layouts directory
     And I have a "_layouts/custom.html" file with content:
       """
       ---
@@ -36,55 +16,3 @@ Feature: Layout data
     When I run bridgetown build
     Then the "output/index.html" file should exist
     And I should see "page content\n foo: my custom data" in "output/index.html"
-
-  Scenario: Inherit custom layout data
-    Given I have a _layouts directory
-    And I have a "_layouts/custom.html" file with content:
-      """
-      ---
-      layout: base
-      foo: my custom data
-      ---
-      {{ content }}
-      """
-    And I have a "_layouts/base.html" file with content:
-      """
-      {{ content }} foo: {{ layout.foo }}
-      """
-    And I have an "index.html" page with layout "custom" that contains "page content"
-    When I run bridgetown build
-    Then the "output/index.html" file should exist
-    And I should see "page content\n foo: my custom data" in "output/index.html"
-
-  Scenario: Inherit custom layout data and clear when not present
-    Given I have a _layouts directory
-    And I have a "_layouts/default.html" file with content:
-      """
-      ---
-      bar: i'm default
-      ---
-      {{ content }} foo: '{{ layout.foo }}' bar: '{{ layout.bar }}'
-      """
-    And I have a "_layouts/special.html" file with content:
-      """
-      ---
-      layout: default
-      foo: my special data
-      bar: im special
-      ---
-      {{ content }}
-      """
-    And I have a "_layouts/page.html" file with content:
-      """
-      ---
-      layout: default
-      bar: im page
-      ---
-      {{ content }}
-      """
-    And I have an "index.html" page with layout "special" that contains "page content"
-    And I have an "bridgetown.html" page with layout "page" that contains "page content"
-    When I run bridgetown build
-    Then the "output/index.html" file should exist
-    And I should see "page content\n foo: 'my special data' bar: 'im special'" in "output/index.html"
-    And I should see "page content\n foo: '' bar: 'im page'" in "output/bridgetown.html"

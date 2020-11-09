@@ -8,7 +8,7 @@ AllCops:
 
 Metrics/AbcSize:
   Exclude:
-    - lib/bridgetown-builder/dsl/*
+    - lib/bridgetown-builder/dsl/generators.rb
 Metrics/MethodLength:
   Exclude:
     - lib/bridgetown-builder/dsl/*

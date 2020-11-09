@@ -30,7 +30,7 @@ module Bridgetown
       end
 
       # rubocop:disable Metrics/BlockLength
-      def run(default_config, templates, site_title)
+      def run(default_config, templates, site_title) # rubocop:todo Metrics/AbcSize
         if templates.size.to_i <= 0
           @logging_lambda.call "is enabled in the config, but no paginated pages found." \
             " Add 'pagination:\\n  enabled: true' to the front-matter of a page.", "warn"
@@ -142,7 +142,7 @@ module Bridgetown
       end
 
       # rubocop:disable Layout/LineLength
-      def _debug_print_config_info(config, page_path)
+      def _debug_print_config_info(config, page_path) # rubocop:todo Metrics/AbcSize
         r = 20
         f = "Pagination: ".rjust(20)
         # Debug print the config
@@ -185,6 +185,7 @@ module Bridgetown
       # template - The index.html Page that requires pagination.
       # config - The configuration settings that should be used
       #
+      # rubocop:todo Metrics/AbcSize
       def paginate(template, config, site_title, documents_payload)
         # By default paginate on all posts in the site
         using_posts = documents_payload[:posts]
@@ -446,6 +447,7 @@ module Bridgetown
           end
         end
       end
+      # rubocop:enable Metrics/AbcSize
     end
   end
 end

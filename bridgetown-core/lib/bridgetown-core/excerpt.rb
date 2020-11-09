@@ -83,7 +83,7 @@ module Bridgetown
 
     def output
       @output || (
-        Renderer.new(doc.site, self, site.site_payload).run
+        Renderer.new(doc.site, self).run
         @output
       )
     end

@@ -1479,10 +1479,10 @@ braces@^2.3.1, braces@^2.3.2:
     split-string "^3.0.2"
     to-regex "^3.0.1"
 
-bridgetown-quick-search@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/bridgetown-quick-search/-/bridgetown-quick-search-1.0.3.tgz#4fc34dea418fc97ba25f7ccf1aea6cbc7c048d91"
-  integrity sha512-IAeldS+EB+AU/3MIr0jvQKBIPR852aRxlM38/cEcs4KDh3v9ML3CtgnCI+48V6UBDb3NFzlKEJ91SSxRz3lyiA==
+bridgetown-quick-search@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/bridgetown-quick-search/-/bridgetown-quick-search-1.0.4.tgz#0596b1ae01323cccb81daa24604095100511e303"
+  integrity sha512-RRzyhJd3v6gzWoCFD65RDSgUpUIOlKUgTVvYYfWy3/E+q1RxZY1GxDQBm3YkxKPd2MxRfQcKGsNitkolD4ZSxg==
   dependencies:
     "@babel/runtime" "^7.10.1"
     lit-element "^2.3.1"
@@ -4693,9 +4693,11 @@ raw-body@^2.3.2:
     unpipe "1.0.0"
 
 rb2js-loader@^1.0.2:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/rb2js-loader/-/rb2js-loader-1.0.4.tgz#e719d7d3f41f6b2f669dc4b388ff98c37d689615"
-  integrity sha512-msk+ZgvoKv4Qhw3O+xB89+uRhbO9Bl8v5B3b2KCJ3i7nCWo4ir4DB/obhExmXiaFsHcJU1GhctSGrfzsjaz2xA==
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/rb2js-loader/-/rb2js-loader-1.2.0.tgz#2d3487363d2507c17c0819306bcaaa020f303d30"
+  integrity sha512-T5XKAbBptTFS7JN5GVWbQMVjfELhi9jGV9hE75pCm9Q36PgusI3yV5V4ViGzKW0DdUvmKxlu51CPSu1MFpevhQ==
+  dependencies:
+    loader-utils "^2.0.0"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"

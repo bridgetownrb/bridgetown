@@ -165,6 +165,17 @@
 
 #
 
+- name: Obfuscate Link
+  description: >-
+    Obfuscate emails, telephone numbers etc.
+    The link text is replaced by a ciphered string (using the ROT47 algorithm, so numbers are
+    included). On page load, this cipher is reversed, so the string is readable again.
+    Takes an optional argument to specify the URI scheme prefix (default "mailto")
+  examples:
+    - input: '{{ "+1 234 567" | obfuscate_link:"tel" }}'
+
+#
+
 - name: Number of Words
   description: Count the number of words in some text.
   examples:

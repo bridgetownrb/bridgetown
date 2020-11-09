@@ -9,10 +9,11 @@ Bridgetown comes with a default configuration of [Webpack](https://webpack.js.or
 
 Files to be processed by Webpack are placed in the top-level `frontend` folder within your site root. This folder is entirely separate from the Bridgetown source folder where your content, templates, plugins, etc. live. However, using relative paths you can reference files from Webpack that live in the source folder (so you could keep CSS partials alongside Liquid templates, for example).
 
-Bridgetown uses [Yarn](https://yarnpkg.com) to install and manage frontend NPM-based
-packages and dependencies.
-[Gem-based plugins can instruct Bridgetown](/docs/plugins/gems-and-webpack/) to add
-a related NPM package whenever Bridgetown first loads the gem.
+{% rendercontent "docs/note" %}
+Wondering where to save images? Look at the `src/images` folder. You can reference them from both markup and CSS simply using a relative URL (for example, `/images/logo.svg`). If you're interested in a full-featured image management solution with the ability to resize and optimize your media sizes, check out [Cloudinary](https://www.cloudinary.com){:rel="noopener"} and the [bridgetown-cloudinary plugin](https://github.com/bridgetownrb/bridgetown-cloudinary){:rel="noopener"}.
+{% endrendercontent %}
+
+Bridgetown uses [Yarn](https://yarnpkg.com){:rel="noopener"} to install and manage frontend NPM-based packages and dependencies. [Gem-based plugins can instruct Bridgetown](/docs/plugins/gems-and-webpack/) to add a related NPM package whenever Bridgetown first loads the gem.
 
 ## Javascript
 

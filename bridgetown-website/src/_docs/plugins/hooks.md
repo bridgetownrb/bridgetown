@@ -36,11 +36,7 @@ Be aware that the `build` method of the Builder API is called during the `pre_re
 Bridgetown provides hooks for `:site`, `:pages`, `:documents`, `:clean`, and `:[collection_label]` (aka every collection gets a unique hook, such as `posts` or `countries` or `episodes`, etc.).
 
 In all cases, Bridgetown calls your hooks with the container object as the first callback
-parameter. All `:pre_render` hooks and the `:site, :post_render` hook will also
-provide a payload hash as a second parameter. In the case of `:pre_render`, the
-payload gives you full control over the variables that are available while
-rendering. In the case of `:site, :post_render`, the payload contains final
-values after rendering all the site (useful for sitemaps, feeds, etc).
+parameter.
 
 ## Post-Write Hook for Performing Special Operations
 

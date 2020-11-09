@@ -17,7 +17,7 @@ module Bridgetown
       # Create a hash index for all documents based on a key in the
       # document.data table
       #
-      def self.index_documents_by(all_documents, index_key)
+      def self.index_documents_by(all_documents, index_key) # rubocop:todo Metrics/AbcSize
         return nil if all_documents.nil?
         return all_documents if index_key.nil?
 
