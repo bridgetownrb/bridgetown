@@ -1,5 +1,9 @@
 # main
 
+# 0.18.5 / 2020-11-09
+
+* Bugfix: use HashWithDotAccess when parsing JSON in the HTTP Builder DSL
+
 # 0.18.4 / 2020-11-05
 
 * Bugfix: reset payload for each Liquid template conversion
