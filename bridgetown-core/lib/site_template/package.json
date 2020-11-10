@@ -5,9 +5,10 @@
   "scripts": {
     "build": "bundle exec bridgetown build",
     "serve": "bundle exec bridgetown serve",
+    "clean": "bundle exec bridgetown clean",
     "webpack-build": "webpack --mode production",
     "webpack-dev": "webpack --mode development -w",
-    "deploy": "yarn webpack-build && yarn build",
+    "deploy": "yarn clean && yarn webpack-build && yarn build",
     "sync": "node sync.js",
     "start": "node start.js"
   },
