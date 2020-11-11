@@ -44,9 +44,11 @@ require "i18n"
 require "faraday"
 require "thor"
 
-class HashWithDotAccess::Hash # :nodoc:
-  def to_liquid
-    to_h.to_liquid
+module HashWithDotAccess
+  class Hash # :nodoc:
+    def to_liquid
+      to_h.to_liquid
+    end
   end
 end
 
