@@ -44,6 +44,12 @@ require "i18n"
 require "faraday"
 require "thor"
 
+class HashWithDotAccess::Hash # :nodoc:
+  def to_liquid
+    to_h.to_liquid
+  end
+end
+
 SafeYAML::OPTIONS[:suppress_warnings] = true
 
 # Create our little String subclass for Ruby Front Matter
