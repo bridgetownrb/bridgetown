@@ -1,15 +1,33 @@
-name: Audit pull request
+name: Lighthouse CI for Netlify sites
 on: pull_request
-
 jobs:
-  audit:
+  build:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Audit Netlify deploy preview
-      uses: jakejarvis/lighthouse-action@v0.3.2
-      with:
-        netlify_site: 'bridgetownrb.netlify.app'
-    - uses: actions/upload-artifact@master
-      with:
-        name: report
-        path: './report'
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Install
+        run: |
+          yarn
+      - name: Build
+        run: |
+          yarn run build
+      - name: Waiting for 200 from the Netlify Preview
+        uses: jakepartusch/wait-for-netlify-action@v1
+        id: waitFor200
+        with:
+          site_name: "bridgetownrb"
+      - name: Audit URLs using Lighthouse
+        uses: treosh/lighthouse-ci-action@v3
+        with:
+          urls: |
+            ${{ steps.waitFor200.outputs.url }}
+            ${{ steps.waitFor200.outputs.url }}/docs/
+            ${{ steps.waitFor200.outputs.url }}/blog/
+          budgetPath: ./budget.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
