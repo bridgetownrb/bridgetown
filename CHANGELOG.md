@@ -1,5 +1,9 @@
 # main
 
+# 0.18.6 / 2020-11-12
+
+* Change the logging level for "Executing inline Ruby…" messages to the debug level [#175](https://github.com/bridgetownrb/bridgetown/issues/175)
+
 # 0.18.5 / 2020-11-09
 
 * Bugfix: use HashWithDotAccess when parsing JSON in the HTTP Builder DSL
