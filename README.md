@@ -28,10 +28,10 @@ Say howdy 👋 to our growing list of the first twenty sponsors of Bridgetown on
 |<a href="https://twitter.com/cabgfx">@cabgfx</a>|<a href="https://twitter.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/miatrinity">@miatrinity</a>|<a href="https://www.twitter.com/marcoroth_">@marcoroth_</a>|<a href="https://github.com/mtomov">@mtomov</a>|
 |<a href="http://www.pilotcph.dk">Website</a>|<a href="https://andrewm.codes">Website</a>|<a href="https://railsnew.io/">Website</a>|<a href="https://marcoroth.dev">Website</a>||
 
-|<img src="https://avatars.githubusercontent.com/johnchambers?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="johnchambers" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|:---:|
-|<a href="https://github.com/johnchambers">@johnchambers</a>|<a href="https://github.com/wout">@wout</a>|You Next?|
-||<a href="https://tilishop.com">Website</a>||
+|<img src="https://avatars.githubusercontent.com/johnchambers?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/pascalwengerter?s=256" alt="pascalwengerter" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/johnchambers">@johnchambers</a>|<a href="https://github.com/wout">@wout</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|You Next?|
+||<a href="https://tilishop.com">Website</a>|<a href="https://pascal.rocks">Website</a>||
 
 ## Commercial Support
 

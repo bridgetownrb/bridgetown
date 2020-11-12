@@ -2,7 +2,10 @@
 
 # 0.18.6 / 2020-11-12
 
-* Change the logging level for "Executing inline Ruby…" messages to the debug level [#175](https://github.com/bridgetownrb/bridgetown/issues/175)
+* Change the logging level for "Executing inline Ruby…" messages to the debug level [#184](https://github.com/bridgetownrb/bridgetown/pull/184) ([ianbayne](https://github.com/ianbayne))
+* Add yarn clean script to package.json [#182](https://github.com/bridgetownrb/bridgetown/pull/182) ([andrewmcodes](https://github.com/andrewmcodes))
+* Fix dash obfuscation in obfuscate filter [#181](https://github.com/bridgetownrb/bridgetown/pull/181) [julianrubisch](https://github.com/julianrubisch))
+* Ensure HashWithDotAccess converts to Hash for Liquid templates
 
 # 0.18.5 / 2020-11-09
 
