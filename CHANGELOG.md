@@ -1,5 +1,7 @@
 # main
 
+* Change the `name` attribute of the default `package.json` to be inferred from the path passed to `bridgetown new`
+
 # 0.18.6 / 2020-11-12
 
 * Change the logging level for "Executing inline Ruby…" messages to the debug level [#184](https://github.com/bridgetownrb/bridgetown/pull/184) ([ianbayne](https://github.com/ianbayne))
