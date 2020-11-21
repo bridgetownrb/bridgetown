@@ -47,6 +47,8 @@ module Bridgetown
         raise ArgumentError, "You must specify a path." if args.empty?
 
         new_site_path = File.expand_path(args.join(" "), Dir.pwd)
+        @site_name = new_site_path.split(File::SEPARATOR).last
+
         if preserve_source_location?(new_site_path, options)
           say_status :conflict, "#{new_site_path} exists and is not empty.", :red
           Bridgetown.logger.abort_with "Ensure #{new_site_path} is empty or else " \
@@ -75,6 +77,7 @@ module Bridgetown
           "src/_posts/#{Time.now.strftime("%Y-%m-%d")}-welcome-to-bridgetown.md"
         )
         template("Gemfile.erb", "Gemfile")
+        template("package.json.erb", "package.json")
       end
 
       # After a new site has been created, print a success notification and

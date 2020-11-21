@@ -60,7 +60,7 @@ class TestNewCommand < BridgetownUnitTest
       static_template_files = dir_contents(site_template).reject do |f|
         File.extname(f) == ".erb"
       end
-      static_template_files << "/Gemfile"
+      static_template_files.push "/Gemfile", "/package.json"
 
       capture_output do
         Bridgetown::Commands::Base.start(argumentize(@args))
