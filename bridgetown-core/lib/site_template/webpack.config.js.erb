@@ -48,6 +48,7 @@ module.exports = {
           },
         },
       },
+      <% if options["use-sass"] %>
       {
         test: /\.(s[ac]|c)ss$/,
         use: [
@@ -65,6 +66,21 @@ module.exports = {
           },
         ],
       },
+      <% else %>
+      {
+        test: /\.(s[ac]|c)ss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1
+            }
+          },
+          "postcss-loader"
+        ],
+      },
+      <% end %>
       {
         test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/,
         loader: "file-loader",
