@@ -37,7 +37,47 @@ And the update your HTML layout according to the Swup install guide.
 
 ## CSS
 
-The starting place for CSS code lives at `./frontend/styles/index.scss`. By default Bridgetown uses [Sass](https://sass-lang.com), a pre-processor for CSS, but you can customize your Webpack config to change that to use standard `PostCSS` which is popular with the Webpack community.
+By default Bridgetown uses [PostCSS](https://postcss.org) with a [Sass plugin](https://github.com/jonathantneal/postcss-sass) to process CSS. But you can configure Bridgetown to use [Sass](https://sass-lang.com) directly by passing `--use-sass` to `bridgetown new`.
+
+#### PostCSS
+
+The starting place for CSS code lives at `frontend/styles/index.js`. 
+
+All `.css`, `.scss`, `.sass` files under `frontend/styles/` and `src/_components/` will be autoloaded into your bundle. 
+
+To exclude a file from autoloading, prefix it with a `_`. You can then import it manually in a `.scss` file with `@import "filename"` or in `frontend/styles/index.js` with `import "_filename"`.
+
+The default PostCSS configuration contains the following plugins: [postcss-easy-import](https://github.com/trysound/postcss-easy-import), [@csstools/postcss-sass](https://github.com/jonathantneal/postcss-sass), [postcss-flexbugs-fixes](https://github.com/luisrudge/postcss-flexbugs-fixes), [postcss-preset-env](https://github.com/csstools/postcss-preset-env), [cssnano](https://github.com/cssnano/cssnano)
+
+Importing common CSS frameworks such as Bootstrap, Foundation, Bulma, Tailwind, and so forth is often as easy as running:
+
+```shell
+$ yarn add name-of-css-framework
+```
+
+And then adding:
+
+```css
+@import "css-framework/css/css-framework.css";
+```
+
+to `main.scss`. For example, to add [Bulma](https://bulma.io) which is a modern CSS-only (no Javascript) framework built around Flexbox, you'd simply run:
+
+```shell
+$ yarn add bulma
+```
+
+and then add:
+
+```css
+@import "bulma/css/bulma.css";
+```
+
+to `main.scss`.
+
+#### Sass
+
+The starting place for CSS code lives at `frontend/styles/index.scss`.
 
 Importing common CSS frameworks such as Bootstrap, Foundation, Bulma, Tailwind, and so forth is often as easy as running:
 
