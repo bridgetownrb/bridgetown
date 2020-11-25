@@ -21,6 +21,10 @@ class TestNewCommand < BridgetownUnitTest
     File.expand_path("../lib/site_template/src", __dir__)
   end
 
+  def template_config_files
+    ["/Gemfile", "/package.json", "/webpack.config.js"]
+  end
+
   context "when args contains a path" do
     setup do
       @path = "new-site"
@@ -56,11 +60,15 @@ class TestNewCommand < BridgetownUnitTest
       assert_includes output, success_message
     end
 
-    should "copy the static files in site template to the new directory" do
+    should "copy the static files for postcss configuration in site template to the new directory" do
       static_template_files = dir_contents(site_template).reject do |f|
         File.extname(f) == ".erb"
       end
-      static_template_files.push "/Gemfile", "/package.json"
+
+      postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.js", "/frontend/styles/main.scss", "/frontend/javascript/index.js"]
+      postcss_template_files = static_template_files
+        .union(postcss_config_files)
+        .union(template_config_files)
 
       capture_output do
         Bridgetown::Commands::Base.start(argumentize(@args))
@@ -70,7 +78,28 @@ class TestNewCommand < BridgetownUnitTest
         f.end_with?("welcome-to-bridgetown.md")
       end
 
-      assert_same_elements static_template_files, new_site_files
+      assert_same_elements postcss_template_files, new_site_files
+    end
+
+    should "copy the static files for sass configuration in site template to the new directory" do
+      static_template_files = dir_contents(site_template).reject do |f|
+        File.extname(f) == ".erb"
+      end
+
+      sass_config_files = ["/frontend/javascript/index.js", "/frontend/styles/index.scss"]
+      sass_template_files = static_template_files
+        .union(sass_config_files)
+        .union(template_config_files)
+
+      capture_output do
+        Bridgetown::Commands::Base.start(argumentize("#{@args} --use-sass"))
+      end
+
+      new_site_files = dir_contents(@full_path).reject do |f|
+        f.end_with?("welcome-to-bridgetown.md")
+      end
+
+      assert_same_elements sass_template_files, new_site_files
     end
 
     should "process any ERB files" do
