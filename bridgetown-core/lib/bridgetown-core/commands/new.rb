@@ -83,20 +83,20 @@ module Bridgetown
         template("package.json.erb", "package.json")
         template("webpack.config.js.erb", "webpack.config.js")
         template("frontend/javascript/index.js.erb", "frontend/javascript/index.js")
-        
+
         options["use-sass"] ? configure_sass : configure_postcss
       end
-      
+
       def configure_sass
         template("frontend/styles/index.scss.erb", "frontend/styles/index.scss")
       end
-      
+
       def configure_postcss
         template("postcss.config.js.erb", "postcss.config.js")
         template("frontend/styles/index.scss.erb", "frontend/styles/main.scss")
         template("frontend/styles/index.js.erb", "frontend/styles/index.js")
       end
-      
+
       # After a new site has been created, print a success notification and
       # then automatically execute bundle install from within the new site dir
       # unless the user opts to skip 'bundle install'.
