@@ -81,7 +81,7 @@ module Bridgetown
     #
     # Return document date string.
     def date
-      data["date"] ||= site.time
+      data["date"] ||= site.time # TODO: this doesn't reflect documented behavior
     end
 
     # Return document file modification time in the form of a Time object.

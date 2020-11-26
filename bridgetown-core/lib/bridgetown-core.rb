@@ -47,6 +47,7 @@ require "colorator"
 require "i18n"
 require "faraday"
 require "thor"
+require "zeitwerk"
 
 module HashWithDotAccess
   class Hash # :nodoc:
@@ -259,3 +260,12 @@ module Bridgetown
     Bridgetown::External.require_if_present("liquid/c")
   end
 end
+
+module Bridgetown
+  module Resource
+  end
+end
+
+loader = Zeitwerk::Loader.new
+loader.push_dir File.join(__dir__, "bridgetown-core/resource"), namespace: Bridgetown::Resource
+loader.setup # ready!
