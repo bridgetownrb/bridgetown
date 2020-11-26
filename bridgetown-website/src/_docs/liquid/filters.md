@@ -64,7 +64,7 @@ using [plugins](/docs/plugins/filters/).
   <thead>
     <tr>
       <th>Description</th>
-      <th><span class="filter">Filter</span> and <span class="output">Output</span></th>
+      <th><ui-label class="filter">Filter</ui-label> and <ui-label class="output">Output</ui-label></th>
     </tr>
   </thead>
   <tbody>

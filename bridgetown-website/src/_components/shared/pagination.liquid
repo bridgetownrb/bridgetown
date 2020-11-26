@@ -17,14 +17,14 @@ mocks:
   <ul class="pagination px-2 mt-12">
     {% if paginator.previous_page %}
       <li>
-        <a href="{{ paginator.previous_page_path }}" class="button is-primary is-small"><span class="icon"><i class="fa fa-arrow-left"></i></span> <span>Previous Page</span></a>
+        <a href="{{ paginator.previous_page_path }}" class="button is-primary is-small"><ui-icon class="icon"><i class="fa fa-arrow-left"></i></ui-icon> <ui-label>Previous Page</ui-label></a>
       </li>
     {% else %}
       <li></li>
     {% endif %}
     {% if paginator.next_page %}
       <li>
-        <a href="{{ paginator.next_page_path }}" class="button is-primary is-small"><span>Next Page</span> <span class="icon"><i class="fa fa-arrow-right"></i></span></a>
+        <a href="{{ paginator.next_page_path }}" class="button is-primary is-small"><ui-label>Next Page</ui-label> <ui-icon class="icon"><i class="fa fa-arrow-right"></i></ui-icon></a>
       </li>
     {% endif %}
   </ul>

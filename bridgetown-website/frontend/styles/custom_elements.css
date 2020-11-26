@@ -1,0 +1,11 @@
+article-author,
+article-content,
+img-container,
+layout-box,
+layout-column,
+layout-columns,
+layout-sidebar,
+layout-spacer,
+main-content {
+  display: block;
+}
