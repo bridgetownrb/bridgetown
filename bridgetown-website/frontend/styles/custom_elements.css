@@ -1,11 +1,26 @@
 article-author,
-article-content,
+article-content, /* .content */
 img-container,
-layout-box,
-layout-column,
-layout-columns,
-layout-sidebar,
+layout-notice,
 layout-spacer,
-main-content {
+main-content /* .content */ {
   display: block;
 }
+
+ui-label {
+  display: inline;
+}
+
+/*
+# Class names to use for these elements:
+
+button-group = .buttons
+layout-box = .box
+layout-column = .column
+layout-columns = .columns
+layout-sidebar = .column
+nav-inner = .container
+nav-menu = .navbar-menu
+nav-section = .navbar-brand, .navbar-start, .navbar-end
+ui-icon = .icon
+*/
