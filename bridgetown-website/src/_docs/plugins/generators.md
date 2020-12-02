@@ -96,7 +96,7 @@ Posts:
 ```ruby
 class CategoryPages < SiteBuilder
   def build
-    generate do
+    generator do
       if site.layouts.key? "category_index"
         site.categories.each_key do |category|
           site.pages << CategoryPage.new(site, category)
