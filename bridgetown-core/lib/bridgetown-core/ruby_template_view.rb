@@ -31,9 +31,7 @@ module Bridgetown
         previous_buffer_state = @_erbout
         @_erbout = Bridgetown::ERBBuffer.new
 
-        unless @in_view_component
-          @in_view_component = defined?(::ViewComponent::Base) && item.is_a?(::ViewComponent::Base)
-        end
+        @in_view_component ||= defined?(::ViewComponent::Base) && item.is_a?(::ViewComponent::Base)
         result = item.render_in(self, &block)
         @in_view_component = false
 
