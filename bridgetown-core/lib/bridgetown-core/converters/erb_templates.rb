@@ -70,9 +70,7 @@ module Bridgetown
     end
 
     def capture(*args, &block)
-      if @in_view_component
-        return capture_in_view_component(*args, &block)
-      end
+      return capture_in_view_component(*args, &block) if @in_view_component
 
       previous_buffer_state = @_erbout
       @_erbout = ERBBuffer.new
