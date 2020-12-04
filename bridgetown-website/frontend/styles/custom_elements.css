@@ -1,6 +1,7 @@
 article-author,
 article-content, /* .content */
 img-container,
+layout-columns, /* .columns */
 layout-notice,
 layout-spacer,
 main-content /* .content */ {
@@ -17,7 +18,6 @@ ui-label {
 button-group = .buttons
 layout-box = .box
 layout-column = .column
-layout-columns = .columns
 layout-sidebar = .column
 nav-inner = .container
 nav-menu = .navbar-menu
