@@ -3,9 +3,9 @@ layout: default
 ---
 
 <section class="container mt-12">
-  <div class="columns">
-    <div class="column is-three-quarters" id="swup-with-sidebar">
-      <div class="box px-8 py-8">
+  <layout-columns class="columns">
+    <layout-column class="column is-three-quarters" id="swup-with-sidebar">
+      {% rendercontent "shared/box" %}
         {% assign url_sections = page.url | split: "/" %}
         {% if url_sections.size > 3 %}
           {% assign button_label = page.category | capitalize | replace: "-", " " | prepend: "Back to " %}
@@ -17,16 +17,16 @@ layout: default
         {% endif %}
         
 
-        <div class="content">
+        <main-content class="content">
           {{ content }}
-        </div>
+        </main-content>
 
         {% if url_sections.size > 3 %}
           <p class="has-text-right mt-8 mb-1"><a href="/docs/{{ page.category }}" class="button is-info is-small">
-            <span class="icon" aria-hidden="true">
+            <ui-icon class="icon" aria-hidden="true">
               <i class="fa fa-chevron-up"></i>
-            </span>
-            <span>Back to {{ page.category | capitalize }}</span>
+            </ui-icon>
+            <ui-label>Back to {{ page.category | capitalize }}</ui-label>
           </a></p>
         {% else %}
           {% assign next_order = page.next_page_order %}
@@ -35,23 +35,23 @@ layout: default
           {% endunless %}
           {% find next_page in site.docs, order == next_order %}
           {% if next_page %}
-            <p class="has-text-right mt-8 mb-1"><a href="{{ next_page.url }}" class="button is-info is-small">
-              <span>Next: {{ next_page.title }}</span>
-              <span class="icon" aria-hidden="true">
-                <i class="fa fa-chevron-right"></i>
-              </span>
-            </a></p>
+          <p class="has-text-right mt-8 mb-1"><a href="{{ next_page.url }}" class="button is-info is-small">
+            <ui-label>Next: {{ next_page.title }}</ui-label>
+            <ui-icon class="icon" aria-hidden="true">
+              <i class="fa fa-chevron-right"></i>
+            </ui-icon>
+          </a></p>
           {% endif %}
         {% endif %}
-      </div>
-    </div>
-    <aside class="column pl-8" id="sidebar">
+      {% endrendercontent %}
+    </layout-column>
+    <layout-sidebar class="column pl-8">
       {% render "docs/toc", docs: site.docs, page: page %}
-    </aside>
-  </div>
+    </layout-sidebar>
+  </layout-columns>
 </section>
 
 <button id="mobile-nav-activator" class="button is-primary is-rounded py-3 px-3" aria-label="Skip to Documentation Menu">
-  <span class="icon mx-0"><i class="fa fa-list"></i></span>
-  <span class="icon mx-0 not-shown"><i class="fa fa-hand-o-up"></i></span>
+  <ui-icon class="icon mx-0"><i class="fa fa-list"></i></ui-icon>
+  <ui-icon class="icon mx-0 not-shown"><i class="fa fa-hand-o-up"></i></ui-icon>
 </button>

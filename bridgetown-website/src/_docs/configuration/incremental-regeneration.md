@@ -28,12 +28,8 @@ Incremental regeneration can be enabled via the `--incremental` flag (`-I` for
 short) from the command-line or by setting `incremental: true` in your
 configuration file.
 
-<br/>
-<div class="note warning">
-  <h5>Incremental regeneration is an advanced feature</h5>
-  <p>
-    While incremental regeneration will work for the most common cases, it will
-    not work correctly in every scenario. Please report any problems not listed above by
-    <a href="https://github.com/bridgetownrb/bridgetown/issues/new" rel="noopener">opening an issue on GitHub</a>.
-  </p>
-</div>
+{% rendercontent "docs/note", title: "Incremental regeneration is an advanced feature", type: "warning", extra_margin: true %}
+  While incremental regeneration will work for the most common cases, it will
+  not work correctly in every scenario. Please report any problems not listed above by
+  <a href="https://github.com/bridgetownrb/bridgetown/issues/new" rel="noopener">opening an issue on GitHub</a>.
+{% endrendercontent %}

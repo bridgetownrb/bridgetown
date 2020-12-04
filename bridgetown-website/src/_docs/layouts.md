@@ -13,13 +13,11 @@ Layouts live in the `_layouts` folder. The convention is to have a base
 template called `default.html` and have other layouts [inherit](#inheritance)
 from this as needed.
 
-<div class="note">
-  <p>
-    While you can configure the folder name in which your layouts can reside by
-    setting the <code>layouts_dir</code> key in your config file, the folder
-    itself should be located at the root of your site's <code>source</code> folder.
-  </p>
-</div>
+{% rendercontent "docs/note" %}
+  While you can configure the folder name in which your layouts can reside by
+  setting the `layouts_dir` key in your config file, the folder
+  itself should be located at the root of your site's `source` folder.
+{% endrendercontent %}
 
 ## Usage
 

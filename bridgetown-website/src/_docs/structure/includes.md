@@ -68,6 +68,7 @@ In this example, the include would insert the file `footer_company_a.html` from 
 
 You can also pass parameters to an include. For example, suppose you have a file called `note.html` in your `_includes` folder that contains this formatting:
 
+<!-- linthtml-configure tag-bans="false" -->
 {% raw %}
 ```liquid
 <div markdown="span" class="alert alert-info" role="alert">
@@ -76,6 +77,7 @@ You can also pass parameters to an include. For example, suppose you have a file
 </div>
 ```
 {% endraw %}
+<!-- linthtml-configure tag-bans="true" -->
 
 The {% raw %}`{{ include.content }}`{% endraw %} is a parameter that gets populated when you call the include and specify a value for that parameter, like this:
 

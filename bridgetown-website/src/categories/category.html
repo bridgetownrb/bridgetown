@@ -5,16 +5,12 @@ prototype:
   term: category
 ---
 
-<section class="container mt-12">
-  <div class="columns is-centered">
-    <div class="column is-three-quarters" id="swup">
-      <h1 class="mt-3 mb-10 title is-1 has-text-centered has-text-brown">{{ page.title }}</h1>
+{% rendercontent "shared/page_layout" %}
+  <h1 class="mt-3 mb-10 title is-1 has-text-centered has-text-brown">{{ page.title }}</h1>
 
-      {% for post in paginator.documents %}
-        {% render "content/news_item", post: post, authors: site.data.authors %}
-      {% endfor %}
+  {% for post in paginator.documents %}
+    {% render "content/news_item", post: post, authors: site.data.authors %}
+  {% endfor %}
 
-      {% render "shared/pagination", paginator: paginator %}
-    </div>
-  </div>
-</section>
+  {% render "shared/pagination", paginator: paginator %}
+{% endrendercontent %}

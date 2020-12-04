@@ -321,10 +321,9 @@ For posts, Bridgetown also provides the following built-in styles for convenienc
 
 Rather than typing `permalink: /:categories/:year/:month/:day/:title/`, you can just type `permalink: pretty`.
 
-<div class="note info">
-<h5>Specifying permalinks through the front matter</h5>
-<p>Built-in permalink styles are not recognized in front matter. As a result, <code>permalink: pretty</code> will not work.</p>
-</div>
+{% rendercontent "docs/note", title: "Specifying permalinks through the front matter" %}
+  Built-in permalink styles are not recognized in front matter. As a result, `permalink: pretty` will not work.
+{% endrendercontent %}
 
 ### Collections
 

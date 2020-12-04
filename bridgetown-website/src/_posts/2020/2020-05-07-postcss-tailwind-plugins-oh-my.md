@@ -51,6 +51,7 @@ plugins: !ruby/string:Rb |
 
 And then down in the page we can use simple Liquid template syntax to loop through the plugins and output all relevant information. A simplified example:
 
+<!-- linthtml-configure tag-bans="false" -->
 {% raw %}
 ```liquid
 {% for plugin in page.plugins %}
@@ -71,5 +72,6 @@ And then down in the page we can use simple Liquid template syntax to loop throu
 {% endfor %}
 ```
 {% endraw %}
+<!-- linthtml-configure tag-bans="true" -->
 
 So take a peek at the [new Plugins directory](/plugins/) and think of what you'd like to see there in the future and then [let us know!](https://github.com/bridgetownrb/bridgetown/issues/new?assignees=&labels=feature&template=feature_request.md&title=feat%3A+)

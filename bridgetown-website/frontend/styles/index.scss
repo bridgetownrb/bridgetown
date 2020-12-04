@@ -51,6 +51,8 @@ footer.footer strong {
   color: white;
 }
 
+@import "custom_elements.css";
+
 @import "~bulma/bulma";
 @import "helpers.scss";
 @import "content.scss";
