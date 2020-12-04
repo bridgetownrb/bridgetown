@@ -8,7 +8,7 @@ category: showcase
 
 As we prepare to enter the year 2021, allow me to make a bold statement: it's totally unnecessary—perhaps even an anti-pattern—to use `<div>` and `<span>` tags in your HTML.
 
-_Now before you shake you fist at your smartphone or computer screen and write me off as a veritable nutcase_, let's review the history of HTML.
+_Now before you shake your fist at your smartphone or computer screen and write me off as a veritable nutcase_, let us briefly review the history of HTML.
 
 ### How We Got Here
 
@@ -103,7 +103,7 @@ Everyone's already been trained to use `<div>` and `<span>` tags everywhere, so 
 
 Even within the past month, I've been in web dev chat rooms telling some **very smart people** that you can use custom elements wherever you like without Javascript, and the response is "Wait wut?? Really? Are you kidding me?!"
 
-I don't know why all the confusion. Maybe it was terrible marketing on the part of the custom element/web component authors. Maybe it was all the deafening noise from the Big Javascript Frameworks (I'm looking at you React) that simply don't seem to care.
+I don't know why all the confusion. Maybe it was terrible marketing on the part of the custom element/web component authors. Maybe it was all the deafening noise from the Big Javascript Frameworks (I'm looking at you React!) that simply don't seem to care.
 
 But whatever the reason, I'm here to tell you that right here, right now, you can use the Custom Elements spec to your advantage and _eliminate virtually all of your DIVs/SPANs_ in favor of expressive, semantically-useful custom elements.
 
