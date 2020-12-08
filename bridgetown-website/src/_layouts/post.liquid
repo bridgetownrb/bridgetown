@@ -7,42 +7,42 @@ layout: default
     <article class="h-entry">
       <h1 class="mt-3 mb-10 title is-1 is-size-2-mobile has-text-centered has-text-brown p-name">{{ page.title }}</h1>
 
-      <div class="mb-10 author has-text-centered p-author">
+      <article-author class="mb-10 author has-text-centered p-author">
         {% assign author = site.data.authors[page.author] %}
         <img src="{{ author.avatar }}" alt="{{ author.name }}" class="avatar u-photo" />
         <a href="/authors/{{ page.author }}/" class="has-text-weight-bold u-url p-name">{{ author.name }}</a>
         on {{ page.date | date: "%B %-d, %Y" }}
-      </div>
+      </article-author>
 
-      <div class="content e-content">
+      <main-content class="content e-content">
         {{ content }}
-      </div>
+      </main-content>
 
       {% if page.previous %}
-        <p class="is-pulled-left mt-8 mb-1">
+        <nav class="is-pulled-left mt-8 mb-1">
           <strong class="has-text-info">Previous</strong><br/>
           <a href="{{ page.previous.url }}" class="mt-2 button is-info is-small">
-            <span class="icon" aria-hidden="true">
+            <ui-icon class="icon" aria-hidden="true">
               <i class="fa fa-chevron-left"></i>
-            </span>
-            <span>{{ page.previous.title }}</span>
+            </ui-icon>
+            <ui-label>{{ page.previous.title }}</ui-label>
           </a>
-        </p>
+        </nav>
       {% endif %}
 
       {% if page.next %}
-        <p class="is-pulled-right has-text-right mt-8 mb-1">
+        <nav class="is-pulled-right has-text-right mt-8 mb-1">
           <strong class="has-text-info">Next</strong><br/>
           <a href="{{ page.next.url }}" class="mt-2 button is-info is-small">
-            <span>{{ page.next.title }}</span>
-            <span class="icon" aria-hidden="true">
+            <ui-label>{{ page.next.title }}</ui-label>
+            <ui-icon class="icon" aria-hidden="true">
               <i class="fa fa-chevron-right"></i>
-            </span>
+            </ui-icon>
           </a>
-        </p>
+        </nav>
       {% endif %}
 
-      <div class="is-clearfix"></div>
+      <layout-spacer class="is-clearfix"></layout-spacer>
     </article>
   {% endrendercontent %}
 {% endrendercontent %}

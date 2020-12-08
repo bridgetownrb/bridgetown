@@ -32,36 +32,32 @@ plugins: !ruby/string:Rb |
   items
 ---
 
-<section class="container mt-12">
-  <div class="columns is-centered">
-    <div class="column is-three-quarters" id="swup">
-      <h1 class="mt-3 mb-10 title is-1 has-text-centered has-text-brown">{{ page.title }}</h1>
+{% rendercontent "shared/page_layout" %}
+  <h1 class="mt-3 mb-10 title is-1 has-text-centered has-text-brown">{{ page.title }}</h1>
 
-      <p class="mb-10 has-text-centered">
-        Peruse our growing collection of official and third-party plugins which provide new capabilities to your Bridgetown site. If you've authored a <a href="/docs/plugins/#creating-a-gem" class="wavy-underline" data-no-swup>plugin gem</a>, add the <code class="has-background-white">bridgetown-plugin</code> topic to your GitHub repo to include it here.
-      </p>
+  <p class="mb-10 has-text-centered">
+    Peruse our growing collection of official and third-party plugins which provide new capabilities to your Bridgetown site. If you've authored a <a href="/docs/plugins/#creating-a-gem" class="wavy-underline" data-no-swup>plugin gem</a>, add the <code class="has-background-white">bridgetown-plugin</code> topic to your GitHub repo to include it here.
+  </p>
 
-      {% for plugin in page.plugins %}
-        <div class="box px-8 py-8 mb-10">
-          <a href="{{ plugin.html_url }}" rel="noopener">
-            <h2 class="mb-8 title is-3 has-text-info">
-              {{ plugin.name }}
-              {% if plugin.gem_version %}
-                <span class="tag is-warning">v{{ plugin.gem_version }}</span>
-              {% endif %}
-            </h2>
-          </a>
-        
-          <div class="content">
-            {{ plugin.description }}
-          </div>
-        
-          <div class="mt-8 author">
-            <img src="{{ plugin.owner.avatar_url }}" alt="{{ plugin.owner.login }}" class="avatar" loading="lazy" />
-            <a href="{{ plugin.owner.html_url }}" class="has-text-weight-bold" rel="noopener">{{ plugin.owner.login }}</a>
-          </div>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-</section>
+  {% for plugin in page.plugins %}
+    <article class="box px-8 py-8 mb-10">
+      <a href="{{ plugin.html_url }}" rel="noopener">
+        <h2 class="mb-8 title is-3 has-text-info">
+          {{ plugin.name }}
+          {% if plugin.gem_version %}
+            <ui-label class="tag is-warning">v{{ plugin.gem_version }}</ui-label>
+          {% endif %}
+        </h2>
+      </a>
+
+      <article-content class="content">
+        {{ plugin.description }}
+      </article-content>
+
+      <article-author class="mt-8 author">
+        <img src="{{ plugin.owner.avatar_url }}" alt="{{ plugin.owner.login }}" class="avatar" loading="lazy" />
+        <a href="{{ plugin.owner.html_url }}" class="has-text-weight-bold" rel="noopener">{{ plugin.owner.login }}</a>
+      </article-author>
+    </article>
+  {% endfor %}
+{% endrendercontent %}

@@ -18,8 +18,8 @@ class TestBlog < Minitest::Test
 
     should "have correct microformat markup" do
       assert_select ".h-entry h2.p-name"
-      assert_select ".h-entry div.p-summary"
-      assert_select ".h-entry div.p-author"
+      assert_select ".h-entry article-content.p-summary"
+      assert_select ".h-entry article-author.p-author"
     end
   end
 

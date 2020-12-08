@@ -18,7 +18,7 @@ The ability to use Liquid within Markdown in posts and pages allows for truly ad
 
 In addition to Liquid's standard suite of filters and tags, Bridgetown provides a number of useful additions to help you build your site:
 
-<div class="buttons" style="justify-content: center" markdown="1">
-[Filters List](/docs/liquid/filters/){:.button.is-warning.is-outlined}
-[Tags List](/docs/liquid/tags/){:.button.is-warning.is-outlined}
-</div>
+<button-group class="buttons" style="justify-content: center">
+  <a href="/docs/liquid/filters" class=" button is-warning is-outlined">Filters List</a>
+  <a href="/docs/liquid/tags" class="button is-warning is-outlined">Tags List</a>
+</button-group>

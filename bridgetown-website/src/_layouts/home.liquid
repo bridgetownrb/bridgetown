@@ -4,21 +4,21 @@ layout: default
 
 {% rendercontent "shared/page_layout" %}
   {% if bridgetown.version contains "beta" %}
-    <div class="mb-12 has-text-centered">
+    <layout-notice class="mb-12 has-text-centered">
       <em>You’re looking at the beta site for the latest pre-release of Bridgetown.</em> <a href="https://www.bridgetownrb.com" class="has-text-weight-bold">Switch to the current production site.</a>
-    </div>
+    </layout-notice>
   {% endif %}
   {% rendercontent "shared/box" %}
-    <div class="bridgetown-logo">{% svg images/Bridgetown-Logo.svg %}</div>
+    <img-container class="bridgetown-logo">{% svg images/Bridgetown-Logo.svg %}</img-container>
 
     <h1 class="mt-3 mb-10 title has-text-centered has-text-brown">Bridgetown</h1>
 
-    <div class="content">
+    <main-content class="content">
       {{ content }}
-    </div>
+    </main-content>
   {% endrendercontent %}
 
-  <div class="my-10 py-2"></div>
+  <layout-spacer class="my-10 py-2"></layout-spacer>
 
   <h2 class="title is-2 has-text-centered has-text-brown mb-12">News Updates</h2>
 
@@ -26,7 +26,7 @@ layout: default
     {% render "content/news_item", post: post, authors: site.data.authors %}
   {% endfor %}
 
-  <div class="mt-12 has-text-centered">
-    <a href="/blog/" class="button is-warning is-small"><span>Previous Updates</span> <span class="icon"><i class="fa fa-arrow-right"></i></span></a>
-  </div>
+  <nav class="mt-12 has-text-centered">
+    <a href="/blog/" class="button is-warning is-small"><ui-label>Previous Updates</ui-label> <ui-icon class="icon"><i class="fa fa-arrow-right"></i></ui-icon></a>
+  </nav>
 {% endrendercontent %}

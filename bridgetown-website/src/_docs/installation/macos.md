@@ -90,11 +90,11 @@ gem env
 
 And check that `SHELL PATH:` includes to a path to `~/.gem/ruby/X.X.0/bin`
 
-<div class="note" markdown="1">
+{% rendercontent "docs/note" %}
 Every time you update Ruby to a version with a different first two digits, you will need to update your path to match.
 
 You will also need to add `--user-install` to any `gem install` statement you run.
-</div>
+{% endrendercontent %}
 
 ## Install Node & Yarn {#node}
 

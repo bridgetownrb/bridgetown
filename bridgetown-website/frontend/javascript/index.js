@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Docs layout has a sidebar, so we need to adjust Swup accordingly
   let containers, mainEl
 
-  if (document.querySelector("#sidebar")) {
+  if (document.querySelector("layout-sidebar")) {
     mainEl = "#swup-with-sidebar"
-    containers = [mainEl, "#sidebar", "#topnav"]
+    containers = [mainEl, "layout-sidebar", "#topnav"]
     let navActivated = false
     document.querySelector("#mobile-nav-activator").addEventListener("click", event => {
       animateScrollTo(
-        document.querySelector("#sidebar"),
+        document.querySelector("layout-sidebar"),
         {
           maxDuration: 500
         }
