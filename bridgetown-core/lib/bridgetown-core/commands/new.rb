@@ -72,7 +72,7 @@ module Bridgetown
       end
 
       def create_site(new_site_path)
-        directory ".", ".", exclude_pattern: %r!\.erb|DS_Store$!
+        directory ".", ".", exclude_pattern: %r!\.erb|DS_Store$|\.(s[ac]|c)ss$!
         FileUtils.chmod_R "u+w", new_site_path
 
         template(
@@ -88,12 +88,12 @@ module Bridgetown
       end
 
       def configure_sass
-        template("frontend/styles/index.scss.erb", "frontend/styles/index.scss")
+        copy_file("frontend/styles/index.scss")
       end
 
       def configure_postcss
         template("postcss.config.js.erb", "postcss.config.js")
-        template("frontend/styles/index.css.erb", "frontend/styles/index.css")
+        copy_file("frontend/styles/index.css")
       end
 
       # After a new site has been created, print a success notification and
