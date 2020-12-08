@@ -43,7 +43,7 @@ By default Bridgetown uses [Sass](https://sass-lang.com), a pre-processor for CS
 
 The starting place for CSS code lives at `frontend/styles/index.scss`.
 
-Importing common CSS frameworks such as Bootstrap, Foundation, Bulma, Tailwind, and so forth is often as easy as running:
+Importing common CSS frameworks such as Bootstrap, Foundation, Bulma and so forth is often as easy as running:
 
 ```shell
 $ yarn add name-of-css-framework
@@ -95,6 +95,8 @@ module.exports = {
   ]
 }
 ```
+
+The popular [TailwindCSS](https://tailwindcss.com) framework can be added to your project by following their [setup guide for PostCSS](https://tailwindcss.com/docs/installation#installing-tailwind-css-as-a-post-css-plugin).
 
 ## Linking to the Output Bundles
 
