@@ -15,7 +15,7 @@ The typical folder structure for a Bridgetown site usually looks something like 
 │   │   ├── index.js
 │   │   └── widget.js
 │   ├── styles
-│   │   ├── index.js
+│   │   ├── index.scss
 │   └   └── layout.scss
 ├── src # this is where you put your content and design templates
 │   ├── _components

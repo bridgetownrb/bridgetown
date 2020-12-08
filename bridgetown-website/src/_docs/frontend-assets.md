@@ -37,43 +37,7 @@ And the update your HTML layout according to the Swup install guide.
 
 ## CSS
 
-By default Bridgetown uses [PostCSS](https://postcss.org) with a [Sass plugin](https://github.com/jonathantneal/postcss-sass) to process CSS. But you can configure Bridgetown to use [Sass](https://sass-lang.com) directly by passing `--use-sass` to `bridgetown new`.
-
-#### PostCSS
-
-The starting place for CSS code lives at `frontend/styles/index.js`. 
-
-All `.css`, `.scss`, `.sass` files under `frontend/styles/` and `src/_components/` will be autoloaded into your bundle. 
-
-To exclude a file from autoloading, prefix it with a `_`. You can then import it manually in a `.scss` file with `@import "filename"` or in `frontend/styles/index.js` with `import "_filename"`.
-
-The default PostCSS configuration contains the following plugins: [postcss-easy-import](https://github.com/trysound/postcss-easy-import), [@csstools/postcss-sass](https://github.com/jonathantneal/postcss-sass), [postcss-flexbugs-fixes](https://github.com/luisrudge/postcss-flexbugs-fixes), [postcss-preset-env](https://github.com/csstools/postcss-preset-env), [cssnano](https://github.com/cssnano/cssnano)
-
-Importing common CSS frameworks such as Bootstrap, Foundation, Bulma, Tailwind, and so forth is often as easy as running:
-
-```shell
-$ yarn add name-of-css-framework
-```
-
-And then adding:
-
-```css
-@import "css-framework/css/css-framework.css";
-```
-
-to `main.scss`. For example, to add [Bulma](https://bulma.io) which is a modern CSS-only (no Javascript) framework built around Flexbox, you'd simply run:
-
-```shell
-$ yarn add bulma
-```
-
-and then add:
-
-```css
-@import "bulma/css/bulma.css";
-```
-
-to `main.scss`.
+By default Bridgetown uses [Sass](https://sass-lang.com), a pre-processor for CSS; but you can pass `--use-postcss` to `bridgetown new` to setup `PostCSS` which is popular with the Webpack community.
 
 #### Sass
 
@@ -104,6 +68,33 @@ and then add:
 ```
 
 to `index.scss`.
+
+#### PostCSS
+
+The default `PostCSS` config is largely empty so you can set it up as per your preference. The only two plugins included by default are [`postcss-flexbugs-fixes`](https://github.com/luisrudge/postcss-flexbugs-fixes) and [`postcss-preset-env`](https://preset-env.cssdb.org).
+
+If you'd like to use `Sass` with `PostCSS`, you'll need to install a plugin for it:
+
+```shell
+$ yarn add @csstools/postcss-sass
+```
+
+And then include it at the top of the `plugins` array in `postcss.config.js`:
+
+```js
+module.exports = {
+  plugins: [
+    require('@csstools/postcss-sass'),
+    require('postcss-flexbugs-fixes'),
+    require('postcss-preset-env')({
+      autoprefixer: {
+        flexbox: 'no-2009'
+      },
+      stage: 3
+    })
+  ]
+}
+```
 
 ## Linking to the Output Bundles
 
