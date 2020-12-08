@@ -1,3 +1,3 @@
-import "../styles/index.scss"
+import "index.scss"
 
 console.info("Bridgetown is loaded!")

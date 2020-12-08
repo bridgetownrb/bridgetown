@@ -18,6 +18,12 @@ module.exports = {
   },
   resolve: {
     extensions: [".js", ".jsx"],
+    modules: [
+      path.resolve(__dirname, 'frontend', 'javascript'),
+      path.resolve(__dirname, 'frontend', 'styles'),
+      path.resolve(__dirname, 'src', '_components'),
+      path.resolve('./node_modules')
+    ]
   },
   plugins: [
     new MiniCssExtractPlugin({
