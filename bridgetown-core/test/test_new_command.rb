@@ -62,7 +62,7 @@ class TestNewCommand < BridgetownUnitTest
 
     should "copy the static files for postcss configuration in site template to the new directory" do
       static_template_files = dir_contents(site_template).reject do |f|
-        File.extname(f) == ".erb"
+        File.extname(f) =~ %r!\.erb|\.(s[ac]|c)ss!
       end
 
       postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
@@ -81,7 +81,7 @@ class TestNewCommand < BridgetownUnitTest
 
     should "copy the static files for sass configuration in site template to the new directory" do
       static_template_files = dir_contents(site_template).reject do |f|
-        File.extname(f) == ".erb"
+        File.extname(f) =~ %r!\.erb|\.(s[ac]|c)ss!
       end
 
       sass_config_files = ["/frontend/styles/index.scss"]
