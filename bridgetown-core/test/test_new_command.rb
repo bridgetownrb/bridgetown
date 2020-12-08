@@ -22,7 +22,7 @@ class TestNewCommand < BridgetownUnitTest
   end
 
   def template_config_files
-    ["/Gemfile", "/package.json", "/webpack.config.js"]
+    ["/Gemfile", "/package.json", "/webpack.config.js", "/frontend/javascript/index.js"]
   end
 
   context "when args contains a path" do
@@ -65,13 +65,11 @@ class TestNewCommand < BridgetownUnitTest
         File.extname(f) == ".erb"
       end
 
-      postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.js", "/frontend/styles/main.scss", "/frontend/javascript/index.js"]
-      postcss_template_files = static_template_files
-        .union(postcss_config_files)
-        .union(template_config_files)
+      postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
+      postcss_template_files = static_template_files + postcss_config_files + template_config_files
 
       capture_output do
-        Bridgetown::Commands::Base.start(argumentize(@args))
+        Bridgetown::Commands::Base.start(argumentize("#{@args} --use-postcss"))
       end
 
       new_site_files = dir_contents(@full_path).reject do |f|
@@ -86,13 +84,11 @@ class TestNewCommand < BridgetownUnitTest
         File.extname(f) == ".erb"
       end
 
-      sass_config_files = ["/frontend/javascript/index.js", "/frontend/styles/index.scss"]
-      sass_template_files = static_template_files
-        .union(sass_config_files)
-        .union(template_config_files)
+      sass_config_files = ["/frontend/styles/index.scss"]
+      sass_template_files = static_template_files + sass_config_files + template_config_files
 
       capture_output do
-        Bridgetown::Commands::Base.start(argumentize("#{@args} --use-sass"))
+        Bridgetown::Commands::Base.start(argumentize(@args))
       end
 
       new_site_files = dir_contents(@full_path).reject do |f|
