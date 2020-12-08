@@ -79,20 +79,20 @@ If you'd like to use `Sass` with `PostCSS`, you'll need to install a plugin for 
 $ yarn add @csstools/postcss-sass
 ```
 
-And then include it at the top of the `plugins` array in `postcss.config.js`:
+And then include it at the top of the `plugins` object in `postcss.config.js`:
 
 ```js
-module.exports = {
-  plugins: [
-    require('@csstools/postcss-sass'),
-    require('postcss-flexbugs-fixes'),
-    require('postcss-preset-env')({
+module.exports = {  
+  plugins: {
+    '@csstools/postcss-sass': {},
+    'postcss-flexbugs-fixes': {},
+    'postcss-preset-env': {
       autoprefixer: {
         flexbox: 'no-2009'
       },
       stage: 3
-    })
-  ]
+    }
+  }
 }
 ```
 
