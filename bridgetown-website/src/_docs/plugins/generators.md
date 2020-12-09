@@ -26,7 +26,7 @@ for more details.
 
 Simply add a `generator` call to your `build` method. You can supply a block or pass in a method name as a symbol.
 
-```
+```ruby
 def build
   generator do
     # update or add content here
