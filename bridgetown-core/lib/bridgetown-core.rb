@@ -60,7 +60,8 @@ SafeYAML::OPTIONS[:whitelisted_tags] = ["!ruby/string:Rb"]
 
 if RUBY_VERSION.start_with?("3.0")
   # workaround for Ruby 3 preview 2, maybe can remove later
-  old_verbose = $VERBOSE; $VERBOSE = nil
+  old_verbose = $VERBOSE
+  $VERBOSE = nil
   SafeYAML::SafeToRubyVisitor.const_set(:INITIALIZE_ARITY, 2)
   $verbose = old_verbose
 end
