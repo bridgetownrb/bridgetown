@@ -12,7 +12,7 @@ content and any HTML template. Built-in examples added by Bridgetown include the
 will output the time the page was rendered:
 
 ```ruby
-def RenderTime < SiteBuilder
+class RenderTime < SiteBuilder
   def build
     liquid_tag "render_time" do |attributes|
       "#{attributes} #{Time.now}"
@@ -41,7 +41,7 @@ And we would get something like this on the page:
 The `render_time` tag seen above can also be rewritten as a _tag block_. Look at this example:
 
 ```ruby
-def RenderTime < SiteBuilder
+class RenderTime < SiteBuilder
   def build
     liquid_tag "render_time", as_block: true do |attributes, tag|
       "#{tag.content} #{Time.now}"
@@ -76,7 +76,7 @@ the name `render_time`, but you'll want to avoid registering a tag and a tag blo
 As with other parts of the Builder API, you can also use an instance method to register your tag:
 
 ```ruby
-def Upcase < SiteBuilder
+class Upcase < SiteBuilder
   def build
     liquid_tag "upcase", :upcase_tag, as_block: true
   end
