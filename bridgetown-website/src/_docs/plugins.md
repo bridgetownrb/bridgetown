@@ -101,7 +101,7 @@ And then reference that data in any Liquid template:
 The `config` instance method is available to access the Bridgetown site configuration object, and along with that you can optionally define a default configuration that will be included in the config object—and can be overridden by config settings directly in `bridgetown.config.yml`. For example:
 
 ```ruby
-def BuilderWithConfiguration < SiteBuilder
+class BuilderWithConfiguration < SiteBuilder
   CONFIG_DEFAULTS = {
     custom_config: {
       my_setting: 123
@@ -117,6 +117,7 @@ def BuilderWithConfiguration < SiteBuilder
 
     p config[:my_setting] # "one two three"
   end
+end
 ```
 
 ### Gem-based Plugins
