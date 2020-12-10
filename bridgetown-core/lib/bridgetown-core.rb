@@ -44,11 +44,29 @@ require "i18n"
 require "faraday"
 require "thor"
 
+module HashWithDotAccess
+  class Hash # :nodoc:
+    def to_liquid
+      to_h.to_liquid
+    end
+  end
+end
+
 SafeYAML::OPTIONS[:suppress_warnings] = true
 
 # Create our little String subclass for Ruby Front Matter
 class Rb < String; end
 SafeYAML::OPTIONS[:whitelisted_tags] = ["!ruby/string:Rb"]
+
+if RUBY_VERSION.start_with?("3.0")
+  # workaround for Ruby 3 preview 2, maybe can remove later
+  # rubocop:disable Style/GlobalVars
+  old_verbose = $VERBOSE
+  $VERBOSE = nil
+  SafeYAML::SafeToRubyVisitor.const_set(:INITIALIZE_ARITY, 2)
+  $verbose = old_verbose
+  # rubocop:enable Style/GlobalVars
+end
 
 module Bridgetown
   # internal requires

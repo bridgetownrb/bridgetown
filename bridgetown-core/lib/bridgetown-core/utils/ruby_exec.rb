@@ -20,14 +20,14 @@ module Bridgetown
             v.each do |nested_k, nested_v|
               next unless nested_v.is_a?(Rb)
 
-              Bridgetown.logger.warn("Executing inline Ruby…", convertible.relative_path)
+              Bridgetown.logger.debug("Executing inline Ruby…", convertible.relative_path)
               convertible.data[k][nested_k] = run(nested_v, convertible, renderer)
-              Bridgetown.logger.warn("Inline Ruby completed!", convertible.relative_path)
+              Bridgetown.logger.debug("Inline Ruby completed!", convertible.relative_path)
             end
           else
-            Bridgetown.logger.warn("Executing inline Ruby…", convertible.relative_path)
+            Bridgetown.logger.debug("Executing inline Ruby…", convertible.relative_path)
             convertible.data[k] = run(v, convertible, renderer)
-            Bridgetown.logger.warn("Inline Ruby completed!", convertible.relative_path)
+            Bridgetown.logger.debug("Inline Ruby completed!", convertible.relative_path)
           end
         end
       end

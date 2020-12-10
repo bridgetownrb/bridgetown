@@ -404,8 +404,8 @@ class TestFilters < BridgetownUnitTest
 
     should "obfuscate phone numbers" do
       assert_match(
-        %r!E6=iZ` abc def!,
-        @filter.obfuscate_link("+1 234 567", "tel")
+        %r!E6=iZ`\\\\abc\\\\def!,
+        @filter.obfuscate_link("+1-234-567", "tel")
       )
     end
 

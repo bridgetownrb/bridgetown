@@ -28,10 +28,10 @@ Say howdy 👋 to our growing list of the first twenty sponsors of Bridgetown on
 |<a href="https://twitter.com/cabgfx">@cabgfx</a>|<a href="https://twitter.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/miatrinity">@miatrinity</a>|<a href="https://www.twitter.com/marcoroth_">@marcoroth_</a>|<a href="https://github.com/mtomov">@mtomov</a>|
 |<a href="http://www.pilotcph.dk">Website</a>|<a href="https://andrewm.codes">Website</a>|<a href="https://railsnew.io/">Website</a>|<a href="https://marcoroth.dev">Website</a>||
 
-|<img src="https://avatars.githubusercontent.com/johnchambers?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="johnchambers" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|:---:|
-|<a href="https://github.com/johnchambers">@johnchambers</a>|<a href="https://github.com/wout">@wout</a>|You Next?|
-||<a href="https://tilishop.com">Website</a>||
+|<img src="https://avatars.githubusercontent.com/johnchambers?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/pascalwengerter?s=256" alt="pascalwengerter" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/johnchambers">@johnchambers</a>|<a href="https://github.com/wout">@wout</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|You Next?|
+||<a href="https://tilishop.com">Website</a>|<a href="https://pascal.rocks">Website</a>||
 
 ## Commercial Support
 
@@ -44,7 +44,7 @@ Bridgetown development is spearheaded by Portland-based web studio [Whitefusion]
 * [Install](https://bridgetownrb.com/docs/) the Bridgetown gem
 * Familiarize yourself with the [Command Line Usage](https://bridgetownrb.com/docs/command-line-usage/) and [Site Configuration](https://bridgetownrb.com/docs/configuration/)
 * Explore the best options for [Deploying Your Site](https://bridgetown.rb/docs/deployment) when it's ready to go live
-* Have questions? Check out our official [Bridgetown Community forum](https://community.bridgetownrb.com/) or [chat on Discord](https://discord.gg/V56yUWR)
+* Have questions? Check out our new [Bridgetown Discussions on GitHub](https://github.com/bridgetownrb/bridgetown/discussions) or [chat on Discord](https://discord.gg/V56yUWR)
 * [Fork Bridgetown](https://github.com/bridgetownrb/bridgetown/fork) and contribute your own improvements!
 
 ## Get Up to Speed
@@ -113,10 +113,10 @@ Bridgetown is built by:
 |<a href="https://github.com/jaredcwhite">@jaredcwhite</a>|<a href="https://github.com/jaredmoody">@jaredmoody</a>|<a href="https://github.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/ParamagicDev">@ParamagicDev</a>|<a href="https://github.com/MikeRogers0">@MikeRogers0</a>|
 |Portland, OR|Portland, OR|Wilmington, NC|Providence, RI|Ny-Ålesund, Svalbard|
 
-|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/codemargaret?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/julianrubisch?s=256" alt="" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/wout">@wout</a>|<a href="https://github.com/codemargaret">@codemargaret</a>|<a href="https://github.com/julianrubisch">@julianrubisch</a>|You Next?|
-|Brighton, UK|Portland, OR|Vienna, Austria|Anywhere|
+|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/codemargaret?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/julianrubisch?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/ianbayne?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/ayushn21?s=256" alt="" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/wout">@wout</a>|<a href="https://github.com/codemargaret">@codemargaret</a>|<a href="https://github.com/julianrubisch">@julianrubisch</a>|<a href="https://github.com/ianbayne">@ianbayne</a>|<a href="https://github.com/ayushn21">@ayushn21</a>|You Next?|
+|Brighton, UK|Portland, OR|Vienna, Austria|Tokyo, Japan|London, UK|Anywhere|
 
 Interested in joining the Bridgetown Core Team? Send a DM to Jared on the [Bridgetown Community forum](https://community.bridgetownrb.com) and let's chat!
 

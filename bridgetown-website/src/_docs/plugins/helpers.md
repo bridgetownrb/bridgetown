@@ -34,7 +34,7 @@ http://www.example.com/mydynamicfile.js?1586194585
 You can accept multiple arguments to your helper by simply adding them to your block or method, and optional ones are simply specified with a default value (perhaps `nil` or `false`). For example:
 
 ```ruby
-def Helpers < SiteBuilder
+class Helpers < SiteBuilder
   def build
     helper "multiply_and_optionally_add" do |input, multiply_by, add_by = nil|
       value = input * multiply_by
@@ -61,7 +61,7 @@ Then just use it like this:
 As with other parts of the Builder API, you can also use an instance method to register your helper:
 
 ```ruby
-def Helpers < SiteBuilder
+class Helpers < SiteBuilder
   def build
     helper "cache_busting_url", :bust_it
   end
@@ -79,7 +79,7 @@ By default, the code within the helper block or method is executed within the sc
 To remedy this, simply pass the `helpers_scope: true` argument when defining a helper block. Then you can call other helpers as part of your code block (but not methods within your builder).
 
 ```ruby
-def Helpers < SiteBuilder
+class Helpers < SiteBuilder
   def build
     helper "slugify_and_upcase", helpers_scope: true do |url|
       slugify(url).upcase
@@ -95,7 +95,7 @@ When using the helpers scope, you have access to two variables: `site` and `view
 Within the helpers scope, you can "capture" the contents of a block and use that text inside your helper. Optionally, you can pass an object to the block itself from your helper. For example:
 
 ```ruby
-def Helpers < SiteBuilder
+class Helpers < SiteBuilder
   def build
     helper "capture_and_upcase", helpers_scope: true do |&block|
       label = "upcased"

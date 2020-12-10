@@ -21,13 +21,13 @@ body.home main {
   ul {
     margin-left: 3.5em;
     list-style-type: none;
-    span.icon {
+    ui-icon {
       position: absolute;
       margin-left: -3em;
     }
     @include mobile {
       margin-left: 10vw;
-      span.icon {
+      ui-icon {
         margin-left: -2.5em;
       }
     }

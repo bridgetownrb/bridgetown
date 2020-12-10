@@ -26,7 +26,11 @@ module Bridgetown
 
           Faraday.new(headers: headers) do |faraday|
             faraday.use FaradayMiddleware::FollowRedirects
-            faraday.use FaradayMiddleware::ParseJson if parse_json
+            if parse_json
+              faraday.use FaradayMiddleware::ParseJson, parser_options: {
+                object_class: HashWithDotAccess::Hash,
+              }
+            end
             yield faraday if block_given?
           end
         end

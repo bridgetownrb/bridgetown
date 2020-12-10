@@ -26,7 +26,7 @@ for more details.
 
 Simply add a `generator` call to your `build` method. You can supply a block or pass in a method name as a symbol.
 
-```
+```ruby
 def build
   generator do
     # update or add content here
@@ -96,7 +96,7 @@ Posts:
 ```ruby
 class CategoryPages < SiteBuilder
   def build
-    generate do
+    generator do
       if site.layouts.key? "category_index"
         site.categories.each_key do |category|
           site.pages << CategoryPage.new(site, category)

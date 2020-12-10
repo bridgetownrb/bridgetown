@@ -16,7 +16,7 @@ class="flag">flags</code> (specified on the command-line) that control them.
     <tr>
       <th>Setting</th>
       <th class="has-text-centered">
-        <span class="option">Options</span> and <span class="flag">Flags</span>
+        <ui-label class="option">Options</ui-label> and <ui-label class="flag">Flags</ui-label>
       </th>
     </tr>
   </thead>
@@ -160,7 +160,6 @@ class="flag">flags</code> (specified on the command-line) that control them.
 </table>
 
 {% rendercontent "docs/note", title: "Destination folders are cleaned upon site builds", type: "warning" %}
-
 The contents of `destination` are automatically cleaned when the site is built.
 Files or folders that are not created by your site will be removed. If you need to
 retain certain files/folders, specify them within the `keep_files` configuration
@@ -177,7 +176,7 @@ a staging area and copy files from there to your web server.
   <thead>
     <tr>
       <th>Setting</th>
-      <th class="has-text-centered"><span class="option">Options</span> and <span class="flag">Flags</span></th>
+      <th class="has-text-centered"><ui-label class="option">Options</ui-label> and <ui-label class="flag">Flags</ui-label></th>
     </tr>
   </thead>
   <tbody>
@@ -349,7 +348,7 @@ before your site is served.
   <thead>
     <tr>
       <th>Setting</th>
-      <th class="has-text-centered"><span class="option">Options</span> and <span class="flag">Flags</span></th>
+      <th class="has-text-centered"><ui-label class="option">Options</ui-label> and <ui-label class="flag">Flags</ui-label></th>
     </tr>
   </thead>
   <tbody>
@@ -423,13 +422,10 @@ before your site is served.
   </tbody>
 </table>
 
-<div class="note warning">
-  <h5>Do not use tabs in configuration files</h5>
-  <p>
-    This will either lead to parsing errors, or Bridgetown will revert to the
-    default settings. Use spaces instead.
-  </p>
-</div>
+{% rendercontent "docs/note", title: "Do not use tabs in configuration files", type: "warning" %}
+  This will either lead to parsing errors, or Bridgetown will revert to the
+  default settings. Use spaces instead.
+{% endrendercontent %}
 
 ### Additional Configuration File Settings
 

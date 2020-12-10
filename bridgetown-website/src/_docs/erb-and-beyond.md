@@ -170,7 +170,7 @@ In addition to using Liquid helpers, you can also render [Liquid components](/do
 
 ```html
 <!-- src/_components/test_component.liquid -->
-<span>{{ param }}</span>
+<p>{{ param }}</p>
 ```
 
 ## Layouts
@@ -187,7 +187,7 @@ somevalue: 123
 
 <h1><%%= page.data[:title] %></h1>
 
-<div>An ERB layout! <%%= layout.name %> / somevalue: <%%= layout.data[:somevalue] %></div>
+<main>An ERB layout! <%%= layout.name %> / somevalue: <%%= layout.data[:somevalue] %></main>
 
 <%%= yield %>
 ```

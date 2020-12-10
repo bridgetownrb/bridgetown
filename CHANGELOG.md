@@ -1,5 +1,18 @@
 # main
 
+* Change the `name` attribute of the default `package.json` to be inferred from the path passed to `bridgetown new`
+
+# 0.18.6 / 2020-11-12
+
+* Change the logging level for "Executing inline Ruby…" messages to the debug level [#184](https://github.com/bridgetownrb/bridgetown/pull/184) ([ianbayne](https://github.com/ianbayne))
+* Add yarn clean script to package.json [#182](https://github.com/bridgetownrb/bridgetown/pull/182) ([andrewmcodes](https://github.com/andrewmcodes))
+* Fix dash obfuscation in obfuscate filter [#181](https://github.com/bridgetownrb/bridgetown/pull/181) [julianrubisch](https://github.com/julianrubisch))
+* Ensure HashWithDotAccess converts to Hash for Liquid templates
+
+# 0.18.5 / 2020-11-09
+
+* Bugfix: use HashWithDotAccess when parsing JSON in the HTTP Builder DSL
+
 # 0.18.4 / 2020-11-05
 
 * Bugfix: reset payload for each Liquid template conversion
