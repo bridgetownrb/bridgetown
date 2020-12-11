@@ -1596,10 +1596,10 @@ braces@^3.0.1:
   dependencies:
     fill-range "^7.0.1"
 
-bridgetown-quick-search@1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/bridgetown-quick-search/-/bridgetown-quick-search-1.0.4.tgz#0596b1ae01323cccb81daa24604095100511e303"
-  integrity sha512-RRzyhJd3v6gzWoCFD65RDSgUpUIOlKUgTVvYYfWy3/E+q1RxZY1GxDQBm3YkxKPd2MxRfQcKGsNitkolD4ZSxg==
+bridgetown-quick-search@1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/bridgetown-quick-search/-/bridgetown-quick-search-1.0.5.tgz#4286bc8268626d2193ad61392c21829ff73496a7"
+  integrity sha512-P+x5pGHakw7aWkd7slV3GGtZHBzghvCIBERq5XSczpo0vIR/7Q629lB5FwWGH3ILW/poDBW12nWhsgtX3pMjAw==
   dependencies:
     "@babel/runtime" "^7.10.1"
     lit-element "^2.3.1"
@@ -3548,9 +3548,9 @@ inherits@2.0.3:
   integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
 
 ini@^1.3.4, ini@^1.3.5:
-  version "1.3.5"
-  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.5.tgz#eee25f56db1c9ec6085e0c22778083f596abf927"
-  integrity sha512-RZY5huIKCMRWDUqZlEi72f/lmXKMvuszcMBduliQ3nnWbx9X/ZBQO7DijMEYS9EhHBb2qacRUMtC7svLwe0lcw==
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/ini/-/ini-1.3.7.tgz#a09363e1911972ea16d7a8851005d84cf09a9a84"
+  integrity sha512-iKpRpXP+CrP2jyrxvg1kMUpXDyRUFDWurxbnVT1vQPx+Wz9uCYsMIqYuSBLV+PAaZG/d7kRLKRFc9oDMsH+mFQ==
 
 inquirer@^7.0.4:
   version "7.3.3"
