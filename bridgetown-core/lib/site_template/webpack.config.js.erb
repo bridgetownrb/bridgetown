@@ -48,6 +48,21 @@ module.exports = {
           },
         },
       },
+      <% if options["use-postcss"] %>
+      {
+        test: /\.(s[ac]|c)ss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1
+            }
+          },
+          "postcss-loader"
+        ],
+      },      
+      <% else %>
       {
         test: /\.(s[ac]|c)ss$/,
         use: [
@@ -65,6 +80,7 @@ module.exports = {
           },
         ],
       },
+      <% end %>
       {
         test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/,
         loader: "file-loader",
