@@ -37,9 +37,9 @@ And the update your HTML layout according to the Swup install guide.
 
 ## CSS
 
-By default Bridgetown uses [Sass](https://sass-lang.com), a pre-processor for CSS; but you can pass `--use-postcss` to `bridgetown new` to setup `PostCSS` which is popular with the Webpack community.
+By default Bridgetown uses [Sass](https://sass-lang.com), a pre-processor for CSS; but you can pass `--use-postcss` to `bridgetown new` to setup `PostCSS` which is popular with the Webpack community. (NOTE: only in `main`, not yet released…)
 
-#### Sass
+### Sass
 
 The starting place for CSS code lives at `frontend/styles/index.scss`.
 
@@ -69,7 +69,9 @@ and then add:
 
 to `index.scss`.
 
-#### PostCSS
+### PostCSS (on main, not yet released)
+
+You can run `bridgetown new mysite --use-postcss` to configure your site with PostCSS right out-of-the-box.
 
 The default `PostCSS` config is largely empty so you can set it up as per your preference. The only two plugins included by default are [`postcss-flexbugs-fixes`](https://github.com/luisrudge/postcss-flexbugs-fixes) and [`postcss-preset-env`](https://preset-env.cssdb.org).
 
