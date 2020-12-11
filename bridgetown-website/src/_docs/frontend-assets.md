@@ -37,9 +37,13 @@ And the update your HTML layout according to the Swup install guide.
 
 ## CSS
 
-The starting place for CSS code lives at `./frontend/styles/index.scss`. By default Bridgetown uses [Sass](https://sass-lang.com), a pre-processor for CSS, but you can customize your Webpack config to change that to use standard `PostCSS` which is popular with the Webpack community.
+By default Bridgetown uses [Sass](https://sass-lang.com), a pre-processor for CSS; but you can pass `--use-postcss` to `bridgetown new` to setup `PostCSS` which is popular with the Webpack community. (NOTE: only in `main`, not yet released…)
 
-Importing common CSS frameworks such as Bootstrap, Foundation, Bulma, Tailwind, and so forth is often as easy as running:
+### Sass
+
+The starting place for CSS code lives at `frontend/styles/index.scss`.
+
+Importing common CSS frameworks such as Bootstrap, Foundation, Bulma and so forth is often as easy as running:
 
 ```shell
 $ yarn add name-of-css-framework
@@ -64,6 +68,37 @@ and then add:
 ```
 
 to `index.scss`.
+
+### PostCSS (on main, not yet released)
+
+You can run `bridgetown new mysite --use-postcss` to configure your site with PostCSS right out-of-the-box.
+
+The default `PostCSS` config is largely empty so you can set it up as per your preference. The only two plugins included by default are [`postcss-flexbugs-fixes`](https://github.com/luisrudge/postcss-flexbugs-fixes) and [`postcss-preset-env`](https://preset-env.cssdb.org).
+
+If you'd like to use `Sass` with `PostCSS`, you'll need to install a plugin for it:
+
+```shell
+$ yarn add @csstools/postcss-sass
+```
+
+And then include it at the top of the `plugins` object in `postcss.config.js`:
+
+```js
+module.exports = {  
+  plugins: {
+    '@csstools/postcss-sass': {},
+    'postcss-flexbugs-fixes': {},
+    'postcss-preset-env': {
+      autoprefixer: {
+        flexbox: 'no-2009'
+      },
+      stage: 3
+    }
+  }
+}
+```
+
+The popular [TailwindCSS](https://tailwindcss.com) framework can be added to your project by following their [setup guide for PostCSS](https://tailwindcss.com/docs/installation#installing-tailwind-css-as-a-post-css-plugin).
 
 ## Linking to the Output Bundles
 

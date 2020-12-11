@@ -28,6 +28,9 @@ module Bridgetown
       class_option :"skip-yarn",
                    type: :boolean,
                    desc: "Skip 'yarn install'"
+      class_option :"use-postcss",
+                   type: :boolean,
+                   desc: "Create an empty PostCSS configuration instead of using SASS"
 
       DOCSURL = "https://bridgetownrb.com/docs"
 
@@ -69,7 +72,7 @@ module Bridgetown
       end
 
       def create_site(new_site_path)
-        directory ".", ".", exclude_pattern: %r!\.erb|DS_Store$!
+        directory ".", ".", exclude_pattern: %r!\.erb|DS_Store$|\.(s[ac]|c)ss$!
         FileUtils.chmod_R "u+w", new_site_path
 
         template(
@@ -78,6 +81,19 @@ module Bridgetown
         )
         template("Gemfile.erb", "Gemfile")
         template("package.json.erb", "package.json")
+        template("webpack.config.js.erb", "webpack.config.js")
+        template("frontend/javascript/index.js.erb", "frontend/javascript/index.js")
+
+        options["use-postcss"] ? configure_postcss : configure_sass
+      end
+
+      def configure_sass
+        copy_file("frontend/styles/index.scss")
+      end
+
+      def configure_postcss
+        template("postcss.config.js.erb", "postcss.config.js")
+        copy_file("frontend/styles/index.css")
       end
 
       # After a new site has been created, print a success notification and

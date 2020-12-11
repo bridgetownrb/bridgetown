@@ -1,0 +1,19 @@
+:root {
+  --body-background: #fafafa;
+  --body-color: #444;  
+}
+
+body {
+  background: var(--body-background);
+  color: var(--body-color);
+  font-family: sans-serif;
+}
+
+h1, nav, footer {
+  text-align: center;
+}
+
+main {
+  margin: 4rem auto;
+  max-width: 60rem;
+}
