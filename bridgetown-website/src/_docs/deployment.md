@@ -30,7 +30,7 @@ We recommend setting up an automatic deployment solution at the earliest opportu
 
 Some popular services include:
 
-## Vercel
+### Vercel
 
 [Vercel](https://www.vercel.com) combines the best developer experience with an obsessive focus on end-user performance. Changes instantly go live on their global edge network. Everything is taken care of for you, from SSL encryption to asset compression and cache invalidation. Vercel is the platform for developers and designers…and those who aspire to become one.
 
@@ -38,7 +38,7 @@ Some popular services include:
 
 [Netlify](https://www.netlify.com) is a web developer platform which focuses on productivity and global scale without requiring costly infrastructure. Get set up with continuous deployment, lead gen forms, one click HTTPS, and so much more.
 
-## Manual Deployment
+### Manual Deployment
 
 For a simple method of deployment, you can simply transfer the contents of your `output` folder to any web server. You can use something like `scp` to securely copy the folder, or you can use a more advanced tool:
 
@@ -48,11 +48,64 @@ Rsync is similar to scp except it can be faster as it will only send changed
 parts of files as opposed to the entire file. You can learn more about using
 rsync in the [Digital Ocean tutorial](https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps).
 
+### GitLab Pages
+
+[GitLab pages](https://docs.gitlab.com/ee/user/project/pages/) can host static websites. Add the following .gitlab-ci.yml file to your project, which we shall suppose is called `mysite` following the documentation setup [instructions](/docs/), for which the file should be in the mysite directory created using `bridgetown new mysite`
+
+```image: ruby:2.6
+
+cache:
+  paths:
+  - vendor
+
+test:
+  script:
+  - apt-get update -yqqq
+  - apt-get install -y nodejs yarn
+  - export GEM_HOME=$PWD/gems
+  - export PATH=$PWD/gems/bin:$PATH
+  - gem install bundler
+  - gem install bridgetown -N
+  - bundle install
+  - bundle exec bridgetown build --baseurl /mysite  BRIDGETOWN_ENV=production --url https://bridgetownrb.gitlab.io/mysite
+  - bundle exec bridgetown clean
+  except:
+    - master
+
+pages:
+  script:
+  - apt-get update -yqqq
+  - apt-get install -y nodejs yarn
+  - export GEM_HOME=$PWD/gems
+  - export PATH=$PWD/gems/bin:$PATH
+  - gem install bundler
+  - gem install bridgetown -N
+  - bundle install
+  - bundle exec bridgetown build --baseurl /mysite  BRIDGETOWN_ENV=production --url https://bridgetownrb.gitlab.io/mysite
+  - mv output public
+  artifacts:
+    paths:
+    - public
+  only:
+  - master
+```
+
+Create a repository on GitLab, which we suppose is at https://gitlab.com/bridgetownrb/mysite
+
+```
+git add .gitlab-ci.yml
+git remote add origin https://gitlab.com/bridgetownrb/mysite
+git commit -am "initial commit"
+git push --set-upstream origin master
+```
+
+After the build the site should be live at https://bridgetownrb.gitlab.com/mysite
+
 ### GitHub Actions
 
 _description coming soon_
 
-### dokku
+### Dokku
 
 [Dokku](http://dokku.viewdocs.io/dokku) is great if you either want Heroku-style
 deployments on a budget or you want more control over your server stack.
