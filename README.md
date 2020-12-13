@@ -43,7 +43,7 @@ Bridgetown development is spearheaded by Portland-based web studio [Whitefusion]
 
 * [Install](https://bridgetownrb.com/docs/) the Bridgetown gem
 * Familiarize yourself with the [Command Line Usage](https://bridgetownrb.com/docs/command-line-usage/) and [Site Configuration](https://bridgetownrb.com/docs/configuration/)
-* Explore the best options for [Deploying Your Site](https://bridgetown.rb/docs/deployment) when it's ready to go live
+* Explore the best options for [Deploying Your Site](https://www.bridgetownrb.com/docs/deployment) when it's ready to go live
 * Have questions? Check out our new [Bridgetown Discussions on GitHub](https://github.com/bridgetownrb/bridgetown/discussions) or [chat on Discord](https://discord.gg/V56yUWR)
 * [Fork Bridgetown](https://github.com/bridgetownrb/bridgetown/fork) and contribute your own improvements!
 
