@@ -31,5 +31,6 @@ For detailed installation instructions, take a look at the guide for your operat
 system:
 
 * [macOS](/docs/installation/macos/)
+* [Fedora Linux](/docs/installation/fedora/)
 * [Ubuntu Linux](/docs/installation/ubuntu/)
 * [Windows (via Linux Subsystem + Ubuntu)](/docs/installation/windows/)
