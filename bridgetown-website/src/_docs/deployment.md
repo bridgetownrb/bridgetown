@@ -50,9 +50,12 @@ rsync in the [Digital Ocean tutorial](https://www.digitalocean.com/community/tut
 
 ### GitLab Pages
 
-[GitLab pages](https://docs.gitlab.com/ee/user/project/pages/) can host static websites. Add the following .gitlab-ci.yml file to your project, which we shall suppose is called `mysite` following the documentation setup [instructions](/docs/), for which the file should be in the mysite directory created using `bridgetown new mysite`
+[GitLab pages](https://docs.gitlab.com/ee/user/project/pages/) can host static websites. Create a repository on GitLab, 
+which we suppose is at https://gitlab.com/bridgetownrb/mysite
+Add the following .gitlab-ci.yml file to your project, which we shall suppose is called `mysite` following the documentation setup [instructions](/docs/). The .gitlab-ci.yml file should be in the mysite directory created using `bridgetown new mysite` and should contain
 
-```image: ruby:2.6
+```
+image: ruby:2.6
 
 cache:
   paths:
@@ -61,13 +64,19 @@ cache:
 test:
   script:
   - apt-get update -yqqq
+  - curl -sL https://deb.nodesource.com/setup_12.x | bash -
+  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+  - apt update
   - apt-get install -y nodejs yarn
   - export GEM_HOME=$PWD/gems
   - export PATH=$PWD/gems/bin:$PATH
   - gem install bundler
   - gem install bridgetown -N
   - bundle install
-  - bundle exec bridgetown build --baseurl /mysite  BRIDGETOWN_ENV=production --url https://bridgetownrb.gitlab.io/mysite
+  - yarn install
+  - yarn webpack --mode production
+  - bundle exec bridgetown build --baseurl mysite  --url https://bridgetownrb.gitlab.io
   - bundle exec bridgetown clean
   except:
     - master
@@ -75,31 +84,38 @@ test:
 pages:
   script:
   - apt-get update -yqqq
+  - curl -sL https://deb.nodesource.com/setup_12.x | bash -
+  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+  - apt update
   - apt-get install -y nodejs yarn
   - export GEM_HOME=$PWD/gems
   - export PATH=$PWD/gems/bin:$PATH
   - gem install bundler
   - gem install bridgetown -N
   - bundle install
-  - bundle exec bridgetown build --baseurl /mysite  BRIDGETOWN_ENV=production --url https://bridgetownrb.gitlab.io/mysite
+  - yarn install
+  - yarn webpack --mode production
+  - bundle exec bridgetown build --baseurl mysite --url https://bridgetownrb.gitlab.io
   - mv output public
   artifacts:
     paths:
     - public
   only:
   - master
-```
 
-Create a repository on GitLab, which we suppose is at https://gitlab.com/bridgetownrb/mysite
+```
+Once this fie has been created, add it and the other files and folders to the repository, and then push them to GitLab:
 
 ```
 git add .gitlab-ci.yml
 git remote add origin https://gitlab.com/bridgetownrb/mysite
+git add .
 git commit -am "initial commit"
-git push --set-upstream origin master
+git push -u origin master
 ```
 
-After the build the site should be live at https://bridgetownrb.gitlab.com/mysite
+After the build the site should be live at https://bridgetownrb.gitlab.io/mysite
 
 ### GitHub Actions
 
