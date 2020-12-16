@@ -222,13 +222,7 @@ And then add the imports to the `src/_components/components.scss` file:
 @import "shared/navbar.scss";
 ```
 
-For JavaScript files, Bridgetown will automatically search for modules in the `src/_components` folder. So all you need to do is `import` your components in your main frontend `index.js` file.
-
-```js
-// frontend/javascript/index.js
-
-import "shared/navbar" // located in src/_components
-```
+For JavaScript files, Bridgetown will automatically load all `.js` files in the `src/_components` directory into your bundle.
 
 ### Hybrid Liquid + Web Components
 

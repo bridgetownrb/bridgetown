@@ -21,9 +21,11 @@ module.exports = {
     modules: [
       path.resolve(__dirname, 'frontend', 'javascript'),
       path.resolve(__dirname, 'frontend', 'styles'),
-      path.resolve(__dirname, 'src', '_components'),
       path.resolve('./node_modules')
-    ]
+    ],
+    alias: {
+      liquidComponents: path.resolve(__dirname, "src", "_components")
+    }
   },
   plugins: [
     new MiniCssExtractPlugin({

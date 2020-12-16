@@ -4,4 +4,8 @@ import "index.css"
 import "index.scss"
 <% end %>
 
+// Import all liquid components from src/_components
+const componentsContext = require.context("liquidComponents", true, /.js$/)
+componentsContext.keys().forEach(componentsContext)
+
 console.info("Bridgetown is loaded!")
