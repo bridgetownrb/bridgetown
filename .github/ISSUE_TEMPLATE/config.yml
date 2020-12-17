@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Bridgetown Community Forum
-    url: https://community.bridgetownrb.com/
+  - name: Bridgetown Discussions on GitHub
+    url: https://github.com/bridgetownrb/bridgetown/discussions
     about: Please ask and answer questions here.
