@@ -30,7 +30,7 @@ module Bridgetown
                    desc: "Skip 'yarn install'"
       class_option :"use-postcss",
                    type: :boolean,
-                   desc: "Create an empty PostCSS configuration instead of using SASS"
+                   desc: "Create an empty PostCSS configuration instead of using Sass"
 
       DOCSURL = "https://bridgetownrb.com/docs"
 
