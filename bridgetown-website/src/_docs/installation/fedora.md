@@ -8,6 +8,46 @@ order: 0
 
 ## Install Ruby
 
+### Using Rbenv
+
+Update your package list:
+
+Then install dependencies:
+
+```sh
+sudo dnf install git-core zlib zlib-devel gcc-c++ patch readline readline-devel libyaml-devel libffi-devel openssl-devel make bzip2 autoconf automake libtool bison curl sqlite-devel
+```
+Install rbenv
+
+```sh
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+source ~/.bashrc
+```
+
+Install ruby-build to provide `rbenv install`
+```sh
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
+echo 'export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+Then install Ruby and check the version
+```sh
+rbenv install {{ page.ruby_version }}
+rbenv global {{ page.ruby_version }}
+
+ruby -v
+> ruby 2.6.6p146 (2020-03-31 revision 67876) [x86_64-linux]
+
+gem install bundler -N
+````
+
+Check the rbenv command reference for more information [here](https://github.com/rbenv/rbenv#command-reference)
+
+
+### Using Fedora Repositories
+
 Fedora typically uses a recent version of Ruby that is maintained by the 
 [Fedora Ruby special interest group](https://fedoraproject.org/wiki/SIGs/Ruby).
 
