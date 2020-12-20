@@ -58,7 +58,7 @@ module.exports = {
         test: /\.js\.rb$/,
         use: [
           babelConfig,
-          "rb2js-loader"
+          "@ruby2js/webpack-loader"
         ]
       },
       {

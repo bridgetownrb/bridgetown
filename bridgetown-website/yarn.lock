@@ -990,6 +990,13 @@
     "@nodelib/fs.scandir" "2.1.3"
     fastq "^1.6.0"
 
+"@ruby2js/webpack-loader@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/@ruby2js/webpack-loader/-/webpack-loader-1.3.1.tgz#340c1e3d0483ad63c440e1420ddd1169e2f7306f"
+  integrity sha512-taDoJpYBoctjp71/3z5hornm1yMp6n+43q6mdmr6iYk7zKDx1nhWXli4oBKsnN+Ti4yZRxbb5xshTvrFbsFFsg==
+  dependencies:
+    loader-utils "^2.0.0"
+
 "@swup/body-class-plugin@^1.0.2":
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@swup/body-class-plugin/-/body-class-plugin-1.0.2.tgz#40bffaf73e950ee5149267da669457e18fd1c957"
@@ -1596,10 +1603,10 @@ braces@^3.0.1:
   dependencies:
     fill-range "^7.0.1"
 
-bridgetown-quick-search@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/bridgetown-quick-search/-/bridgetown-quick-search-1.0.5.tgz#4286bc8268626d2193ad61392c21829ff73496a7"
-  integrity sha512-P+x5pGHakw7aWkd7slV3GGtZHBzghvCIBERq5XSczpo0vIR/7Q629lB5FwWGH3ILW/poDBW12nWhsgtX3pMjAw==
+bridgetown-quick-search@1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/bridgetown-quick-search/-/bridgetown-quick-search-1.0.4.tgz#0596b1ae01323cccb81daa24604095100511e303"
+  integrity sha512-RRzyhJd3v6gzWoCFD65RDSgUpUIOlKUgTVvYYfWy3/E+q1RxZY1GxDQBm3YkxKPd2MxRfQcKGsNitkolD4ZSxg==
   dependencies:
     "@babel/runtime" "^7.10.1"
     lit-element "^2.3.1"
@@ -5253,13 +5260,6 @@ raw-body@^2.3.2:
     http-errors "1.7.3"
     iconv-lite "0.4.24"
     unpipe "1.0.0"
-
-rb2js-loader@^1.0.2:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/rb2js-loader/-/rb2js-loader-1.2.0.tgz#2d3487363d2507c17c0819306bcaaa020f303d30"
-  integrity sha512-T5XKAbBptTFS7JN5GVWbQMVjfELhi9jGV9hE75pCm9Q36PgusI3yV5V4ViGzKW0DdUvmKxlu51CPSu1MFpevhQ==
-  dependencies:
-    loader-utils "^2.0.0"
 
 read-pkg-up@^1.0.1:
   version "1.0.1"
