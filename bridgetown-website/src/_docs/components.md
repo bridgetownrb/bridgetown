@@ -222,40 +222,7 @@ And then add the imports to the `src/_components/components.scss` file:
 @import "shared/navbar.scss";
 ```
 
-To import Javascript files, you can set up a configuration which will automatically require any matching `.js` files in `src/_components`. Simply update your Webpack config by adding an alias under resolve:
-
-```js
-// webpack.config.js
-
-  // ...
-  resolve: {
-    extensions: [".js", ".jsx"],
-    alias: {
-      liquidComponents: path.resolve(__dirname, "src/_components")
-    }
-  },
-  // ...
-```
-
-Then add a Javascript index file to load the components:
-
-```js
-// src/_components/index.js
-
-function importAll(r) {
-  r.keys().forEach(r)
-}
-
-importAll(require.context(".", true, /.js$/))
-```
-
-Finally, import that components index file in your main frontend index file:
-
-```js
-// frontend/javascript/index.js
-
-import "liquidComponents"
-```
+For JavaScript files, Bridgetown will automatically load all `.js` files in the `src/_components` directory into your bundle.
 
 ### Hybrid Liquid + Web Components
 
