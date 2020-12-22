@@ -10,7 +10,7 @@ The typical folder structure for a Bridgetown site usually looks something like 
 
 ```shell
 .
-├── frontend # this is where you put your frontend assets for Webpack
+├── frontend # this is where you put your CSS and JS for Webpack
 │   ├── javascript
 │   │   ├── index.js
 │   │   └── widget.js
