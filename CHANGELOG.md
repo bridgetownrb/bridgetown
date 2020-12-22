@@ -1,5 +1,8 @@
 # main
 
+* Improve our active ActiveSupport support =) [#215](https://github.com/bridgetownrb/bridgetown/pull/215) ([jaredcwhite](https://github.com/jaredcwhite))
+* Add `filters_scope` option to liquid_filter DSL [#214](https://github.com/bridgetownrb/bridgetown/pull/214) ([jaredcwhite](https://github.com/jaredcwhite))
+* Deprecate `PageWithoutAFile` class. It will be removed in v0.20.
 * Specify Webrick as a gem dependency now that it's no longer in the stdlib in Ruby 3
 * Website: documentation how to install Bridgetown in Fedora ([bkmgit](https://github.com/bkmgit))
 * Add modules resolve paths to default webpack config [#206](https://github.com/bridgetownrb/bridgetown/pull/206) ([ayushn21](https://github.com/ayushn21))
