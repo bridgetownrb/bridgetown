@@ -1,6 +1,15 @@
 # main
 
-* Change the `name` attribute of the default `package.json` to be inferred from the path passed to `bridgetown new`
+* Specify Webrick as a gem dependency now that it's no longer in the stdlib in Ruby 3
+* Website: documentation how to install Bridgetown in Fedora ([bkmgit](https://github.com/bkmgit))
+* Add modules resolve paths to default webpack config [#206](https://github.com/bridgetownrb/bridgetown/pull/206) ([ayushn21](https://github.com/ayushn21))
+* Add an empty PostCSS configuration option to the "new" command [#190](https://github.com/bridgetownrb/bridgetown/pull/190) ([ayushn21](https://github.com/ayushn21))
+* Fix obfuscate link syntax [#203](https://github.com/bridgetownrb/bridgetown/pull/203) [julianrubisch](https://github.com/julianrubisch))
+* Website: Fix class declaration keyword in liquid tags and helpers docs [#198](https://github.com/bridgetownrb/bridgetown/pull/198) ([ayushn21](https://github.com/ayushn21))
+* Website: The Great Unification (removing all div-ision-s) [#191](https://github.com/bridgetownrb/bridgetown/pull/191) ([jaredcwhite](https://github.com/jaredcwhite))
+* Website: Fix typo in generators page in docs [#195](https://github.com/bridgetownrb/bridgetown/pull/195) ([ayushn21](https://github.com/ayushn21))
+* Add mailto:-<a>-tag to generated footer [#192](https://github.com/bridgetownrb/bridgetown/pull/192) ([pascalwengerter](https://github.com/pascalwengerter))
+* Change the `name` attribute of the default `package.json` to be inferred from the path passed to `bridgetown new` [#188](https://github.com/bridgetownrb/bridgetown/pull/188) ([ayushn21](https://github.com/ayushn21))
 
 # 0.18.6 / 2020-11-12
 
