@@ -87,6 +87,24 @@ class Filters < SiteBuilder
 end
 ```
 
+## Filter Execution Scope
+
+By default, the code within the filter block or method is executed within the scope of the builder object. This means you will not have access to other filters you may expecting to call. For example, if you want to call `slugify` from your filter, it will cause an error.
+
+To remedy this, simply pass the `filters_scope: true` argument when defining a filter block. Then you can call other filters as part of your code block (but not methods within your builder).
+
+```ruby
+class Filters < SiteBuilder
+  def build
+    liquid_filter "slugify_and_upcase", filters_scope: true do |url|
+      slugify(url).upcase
+    end
+  end
+end
+```
+
+When using the filters scope, you have access to the Liquid context via `@context`, which provides current template objects such as the site and the page (e.g., `@context.registers[:site]`).
+
 ## When to use a Filter vs. a Tag
 
 Filters are great when you want to transform input data from one format to another and potentially allow multiple transformations to be chained together. If instead you simply want to _insert_ a customized piece of content/HTML code into a page, then it's probably better to write a [Tag](/docs/plugins/tags/).

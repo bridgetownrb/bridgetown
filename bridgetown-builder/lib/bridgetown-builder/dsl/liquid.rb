@@ -4,16 +4,16 @@ module Bridgetown
   module Builders
     module DSL
       module Liquid
-        def liquid_filter(filter_name, method_name = nil, &block)
+        def liquid_filter(filter_name, method_name = nil, filters_scope: false, &block)
           builder_self = self
           m = Module.new
 
-          if block
+          if block && !filters_scope
             m.define_method filter_name do |*args|
               builder_self.instance_exec(*args, &block)
             end
-          elsif method_name
-            block = method(method_name)
+          else
+            block = method(method_name) if method_name
             m.define_method filter_name, &block
           end
 
