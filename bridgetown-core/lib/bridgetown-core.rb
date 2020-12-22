@@ -29,8 +29,12 @@ require "csv"
 require "json"
 
 # 3rd party
+require "active_support"
+require "active_support/core_ext/hash/keys"
 require "active_support/core_ext/object/blank"
 require "active_support/core_ext/string/inflections"
+require "active_support/core_ext/string/inquiry"
+require "active_support/core_ext/string/starts_ends_with"
 require "hash_with_dot_access"
 require "pathutil"
 require "addressable/uri"
@@ -136,7 +140,7 @@ module Bridgetown
     # Tells you which Bridgetown environment you are building in so
     #   you can skip tasks if you need to.
     def environment
-      ENV["BRIDGETOWN_ENV"] || "development"
+      (ENV["BRIDGETOWN_ENV"] || "development").inquiry
     end
     alias_method :env, :environment
 
