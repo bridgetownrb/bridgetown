@@ -7,6 +7,9 @@ module Bridgetown
   # The class instance is basically just a bare-bones entity with just
   # attributes "dir", "name", "path", "url" defined on it.
   class PageWithoutAFile < Page
+    Bridgetown.logger.warn "NOTICE: the PageWithoutAFile class is deprecated and" \
+                           " will be removed in Bridgetown 0.20."
+
     def read_yaml(*)
       @data ||= {}
     end
