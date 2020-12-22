@@ -20,6 +20,11 @@ class FiltersBuilder < Builder
     liquid_filter "site_config" do |input|
       input.to_s + " #{site.root_dir}"
     end
+
+    liquid_filter "within_filters_scope", filters_scope: true do |something|
+      sl = slugify(something)
+      "Within Filters Scope: #{site_config(sl)} #{reading_time("text")}"
+    end
   end
 end
 
@@ -57,6 +62,12 @@ class TestFilterDSL < BridgetownUnitTest
       content = "root_dir: {{ 'is' | site_config }}"
       result = Liquid::Template.parse(content).render
       assert_equal "root_dir: is #{@site.root_dir}", result
+    end
+
+    should "allow access to filters scope" do
+      content = "Scope? {{ 'howdy howdy' | within_filters_scope }}"
+      result = Liquid::Template.parse(content).render({}, registers: {site: @site})
+      assert_equal "Scope? Within Filters Scope: howdy-howdy #{@site.root_dir} 1", result
     end
   end
 end
