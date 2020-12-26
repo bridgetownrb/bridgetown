@@ -1,5 +1,9 @@
 # main
 
+# 0.19.1 / 2020-12-26
+
+* Fix for issue #73 (less likely to hit ActiveSupport error when `bridgetown` command is run without `bundle exec` prefixed)
+
 # 0.19.0 / 2020-12-22
 
 * Improve our active ActiveSupport support =) [#215](https://github.com/bridgetownrb/bridgetown/pull/215) ([jaredcwhite](https://github.com/jaredcwhite))
