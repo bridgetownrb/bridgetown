@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-# Mostly not used here, but may come in handy in new automations
-require "active_support/core_ext/array/extract_options"
-require "active_support/core_ext/string/strip"
-require "active_support/core_ext/string/indent"
-
 module Bridgetown
   module Commands
     module Actions
