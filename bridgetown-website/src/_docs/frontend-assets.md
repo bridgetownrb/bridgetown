@@ -1,5 +1,5 @@
 ---
-title: Frontend Assets (Webpack)
+title: Frontend Bundling (CSS/JS/etc.)
 order: 17
 top_section: Content
 category: frontendassets
@@ -37,7 +37,7 @@ And the update your HTML layout according to the Swup install guide.
 
 ## CSS
 
-By default Bridgetown uses [Sass](https://sass-lang.com), a pre-processor for CSS; but you can pass `--use-postcss` to `bridgetown new` to setup `PostCSS` which is popular with the Webpack community. (NOTE: only in `main`, not yet released…)
+By default Bridgetown uses [Sass](https://sass-lang.com), a pre-processor for CSS; but you can pass `--use-postcss` to `bridgetown new` to setup `PostCSS` which is popular with the Webpack community.
 
 ### Sass
 
@@ -69,7 +69,7 @@ and then add:
 
 to `index.scss`.
 
-### PostCSS (on main, not yet released)
+### PostCSS
 
 You can run `bridgetown new mysite --use-postcss` to configure your site with PostCSS right out-of-the-box.
 

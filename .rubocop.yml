@@ -183,14 +183,7 @@ Style/ModuleFunction:
 Style/MultilineTernaryOperator:
   Severity: error
 Style/PercentLiteralDelimiters:
-  PreferredDelimiters:
-    "%q": "{}"
-    "%Q": "{}"
-    "%r": "!!"
-    "%s": "()"
-    "%w": "()"
-    "%W": "()"
-    "%x": "()"
+  Enabled: false
 Style/RegexpLiteral:
   EnforcedStyle: percent_r
 Style/RescueModifier:
@@ -205,7 +198,7 @@ Style/StringLiterals:
 Style/StringLiteralsInInterpolation:
   EnforcedStyle: double_quotes
 Style/SymbolArray:
-  EnforcedStyle: brackets
+  Enabled: false
 Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: consistent_comma
 Style/TrailingCommaInHashLiteral:
