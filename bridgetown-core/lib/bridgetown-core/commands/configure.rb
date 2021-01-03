@@ -20,13 +20,16 @@ module Bridgetown
       end
       
       def perform_configuration
-        configuration_file = "#{configurations_location}/#{args.first}.rb"
-
-        if File.exist?(configuration_file)
+        begin
+          configuration_file = find_in_source_paths("#{args.first}.rb")
           invoke(Apply, [configuration_file], options)
-        else
+        rescue Thor::Error
           list_configurations
         end
+      end
+      
+      def self.source_root
+        File.expand_path("../configurations", __dir__)
       end
       
       protected
@@ -34,17 +37,14 @@ module Bridgetown
       def list_configurations
         say "Please specify a valid packaged configuration from the below list:\n\n"
         configurations.each do |configuration|
+          configuration = set_color configuration, :blue, :bold
           say configuration
         end
       end
       
-      def configurations_location
-        File.expand_path("../configurations", __dir__)
-      end
-      
-      def configurations        
-        Dir["#{configurations_location}/*.rb"].map do |path|
-          path.split("/").last.sub(".rb", "")
+      def configurations
+        inside self.class.source_root do
+          return Dir.glob("*.rb").map { |file| file.sub(".rb", "") }
         end
       end
     end
