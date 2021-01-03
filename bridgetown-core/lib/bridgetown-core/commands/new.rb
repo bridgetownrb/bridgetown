@@ -19,9 +19,9 @@ module Bridgetown
                    aliases: "-a",
                    banner: "PATH|URL",
                    desc: "Apply an automation after creating the site scaffold"
-      class_option :configuration,
+      class_option :configure,
                    aliases: "-c",
-                   banner: "CONFIGURATION",
+                   banner: "CONFIGURATION(S)",
                    desc: "Comma separated list of bundled configurations to perform"
       class_option :force,
                    type: :boolean,
@@ -115,7 +115,7 @@ module Bridgetown
         yarn_install path unless options["skip-yarn"]
 
         invoke(Apply, [], options) if options[:apply]
-        invoke(Configure, options[:configuration].split(","), {}) if options[:configuration]
+        invoke(Configure, options[:configure].split(","), {}) if options[:configure]
 
         logger = Bridgetown.logger
         yarn_start = "yarn start"
