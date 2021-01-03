@@ -115,7 +115,7 @@ module Bridgetown
 
         invoke(Apply, [], options) if options[:apply]
         invoke(Configure, [], options) if options[:configuration]
-        
+
         logger = Bridgetown.logger
         yarn_start = "yarn start"
         logger.info ""
