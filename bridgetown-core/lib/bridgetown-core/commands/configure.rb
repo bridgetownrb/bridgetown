@@ -20,6 +20,8 @@ module Bridgetown
       end
 
       def perform_configuration
+        logger = Bridgetown.logger
+
         configuration = options[:configuration] || args.first
         configuration_file = find_in_source_paths("#{configuration}.rb")
 
@@ -28,7 +30,7 @@ module Bridgetown
         end
       rescue Thor::Error
         if New.created_site_dir
-          Bridgetown.logger.error "Error:".red, "🚨 Configuration doesn't exist: #{options[:configuration]}"
+          logger.error "Error:".red, "🚨 Configuration doesn't exist: #{options[:configuration]}"
         else
           list_configurations
         end
