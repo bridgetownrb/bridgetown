@@ -61,6 +61,19 @@ Bridgetown build process. The two align when something magical happens.
 1. Bridgetown, using the `webpack_path` Liquid tag, monitors that manifest, and whenever it detects a change it will regenerate the site to point to those bundled output files.
 1. This way, your website frontend and the HTML of your generated static site are always kept in sync (as long as you use the provided Yarn scripts!).
 
+## Adding Extra Features to Your Site
+
+In addition to the work you do yourself to code, design, and publish your website,
+there are ways you can enhance your site by installing third-party plugins or
+applying automations. These may provide new features, themes, or software
+configurations in useful ways. Some examples:
+
+* Add instant search to your site with the [bridgetown-quick-search](https://github.com/bridgetownrb/bridgetown-quick-search) plugin
+* Include inline SVG images with the [bridgetown-inline-svg](https://github.com/andrewmcodes/bridgetown-inline-svg) plugin
+* Start your site off with a clean, professional design via the [Bulmatown](https://github.com/whitefusionhq/bulmatown) theme and Bulma CSS framework
+
+You can discover links to these and many more in our [Plugins directory](/plugins/).
+
 ## What to Learn Next
 
 There is detailed documentation available about each and every step mentioned
