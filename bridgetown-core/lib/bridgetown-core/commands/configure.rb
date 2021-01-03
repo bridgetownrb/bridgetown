@@ -11,28 +11,26 @@ module Bridgetown
       end
 
       def self.banner
-        "bridgetown configure CONFIGURATION"
+        "bridgetown configure CONFIGURATION(S)"
       end
-      summary "Set up packaged Bridgetown configurations"
+      summary "Set up bundled Bridgetown configurations"
 
       def self.exit_on_failure?
         true
       end
 
-      def perform_configuration
+      def perform_configurations
         logger = Bridgetown.logger
+        list_configurations if args.empty?
 
-        configuration = options[:configuration] || args.first
-        configuration_file = find_in_source_paths("#{configuration}.rb")
-
-        inside(New.created_site_dir || Dir.pwd) do
-          invoke(Apply, [configuration_file], {})
-        end
-      rescue Thor::Error
-        if options[:configuration]
-          logger.error "Error:".red, "🚨 Configuration doesn't exist: #{options[:configuration]}"
-        else
-          list_configurations
+        args.each do |configuration|
+          configure configuration
+        rescue Thor::Error
+          if New.created_site_dir || args.count > 1
+            logger.error "Error:".red, "🚨 Configuration doesn't exist: #{configuration}"
+          else
+            list_configurations
+          end
         end
       end
 
@@ -41,6 +39,14 @@ module Bridgetown
       end
 
       protected
+
+      def configure(configuration)
+        configuration_file = find_in_source_paths("#{configuration}.rb")
+
+        inside(New.created_site_dir || Dir.pwd) do
+          Apply.new.invoke(:apply_automation, [configuration_file])
+        end
+      end
 
       def list_configurations
         say "Please specify a valid packaged configuration from the below list:\n\n"

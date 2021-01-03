@@ -22,7 +22,7 @@ module Bridgetown
       class_option :configuration,
                    aliases: "-c",
                    banner: "CONFIGURATION",
-                   desc: "Apply a packaged configuration after creating the site scaffold"
+                   desc: "Comma separated list of bundled configurations to perform"
       class_option :force,
                    type: :boolean,
                    desc: "Force creation even if PATH already exists"
@@ -115,7 +115,7 @@ module Bridgetown
         yarn_install path unless options["skip-yarn"]
 
         invoke(Apply, [], options) if options[:apply]
-        invoke(Configure, [], options) if options[:configuration]
+        invoke(Configure, options[:configuration].split(","), {}) if options[:configuration]
 
         logger = Bridgetown.logger
         yarn_start = "yarn start"

@@ -35,6 +35,7 @@ class TestNewCommand < BridgetownUnitTest
 
     teardown do
       FileUtils.rm_r @full_path if File.directory?(@full_path)
+      Bridgetown::Commands::New.created_site_dir = nil
     end
 
     should "create a new folder with Gemfile and package.json" do
