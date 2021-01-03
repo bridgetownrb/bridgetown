@@ -29,7 +29,7 @@ module Bridgetown
           invoke(Apply, [configuration_file], {})
         end
       rescue Thor::Error
-        if New.created_site_dir
+        if options[:configuration]
           logger.error "Error:".red, "🚨 Configuration doesn't exist: #{options[:configuration]}"
         else
           list_configurations
