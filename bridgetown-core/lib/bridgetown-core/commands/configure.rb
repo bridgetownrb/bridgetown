@@ -20,10 +20,16 @@ module Bridgetown
       end
       
       def perform_configuration
-        begin
-          configuration_file = find_in_source_paths("#{args.first}.rb")
-          invoke(Apply, [configuration_file], options)
-        rescue Thor::Error
+        configuration = options[:configuration] || args.first
+        configuration_file = find_in_source_paths("#{configuration}.rb")
+        
+        inside(New.created_site_dir || Dir.pwd) do
+          invoke(Apply, [configuration_file], {})
+        end
+      rescue Thor::Error
+        if New.created_site_dir
+          Bridgetown.logger.error "Error:".red, "🚨 Configuration doesn't exist: #{options[:configuration]}"
+        else
           list_configurations
         end
       end
@@ -33,7 +39,7 @@ module Bridgetown
       end
       
       protected
-      
+            
       def list_configurations
         say "Please specify a valid packaged configuration from the below list:\n\n"
         configurations.each do |configuration|

@@ -19,6 +19,10 @@ module Bridgetown
                    aliases: "-a",
                    banner: "PATH|URL",
                    desc: "Apply an automation after creating the site scaffold"
+      class_option :configuration,
+                   aliases: "-c",
+                   banner: "CONFIGURATION",
+                   desc: "Apply a packaged configuration after creating the site scaffold"
       class_option :force,
                    type: :boolean,
                    desc: "Force creation even if PATH already exists"
@@ -110,7 +114,8 @@ module Bridgetown
         yarn_install path unless options["skip-yarn"]
 
         invoke(Apply, [], options) if options[:apply]
-
+        invoke(Configure, [], options) if options[:configuration]
+        
         logger = Bridgetown.logger
         yarn_start = "yarn start"
         logger.info ""
