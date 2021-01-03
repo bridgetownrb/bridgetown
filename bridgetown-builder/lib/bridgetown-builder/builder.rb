@@ -3,6 +3,8 @@
 module Bridgetown
   # Superclass for a website's SiteBuilder abstract class
   class Builder < Bridgetown::Builders::PluginBuilder
+    extend ActiveSupport::DescendantsTracker
+
     class << self
       def register
         Bridgetown::Hooks.register_one :site, :pre_read, reloadable: false do |site|
@@ -21,25 +23,8 @@ module Bridgetown
       name
     end
 
-    def self.inherited(const)
-      (@children ||= Set.new).add const
-      catch_inheritance(const) do |const_|
-        catch_inheritance(const_)
-      end
-    end
-
-    def self.catch_inheritance(const)
-      const.define_singleton_method :inherited do |const_|
-        (@children ||= Set.new).add const_
-        yield const_ if block_given?
-      end
-    end
-
     def self.descendants
-      @children ||= Set.new
-      out = @children.map(&:descendants)
-      out << self unless ["SiteBuilder", "Bridgetown::Builder"].include?(name)
-      Set.new(out).flatten
+      super.reject { |klass| ["SiteBuilder"].include?(klass.name) }
     end
   end
 end
