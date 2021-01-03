@@ -58,7 +58,9 @@ You can deploy Bridgetown sites on "Jamstack" hosts (Netlify, Vercel, Render, et
 
 > Read the [Bridgetown Deployment Documentation](https://www.bridgetownrb.com/docs/deployment) for more information.
 
-## Contributing (if on GitHub)
+## Contributing
+
+If repo is on GitHub:
 
 1. Fork it
 2. Clone the fork using `git clone` to your local development machine.
