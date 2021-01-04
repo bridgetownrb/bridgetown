@@ -24,11 +24,11 @@ class TestConfigureCommand < BridgetownUnitTest
       assert_match %r!test_automation!, output
     end
 
-    should "list all available configurations when configuration doesn't exist" do
+    should "show error when configuration doesn't exist" do
       output = capture_stdout do
         @cmd.invoke(:perform_configurations, ["qwerty"])
       end
-      assert_match %r!test_automation!, output
+      assert_match %r!Configuration doesn't exist: qwerty!, output
     end
 
     should "perform configuration" do

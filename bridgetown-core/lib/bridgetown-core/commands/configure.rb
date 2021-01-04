@@ -26,11 +26,7 @@ module Bridgetown
         args.each do |configuration|
           configure configuration
         rescue Thor::Error
-          if New.created_site_dir || args.count > 1
-            logger.error "Error:".red, "🚨 Configuration doesn't exist: #{configuration}"
-          else
-            list_configurations
-          end
+          logger.error "Error:".red, "🚨 Configuration doesn't exist: #{configuration}"
         end
       end
 
