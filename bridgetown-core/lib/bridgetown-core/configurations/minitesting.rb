@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# rubocop:disable all
+
 say_status :minitesting, "Adding test gems, package.json scripts, and examples"
 
 append_to_file "Gemfile" do
@@ -16,7 +20,7 @@ end
 new_scripts = '    "test": "BRIDGETOWN_ENV=test yarn build",'
 new_scripts += "\n" + '    "deploy:test": "bundle install --with test && yarn deploy"'
 package_json = "package.json"
-script_regex = /"scripts": {(\s+".*,?)*/
+script_regex = %r{"scripts": {(\s+".*,?)*}}
 inject_into_file(package_json, ",\n" + new_scripts, after: script_regex)
 
 create_file "test/helper.rb" do
@@ -86,3 +90,5 @@ create_file "plugins/test_output.rb" do
 end
 
 say_status :minitesting, "All set! To get started, look at test/test_homepage.rb and then run \`yarn test\`"
+
+# rubocop:enable all

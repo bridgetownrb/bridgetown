@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# rubocop:disable all
+
 packages = "swup @swup/body-class-plugin @swup/scroll-plugin @swup/fade-theme"
 say_status :swup, "Adding the following yarn packages: #{packages}"
 system("yarn add #{packages}")
@@ -29,3 +33,5 @@ end
 
 say_status :swup, "All done! Edit .swup-transition-main in #{css_index} if you wish to adjust the transition animation"
 say_status :swup, "Make sure you add id=\"swup\" to the primary container of your HTML layout (perhaps <main>)"
+
+# rubocop:enable all

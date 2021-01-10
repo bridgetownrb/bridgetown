@@ -27,7 +27,7 @@ module Bridgetown
       def apply_automation
         @source_paths = [Dir.pwd]
         @logger = Bridgetown.logger
-        
+
         if options[:apply]
           apply_after_new_command
         else
