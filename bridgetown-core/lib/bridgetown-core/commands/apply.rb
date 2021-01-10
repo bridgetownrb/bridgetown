@@ -26,16 +26,17 @@ module Bridgetown
 
       def apply_automation
         @source_paths = [Dir.pwd]
-
+        @logger = Bridgetown.logger
+        
         if options[:apply]
           apply_after_new_command
         else
           apply_in_pwd
         end
       rescue SystemExit => e
-        Bridgetown.logger.error "Problem occurred while running automation:"
+        @logger.error "Problem occurred while running automation:"
         e.backtrace[0..3].each do |backtrace_line|
-          Bridgetown.logger.info backtrace_line if backtrace_line.include?(":in `apply'")
+          @logger.info backtrace_line if backtrace_line.include?(":in `apply'")
         end
         raise e
       end
@@ -66,7 +67,7 @@ module Bridgetown
           apply_from_url automation_command
         end
       rescue ArgumentError => e
-        Bridgetown.logger.warn "Oops!", e.message
+        @logger.warn "Oops!", e.message
       end
     end
   end
