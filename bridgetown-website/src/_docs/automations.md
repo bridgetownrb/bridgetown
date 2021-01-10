@@ -1,6 +1,6 @@
 ---
 order: 6.5
-next_page_order: 7
+next_page_order: 6.75
 title: Automations
 top_section: Configuration
 category: automations
@@ -20,12 +20,6 @@ repeatable and automatic fashion.
 
 Automations can be loaded from a local path, or they can be loaded from remote
 URLs including GitHub repositories and gists.
-
-{% rendercontent "docs/note", title: "Automations Galore!" %}
-For a directory of useful automations built by the Bridgetown community, check
-out the [Bridgetown Automations](https://github.com/bridgetownrb/automations)
-repo.
-{% endrendercontent %}
 
 ## Running Automations
 
