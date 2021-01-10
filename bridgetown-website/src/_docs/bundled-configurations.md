@@ -18,6 +18,12 @@ The configurations we include are:
 
 The full list of configurations can also be seen by running `bridgetown configure`.
 
+Bundled configurations can also be run while creating a new Bridgetown project using the `-c` flag and passing in a comma-separated list of configurations.
+
+```
+bundle exec bridgetown new my_project -c swup,purgecss
+```
+
 ## A bit about the configurations
 
 ### TailwindCSS
