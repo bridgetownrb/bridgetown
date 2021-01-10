@@ -20,7 +20,7 @@ end
 new_scripts = '    "test": "BRIDGETOWN_ENV=test yarn build",'
 new_scripts += "\n" + '    "deploy:test": "bundle install --with test && yarn deploy"'
 package_json = "package.json"
-script_regex = %r{"scripts": {(\s+".*,?)*}}
+script_regex = %r{"scripts": \{(\s+".*,?)*}
 inject_into_file(package_json, ",\n" + new_scripts, after: script_regex)
 
 create_file "test/helper.rb" do
