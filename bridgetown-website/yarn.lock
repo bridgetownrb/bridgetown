@@ -1603,10 +1603,10 @@ braces@^3.0.1:
   dependencies:
     fill-range "^7.0.1"
 
-bridgetown-quick-search@1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/bridgetown-quick-search/-/bridgetown-quick-search-1.0.4.tgz#0596b1ae01323cccb81daa24604095100511e303"
-  integrity sha512-RRzyhJd3v6gzWoCFD65RDSgUpUIOlKUgTVvYYfWy3/E+q1RxZY1GxDQBm3YkxKPd2MxRfQcKGsNitkolD4ZSxg==
+bridgetown-quick-search@1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/bridgetown-quick-search/-/bridgetown-quick-search-1.0.5.tgz#4286bc8268626d2193ad61392c21829ff73496a7"
+  integrity sha512-P+x5pGHakw7aWkd7slV3GGtZHBzghvCIBERq5XSczpo0vIR/7Q629lB5FwWGH3ILW/poDBW12nWhsgtX3pMjAw==
   dependencies:
     "@babel/runtime" "^7.10.1"
     lit-element "^2.3.1"
