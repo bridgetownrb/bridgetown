@@ -7,18 +7,18 @@ category: bundledconfigurations
 ---
 
 **_New_** in Bridgetown 0.20: Bridgetown bundles a number of automation scripts
-to set up common project configurations.
+to set up common project configurations. You can run these scripts using `bundle exec bridgetown configure [CONFIGURATION]`
 
 The configurations we include are:
-- [TailwindCSS](https://tailwindcss.com)
-- [PurgeCSS Post-Build Hook](https://purgecss.com)
-- [Netlify TOML Configuration](https://netlify.com)
-- [Swup.js Page Transitions](https://swup.js.org)
-- [Automated Test Suite using Minitest](https://rubygems.org/gems/minitest/versions/5.14.0)
+- [TailwindCSS](#tailwindcss) (`tailwindcss`)
+- [PurgeCSS Post-Build Hook](#purgecss-post-build-hook) (`purgecss`)
+- [Netlify TOML Configuration](#netlify-toml-configuration) (`netlify`)
+- [Swup.js Page Transitions](#swupjs-page-transitions) (`swup`)
+- [Automated Test Suite using Minitest](#automated-test-suite-using-minitest) (`minitesting`)
 
-The full list of configurations can also be seen by running `bridgetown configure`.
+The full list of configurations can also be seen by running `bridgetown configure` without arguments.
 
-Bundled configurations can also be run while creating a new Bridgetown project using the `-c` flag and passing in a comma-separated list of configurations.
+Bundled configurations can also be run while creating a new Bridgetown project using the `--configure=` or `-c` flag and passing in a comma-separated list of configurations.
 
 ```
 bundle exec bridgetown new my_project -c swup,purgecss
@@ -52,7 +52,7 @@ bundle exec bridgetown configure purgecss
 
 ### Netlify TOML Configuration
 
-⚙️ Adds a basic configuration to your site for use in Netlify deployments.
+⚙️ Adds a basic configuration to your site for use in [Netlify](https://netlify.com) deployments.
 
 🛠 **Configure using:**
 
@@ -73,7 +73,7 @@ bundle exec bridgetown configure swup
 
 ### Automated Test Suite using Minitest
 
-⚙️ Adds a basic test suite using Minitest and Rails DOM assertions for extremely fast verification of your output HTML.
+⚙️ Adds a basic test suite using [Minitest](https://rubygems.org/gems/minitest) and Rails DOM assertions for extremely fast verification of your output HTML.
 
 🛠 **Configure using:**
 
