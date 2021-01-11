@@ -6,9 +6,9 @@ top_section: Configuration
 category: automations
 ---
 
-**_New_** in Bridgetown 0.15: You can write automation scripts which act on new
-or existing sites to perform tasks such as adding gems, updating configuration,
-inserting code, copying files, and much more.
+You can write automation scripts which act on new or existing sites to perform
+tasks such as adding gems, updating configuration, inserting code, copying
+files, and much more.
 
 Automations are similar in concept to Gatsby Recipies or Rails App Templates.
 They're uniquely powerful when combined with [plugins](/docs/plugins), as an

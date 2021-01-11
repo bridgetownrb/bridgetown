@@ -6,8 +6,12 @@ top_section: Configuration
 category: bundledconfigurations
 ---
 
-**_New_** in Bridgetown 0.20: Bridgetown bundles a number of automation scripts
-to set up common project configurations. You can run these scripts using `bundle exec bridgetown configure [CONFIGURATION]`
+**_This feature hasn't been released yet and is available in the `main` branch._**
+
+
+Bridgetown bundles a number of automation scripts to set up common project
+configurations. You can run these scripts using `bundle exec bridgetown
+configure [CONFIGURATION]`
 
 The configurations we include are:
 - [TailwindCSS](#tailwindcss) (`tailwindcss`)
