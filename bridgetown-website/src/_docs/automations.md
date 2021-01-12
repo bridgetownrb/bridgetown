@@ -1,14 +1,14 @@
 ---
 order: 6.5
-next_page_order: 7
+next_page_order: 6.75
 title: Automations
 top_section: Configuration
 category: automations
 ---
 
-**_New_** in Bridgetown 0.15: You can write automation scripts which act on new
-or existing sites to perform tasks such as adding gems, updating configuration,
-inserting code, copying files, and much more.
+You can write automation scripts which act on new or existing sites to perform
+tasks such as adding gems, updating configuration, inserting code, copying
+files, and much more.
 
 Automations are similar in concept to Gatsby Recipies or Rails App Templates.
 They're uniquely powerful when combined with [plugins](/docs/plugins), as an
@@ -20,12 +20,6 @@ repeatable and automatic fashion.
 
 Automations can be loaded from a local path, or they can be loaded from remote
 URLs including GitHub repositories and gists.
-
-{% rendercontent "docs/note", title: "Automations Galore!" %}
-For a directory of useful automations built by the Bridgetown community, check
-out the [Bridgetown Automations](https://github.com/bridgetownrb/automations)
-repo.
-{% endrendercontent %}
 
 ## Running Automations
 

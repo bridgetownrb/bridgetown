@@ -19,6 +19,10 @@ module Bridgetown
                    aliases: "-a",
                    banner: "PATH|URL",
                    desc: "Apply an automation after creating the site scaffold"
+      class_option :configure,
+                   aliases: "-c",
+                   banner: "CONFIGURATION(S)",
+                   desc: "Comma separated list of bundled configurations to perform"
       class_option :force,
                    type: :boolean,
                    desc: "Force creation even if PATH already exists"
@@ -100,6 +104,7 @@ module Bridgetown
       # then automatically execute bundle install from within the new site dir
       # unless the user opts to skip 'bundle install'.
       # rubocop:todo Metrics/CyclomaticComplexity
+      # rubocop:disable Metrics/PerceivedComplexity
       def after_install(path, cli_path, options = {})
         git_init path
 
@@ -110,6 +115,7 @@ module Bridgetown
         yarn_install path unless options["skip-yarn"]
 
         invoke(Apply, [], options) if options[:apply]
+        invoke(Configure, options[:configure].split(","), {}) if options[:configure]
 
         logger = Bridgetown.logger
         yarn_start = "yarn start"
@@ -130,6 +136,7 @@ module Bridgetown
         logger.info "Yarn install skipped.".yellow if @skipped_yarn
       end
       # rubocop:enable Metrics/CyclomaticComplexity
+      # rubocop:enable Metrics/PerceivedComplexity
 
       def bundle_install(path)
         unless Bridgetown.environment == "test"
