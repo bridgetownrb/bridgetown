@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-say 'Installing Turbo...', :green
+say "Installing Turbo...", :green
 
-run('yarn add @hotwired/turbo')
+run("yarn add @hotwired/turbo")
 
 say 'Adding Turbo to "frontend/javascript/index.js"...', :magenta
 
@@ -12,5 +12,5 @@ javascript_import do
   JS
 end
 
-say 'Turbo successfully added', :green
+say "Turbo successfully added", :green
 say 'For further reading, check out "https://turbo.hotwire.dev/"', :blue
