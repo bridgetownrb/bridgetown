@@ -88,7 +88,7 @@ bundle exec bridgetown configure netlify
 
 ### Swup.js Page Transitions
 
-⚡️ Adds [Swup](https://swup.js.org) for fast animated page transitions that make your site feel modern and cool. (If you've used Turbolinks or Hotwire, you'll love Swup!)
+⚡️ Adds [Swup](https://swup.js.org) for fast animated page transitions that make your site feel modern and cool. (If you've used Turbo or Turbolinks, you'll love Swup!)
 
 🛠 **Configure using:**
 
