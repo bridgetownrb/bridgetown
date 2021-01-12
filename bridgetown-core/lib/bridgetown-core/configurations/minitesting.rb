@@ -6,6 +6,7 @@ say_status :minitesting, "Adding test gems, package.json scripts, and examples"
 
 append_to_file "Gemfile" do
   <<~GEMS
+    \n
     group :test, optional: true do
       gem "nokogiri"
       gem "minitest"
