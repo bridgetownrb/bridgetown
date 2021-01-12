@@ -16,6 +16,8 @@ configure [CONFIGURATION]`
 The configurations we include are:
 - [TailwindCSS](#tailwindcss) (`tailwindcss`)
 - [PurgeCSS Post-Build Hook](#purgecss-post-build-hook) (`purgecss`)
+- [Stimulus](#stimulus) (`stimulus`)
+- [Turbo](#turbo) (`turbo`)
 - [Netlify TOML Configuration](#netlify-toml-configuration) (`netlify`)
 - [Swup.js Page Transitions](#swupjs-page-transitions) (`swup`)
 - [Automated Test Suite using Minitest](#automated-test-suite-using-minitest) (`minitesting`)
@@ -52,6 +54,26 @@ bundle exec bridgetown configure tailwindcss
 
 ```
 bundle exec bridgetown configure purgecss
+```
+
+### Stimulus
+
+⚙️ Sets up [Stimulus](https://stimulus.hotwire.dev) and adds an example controller.
+
+🛠 **Configure using:**
+
+```
+bundle exec bridgetown configure stimulus
+```
+
+### Turbo
+
+⚙️ Adds and configures [Turbo](https://turbo.hotwire.dev).
+
+🛠 **Configure using:**
+
+```
+bundle exec bridgetown configure turbo
 ```
 
 ### Netlify TOML Configuration
