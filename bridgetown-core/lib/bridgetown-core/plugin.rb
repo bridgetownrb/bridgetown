@@ -2,6 +2,8 @@
 
 module Bridgetown
   class Plugin
+    extend ActiveSupport::DescendantsTracker
+
     PRIORITIES = {
       low: -10,
       highest: 100,
@@ -11,32 +13,6 @@ module Bridgetown
     }.freeze
 
     SourceManifest = Struct.new(:origin, :components, :content, :layouts, keyword_init: true)
-
-    #
-
-    def self.inherited(const)
-      catch_inheritance(const) do |const_|
-        catch_inheritance(const_)
-      end
-    end
-
-    #
-
-    def self.catch_inheritance(const)
-      const.define_singleton_method :inherited do |const_|
-        (@children ||= Set.new).add const_
-        yield const_ if block_given?
-      end
-    end
-
-    #
-
-    def self.descendants
-      @children ||= Set.new
-      out = @children.map(&:descendants)
-      out << self unless superclass == Plugin
-      Set.new(out).flatten
-    end
 
     # Get or set the priority of this plugin. When called without an
     # argument it returns the priority. When an argument is given, it will
