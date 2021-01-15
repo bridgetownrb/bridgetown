@@ -65,24 +65,17 @@ module Bridgetown
         block.nil? ? input.to_s : capture(&block)
       )
       converter = site.find_converter_instance(Bridgetown::Converters::Markdown)
-      converter.convert(content).strip
+      result = converter.convert(content).strip
+      result.respond_to?(:html_safe) ? result.html_safe : result
     end
 
-    def capture(obj = nil, &block)
+    def capture(*args, &block)
+      return capture_in_view_component(*args, &block) if @in_view_component
+
       previous_buffer_state = @_erbout
       @_erbout = ERBBuffer.new
-
-      # For compatibility with ActionView, not used by Bridgetown normally
-      previous_ob_state = @output_buffer
-      @output_buffer = ERBBuffer.new
-
-      result = instance_exec(obj, &block)
-      if @output_buffer != ""
-        # use Rails' ActionView buffer if present
-        result = @output_buffer
-      end
+      result = yield(*args)
       @_erbout = previous_buffer_state
-      @output_buffer = previous_ob_state
 
       result.respond_to?(:html_safe) ? result.html_safe : result
     end

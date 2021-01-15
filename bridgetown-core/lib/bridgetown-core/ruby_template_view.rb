@@ -27,7 +27,15 @@ module Bridgetown
 
     def render(item, options = {}, &block)
       if item.respond_to?(:render_in)
-        item.render_in(self, &block)
+        previous_buffer_state = @_erbout
+        @_erbout = Bridgetown::ERBBuffer.new
+
+        @in_view_component ||= defined?(::ViewComponent::Base) && item.is_a?(::ViewComponent::Base)
+        result = item.render_in(self, &block)
+        @in_view_component = false
+
+        @_erbout = previous_buffer_state
+        result
       else
         partial(item, options, &block)
       end
