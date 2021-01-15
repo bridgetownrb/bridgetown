@@ -935,13 +935,13 @@ class TestFilters < BridgetownUnitTest
         # `{{ hash | where: 'tags', empty }}`
         assert_equal(
           [{ "tags" => {} }, { "tags" => "" }, { "tags" => nil }, { "tags" => [] }],
-          @filter.where(hash, "tags", Liquid::Condition::LITERALS["empty"])
+          @filter.where(hash, "tags", Liquid::Expression::LITERALS["empty"])
         )
 
         # `{{ `hash | where: 'tags', blank }}`
         assert_equal(
           [{ "tags" => {} }, { "tags" => "" }, { "tags" => nil }, { "tags" => [] }],
-          @filter.where(hash, "tags", Liquid::Condition::LITERALS["blank"])
+          @filter.where(hash, "tags", Liquid::Expression::LITERALS["blank"])
         )
       end
 
