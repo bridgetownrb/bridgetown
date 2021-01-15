@@ -928,7 +928,7 @@ class TestFilters < BridgetownUnitTest
         assert_equal [{ "tags" => nil }], @filter.where(hash, "tags", nil)
 
         assert_equal(
-          [{ "tags" => "" }, { "tags" => ["x", nil] }],
+          [{ "tags" => {} }, { "tags" => "" }, { "tags" => nil }, { "tags" => [] }],
           @filter.where(hash, "tags", "")
         )
 

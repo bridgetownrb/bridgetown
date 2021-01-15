@@ -375,7 +375,7 @@ module Bridgetown
       case target
       when NilClass
         return true if property.nil?
-      when Liquid::Condition::MethodLiteral # `empty` or `blank`
+      when "" # aka `empty` or `blank`
         target = target.to_s
         return true if property == target || Array(property).join == target
       else
