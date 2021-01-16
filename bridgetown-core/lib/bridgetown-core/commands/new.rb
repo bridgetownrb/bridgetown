@@ -158,6 +158,7 @@ module Bridgetown
         unless Bridgetown.environment == "test"
           inside(path) do
             run "git init", abort_on_failure: true
+            run "git checkout -b main"
           end
         end
       rescue SystemExit
