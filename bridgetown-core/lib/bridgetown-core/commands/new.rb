@@ -158,7 +158,7 @@ module Bridgetown
         unless Bridgetown.environment == "test"
           inside(path) do
             run "git init", abort_on_failure: true
-            run "git checkout -b main"
+            run "if [[ -n $(git status | grep 'On branch master') ]]; then git checkout -b main; fi"
           end
         end
       rescue SystemExit

@@ -150,7 +150,7 @@ module Bridgetown
         inside name do # rubocop:todo Metrics/BlockLength
           run "rm -rf .git"
           run "git init"
-          run "git checkout -b main"
+          run "if [[ -n $(git status | grep 'On branch master') ]]; then git checkout -b main; fi"
 
           run "mv bridgetown-sample-plugin.gemspec #{new_gemspec}"
           gsub_file new_gemspec, "https://github.com/bridgetownrb/bridgetown-sample-plugin", "https://github.com/username/#{name}"
