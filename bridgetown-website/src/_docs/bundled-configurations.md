@@ -79,9 +79,8 @@ bundle exec bridgetown configure turbo
 
 ### Bridgetown recommended PostCSS plugins
 
-⛓️ Installs and configures a set of PostCSS plugins recommended by the Bridgetown community.
+⛓️ Installs and configures a set of [PostCSS](https://postcss.org) plugins recommended by the Bridgetown community:
 
-It will install the following plugins:
 - [`postcss-easy-import`](https://github.com/trysound/postcss-easy-import)
 - [`postcss-mixins`](https://github.com/postcss/postcss-mixins)
 - [`postcss-color-function`](https://github.com/postcss/postcss-color-function)
