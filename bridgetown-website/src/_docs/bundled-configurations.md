@@ -18,6 +18,7 @@ The configurations we include are:
 - [PurgeCSS Post-Build Hook](#purgecss-post-build-hook) (`purgecss`)
 - [Stimulus](#stimulus) (`stimulus`)
 - [Turbo](#turbo) (`turbo`)
+- [Bridgetown recommended PostCSS plugins](#bridgetown-recommended-postcss-plugins) (`bt-postcss`)
 - [Netlify TOML Configuration](#netlify-toml-configuration) (`netlify`)
 - [Swup.js Page Transitions](#swupjs-page-transitions) (`swup`)
 - [Automated Test Suite using Minitest](#automated-test-suite-using-minitest) (`minitesting`)
@@ -74,6 +75,25 @@ bundle exec bridgetown configure stimulus
 
 ```
 bundle exec bridgetown configure turbo
+```
+
+### Bridgetown recommended PostCSS plugins
+
+⛓️ Installs and configures a set of PostCSS plugins recommended by the Bridgetown community.
+
+It will install the following plugins:
+- [`postcss-easy-import`](https://github.com/trysound/postcss-easy-import)
+- [`postcss-mixins`](https://github.com/postcss/postcss-mixins)
+- [`postcss-color-function`](https://github.com/postcss/postcss-color-function)
+- [`cssnano`](https://cssnano.co)
+
+It will also configure [`postcss-preset-env`](http://preset-env.cssdb.org) to allow all features at [Stage 2 and above](http://preset-env.cssdb.org/features#stage-2); along with [`nesting-rules`](http://preset-env.cssdb.org/features#nesting-rules) and [`custom-media-queries`](http://preset-env.cssdb.org/features#custom-media-queries).
+
+This configuration will overwrite your `postcss.config.js` file.
+
+🛠 **Configure using:**
+```
+bundle exec bridgetown configure bt-postcss
 ```
 
 ### Netlify TOML Configuration
