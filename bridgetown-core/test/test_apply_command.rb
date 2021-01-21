@@ -38,7 +38,7 @@ class TestApplyCommand < BridgetownUnitTest
     end
 
     should "run automations from URLs" do
-      allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
+      allow_any_instance_of(URI).to receive(:open).and_return(@template)
       file = "http://randomdomain.com/12345.rb"
       output = capture_stdout do
         @cmd.invoke(:apply_automation, [file])
@@ -48,7 +48,7 @@ class TestApplyCommand < BridgetownUnitTest
     end
 
     should "automatically add bridgetown.automation.rb to URL folder path" do
-      allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
+      allow_any_instance_of(URI).to receive(:open).and_return(@template)
       file = "http://randomdomain.com/foo"
       output = capture_stdout do
         @cmd.invoke(:apply_automation, [file])
@@ -57,7 +57,7 @@ class TestApplyCommand < BridgetownUnitTest
     end
 
     should "transform GitHub repo URLs automatically" do
-      allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
+      allow_any_instance_of(URI).to receive(:open).and_return(@template)
       file = "https://github.com/bridgetownrb/bridgetown-automations"
       output = capture_stdout do
         @cmd.invoke(:apply_automation, [file])
@@ -67,7 +67,7 @@ class TestApplyCommand < BridgetownUnitTest
     end
 
     should "transform GitHub repo URLs and respect branches" do
-      allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
+      allow_any_instance_of(URI).to receive(:open).and_return(@template)
       # file url includes */tree/<branch>/* for a regular github url
       file = "https://github.com/bridgetownrb/bridgetown-automations/tree/my-tree"
       output = capture_stdout do
@@ -80,7 +80,7 @@ class TestApplyCommand < BridgetownUnitTest
     end
 
     should "transform GitHub repo URLs and preserve directories named 'tree'" do
-      allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
+      allow_any_instance_of(URI).to receive(:open).and_return(@template)
       file = "https://github.com/bridgetownrb/bridgetown-automations/tree/my-tree/tree"
       output = capture_stdout do
         @cmd.invoke(:apply_automation, [file])
@@ -92,7 +92,7 @@ class TestApplyCommand < BridgetownUnitTest
     end
 
     should "transform GitHub repo URLs and not cause issues if the repo name is 'tree'" do
-      allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
+      allow_any_instance_of(URI).to receive(:open).and_return(@template)
       file = "https://github.com/bridgetown/tree/tree/my-tree/tree"
       output = capture_stdout do
         @cmd.invoke(:apply_automation, [file])
@@ -104,7 +104,7 @@ class TestApplyCommand < BridgetownUnitTest
     end
 
     should "transform GitHub file blob URLs" do
-      allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
+      allow_any_instance_of(URI).to receive(:open).and_return(@template)
       # file url includes */tree/<branch>/* for a regular github url
       file = "https://github.com/bridgetownrb/bridgetown-automations/blob/branchname/folder/file.rb"
       output = capture_stdout do
@@ -117,7 +117,7 @@ class TestApplyCommand < BridgetownUnitTest
     end
 
     should "transform Gist URLs automatically" do
-      allow_any_instance_of(Bridgetown::Commands::Apply).to receive(:open).and_return(@template)
+      allow_any_instance_of(URI).to receive(:open).and_return(@template)
       file = "https://gist.github.com/jaredcwhite/963d40acab5f21b42152536ad6847575"
       output = capture_stdout do
         @cmd.invoke(:apply_automation, [file])
