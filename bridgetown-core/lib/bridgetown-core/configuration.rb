@@ -32,6 +32,7 @@ module Bridgetown
       "markdown_ext"         => "markdown,mkdown,mkdn,mkd,md",
       "strict_front_matter"  => false,
       "slugify_categories"   => true,
+      "default_slugify_mode" => "pretty",
 
       # Filtering Content
       "limit_posts"          => 0,
@@ -288,17 +289,17 @@ module Bridgetown
     def style_to_permalink(permalink_style)
       case permalink_style.to_sym
       when :pretty
-        "/:categories/:year/:month/:day/:title/"
+        "/:categories/:year/:month/:day/:name/"
       when :simple
-        "/:categories/:title/"
+        "/:categories/:name/"
       when :none
-        "/:categories/:title:output_ext"
+        "/:categories/:name.*"
       when :date
-        "/:categories/:year/:month/:day/:title:output_ext"
+        "/:categories/:year/:month/:day/:name.*"
       when :ordinal
-        "/:categories/:year/:y_day/:title:output_ext"
+        "/:categories/:year/:y_day/:name.*"
       when :weekdate
-        "/:categories/:year/W:week/:short_day/:title:output_ext"
+        "/:categories/:year/W:week/:short_day/:title.*"
       else
         permalink_style.to_s
       end

@@ -6,11 +6,18 @@ module Bridgetown
       # @return [Pathname]
       attr_accessor :original_path
 
-      # @param resource [Base]
-      def read(resource)
-        raise "Missing path for #{resource}" unless original_path
+      def initialize(original_path:)
+        @original_path = Pathname.new(original_path)
+      end
 
-        self.resource = resource
+      def attach_resource(resource)
+        super
+        @relative_path = original_path.relative_path_from(resource.site.source)
+        self
+      end
+
+      def read
+        raise "Missing path for #{resource}" unless original_path
 
         resource.content = File.read(
           original_path, **Bridgetown::Utils.merged_file_read_opts(resource.site, {})
@@ -21,8 +28,6 @@ module Bridgetown
         else
           Bridgetown::Utils.deep_merge_hashes!(resource.data, read_frontmatter)
         end
-
-        self.relative_path = original_path.relative_path_from(resource.site.source)
       rescue StandardError => e
         handle_read_error(e)
       end
@@ -64,7 +69,8 @@ module Bridgetown
                                   "could not read file #{original_path}: #{error.message}"
         end
 
-        if resource.site.config["strict_front_matter"] || error.is_a?(Bridgetown::Errors::FatalException)
+        if resource.site.config["strict_front_matter"] ||
+            error.is_a?(Bridgetown::Errors::FatalException)
           raise error
         end
       end

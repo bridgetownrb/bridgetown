@@ -2,6 +2,7 @@
 
 module Bridgetown
   module Resource
+    # Abstract Superclass
     class Origin
       # @return [Pathname]
       attr_accessor :relative_path
@@ -15,6 +16,13 @@ module Bridgetown
         def data_file_extensions
           %w(.yaml .yml .json .csv .tsv).freeze
         end
+      end
+
+      def attach_resource(resource)
+        raise "Origin already attached to resource #{@resource}" if @resource
+
+        @resource = resource
+        self
       end
 
       def read(_resource)

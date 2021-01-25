@@ -7,7 +7,7 @@ module Bridgetown
 
       mutable false
 
-      def_delegator :@obj, :path
+      def_delegator :@obj, :cleaned_relative_path, :path
       def_delegator :@obj, :output_ext, :output_ext
 
       def collection

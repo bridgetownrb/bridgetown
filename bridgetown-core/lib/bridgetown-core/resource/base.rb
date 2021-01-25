@@ -3,7 +3,6 @@
 module Bridgetown
   module Resource
     class Base
-      include Bridgetown::DataAccessible
       include Bridgetown::Publishable
       include Bridgetown::LiquidRenderable
 
@@ -29,7 +28,7 @@ module Bridgetown
       # @param origin [Bridgetown::Resource::Origin]
       def initialize(site:, origin:)
         @site = site
-        @origin = origin
+        @origin = origin.attach_resource(self)
         @data = HashWithDotAccess::Hash.new
       end
 
@@ -42,9 +41,9 @@ module Bridgetown
         @data = new_data
       end
 
-      def read
-        origin.read(self)
-        @destination = Destination.new(self)
+      def read(relative_url: nil)
+        origin.read
+        @destination = Destination.new(self, relative_url: relative_url) if requires_destination?
 
         self
       end
@@ -53,24 +52,21 @@ module Bridgetown
         origin.relative_path
       end
 
-      def url
-        destination.url
-      end
-
-      def path
-        if origin.respond_to?(:original_path)
-          origin.original_path
-        else
-          relative_path
+      def relative_path_basename_without_prefix
+        return_path = Pathname.new("")
+        relative_path.each_filename do |filename|
+          return_path += filename unless filename.starts_with?("_")
         end
+
+        (return_path.dirname + return_path.basename(".*")).to_s
       end
 
       def basename_without_ext
-        path.basename(".*").to_s
+        relative_path.basename(".*").to_s
       end
 
-      def output_ext
-        ".html"
+      def relative_url
+        destination&.relative_url
       end
 
       # TODO: make this fer realz!
@@ -80,6 +76,26 @@ module Bridgetown
 
       def date
         data["date"] ||= site.time # TODO: this doesn't reflect documented behavior
+      end
+
+      # TODO: this should get populated when data is read
+      def taxonomies
+        {
+          category: [],
+        }
+      end
+
+      # TODO: needs conditional logic
+      def requires_destination?
+        true
+      end
+
+      def to_s
+        output || content || ""
+      end
+
+      def inspect
+        "#<#{self.class} #{relative_path}>"
       end
     end
   end

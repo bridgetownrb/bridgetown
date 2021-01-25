@@ -207,7 +207,7 @@ module Bridgetown
       slug.gsub!(%r!^\-|\-$!i, "")
 
       slug.downcase! unless cased
-      Bridgetown.logger.warn("Warning:", "Empty `slug` generated for '#{string}'.") if slug.empty?
+
       slug
     end
 
