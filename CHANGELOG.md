@@ -2,6 +2,8 @@
 
 # 0.19.1 / 2020-12-26
 
+* Website: Fix a grammar error in the Jamstack.md page on Bridgetown website ([taha](https://github.com/marketerly))
+
 * Fix for issue #73 (less likely to hit ActiveSupport error when `bridgetown` command is run without `bundle exec` prefixed)
 
 # 0.19.0 / 2020-12-22
