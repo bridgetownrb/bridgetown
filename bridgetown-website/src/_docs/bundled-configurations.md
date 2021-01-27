@@ -18,6 +18,7 @@ The configurations we include are:
 - [PurgeCSS Post-Build Hook](#purgecss-post-build-hook) (`purgecss`)
 - [Stimulus](#stimulus) (`stimulus`)
 - [Turbo](#turbo) (`turbo`)
+- [Bridgetown recommended PostCSS plugins](#bridgetown-recommended-postcss-plugins) (`bt-postcss`)
 - [Netlify TOML Configuration](#netlify-toml-configuration) (`netlify`)
 - [Swup.js Page Transitions](#swupjs-page-transitions) (`swup`)
 - [Automated Test Suite using Minitest](#automated-test-suite-using-minitest) (`minitesting`)
@@ -75,6 +76,25 @@ bundle exec bridgetown configure stimulus
 ```
 bundle exec bridgetown configure turbo
 ```
+
+### Bridgetown recommended PostCSS plugins
+
+⛓️ Installs and configures a set of [PostCSS](https://postcss.org) plugins recommended by the Bridgetown community:
+
+- [`postcss-easy-import`](https://github.com/trysound/postcss-easy-import)
+- [`postcss-mixins`](https://github.com/postcss/postcss-mixins)
+- [`postcss-color-function`](https://github.com/postcss/postcss-color-function)
+- [`cssnano`](https://cssnano.co)
+
+It will also configure [`postcss-preset-env`](http://preset-env.cssdb.org) to polyfill all features at [stage 2 and above](http://preset-env.cssdb.org/features#stage-2). If you don't need certain polyfills for your use case, you can bump up stage to 3 or 4 *(for example, [`custom properties`](http://preset-env.cssdb.org/features#custom-properties) won't get polyfilled if stage is set to 4)*. [`nesting-rules`](http://preset-env.cssdb.org/features#nesting-rules) and [`custom-media-queries`](http://preset-env.cssdb.org/features#custom-media-queries) are explicitly enabled.
+
+This configuration will overwrite your `postcss.config.js` file.
+
+🛠 **Configure using:**
+```
+bundle exec bridgetown configure bt-postcss
+```
+If you'd customize your setup further you can find more plugins [here](https://www.postcss.parts).
 
 ### Netlify TOML Configuration
 
