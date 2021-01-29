@@ -177,16 +177,6 @@ class Bridgetown::Site
       collections["posts"] ||= Bridgetown::Collection.new(self, "posts")
     end
 
-    # @return [Page]
-    def pages
-      if uses_resource?
-        Bridgetown::Deprecator.deprecation_message "Call site.collections.pages " \
-                                                   "instead of site.pages"
-      end
-
-      @pages
-    end
-
     # Get the static files to be written
     #
     # @return [Array<StaticFile>] an array of files which should be

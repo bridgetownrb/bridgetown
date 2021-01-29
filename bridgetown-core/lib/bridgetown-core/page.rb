@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Bridgetown
+  # NOTE: Eventually this be renamed GeneratedPage once the Resource content engine
+  # is default
   class Page
     include DataAccessible
     include LayoutPlaceable

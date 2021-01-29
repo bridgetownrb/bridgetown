@@ -23,7 +23,12 @@ module Bridgetown
     # @return [Array<Layout>]
     attr_accessor :layouts
 
-    attr_writer :pages
+    # @return [Array<Page>]
+    attr_accessor :pages
+
+    # NOTE: Eventually pages will be deprecated once the Resource content engine
+    # is default
+    alias_method :generated_pages, :pages
 
     attr_accessor :exclude, :include, :lsi, :highlighter, :permalink_style,
                   :time, :future, :unpublished, :limit_posts,

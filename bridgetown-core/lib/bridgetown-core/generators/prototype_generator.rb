@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
+# Handles Legacy Pages
 Bridgetown::Hooks.register :pages, :post_init, reloadable: false do |page|
+  if page.class != Bridgetown::PrototypePage && page.data["prototype"].is_a?(Hash)
+    Bridgetown::PrototypeGenerator.add_matching_template(page)
+  end
+end
+
+# Handles Resources
+Bridgetown::Hooks.register :pages, :post_read, reloadable: false do |page|
   if page.class != Bridgetown::PrototypePage && page.data["prototype"].is_a?(Hash)
     Bridgetown::PrototypeGenerator.add_matching_template(page)
   end
@@ -27,13 +35,14 @@ module Bridgetown
     def generate(site)
       @site = site
       @configured_collection = "posts"
+      page_list = site.uses_resource? ? site.collections.pages.resources : site.pages
 
       prototype_pages = self.class.matching_templates.select do |page|
-        site.pages.include? page
+        page_list.include?(page)
       end
 
       if prototype_pages.length.positive?
-        site.pages.reject! do |page|
+        page_list.reject! do |page|
           prototype_pages.include? page
         end
 
@@ -81,8 +90,14 @@ module Bridgetown
     #
     # @return [Array<String>]
     def terms_matching_pages(search_term)
+      pages_list = if site.uses_resource?
+                     site.collections[@configured_collection].resources
+                   else
+                     site.collections[@configured_collection].docs
+                   end
+
       Bridgetown::Paginate::PaginationIndexer.index_documents_by(
-        site.collections[@configured_collection].docs, search_term
+        pages_list, search_term
       ).keys
     end
   end
@@ -107,7 +122,7 @@ module Bridgetown
       validate_data! prototyped_page.path
       validate_permalink! prototyped_page.path
 
-      @dir = Pathname.new(prototyped_page.relative_path).dirname.to_s
+      @dir = Pathname.new(prototyped_page.relative_path).dirname.to_s.sub(%r{^_pages}, "")
       @path = site.in_source_dir(@dir, @name)
 
       process_prototype_page_data(collection, search_term, term)

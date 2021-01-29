@@ -43,6 +43,8 @@ module Bridgetown
         @site = site
         @origin = origin.attach_resource(self)
         @data = HashWithDotAccess::Hash.new
+
+        trigger_hooks(:post_init)
       end
 
       # @param new_data [Hash]
@@ -65,6 +67,8 @@ module Bridgetown
         end
 
         @destination = Destination.new(self, relative_url: relative_url) if requires_destination?
+
+        trigger_hooks(:post_read)
 
         self
       end
