@@ -48,6 +48,7 @@ module Bridgetown
       dot_dirs = []
       dot_pages = []
       dot_static_files = []
+      should_read_pages = site.config.content_engine != "resource"
 
       dot = Dir.chdir(base) { filter_entries(Dir.entries("."), base) }
       dot.each do |entry|
@@ -55,13 +56,13 @@ module Bridgetown
         if File.directory?(file_path)
           dot_dirs << entry
         elsif Utils.has_yaml_header?(file_path)
-          dot_pages << entry
+          dot_pages << entry if should_read_pages
         else
           dot_static_files << entry
         end
       end
 
-      retrieve_posts(dir)
+      retrieve_posts(dir) unless site.config.content_engine == "resource"
       retrieve_dirs(base, dir, dot_dirs)
       retrieve_pages(dir, dot_pages)
       retrieve_static_files(dir, dot_static_files)
@@ -126,7 +127,7 @@ module Bridgetown
     #
     # Returns the Array of filtered entries.
     def filter_entries(entries, base_directory = nil)
-      EntryFilter.new(site, base_directory).filter(entries)
+      EntryFilter.new(site, base_directory: base_directory).filter(entries)
     end
 
     # Read the entries from a particular directory for processing

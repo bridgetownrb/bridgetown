@@ -8,6 +8,8 @@ module Bridgetown
     attr_reader :label, :metadata
     attr_writer :docs
 
+    attr_writer :resources
+
     # Create a new Collection.
     #
     # site - the site to which this collection belongs.
@@ -20,6 +22,10 @@ module Bridgetown
       @metadata = extract_metadata
     end
 
+    def special?
+      label.in? %w(posts pages data).freeze
+    end
+
     # Fetch the Documents in this collection.
     # Defaults to an empty array if no documents have been read in.
     #
@@ -28,30 +34,26 @@ module Bridgetown
       @docs ||= []
     end
 
-    # Override of normal respond_to? to match method_missing's logic for
-    # looking in @data.
-    def respond_to_missing?(method, include_private = false)
-      docs.respond_to?(method.to_sym, include_private) || super
+    # @return [Array<Bridgetown::Resource::Base>]
+    def resources
+      @resources ||= []
     end
 
-    # Override of method_missing to check in @data for the key.
-    def method_missing(method, *args, &blck)
-      if docs.respond_to?(method.to_sym)
-        Bridgetown.logger.warn "Deprecation:",
-                               "#{label}.#{method} should be changed to #{label}.docs.#{method}."
-        Bridgetown.logger.warn "", "Called by #{caller(0..0)}."
-        docs.public_send(method.to_sym, *args, &blck)
-      else
-        super
-      end
+    def each(&block)
+      site.config.content_engine == "resource" ? resources.each(&block) : docs.each(&block)
     end
 
     # Fetch the static files in this collection.
     # Defaults to an empty array if no static files have been read in.
     #
     # Returns an array of Bridgetown::StaticFile objects.
+    def static_files
+      @static_files ||= []
+    end
+
     def files
-      @files ||= []
+      Bridgetown::Deprecator.deprecation_message "Collection#files is now Collection#static_files"
+      static_files
     end
 
     # Read the allowed documents into the collection's array of docs.
@@ -63,12 +65,16 @@ module Bridgetown
         next if File.directory?(full_path)
 
         if Utils.has_yaml_header? full_path
-          read_document(full_path)
+          if site.config.content_engine == "resource"
+            read_resource(full_path)
+          else
+            read_document(full_path)
+          end
         else
           read_static_file(file_path, full_path)
         end
       end
-      site.static_files.concat(files)
+      site.static_files.concat(static_files)
       sort_docs!
     end
 
@@ -153,14 +159,18 @@ module Bridgetown
     #
     # Returns the instance of Bridgetown::EntryFilter for this collection.
     def entry_filter
-      @entry_filter ||= Bridgetown::EntryFilter.new(site, relative_directory)
+      @entry_filter ||= Bridgetown::EntryFilter.new(
+        site,
+        base_directory: relative_directory,
+        include_underscores: site.config.content_engine == "resource"
+      )
     end
 
     # An inspect string.
     #
     # Returns the inspect string
     def inspect
-      "#<#{self.class} @label=#{label} docs=#{docs}>"
+      "#<#{self.class} @label=#{label} docs=#{docs} resources=#{resources}>"
     end
 
     # Produce a sanitized label name
@@ -190,6 +200,14 @@ module Bridgetown
     # Returns true if the 'write' metadata is true, false otherwise.
     def write?
       !!metadata.fetch("output", false)
+    end
+
+    # Used by Resource's permalink processor
+    # @return [String]
+    def default_permalink
+      metadata.fetch("permalink") do
+        "/:collection/:path/index.*"
+      end
     end
 
     # The URL template to render collection's documents at.
@@ -224,12 +242,28 @@ module Bridgetown
       docs << doc if site.unpublished || doc.published?
     end
 
+    def read_resource(full_path)
+      resource = Bridgetown::Resource::Base.new(
+        site: site,
+        origin: Bridgetown::Resource::FileOrigin.new(
+          collection: self,
+          original_path: full_path
+        )
+      )
+      resource.read
+      resources << resource if site.unpublished || resource.published?
+    end
+
     def sort_docs!
       if metadata["sort_by"].is_a?(String)
         sort_docs_by_key!
+        sort_resources_by_key!
       else
         docs.sort!
+        resources.sort!
       end
+      docs.reverse! if metadata.sort_order == "descending"
+      resources.reverse! if metadata.sort_order == "descending"
     end
 
     # A custom sort function based on Schwartzian transform
@@ -238,6 +272,24 @@ module Bridgetown
       meta_key = metadata["sort_by"]
       # Modify `docs` array to cache document's property along with the Document instance
       docs.map! { |doc| [doc.data[meta_key], doc] }.sort! do |apples, olives|
+        order = determine_sort_order(meta_key, apples, olives)
+
+        # Fall back to `Document#<=>` if the properties were equal or were non-sortable
+        # Otherwise continue with current sort-order
+        if order.nil? || order.zero?
+          apples[-1] <=> olives[-1]
+        else
+          order
+        end
+
+        # Finally restore the `docs` array with just the Document objects themselves
+      end.map!(&:last)
+    end
+
+    def sort_resources_by_key!
+      meta_key = metadata["sort_by"]
+      # Modify `docs` array to cache document's property along with the Document instance
+      resources.map! { |doc| [doc.data[meta_key], doc] }.sort! do |apples, olives|
         order = determine_sort_order(meta_key, apples, olives)
 
         # Fall back to `Document#<=>` if the properties were equal or were non-sortable
@@ -277,7 +329,7 @@ module Bridgetown
         File.dirname(file_path)
       ).chomp("/.")
 
-      files << StaticFile.new(
+      static_files << StaticFile.new(
         site,
         site.source,
         relative_dir,

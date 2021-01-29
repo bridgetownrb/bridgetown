@@ -500,7 +500,7 @@ class TestDocument < BridgetownUnitTest
         }
       )
       @site.process
-      @document = @site.collections["slides"].files.find do |doc|
+      @document = @site.collections["slides"].static_files.find do |doc|
         doc.relative_path == "_slides/octobridgetown.png"
       end
       @dest_file = dest_dir("slides/octobridgetown.png")

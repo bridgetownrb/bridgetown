@@ -4,6 +4,9 @@ module Bridgetown
   module Resource
     # Abstract Superclass
     class Origin
+      # @return [Bridgetown::Collection]
+      attr_accessor :collection
+
       # @return [Pathname]
       attr_accessor :relative_path
 
@@ -16,6 +19,10 @@ module Bridgetown
         def data_file_extensions
           %w(.yaml .yml .json .csv .tsv).freeze
         end
+      end
+
+      def initialize(collection:)
+        @collection = collection
       end
 
       def attach_resource(resource)

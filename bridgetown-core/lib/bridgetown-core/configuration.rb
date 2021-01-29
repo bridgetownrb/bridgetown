@@ -245,23 +245,29 @@ module Bridgetown
 
     def add_default_collections
       # It defaults to `{}`, so this is only if someone sets it to null manually.
-      return self if self["collections"].nil?
+      return self if self[:collections].nil?
 
       # Ensure we have a hash.
-      if self["collections"].is_a?(Array)
-        self["collections"] = self["collections"].each_with_object({}) do |collection, hash|
+      if self[:collections].is_a?(Array)
+        self[:collections] = self[:collections].each_with_object({}) do |collection, hash|
           hash[collection] = {}
         end
       end
 
-      self["collections"] = Utils.deep_merge_hashes(
-        { "posts" => {} }, self["collections"]
-      ).tap do |collections|
-        collections["posts"]["output"] = true
-        if self["permalink"]
-          collections["posts"]["permalink"] ||= style_to_permalink(self["permalink"])
-        end
+      # Setup default collections
+      if self[:content_engine] == "resource"
+        self[:collections][:pages] = {} unless self[:collections][:pages]
+        self[:collections][:pages][:output] = true
+        self[:collections][:pages][:permalink] ||= "/:path.*"
       end
+      self[:collections][:posts] = {} unless self[:collections][:posts]
+      self[:collections][:posts][:output] = true
+      self[:collections][:posts][:sort_order] ||= "descending"
+      collections[:posts][:permalink] ||= if self[:permalink] && self[:content_engine] == "resource"
+                                            self[:permalink]
+                                          else
+                                            style_to_permalink(self[:permalink])
+                                          end
 
       self
     end
@@ -285,21 +291,22 @@ module Bridgetown
         self["ruby_in_front_matter"]
     end
 
+    # Deprecated, to be removed when Bridgetown goes Resource-only
     # rubocop:disable Metrics/CyclomaticComplexity #
     def style_to_permalink(permalink_style)
       case permalink_style.to_sym
       when :pretty
-        "/:categories/:year/:month/:day/:name/"
+        "/:categories/:year/:month/:day/:title/"
       when :simple
-        "/:categories/:name/"
+        "/:categories/:title/"
       when :none
-        "/:categories/:name.*"
+        "/:categories/:title:output_ext"
       when :date
-        "/:categories/:year/:month/:day/:name.*"
+        "/:categories/:year/:month/:day/:title:output_ext"
       when :ordinal
-        "/:categories/:year/:y_day/:name.*"
+        "/:categories/:year/:y_day/:title:output_ext"
       when :weekdate
-        "/:categories/:year/W:week/:short_day/:title.*"
+        "/:categories/:year/W:week/:short_day/:title:output_ext"
       else
         permalink_style.to_s
       end
@@ -316,7 +323,7 @@ module Bridgetown
       end
 
       # add _pages to includes set
-      self[:include] << "_pages"
+      self[:include] << "_pages" unless self[:content_engine] == "resource"
 
       self
     end

@@ -27,6 +27,8 @@ module Bridgetown
         regenerate_page?(document)
       when Document
         regenerate_document?(document)
+      when Bridgetown::Base::Resource
+        regenerate_resource?(document)
       else
         source_path = document.respond_to?(:path) ? document.path : nil
         dest_path = document.destination(@site.dest) if document.respond_to?(:destination)
@@ -174,6 +176,11 @@ module Bridgetown
         source_modified_or_dest_missing?(
           document.path, document.destination(@site.dest)
         )
+    end
+
+    # TODO: need to manage dependencies, but for now always regenerate
+    def regenerate_resource?(_resource)
+      true
     end
 
     def existing_file_modified?(path)

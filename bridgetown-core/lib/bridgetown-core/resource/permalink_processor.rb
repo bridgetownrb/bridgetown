@@ -3,7 +3,9 @@
 module Bridgetown
   module Resource
     class PermalinkProcessor
+      # @return [Bridgetown::Resource::Base]
       attr_accessor :resource
+
       attr_accessor :slugify_mode
 
       def self.placeholder_processors
@@ -21,12 +23,12 @@ module Bridgetown
       end
 
       def final_ext
-        resource.destination.final_ext
+        resource.method(:destination).arity == 1 ? resource.extname : resource.destination.final_ext
       end
 
       def transform
         permalink = resource.data.permalink ||
-          resource.site.config.style_to_permalink(resource.site.config.permalink)
+          permalink_for_permalink_style(resource.collection.default_permalink)
         url_segments = permalink.chomp(".*").split("/")
         new_url = url_segments.map do |segment|
           segment.starts_with?(":") ? process_segment(segment.sub(%r{^:}, "")) : segment
@@ -55,6 +57,21 @@ module Bridgetown
           end
         else
           segment
+        end
+      end
+
+      def permalink_for_permalink_style(permalink_style)
+        case permalink_style.to_sym
+        when :pretty
+          "/:categories/:year/:month/:day/:slug/"
+        when :pretty_ext
+          "/:categories/:year/:month/:day/:slug.*"
+        when :simple
+          "/:categories/:slug/"
+        when :simple_ext
+          "/:categories/:slug.*"
+        else
+          permalink_style.to_s
         end
       end
 
@@ -87,7 +104,7 @@ module Bridgetown
       end
 
       register_placeholder :categories, ->(resource) do
-        resource.taxonomies[:category].map(&:name).uniq.join("/")
+        resource.taxonomies[:categories].map(&:label).uniq.join("/")
       end
 
       # YYYY

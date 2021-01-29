@@ -261,16 +261,16 @@ class TestCollections < BridgetownUnitTest
     end
 
     should "contain .htaccess file" do
-      assert(@collection.files.any? { |d| d.name == ".htaccess" })
+      assert(@collection.static_files.any? { |d| d.name == ".htaccess" })
     end
 
     should "contain .gitignore file" do
-      assert(@collection.files.any? { |d| d.name == ".gitignore" })
+      assert(@collection.static_files.any? { |d| d.name == ".gitignore" })
     end
 
     should "have custom URL in static file" do
       assert(
-        @collection.files.any? { |d| d.url.include?("/awesome/with.dots/") }
+        @collection.static_files.any? { |d| d.url.include?("/awesome/with.dots/") }
       )
     end
   end

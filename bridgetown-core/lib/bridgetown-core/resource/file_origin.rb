@@ -6,7 +6,9 @@ module Bridgetown
       # @return [Pathname]
       attr_accessor :original_path
 
-      def initialize(original_path:)
+      def initialize(collection:, original_path:)
+        super(collection: collection)
+
         @original_path = Pathname.new(original_path)
       end
 

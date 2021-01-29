@@ -23,8 +23,7 @@ module Bridgetown
     # @return [Array<Layout>]
     attr_accessor :layouts
 
-    # @return [Array<Page>]
-    attr_accessor :pages
+    attr_writer :pages
 
     attr_accessor :exclude, :include, :lsi, :highlighter, :permalink_style,
                   :time, :future, :unpublished, :limit_posts,

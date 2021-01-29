@@ -2,7 +2,7 @@
 
 module Bridgetown
   class CollectionReader
-    SPECIAL_COLLECTIONS = %w(posts data).freeze
+    SPECIAL_LEGACY_COLLECTIONS = %w(posts data).freeze
 
     attr_reader :site, :content
 
@@ -16,7 +16,8 @@ module Bridgetown
     # Returns nothing.
     def read
       site.collections.each_value do |collection|
-        collection.read unless SPECIAL_COLLECTIONS.include?(collection.label)
+        collection.read unless site.config.content_engine != "resource" &&
+          SPECIAL_LEGACY_COLLECTIONS.include?(collection.label)
       end
     end
   end

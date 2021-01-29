@@ -4,12 +4,14 @@ module Bridgetown
   class EntryFilter
     attr_reader :site
     SPECIAL_LEADING_CHAR_REGEX = %r!\A#{Regexp.union([".", "_", "#", "~"])}!o.freeze
+    SPECIAL_LEADING_CHAR_NO_UNDERSCORES_REGEX = %r!\A#{Regexp.union([".", "#", "~"])}!o.freeze
 
-    def initialize(site, base_directory = nil)
+    def initialize(site, base_directory: nil, include_underscores: false)
       @site = site
       @base_directory = derive_base_directory(
         @site, base_directory.to_s.dup
       )
+      @include_underscore = include_underscores
     end
 
     def base_directory
@@ -48,8 +50,13 @@ module Bridgetown
     end
 
     def special?(entry)
-      SPECIAL_LEADING_CHAR_REGEX.match?(entry) ||
-        SPECIAL_LEADING_CHAR_REGEX.match?(File.basename(entry))
+      use_regex = if @include_underscore
+                    SPECIAL_LEADING_CHAR_NO_UNDERSCORES_REGEX
+                  else
+                    SPECIAL_LEADING_CHAR_REGEX
+                  end
+
+      use_regex.match?(entry) || use_regex.match?(File.basename(entry))
     end
 
     def backup?(entry)

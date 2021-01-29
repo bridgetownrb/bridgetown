@@ -38,6 +38,12 @@ class Bridgetown::Site
             render_regenerated document
           end
         end
+
+        collection.resources.each do |resource|
+          render_with_locale(resource) do
+            render_regenerated resource
+          end
+        end
       end
     end
 

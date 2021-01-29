@@ -155,12 +155,36 @@ class Bridgetown::Site
       documents.select(&:write?)
     end
 
+    # Get all documents.
+    # @return [Array<Document>] an array of documents from the
+    # configuration
+    def resources
+      collections.each_with_object(Set.new) do |(_, collection), set|
+        set.merge(collection.resources)
+      end.to_a
+    end
+
+    def resources_to_write
+      resources.select(&:write?)
+    end
+
     # Get all posts.
     #
     # @return [Collection] Returns {#collections}`["posts"]`, creating it if need be
     # @see Collection
     def posts
+      Bridgetown::Deprecator.deprecation_message "Call site.collections.posts instead of site.posts"
       collections["posts"] ||= Bridgetown::Collection.new(self, "posts")
+    end
+
+    # @return [Page]
+    def pages
+      if config.content_engine == "resource"
+        Bridgetown::Deprecator.deprecation_message "Call site.collections.pages " \
+                                                   "instead of site.pages"
+      end
+
+      @pages
     end
 
     # Get the static files to be written
@@ -177,6 +201,8 @@ class Bridgetown::Site
     #
     # @return [Array]
     def contents
+      return resources if config.content_engine == "resource"
+
       pages + documents
     end
   end
