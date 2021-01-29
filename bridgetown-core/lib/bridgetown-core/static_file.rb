@@ -34,7 +34,7 @@ module Bridgetown
       @relative_path = File.join(*[@dir, @name].compact)
       @extname = File.extname(@name)
       @data = @site.frontmatter_defaults.all(relative_path, type).with_dot_access
-      if site.config.content_engine == "resource" && !data.permalink
+      if site.uses_resource? && !data.permalink
         data.permalink = if collection && !collection.special?
                            "/:collection/:path"
                          else
@@ -172,7 +172,7 @@ module Bridgetown
           site.config.content_engine != "resource"
         base = if @collection.nil? || special_posts_case
                  cleaned_relative_path
-               elsif site.config.content_engine == "resource"
+               elsif site.uses_resource?
                  Bridgetown::Resource::PermalinkProcessor.new(self).transform
                else
                  Bridgetown::URL.new(

@@ -39,16 +39,22 @@ module Bridgetown
       def read_file_data
         case original_path.extname.downcase
         when ".csv"
-          CSV.read(original_path,
-                   headers: true,
-                   encoding: resource.site.config["encoding"]).map(&:to_hash)
+          {
+            array:
+              CSV.read(original_path,
+                       headers: true,
+                       encoding: resource.site.config["encoding"]).map(&:to_hash),
+          }
         when ".tsv"
-          CSV.read(original_path,
-                   col_sep: "\t",
-                   headers: true,
-                   encoding: resource.site.config["encoding"]).map(&:to_hash)
+          {
+            array:
+              CSV.read(original_path,
+                       col_sep: "\t",
+                       headers: true,
+                       encoding: resource.site.config["encoding"]).map(&:to_hash),
+          }
         else
-          SafeYAML.load_file(path)
+          SafeYAML.load_file(original_path)
         end
       end
 

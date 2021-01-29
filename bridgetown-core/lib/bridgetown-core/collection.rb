@@ -40,7 +40,7 @@ module Bridgetown
     end
 
     def each(&block)
-      site.config.content_engine == "resource" ? resources.each(&block) : docs.each(&block)
+      site.uses_resource? ? resources.each(&block) : docs.each(&block)
     end
 
     # Fetch the static files in this collection.
@@ -64,14 +64,18 @@ module Bridgetown
         full_path = collection_dir(file_path)
         next if File.directory?(full_path)
 
-        if Utils.has_yaml_header? full_path
-          if site.config.content_engine == "resource"
+        if site.uses_resource?
+          if label == "data" || Utils.has_yaml_header?(full_path)
             read_resource(full_path)
           else
-            read_document(full_path)
+            read_static_file(file_path, full_path)
           end
         else
-          read_static_file(file_path, full_path)
+          if Utils.has_yaml_header? full_path
+            read_document(full_path)
+          else
+            read_static_file(file_path, full_path)
+          end
         end
       end
       site.static_files.concat(static_files)
@@ -162,7 +166,7 @@ module Bridgetown
       @entry_filter ||= Bridgetown::EntryFilter.new(
         site,
         base_directory: relative_directory,
-        include_underscores: site.config.content_engine == "resource"
+        include_underscores: site.uses_resource?
       )
     end
 
@@ -228,6 +232,32 @@ module Bridgetown
       else
         {}
       end
+    end
+
+    def merge_data_resources
+      data_contents = {}
+
+      sanitize_filename = ->(name) do
+        name.gsub(%r![^\w\s-]+|(?<=^|\b\s)\s+(?=$|\s?\b)!, "")
+          .gsub(%r!\s+!, "_")
+      end
+
+      resources.each do |data_resource|
+        segments = data_resource.relative_path.each_filename.to_a[1..-1]
+        nested = []
+        segments.each_with_index do |segment, index|
+          sanitized_segment = sanitize_filename.(File.basename(segment, ".*"))
+          hsh = nested.empty? ? data_contents : data_contents.dig(*nested)
+          hsh[sanitized_segment] = if index == segments.length - 1
+                                     data_resource.data.array || data_resource.data
+                                   else
+                                     {}
+                                   end
+          nested << sanitized_segment
+        end
+      end
+
+      data_contents.with_dot_access
     end
 
     private

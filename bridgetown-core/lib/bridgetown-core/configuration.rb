@@ -259,6 +259,9 @@ module Bridgetown
         self[:collections][:pages] = {} unless self[:collections][:pages]
         self[:collections][:pages][:output] = true
         self[:collections][:pages][:permalink] ||= "/:path.*"
+
+        self[:collections][:data] = {} unless self[:collections][:data]
+        self[:collections][:data][:output] = false
       end
       self[:collections][:posts] = {} unless self[:collections][:posts]
       self[:collections][:posts][:output] = true

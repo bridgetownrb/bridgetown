@@ -35,6 +35,10 @@ class Bridgetown::Site
       @config
     end
 
+    def uses_resource?
+      config[:content_engine] == "resource"
+    end
+
     def defaults_reader
       @defaults_reader ||= Bridgetown::DefaultsReader.new(self)
     end

@@ -179,7 +179,7 @@ class Bridgetown::Site
 
     # @return [Page]
     def pages
-      if config.content_engine == "resource"
+      if uses_resource?
         Bridgetown::Deprecator.deprecation_message "Call site.collections.pages " \
                                                    "instead of site.pages"
       end
@@ -201,7 +201,7 @@ class Bridgetown::Site
     #
     # @return [Array]
     def contents
-      return resources if config.content_engine == "resource"
+      return resources if uses_resource?
 
       pages + documents
     end
