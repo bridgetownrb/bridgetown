@@ -6,16 +6,19 @@ module Bridgetown
       # @return [Pathname]
       attr_accessor :original_path
 
-      def initialize(collection:, original_path:)
-        super(collection: collection)
+      def initialize(collection:, original_path: nil, relative_path: nil)
+        super(collection: collection, relative_path: relative_path)
 
-        @original_path = Pathname.new(original_path)
-      end
-
-      def attach_resource(resource)
-        super
-        @relative_path = original_path.relative_path_from(resource.site.source)
-        self
+        @original_path = if relative_path
+                           Pathname.new(
+                             collection.site.in_source_dir(relative_path)
+                           )
+                         else
+                           Pathname.new(original_path)
+                         end
+        unless relative_path
+          @relative_path = @original_path.relative_path_from(collection.site.source)
+        end
       end
 
       def read
@@ -25,11 +28,14 @@ module Bridgetown
           original_path, **Bridgetown::Utils.merged_file_read_opts(resource.site, {})
         )
 
-        if self.class.data_file_extensions.include? original_path.extname.downcase
-          Bridgetown::Utils.deep_merge_hashes!(resource.data, read_file_data)
-        else
-          Bridgetown::Utils.deep_merge_hashes!(resource.data, read_frontmatter)
-        end
+        self.unprocessed_data = if self.class.data_file_extensions.include?(
+          original_path.extname.downcase
+        )
+                                  read_file_data
+                                else
+                                  read_frontmatter
+                                end.with_dot_access
+        Bridgetown::Utils.deep_merge_hashes!(resource.data, unprocessed_data)
       rescue StandardError => e
         handle_read_error(e)
       end

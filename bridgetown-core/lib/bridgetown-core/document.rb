@@ -402,21 +402,13 @@ module Bridgetown
     end
 
     def populate_categories
-      categories = Array(data["categories"]) + Utils.pluralized_array_from_hash(
-        data, "category", "categories"
+      data.categories = Utils.pluralized_array_from_hash(
+        data, :category, :categories
       )
-      categories.map!(&:to_s)
-      categories.flatten!
-      categories.uniq!
-
-      merge_data!({ "categories" => categories })
     end
 
     def populate_tags
-      tags = Utils.pluralized_array_from_hash(data, "tag", "tags")
-      tags.flatten!
-
-      merge_data!({ "tags" => tags })
+      data.tags = Utils.pluralized_array_from_hash(data, :tag, :tags)
     end
 
     def determine_locale

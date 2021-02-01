@@ -34,8 +34,15 @@ module Bridgetown
       #   @return [Pathname] the relative path of source file or
       #     file-like origin
 
-      DATELESS_FILENAME_MATCHER = %r!^(?:.+/)*(.*)(\.[^.]+)$!.freeze
       DATE_FILENAME_MATCHER = %r!^(?>.+/)*?(\d{2,4}-\d{1,2}-\d{1,2})-([^/]*)(\.[^.]+)$!.freeze
+
+      class << self
+        def new_from_path(path, site:, collection:)
+          new(site: site, origin: Bridgetown::Resource::FileOrigin.new(
+            collection: collection, original_path: path
+          ))
+        end
+      end
 
       # @param site [Bridgetown::Site]
       # @param origin [Bridgetown::Resource::Origin]
@@ -47,7 +54,7 @@ module Bridgetown
         trigger_hooks(:post_init)
       end
 
-      # @param new_data [Hash]
+      # @param new_data [HashWithDotAccess::Hash]
       def data=(new_data)
         unless new_data.is_a?(HashWithDotAccess::Hash)
           raise "#{self.class} data should be of type HashWithDotAccess::Hash"
@@ -59,12 +66,8 @@ module Bridgetown
       def read(relative_url: nil)
         origin.read
         determine_slug_and_date
-
-        if data.category || data.categories
-          (Array(data.category) + Array(data.categories)).each do |label|
-            taxonomies.categories << Taxonomy.new(label: label)
-          end
-        end
+        normalize_categories_and_tags
+        import_taxonomies_from_data
 
         @destination = Destination.new(self, relative_url: relative_url) if requires_destination?
 
@@ -134,16 +137,38 @@ module Bridgetown
         data["date"] ||= site.time # TODO: this doesn't reflect documented behavior
       end
 
-      # TODO: this should get populated when data is read
-      def taxonomies
-        @taxonomies ||= {
-          categories: [],
-        }.with_dot_access
+      def normalize_categories_and_tags
+        data.categories = Bridgetown::Utils.pluralized_array_from_hash(
+          data, :category, :categories
+        )
+        data.tags = Bridgetown::Utils.pluralized_array_from_hash(
+          data, :tag, :tags
+        )
       end
 
-      # TODO: needs conditional logic
+      def taxonomies
+        @taxonomies ||= site.taxonomies.each_with_object(
+          HashWithDotAccess::Hash.new
+        ) do |taxonomy, hsh|
+          hsh[taxonomy.label] = {
+            type: taxonomy,
+            terms: [],
+          }
+        end
+      end
+
+      def import_taxonomies_from_data
+        taxonomies.each do |_label, metadata|
+          Array(data[metadata.type.key]).each do |term|
+            metadata.terms << TaxonomyTerm.new(
+              resource: self, label: term, type: metadata.type
+            )
+          end
+        end
+      end
+
       def requires_destination?
-        true
+        origin.collection.write?
       end
 
       def write?

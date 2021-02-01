@@ -49,11 +49,12 @@ module Bridgetown
           segment_value = self.class.placeholder_processors[segment].(resource)
           if segment_value.is_a?(Hash)
             segment_value[:raw_value]
+          elsif segment_value.is_a?(Array)
+            segment_value.map do |subsegment|
+              Utils.slugify(subsegment, mode: slugify_mode)
+            end.join("/")
           else
-            Utils.slugify(
-              segment_value,
-              mode: slugify_mode
-            )
+            Utils.slugify(segment_value, mode: slugify_mode)
           end
         else
           segment
@@ -104,7 +105,7 @@ module Bridgetown
       end
 
       register_placeholder :categories, ->(resource) do
-        resource.taxonomies[:categories].map(&:label).uniq.join("/")
+        resource.taxonomies.category&.terms&.map(&:label)&.uniq
       end
 
       # YYYY

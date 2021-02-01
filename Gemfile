@@ -5,6 +5,7 @@ source "https://rubygems.org"
 gem "rake", "~> 13.0"
 
 group :development do
+  gem "solargraph"
   gem "launchy", "~> 2.3"
   gem "pry"
   gem "pry-byebug"

@@ -33,5 +33,17 @@ class Bridgetown::Site
         end
       end
     end
+
+    def resources_cache_manifest
+      resources.each_with_object({}) do |resource, hsh|
+        next if resource.relative_url == ""
+
+        hsh[resource.relative_url] = {
+          collection: resource.origin.collection.label,
+          origin_klass: resource.origin.class.name,
+          relative_path: resource.origin.relative_path.to_s,
+        }
+      end
+    end
   end
 end

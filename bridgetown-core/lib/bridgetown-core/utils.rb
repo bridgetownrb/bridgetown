@@ -74,38 +74,32 @@ module Bridgetown
       end
     end
 
-    # Read array from the supplied hash favouring the singular key
-    # and then the plural key, and handling any nil entries.
+    # Read array from the supplied hash, merging the singular key with the
+    # plural key as needing, and handling any nil or duplicate entries.
     #
-    # hash - the hash to read from
-    # singular_key - the singular key
-    # plural_key - the plural key
-    #
-    # Returns an array
-    def pluralized_array_from_hash(hash, singular_key, plural_key)
-      array = []
-      value = value_from_singular_key(hash, singular_key)
-      value ||= value_from_plural_key(hash, plural_key)
+    # @param hsh [Hash] the hash to read from
+    # @param singular_key [Symbol] the singular key
+    # @param plural_key [Symbol] the plural key
+    # @return [Array]
+    def pluralized_array_from_hash(hsh, singular_key, plural_key)
+      array = [
+        hsh[singular_key],
+        value_from_plural_key(hsh, plural_key),
+      ]
 
-      array << value
       array.flatten!
       array.compact!
+      array.uniq!
       array
     end
 
-    def value_from_singular_key(hash, key)
-      hash[key] if hash.key?(key) || (hash.default_proc && hash[key])
-    end
-
-    def value_from_plural_key(hash, key)
-      if hash.key?(key) || (hash.default_proc && hash[key])
-        val = hash[key]
-        case val
-        when String
-          val.split
-        when Array
-          val.compact
-        end
+    def value_from_plural_key(hsh, key)
+      val = hsh[key]
+      case val
+      when String
+        val.split
+      when Array
+        val.compact
       end
     end
 

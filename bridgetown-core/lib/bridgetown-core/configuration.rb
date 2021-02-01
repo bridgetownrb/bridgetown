@@ -23,6 +23,7 @@ module Bridgetown
       "includes_dir"         => "_includes",
       "partials_dir"         => "_partials",
       "collections"          => {},
+      "taxonomies"           => { category: "categories", tag: "tags" },
 
       # Handling Reading
       "include"              => [".htaccess", "_redirects", ".well-known"],
@@ -295,7 +296,6 @@ module Bridgetown
     end
 
     # Deprecated, to be removed when Bridgetown goes Resource-only
-    # rubocop:disable Metrics/CyclomaticComplexity #
     def style_to_permalink(permalink_style)
       case permalink_style.to_sym
       when :pretty
@@ -314,7 +314,6 @@ module Bridgetown
         permalink_style.to_s
       end
     end
-    # rubocop:enable Metrics/CyclomaticComplexity #
 
     def check_include_exclude
       %w(include exclude).each do |option|

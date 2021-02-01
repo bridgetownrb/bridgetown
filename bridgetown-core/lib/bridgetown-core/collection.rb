@@ -227,11 +227,7 @@ module Bridgetown
     #
     # Returns the metadata for this collection
     def extract_metadata
-      if site.config["collections"].is_a?(Hash)
-        site.config["collections"][label] || {}
-      else
-        {}
-      end
+      site.config.collections[label] || HashWithDotAccess::Hash.new
     end
 
     def merge_data_resources
@@ -267,20 +263,14 @@ module Bridgetown
     end
 
     def read_document(full_path)
-      doc = Document.new(full_path, site: site, collection: self)
-      doc.read
+      doc = Document.new(full_path, site: site, collection: self).tap(&:read)
       docs << doc if site.unpublished || doc.published?
     end
 
     def read_resource(full_path)
-      resource = Bridgetown::Resource::Base.new(
-        site: site,
-        origin: Bridgetown::Resource::FileOrigin.new(
-          collection: self,
-          original_path: full_path
-        )
-      )
-      resource.read
+      resource = Bridgetown::Resource::Base.new_from_path(
+        full_path, site: site, collection: self
+      ).tap(&:read)
       resources << resource if site.unpublished || resource.published?
     end
 

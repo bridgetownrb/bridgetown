@@ -13,6 +13,9 @@ module Bridgetown
       # @return [Base]
       attr_accessor :resource
 
+      # @return [HashWithDotAccess::Hash]
+      attr_accessor :unprocessed_data
+
       YAML_FRONT_MATTER_REGEXP = %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m.freeze
 
       class << self
@@ -21,8 +24,9 @@ module Bridgetown
         end
       end
 
-      def initialize(collection:)
+      def initialize(collection:, relative_path: nil)
         @collection = collection
+        @relative_path = relative_path
       end
 
       def attach_resource(resource)

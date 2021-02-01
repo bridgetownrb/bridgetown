@@ -51,7 +51,7 @@ module Bridgetown
           next if search_term.nil?
 
           terms_matching_pages(search_term).each do |term|
-            generate_new_page_from_prototype(prototype_page, search_term, term).data
+            generate_new_page_from_prototype(prototype_page, search_term, term)
           end
         end
       end

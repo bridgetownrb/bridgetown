@@ -121,18 +121,14 @@ class Bridgetown::Site
     # An array of collection names.
     # @return [Array<String>] an array of collection names from the configuration,
     #   or an empty array if the `config["collections"]` key is not set.
-    # @raise ArgumentError Raise an error if `config["collections"]` is not
-    #   an Array or a Hash
     def collection_names
-      case config["collections"]
-      when Hash
-        config["collections"].keys
-      when Array
-        config["collections"]
-      when nil
-        []
-      else
-        raise ArgumentError, "Your `collections` key must be a hash or an array."
+      Array(config.collections&.keys)
+    end
+
+    # @return [Array<Bridgetown::Resource::TaxonomyType>]
+    def taxonomies
+      @taxonomies ||= config.taxonomies.map do |label, key|
+        Bridgetown::Resource::TaxonomyType.new(site: self, label: label, key: key)
       end
     end
 
