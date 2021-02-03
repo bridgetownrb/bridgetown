@@ -37,7 +37,7 @@ bundle exec bridgetown new my_project -c swup,purgecss
 
 🍃 Adds [TailwindCSS](https://tailwindcss.com) with an empty configuration along with [PurgeCSS](https://purgecss.com).
 
-Please be aware that you need to have [PostCSS](https://postcss.org) setup to run this configuration. You can create a new Bridgetown project with PostCSS using `bridgtown new my_project --use-postcss`.
+Please be aware that you need to have [PostCSS](https://postcss.org) setup to run this configuration. You can create a new Bridgetown project with PostCSS using `bridgetown new my_project --use-postcss`.
 
 This configuration will overwrite your `postcss.config.js` file.
 

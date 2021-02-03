@@ -123,10 +123,10 @@ Bridgetown is built by:
 |Brighton, UK|Portland, OR|Vienna, Austria|Tokyo, Japan|London, UK|
 
 
-|<img src="https://avatars.githubusercontent.com/bkmgit?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/pascalwengerter?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/u/57881112?s=460&u=51f2d296a79c3f045172c7b18a704c994e0eee08&v=4" alt="" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|<img src="https://avatars.githubusercontent.com/bkmgit?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/pascalwengerter?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/u/57881112?s=460&u=51f2d296a79c3f045172c7b18a704c994e0eee08&v=4" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/juanvqz?s=256" alt="" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
 |:---:|:---:|:---:|:---:|
-|<a href="https://github.com/bkmgit">@bkmgit</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/marketerly">@taha</a>|You Next?|
-||Lisbon, Portugal|Tripoli, Libya|Anywhere|
+|<a href="https://github.com/bkmgit">@bkmgit</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/marketerly">@taha</a>|<a href="https://github.com/juanvqz">@juanvqz</a>|You Next?|
+||Lisbon, Portugal|Tripoli, Libya|Oaxaca, México|Anywhere|
 
 Interested in joining the Bridgetown Core Team? Send a DM to Jared in [Discord](https://discord.gg/V56yUWR) and let's chat!
 
