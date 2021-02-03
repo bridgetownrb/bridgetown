@@ -94,7 +94,7 @@ This configuration will overwrite your `postcss.config.js` file.
 ```
 bundle exec bridgetown configure bt-postcss
 ```
-If you'd customize your setup further you can find more plugins [here](https://www.postcss.parts).
+If you'd like to customize your setup further you can find more plugins [here](https://www.postcss.parts).
 
 ### Netlify TOML Configuration
 
