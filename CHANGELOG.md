@@ -1,5 +1,14 @@
 # main
 
+# 0.19.2 / 2020-02-05
+
+* Introducing bundled configurations! Now some popular automations, including enhanced PostCSS and Tailwind CSS setups, are available directly through the Bridgetown CLI rather than being in a separate automations repo. [Documentation here](https://www.bridgetownrb.com/docs/bundled-configurations). Thanks [Ayush](https://github.com/ayushn21)
+* Upgrade to Liquid 5.0 and remove previous backported `render` tag [#224](https://github.com/bridgetownrb/bridgetown/pull/224) ([jaredcwhite](https://github.com/jaredcwhite))
+  * **Breaking Change:** when using the `where` filter, the literals `""``, `blank`, and `empty` are now all equivalent.
+* New plugin generator now prefers `main` over `master` for default branch name [#225](https://github.com/bridgetownrb/bridgetown/pull/225) ([ayushn21](https://github.com/ayushn21))
+* Use `ActiveSupport::DescendantsTracker` for managing class hierarchies of plugins (converters, builders, and generators) [#218](https://github.com/bridgetownrb/bridgetown/pull/218) ([jaredcwhite](https://github.com/jaredcwhite))
+* Lots of documentation improvements — thanks [Juan](https://github.com/JuanVqz), [Taha](https://github.com/marketerly), and [Ayush](https://github.com/ayushn21).
+
 # 0.19.1 / 2020-12-26
 
 * Website: Fix a grammar error in the Jamstack.md page on Bridgetown website ([taha](https://github.com/marketerly))
