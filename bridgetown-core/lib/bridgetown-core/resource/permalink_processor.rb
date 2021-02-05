@@ -29,13 +29,15 @@ module Bridgetown
       def transform
         permalink = resource.data.permalink ||
           permalink_for_permalink_style(resource.collection.default_permalink)
-        url_segments = permalink.chomp(".*").split("/")
+        url_segments = permalink.sub(%r{\.[^/]*$}, "").split("/")
         new_url = url_segments.map do |segment|
           segment.starts_with?(":") ? process_segment(segment.sub(%r{^:}, "")) : segment
         end.select(&:present?).join("/")
 
         if permalink.ends_with?(".*")
           "/#{new_url}#{final_ext}"
+        elsif permalink =~ %r{\.[^/]*$}
+          "/#{new_url}#{Regexp.last_match[0]}"
         elsif permalink.ends_with?("/")
           "/#{new_url}/"
         else

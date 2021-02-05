@@ -297,7 +297,7 @@ module Bridgetown
 
     # Deprecated, to be removed when Bridgetown goes Resource-only
     def style_to_permalink(permalink_style)
-      case permalink_style.to_sym
+      case permalink_style.to_s.to_sym
       when :pretty
         "/:categories/:year/:month/:day/:title/"
       when :simple

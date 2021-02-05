@@ -57,6 +57,8 @@ module Bridgetown
         output = place_in_layouts(output)
       end
 
+      document.destination&.output_ext = output_ext if document.method(:destination).arity.zero?
+
       output
     end
 
@@ -163,7 +165,9 @@ module Bridgetown
 
     def permalink_ext
       document_permalink = document.permalink
-      if document_permalink && !document_permalink.end_with?("/")
+      if document_permalink &&
+          !document_permalink.end_with?("/") &&
+          !document_permalink.end_with?(".*")
         permalink_ext = File.extname(document_permalink)
         permalink_ext unless permalink_ext.empty?
       end

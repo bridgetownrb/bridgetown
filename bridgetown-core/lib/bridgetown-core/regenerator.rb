@@ -27,7 +27,7 @@ module Bridgetown
         regenerate_page?(document)
       when Document
         regenerate_document?(document)
-      when Bridgetown::Base::Resource
+      when Bridgetown::Resource::Base
         regenerate_resource?(document)
       else
         source_path = document.respond_to?(:path) ? document.path : nil

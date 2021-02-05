@@ -45,14 +45,14 @@ class TestUtils < BridgetownUnitTest
         assert_equal %w(dog cat), Utils.pluralized_array_from_hash(data, "tag", "tags")
       end
 
-      should "return single value array with matching singular" do
+      should "return plural array with merged singular" do
         data = { "foo" => "bar", "tag" => "dog", "tags" => %w(dog cat) }
-        assert_equal ["dog"], Utils.pluralized_array_from_hash(data, "tag", "tags")
+        assert_equal %w[dog cat], Utils.pluralized_array_from_hash(data, "tag", "tags")
       end
 
-      should "return single value array with matching singular with spaces" do
+      should "return array with singular added to pluaral with spaces" do
         data = { "foo" => "bar", "tag" => "dog cat", "tags" => %w(dog cat) }
-        assert_equal ["dog cat"], Utils.pluralized_array_from_hash(data, "tag", "tags")
+        assert_equal ["dog cat", "dog", "cat"], Utils.pluralized_array_from_hash(data, "tag", "tags")
       end
 
       should "return empty array with matching nil plural" do
@@ -286,8 +286,7 @@ class TestUtils < BridgetownUnitTest
       )
     end
 
-    should "records a warning in the log if the returned slug is empty" do
-      expect(Bridgetown.logger).to receive(:warn)
+    should "not include emoji characters" do
       assert_equal "", Utils.slugify("💎")
     end
   end

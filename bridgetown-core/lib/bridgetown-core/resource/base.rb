@@ -63,13 +63,13 @@ module Bridgetown
         @data = new_data
       end
 
-      def read(relative_url: nil)
+      def read
         origin.read
         determine_slug_and_date
         normalize_categories_and_tags
         import_taxonomies_from_data
 
-        @destination = Destination.new(self, relative_url: relative_url) if requires_destination?
+        @destination = Destination.new(self) if requires_destination?
 
         trigger_hooks(:post_read)
 
@@ -119,6 +119,10 @@ module Bridgetown
 
       def extname
         relative_path.extname
+      end
+
+      def permalink
+        data&.permalink
       end
 
       def path

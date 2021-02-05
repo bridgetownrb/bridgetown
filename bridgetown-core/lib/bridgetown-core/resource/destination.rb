@@ -6,9 +6,11 @@ module Bridgetown
       # @return [Base]
       attr_accessor :resource
 
-      def initialize(resource, relative_url: nil)
+      # @return [String]
+      attr_accessor :output_ext
+
+      def initialize(resource)
         @resource = resource
-        @relative_url = relative_url
       end
 
       def absolute_url
@@ -18,30 +20,18 @@ module Bridgetown
       end
 
       def relative_url
-        @relative_url || generate_url_from_data
+        @processor ||= PermalinkProcessor.new(resource)
+        @processor.transform
       end
 
       def final_ext
-        ".html" # TODO: this should be dynamic
+        output_ext || ".html"
       end
 
       def output_path
-        return @output_path if @output_path
-
         path = resource.site.in_dest_dir(URL.unescape_path(relative_url))
-        if relative_url.end_with? "/"
-          path = File.join(path, "index.html")
-        else
-          path << final_ext unless path.end_with? final_ext
-        end
-        @output_path = path
-      end
-
-      private
-
-      def generate_url_from_data
-        @processor ||= PermalinkProcessor.new(resource)
-        @processor.transform
+        path = File.join(path, "index.html") if relative_url.end_with? "/"
+        path
       end
     end
   end

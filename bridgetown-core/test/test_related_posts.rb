@@ -12,10 +12,10 @@ class TestRelatedPosts < BridgetownUnitTest
       @site.reset
       @site.read
 
-      last_post     = @site.posts.last
+      last_post     = @site.posts.docs.last
       related_posts = Bridgetown::RelatedPosts.new(last_post).build
 
-      last_ten_recent_posts = (@site.posts.docs.reverse - [last_post]).first(10)
+      last_ten_recent_posts = (@site.posts.docs.docs.reverse - [last_post]).first(10)
       assert_equal last_ten_recent_posts, related_posts
     end
   end
@@ -37,11 +37,11 @@ class TestRelatedPosts < BridgetownUnitTest
       @site.posts.docs = @site.posts.docs.first(1)
       expect_any_instance_of(::ClassifierReborn::LSI).to \
         receive(:add_item).with(kind_of(Bridgetown::Document))
-      Bridgetown::RelatedPosts.new(@site.posts.last).build_index
+      Bridgetown::RelatedPosts.new(@site.posts.docs.last).build_index
     end
 
     should "find related Bridgetown::Post objects, given a Bridgetown::Post object" do
-      post = @site.posts.last
+      post = @site.posts.docs.last
       allow_any_instance_of(::ClassifierReborn::LSI).to receive(:build_index)
       expect_any_instance_of(::ClassifierReborn::LSI).to \
         receive(:find_related).with(post, 11).and_return(@site.posts[-1..-9])
@@ -54,7 +54,7 @@ class TestRelatedPosts < BridgetownUnitTest
         receive(:find_related).and_return(@site.posts[-1..-9])
       allow_any_instance_of(::ClassifierReborn::LSI).to receive(:build_index)
 
-      assert_equal @site.posts[-1..-9], Bridgetown::RelatedPosts.new(@site.posts.last).build
+      assert_equal @site.posts[-1..-9], Bridgetown::RelatedPosts.new(@site.posts.docs.last).build
     end
   end
 end

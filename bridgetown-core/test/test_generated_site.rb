@@ -16,11 +16,11 @@ class TestGeneratedSite < BridgetownUnitTest
     end
 
     should "ensure post count is as expected" do
-      assert_equal 61, @site.posts.size
+      assert_equal 61, @site.posts.docs.size
     end
 
     should "insert site.posts into the index" do
-      assert_includes @index, "#{@site.posts.size} Posts"
+      assert_includes @index, "#{@site.posts.docs.size} Posts"
     end
 
     should "insert variable from layout into the index" do
@@ -28,7 +28,7 @@ class TestGeneratedSite < BridgetownUnitTest
     end
 
     should "render latest post's content" do
-      assert_includes @index, @site.posts.last.content
+      assert_includes @index, @site.posts.docs.last.content
     end
 
     should "hide unpublished posts" do
@@ -59,7 +59,7 @@ class TestGeneratedSite < BridgetownUnitTest
 
     should "include a post with a abbreviated dates" do
       refute_nil(
-        @site.posts.index do |post|
+        @site.posts.docs.index do |post|
           post.relative_path == "_posts/2017-2-5-i-dont-like-zeroes.md"
         end
       )
@@ -89,7 +89,7 @@ class TestGeneratedSite < BridgetownUnitTest
     end
 
     should "generate only the specified number of posts" do
-      assert_equal 5, @site.posts.size
+      assert_equal 5, @site.posts.docs.size
     end
 
     should "ensure limit posts is 0 or more" do

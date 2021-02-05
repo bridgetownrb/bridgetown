@@ -219,7 +219,7 @@ class TestFrontMatterDefaults < BridgetownUnitTest
       @site.process
       date = Time.parse("2015-01-01 00:00:01")
       assert(@site.pages.find { |page| page.data["date"] == date })
-      assert(@site.posts.find { |page| page.data["date"] == date })
+      assert(@site.posts.docs.find { |page| page.data["date"] == date })
     end
   end
 
@@ -230,11 +230,11 @@ class TestFrontMatterDefaults < BridgetownUnitTest
     end
 
     should "have a post with a value from the defaults file" do
-      assert(@site.posts.find { |page| page.data[:title] == "Post with Permalink" }.data[:ruby3] == "groovy")
+      assert(@site.posts.docs.find { |page| page.data[:title] == "Post with Permalink" }.data[:ruby3] == "groovy")
     end
 
     should "have an overridden value in a subtree" do
-      assert(@site.posts.find { |page| page.data[:title] == "Further Nested" }.data[:ruby3] == "trippin")
+      assert(@site.posts.docs.find { |page| page.data[:title] == "Further Nested" }.data[:ruby3] == "trippin")
     end
   end
 end

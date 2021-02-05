@@ -81,7 +81,7 @@ class TestSite < BridgetownUnitTest
     should "reset data before processing" do
       clear_dest
       @site.process
-      before_posts = @site.posts.length
+      before_posts = @site.posts.docs.length
       before_layouts = @site.layouts.length
       before_categories = @site.categories.length
       before_tags = @site.tags.length
@@ -90,7 +90,7 @@ class TestSite < BridgetownUnitTest
       before_time = @site.time
 
       @site.process
-      assert_equal before_posts, @site.posts.length
+      assert_equal before_posts, @site.posts.docs.length
       assert_equal before_layouts, @site.layouts.length
       assert_equal before_categories, @site.categories.length
       assert_equal before_tags, @site.tags.length
@@ -263,7 +263,7 @@ class TestSite < BridgetownUnitTest
         2013 bar baz foo z_category MixedCase Mixedcase publish_test
       ).sort
 
-      assert_equal posts.size - @num_invalid_posts, @site.posts.size
+      assert_equal posts.size - @num_invalid_posts, @site.posts.docs.size
       assert_equal categories, @site.categories.keys.sort
       assert_equal 4, @site.categories["foo"].size
     end
