@@ -6,9 +6,6 @@ top_section: Configuration
 category: bundledconfigurations
 ---
 
-**_This feature hasn't been released yet and is available in the `main` branch._**
-
-
 Bridgetown bundles a number of automation scripts to set up common project
 configurations. You can run these scripts using `bundle exec bridgetown
 configure [CONFIGURATION]`
