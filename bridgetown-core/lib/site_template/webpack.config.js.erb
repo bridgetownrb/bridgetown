@@ -64,6 +64,7 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
+              url: false,
               importLoaders: 1
             }
           },
@@ -75,7 +76,12 @@ module.exports = {
         test: /\.(s[ac]|c)ss$/,
         use: [
           MiniCssExtractPlugin.loader,
-          "css-loader",
+          {
+            loader: "css-loader",
+            options: {
+              url: false
+            }
+          },
           {
             loader: "sass-loader",
             options: {
