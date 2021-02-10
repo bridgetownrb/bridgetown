@@ -96,11 +96,21 @@ module.exports = {
       },
       <% end %>
       {
-        test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/,
+        test: /\.woff2?$|\.ttf$|\.eot$/,
         loader: "file-loader",
         options: {
+          name: "[name]-[contenthash].[ext]",
           outputPath: "../fonts",
           publicPath: "../fonts",
+        },
+      },
+      {
+        test: /\.png?$|\.gif$|\.jpg$|\.svg$/,
+        loader: "file-loader",
+        options: {
+          name: "[name]-[contenthash].[ext]",
+          outputPath: "../images",
+          publicPath: "../images",
         },
       },
     ],
