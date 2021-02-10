@@ -64,7 +64,7 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
-              url: false,
+              url: url => !url.startsWith('/'),
               importLoaders: 1
             }
           },
@@ -79,7 +79,7 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
-              url: false
+              url: url => !url.startsWith('/')
             }
           },
           {
