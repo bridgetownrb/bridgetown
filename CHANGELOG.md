@@ -1,5 +1,10 @@
 # main
 
+# 0.19.3 / 2020-02-11
+
+* Fix css-loader's resolving of `/path/to/file` type URLs [#240](https://github.com/bridgetownrb/bridgetown/pull/240) ([jaredcwhite](https://github.com/jaredcwhite))
+  * Add [documentation to explain why this change was necessary](https://www.bridgetownrb.com/docs/frontend-assets#additional-bundled-assets-fonts-images) and what it enables for the future regarding Webpack's bundling of images.
+
 # 0.19.2 / 2020-02-05
 
 * Introducing bundled configurations! Now some popular automations, including enhanced PostCSS and Tailwind CSS setups, are available directly through the Bridgetown CLI rather than being in a separate automations repo. [Documentation here](https://www.bridgetownrb.com/docs/bundled-configurations). Thanks [Ayush](https://github.com/ayushn21)
