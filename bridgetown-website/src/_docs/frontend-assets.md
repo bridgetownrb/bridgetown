@@ -134,6 +134,8 @@ There's a catch with regard to how this works, because you'll also want to be ab
 * For any files saved inside of `frontend`, use filesystem-relative paths. For example: `background: url("../images/photo.jpg")` in `frontend/styles/index.css` will look for `frontend/images/photo.jpg`. If the file can't be found, Webpack will throw an error.
 * For a Node package file, use Webpack's special `~` character, aka `~package-name/path/to/image.jpg`.
 
-During bundling Webpack will place image files (jpg, png, gif, svg) in `output/_bridgetown/static/images` and font files (woff, woff2, eot, ttf) in `output/_bridgetown/static/fonts`. You can edit `webpack.config.js` if you wish to change this default behavior.
+When bundling, Webpack will place image files (jpg, png, gif, svg) in `output/_bridgetown/static/images` and font files (woff, woff2, eot, ttf) in `output/_bridgetown/static/fonts`. You can edit `webpack.config.js` if you wish to change this default behavior.
 
+{% rendercontent "docs/note", extra_margin: true, title: "There's more to the story…" %}
 In a future version of Bridgetown, a Liquid tag/Ruby helper will be provided to allow you to reference image URLs via the Webpack manifest, so in theory you could use Webpack to manage _all_ of your image files (instead of saving them in `src`). But for now, Webpack-managed images/fonts are only useful within the context of CSS-based URLs.
+{% endrendercontent %}
