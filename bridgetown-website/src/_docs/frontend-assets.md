@@ -10,10 +10,12 @@ Bridgetown comes with a default configuration of [Webpack](https://webpack.js.or
 Files to be processed by Webpack are placed in the top-level `frontend` folder within your site root. This folder is entirely separate from the Bridgetown source folder where your content, templates, plugins, etc. live. However, using relative paths you can reference files from Webpack that live in the source folder (so you could keep CSS partials alongside Liquid templates, for example).
 
 {% rendercontent "docs/note" %}
-Wondering where to save images? Look at the `src/images` folder. You can reference them from both markup and CSS simply using a relative URL (for example, `/images/logo.svg`). If you're interested in a full-featured image management solution with the ability to resize and optimize your media sizes, check out [Cloudinary](https://www.cloudinary.com){:rel="noopener"} and the [bridgetown-cloudinary plugin](https://github.com/bridgetownrb/bridgetown-cloudinary){:rel="noopener"}.
+Wondering where to save images? Look at the `src/images` folder. You can reference them from both markup and CSS simply using a relative URL (for example, `/images/logo.svg`). Optionally, you can bundle images through Webpack's `css-loader` (more information below). If you're interested in a full-featured image management solution with the ability to resize and optimize your media sizes, check out [Cloudinary](https://www.cloudinary.com){:rel="noopener"} and the [bridgetown-cloudinary plugin](https://github.com/bridgetownrb/bridgetown-cloudinary){:rel="noopener"}.
 {% endrendercontent %}
 
 Bridgetown uses [Yarn](https://yarnpkg.com){:rel="noopener"} to install and manage frontend NPM-based packages and dependencies. [Gem-based plugins can instruct Bridgetown](/docs/plugins/gems-and-webpack/) to add a related NPM package whenever Bridgetown first loads the gem.
+
+{% toc %}
 
 ## Javascript
 
@@ -119,3 +121,17 @@ This will automatically produce HTML tags that look something like this:
 <link rel="stylesheet" href="/_bridgetown/static/css/all.6902d0bf80a552c79eaa.css"/>
 <script src="/_bridgetown/static/js/all.a1286aad43064359dbc8.js" defer></script>
 ```
+
+## Additional Bundled Assets (Fonts, Images)
+
+By default starting with Bridgetown 0.19.3, both fonts and images can be bundled through Webpack's loaders. This means that, in CSS/JS files, you can reference fonts/images saved somewhere in the `frontend` folder (or even from a package in `node_modules`) and those will get transformed and copied over to `output/_bridgetown` within an appropriate subfolder and with a hashed filename (aka `photo.jpg` would become `photo-31d6cfe0d16ae931b73c59d7e0c089c0.jpg`).
+
+There's a catch with regard to how this works, because you'll also want to be able to save files directly within `src` that are accessible via standard relative URLs (so `src/images/photo.jpg` is available at `/images/photo.jpg` within the static output, no Webpack processing required).
+
+**So here's what you'll want to do:**
+
+* For any files saved inside of `src`, use a server-relative path. For example: `background: url(/images/photo.jpg)` in a frontend CSS file would simply point to what is saved at `src/images/photo.jpg`.
+* For any files saved inside of `frontend`, use filesystem-relative paths. For example: `background: url("../images/photo.jpg")` in `frontend/styles/index.css` will look for `frontend/images/photo.jpg`. If the file can't be found, Webpack will throw an error.
+* For a Node package file, use Webpack's special `~` character, aka `~package-name/path/to/image.jpg`.
+
+In a future version of Bridgetown, a Liquid tag/Ruby helper will be provided to allow you to reference image URLs via the Webpack manifest, so in theory you could use Webpack to manage _all_ of your image files (instead of placing them in `src`). But for now, Webpack-managed images/fonts are only useful within the context of CSS-based URLs.
