@@ -102,7 +102,7 @@ module Bridgetown
     #
     # Returns the escaped String.
     def cgi_escape(input)
-      CGI.escape(input)
+      CGI.escape(input.to_s)
     end
 
     # URI escape a string.

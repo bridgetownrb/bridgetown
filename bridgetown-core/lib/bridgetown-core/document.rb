@@ -52,7 +52,7 @@ module Bridgetown
       @has_yaml_header = nil
 
       data.default_proc = proc do |_, key|
-        site.frontmatter_defaults.find(relative_path, type, key)
+        site.frontmatter_defaults.find(relative_path, type, key.to_s)
       end
 
       trigger_hooks(:post_init)

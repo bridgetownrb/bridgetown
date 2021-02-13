@@ -82,7 +82,7 @@ class Bridgetown::Site
     # @return [Array<String>] Return an array of updated paths if multiple paths given.
     def in_root_dir(*paths)
       paths.reduce(root_dir) do |base, path|
-        Bridgetown.sanitized_path(base, path)
+        Bridgetown.sanitized_path(base, path.to_s)
       end
     end
 
@@ -95,7 +95,7 @@ class Bridgetown::Site
     # @return [Array<String>] Return an array of updated paths if multiple paths given.
     def in_source_dir(*paths)
       paths.reduce(source) do |base, path|
-        Bridgetown.sanitized_path(base, path)
+        Bridgetown.sanitized_path(base, path.to_s)
       end
     end
 

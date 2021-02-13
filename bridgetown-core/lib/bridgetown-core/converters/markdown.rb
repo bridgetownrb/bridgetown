@@ -59,7 +59,7 @@ module Bridgetown
       # content - String content of file (without front matter).
       #
       # Returns a String of the converted content.
-      def convert(content)
+      def convert(content, _convertible = nil)
         setup
         @cache.getset(content) do
           @parser.convert(content)

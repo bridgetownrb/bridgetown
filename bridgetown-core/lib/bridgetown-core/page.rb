@@ -49,7 +49,7 @@ module Bridgetown
       read_yaml(PathManager.join(base, dir), name)
 
       data.default_proc = proc do |_, key|
-        site.frontmatter_defaults.find(relative_path, type, key)
+        site.frontmatter_defaults.find(relative_path, type, key.to_s)
       end
 
       Bridgetown::Hooks.trigger :pages, :post_init, self

@@ -68,14 +68,12 @@ module Bridgetown
           if label == "data" || Utils.has_yaml_header?(full_path)
             read_resource(full_path)
           else
-            read_static_file(file_path, full_path)
+            read_static_file(file_path, full_path) unless File.basename(file_path).starts_with?("_")
           end
+        elsif Utils.has_yaml_header? full_path
+          read_document(full_path)
         else
-          if Utils.has_yaml_header? full_path
-            read_document(full_path)
-          else
-            read_static_file(file_path, full_path)
-          end
+          read_static_file(file_path, full_path)
         end
       end
       site.static_files.concat(static_files)

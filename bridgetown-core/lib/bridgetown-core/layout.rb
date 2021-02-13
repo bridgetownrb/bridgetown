@@ -21,6 +21,8 @@ module Bridgetown
     # Gets/Sets the extension of this layout.
     attr_accessor :ext
 
+    alias_method :extname, :ext
+
     # Gets/Sets the Hash that holds the metadata for this layout.
     attr_accessor :data
 
@@ -52,8 +54,6 @@ module Bridgetown
         @path = site.in_source_dir(base, name)
       end
       @relative_path = @path.sub(@base_dir, "")
-
-      self.data = {}
 
       process(name)
       read_yaml(base, name)

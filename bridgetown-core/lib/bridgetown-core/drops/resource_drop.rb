@@ -33,6 +33,10 @@ module Bridgetown
         fallback_data["excerpt"].to_s
       end
 
+      def url
+        @obj.relative_url
+      end
+
       def <=>(other)
         return nil unless other.is_a? DocumentDrop
 

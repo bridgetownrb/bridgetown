@@ -34,7 +34,7 @@ module Bridgetown
                                   read_file_data
                                 else
                                   read_frontmatter
-                                end.with_dot_access
+                                end || {}
         Bridgetown::Utils.deep_merge_hashes!(resource.data, unprocessed_data)
       rescue StandardError => e
         handle_read_error(e)
@@ -60,7 +60,9 @@ module Bridgetown
                        encoding: resource.site.config["encoding"]).map(&:to_hash),
           }
         else
-          SafeYAML.load_file(original_path)
+          yaml_data = SafeYAML.load_file(original_path)
+
+          yaml_data.is_a?(Array) ? { array: yaml_data } : yaml_data
         end
       end
 

@@ -16,7 +16,7 @@ module Bridgetown
 
       def [](key)
         if key != "posts" && @obj.collections.key?(key)
-          @obj.collections[key].docs
+          @obj.uses_resource? ? @obj.collections[key].resources : @obj.collections[key].docs
         else
           super(key)
         end
@@ -27,7 +27,7 @@ module Bridgetown
       end
 
       def posts
-        @site_posts ||= @obj.posts.docs.sort { |a, b| b <=> a }
+        @site_posts ||= @obj.uses_resource? ? @obj.posts.resources : @obj.posts.docs.sort { |a, b| b <=> a }
       end
 
       def html_pages
@@ -48,6 +48,10 @@ module Bridgetown
       # additional computation of `Site#documents`.
       def documents
         @documents ||= @obj.documents
+      end
+
+      def resources
+        @resources ||= @obj.resources
       end
 
       def contents

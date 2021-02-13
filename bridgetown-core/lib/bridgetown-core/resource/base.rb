@@ -22,7 +22,7 @@ module Bridgetown
       attr_reader :site
 
       # @return [String]
-      attr_accessor :content, :output
+      attr_accessor :content, :untransformed_content, :output
 
       def_delegators :@origin,
                      :collection, :relative_path
@@ -49,9 +49,13 @@ module Bridgetown
       def initialize(site:, origin:)
         @site = site
         @origin = origin.attach_resource(self)
-        @data = HashWithDotAccess::Hash.new
+        self.data = HashWithDotAccess::Hash.new
 
         trigger_hooks(:post_init)
+      end
+
+      def transformer
+        @transformer ||= Bridgetown::Resource::Transformer.new(self)
       end
 
       # @param new_data [HashWithDotAccess::Hash]
@@ -61,10 +65,18 @@ module Bridgetown
         end
 
         @data = new_data
+        @data.default_proc = proc do |_, key|
+          site.frontmatter_defaults.find(
+            relative_path.to_s,
+            collection.label.to_sym,
+            key.to_s
+          )
+        end
       end
 
-      def read
+      def read!
         origin.read
+        self.untransformed_content = content
         determine_slug_and_date
         normalize_categories_and_tags
         import_taxonomies_from_data
@@ -74,6 +86,11 @@ module Bridgetown
         trigger_hooks(:post_read)
 
         self
+      end
+      alias_method :read, :read! # TODO: eventually use the bang version only
+
+      def transform!
+        transformer.process! unless collection.label == "data"
       end
 
       def determine_slug_and_date
@@ -100,6 +117,12 @@ module Bridgetown
         Bridgetown::Hooks.trigger :resources, hook_name, self, *args
       end
 
+      def around_hook(hook_suffix)
+        trigger_hooks :"pre_#{hook_suffix}"
+        yield
+        trigger_hooks :"post_#{hook_suffix}"
+      end
+
       def relative_path_basename_without_prefix
         return_path = Pathname.new("")
         relative_path.each_filename do |filename|
@@ -117,10 +140,12 @@ module Bridgetown
         relative_path.basename(".*").to_s
       end
 
+      # @return [String]
       def extname
         relative_path.extname
       end
 
+      # @return [String, nil]
       def permalink
         data&.permalink
       end
@@ -136,6 +161,7 @@ module Bridgetown
       def relative_url
         format_url destination&.relative_url
       end
+      alias_method :id, :relative_url
 
       def date
         data["date"] ||= site.time # TODO: this doesn't reflect documented behavior
@@ -219,6 +245,16 @@ module Bridgetown
         cmp = data["date"] <=> other.data["date"]
         cmp = path <=> other.path if cmp.nil? || cmp.zero?
         cmp
+      end
+
+      def next_doc
+        pos = collection.resources.index { |item| item.equal?(self) }
+        collection.resources[pos + 1] if pos && pos < collection.resources.length - 1
+      end
+
+      def previous_doc
+        pos = collection.docs.index { |item| item.equal?(self) }
+        collection.resources[pos - 1] if pos&.positive?
       end
 
       private
