@@ -15,7 +15,7 @@ There are a bunch of helpful core team and community members available that shou
 
 There are also a growing number of companies which provide commercial support for advanced Bridgetown site builds. These include:
 
-* [Whitefusion](https://whitefusion.io)
+* [Whitefusion](https://www.whitefusion.studio)
 
 ----
 

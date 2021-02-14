@@ -7,7 +7,7 @@ Bridgetown started life as a fork of the granddaddy of static site generators, [
 
 But as the concepts of modern static site generation and the [Jamstack](/docs/jamstack/) came to the forefront, a whole new generation of tools rose up, like [Hugo](https://gohugo.io), [Eleventy](https://www.11ty.dev), [Gatsby](http://gatsbyjs.org), and many more. In the face of all this new competition, Jekyll chose to focus on maintaining extensive backwards-compatibility and a paired-down feature set—noble goals for an open source project generally speaking, but ones that were at odds with meaningful portions of the web developer community.
 
-So in March 2020, Portland-based web studio [Whitefusion](https://whitefusion.io) started on **Bridgetown**, a fork of Jekyll with a brand new set of project goals and a future roadmap. Whitefusion's multi-year experience producing and deploying numerous Jekyll-based websites furnishes a seasoned take on the unique needs of web agencies and their clients.
+So in March 2020, Portland-based web studio [Whitefusion](https://www.whitefusion.studio) started on **Bridgetown**, a fork of Jekyll with a brand new set of project goals and a future roadmap. Whitefusion's multi-year experience producing and deploying numerous Jekyll-based websites furnishes a seasoned take on the unique needs of web agencies and their clients.
 
 It's early days yet, but our goal is to keep adding new features at a steady and predictable pace, grow the open source community around the project, and ensure a lively future for a top-tier Ruby-based static site generator moving forward.
 

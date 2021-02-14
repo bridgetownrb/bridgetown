@@ -39,7 +39,7 @@ Say howdy 👋 to our growing list of the first twenty sponsors of Bridgetown on
 
 ## Commercial Support
 
-Bridgetown development is spearheaded by Portland-based web studio [Whitefusion](https://whitefusion.io). Contact us if you need commercial support for your Bridgetown content strategy, site design, or deployment.
+Bridgetown development is spearheaded by Portland-based web studio [Whitefusion](https://www.whitefusion.studio). Contact us if you need commercial support for your Bridgetown content strategy, site design, or deployment.
 
 ----
 
