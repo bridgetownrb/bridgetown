@@ -47,7 +47,6 @@ module Bridgetown
       dot_dirs = []
       dot_pages = []
       dot_static_files = []
-      should_read_pages = site.config.content_engine != "resource"
 
       dot = Dir.chdir(base) { filter_entries(Dir.entries("."), base) }
       dot.each do |entry|
@@ -55,7 +54,7 @@ module Bridgetown
         if File.directory?(file_path)
           dot_dirs << entry
         elsif Utils.has_yaml_header?(file_path)
-          dot_pages << entry if should_read_pages
+          dot_pages << entry
         else
           dot_static_files << entry
         end
@@ -102,6 +101,13 @@ module Bridgetown
     #
     # Returns nothing.
     def retrieve_pages(dir, dot_pages)
+      if site.uses_resource?
+        dot_pages.each do |page_path|
+          site.collections.pages.send(:read_resource, site.in_source_dir(dir, page_path))
+        end
+        return
+      end
+
       site.pages.concat(PageReader.new(site, dir).read(dot_pages))
     end
 

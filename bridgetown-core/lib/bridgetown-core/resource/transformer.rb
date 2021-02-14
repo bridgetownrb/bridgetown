@@ -18,6 +18,7 @@ module Bridgetown
       def initialize(resource)
         @resource = resource
         @site = resource.site
+        execute_inline_ruby
         @output_ext = output_ext_from_converters
       end
 
@@ -29,7 +30,6 @@ module Bridgetown
       def process!
         Bridgetown.logger.debug "Transforming:", resource.relative_path
         resource.around_hook :render do
-          execute_inline_ruby
           run_conversions
           resource.place_in_layout? ? place_into_layouts : resource.output = resource.content.dup
         end
