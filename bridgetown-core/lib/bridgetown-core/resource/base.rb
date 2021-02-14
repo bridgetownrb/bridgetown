@@ -77,10 +77,13 @@ module Bridgetown
 
       def read!
         origin.read
-        self.untransformed_content = content
-        determine_slug_and_date
-        normalize_categories_and_tags
-        import_taxonomies_from_data
+
+        unless collection.data?
+          self.untransformed_content = content
+          determine_slug_and_date
+          normalize_categories_and_tags
+          import_taxonomies_from_data
+        end
 
         @destination = Destination.new(self) if requires_destination?
 

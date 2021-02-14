@@ -8,10 +8,8 @@ Bridgetown::Hooks.register :pages, :post_init, reloadable: false do |page|
 end
 
 # Handles Resources
-Bridgetown::Hooks.register :pages, :post_read, reloadable: false do |page|
-  if page.class != Bridgetown::PrototypePage && page.data["prototype"].is_a?(Hash)
-    Bridgetown::PrototypeGenerator.add_matching_template(page)
-  end
+Bridgetown::Hooks.register :resources, :post_read, reloadable: false do |page|
+  Bridgetown::PrototypeGenerator.add_matching_template(page) if page.data["prototype"].is_a?(Hash)
 end
 
 module Bridgetown

@@ -33,7 +33,10 @@ module Bridgetown
         url_segments = permalink.sub(%r{\.[^/]*$}, "").split("/")
         new_url = url_segments.map do |segment|
           segment.starts_with?(":") ? process_segment(segment.sub(%r{^:}, "")) : segment
-        end.select(&:present?).join("/").sub(%r{/index$}, "")
+        end.select(&:present?).join("/")
+
+        # No relative URLs should ever end in /index.html
+        new_url.sub!(%r{/index$}, "") if final_ext == ".html"
 
         if permalink.ends_with?(".*") || !%r{\.html?$}.match?(final_ext)
           "/#{new_url}#{final_ext}"

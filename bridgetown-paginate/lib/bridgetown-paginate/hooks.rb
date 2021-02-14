@@ -10,9 +10,8 @@ Bridgetown::Hooks.register :pages, :post_init, reloadable: false do |page|
 end
 
 # Handles Resources
-Bridgetown::Hooks.register :pages, :post_read, reloadable: false do |page|
-  if page.class != Bridgetown::Paginate::PaginationPage &&
-      page.site.config.dig("pagination", "enabled") &&
+Bridgetown::Hooks.register :resources, :post_read, reloadable: false do |page|
+  if page.site.config.dig("pagination", "enabled") &&
       page.data.dig("pagination", "enabled")
     Bridgetown::Paginate::PaginationGenerator.add_matching_template(page)
   end
