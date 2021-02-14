@@ -27,7 +27,7 @@ module Bridgetown
       # site - The Site.
       #
       # Returns nothing.
-      def generate(site) # rubocop:todo Metrics/AbcSize
+      def generate(site)
         # Retrieve and merge the pagination configuration from the site yml file
         default_config = Bridgetown::Utils.deep_merge_hashes(
           DEFAULT,
@@ -43,18 +43,16 @@ module Bridgetown
 
         Bridgetown.logger.debug "Pagination:", "Starting"
 
-        ################ 0 ####################
         # Get all matching pages in the site found by the init hooks, and ensure they're
         # still in the site.pages array
         templates = self.class.matching_templates.select do |page|
-          site.pages.include? page
+          site.pages.include?(page) || site.resources.include?(page)
         end
 
         # Get the default title of the site (used as backup when there is no
         # title available for pagination)
         site_title = site.data.dig("metadata", "title") || site.config["title"]
 
-        ################ 1 ####################
         # Specify the callback function that returns the correct docs/posts
         # based on the collection name
         # "posts" are just another collection in Bridgetown but a specialized
@@ -62,17 +60,17 @@ module Bridgetown
         # This collection is the default and if the user doesn't specify a
         # collection in their front-matter then that is the one we load
         # If the collection is not found then empty array is returned
-        collection_by_name_lambda = lambda do |collection_name|
+        collection_by_name_lambda = ->(collection_name) do
           coll = []
           if collection_name == "all"
             # the 'all' collection_name is a special case and includes all
             # collections in the site (except posts!!)
             # this is useful when you want to list items across multiple collections
-            site.collections.each do |coll_name, coll_data|
-              next unless !coll_data.nil? && coll_name != "posts"
+            site.collections.each do |coll_name, collection|
+              next unless !collection.nil? && coll_name != "posts"
 
               # Exclude all pagination pages
-              coll += coll_data.docs.reject do |doc|
+              coll += collection.each.reject do |doc|
                 doc.data.key?("pagination")
               end
             end
@@ -81,31 +79,32 @@ module Bridgetown
             return [] unless site.collections.key?(collection_name)
 
             # Exclude all pagination pages
-            coll = site.collections[collection_name].docs.reject do |doc|
+            coll = site.collections[collection_name].each.reject do |doc|
               doc.data.key?("pagination")
             end
           end
           return coll
         end
 
-        ################ 2 ####################
         # Create the proc that constructs the real-life site page
         # This is necessary to decouple the code from the Bridgetown site object
-        page_add_lambda = lambda do |newpage|
+        page_add_lambda = ->(newpage) do
           site.pages << newpage # Add the page to the site so that it is generated correctly
           return newpage # Return the site to the calling code
         end
 
-        ################ 2.5 ####################
         # lambda that removes a page from the site pages list
-        page_remove_lambda = lambda do |page_to_remove|
-          site.pages.delete_if { |page| page == page_to_remove }
+        page_remove_lambda = ->(page_to_remove) do
+          if page_to_remove.is_a?(Bridgetown::Resource::Base)
+            page_to_remove.collection.resources.delete(page_to_remove)
+          else
+            site.pages.delete(page_to_remove)
+          end
         end
 
-        ################ 3 ####################
         # Create a proc that will delegate logging
         # Decoupling Bridgetown specific logging
-        logging_lambda = lambda do |message, type = "info"|
+        logging_lambda = ->(message, type = "info") do
           if type == "debug"
             Bridgetown.logger.debug "Pagination:", message.to_s
           elsif type == "error"
@@ -117,7 +116,6 @@ module Bridgetown
           end
         end
 
-        ################ 4 ####################
         # Now create and call the model with the real-life page creation proc and site data
         model = PaginationModel.new(
           logging_lambda,

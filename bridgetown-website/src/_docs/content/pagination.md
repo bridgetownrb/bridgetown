@@ -54,6 +54,14 @@ pagination:
   per_page: 4
 ```
 
+## Excluding a Page from the Paginator
+
+You can exclude a page from being included in the paginated items list.
+
+```yml
+exclude_from_pagination: true
+```
+
 ## Pagination Links
 
 To display pagination links, simply use the `paginator` Liquid object as follows:

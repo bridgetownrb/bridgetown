@@ -15,7 +15,7 @@ module Bridgetown
       attr_writer :current_document
 
       def [](key)
-        if key != "posts" && @obj.collections.key?(key)
+        if !%w(posts data).freeze.include?(key) && @obj.collections.key?(key)
           @obj.uses_resource? ? @obj.collections[key].resources : @obj.collections[key].docs
         else
           super(key)
@@ -27,7 +27,11 @@ module Bridgetown
       end
 
       def posts
-        @site_posts ||= @obj.uses_resource? ? @obj.posts.resources : @obj.posts.docs.sort { |a, b| b <=> a }
+        @site_posts ||= if @obj.uses_resource?
+                          @obj.collections.posts.resources
+                        else
+                          @obj.collections.posts.docs.sort { |a, b| b <=> a }
+                        end
       end
 
       def html_pages

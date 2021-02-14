@@ -243,6 +243,10 @@ module Bridgetown
       def <=>(other)
         return nil unless other.respond_to?(:data)
 
+        if data.date.respond_to?(:to_datetime) && other.data.date.respond_to?(:to_datetime)
+          return data.date.to_datetime <=> other.data.date.to_datetime
+        end
+
         cmp = data["date"] <=> other.data["date"]
         cmp = path <=> other.path if cmp.nil? || cmp.zero?
         cmp
