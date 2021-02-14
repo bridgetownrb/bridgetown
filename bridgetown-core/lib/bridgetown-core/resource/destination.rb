@@ -3,14 +3,16 @@
 module Bridgetown
   module Resource
     class Destination
-      # @return [Base]
+      # @return [Bridgetown::Resource::Base]
       attr_accessor :resource
 
       # @return [String]
       attr_accessor :output_ext
 
+      # @param resource [Bridgetown::Resource::Base]
       def initialize(resource)
         @resource = resource
+        @output_ext = resource.transformer.final_ext
       end
 
       def absolute_url
@@ -25,7 +27,7 @@ module Bridgetown
       end
 
       def final_ext
-        output_ext || ".html"
+        output_ext || resource.extname
       end
 
       def output_path

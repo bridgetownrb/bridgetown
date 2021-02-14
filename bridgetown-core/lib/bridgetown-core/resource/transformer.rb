@@ -12,10 +12,18 @@ module Bridgetown
       # @return [Bridgetown::Site]
       attr_reader :site
 
+      # @return [String]
+      attr_reader :output_ext
+
       def initialize(resource)
         @resource = resource
         @site = resource.site
-        @conversions = []
+        @output_ext = output_ext_from_converters
+      end
+
+      # @return [String]
+      def final_ext
+        permalink_ext || output_ext
       end
 
       def process!
@@ -23,8 +31,7 @@ module Bridgetown
         resource.around_hook :render do
           execute_inline_ruby
           run_conversions
-          place_into_layouts if resource.place_in_layout?
-          set_output_ext
+          resource.place_in_layout? ? place_into_layouts : resource.output = resource.content.dup
         end
       end
 
@@ -34,11 +41,42 @@ module Bridgetown
 
       private
 
+      ### Utilities
+
+      def permalink_ext
+        resource_permalink = resource.permalink
+        if resource_permalink &&
+            !resource_permalink.end_with?("/") &&
+            !resource_permalink.end_with?(".*")
+          permalink_ext = File.extname(resource_permalink)
+          permalink_ext unless permalink_ext.empty?
+        end
+      end
+
       # @return [Array<Bridgetown::Converter>]
       def converters
         @converters ||= site.matched_converters_for_convertible(resource)
       end
 
+      # @return [String]
+      def output_ext_from_converters
+        @conversions = converters.map do |converter|
+          {
+            converter: converter,
+            output_ext: converter.output_ext(resource.extname),
+          }
+        end
+
+        conversions
+          .reverse
+          .find do |conversion|
+            conversions.length == 1 ||
+              !conversion[:converter].is_a?(Bridgetown::Converters::Identity)
+          end
+          .fetch(:output_ext)
+      end
+
+      # @return [Array<Bridgetown::Layout>]
       def validated_layouts
         layout = site.layouts[resource.data.layout]
         warn_on_missing_layout layout, resource.data.layout
@@ -62,28 +100,30 @@ module Bridgetown
         end
       end
 
+      ### Transformation Actions
+
       def execute_inline_ruby
         return unless site.config.should_execute_inline_ruby?
 
         Bridgetown::Utils::RubyExec.search_data_for_ruby_code(resource, self)
       end
 
-      def run_conversions
+      def run_conversions # rubocop:disable Metrics/AbcSize
         input = resource.content.to_s
 
         # @param content [String]
         # @param converter [Bridgetown::Converter]
-        resource.content = converters.inject(input) do |content, converter|
+        resource.content = converters.each_with_index.inject(input) do |content, (converter, index)|
           output = if converter.method(:convert).arity == 1
                      converter.convert content
                    else
                      converter.convert content, resource
                    end
-          conversions << {
+          conversions[index] = {
             type: :content,
             converter: converter,
             output: Bridgetown.env.production? ? nil : output,
-            output_ext: converter.output_ext(resource.extname),
+            output_ext: conversions[index][:output_ext],
           }
           output
         rescue StandardError => e
@@ -108,7 +148,7 @@ module Bridgetown
         layout_input = layout.content.dup
 
         layout_converters.inject(layout_input) do |content, converter|
-          next(content) unless converter.method(:convert).arity == 2
+          next(content) unless [2, -2].include?(converter.method(:convert).arity)
 
           layout.current_document = resource
           layout.current_document_output = output
@@ -127,35 +167,6 @@ module Bridgetown
                                   "converting `#{resource.relative_path}'"
           raise e
         end
-      end
-
-      def set_output_ext
-        if resource.destination
-          output_ext = (permalink_ext || output_ext_from_converters)
-          resource.destination.output_ext = output_ext
-        end
-      end
-
-      def permalink_ext
-        resource_permalink = resource.permalink
-        if resource_permalink &&
-            !resource_permalink.end_with?("/") &&
-            !resource_permalink.end_with?(".*")
-          permalink_ext = File.extname(resource_permalink)
-          permalink_ext unless permalink_ext.empty?
-        end
-      end
-
-      def output_ext_from_converters
-        conversions
-          .reverse.find do |conversion|
-            conversion[:type] == :content &&
-              (
-                conversions.length == 1 ||
-                !conversion[:converter].is_a?(Bridgetown::Converters::Identity)
-              )
-          end
-          &.fetch(:output_ext)
       end
     end
   end

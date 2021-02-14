@@ -12,10 +12,8 @@ module Bridgetown
 
     # Create a new Collection.
     #
-    # site - the site to which this collection belongs.
-    # label - the name of the collection
-    #
-    # Returns nothing.
+    # @param site [Bridgetown::Site] the site to which this collection belongs
+    # @param label [String] the name of the collection
     def initialize(site, label)
       @site     = site
       @label    = sanitize_label(label)
@@ -26,19 +24,28 @@ module Bridgetown
       label.in? %w(posts pages data).freeze
     end
 
+    def data?
+      label == "data"
+    end
+
     # Fetch the Documents in this collection.
     # Defaults to an empty array if no documents have been read in.
     #
-    # Returns an array of Bridgetown::Document objects.
+    # @return [Array<Bridgetown::Document>]
     def docs
       @docs ||= []
     end
 
+    # Fetch the Resources in this collection.
+    # Defaults to an empty array if no resources have been read in.
+    #
     # @return [Array<Bridgetown::Resource::Base>]
     def resources
       @resources ||= []
     end
 
+    # Iterate over either Resources or Documents depending on how the site is
+    # configured
     def each(&block)
       site.uses_resource? ? resources.each(&block) : docs.each(&block)
     end
@@ -46,7 +53,7 @@ module Bridgetown
     # Fetch the static files in this collection.
     # Defaults to an empty array if no static files have been read in.
     #
-    # Returns an array of Bridgetown::StaticFile objects.
+    # @return [Array<Bridgetown::StaticFile>]
     def static_files
       @static_files ||= []
     end
@@ -58,7 +65,7 @@ module Bridgetown
 
     # Read the allowed documents into the collection's array of docs.
     #
-    # Returns the sorted array of docs.
+    # @return [Bridgetown::Collection] self
     def read
       filtered_entries.each do |file_path|
         full_path = collection_dir(file_path)
@@ -78,20 +85,21 @@ module Bridgetown
       end
       site.static_files.concat(static_files)
       sort_docs!
+
+      self
     end
 
     # All the entries in this collection.
     #
-    # Returns an Array of file paths to the documents in this collection
-    #   relative to the collection's directory
+    # @return [Array<String>] file paths to the documents in this collection
+    #   relative to the collection's folder
     def entries
       return [] unless exists?
 
       @entries ||= begin
         collection_dir_slash = "#{collection_dir}/"
         Utils.safe_glob(collection_dir, ["**", "*"], File::FNM_DOTMATCH).map do |entry|
-          entry[collection_dir_slash] = ""
-          entry
+          entry.sub(collection_dir_slash, "")
         end
       end
     end
@@ -99,12 +107,12 @@ module Bridgetown
     # Filtered version of the entries in this collection.
     # See `Bridgetown::EntryFilter#filter` for more information.
     #
-    # Returns a list of filtered entry paths.
+    # @return [Array<String>] list of filtered entry paths
     def filtered_entries
       return [] unless exists?
 
       @filtered_entries ||=
-        Dir.chdir(directory) do
+        Dir.chdir(absolute_path) do
           entry_filter.filter(entries).reject do |f|
             path = collection_dir(f)
             File.directory?(path) || entry_filter.symlink?(f)
@@ -112,65 +120,64 @@ module Bridgetown
         end
     end
 
-    # The directory for this Collection, relative to the site source or the directory
-    # containing the collection.
+    # The folder name of this Collection, e.g. `_posts` or `_events`
     #
-    # Returns a String containing the directory name where the collection
-    #   is stored on the filesystem.
-    def relative_directory
-      @relative_directory ||= "_#{label}"
+    # @return [String]
+    def folder_name
+      @folder_name ||= "_#{label}"
     end
+    alias_method :relative_directory, :folder_name
 
-    # The relative path to the directory containing the collection.
+    # The relative path to the folder containing the collection.
     #
-    # Returns a String containing the directory name where the collection
-    #   is stored relative to the source directory
+    # @return [String] folder where the collection is stored relative to the
+    #   configured collections folder (usually the site source)
     def relative_path
-      Pathname.new(container).join(relative_directory).to_s
+      Pathname.new(container).join(folder_name).to_s
     end
 
-    # The full path to the directory containing the collection.
+    # The full path to the folder containing the collection.
     #
-    # Returns a String containing the directory name where the collection
-    #   is stored on the filesystem.
-    def directory
-      @directory ||= site.in_source_dir(relative_path)
+    # @return [String] full path where the collection is stored on the filesystem
+    def absolute_path
+      @absolute_path ||= site.in_source_dir(relative_path)
     end
+    alias_method :directory, :absolute_path
 
-    # The full path to the directory containing the collection, with
+    # The full path to the folder containing the collection, with
     #   optional subpaths.
     #
-    # *files - (optional) any other path pieces relative to the
-    #           directory to append to the path
-    #
-    # Returns a String containing th directory name where the collection
-    #   is stored on the filesystem.
+    # @param *files [Array<String>] any other path pieces relative to the
+    #   folder to append to the path
+    # @return [String]
     def collection_dir(*files)
-      return directory if files.empty?
+      return absolute_path if files.empty?
 
-      site.in_source_dir(container, relative_directory, *files)
+      site.in_source_dir(relative_path, *files)
     end
 
-    # Checks whether the directory "exists" for this collection.
+    # Checks whether the folder "exists" for this collection.
+    #
+    # @return [Boolean]
     def exists?
-      File.directory?(directory)
+      File.directory?(absolute_path)
     end
 
     # The entry filter for this collection.
-    # Creates an instance of Bridgetown::EntryFilter.
+    # Creates an instance of Bridgetown::EntryFilter if needed.
     #
-    # Returns the instance of Bridgetown::EntryFilter for this collection.
+    # @return [Bridgetown::EntryFilter]
     def entry_filter
       @entry_filter ||= Bridgetown::EntryFilter.new(
         site,
-        base_directory: relative_directory,
+        base_directory: folder_name,
         include_underscores: site.uses_resource?
       )
     end
 
     # An inspect string.
     #
-    # Returns the inspect string
+    # @return [String]
     def inspect
       "#<#{self.class} @label=#{label} docs=#{docs} resources=#{resources}>"
     end
@@ -179,9 +186,8 @@ module Bridgetown
     # Label names may not contain anything but alphanumeric characters,
     #   underscores, and hyphens.
     #
-    # label - the possibly-unsafe label
-    #
-    # Returns a sanitized version of the label.
+    # @param label [String] the possibly-unsafe label
+    # @return [String] sanitized version of the label.
     def sanitize_label(label)
       label.gsub(%r![^a-z0-9_\-\.]!i, "")
     end
@@ -191,7 +197,8 @@ module Bridgetown
     #   - label
     #   - docs
     #
-    # Returns a representation of this collection for use in Liquid.
+    # @return [Bridgetown::Drops::CollectionDrop] representation of this
+    #   collection for use in Liquid
     def to_liquid
       Drops::CollectionDrop.new self
     end
@@ -199,7 +206,7 @@ module Bridgetown
     # Whether the collection's documents ought to be written as individual
     #   files in the output.
     #
-    # Returns true if the 'write' metadata is true, false otherwise.
+    # @return [Boolean] true if the 'write' metadata is true, false otherwise.
     def write?
       !!metadata.fetch("output", false)
     end
@@ -208,13 +215,13 @@ module Bridgetown
     # @return [String]
     def default_permalink
       metadata.fetch("permalink") do
-        "/:collection/:path/index.*"
+        "/:collection/:path/"
       end
     end
 
-    # The URL template to render collection's documents at.
+    # LEGACY: The URL template to render collection's documents at.
     #
-    # Returns the URL template to render collection's documents at.
+    # @return [String]
     def url_template
       @url_template ||= metadata.fetch("permalink") do
         Utils.add_permalink_suffix("/:collection/:path", site.permalink_style)
@@ -223,7 +230,7 @@ module Bridgetown
 
     # Extract options for this collection from the site configuration.
     #
-    # Returns the metadata for this collection
+    # @return [HashWithDotAccess::Hash]
     def extract_metadata
       site.config.collections[label] || HashWithDotAccess::Hash.new
     end

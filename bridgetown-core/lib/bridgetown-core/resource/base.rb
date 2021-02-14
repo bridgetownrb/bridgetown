@@ -54,6 +54,7 @@ module Bridgetown
         trigger_hooks(:post_init)
       end
 
+      # @return [Bridgetown::Resource::Transformer]
       def transformer
         @transformer ||= Bridgetown::Resource::Transformer.new(self)
       end
@@ -90,7 +91,7 @@ module Bridgetown
       alias_method :read, :read! # TODO: eventually use the bang version only
 
       def transform!
-        transformer.process! unless collection.label == "data"
+        transformer.process! unless collection.data?
       end
 
       def determine_slug_and_date
@@ -260,7 +261,7 @@ module Bridgetown
       private
 
       def format_url(url)
-        url.to_s.sub(%r{index\.html$}, "")
+        url.to_s.sub(%r{index\.html?$}, "").sub(%r{\.html?$}, "")
       end
     end
   end

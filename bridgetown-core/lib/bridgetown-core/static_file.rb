@@ -36,9 +36,9 @@ module Bridgetown
       @data = @site.frontmatter_defaults.all(relative_path, type).with_dot_access
       if site.uses_resource? && !data.permalink
         data.permalink = if collection && !collection.special?
-                           "/:collection/:path"
+                           "/:collection/:path.*"
                          else
-                           "/:path"
+                           "/:path.*"
                          end
       end
     end
@@ -168,11 +168,13 @@ module Bridgetown
     # be overriden in the collection's configuration in bridgetown.config.yml.
     def url
       @url ||= begin
+        newly_processed = false
         special_posts_case = @collection&.label == "posts" &&
           site.config.content_engine != "resource"
         base = if @collection.nil? || special_posts_case
                  cleaned_relative_path
                elsif site.uses_resource?
+                 newly_processed = true
                  Bridgetown::Resource::PermalinkProcessor.new(self).transform
                else
                  Bridgetown::URL.new(
@@ -180,7 +182,7 @@ module Bridgetown
                    placeholders: placeholders
                  )
                end.to_s.chomp("/")
-        base << extname
+        newly_processed ? base : "#{base}#{extname}"
       end
     end
 

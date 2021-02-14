@@ -30,7 +30,7 @@ module Bridgetown
 
         self.unprocessed_data = if self.class.data_file_extensions.include?(
           original_path.extname.downcase
-        )
+        ) && resource.collection.data?
                                   read_file_data
                                 else
                                   read_frontmatter
