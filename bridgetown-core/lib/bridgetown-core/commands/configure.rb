@@ -50,6 +50,10 @@ module Bridgetown
           configuration = set_color configuration, :blue, :bold
           say configuration
         end
+        say "\n"
+
+        docs_url = "https://www.bridgetownrb.com/docs/bundled-configurations".yellow.bold
+        say "For more info, check out the docs at: #{docs_url}"
       end
 
       def configurations
