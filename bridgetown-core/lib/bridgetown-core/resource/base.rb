@@ -181,7 +181,7 @@ module Bridgetown
       end
 
       def taxonomies
-        @taxonomies ||= site.taxonomies.each_with_object(
+        @taxonomies ||= site.taxonomy_types.values.each_with_object(
           HashWithDotAccess::Hash.new
         ) do |taxonomy, hsh|
           hsh[taxonomy.label] = {

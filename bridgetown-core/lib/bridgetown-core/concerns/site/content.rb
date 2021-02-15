@@ -32,6 +32,18 @@ class Bridgetown::Site
       end
     end
 
+    def resources_grouped_by_taxonomy(taxonomy)
+      @post_attr_hash[taxonomy.label] ||= begin
+        taxonomy.terms.transform_values { |terms| terms.map(&:resource).sort.reverse }
+      end
+    end
+
+    def taxonomies
+      taxonomy_types.transform_values do |taxonomy|
+        resources_grouped_by_taxonomy(taxonomy)
+      end
+    end
+
     # Returns a hash of "tags" using {#post_attr_hash} where each tag is a key
     #  and each value is a post which contains the key.
     # @example
@@ -41,7 +53,7 @@ class Bridgetown::Site
     # @return [Hash{String, Array<Post>}] Returns a hash of all tags and their corresponding posts
     # @see post_attr_hash
     def tags
-      post_attr_hash("tags")
+      uses_resource? ? taxonomy_content.tag : post_attr_hash("tags")
     end
 
     # Returns a hash of "categories" using {#post_attr_hash} where each tag is
@@ -54,7 +66,7 @@ class Bridgetown::Site
     #   their corresponding posts
     # @see post_attr_hash
     def categories
-      post_attr_hash("categories")
+      uses_resource? ? taxonomy_content.category : post_attr_hash("categories")
     end
 
     # Returns the value of `data["site_metadata"]` or creates a new instance of
@@ -126,10 +138,20 @@ class Bridgetown::Site
     end
 
     # @return [Array<Bridgetown::Resource::TaxonomyType>]
-    def taxonomies
-      @taxonomies ||= config.taxonomies.map do |label, key|
-        Bridgetown::Resource::TaxonomyType.new(site: self, label: label, key: key)
-      end
+    def taxonomy_types
+      @taxonomy_types ||= config.taxonomies.map do |label, key_or_metadata|
+        key = key_or_metadata
+        tax_metadata = if key_or_metadata.is_a? Hash
+                         key = key_or_metadata["key"]
+                         key_or_metadata.reject { |k| k == "key" }
+                       else
+                         HashWithDotAccess::Hash.new
+                       end
+
+        [label, Bridgetown::Resource::TaxonomyType.new(
+          site: self, label: label, key: key, metadata: tax_metadata
+        ),]
+      end.to_h.with_dot_access
     end
 
     # Get all documents.

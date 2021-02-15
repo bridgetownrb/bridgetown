@@ -7,8 +7,15 @@ module Bridgetown
 
       mutable false
 
-      def_delegator  :@obj, :data
-      def_delegators :@obj, :locale, :time, :pages, :static_files, :tags, :categories
+      def_delegators :@obj,
+                     :data,
+                     :locale,
+                     :time,
+                     :pages,
+                     :static_files,
+                     :tags,
+                     :categories,
+                     :taxonomies
 
       private def_delegator :@obj, :config, :fallback_data
 

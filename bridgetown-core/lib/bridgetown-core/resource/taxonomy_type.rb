@@ -12,13 +12,17 @@ module Bridgetown
       # @return [String] the key used in front matter
       attr_reader :key
 
+      # @return [HashWithDotAccess::Hash] any associated metadata
+      attr_reader :metadata
+
       # @param site [Bridgetown::Site]
       # @param label [String]
       # @param key [String]
-      def initialize(site:, label:, key:)
+      def initialize(site:, label:, key:, metadata:)
         @site = site
         @label = label
         @key = key
+        @metadata = metadata
       end
 
       def terms

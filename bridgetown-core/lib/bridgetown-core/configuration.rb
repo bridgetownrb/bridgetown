@@ -23,7 +23,9 @@ module Bridgetown
       "includes_dir"         => "_includes",
       "partials_dir"         => "_partials",
       "collections"          => {},
-      "taxonomies"           => { category: "categories", tag: "tags" },
+      "taxonomies"           => {
+        category: { key: "categories", title: "Category" }, tag: { key: "tags", title: "Tag" },
+      },
 
       # Handling Reading
       "include"              => [".htaccess", "_redirects", ".well-known"],
