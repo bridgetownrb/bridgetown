@@ -8,7 +8,7 @@ This file documents Bridgetown's governance model. It is meant for all users, bu
 
 ## Project Director
 
-At present, [Whitefusion](https://whitefusion.io) is the main code contributor and director of Bridgetown.
+At present, [Whitefusion](https://www.whitefusion.studio) is the main code contributor and director of Bridgetown.
 They provide technical guidance and coordinate community efforts and activities.
 
 ## Core Team

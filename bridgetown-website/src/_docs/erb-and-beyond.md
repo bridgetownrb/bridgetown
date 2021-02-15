@@ -391,21 +391,3 @@ Bridgetown comes with ERB support out-of-the-box, but you can easily add support
 * [`bridgetown-slim`](https://github.com/bridgetownrb/bridgetown-slim){:rel="noopener"}
 
 All you'd need to do is run `bundle add bridgetown-haml -g bridgetown_plugins` (or `bridgetown-slim`) to install the plugin, and then you can immediately start using `.haml` or `.slim` pages, layouts, and partials in your Bridgetown site.
-
-## Turning off Liquid processing
-
-For pages/documents, Bridgetown will automatically detect if you use Liquid tags (aka `{% %}` or `{{ }}`) and process your file with Liquid even if it's using ERB or another template language (unless you've configured your site such that Liquid is no longer the default template engine). This happens prior to any other conversions, so you can in theory using both Liquid and ERB in the same file.
-
-You can however turn that off with front matter:
-
-```yaml
-render_with_liquid: false
-```
-
-Or manually specify a template engine:
-
-```yaml
-template_engine: slim
-```
-
-If you wish to turn off Liquid across a variety of files, you can use [front matter defaults](/docs/configuration/front-matter-defaults) to set `render_with_liquid` to `false` without having to add that to each file's front matter, or you can [switch template engines](/docs/template-engines) for your entire site. It's up to you.

@@ -28,14 +28,18 @@ Say howdy 👋 to our growing list of the first twenty sponsors of Bridgetown on
 |<a href="https://twitter.com/cabgfx">@cabgfx</a>|<a href="https://twitter.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/miatrinity">@miatrinity</a>|<a href="https://www.twitter.com/marcoroth_">@marcoroth_</a>|<a href="https://github.com/mtomov">@mtomov</a>|
 |<a href="http://www.pilotcph.dk">Website</a>|<a href="https://andrewm.codes">Website</a>|<a href="https://railsnew.io/">Website</a>|<a href="https://marcoroth.dev">Website</a>||
 
-|<img src="https://avatars.githubusercontent.com/johnchambers?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/pascalwengerter?s=256" alt="pascalwengerter" width="128" />|<img src="https://avatars.githubusercontent.com/DRBragg?s=256" alt="DRBragg" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|<img src="https://avatars.githubusercontent.com/johnchambers?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/pascalwengerter?s=256" alt="pascalwengerter" width="128" />|<img src="https://avatars.githubusercontent.com/DRBragg?s=256" alt="DRBragg" width="128" />|<img src="https://avatars.githubusercontent.com/jasoncharnes?s=256" alt="jasoncharnes" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/johnchambers">@johnchambers</a>|<a href="https://github.com/wout">@wout</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/DRBragg">@DRBragg</a>|You Next?|
-||<a href="https://tilishop.com">Website</a>|<a href="https://pascal.rocks">Website</a>|<a href="https://www.drbragg.ninja/">Website</a>||
+|<a href="https://github.com/johnchambers">@johnchambers</a>|<a href="https://github.com/wout">@wout</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/DRBragg">@DRBragg</a>|<a href="https://github.com/jasoncharnes">@jasoncharnes</a>|
+||<a href="https://tilishop.com">Website</a>|<a href="https://pascal.rocks">Website</a>|<a href="https://www.drbragg.ninja/">Website</a>|<a href="http://www.jasoncharnes.com">Website</a>|
+
+|<img src="https://avatars.githubusercontent.com/leastbad?s=256" alt="leastbad" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|
+|<a href="https://github.com/leastbad">@leastbad</a>|You Next?|
 
 ## Commercial Support
 
-Bridgetown development is spearheaded by Portland-based web studio [Whitefusion](https://whitefusion.io). Contact us if you need commercial support for your Bridgetown content strategy, site design, or deployment.
+Bridgetown development is spearheaded by Portland-based web studio [Whitefusion](https://www.whitefusion.studio). Contact us if you need commercial support for your Bridgetown content strategy, site design, or deployment.
 
 ----
 
@@ -119,10 +123,10 @@ Bridgetown is built by:
 |Brighton, UK|Portland, OR|Vienna, Austria|Tokyo, Japan|London, UK|
 
 
-|<img src="https://avatars.githubusercontent.com/bkmgit?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/pascalwengerter?s=256" alt="" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|:---:|
-|<a href="https://github.com/bkmgit">@bkmgit</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|You Next?|
-||Lisbon, Portugal|Anywhere|
+|<img src="https://avatars.githubusercontent.com/bkmgit?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/pascalwengerter?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/u/57881112?s=460&u=51f2d296a79c3f045172c7b18a704c994e0eee08&v=4" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/juanvqz?s=256" alt="" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/bkmgit">@bkmgit</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/marketerly">@taha</a>|<a href="https://github.com/juanvqz">@juanvqz</a>|You Next?|
+||Lisbon, Portugal|Tripoli, Libya|Oaxaca, México|Anywhere|
 
 Interested in joining the Bridgetown Core Team? Send a DM to Jared in [Discord](https://discord.gg/V56yUWR) and let's chat!
 
