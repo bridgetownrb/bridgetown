@@ -118,7 +118,7 @@ module Bridgetown
 
     # Determines whether a given file has
     #
-    # Returns true if the YAML front matter is present.
+    # @return [Boolean] if the YAML front matter is present.
     # rubocop: disable Naming/PredicateName
     def has_yaml_header?(file)
       File.open(file, "rb", &:readline).match? %r!\A---\s*\r?\n!
@@ -128,7 +128,7 @@ module Bridgetown
 
     # Determine whether the given content string contains Liquid Tags or Vaiables
     #
-    # Returns true is the string contains sequences of `{%` or `{{`
+    # @return [Boolean] if the string contains sequences of `{%` or `{{`
     def has_liquid_construct?(content)
       return false if content.nil? || content.empty?
 

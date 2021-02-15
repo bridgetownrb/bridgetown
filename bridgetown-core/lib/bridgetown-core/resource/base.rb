@@ -97,25 +97,6 @@ module Bridgetown
         transformer.process! unless collection.data?
       end
 
-      def determine_slug_and_date
-        return unless relative_path.to_s =~ DATE_FILENAME_MATCHER
-
-        date, slug = Regexp.last_match.captures
-        modify_date(date)
-
-        slug.gsub!(%r!\.*\z!, "")
-        data.slug ||= slug
-      end
-
-      def modify_date(date)
-        if !data.date || data.date.to_i == site.time.to_i
-          data.date = Utils.parse_date(
-            date,
-            "Document '#{relative_path}' does not have a valid date in the #{origin}."
-          )
-        end
-      end
-
       def trigger_hooks(hook_name, *args)
         Bridgetown::Hooks.trigger collection.label.to_sym, hook_name, self, *args if collection
         Bridgetown::Hooks.trigger :resources, hook_name, self, *args
@@ -171,15 +152,6 @@ module Bridgetown
         data["date"] ||= site.time # TODO: this doesn't reflect documented behavior
       end
 
-      def normalize_categories_and_tags
-        data.categories = Bridgetown::Utils.pluralized_array_from_hash(
-          data, :category, :categories
-        )
-        data.tags = Bridgetown::Utils.pluralized_array_from_hash(
-          data, :tag, :tags
-        )
-      end
-
       def taxonomies
         @taxonomies ||= site.taxonomy_types.values.each_with_object(
           HashWithDotAccess::Hash.new
@@ -188,16 +160,6 @@ module Bridgetown
             type: taxonomy,
             terms: [],
           }
-        end
-      end
-
-      def import_taxonomies_from_data
-        taxonomies.each do |_label, metadata|
-          Array(data[metadata.type.key]).each do |term|
-            metadata.terms << TaxonomyTerm.new(
-              resource: self, label: term, type: metadata.type
-            )
-          end
         end
       end
 
@@ -255,17 +217,57 @@ module Bridgetown
         cmp
       end
 
-      def next_doc
+      def next_resource
         pos = collection.resources.index { |item| item.equal?(self) }
         collection.resources[pos + 1] if pos && pos < collection.resources.length - 1
       end
+      alias_method :next_doc, :next_resource
 
-      def previous_doc
+      def previous_resource
         pos = collection.docs.index { |item| item.equal?(self) }
         collection.resources[pos - 1] if pos&.positive?
       end
+      alias_method :previous_docs, :previous_resource
 
       private
+
+      def determine_slug_and_date
+        return unless relative_path.to_s =~ DATE_FILENAME_MATCHER
+
+        new_date, slug = Regexp.last_match.captures
+        modify_date(new_date)
+
+        slug.gsub!(%r!\.*\z!, "")
+        data.slug ||= slug
+      end
+
+      def modify_date(new_date)
+        if !data.date || data.date.to_i == site.time.to_i
+          data.date = Utils.parse_date(
+            new_date,
+            "Document '#{relative_path}' does not have a valid date in the #{origin}."
+          )
+        end
+      end
+
+      def normalize_categories_and_tags
+        data.categories = Bridgetown::Utils.pluralized_array_from_hash(
+          data, :category, :categories
+        )
+        data.tags = Bridgetown::Utils.pluralized_array_from_hash(
+          data, :tag, :tags
+        )
+      end
+
+      def import_taxonomies_from_data
+        taxonomies.each do |_label, metadata|
+          Array(data[metadata.type.key]).each do |term|
+            metadata.terms << TaxonomyTerm.new(
+              resource: self, label: term, type: metadata.type
+            )
+          end
+        end
+      end
 
       def format_url(url)
         url.to_s.sub(%r{index\.html?$}, "").sub(%r{\.html?$}, "")
