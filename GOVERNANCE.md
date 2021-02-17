@@ -23,7 +23,7 @@ Here are some of the tasks they are responsible for:
 - identifying and fixing bugs;
 - triaging issues;
 - reviewing and merging pull requests;
-- providing support via [Discord chat](https://discord.gg/V56yUWR), [Discussions on GitHub](https://github.com/bridgetownrb/bridgetown/discussions), and other channels;
+- providing support via [Discord chat](https://discord.gg/4E6hktQGz4), [Discussions on GitHub](https://github.com/bridgetownrb/bridgetown/discussions), and other channels;
 - improving the documentation;
 - providing technical feedback and guidance to contributors;
 - coordinating the work of contributors;
@@ -39,7 +39,7 @@ New Core Team members are appointed by the Core Team.
 
 To apply for the Core Team, you must be proposed by an existing member.
 
-If you don't know anyone, simply send a DM to **Jared White** in [Discord](https://discord.gg/V56yUWR), explaining
+If you don't know anyone, simply send a DM to **Jared White** in [Discord](https://discord.gg/4E6hktQGz4), explaining
 why you think you should be in the Core Team and what kind of contribution you expect to bring.
 
 ### Leaving the Core Team

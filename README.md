@@ -13,7 +13,7 @@ Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern
 [![Build Status](https://github.com/bridgetownrb/bridgetown/workflows/build/badge.svg)](https://github.com/bridgetownrb/bridgetown/actions?query=workflow%3Abuild+branch%3Amaster)
 [![Gem Version](https://img.shields.io/gem/v/bridgetown.svg)](https://rubygems.org/gems/bridgetown)
 [![Licensed MIT](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](LICENSE)
-[![Join the Discord Chat](https://img.shields.io/discord/711236503493148733?color=forestgreen&logo=discord)](https://discord.gg/V56yUWR)
+[![Join the Discord Chat](https://img.shields.io/discord/711236503493148733?color=forestgreen&logo=discord)](https://discord.gg/4E6hktQGz4)
 [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-blue.svg)](https://github.com/bridgetownrb/bridgetown/blob/master/CONTRIBUTING.md)
 
 ----
@@ -48,7 +48,7 @@ Bridgetown development is spearheaded by Portland-based web studio [Whitefusion]
 * [Install](https://bridgetownrb.com/docs/) the Bridgetown gem
 * Familiarize yourself with the [Command Line Usage](https://bridgetownrb.com/docs/command-line-usage/) and [Site Configuration](https://bridgetownrb.com/docs/configuration/)
 * Explore the best options for [Deploying Your Site](https://www.bridgetownrb.com/docs/deployment) when it's ready to go live
-* Have questions? Check out our new [Bridgetown Discussions on GitHub](https://github.com/bridgetownrb/bridgetown/discussions) or [chat on Discord](https://discord.gg/V56yUWR)
+* Have questions? Check out our new [Bridgetown Discussions on GitHub](https://github.com/bridgetownrb/bridgetown/discussions) or [chat on Discord](https://discord.gg/4E6hktQGz4)
 * [Fork Bridgetown](https://github.com/bridgetownrb/bridgetown/fork) and contribute your own improvements!
 
 ## Get Up to Speed
@@ -128,7 +128,7 @@ Bridgetown is built by:
 |<a href="https://github.com/bkmgit">@bkmgit</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/marketerly">@taha</a>|<a href="https://github.com/juanvqz">@juanvqz</a>|You Next?|
 ||Lisbon, Portugal|Tripoli, Libya|Oaxaca, México|Anywhere|
 
-Interested in joining the Bridgetown Core Team? Send a DM to Jared in [Discord](https://discord.gg/V56yUWR) and let's chat!
+Interested in joining the Bridgetown Core Team? Send a DM to Jared in [Discord](https://discord.gg/4E6hktQGz4) and let's chat!
 
 ## License
 
