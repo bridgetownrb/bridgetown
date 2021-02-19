@@ -8,6 +8,7 @@ group :development do
   gem "launchy", "~> 2.3"
   gem "pry"
   gem "pry-byebug"
+  gem "solargraph"
 end
 
 #
