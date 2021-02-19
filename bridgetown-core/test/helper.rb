@@ -67,6 +67,10 @@ module DirectoryHelpers
     test_dir("source", *subdirs)
   end
 
+  def resources_root_dir(*subdirs)
+    test_dir("resources", *subdirs)
+  end
+
   def source_dir(*subdirs)
     test_dir("source", "src", *subdirs)
   end
@@ -132,6 +136,15 @@ class BridgetownUnitTest < Minitest::Test
 
   def fixture_site(overrides = {})
     Bridgetown::Site.new(site_configuration(overrides))
+  end
+
+  def resources_site(overrides = {})
+    overrides["content_engine"] = "resource"
+    new_config = site_configuration(overrides)
+    new_config.root_dir = resources_root_dir
+    new_config.source = resources_root_dir("src")
+    new_config.plugins_dir = resources_root_dir("plugins")
+    Bridgetown::Site.new new_config
   end
 
   def default_configuration

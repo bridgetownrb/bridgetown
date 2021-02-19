@@ -10,7 +10,7 @@ module Bridgetown
     # non-existing) pagination page. This page exists purely in memory and is
     # not read from disk
     #
-    class PaginationPage < Bridgetown::Page
+    class PaginationPage < Bridgetown::GeneratedPage
       def initialize(page_to_copy, cur_page_nr, total_pages, index_pageandext, template_ext)
         @site = page_to_copy.site
         @base = ""

@@ -8,8 +8,10 @@ Bridgetown::Hooks.register :pages, :post_init, reloadable: false do |page|
 end
 
 # Handles Resources
-Bridgetown::Hooks.register :resources, :post_read, reloadable: false do |page|
-  Bridgetown::PrototypeGenerator.add_matching_template(page) if page.data["prototype"].is_a?(Hash)
+Bridgetown::Hooks.register :resources, :post_read, reloadable: false do |resource|
+  if resource.data["prototype"].is_a?(Hash)
+    Bridgetown::PrototypeGenerator.add_matching_template(resource)
+  end
 end
 
 module Bridgetown
@@ -19,17 +21,16 @@ module Bridgetown
     # @return [Bridgetown::Site]
     attr_reader :site
 
-    @matching_templates = []
+    # @return [Array<Bridgetown::Page, Bridgetown::Resource::Base>]
+    def self.matching_templates
+      @matching_templates ||= []
+    end
 
     def self.add_matching_template(template)
-      @matching_templates << template
+      matching_templates << template
     end
 
-    class << self
-      # @return [Array<Page>]
-      attr_reader :matching_templates
-    end
-
+    # @param site [Bridgetown::Site]
     def generate(site)
       @site = site
       @configured_collection = "posts"
@@ -57,7 +58,7 @@ module Bridgetown
 
     # Check incoming prototype configuration and normalize options.
     #
-    # @param prototype_page [PrototypePage]
+    # @param prototype_page [Bridgetown::Page, Bridgetown::Resource::Base]
     #
     # @return [String, nil]
     def validate_search_term(prototype_page)
@@ -78,7 +79,7 @@ module Bridgetown
 
     def generate_new_page_from_prototype(prototype_page, search_term, term)
       new_page = PrototypePage.new(prototype_page, @configured_collection, search_term, term)
-      site.pages << new_page
+      site.add_generated_page new_page
       new_page
     end
 
@@ -100,10 +101,14 @@ module Bridgetown
     end
   end
 
-  class PrototypePage < Page
-    # @return [Page]
+  class PrototypePage < GeneratedPage
+    # @return [Bridgetown::Page, Bridgetown::Resource::Base]
     attr_reader :prototyped_page
 
+    # @param prototyped_page [Bridgetown::Page, Bridgetown::Resource::Base]
+    # @param collection [Bridgetown::Collection]
+    # @param search_term [String]
+    # @param term [String]
     def initialize(prototyped_page, collection, search_term, term)
       @prototyped_page = prototyped_page
       @site = prototyped_page.site

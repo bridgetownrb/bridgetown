@@ -213,5 +213,9 @@ class Bridgetown::Site
 
       pages + documents
     end
+
+    def add_generated_page(generated_page)
+      generated_pages << generated_page
+    end
   end
 end

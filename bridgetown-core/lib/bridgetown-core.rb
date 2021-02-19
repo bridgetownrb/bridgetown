@@ -101,7 +101,7 @@ module Bridgetown
   autoload :StaticFileReader,    "bridgetown-core/readers/static_file_reader"
   autoload :LogAdapter,          "bridgetown-core/log_adapter"
   autoload :Page,                "bridgetown-core/page"
-  autoload :PageWithoutAFile,    "bridgetown-core/page_without_a_file"
+  autoload :GeneratedPage, "bridgetown-core/page"
   autoload :PathManager,         "bridgetown-core/path_manager"
   autoload :PluginManager,       "bridgetown-core/plugin_manager"
   autoload :Publishable,         "bridgetown-core/concerns/publishable"
