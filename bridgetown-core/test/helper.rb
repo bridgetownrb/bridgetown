@@ -7,7 +7,7 @@ ENV["BRIDGETOWN_ENV"] = "test"
 if ENV["CI"]
   require "simplecov"
   SimpleCov.start
-else
+elsif !ENV["SKIP_COV"]
   require File.expand_path("simplecov_custom_profile", __dir__)
   SimpleCov.start "gem" do
     add_filter "/vendor/gem"

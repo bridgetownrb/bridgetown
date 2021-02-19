@@ -111,7 +111,7 @@ module Bridgetown
       def relative_path_basename_without_prefix
         return_path = Pathname.new("")
         relative_path.each_filename do |filename|
-          if matches = DATE_FILENAME_MATCHER.match(filename) # rubocop:disable Lint/AssignmentInCondition
+          if matches = DATE_FILENAME_MATCHER.match(filename)
             filename = matches[2] + matches[3]
           end
 
@@ -152,6 +152,8 @@ module Bridgetown
         data["date"] ||= site.time # TODO: this doesn't reflect documented behavior
       end
 
+      # @return [Hash<String, Hash<String => Bridgetown::Resource::TaxonomyType,
+      #   Array<Bridgetown::Resource::TaxonomyTerm>>>]
       def taxonomies
         @taxonomies ||= site.taxonomy_types.values.each_with_object(
           HashWithDotAccess::Hash.new
@@ -164,11 +166,11 @@ module Bridgetown
       end
 
       def requires_destination?
-        origin.collection.write?
+        collection.write? && data.config&.output != false
       end
 
       def write?
-        collection&.write? && site.publisher.publish?(self)
+        requires_destination? && site.publisher.publish?(self)
       end
 
       # Write the generated Document file to the destination directory.

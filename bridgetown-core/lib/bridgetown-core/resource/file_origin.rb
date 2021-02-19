@@ -61,7 +61,6 @@ module Bridgetown
           }
         else
           yaml_data = SafeYAML.load_file(original_path)
-
           yaml_data.is_a?(Array) ? { array: yaml_data } : yaml_data
         end
       end
@@ -72,7 +71,8 @@ module Bridgetown
           resource.content = content_match.post_match
           SafeYAML.load(content_match[1])
         else
-          {}
+          yaml_data = SafeYAML.load_file(original_path)
+          yaml_data.is_a?(Array) ? { array: yaml_data } : yaml_data
         end
       end
 

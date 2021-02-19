@@ -35,7 +35,7 @@ module Bridgetown
       "markdown_ext"         => "markdown,mkdown,mkdn,mkd,md",
       "strict_front_matter"  => false,
       "slugify_categories"   => true,
-      "default_slugify_mode" => "pretty",
+      "slugify_mode"         => "pretty",
 
       # Filtering Content
       "limit_posts"          => 0,

@@ -19,7 +19,7 @@ module Bridgetown
 
       def initialize(resource)
         @resource = resource
-        @slugify_mode = @resource.site.config.default_slugify_mode
+        @slugify_mode = @resource.site.config.slugify_mode
       end
 
       def final_ext
@@ -68,15 +68,17 @@ module Bridgetown
       end
 
       def permalink_for_permalink_style(permalink_style)
+        collection_prefix = ("/:collection" unless resource.collection.special?)
+
         case permalink_style.to_sym
         when :pretty
-          "/:categories/:year/:month/:day/:slug/"
-        when :pretty_ext
-          "/:categories/:year/:month/:day/:slug.*"
+          "#{collection_prefix}/:categories/:year/:month/:day/:slug/"
+        when :pretty_ext, :date
+          "#{collection_prefix}/:categories/:year/:month/:day/:slug.*"
         when :simple
-          "/:categories/:slug/"
+          "#{collection_prefix}/:categories/:slug/"
         when :simple_ext
-          "/:categories/:slug.*"
+          "#{collection_prefix}/:categories/:slug.*"
         else
           permalink_style.to_s
         end
