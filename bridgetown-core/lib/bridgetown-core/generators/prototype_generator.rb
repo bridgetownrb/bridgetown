@@ -182,7 +182,7 @@ module Bridgetown
     end
 
     def slugify_term(term)
-      term_slug = Bridgetown::Utils.slugify(term)
+      term_slug = Bridgetown::Utils.slugify(term, mode: site.config.slugify_mode)
       @url = if permalink.is_a?(String)
                data["permalink"] = data["permalink"].sub(":term", term_slug)
              else
