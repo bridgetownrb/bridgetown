@@ -229,7 +229,7 @@ module Bridgetown
         pos = collection.docs.index { |item| item.equal?(self) }
         collection.resources[pos - 1] if pos&.positive?
       end
-      alias_method :previous_docs, :previous_resource
+      alias_method :previous_doc, :previous_resource
 
       private
 
