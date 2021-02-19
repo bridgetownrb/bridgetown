@@ -218,6 +218,11 @@ class TestResource < BridgetownUnitTest
     should "have data" do
       assert_equal 1, @resource.data.data.goes.here
     end
+
+    should "be a static file without triple dashes" do
+      assert_equal 2, @site.collections.noodles.resources.length
+      assert_equal "static_file.yml", @site.collections.noodles.static_files.first.name
+    end
   end
 
   context "a resource in the data collection" do
