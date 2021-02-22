@@ -15,7 +15,7 @@ class TestRelatedPosts < BridgetownUnitTest
       last_post     = @site.posts.docs.last
       related_posts = Bridgetown::RelatedPosts.new(last_post).build
 
-      last_ten_recent_posts = (@site.posts.docs.docs.reverse - [last_post]).first(10)
+      last_ten_recent_posts = (@site.posts.docs.reverse - [last_post]).first(10)
       assert_equal last_ten_recent_posts, related_posts
     end
   end
@@ -44,17 +44,17 @@ class TestRelatedPosts < BridgetownUnitTest
       post = @site.posts.docs.last
       allow_any_instance_of(::ClassifierReborn::LSI).to receive(:build_index)
       expect_any_instance_of(::ClassifierReborn::LSI).to \
-        receive(:find_related).with(post, 11).and_return(@site.posts[-1..-9])
+        receive(:find_related).with(post, 11).and_return(@site.posts.docs[-1..-9])
 
       Bridgetown::RelatedPosts.new(post).build
     end
 
     should "use LSI for the related posts" do
       allow_any_instance_of(::ClassifierReborn::LSI).to \
-        receive(:find_related).and_return(@site.posts[-1..-9])
+        receive(:find_related).and_return(@site.posts.docs[-1..-9])
       allow_any_instance_of(::ClassifierReborn::LSI).to receive(:build_index)
 
-      assert_equal @site.posts[-1..-9], Bridgetown::RelatedPosts.new(@site.posts.docs.last).build
+      assert_equal @site.posts.docs[-1..-9], Bridgetown::RelatedPosts.new(@site.posts.docs.last).build
     end
   end
 end

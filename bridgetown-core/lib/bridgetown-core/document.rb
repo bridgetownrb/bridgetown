@@ -404,7 +404,7 @@ module Bridgetown
     def populate_categories
       data.categories = Utils.pluralized_array_from_hash(
         data, :category, :categories
-      )
+      ).map(&:to_s)
     end
 
     def populate_tags

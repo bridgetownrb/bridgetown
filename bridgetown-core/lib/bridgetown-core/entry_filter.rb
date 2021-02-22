@@ -11,7 +11,7 @@ module Bridgetown
       @base_directory = derive_base_directory(
         @site, base_directory.to_s.dup
       )
-      @include_underscore = include_underscores
+      @include_underscores = include_underscores
     end
 
     def base_directory
@@ -50,7 +50,7 @@ module Bridgetown
     end
 
     def special?(entry)
-      use_regex = if @include_underscore
+      use_regex = if @include_underscores
                     SPECIAL_LEADING_CHAR_NO_UNDERSCORES_REGEX
                   else
                     SPECIAL_LEADING_CHAR_REGEX

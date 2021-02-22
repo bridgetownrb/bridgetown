@@ -30,6 +30,8 @@ module Bridgetown
         permalink = resource.data.permalink ||
           permalink_for_permalink_style(resource.collection.default_permalink)
 
+        # Strip out file extension and process each segment of a URL to swap out
+        # placeholders such as :categories or :title
         url_segments = permalink.sub(%r{\.[^/]*$}, "").split("/")
         new_url = url_segments.map do |segment|
           segment.starts_with?(":") ? process_segment(segment.sub(%r{^:}, "")) : segment
@@ -38,15 +40,7 @@ module Bridgetown
         # No relative URLs should ever end in /index.html
         new_url.sub!(%r{/index$}, "") if final_ext == ".html"
 
-        if permalink.ends_with?(".*") || !%r{\.html?$}.match?(final_ext)
-          "/#{new_url}#{final_ext}"
-        elsif permalink =~ %r{\.[^/]*$}
-          "/#{new_url}#{Regexp.last_match[0]}"
-        elsif permalink.ends_with?("/")
-          "/#{new_url}/".sub(%r{^/index/$}, "/")
-        else
-          "/#{new_url}"
-        end
+        finalize_permalink(new_url, permalink)
       end
 
       def process_segment(segment)
@@ -81,6 +75,24 @@ module Bridgetown
           "#{collection_prefix}/:categories/:slug.*"
         else
           permalink_style.to_s
+        end
+      end
+
+      # @param new_url [String]
+      # @param permalink [String]
+      def finalize_permalink(new_url, permalink)
+        # Handle .* style permalinks or files not ending in .html
+        if permalink.ends_with?(".*") || !%r{\.html?$}.match?(final_ext)
+          "/#{new_url}#{final_ext}"
+        # If permalink includes the file extension, add it back in to the URL
+        elsif permalink =~ %r{\.[^/]*$}
+          "/#{new_url}#{Regexp.last_match[0]}"
+        # Ensure index-style URLs get output correctly
+        elsif permalink.ends_with?("/")
+          "/#{new_url}/".sub(%r{^/index/$}, "/")
+        # We good :)
+        else
+          "/#{new_url}"
         end
       end
 

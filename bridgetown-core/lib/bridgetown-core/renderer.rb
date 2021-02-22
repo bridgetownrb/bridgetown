@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Bridgetown
+  # This class handles the output rendering and layout placement of pages and
+  # documents. For rendering of resources in particular, see Bridgetown::Resource::Transformer
   class Renderer
     attr_reader :document, :site
 
@@ -56,8 +58,6 @@ module Bridgetown
         Bridgetown.logger.debug "Rendering Layout:", document.relative_path
         output = place_in_layouts(output)
       end
-
-      document.destination&.output_ext = output_ext if document.method(:destination).arity.zero?
 
       output
     end
@@ -156,8 +156,7 @@ module Bridgetown
     def permalink_ext
       document_permalink = document.permalink
       if document_permalink &&
-          !document_permalink.end_with?("/") &&
-          !document_permalink.end_with?(".*")
+          !document_permalink.end_with?("/")
         permalink_ext = File.extname(document_permalink)
         permalink_ext unless permalink_ext.empty?
       end

@@ -11,7 +11,7 @@ module Bridgetown
     # Read Site data from disk and load it into internal data structures.
     #
     # Returns nothing.
-    def read
+    def read # rubocop:todo Metrics/AbcSize
       @site.defaults_reader.read
       @site.layouts = LayoutReader.new(site).read
       read_directories

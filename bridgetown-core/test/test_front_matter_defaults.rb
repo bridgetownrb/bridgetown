@@ -169,7 +169,7 @@ class TestFrontMatterDefaults < BridgetownUnitTest
       )
       @site.process
       @affected = @site.pages
-      @not_affected = @site.posts
+      @not_affected = @site.posts.docs
     end
 
     should "affect all types and paths" do
@@ -189,7 +189,7 @@ class TestFrontMatterDefaults < BridgetownUnitTest
       )
       @site.process
       @affected = @site.pages
-      @not_affected = @site.posts
+      @not_affected = @site.posts.docs
     end
 
     should "affect all types and paths" do

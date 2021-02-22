@@ -29,8 +29,9 @@ class TestConfiguration < BridgetownUnitTest
     should "add default collections" do
       result = Configuration.from({})
       expected = { "posts" => {
-        "output"    => true,
-        "permalink" => "/:categories/:year/:month/:day/:title:output_ext",
+        "output"     => true,
+        "sort_order" => "descending",
+        "permalink"  => "/:categories/:year/:month/:day/:title:output_ext",
       } }
       assert_equal expected, result["collections"]
     end
@@ -92,7 +93,7 @@ class TestConfiguration < BridgetownUnitTest
     should "turn an array into a hash" do
       result = Configuration[{ "collections" => %w(methods) }].add_default_collections
       assert_instance_of HashWithDotAccess::Hash, result["collections"]
-      expected = { "posts" => { "output" => true }, "methods" => {} }
+      expected = { "posts" => { "output" => true, "sort_order" => "descending", "permalink" => nil }, "methods" => {} }
       assert_equal expected, result["collections"]
     end
 
@@ -102,15 +103,16 @@ class TestConfiguration < BridgetownUnitTest
 
       expected = {
         "posts" => {
-          "output"    => true,
-          "permalink" => "/:categories/:year/:month/:day/:title/",
+          "output"     => true,
+          "sort_order" => "descending",
+          "permalink"  => "/:categories/:year/:month/:day/:title/",
         },
       }
 
       assert_equal expected, result["collections"]
 
       result   = Configuration[{ "permalink" => nil, "collections" => {} }].add_default_collections
-      expected = { "posts" => { "output" => true } }
+      expected = { "posts" => { "output" => true, "sort_order" => "descending", "permalink" => nil } }
 
       assert_equal expected, result["collections"]
     end
@@ -452,7 +454,7 @@ class TestConfiguration < BridgetownUnitTest
 
   context "#merge_environment_specific_options!" do
     should "merge options in that are environment-specific" do
-      conf = Configuration[default_configuration]
+      conf = Configuration[Bridgetown::Configuration::DEFAULTS.deep_dup]
       refute conf["unpublished"]
       conf["test"] = { "unpublished" => true }
       conf.merge_environment_specific_options!
@@ -463,47 +465,50 @@ class TestConfiguration < BridgetownUnitTest
 
   context "#add_default_collections" do
     should "not do anything if collections is nil" do
-      conf = Configuration[default_configuration].tap { |c| c["collections"] = nil }
+      conf = Configuration[Bridgetown::Configuration::DEFAULTS.deep_dup].tap { |c| c["collections"] = nil }
       assert_equal conf.add_default_collections, conf
       assert_nil conf.add_default_collections["collections"]
     end
 
     should "converts collections to a hash if an array" do
-      conf = Configuration[default_configuration].tap do |c|
+      conf = Configuration[Bridgetown::Configuration::DEFAULTS.deep_dup].tap do |c|
         c["collections"] = ["docs"]
       end
       assert_equal conf.add_default_collections, conf.merge(
         "collections" => {
           "docs"  => {},
           "posts" => {
-            "output"    => true,
-            "permalink" => "/:categories/:year/:month/:day/:title:output_ext",
+            "output"     => true,
+            "sort_order" => "descending",
+            "permalink"  => "/:categories/:year/:month/:day/:title:output_ext",
           },
         }
       )
     end
 
     should "force collections.posts.output = true" do
-      conf = Configuration[default_configuration].tap do |c|
+      conf = Configuration[Bridgetown::Configuration::DEFAULTS.deep_dup].tap do |c|
         c["collections"] = { "posts" => { "output" => false } }
       end
       assert_equal conf.add_default_collections, conf.merge(
         "collections" => {
           "posts" => {
-            "output"    => true,
-            "permalink" => "/:categories/:year/:month/:day/:title:output_ext",
+            "output"     => true,
+            "sort_order" => "descending",
+            "permalink"  => "/:categories/:year/:month/:day/:title:output_ext",
           },
         }
       )
     end
 
     should "set collections.posts.permalink if it's not set" do
-      conf = Configuration[default_configuration]
+      conf = Configuration[Bridgetown::Configuration::DEFAULTS.deep_dup]
       assert_equal conf.add_default_collections, conf.merge(
         "collections" => {
           "posts" => {
-            "output"    => true,
-            "permalink" => "/:categories/:year/:month/:day/:title:output_ext",
+            "output"     => true,
+            "sort_order" => "descending",
+            "permalink"  => "/:categories/:year/:month/:day/:title:output_ext",
           },
         }
       )
@@ -511,7 +516,7 @@ class TestConfiguration < BridgetownUnitTest
 
     should "leave collections.posts.permalink alone if it is set" do
       posts_permalink = "/:year/:title/"
-      conf = Configuration[default_configuration].tap do |c|
+      conf = Configuration[Bridgetown::Configuration::DEFAULTS.deep_dup].tap do |c|
         c["collections"] = {
           "posts" => { "permalink" => posts_permalink },
         }
@@ -519,8 +524,9 @@ class TestConfiguration < BridgetownUnitTest
       assert_equal conf.add_default_collections, conf.merge(
         "collections" => {
           "posts" => {
-            "output"    => true,
-            "permalink" => posts_permalink,
+            "output"     => true,
+            "sort_order" => "descending",
+            "permalink"  => posts_permalink,
           },
         }
       )

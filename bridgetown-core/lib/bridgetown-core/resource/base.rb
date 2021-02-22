@@ -111,7 +111,7 @@ module Bridgetown
       def relative_path_basename_without_prefix
         return_path = Pathname.new("")
         relative_path.each_filename do |filename|
-          if matches = DATE_FILENAME_MATCHER.match(filename)
+          if matches = DATE_FILENAME_MATCHER.match(filename) # rubocop:disable Lint/AssignmentInCondition
             filename = matches[2] + matches[3]
           end
 
@@ -207,7 +207,7 @@ module Bridgetown
       #
       # Returns -1, 0, +1 or nil depending on whether this doc's path is less than,
       #   equal or greater than the other doc's path. See String#<=> for more details.
-      def <=>(other)
+      def <=>(other) # rubocop:todo Metrics/AbcSize
         return nil unless other.respond_to?(:data)
 
         if data.date.respond_to?(:to_datetime) && other.data.date.respond_to?(:to_datetime)

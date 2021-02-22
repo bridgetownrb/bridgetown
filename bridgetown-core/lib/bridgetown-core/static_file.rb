@@ -25,7 +25,7 @@ module Bridgetown
     # base - The String path to the <source>.
     # dir  - The String path between <source> and the file.
     # name - The String filename of the file.
-    def initialize(site, base, dir, name, collection = nil)
+    def initialize(site, base, dir, name, collection = nil) # rubocop:todo Metrics/ParameterLists
       @site = site
       @base = base
       @dir  = dir

@@ -66,7 +66,7 @@ module Bridgetown
     # Read the allowed documents into the collection's array of docs.
     #
     # @return [Bridgetown::Collection] self
-    def read
+    def read # rubocop:todo Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
       filtered_entries.each do |file_path|
         full_path = collection_dir(file_path)
         next if File.directory?(full_path)

@@ -99,8 +99,8 @@ module Bridgetown
       # user_config - a Hash or Configuration of overrides.
       #
       # Returns a Configuration filled with defaults.
-      def from(user_config)
-        Utils.deep_merge_hashes(DEFAULTS, Configuration[user_config])
+      def from(user_config, starting_defaults = DEFAULTS)
+        Utils.deep_merge_hashes(starting_defaults.deep_dup, Configuration[user_config])
           .merge_environment_specific_options!
           .add_default_collections
           .add_default_excludes
@@ -246,7 +246,7 @@ module Bridgetown
       self
     end
 
-    def add_default_collections
+    def add_default_collections # rubocop:todo all
       # It defaults to `{}`, so this is only if someone sets it to null manually.
       return self if self[:collections].nil?
 
@@ -271,7 +271,7 @@ module Bridgetown
       self[:collections][:posts][:sort_order] ||= "descending"
       collections[:posts][:permalink] ||= if self[:permalink] && self[:content_engine] == "resource"
                                             self[:permalink]
-                                          else
+                                          elsif self[:permalink]
                                             style_to_permalink(self[:permalink])
                                           end
 
@@ -298,7 +298,7 @@ module Bridgetown
     end
 
     # Deprecated, to be removed when Bridgetown goes Resource-only
-    def style_to_permalink(permalink_style)
+    def style_to_permalink(permalink_style) # rubocop:todo Metrics/CyclomaticComplexity
       case permalink_style.to_s.to_sym
       when :pretty
         "/:categories/:year/:month/:day/:title/"
@@ -326,8 +326,10 @@ module Bridgetown
               "'#{option}' should be set as an array, but was: #{self[option].inspect}."
       end
 
-      # add _pages to includes set
-      self[:include] << "_pages" unless self[:content_engine] == "resource"
+      unless self[:include].include?("_pages") || self[:content_engine] == "resource"
+        # add _pages to includes set
+        self[:include] << "_pages"
+      end
 
       self
     end

@@ -19,7 +19,7 @@ module Bridgetown
     # Checks if a renderable object needs to be regenerated
     #
     # Returns a boolean.
-    def regenerate?(document)
+    def regenerate?(document) # rubocop:todo Metrics/CyclomaticComplexity
       return true if disabled
 
       case document

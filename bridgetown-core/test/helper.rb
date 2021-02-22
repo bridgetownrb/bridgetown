@@ -147,14 +147,6 @@ class BridgetownUnitTest < Minitest::Test
     Bridgetown::Site.new new_config
   end
 
-  def default_configuration
-    Marshal.load(Marshal.dump(Bridgetown::Configuration::DEFAULTS))
-  end
-
-  def build_configs(overrides, base_hash = default_configuration)
-    Utils.deep_merge_hashes(base_hash, overrides)
-  end
-
   def load_plugin_content
     unless @plugin_loaded
       Bridgetown::PluginManager.new_source_manifest(
@@ -170,11 +162,9 @@ class BridgetownUnitTest < Minitest::Test
   def site_configuration(overrides = {})
     load_plugin_content
 
-    full_overrides = build_configs(overrides, build_configs(
-                                                "destination" => dest_dir,
-                                                "plugins_dir" => site_root_dir("plugins"),
-                                                "incremental" => false
-                                              ))
+    full_overrides = Utils.deep_merge_hashes({ "destination" => dest_dir,
+                                               "plugins_dir" => site_root_dir("plugins"),
+                                               "incremental" => false, }, overrides)
     Configuration.from(full_overrides.merge(
                          "root_dir" => site_root_dir,
                          "source"   => source_dir

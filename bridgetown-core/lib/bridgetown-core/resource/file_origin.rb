@@ -21,7 +21,7 @@ module Bridgetown
         end
       end
 
-      def read
+      def read # rubocop:todo Metrics/AbcSize
         raise "Missing path for #{resource}" unless original_path
 
         resource.content = File.read(

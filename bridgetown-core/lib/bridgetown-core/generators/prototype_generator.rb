@@ -150,7 +150,7 @@ module Bridgetown
       slugify_term(term)
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:todo Metrics/AbcSize
     def process_title_data_placeholder(search_term, term)
       if prototyped_page.data["prototype"]["data"]
         if data["title"]&.include?(":prototype-data-label")

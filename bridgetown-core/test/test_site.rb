@@ -21,7 +21,7 @@ class TestSite < BridgetownUnitTest
 
   context "configuring sites" do
     should "default baseurl to `nil`" do
-      site = Site.new(default_configuration)
+      site = Site.new(Bridgetown::Configuration::DEFAULTS.deep_dup)
       assert_nil site.baseurl
     end
 
@@ -42,7 +42,7 @@ class TestSite < BridgetownUnitTest
     end
 
     should "use .bridgetown-cache directory at root as cache_dir by default" do
-      site = Site.new(default_configuration)
+      site = Site.new(Bridgetown::Configuration::DEFAULTS.deep_dup)
       assert_equal File.join(site.root_dir, ".bridgetown-cache"), site.cache_dir
     end
   end
