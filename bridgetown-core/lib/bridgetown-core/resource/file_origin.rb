@@ -17,7 +17,7 @@ module Bridgetown
                            Pathname.new(original_path)
                          end
         unless relative_path
-          @relative_path = @original_path.relative_path_from(collection.site.source)
+          @relative_path = @original_path.relative_path_from(Pathname(collection.site.source))
         end
       end
 
