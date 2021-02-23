@@ -27,7 +27,7 @@ module Bridgetown
       # site - The Site.
       #
       # Returns nothing.
-      def generate(site)
+      def generate(site) # rubocop:todo Metrics/AbcSize
         # Retrieve and merge the pagination configuration from the site yml file
         default_config = Bridgetown::Utils.deep_merge_hashes(
           DEFAULT,
