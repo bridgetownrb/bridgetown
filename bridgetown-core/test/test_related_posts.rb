@@ -59,11 +59,11 @@ class TestRelatedPosts < BridgetownUnitTest
 
     should "not return current post" do
       allow_any_instance_of(::ClassifierReborn::LSI).to \
-        receive(:find_related).and_return(@site.posts)
+        receive(:find_related).and_return(@site.posts.docs)
       allow_any_instance_of(::ClassifierReborn::LSI).to receive(:build_index)
 
-      related_posts = Bridgetown::RelatedPosts.new(@site.posts.last).build
-      refute related_posts.include?(@site.posts.last)
+      related_posts = Bridgetown::RelatedPosts.new(@site.posts.docs.last).build
+      refute related_posts.include?(@site.posts.docs.last)
     end
   end
 end
