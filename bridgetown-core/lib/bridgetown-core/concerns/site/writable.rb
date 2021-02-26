@@ -39,9 +39,7 @@ class Bridgetown::Site
         next if resource.relative_url == ""
 
         hsh[resource.relative_url] = {
-          collection: resource.origin.collection.label,
-          origin_klass: resource.origin.class.name,
-          relative_path: resource.origin.relative_path.to_s,
+          id: resource.model.id,
         }
       end
     end

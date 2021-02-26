@@ -4,7 +4,6 @@ module Bridgetown
   module Resource
     class Base
       include Comparable
-      extend Forwardable
       include Bridgetown::Publishable
       include Bridgetown::LayoutPlaceable
       include Bridgetown::LiquidRenderable
@@ -15,8 +14,8 @@ module Bridgetown
       # @return [Destination]
       attr_reader :destination
 
-      # @return [Origin]
-      attr_reader :origin
+      # @return [Model]
+      attr_reader :model
 
       # @return [Bridgetown::Site]
       attr_reader :site
@@ -24,11 +23,8 @@ module Bridgetown
       # @return [String]
       attr_accessor :content, :untransformed_content, :output
 
-      def_delegators :@origin,
-                     :collection, :relative_path
-
       # @!attribute [r] collection
-      #   @return [Bridgetown::Collection] origin collection of this resource
+      #   @return [Bridgetown::Collection] collection of this resource
 
       # @!attribute [r] relative_path
       #   @return [Pathname] the relative path of source file or
@@ -36,22 +32,24 @@ module Bridgetown
 
       DATE_FILENAME_MATCHER = %r!^(?>.+/)*?(\d{2,4}-\d{1,2}-\d{1,2})-([^/]*)(\.[^.]+)$!.freeze
 
-      class << self
-        def new_from_path(path, site:, collection:)
-          new(site: site, origin: Bridgetown::Resource::FileOrigin.new(
-            collection: collection, original_path: path
-          ))
-        end
-      end
-
       # @param site [Bridgetown::Site]
       # @param origin [Bridgetown::Resource::Origin]
-      def initialize(site:, origin:)
-        @site = site
-        @origin = origin.attach_resource(self)
+      def initialize(model:)
+        @model = model
+        @site = model.site
         self.data = HashWithDotAccess::Hash.new
 
         trigger_hooks(:post_init)
+      end
+
+      # @return [Bridgetown::Collection]
+      def collection
+        model.collection
+      end
+
+      # @return [Pathname]
+      def relative_path
+        model.origin.relative_path
       end
 
       # @return [Bridgetown::Resource::Transformer]
@@ -76,7 +74,8 @@ module Bridgetown
       end
 
       def read!
-        origin.read
+        self.data = model.attributes.reject { |k| %w[content collection].include?(k) }
+        self.content = model.content if model.respond_to?(:content)
 
         unless collection.data?
           self.untransformed_content = content
@@ -136,7 +135,7 @@ module Bridgetown
       end
 
       def path
-        (origin.respond_to?(:original_path) ? origin.original_path : relative_path).to_s
+        (model.origin.respond_to?(:original_path) ? model.origin.original_path : relative_path).to_s
       end
 
       def absolute_url
@@ -247,7 +246,7 @@ module Bridgetown
         if !data.date || data.date.to_i == site.time.to_i
           data.date = Utils.parse_date(
             new_date,
-            "Document '#{relative_path}' does not have a valid date in the #{origin}."
+            "Document '#{relative_path}' does not have a valid date in the #{model}."
           )
         end
       end

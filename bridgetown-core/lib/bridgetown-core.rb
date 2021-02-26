@@ -18,6 +18,7 @@ end
 require "rubygems"
 
 # stdlib
+require "find"
 require "forwardable"
 require "fileutils"
 require "time"
@@ -31,15 +32,16 @@ require "json"
 # 3rd party
 require "active_support"
 require "active_support/core_ext/hash/keys"
+require "active_support/core_ext/module/delegation"
 require "active_support/core_ext/object/blank"
 require "active_support/core_ext/object/deep_dup"
 require "active_support/core_ext/object/inclusion"
 require "active_support/core_ext/string/inflections"
 require "active_support/core_ext/string/inquiry"
 require "active_support/core_ext/string/starts_ends_with"
+require "active_support/current_attributes"
 require "active_support/descendants_tracker"
 require "hash_with_dot_access"
-require "pathutil"
 require "addressable/uri"
 require "safe_yaml/load"
 require "liquid"
@@ -265,10 +267,11 @@ module Bridgetown
 end
 
 module Bridgetown
-  module Resource
-  end
+  module Model; end
+  module Resource; end
 end
 
 loader = Zeitwerk::Loader.new
+loader.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model
 loader.push_dir File.join(__dir__, "bridgetown-core/resource"), namespace: Bridgetown::Resource
 loader.setup # ready!

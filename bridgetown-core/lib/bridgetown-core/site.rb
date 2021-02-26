@@ -51,6 +51,7 @@ module Bridgetown
       ensure_not_in_dest
 
       Bridgetown.sites << self
+      Bridgetown::Model::Current.site = self
       Bridgetown::Hooks.trigger :site, :after_init, self
 
       reset   # Processable

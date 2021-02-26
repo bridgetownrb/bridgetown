@@ -72,10 +72,12 @@ module Bridgetown
         next if File.directory?(full_path)
 
         if site.uses_resource?
+          next if File.basename(file_path).starts_with?("_")
+
           if label == "data" || Utils.has_yaml_header?(full_path)
             read_resource(full_path)
           else
-            read_static_file(file_path, full_path) unless File.basename(file_path).starts_with?("_")
+            read_static_file(file_path, full_path)
           end
         elsif Utils.has_yaml_header? full_path
           read_document(full_path)
@@ -273,9 +275,13 @@ module Bridgetown
     end
 
     def read_resource(full_path)
-      resource = Bridgetown::Resource::Base.new_from_path(
-        full_path, site: site, collection: self
-      ).tap(&:read)
+      id = "file://#{label}.collection/" + CGI.escape(
+        Pathname(full_path).relative_path_from(site.source).to_s
+      )
+      resource = Bridgetown::Model::Base.find(id).to_resource.tap(&:read)
+      #      resource = Bridgetown::Resource::Base.new_from_path(
+      #        full_path, site: site, collection: self
+      #      ).tap(&:read)
       resources << resource if site.unpublished || resource.published?
     end
 

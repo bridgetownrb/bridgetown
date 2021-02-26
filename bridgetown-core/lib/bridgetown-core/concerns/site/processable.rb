@@ -56,15 +56,6 @@ class Bridgetown::Site
       Bridgetown::Hooks.trigger :site, :post_read, self
     end
 
-    def read_resource_via_cache_manifest(relative_url, cache_manifest:)
-      cache_metadata = cache_manifest[relative_url]
-      origin = Kernel.const_get(cache_metadata[:origin_klass]).new(
-        collection: collections[cache_metadata[:collection]],
-        relative_path: cache_metadata[:relative_path]
-      )
-      Bridgetown::Resource::Base.new(site: self, origin: origin).tap(&:read)
-    end
-
     private
 
     # Limits the current posts; removes the posts which exceed the limit_posts
