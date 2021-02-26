@@ -6,13 +6,26 @@ module Bridgetown
   module Model
     class Base
       include ActiveModel::Model
-      extend ActiveModel::Callbacks
-      define_model_callbacks :save, :destroy
+      extend ActiveModel::Callbacks # also extends with DescendantsTracker
+      define_model_callbacks :load, :save, :destroy
+
+      def self.loads_id?(id)
+        name == ActiveSupport::Inflector.classify(
+          URI.parse(id).host.chomp(".collection")
+        )
+      end
 
       def self.find(id)
         raise "A Bridgetown site must be initialized and added to Current" unless Current.site
 
-        new(read_data_for_id(id))
+        model_klass = klass_for_id(id)
+        model_klass.new(read_data_for_id(id))
+      end
+
+      def self.klass_for_id(id)
+        descendants.find do |klass|
+          klass.loads_id?(id)
+        end || self
       end
 
       def self.read_data_for_id(id)
@@ -28,6 +41,16 @@ module Bridgetown
         raise "No origin could be found for #{id}" unless origin_klass
 
         origin_klass.new(id)
+      end
+
+      def initialize(attributes = {})
+        run_callbacks :load do
+          super
+        end
+      end
+
+      def persisted?
+        id && self.class.origin_for_id(id).exists?
       end
 
       def to_resource

@@ -25,6 +25,10 @@ module Bridgetown
       def relative_path
         raise "Implement #relative_path in a subclass of Bridgetown::Model::Origin"
       end
+
+      def exists?
+        raise "Implement #exists? in a subclass of Bridgetown::Model::Origin"
+      end
     end
   end
 end

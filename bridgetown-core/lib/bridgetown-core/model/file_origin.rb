@@ -54,6 +54,10 @@ module Bridgetown
         @original_path ||= relative_path.expand_path(Current.site.source)
       end
 
+      def exists?
+        File.exist?(original_path)
+      end
+
       private
 
       def in_data_collection?
