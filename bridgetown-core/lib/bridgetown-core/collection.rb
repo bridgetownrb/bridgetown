@@ -276,12 +276,9 @@ module Bridgetown
 
     def read_resource(full_path)
       id = "file://#{label}.collection/" + CGI.escape(
-        Pathname(full_path).relative_path_from(site.source).to_s
+        Pathname(full_path).relative_path_from(Pathname(site.source)).to_s
       )
       resource = Bridgetown::Model::Base.find(id).to_resource.tap(&:read)
-      #      resource = Bridgetown::Resource::Base.new_from_path(
-      #        full_path, site: site, collection: self
-      #      ).tap(&:read)
       resources << resource if site.unpublished || resource.published?
     end
 
