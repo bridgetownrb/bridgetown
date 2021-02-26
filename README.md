@@ -8,7 +8,7 @@
   <a href="https://www.bridgetownrb.com">Bridgetown</a>
 </h1>
 
-Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern [Jamstack](https://bridgetownrb.com/docs/jamstack/) era. Bridgetown takes your content, API data, and frontend assets; renders templates in Markdown, Liquid, ERB, and many other formats; and exports a complete website ready to be served by fast Jamstack services like Netlify or traditional web servers like Nginx.
+Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern [Jamstack](https://bridgetownrb.com/docs/jamstack/) era. Bridgetown takes your content, API data, and frontend assets; renders templates in Markdown, Liquid, ERB, and many other formats; and exports a complete website ready to be served by fast Jamstack services like Vercel or Render or traditional web servers like Caddy or Nginx.
 
 [![Build Status](https://github.com/bridgetownrb/bridgetown/workflows/build/badge.svg)](https://github.com/bridgetownrb/bridgetown/actions?query=workflow%3Abuild+branch%3Amaster)
 [![Gem Version](https://img.shields.io/gem/v/bridgetown.svg)](https://rubygems.org/gems/bridgetown)
@@ -33,34 +33,35 @@ Say howdy 👋 to our growing list of the first twenty sponsors of Bridgetown on
 |<a href="https://github.com/johnchambers">@johnchambers</a>|<a href="https://github.com/wout">@wout</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/DRBragg">@DRBragg</a>|<a href="https://github.com/jasoncharnes">@jasoncharnes</a>|
 ||<a href="https://tilishop.com">Website</a>|<a href="https://pascal.rocks">Website</a>|<a href="https://www.drbragg.ninja/">Website</a>|<a href="http://www.jasoncharnes.com">Website</a>|
 
-|<img src="https://avatars.githubusercontent.com/leastbad?s=256" alt="leastbad" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|
-|<a href="https://github.com/leastbad">@leastbad</a>|You Next?|
+|<img src="https://avatars.githubusercontent.com/leastbad?s=256" alt="leastbad" width="128" />|<img src="https://avatars.githubusercontent.com/asaaki?s=256" alt="asaaki" width="128" />|<img src="https://avatars.githubusercontent.com/scoutapm-sponsorships?s=256" alt="scoutapm-sponsorships" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/leastbad">@leastbad</a>|<a href="https://github.com/asaaki">@asaaki</a>|<a href="https://github.com/scoutapm-sponsorships">@scoutapm-sponsorships</a>|You Next?|
+||<a href="https://markentier.tech/">Website</a>|<a href="https://scoutapm.com">Website</a>||
 
 ## Commercial Support
 
-Bridgetown development is spearheaded by Portland-based web studio [Whitefusion](https://www.whitefusion.studio). Contact us if you need commercial support for your Bridgetown content strategy, site design, or deployment.
+Bridgetown development is spearheaded by Portland-based web studio [Whitefusion](https://www.whitefusion.studio). Contact us if you need commercial support for your Bridgetown content strategy, site design, or deployment. Also providing commercial support: [Radioactive Toy](https://radioactivetoy.tech) based in the UK.
 
 ----
 
 ## Start Here
 
-* [Install](https://bridgetownrb.com/docs/) the Bridgetown gem
-* Familiarize yourself with the [Command Line Usage](https://bridgetownrb.com/docs/command-line-usage/) and [Site Configuration](https://bridgetownrb.com/docs/configuration/)
+* [Install](https://www.bridgetownrb.com/docs/) the Bridgetown gem
+* Familiarize yourself with the [Command Line Usage](https://www.bridgetownrb.com/docs/command-line-usage/) and [Site Configuration](https://bridgetownrb.com/docs/configuration/)
 * Explore the best options for [Deploying Your Site](https://www.bridgetownrb.com/docs/deployment) when it's ready to go live
 * Have questions? Check out our new [Bridgetown Discussions on GitHub](https://github.com/bridgetownrb/bridgetown/discussions) or [chat on Discord](https://discord.gg/4E6hktQGz4)
 * [Fork Bridgetown](https://github.com/bridgetownrb/bridgetown/fork) and contribute your own improvements!
 
 ## Get Up to Speed
 
-* Explore the [Folder Structure](https://bridgetownrb.com/docs/structure) of a Bridgetown website
-* Start adding [Pages](https://bridgetownrb.com/docs/pages/) and [Posts](https://bridgetownrb.com/docs/posts/)
-* Learn how [Front Matter](https://bridgetownrb.com/docs/front-matter/) works
-* Put information on your site with [Variables](https://bridgetownrb.com/docs/variables/) and [Data Files](https://bridgetownrb.com/docs/datafiles/)
-* Customize the [Permalinks](https://bridgetownrb.com/docs/structure/permalinks/) your posts are generated with
-* Use the built-in [Liquid Tags and Filters](https://bridgetownrb.com/docs/liquid/) to author sophisticated content and template designs
-* Extend with [Custom Plugins](https://bridgetownrb.com/docs/plugins/) to generate content specific to your site
-* Discover how to add [Frontend Assets](https://bridgetownrb.com/docs/frontend-assets/) using Webpack for a modern Javascript & CSS build pipeline
+* Explore the [Folder Structure](https://www.bridgetownrb.com/docs/structure) of a Bridgetown website
+* Start adding [Pages](https://www.bridgetownrb.com/docs/pages/) and [Posts](https://bridgetownrb.com/docs/posts/)
+* Learn how [Front Matter](https://www.bridgetownrb.com/docs/front-matter/) works
+* Put information on your site with [Variables](https://www.bridgetownrb.com/docs/variables/) and [Data Files](https://www.bridgetownrb.com/docs/datafiles/)
+* Customize the [Permalinks](https://www.bridgetownrb.com/docs/structure/permalinks/) your posts are generated with
+* Use the built-in [Liquid Tags and Filters](https://www.bridgetownrb.com/docs/liquid/) to author sophisticated content and template designs
+* Extend with [Custom Plugins](https://www.bridgetownrb.com/docs/plugins/) to generate content specific to your site
+* Discover how to add [Frontend Assets](https://www.bridgetownrb.com/docs/frontend-assets/) using Webpack for a modern Javascript & CSS build pipeline
 
 ## Testing Locally
 
@@ -96,7 +97,7 @@ gem "bridgetown-core", path: "/path/to/bridgetown/bridgetown-core"
 
 ## Need help?
 
-If you don't find the answer to your problem in our [docs](https://bridgetownrb.com/docs/), ask the [community](https://bridgetownrb.com/docs/community/) for help.
+If you don't find the answer to your problem in our [docs](https://www.bridgetownrb.com/docs/), ask the [community](https://www.bridgetownrb.com/docs/community/) for help.
 
 ## Code of Conduct
 
@@ -125,7 +126,7 @@ Bridgetown is built by:
 
 |<img src="https://avatars.githubusercontent.com/bkmgit?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/pascalwengerter?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/u/57881112?s=460&u=51f2d296a79c3f045172c7b18a704c994e0eee08&v=4" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/juanvqz?s=256" alt="" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/bkmgit">@bkmgit</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/marketerly">@taha</a>|<a href="https://github.com/juanvqz">@juanvqz</a>|You Next?|
+|<a href="https://github.com/bkmgit">@bkmgit</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/marketerly">@marketerly</a>|<a href="https://github.com/juanvqz">@juanvqz</a>|You Next?|
 ||Lisbon, Portugal|Tripoli, Libya|Oaxaca, México|Anywhere|
 
 Interested in joining the Bridgetown Core Team? Send a DM to Jared in [Discord](https://discord.gg/4E6hktQGz4) and let's chat!
