@@ -4,8 +4,6 @@ module Bridgetown
   module Errors
     FatalException = Class.new(::RuntimeError)
 
-    InvalidThemeName = Class.new(FatalException)
-
     DropMutationException       = Class.new(FatalException)
     InvalidPermalinkError       = Class.new(FatalException)
     InvalidYAMLFrontMatterError = Class.new(FatalException)
