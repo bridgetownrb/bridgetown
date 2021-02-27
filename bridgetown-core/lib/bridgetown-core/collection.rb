@@ -117,7 +117,7 @@ module Bridgetown
         Dir.chdir(absolute_path) do
           entry_filter.filter(entries).reject do |f|
             path = collection_dir(f)
-            File.directory?(path) || entry_filter.symlink?(f)
+            File.directory?(path)
           end
         end
     end

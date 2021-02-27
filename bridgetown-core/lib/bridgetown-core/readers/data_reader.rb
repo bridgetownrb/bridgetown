@@ -31,7 +31,7 @@ module Bridgetown
     #
     # Returns nothing
     def read_data_to(dir, data)
-      return unless File.directory?(dir) && !@entry_filter.symlink?(dir)
+      return unless File.directory?(dir)
 
       entries = Dir.chdir(dir) do
         Dir["*.{yaml,yml,json,csv,tsv}"] + Dir["*"].select { |fn| File.directory?(fn) }
@@ -39,7 +39,6 @@ module Bridgetown
 
       entries.each do |entry|
         path = @site.in_source_dir(dir, entry)
-        next if @entry_filter.symlink?(path)
 
         if File.directory?(path)
           read_data_to(

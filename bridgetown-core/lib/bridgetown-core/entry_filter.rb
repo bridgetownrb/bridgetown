@@ -34,8 +34,6 @@ module Bridgetown
         # Reject this entry if it is just a "dot" representation.
         #   e.g.: '.', '..', '_movies/.', 'music/..', etc
         next true if e.end_with?(".")
-        # Reject this entry if it is a symlink.
-        next true if symlink?(e)
         # Do not reject this entry if it is included.
         next false if included?(e)
 
@@ -72,13 +70,6 @@ module Bridgetown
           )
         end
       end
-    end
-
-    # --
-    # TODO: this is for old Safe mode and can be removed.
-    # --
-    def symlink?(_entry)
-      false
     end
 
     # Check if an entry matches a specific pattern.
