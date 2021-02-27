@@ -16,8 +16,8 @@ module Bridgetown
     #
     # Returns @content, a Hash of the .yaml, .yml,
     # .json, and .csv files in the base directory
-    def read(dir)
-      base = site.in_source_dir(dir)
+    def read
+      base = site.in_source_dir(site.config.data_dir)
       read_data_to(base, @content)
       merge_environment_specific_metadata!
       @content = @content.with_dot_access

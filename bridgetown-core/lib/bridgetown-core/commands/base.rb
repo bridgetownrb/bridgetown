@@ -25,6 +25,15 @@ module Bridgetown
         end
       end
 
+      desc "dream", "There's a place where that idea still exists as a reality"
+      def dream
+        puts ""
+        puts "🎶 The Dream of the 90s is Alive in Portland... ✨"
+        puts "          https://youtu.be/U4hShMEk1Ew"
+        puts "          https://youtu.be/0_HGqPGp9iY"
+        puts ""
+      end
+
       desc "help <command>", "Show detailed command usage information and exit"
       def help(subcommand = nil)
         if subcommand && respond_to?(subcommand)

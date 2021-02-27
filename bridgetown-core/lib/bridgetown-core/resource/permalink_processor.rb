@@ -62,7 +62,7 @@ module Bridgetown
       end
 
       def permalink_for_permalink_style(permalink_style)
-        collection_prefix = ("/:collection" unless resource.collection.special?)
+        collection_prefix = ("/:collection" unless resource.collection.builtin?)
 
         case permalink_style.to_sym
         when :pretty

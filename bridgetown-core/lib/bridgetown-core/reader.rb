@@ -12,16 +12,26 @@ module Bridgetown
     #
     # Returns nothing.
     def read # rubocop:todo Metrics/AbcSize
-      @site.defaults_reader.read
-      @site.layouts = LayoutReader.new(site).read
+      site.defaults_reader.read
+      site.layouts = LayoutReader.new(site).read
       read_directories
       read_included_excludes
       sort_files!
-      @site.data = DataReader.new(site).read(site.config["data_dir"]) unless site.uses_resource?
-      CollectionReader.new(site).read
-      @site.data = site.collections.data.merge_data_resources if site.uses_resource?
+      read_collections
+      site.data = if site.uses_resource?
+                    site.collections.data.merge_data_resources
+                  else
+                    DataReader.new(site).read
+                  end
       Bridgetown::PluginManager.source_manifests.map(&:content).compact.each do |plugin_content_dir|
         PluginContentReader.new(site, plugin_content_dir).read
+      end
+    end
+
+    def read_collections
+      site.collections.each_value do |collection|
+        collection.read unless !site.uses_resource? &&
+          collection.legacy_reader?
       end
     end
 

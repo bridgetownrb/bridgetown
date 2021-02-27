@@ -35,7 +35,7 @@ module Bridgetown
       @extname = File.extname(@name)
       @data = @site.frontmatter_defaults.all(relative_path, type).with_dot_access
       if site.uses_resource? && !data.permalink
-        data.permalink = if collection && !collection.special?
+        data.permalink = if collection && !collection.builtin?
                            "/:collection/:path.*"
                          else
                            "/:path.*"

@@ -61,7 +61,7 @@ module Bridgetown
       private
 
       def in_data_collection?
-        self.class.data_file_extensions.include?(original_path.extname.downcase) &&
+        original_path.extname.downcase.in?(self.class.data_file_extensions) &&
           collection.data?
       end
 

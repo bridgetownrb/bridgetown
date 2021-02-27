@@ -20,8 +20,12 @@ module Bridgetown
       @metadata = extract_metadata
     end
 
-    def special?
+    def builtin?
       label.in? %w(posts pages data).freeze
+    end
+
+    def legacy_reader?
+      label.in? %w(posts data).freeze
     end
 
     def data?
@@ -260,7 +264,19 @@ module Bridgetown
         end
       end
 
-      data_contents.with_dot_access
+      merge_environment_specific_metadata(data_contents).with_dot_access
+    end
+
+    def merge_environment_specific_metadata(data_contents)
+      if data_contents["site_metadata"]
+        data_contents["site_metadata"][Bridgetown.environment]&.each_key do |k|
+          data_contents["site_metadata"][k] =
+            data_contents["site_metadata"][Bridgetown.environment][k]
+        end
+        data_contents["site_metadata"].delete(Bridgetown.environment)
+      end
+
+      data_contents
     end
 
     private
