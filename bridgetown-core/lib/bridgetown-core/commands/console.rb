@@ -28,6 +28,7 @@ module Bridgetown
 
       def console
         require "irb"
+        require "irb/ext/save-history"
         require "amazing_print" unless options[:"bypass-ap"]
 
         Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
@@ -50,6 +51,7 @@ module Bridgetown
         IRB.setup(nil)
         workspace = IRB::WorkSpace.new
         irb = IRB::Irb.new(workspace)
+        IRB.conf[:IRB_RC]&.call(irb.context)
         IRB.conf[:MAIN_CONTEXT] = irb.context
         eval("site = $BRIDGETOWN_SITE", workspace.binding, __FILE__, __LINE__)
         Bridgetown.logger.info "Console:", "Now loaded as " + "site".cyan + " variable."
@@ -68,6 +70,8 @@ module Bridgetown
             end
             irb.eval_input
           end
+        ensure
+          IRB.conf[:AT_EXIT].each(&:call)
         end
       end
     end
