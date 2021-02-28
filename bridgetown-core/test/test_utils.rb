@@ -435,10 +435,4 @@ class TestUtils < BridgetownUnitTest
       assert_equal "master", Utils.default_github_branch_name("https://github.com/thisorgdoesntexist/thisrepoistotallybogus")
     end
   end
-
-  context "Utils::Internet.connected?" do
-    should "return true if there's internet" do
-      assert Utils::Internet.connected?
-    end
-  end
 end

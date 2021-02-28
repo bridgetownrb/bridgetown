@@ -45,11 +45,11 @@ module Bridgetown
                           else
                             "pages"
                           end
-        @collection = Current.site.collections[collection_name]
+        @collection = Bridgetown::Current.site.collections[collection_name]
       end
 
       def original_path
-        @original_path ||= relative_path.expand_path(Current.site.source)
+        @original_path ||= relative_path.expand_path(Bridgetown::Current.site.source)
       end
 
       def exists?
@@ -70,7 +70,7 @@ module Bridgetown
             array:
               CSV.read(original_path,
                        headers: true,
-                       encoding: Current.site.config["encoding"]).map(&:to_hash),
+                       encoding: Bridgetown::Current.site.config["encoding"]).map(&:to_hash),
           }
         when ".tsv"
           {
@@ -78,7 +78,7 @@ module Bridgetown
               CSV.read(original_path,
                        col_sep: "\t",
                        headers: true,
-                       encoding: Current.site.config["encoding"]).map(&:to_hash),
+                       encoding: Bridgetown::Current.site.config["encoding"]).map(&:to_hash),
           }
         else
           yaml_data = SafeYAML.load_file(original_path)
@@ -88,7 +88,7 @@ module Bridgetown
 
       def read_frontmatter
         @content = File.read(
-          original_path, **Bridgetown::Utils.merged_file_read_opts(Current.site, {})
+          original_path, **Bridgetown::Utils.merged_file_read_opts(Bridgetown::Current.site, {})
         )
         content_match = @content.match(YAML_FRONT_MATTER_REGEXP)
         if content_match
@@ -109,7 +109,7 @@ module Bridgetown
                                   "could not read file #{original_path}: #{error.message}"
         end
 
-        if Current.site.config["strict_front_matter"] ||
+        if Bridgetown::Current.site.config["strict_front_matter"] ||
             error.is_a?(Bridgetown::Errors::FatalException)
           raise error
         end

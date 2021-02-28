@@ -16,7 +16,9 @@ module Bridgetown
       end
 
       def self.find(id)
-        raise "A Bridgetown site must be initialized and added to Current" unless Current.site
+        unless Bridgetown::Current.site
+          raise "A Bridgetown site must be initialized and added to Current"
+        end
 
         model_klass = klass_for_id(id)
         model_klass.new(read_data_for_id(id))
@@ -69,7 +71,7 @@ module Bridgetown
       # override if need be
       # @return [Bridgetown::Site]
       def site
-        Current.site
+        Bridgetown::Current.site
       end
 
       # @return [Bridgetown::Collection]

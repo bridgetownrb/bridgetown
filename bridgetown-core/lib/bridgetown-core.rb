@@ -95,6 +95,7 @@ module Bridgetown
   autoload :Layout,              "bridgetown-core/layout"
   autoload :LayoutPlaceable,     "bridgetown-core/concerns/layout_placeable"
   autoload :Cache,               "bridgetown-core/cache"
+  autoload :Current,             "bridgetown-core/current"
   # TODO: remove this when legacy content engine is gone:
   autoload :DataReader,          "bridgetown-core/readers/data_reader"
   autoload :DefaultsReader,      "bridgetown-core/readers/defaults_reader"
@@ -205,11 +206,7 @@ module Bridgetown
     # @return [void]
     # rubocop:disable Naming/AccessorMethodName
     def set_timezone(timezone)
-      ENV["TZ"] = if Utils::Platforms.really_windows?
-                    Utils::WinTZ.calculate(timezone)
-                  else
-                    timezone
-                  end
+      ENV["TZ"] = timezone
     end
     # rubocop:enable Naming/AccessorMethodName
 
@@ -230,11 +227,11 @@ module Bridgetown
       @logger = LogAdapter.new(writer, (ENV["BRIDGETOWN_LOG_LEVEL"] || :info).to_sym)
     end
 
-    # An array of sites. Currently only ever a single entry.
+    # Deprecated. Now using the Current site.
     #
     # @return [Array<Bridgetown::Site>] the Bridgetown sites created.
     def sites
-      @sites ||= []
+      [Bridgetown::Current.site].compact
     end
 
     # Ensures the questionable path is prefixed with the base directory
