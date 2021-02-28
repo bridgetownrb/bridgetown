@@ -23,10 +23,9 @@ class LiquidBook < SiteBuilder
 
   def load_liquid_components(dir, root: true)
     @components ||= {}
-    @entry_filter ||= Bridgetown::EntryFilter.new(site)
     @current_root = dir if root
 
-    return unless File.directory?(dir) && !@entry_filter.symlink?(dir)
+    return unless File.directory?(dir)
 
     entries = Dir.chdir(dir) do
       Dir["*.{liquid,html}"] + Dir["*"].select { |fn| File.directory?(fn) }
@@ -34,7 +33,6 @@ class LiquidBook < SiteBuilder
 
     entries.each do |entry|
       path = File.join(dir, entry)
-      next if @entry_filter.symlink?(path)
 
       if File.directory?(path)
         load_liquid_components(path, root: false)
