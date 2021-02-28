@@ -49,8 +49,17 @@ module Bridgetown
         end
       end
 
+      def id
+        attributes[:id] || attributes[:_id_]
+      end
+
+      # @return [Bridgetown::Model::Origin]
+      def origin
+        attributes[:_origin_]
+      end
+
       def persisted?
-        id && self.class.origin_for_id(id).exists?
+        id && origin.exists?
       end
 
       def to_resource
@@ -63,8 +72,24 @@ module Bridgetown
         Current.site
       end
 
+      # @return [Bridgetown::Collection]
+      def collection
+        attributes[:_collection_]
+      end
+
+      # @return [String]
+      def content
+        attributes[:_content_]
+      end
+
       def attributes
         @attributes ||= HashWithDotAccess::Hash.new
+      end
+
+      # Strip out keys like _origin_, _collection_, etc.
+      # @return [HashWithDotAccess::Hash]
+      def data_attributes
+        attributes.reject { |k| k.starts_with?("_") && k.ends_with?("_") }
       end
 
       def respond_to_missing?(method_name, include_private = false)
@@ -85,6 +110,10 @@ module Bridgetown
         Bridgetown.logger.warn "key `#{method_name}' not found in attributes for" \
                                " #{attributes[:id].presence || ("new " + self.class.to_s)}"
         nil
+      end
+
+      def inspect
+        "#<#{self.class} #{data_attributes.inspect.delete_prefix("{").delete_suffix("}")}>"
       end
     end
   end

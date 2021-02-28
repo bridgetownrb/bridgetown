@@ -22,6 +22,7 @@ module Bridgetown
         raise "Implement #read in a subclass of Bridgetown::Model::Origin"
       end
 
+      # @return [Pathname]
       def relative_path
         raise "Implement #relative_path in a subclass of Bridgetown::Model::Origin"
       end

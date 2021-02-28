@@ -14,7 +14,7 @@ module Bridgetown
       # @return [Destination]
       attr_reader :destination
 
-      # @return [Model]
+      # @return [Bridgetown::Model::Base]
       attr_reader :model
 
       # @return [Bridgetown::Site]
@@ -74,8 +74,8 @@ module Bridgetown
       end
 
       def read!
-        self.data = model.attributes.reject { |k| %w[content collection].include?(k) }
-        self.content = model.content if model.respond_to?(:content)
+        self.data = model.data_attributes
+        self.content = model.content # could be nil
 
         unless collection.data?
           self.untransformed_content = content
@@ -198,7 +198,7 @@ module Bridgetown
       end
 
       def inspect
-        "#<#{self.class} #{relative_path}>"
+        "#<#{self.class} [#{collection.label}] #{relative_path}>"
       end
 
       # Compare this document against another document.

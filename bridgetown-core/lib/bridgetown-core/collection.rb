@@ -291,7 +291,7 @@ module Bridgetown
     end
 
     def read_resource(full_path)
-      id = "file://#{label}.collection/" + CGI.escape(
+      id = "file://#{label}.collection/" + Addressable::URI.escape(
         Pathname(full_path).relative_path_from(Pathname(site.source)).to_s
       )
       resource = Bridgetown::Model::Base.find(id).to_resource.tap(&:read)

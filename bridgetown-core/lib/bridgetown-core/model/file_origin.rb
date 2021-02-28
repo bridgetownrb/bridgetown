@@ -17,14 +17,10 @@ module Bridgetown
 
       def read
         @data = (in_data_collection? ? read_file_data : read_frontmatter) || {}
-        @data[:id] = id
-        @data[:origin] = {
-          id: id,
-          relative_path: relative_path,
-          original_path: original_path,
-        }
-        @data[:collection] = collection
-        @data[:content] = @content if @content
+        @data[:_id_] = id
+        @data[:_origin_] = self
+        @data[:_collection_] = collection
+        @data[:_content_] = @content if @content
 
         @data
       rescue StandardError => e
@@ -36,7 +32,9 @@ module Bridgetown
       end
 
       def relative_path
-        @relative_path ||= Pathname.new(CGI.unescape(url.path.delete_prefix("/")))
+        @relative_path ||= Pathname.new(
+          Addressable::URI.unescape(url.path.delete_prefix("/"))
+        )
       end
 
       def collection
