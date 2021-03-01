@@ -31,7 +31,9 @@ module Bridgetown
       end
 
       def output_path
-        path = resource.site.in_dest_dir(URL.unescape_path(relative_url))
+        path = URL.unescape_path(relative_url)
+        path = path.delete_prefix(resource.site.baseurl) if resource.site.baseurl.present?
+        path = resource.site.in_dest_dir(path)
         path = File.join(path, "index.html") if relative_url.end_with? "/"
         path
       end

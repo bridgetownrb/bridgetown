@@ -25,7 +25,7 @@ module Bridgetown
     # base - The String path to the <source>.
     # dir  - The String path between <source> and the file.
     # name - The String filename of the file.
-    def initialize(site, base, dir, name, collection = nil) # rubocop:todo Metrics/ParameterLists
+    def initialize(site, base, dir, name, collection = nil) # rubocop:disable Metrics/ParameterLists
       @site = site
       @base = base
       @dir  = dir
@@ -57,7 +57,10 @@ module Bridgetown
     # Returns destination file path.
     def destination(dest)
       dest = site.in_dest_dir(dest)
-      site.in_dest_dir(dest, Bridgetown::URL.unescape_path(url))
+      dest_url = url
+      dest_url = dest_url.delete_prefix(site.baseurl) if site.uses_resource? &&
+        site.baseurl.present? && collection
+      site.in_dest_dir(dest, Bridgetown::URL.unescape_path(dest_url))
     end
 
     def destination_rel_dir
