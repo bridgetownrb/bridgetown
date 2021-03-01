@@ -2,6 +2,7 @@
 
 module Bridgetown
   class Publisher
+    # @param site [Bridgetown::Site]
     def initialize(site)
       @site = site
     end
@@ -13,8 +14,10 @@ module Bridgetown
     def hidden_in_the_future?(thing)
       return false unless thing.respond_to?(:date)
 
-      thingtime = thing.date.is_a?(Date) ? thing.date.to_time.to_i : thing.date.to_i
-      !@site.future && thingtime > @site.time.to_i
+      future_allowed =
+        thing.respond_to?(:collection) && thing.collection.metadata.future || @site.future
+      thing_time = thing.date.is_a?(Date) ? thing.date.to_time.to_i : thing.date.to_i
+      !future_allowed && thing_time > @site.time.to_i
     end
 
     private
