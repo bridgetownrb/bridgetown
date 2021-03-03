@@ -102,62 +102,75 @@ module Bridgetown
 
       ### Default Placeholders Processors
 
+      # @param resource [Bridgetown::Resource::Base]
       register_placeholder :path, ->(resource) do
         { raw_value: resource.relative_path_basename_without_prefix }
       end
 
+      # @param resource [Bridgetown::Resource::Base]
       register_placeholder :name, ->(resource) do
         resource.basename_without_ext
       end
 
+      # @param resource [Bridgetown::Resource::Base]
       register_placeholder :slug, ->(resource) do
         resource.data.slug || placeholder_processors[:name].(resource)
       end
 
+      # @param resource [Bridgetown::Resource::Base]
       register_placeholder :title, ->(resource) do
         resource.data.title || placeholder_processors[:slug].(resource)
       end
 
+      # @param resource [Bridgetown::Resource::Base]
       register_placeholder :locale, ->(resource) do
         locale_data = resource.data.locale
         resource.site.config.available_locales.include?(locale_data) ? locale_data : nil
       end
       register_placeholder :lang, placeholder_processors[:locale]
 
+      # @param resource [Bridgetown::Resource::Base]
       register_placeholder :collection, ->(resource) do
         resource.collection.label
       end
 
+      # @param resource [Bridgetown::Resource::Base]
       register_placeholder :categories, ->(resource) do
         resource.taxonomies.category&.terms&.map(&:label)&.uniq
       end
 
       # YYYY
+      # @param resource [Bridgetown::Resource::Base]
       register_placeholder :year, ->(resource) do
         resource.date.strftime("%Y")
       end
 
       # MM: 01..12
+      # @param resource [Bridgetown::Resource::Base]
       register_placeholder :month, ->(resource) do
         resource.date.strftime("%m")
       end
 
       # DD: 01..31
+      # @param resource [Bridgetown::Resource::Base]
       register_placeholder :day, ->(resource) do
         resource.date.strftime("%d")
       end
 
       # D: 1..31
+      # @param resource [Bridgetown::Resource::Base]
       register_placeholder :i_day, ->(resource) do
         resource.date.strftime("%-d")
       end
 
       # M: 1..12
+      # @param resource [Bridgetown::Resource::Base]
       register_placeholder :i_month, ->(resource) do
         resource.date.strftime("%-m")
       end
 
       # YY: 00..99
+      # @param resource [Bridgetown::Resource::Base]
       register_placeholder :short_year, ->(resource) do
         resource.date.strftime("%y")
       end

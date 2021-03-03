@@ -294,7 +294,7 @@ module Bridgetown
       id = "file://#{label}.collection/" + Addressable::URI.escape(
         Pathname(full_path).relative_path_from(Pathname(site.source)).to_s
       )
-      resource = Bridgetown::Model::Base.find(id).to_resource.tap(&:read)
+      resource = Bridgetown::Model::Base.find(id).to_resource.read!
       resources << resource if site.unpublished || resource.published?
     end
 

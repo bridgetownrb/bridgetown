@@ -73,6 +73,7 @@ module Bridgetown
         end
       end
 
+      # @return [Bridgetown::Resource::Base]
       def read!
         self.data = model.data_attributes
         self.content = model.content # could be nil

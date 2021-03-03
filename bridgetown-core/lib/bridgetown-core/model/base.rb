@@ -45,6 +45,16 @@ module Bridgetown
         origin_klass.new(id)
       end
 
+      class << self
+        ruby2_keywords def build(collection_name, path, data = {})
+          data = Bridgetown::Model::BuilderOrigin.new("builder://#{path}").read do
+            data[:_collection_] = Bridgetown::Current.site.collections[collection_name]
+            data
+          end
+          new(data)
+        end
+      end
+
       def initialize(attributes = {})
         run_callbacks :load do
           super
@@ -64,8 +74,14 @@ module Bridgetown
         id && origin.exists?
       end
 
+      # @return [Bridgetown::Resource::Base]
       def to_resource
         Bridgetown::Resource::Base.new(model: self)
+      end
+
+      def as_resource_in_collection
+        collection.resources << to_resource.read!
+        collection.resources.last
       end
 
       # override if need be
