@@ -22,7 +22,9 @@ module Bridgetown
           raise Errors::FatalException, "Invalid Markdown processor given: #{@config["markdown"]}"
         end
 
-        @cache = Bridgetown::Cache.new("Bridgetown::Converters::Markdown")
+        unless @config.cache_markdown == false || @config.kramdown.input == "GFMExtractions"
+          @cache = Bridgetown::Cache.new("Bridgetown::Converters::Markdown")
+        end
         @setup = true
       end
 
@@ -59,10 +61,18 @@ module Bridgetown
       # content - String content of file (without front matter).
       #
       # Returns a String of the converted content.
-      def convert(content, _convertible = nil)
+      def convert(content, convertible = nil)
         setup
-        @cache.getset(content) do
-          @parser.convert(content)
+        if @cache
+          @cache.getset(content) do
+            @parser.convert(content)
+          end
+        else
+          output = @parser.convert(content)
+          if @parser.respond_to?(:extractions)
+            convertible.data.markdown_extractions = @parser.extractions
+          end
+          output
         end
       end
 
