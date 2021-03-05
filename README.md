@@ -33,10 +33,10 @@ Say howdy 👋 to our growing list of the first twenty sponsors of Bridgetown on
 |<a href="https://github.com/johnchambers">@johnchambers</a>|<a href="https://github.com/wout">@wout</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/DRBragg">@DRBragg</a>|<a href="https://github.com/jasoncharnes">@jasoncharnes</a>|
 ||<a href="https://tilishop.com">Website</a>|<a href="https://pascal.rocks">Website</a>|<a href="https://www.drbragg.ninja/">Website</a>|<a href="http://www.jasoncharnes.com">Website</a>|
 
-|<img src="https://avatars.githubusercontent.com/leastbad?s=256" alt="leastbad" width="128" />|<img src="https://avatars.githubusercontent.com/asaaki?s=256" alt="asaaki" width="128" />|<img src="https://avatars.githubusercontent.com/scoutapm-sponsorships?s=256" alt="scoutapm-sponsorships" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/leastbad">@leastbad</a>|<a href="https://github.com/asaaki">@asaaki</a>|<a href="https://github.com/scoutapm-sponsorships">@scoutapm-sponsorships</a>|You Next?|
-||<a href="https://markentier.tech/">Website</a>|<a href="https://scoutapm.com">Website</a>||
+|<img src="https://avatars.githubusercontent.com/leastbad?s=256" alt="leastbad" width="128" />|<img src="https://avatars.githubusercontent.com/asaaki?s=256" alt="asaaki" width="128" />|<img src="https://avatars.githubusercontent.com/scoutapm-sponsorships?s=256" alt="scoutapm-sponsorships" width="128" />|<img src="https://avatars.githubusercontent.com/adrianvalenz?s=256" alt="adrianvalenz" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/leastbad">@leastbad</a>|<a href="https://github.com/asaaki">@asaaki</a>|<a href="https://github.com/scoutapm-sponsorships">@scoutapm-sponsorships</a>|<a href="https://github.com/adrianvalenz">@adrianvalenz</a>|You Next?|
+||<a href="https://markentier.tech/">Website</a>|<a href="https://markentier.tech/">Website</a>||<a href="https://scoutapm.com">Website</a>||
 
 ## Commercial Support
 
