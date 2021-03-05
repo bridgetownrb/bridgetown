@@ -56,5 +56,14 @@ class TestRelatedPosts < BridgetownUnitTest
 
       assert_equal @site.posts[-1..-9], Bridgetown::RelatedPosts.new(@site.posts.last).build
     end
+
+    should "not return current post" do
+      allow_any_instance_of(::ClassifierReborn::LSI).to \
+        receive(:find_related).and_return(@site.posts)
+      allow_any_instance_of(::ClassifierReborn::LSI).to receive(:build_index)
+
+      related_posts = Bridgetown::RelatedPosts.new(@site.posts.last).build
+      refute related_posts.include?(@site.posts.last)
+    end
   end
 end

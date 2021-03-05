@@ -42,7 +42,7 @@ module Bridgetown
     end
 
     def lsi_related_posts
-      self.class.lsi.find_related(post, 11)
+      self.class.lsi.find_related(post, 11) - [post]
     end
 
     def most_recent_posts

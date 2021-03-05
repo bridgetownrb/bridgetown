@@ -64,5 +64,9 @@ module Bridgetown
         end
       end
     end
+
+    def inspect
+      "#<Bridgetown::Site #{metadata.inspect.delete_prefix("{").delete_suffix("}")}>"
+    end
   end
 end
