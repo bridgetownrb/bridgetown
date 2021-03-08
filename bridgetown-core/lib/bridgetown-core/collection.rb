@@ -306,8 +306,8 @@ module Bridgetown
         docs.sort!
         resources.sort!
       end
-      docs.reverse! if metadata.sort_order == "descending"
-      resources.reverse! if metadata.sort_order == "descending"
+      docs.reverse! if metadata.sort_direction == "descending"
+      resources.reverse! if metadata.sort_direction == "descending"
     end
 
     # A custom sort function based on Schwartzian transform

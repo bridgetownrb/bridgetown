@@ -1,9 +1,14 @@
 ---
 title: Pages
-order: 10
+order: 10.5
+next_page_order: 11
 top_section: Content
 category: pages
 ---
+
+{% rendercontent "docs/note", type: "warning" %}
+The page as a distinct content type is part of the legacy content engine which will be deprecated and eventually removed by Bridgetown 1.0. Read about the new [resource content engine](/docs/resources) to find out more.
+{% endrendercontent %}
 
 Pages are the most basic building block for content. They're useful for standalone
 content (content which is not date based or is not a group of content such as staff

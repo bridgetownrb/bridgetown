@@ -53,7 +53,7 @@ class Bridgetown::Site
     # @return [Hash{String, Array<Post>}] Returns a hash of all tags and their corresponding posts
     # @see post_attr_hash
     def tags
-      uses_resource? ? taxonomy_content.tag : post_attr_hash("tags")
+      uses_resource? ? taxonomies.tag : post_attr_hash("tags")
     end
 
     # Returns a hash of "categories" using {#post_attr_hash} where each tag is
@@ -66,7 +66,7 @@ class Bridgetown::Site
     #   their corresponding posts
     # @see post_attr_hash
     def categories
-      uses_resource? ? taxonomy_content.category : post_attr_hash("categories")
+      uses_resource? ? taxonomies.category : post_attr_hash("categories")
     end
 
     # Returns the value of `data["site_metadata"]` or creates a new instance of

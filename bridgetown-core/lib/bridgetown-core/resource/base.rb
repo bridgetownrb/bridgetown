@@ -179,11 +179,7 @@ module Bridgetown
       #
       # Returns nothing.
       def write(_dest = nil)
-        path = destination.output_path
-        FileUtils.mkdir_p(File.dirname(path))
-        Bridgetown.logger.debug "Writing:", path
-        File.write(path, output, mode: "wb")
-
+        destination.write(output)
         trigger_hooks(:post_write)
       end
 

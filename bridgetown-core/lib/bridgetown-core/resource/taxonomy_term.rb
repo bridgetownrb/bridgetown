@@ -14,6 +14,10 @@ module Bridgetown
         @label = label
         @type = type
       end
+
+      def to_liquid
+        label
+      end
     end
   end
 end

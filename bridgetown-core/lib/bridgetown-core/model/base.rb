@@ -46,7 +46,7 @@ module Bridgetown
       end
 
       class << self
-        ruby2_keywords def build(collection_name, path, data = {})
+        def build(collection_name, path, data)
           data = Bridgetown::Model::BuilderOrigin.new("builder://#{path}").read do
             data[:_collection_] = Bridgetown::Current.site.collections[collection_name]
             data

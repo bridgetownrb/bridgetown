@@ -268,7 +268,7 @@ module Bridgetown
       end
       self[:collections][:posts] = {} unless self[:collections][:posts]
       self[:collections][:posts][:output] = true
-      self[:collections][:posts][:sort_order] ||= "descending"
+      self[:collections][:posts][:sort_direction] ||= "descending"
       collections[:posts][:permalink] ||= if self[:permalink] && self[:content_engine] == "resource"
                                             self[:permalink]
                                           elsif self[:permalink]

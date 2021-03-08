@@ -34,6 +34,14 @@ module Bridgetown
       def inspect
         "#<#{self.class} label=#{label}>"
       end
+
+      def to_liquid
+        {
+          "label"    => label,
+          "key"      => key,
+          "metadata" => metadata,
+        }
+      end
     end
   end
 end

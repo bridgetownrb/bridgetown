@@ -15,7 +15,8 @@ module Bridgetown
                      :static_files,
                      :tags,
                      :categories,
-                     :taxonomies
+                     :taxonomies,
+                     :taxonomy_types
 
       private def_delegator :@obj, :config, :fallback_data
 

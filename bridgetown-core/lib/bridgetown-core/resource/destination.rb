@@ -37,6 +37,13 @@ module Bridgetown
         path = File.join(path, "index.html") if relative_url.end_with? "/"
         path
       end
+
+      def write(output)
+        path = output_path
+        FileUtils.mkdir_p(File.dirname(path))
+        Bridgetown.logger.debug "Writing:", path
+        File.write(path, output, mode: "wb")
+      end
     end
   end
 end
