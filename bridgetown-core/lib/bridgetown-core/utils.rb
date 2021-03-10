@@ -382,7 +382,11 @@ module Bridgetown
     end
 
     def static_frontend_path(site, additional_parts = [])
-      path_parts = [site.config["baseurl"].to_s.chomp("/"), "_bridgetown/static", *additional_parts]
+      path_parts = [
+        site.config["baseurl"].to_s.gsub(%r(^/|/$), ""),
+        "_bridgetown/static",
+        *additional_parts,
+      ]
       path_parts[0] = "/#{path_parts[0]}" unless path_parts[0].empty?
       Addressable::URI.parse(path_parts.join("/")).normalize.to_s
     end
