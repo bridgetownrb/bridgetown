@@ -33,7 +33,7 @@ module Bridgetown
     # @param site [Bridgetown::Site]
     def generate(site)
       @site = site
-      @configured_collection = "posts"
+      @configured_collection = "posts" unless site.uses_resource?
       page_list = site.uses_resource? ? site.collections.pages.resources : site.pages
 
       prototype_pages = self.class.matching_templates.select do |page|

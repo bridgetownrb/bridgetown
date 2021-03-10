@@ -33,7 +33,7 @@ module Bridgetown
       def run(default_config, templates, site_title) # rubocop:todo Metrics/AbcSize
         if templates.size.to_i <= 0
           @logging_lambda.call "is enabled in the config, but no paginated pages found." \
-            " Add 'pagination:\\n  enabled: true' to the front-matter of a page.", "warn"
+            " Add 'pagination:\\n  collection: <label>' to the front-matter of a page.", "warn"
           return
         end
 
@@ -43,66 +43,63 @@ module Bridgetown
         templates.each do |template|
           # All pages that should be paginated need to include the pagination
           # config element
-          if template.data["pagination"].is_a?(Hash)
-            template_config = Bridgetown::Utils.deep_merge_hashes(
-              default_config,
-              template.data["pagination"] || {}
-            )
-
-            # Is debugging enabled on the page level
-            @debug = template_config["debug"]
-
-            _debug_print_config_info(template_config, template.path)
-
-            # Only paginate the template if it is explicitly enabled
-            # requiring this makes the logic simpler as I don't need to
-            # determine which index pages were generated automatically and
-            # which weren't
-            if template_config["enabled"]
-              @logging_lambda.call "found page: " + template.path, "debug" unless @debug
-
-              # Request all documents in all collections that the user has requested
-              all_posts = get_docs_in_collections(template_config["collection"])
-
-              # Create the necessary indexes for the posts
-              all_categories = if template_config["category"]
-                                 PaginationIndexer.index_documents_by(all_posts, "categories")
-                               end
-              all_tags = if template_config["tag"]
-                           PaginationIndexer.index_documents_by(all_posts, "tags")
-                         end
-              all_locales = if template_config["locale"]
-                              PaginationIndexer.index_documents_by(all_posts, "locale")
-                            end
-
-              # Load in custom query index, if specified
-              all_where_matches = if template_config["where_query"]
-                                    PaginationIndexer.index_documents_by(
-                                      all_posts, template_config["where_query"]
-                                    )
-                                  end
-
-              documents_payload = {
-                posts: all_posts,
-                tags: all_tags,
-                categories: all_categories,
-                locales: all_locales,
-                where_matches: all_where_matches,
-              }
-
-              # TODO: NOTE!!! This whole request for posts and indexing results
-              # could be cached to improve performance, leaving like this for
-              # now during testing
-
-              # Now construct the pagination data for this template page
-              paginate(
-                template,
-                template_config,
-                site_title,
-                documents_payload
-              )
-            end
+          unless template.data["pagination"].is_a?(Hash) || template.data["paginate"].is_a?(Hash)
+            next
           end
+
+          template_config = Bridgetown::Utils.deep_merge_hashes(
+            default_config,
+            template.data["pagination"] || template.data["paginate"] || {}
+          )
+
+          # Is debugging enabled on the page level
+          @debug = template_config["debug"]
+          _debug_print_config_info(template_config, template.path)
+
+          next if template_config["enabled"] == false
+
+          @logging_lambda.call "found page: " + template.path, "debug" unless @debug
+
+          # Request all documents in all collections that the user has requested
+          all_posts = get_docs_in_collections(template_config["collection"], template)
+
+          # Create the necessary indexes for the posts
+          all_categories = if template_config["category"]
+                             PaginationIndexer.index_documents_by(all_posts, "categories")
+                           end
+          all_tags = if template_config["tag"]
+                       PaginationIndexer.index_documents_by(all_posts, "tags")
+                     end
+          all_locales = if template_config["locale"]
+                          PaginationIndexer.index_documents_by(all_posts, "locale")
+                        end
+
+          # Load in custom query index, if specified
+          all_where_matches = if template_config["where_query"]
+                                PaginationIndexer.index_documents_by(
+                                  all_posts, template_config["where_query"]
+                                )
+                              end
+
+          documents_payload = {
+            posts: all_posts,
+            tags: all_tags,
+            categories: all_categories,
+            locales: all_locales,
+            where_matches: all_where_matches,
+          }
+
+          # TODO: NOTE!!! This whole request for posts and indexing results
+          # could be cached to improve performance, leaving like this for
+          # now during testing
+
+          # Now construct the pagination data for this template page
+          paginate(
+            template,
+            template_config,
+            site_title,
+            documents_payload
+          )
         end
 
         # Return the total number of templates found
@@ -114,7 +111,12 @@ module Bridgetown
       # specified
       # raw_collection_names can either be a list of collections separated by a
       # ',' or ' ' or a single string
-      def get_docs_in_collections(raw_collection_names)
+      def get_docs_in_collections(raw_collection_names, template)
+        if raw_collection_names.blank?
+          @logging_lambda.call "Missing collection name for paginated page: #{template.relative_path}"
+          return []
+        end
+
         if @docs_by_collection_cache[raw_collection_names]
           return @docs_by_collection_cache[raw_collection_names]
         end
@@ -261,13 +263,13 @@ module Bridgetown
             next unless u_post.respond_to?("date")
 
             tmp_date = u_post.date
-            if !tmp_date || tmp_date.nil?
-              if @debug
-                puts "Pagination: ".rjust(20) +
-                  "Explicitly assigning date for doc: #{u_post.data["title"]} | #{u_post.path}"
-              end
-              u_post.date = File.mtime(u_post.path)
+            next unless !tmp_date || tmp_date.nil?
+
+            if @debug
+              puts "Pagination: ".rjust(20) +
+                "Explicitly assigning date for doc: #{u_post.data["title"]} | #{u_post.path}"
             end
+            u_post.date = File.mtime(u_post.path)
           end
 
           using_posts.sort! do |a, b|

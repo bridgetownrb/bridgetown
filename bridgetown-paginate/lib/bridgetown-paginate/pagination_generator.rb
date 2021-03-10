@@ -33,6 +33,7 @@ module Bridgetown
           DEFAULT,
           site.config["pagination"] || {}
         )
+        default_config["collection"] = "posts" unless site.uses_resource?
 
         # If disabled then simply quit
         unless default_config["enabled"]
@@ -55,9 +56,7 @@ module Bridgetown
 
         # Specify the callback function that returns the correct docs/posts
         # based on the collection name
-        # "posts" are just another collection in Bridgetown but a specialized
-        # version that require timestamps
-        # This collection is the default and if the user doesn't specify a
+        # Posts collection is the default and if the user doesn't specify a
         # collection in their front-matter then that is the one we load
         # If the collection is not found then empty array is returned
         collection_by_name_lambda = ->(collection_name) do
@@ -71,7 +70,7 @@ module Bridgetown
 
               # Exclude all pagination pages
               coll += collection.each.reject do |doc|
-                doc.data.key?("pagination")
+                doc.data.key?("pagination") || doc.data.key?("paginate")
               end
             end
           else
@@ -80,7 +79,7 @@ module Bridgetown
 
             # Exclude all pagination pages
             coll = site.collections[collection_name].each.reject do |doc|
-              doc.data.key?("pagination")
+              doc.data.key?("pagination") || doc.data.key?("paginate")
             end
           end
           return coll
