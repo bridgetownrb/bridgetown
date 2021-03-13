@@ -1,0 +1,7 @@
+---
+title: I'm the Noodles index
+---
+
+{% for noodle in collections.noodles.resources %}
+  <li>{{ noodle.title }}: {{ noodle.relative_url }}</li>
+{% endfor %}

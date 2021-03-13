@@ -157,6 +157,11 @@ class TestResource < BridgetownUnitTest
       assert_equal %w[noodle dishes], @resource.data.tags
       assert_equal "dishes", @resource.taxonomies.tag.terms[1].label
     end
+
+    should "appear in page loop" do
+      page = @site.collections.pages.resources.find { |pg| pg.data.title == "I'm the Noodles index" }
+      assert_includes page.output, "<li>Noodles!: /noodles/low-cost/ramen"
+    end
   end
 
   context "a resource in the posts collection with a weird filename" do
@@ -164,11 +169,11 @@ class TestResource < BridgetownUnitTest
       @site = resources_site
       @site.process
       @resource = @site.collections.posts.resources[0]
-      @dest_file = dest_dir("2019/09/09/bløg-pöst.html")
+      @dest_file = dest_dir("2019/09/09/bløg-pöst/index.html")
     end
 
     should "produce the right URL" do
-      assert_equal "/2019/09/09/bløg-pöst", @resource.relative_url
+      assert_equal "/2019/09/09/bløg-pöst/", @resource.relative_url
     end
 
     should "produce the right destination file" do
@@ -185,11 +190,11 @@ class TestResource < BridgetownUnitTest
       @site = resources_site({ slugify_mode: "latin" })
       @site.process
       @resource = @site.collections.posts.resources[0]
-      @dest_file = dest_dir("2019/09/09/blog-post.html")
+      @dest_file = dest_dir("2019/09/09/blog-post/index.html")
     end
 
     should "allow a simpler slugify mode" do
-      assert_equal "/2019/09/09/blog-post", @resource.relative_url
+      assert_equal "/2019/09/09/blog-post/", @resource.relative_url
       assert_equal @dest_file, @resource.destination.output_path
     end
   end
