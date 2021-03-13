@@ -46,7 +46,7 @@ layout: default
       {% endrendercontent %}
     </layout-column>
     <layout-sidebar class="column pl-8">
-      {% render "docs/toc", docs: site.docs, page: page %}
+      {% render "docs/toc", docs: collections.docs.resources, page: page %}
     </layout-sidebar>
   </layout-columns>
 </section>

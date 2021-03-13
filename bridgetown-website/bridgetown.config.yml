@@ -10,7 +10,6 @@ collections:
     permalink: "/:collection/:path.*"
     sort_by: order
     name: Documentation
-    foo: bar
 
 pagination:
   enabled: true
