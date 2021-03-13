@@ -23,11 +23,12 @@ module Bridgetown
       attr_writer :current_document
 
       def [](key)
-        if !@obj.uses_resource? && !%w(posts data).freeze.include?(key) && @obj.collections.key?(key)
-          @obj.collections[key].docs
-        else
-          super(key)
+        if !@obj.uses_resource? && !%w(posts data).freeze.include?(key) &&
+            @obj.collections.key?(key)
+          return @obj.collections[key].docs
         end
+
+        super(key)
       end
 
       def key?(key)
@@ -76,7 +77,9 @@ module Bridgetown
         @site_metadata ||= @obj.data["site_metadata"]
       end
 
-      # TODO: change this so you *do* use site.config…aka site.config.timezone, not site.timezone
+      # TODO: change this so you *do* use site.config...aka site.config.timezone,
+      # not site.timezone
+      #
       # return nil for `{{ site.config }}` even if --config was passed via CLI
       def config; end
     end
