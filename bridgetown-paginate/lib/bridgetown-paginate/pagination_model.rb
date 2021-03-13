@@ -113,7 +113,8 @@ module Bridgetown
       # ',' or ' ' or a single string
       def get_docs_in_collections(raw_collection_names, template)
         if raw_collection_names.blank?
-          @logging_lambda.call "Missing collection name for paginated page: #{template.relative_path}"
+          @logging_lambda.call "Missing collection name for paginated page: " \
+                               "#{template.relative_path}"
           return []
         end
 
