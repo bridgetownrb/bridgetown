@@ -271,10 +271,14 @@ module Bridgetown
         self[:collections][:data] = {} unless self[:collections][:data]
         self[:collections][:data][:output] = false
 
-        self[:collections][:posts][:permalink] = self[:permalink]
+        unless self[:collections][:posts][:permalink]
+          self[:collections][:posts][:permalink] = self[:permalink]
+        end
       else
         self[:permalink] = "date" if self[:permalink].blank?
-        self[:collections][:posts][:permalink] = style_to_permalink(self[:permalink])
+        unless self[:collections][:posts][:permalink]
+          self[:collections][:posts][:permalink] = style_to_permalink(self[:permalink])
+        end
       end
 
       self

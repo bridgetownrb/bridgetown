@@ -93,27 +93,7 @@ class TestConfiguration < BridgetownUnitTest
     should "turn an array into a hash" do
       result = Configuration[{ "collections" => %w(methods) }].add_default_collections
       assert_instance_of HashWithDotAccess::Hash, result["collections"]
-      expected = { "posts" => { "output" => true, "sort_direction" => "descending", "permalink" => nil }, "methods" => {} }
-      assert_equal expected, result["collections"]
-    end
-
-    should "only assign collections.posts.permalink if a permalink is specified" do
-      result = Configuration[{ "permalink" => "pretty", "collections" => {} }]
-        .add_default_collections
-
-      expected = {
-        "posts" => {
-          "output"         => true,
-          "sort_direction" => "descending",
-          "permalink"      => "/:categories/:year/:month/:day/:title/",
-        },
-      }
-
-      assert_equal expected, result["collections"]
-
-      result   = Configuration[{ "permalink" => nil, "collections" => {} }].add_default_collections
-      expected = { "posts" => { "output" => true, "sort_direction" => "descending", "permalink" => nil } }
-
+      expected = { "posts" => { "output" => true, "sort_direction" => "descending", "permalink" => "/:categories/:year/:month/:day/:title:output_ext" }, "methods" => {} }
       assert_equal expected, result["collections"]
     end
 
