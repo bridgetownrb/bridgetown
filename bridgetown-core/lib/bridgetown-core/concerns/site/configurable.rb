@@ -30,7 +30,7 @@ class Bridgetown::Site
       configure_include_paths
       configure_file_read_opts
 
-      self.permalink_style = config["permalink"].to_sym
+      self.permalink_style = (config["permalink"] || "pretty").to_sym
 
       @config
     end

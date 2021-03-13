@@ -12,11 +12,11 @@ exclude_from_search: true
     </tr>
   </thead>
   <tbody>
-    {% assign components = site.components | sort: "component.relative_path" %}
+    {% assign components = collections.components.resources | sort: "component.relative_path" %}
     {% for component in components %}
       <tr>
         <td><p><code>{{ component.component.relative_path }}</code></p></td>
-        <td><p><a href="{{ component.url }}">{{ component.title }}</a></p></td>
+        <td><p><a href="{{ component.relative_url }}">{{ component.title }}</a></p></td>
       </tr>
     {% endfor %}
   </tbody>
