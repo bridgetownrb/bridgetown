@@ -22,7 +22,9 @@ The legacy content engine will be deprecated and eventually removed prior to the
 
 ## Architecture
 
-The resource is a 1:1 mapping between a unit of content and a URL (remember the acronym Uniform **Resource** Locator?). While certain resources don't actually get written to URLs such as data files, (and other resources and/or collections can be marked to avoid output), the concept is sound. Resources encapsulate the logic for how raw data is transformed into final content within the site rendering pipeline.
+The resource is a 1:1 mapping between a unit of content and a URL (remember the acronym Uniform **Resource** Locator?). A "unit of content" is typically a Markdown or HTML file along with [YAML front matter](/docs/front-matter) saved somewhere in the `src` folder.
+
+While certain resources don't actually get written to URLs such as data files, (and other resources and/or collections can be marked to avoid output), the concept is sound. Resources encapsulate the logic for how raw data is transformed into final content within the site rendering pipeline.
 
 Resources come with a merry band of objects to help them along the way. These are called Origins, Models, Transformers, and Destinations. Here's a diagram of how it all works.
 
@@ -32,7 +34,7 @@ Resources come with a merry band of objects to help them along the way. These ar
 Let's say you add a new blog post by saving `src/_posts/2021-05-10-super-cool-blog-post.md`. To make the transition from a Markdown file with Liquid or ERB template syntax to a final URL on your website, Bridgetown takes your data through several steps:
 
 1. It finds the appropriate origin class to load the post. The posts collection file reader uses a special **origin ID** identify the file (in this case: `file://posts.collection/_posts/2021-05-10-super-cool-blog-post.md`). Other origin classes could handle different protocols to download content from third-party APIs or load in content directly from scripts.
-2. Once the origin provides the post's data it is used to create a model object. The model will be a `Bridgetown::Model::Base` object by default, but you can create your own subclasses to alter and enhance data, or for use in a Ruby-based CMS environment. For example, `class Post < Bridgetown::Model::Base; end` will get used automatically for the `posts` collection (because Bridgetown will use the Rails inflector to map `posts` to `Post`). Subclasses can be saved in the `plugins` folder.
+2. Once the origin provides the post's data it is used to create a model object. The model will be a `Bridgetown::Model::Base` object by default, but you can create your own subclasses to alter and enhance data, or for use in a Ruby-based CMS environment. For example, `class Post < Bridgetown::Model::Base; end` will get used automatically for the `posts` collection (because Bridgetown will use the Rails inflector to map `posts` to `Post`). You can save subclasses in your `plugins` folder.
 3. The model then "emits" a resource object. The resource is provided a clone of the model data which it can then process for use within template like Liquid, ERB, and so forth. Resources may also point to other resources within their collection, and templates can access resources through various means (looping through collections, referencing resources by source paths, etc.)
 4. The resource is transformed by a transformer object which runs a pipeline to convert Markdown to HTML, render Liquid or ERB templates, and any other conversions specified—as well as optionally place the resource output within a converted layout.
 5. Finally, a destination object is responsible for determining the resource's "permalink" based on configured criteria or the presence of `permalink` front matter. It will then write out to the output folder using a static file name matching the destination permalink.
@@ -177,7 +179,7 @@ Accessing taxonomies for resources is simple as well:
 Title: {{ site.taxonomy_types.genres.metadata.title }}
 
 {% for term in page.taxonomies.genres.terms %}
-  Term: {{ term }}
+  Term: {{ term.label }}
 {% endfor %}
 ```
 
@@ -193,10 +195,48 @@ Title: <%= site.taxonomy_types.genres.metadata.title %>
 
 ## Configuring Permalinks
 
-TBC
+Bridgetown uses permalink "templates" to determine the default permalink to use for resource destination URLs. You can override a resource permalink on a case-by-case basis by using the `permalink` front matter key. Otherwise, the permalink is determined as follows (unless you change the site config):
+
+* For pages, the permalink matches the path of the file. So `src/_pages/i/am/a/page.md` will output to "/i/am/a/page/".
+* For posts, the permalink is derived from the categories, date, and slug (aka filename, but you can change that with a `slug` front matter key).
+* For all other collections, the permalink matches the path of the file along with a collection prefix. So `src/_movies/horror/alien.md` will output to `/movies/horror/alien/`
+
+Bridgetown ships a few permalink "styles". The posts permalink style is configured by the `permalink` key in the config file. If the key isn't present, the default is `pretty`. Permalink styles can also be used for your custom collections.
+
+The available styles are:
+
+* `pretty`: `/[collection]/:categories/:year/:month/:day/:slug/`
+* `pretty_ext`: `/[collection]/:categories/:year/:month/:day/:slug.*`
+* `simple`: `/[collection]/:categories/:slug/`
+* `simple_ext`: `collection_prefix}/:categories/:slug.*`
+
+(Including `.*` at the end simply means it will output the resource with its own slug and extension. Alternatively, `/` at the end will put the resource in a folder of that slug with `index.html` inside.)
+
+To set a permalink style or template for a collection, add it to your collection metadata in `bridgetown.config.yml`. For example:
+
+```yaml
+collections:
+  articles:
+    permalink: pretty
+```
+
+would make your articles collection behave the same as posts. Or you can create your own template:
+
+```yaml
+collections:
+  articles:
+    permalink: /lots-of/:collection/:year/:title/
+```
 
 ## Differences Between Resource and Legacy Engines
 
-So many!
+* The most obvious differences are what you use in templates (Liquid or ERB). For example, instead of `site.posts` in Liquid or `site.posts.docs` in ERB, you'd use `collections.posts.resources` (in both Liquid and ERB). (`site.collection_name_here` syntax is no longer available.) Pages are just another collection now so you can iterate through them as well via `collections.pages.resources`.
+* Resources don't have a `url` variable. Your templates/plugins will need to reference either `relative_url` or `absolute_url`. Also, the site's `baseurl` (if configured) is built into both values, so you won't need to prepend it manually.
+* Resource engine: The paginator items are now accessed via `paginator.resources` instead of `paginator.documents`.
+* Resource engine: Categories and tags are collated from all collections (even pages!), so if you used category/tag front matter manually before outside of posts, you may get a lot more site-wide category/tag data than expected.
+* Resource engine: Since user-authored pages are no longer loaded as `Page` objects and everything formerly loaded as `Document` will now be a `Resource::Base`, plugins will need to be adapted accordingly. The `Page` class will eventually be renamed to `GeneratedPage` to indicate it is only used for content generated by plugins.
+* With the legacy engine, any folder starting with an underscore within a collection would be skipped. With the resource engine, folders can start with underscores but they aren't included in the final permalink. (Files starting with an underscore are always skipped however.)
+* Resource engine: The `YYYY-MM-DD-slug.ext` filename format will now work for any collection, not just posts.
+* Resource engine: Structured data files (aka YAML, JSON, CSV, etc.) starting with triple-dashes/front-matter can be placed in collection folders, and they will be read and transformed like any other resource. (CSV/TSV data gets loaded into the `rows` front matter key).
 
 {% endraw %}

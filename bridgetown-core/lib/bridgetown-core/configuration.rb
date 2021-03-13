@@ -60,7 +60,7 @@ module Bridgetown
       # Output Configuration
       "available_locales"    => ["en"],
       "default_locale"       => "en",
-      "permalink"            => "date",
+      "permalink"            => nil, # default is set according to content engine
       "timezone"             => nil, # use the local timezone
 
       "quiet"                => false,
@@ -258,22 +258,24 @@ module Bridgetown
       end
 
       # Setup default collections
+      self[:collections][:posts] = {} unless self[:collections][:posts]
+      self[:collections][:posts][:output] = true
+      self[:collections][:posts][:sort_direction] ||= "descending"
+
       if self[:content_engine] == "resource"
+        self[:permalink] = "pretty" if self[:permalink].blank?
         self[:collections][:pages] = {} unless self[:collections][:pages]
         self[:collections][:pages][:output] = true
         self[:collections][:pages][:permalink] ||= "/:path/"
 
         self[:collections][:data] = {} unless self[:collections][:data]
         self[:collections][:data][:output] = false
+
+        self[:collections][:posts][:permalink] = self[:permalink]
+      else
+        self[:permalink] = "date" if self[:permalink].blank?
+        self[:collections][:posts][:permalink] = style_to_permalink(self[:permalink])
       end
-      self[:collections][:posts] = {} unless self[:collections][:posts]
-      self[:collections][:posts][:output] = true
-      self[:collections][:posts][:sort_direction] ||= "descending"
-      collections[:posts][:permalink] ||= if self[:permalink] && self[:content_engine] == "resource"
-                                            self[:permalink]
-                                          elsif self[:permalink]
-                                            style_to_permalink(self[:permalink])
-                                          end
 
       self
     end

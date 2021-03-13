@@ -23,8 +23,8 @@ module Bridgetown
       attr_writer :current_document
 
       def [](key)
-        if !%w(posts data).freeze.include?(key) && @obj.collections.key?(key)
-          @obj.uses_resource? ? @obj.collections[key].resources : @obj.collections[key].docs
+        if !@obj.uses_resource? && !%w(posts data).freeze.include?(key) && @obj.collections.key?(key)
+          @obj.collections[key].docs
         else
           super(key)
         end
@@ -42,12 +42,14 @@ module Bridgetown
                         end
       end
 
+      # TODO: deprecate before v1.0
       def html_pages
         @site_html_pages ||= @obj.pages.select do |page|
           page.html? || page.url.end_with?("/")
         end
       end
 
+      # TODO: deprecate before v1.0
       def collections
         @site_collections ||= @obj.collections.values.sort_by(&:label).map(&:to_liquid)
       end
@@ -74,6 +76,7 @@ module Bridgetown
         @site_metadata ||= @obj.data["site_metadata"]
       end
 
+      # TODO: change this so you *do* use site.config…aka site.config.timezone, not site.timezone
       # return nil for `{{ site.config }}` even if --config was passed via CLI
       def config; end
     end

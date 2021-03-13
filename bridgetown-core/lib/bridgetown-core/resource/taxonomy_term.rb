@@ -16,7 +16,9 @@ module Bridgetown
       end
 
       def to_liquid
-        label
+        {
+          label: label,
+        }
       end
     end
   end
