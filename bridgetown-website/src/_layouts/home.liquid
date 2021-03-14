@@ -22,7 +22,7 @@ layout: default
 
   <h2 class="title is-2 has-text-centered has-text-brown mb-12">News Updates</h2>
 
-  {% for post in site.posts limit:4 %}
+  {% for post in collections.posts.resources limit:4 %}
     {% render "content/news_item", post: post, authors: site.data.authors %}
   {% endfor %}
 
