@@ -240,5 +240,6 @@ collections:
 * The `YYYY-MM-DD-slug.ext` filename format will now work for any collection, not just posts.
 * Structured data files (aka YAML, JSON, CSV, etc.) starting with triple-dashes/front-matter can be placed in collection folders, and they will be read and transformed like any other resource. (CSV/TSV data gets loaded into the `rows` front matter key).
 * The [Document Builder API](/docs/plugins/external-apis) no longer works when the resource content engine is configured. We'll be restoring this functionality in a future point release of Bridgetown.
+* Automatic excerpts are not included in the current resource featureset. We'll be opening up a brand-new Excerpt/Summary API in the near future.
 
 {% endraw %}

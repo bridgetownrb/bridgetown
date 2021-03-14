@@ -3,11 +3,11 @@
 {%- assign news_active = "" -%}
 {%- assign is_beta = "" %}
 
-{%- if page.url == "/plugins/" -%}
+{%- if page.relative_url == "/plugins/" -%}
 {%- assign plugins_active = "is-active" -%}
-{%- elsif page.url contains "/docs/" -%}
+{%- elsif page.relative_url contains "/docs/" -%}
 {%- assign docs_active = "is-active" -%}
-{%- elsif page.url contains "/blog/" or page.layout == "post" %}
+{%- elsif page.relative_url contains "/blog/" or page.layout == "post" %}
 {%- assign news_active = "is-active" -%}
 {%- endif -%}
 {%- if version contains "beta" -%}

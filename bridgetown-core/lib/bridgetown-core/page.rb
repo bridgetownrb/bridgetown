@@ -116,6 +116,7 @@ module Bridgetown
         permalink: permalink
       ).to_s
     end
+    alias_method :relative_url, :url
 
     # Returns a hash of URL placeholder names (as symbols) mapping to the
     # desired placeholder replacements. For details see "url.rb"

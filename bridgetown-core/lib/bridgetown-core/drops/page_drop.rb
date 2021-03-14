@@ -9,6 +9,10 @@ module Bridgetown
 
       def_delegators :@obj, :content, :dir, :name, :path, :url, :pager
       private def_delegator :@obj, :data, :fallback_data
+
+      def relative_url
+        @obj.relative_url
+      end
     end
   end
 end

@@ -33,12 +33,8 @@ module Bridgetown
         fallback_data["excerpt"].to_s
       end
 
-      def url
-        @obj.relative_url
-      end
-
       def <=>(other)
-        return nil unless other.is_a? DocumentDrop
+        return nil unless other.is_a? ResourceDrop
 
         cmp = self["date"] <=> other["date"]
         cmp = self["path"] <=> other["path"] if cmp.nil? || cmp.zero?
@@ -46,11 +42,11 @@ module Bridgetown
       end
 
       def previous
-        @previous ||= @obj.previous_doc.to_liquid
+        @previous ||= @obj.previous_resource.to_liquid
       end
 
       def next
-        @next ||= @obj.next_doc.to_liquid
+        @next ||= @obj.previous_resource.to_liquid
       end
 
       # Generate a Hash for use in generating JSON.
