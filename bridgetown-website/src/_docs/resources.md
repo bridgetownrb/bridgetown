@@ -6,7 +6,7 @@ top_section: Content
 category: resources
 ---
 
-Marked experimental and currently opt-in, the resource content engine was built with a singular purpose in mind: to replace the myriad of confusing options and edge cases around pages, posts, collection documents, and data files (along with related concepts such as categories, tags, permalinks, etc.) with a single unifying concept: the **resource**.
+<p><ui-label class="tag is-rounded is-warning" style="vertical-align: 2px;"><ui-icon class="icon"><i class="fa fa-exclamation-triangle"></i></ui-icon></ui-label> Marked experimental and currently opt-in, the resource content engine was built with a singular purpose in mind: to replace the myriad of confusing options and edge cases around pages, posts, collection documents, and data files (along with related concepts such as categories, tags, permalinks, etc.) with a single unifying concept: the <strong>resource</strong>.</p>
 
 To switch your Bridgetown site to use resource engine instead of the legacy engine, add the following to your `bridgetown.config.yml` config file:
 
