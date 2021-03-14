@@ -12,6 +12,7 @@ module Bridgetown
                      :locale,
                      :time,
                      :pages,
+                     :generated_pages,
                      :static_files,
                      :tags,
                      :categories,
@@ -32,15 +33,17 @@ module Bridgetown
       end
 
       def key?(key)
-        (key != "posts" && @obj.collections.key?(key)) || super
+        (!@obj.uses_resource? && key != "posts" && @obj.collections.key?(key)) || super
+      end
+
+      def uses_resource
+        @obj.uses_resource?
       end
 
       def posts
-        @site_posts ||= if @obj.uses_resource?
-                          @obj.collections.posts.resources
-                        else
-                          @obj.collections.posts.docs.sort { |a, b| b <=> a }
-                        end
+        unless @obj.uses_resource?
+          @site_posts ||= @obj.collections.posts.docs.sort { |a, b| b <=> a }
+        end
       end
 
       # TODO: deprecate before v1.0
