@@ -338,7 +338,7 @@ module Bridgetown
 
     # Return an asset path based on the Webpack manifest file
     # @param site [Bridgetown::Site] The current site object
-    # @param asset_type [String] js or css
+    # @param asset_type [String] js or css, or filename in manifest
     #
     # @return [String] Returns "MISSING_WEBPACK_MANIFEST" if the manifest
     # file isnt found
@@ -354,21 +354,30 @@ module Bridgetown
       manifest = JSON.parse(File.read(manifest_file))
 
       known_assets = %w(js css)
+      asset_path = nil
       if known_assets.include?(asset_type)
         asset_path = manifest["main.#{asset_type}"]
-
         log_webpack_asset_error(asset_type) && return if asset_path.nil?
-
-        asset_path = asset_path.split("/").last
-        return [static_frontend_path(site), asset_type, asset_path].join("/")
+      else
+        asset_path = manifest.find do |item, _|
+          item.sub(%r{^../(frontend/|src/)?}, "") == asset_type
+        end&.last
       end
 
-      Bridgetown.logger.error("Unknown Webpack asset type", asset_type)
-      nil
+      if asset_path
+        static_frontend_path(site, ["js", asset_path])
+      else
+        Bridgetown.logger.error("Unknown Webpack asset type", asset_type)
+        nil
+      end
     end
 
-    def static_frontend_path(site)
-      path_parts = [site.config["baseurl"].to_s.chomp("/"), "_bridgetown/static"]
+    def static_frontend_path(site, additional_parts = [])
+      path_parts = [
+        site.config["baseurl"].to_s.gsub(%r(^/|/$), ""),
+        "_bridgetown/static",
+        *additional_parts,
+      ]
       path_parts[0] = "/#{path_parts[0]}" unless path_parts[0].empty?
       Addressable::URI.parse(path_parts.join("/")).normalize.to_s
     end

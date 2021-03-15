@@ -11,7 +11,7 @@ include images, PDFs, and other un-rendered content.
 You can save static files in any subfolder or directly within the source folder (`src`). A common place to save images specifically is the `src/images` folder. You can reference them from both markup and CSS simply using a relative URL (for example, `/images/logo.svg`).
 
 {% rendercontent "docs/note" %}
-If you're interested in a full-featured image management solution with the ability to resize and optimize your media sizes, check out [Cloudinary](https://www.cloudinary.com){:rel="noopener"} and the [bridgetown-cloudinary plugin](https://github.com/bridgetownrb/bridgetown-cloudinary){:rel="noopener"}.
+Optionally, you can [bundle images through Webpack](/docs/frontend-assets) and reference them with the `webpack_path` helper. Or if you're interested in a full-featured image management solution with the ability to resize and optimize your media sizes, check out [Cloudinary](https://www.cloudinary.com){:rel="noopener"} and the [bridgetown-cloudinary plugin](https://github.com/bridgetownrb/bridgetown-cloudinary){:rel="noopener"}.
 {% endrendercontent %}
 
 Static files can be searched and accessed in templates via `site.static_files` and contain the
