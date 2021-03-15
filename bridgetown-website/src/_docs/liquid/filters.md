@@ -90,7 +90,7 @@ using [plugins](/docs/plugins/filters/).
 ### Options for the `slugify` filter
 
 The `slugify` filter accepts an option, each specifying what to filter.
-The default is `default`. They are as follows (with what they filter):
+The default is `pretty` (unless the `slugify_mode` setting is changed in the site config). They are as follows (with what they filter):
 
 - `none`: no characters
 - `raw`: spaces

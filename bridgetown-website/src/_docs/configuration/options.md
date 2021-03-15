@@ -55,6 +55,35 @@ class="flag">flags</code> (specified on the command-line) that control them.
     </tr>
     <tr class="setting">
       <td>
+        <p class="name"><strong>Content Engine</strong></p>
+        <p class="description">Change the <a href="/docs/resources">content engine</a> Bridgetown uses for its data pipeline. The resource-based engine will become standard for v1.0.</p>
+        <p class="default">Default: <code class="default">legacy</code></p>
+      </td>
+      <td class="has-text-centered">
+        <p><code class="option">content_engine: ENGINE (legacy, resource)</code></p>
+      </td>
+    </tr>
+    <tr class="setting">
+      <td>
+        <p class="name"><strong>Permalink</strong></p>
+        <p class="description">Change the default permalink style or template used by pages & blog posts. <a href="/docs/structure/permalinks">Documentation here</a>—and if you're using the Resource-based content engine, <a href="/docs/resources#configuring-permalinks" data-no-swup="true">read this additional information</a>.</p>
+      </td>
+      <td class="has-text-centered">
+        <p><code class="option">permalink: STYLE or TEMPLATE</code></p>
+      </td>
+    </tr>
+    <tr class="setting">
+      <td>
+        <p class="name"><strong>Slugify Mode</strong></p>
+        <p class="description">Determine the method of transforming characters when slugs are generated. <a href="/docs/liquid/filters#options-for-the-slugify-filter" data-no-swup="true">Info on available options here</a>.</p>
+        <p class="default">Default: <code class="default">pretty</code></p>
+      </td>
+      <td class="has-text-centered">
+        <p><code class="option">slugify_mode: MODE</code></p>
+      </td>
+    </tr>
+    <tr class="setting">
+      <td>
         <p class="name">
           <strong>Disable Disk Cache</strong>
         </p>
@@ -441,8 +470,6 @@ collections_dir     : .
 layouts_dir         : _layouts
 data_dir            : _data
 includes_dir        : _includes
-sass:
-  sass_dir: _sass
 collections:
   posts:
     output          : true
@@ -473,10 +500,8 @@ host                : 127.0.0.1
 baseurl             : "" # does not include hostname
 show_dir_listing    : false
 
-# Outputting
-permalink           : date
+# System
 timezone            : null # e.g. America/Los_Angeles
-
 quiet               : false
 verbose             : false
 defaults            : []
