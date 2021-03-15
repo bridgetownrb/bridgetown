@@ -32,6 +32,18 @@ class Bridgetown::Site
       end
     end
 
+    def resources_grouped_by_taxonomy(taxonomy)
+      @post_attr_hash[taxonomy.label] ||= begin
+        taxonomy.terms.transform_values { |terms| terms.map(&:resource).sort.reverse }
+      end
+    end
+
+    def taxonomies
+      taxonomy_types.transform_values do |taxonomy|
+        resources_grouped_by_taxonomy(taxonomy)
+      end
+    end
+
     # Returns a hash of "tags" using {#post_attr_hash} where each tag is a key
     #  and each value is a post which contains the key.
     # @example
@@ -41,7 +53,7 @@ class Bridgetown::Site
     # @return [Hash{String, Array<Post>}] Returns a hash of all tags and their corresponding posts
     # @see post_attr_hash
     def tags
-      post_attr_hash("tags")
+      uses_resource? ? taxonomies.tag : post_attr_hash("tags")
     end
 
     # Returns a hash of "categories" using {#post_attr_hash} where each tag is
@@ -54,7 +66,7 @@ class Bridgetown::Site
     #   their corresponding posts
     # @see post_attr_hash
     def categories
-      post_attr_hash("categories")
+      uses_resource? ? taxonomies.category : post_attr_hash("categories")
     end
 
     # Returns the value of `data["site_metadata"]` or creates a new instance of
@@ -121,19 +133,25 @@ class Bridgetown::Site
     # An array of collection names.
     # @return [Array<String>] an array of collection names from the configuration,
     #   or an empty array if the `config["collections"]` key is not set.
-    # @raise ArgumentError Raise an error if `config["collections"]` is not
-    #   an Array or a Hash
     def collection_names
-      case config["collections"]
-      when Hash
-        config["collections"].keys
-      when Array
-        config["collections"]
-      when nil
-        []
-      else
-        raise ArgumentError, "Your `collections` key must be a hash or an array."
-      end
+      Array(config.collections&.keys)
+    end
+
+    # @return [Array<Bridgetown::Resource::TaxonomyType>]
+    def taxonomy_types
+      @taxonomy_types ||= config.taxonomies.map do |label, key_or_metadata|
+        key = key_or_metadata
+        tax_metadata = if key_or_metadata.is_a? Hash
+                         key = key_or_metadata["key"]
+                         key_or_metadata.reject { |k| k == "key" }
+                       else
+                         HashWithDotAccess::Hash.new
+                       end
+
+        [label, Bridgetown::Resource::TaxonomyType.new(
+          site: self, label: label, key: key, metadata: tax_metadata
+        ),]
+      end.to_h.with_dot_access
     end
 
     # Get all documents.
@@ -155,11 +173,25 @@ class Bridgetown::Site
       documents.select(&:write?)
     end
 
+    # Get all documents.
+    # @return [Array<Document>] an array of documents from the
+    # configuration
+    def resources
+      collections.each_with_object(Set.new) do |(_, collection), set|
+        set.merge(collection.resources)
+      end.to_a
+    end
+
+    def resources_to_write
+      resources.select(&:write?)
+    end
+
     # Get all posts.
     #
     # @return [Collection] Returns {#collections}`["posts"]`, creating it if need be
     # @see Collection
     def posts
+      Bridgetown::Deprecator.deprecation_message "Call site.collections.posts instead of site.posts"
       collections["posts"] ||= Bridgetown::Collection.new(self, "posts")
     end
 
@@ -177,7 +209,13 @@ class Bridgetown::Site
     #
     # @return [Array]
     def contents
+      return resources if uses_resource?
+
       pages + documents
+    end
+
+    def add_generated_page(generated_page)
+      generated_pages << generated_page
     end
   end
 end

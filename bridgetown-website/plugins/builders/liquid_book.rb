@@ -6,16 +6,32 @@ class LiquidBook < SiteBuilder
       load_liquid_components(path)
     end
 
+    collection_name = "components"
+    collection = @site.collections[collection_name]
+    unless collection
+      collection = Bridgetown::Collection.new(site, collection_name)
+      collection.metadata["output"] = true
+      site.collections[collection_name] = collection
+    end
+
     layouts = Bridgetown::LayoutReader.new(site).read
     @components.each do |component_filename, component_object|
-      doc "#{component_filename}.html" do
-        layout :default
-        collection :components
-        excerpt ""
-        component component_object
-        title component_object["metadata"]["name"]
-        content layouts["component_preview"].content
-      end
+      Bridgetown::Model::Base.build(collection_name, "#{component_filename}.html", {
+        layout: "default",
+        excerpt: "",
+        component: component_object,
+        title: component_object["metadata"]["name"],
+        _content_: layouts["component_preview"].content,
+      }).as_resource_in_collection
+
+      # doc "#{component_filename}.html" do
+      #   layout :default
+      #   collection :components
+      #   excerpt ""
+      #   component component_object
+      #   title component_object["metadata"]["name"]
+      #   content layouts["component_preview"].content
+      # end
     end
 
     liquid_tag "component_previews", :preview_tag
@@ -23,10 +39,9 @@ class LiquidBook < SiteBuilder
 
   def load_liquid_components(dir, root: true)
     @components ||= {}
-    @entry_filter ||= Bridgetown::EntryFilter.new(site)
     @current_root = dir if root
 
-    return unless File.directory?(dir) && !@entry_filter.symlink?(dir)
+    return unless File.directory?(dir)
 
     entries = Dir.chdir(dir) do
       Dir["*.{liquid,html}"] + Dir["*"].select { |fn| File.directory?(fn) }
@@ -34,7 +49,6 @@ class LiquidBook < SiteBuilder
 
     entries.each do |entry|
       path = File.join(dir, entry)
-      next if @entry_filter.symlink?(path)
 
       if File.directory?(path)
         load_liquid_components(path, root: false)

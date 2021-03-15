@@ -23,6 +23,9 @@ module Bridgetown
       "includes_dir"         => "_includes",
       "partials_dir"         => "_partials",
       "collections"          => {},
+      "taxonomies"           => {
+        category: { key: "categories", title: "Category" }, tag: { key: "tags", title: "Tag" },
+      },
 
       # Handling Reading
       "include"              => [".htaccess", "_redirects", ".well-known"],
@@ -32,6 +35,7 @@ module Bridgetown
       "markdown_ext"         => "markdown,mkdown,mkdn,mkd,md",
       "strict_front_matter"  => false,
       "slugify_categories"   => true,
+      "slugify_mode"         => "pretty",
 
       # Filtering Content
       "limit_posts"          => 0,
@@ -56,7 +60,7 @@ module Bridgetown
       # Output Configuration
       "available_locales"    => ["en"],
       "default_locale"       => "en",
-      "permalink"            => "date",
+      "permalink"            => nil, # default is set according to content engine
       "timezone"             => nil, # use the local timezone
 
       "quiet"                => false,
@@ -95,8 +99,8 @@ module Bridgetown
       # user_config - a Hash or Configuration of overrides.
       #
       # Returns a Configuration filled with defaults.
-      def from(user_config)
-        Utils.deep_merge_hashes(DEFAULTS, Configuration[user_config])
+      def from(user_config, starting_defaults = DEFAULTS)
+        Utils.deep_merge_hashes(starting_defaults.deep_dup, Configuration[user_config])
           .merge_environment_specific_options!
           .add_default_collections
           .add_default_excludes
@@ -242,23 +246,38 @@ module Bridgetown
       self
     end
 
-    def add_default_collections
+    def add_default_collections # rubocop:todo all
       # It defaults to `{}`, so this is only if someone sets it to null manually.
-      return self if self["collections"].nil?
+      return self if self[:collections].nil?
 
       # Ensure we have a hash.
-      if self["collections"].is_a?(Array)
-        self["collections"] = self["collections"].each_with_object({}) do |collection, hash|
+      if self[:collections].is_a?(Array)
+        self[:collections] = self[:collections].each_with_object({}) do |collection, hash|
           hash[collection] = {}
         end
       end
 
-      self["collections"] = Utils.deep_merge_hashes(
-        { "posts" => {} }, self["collections"]
-      ).tap do |collections|
-        collections["posts"]["output"] = true
-        if self["permalink"]
-          collections["posts"]["permalink"] ||= style_to_permalink(self["permalink"])
+      # Setup default collections
+      self[:collections][:posts] = {} unless self[:collections][:posts]
+      self[:collections][:posts][:output] = true
+      self[:collections][:posts][:sort_direction] ||= "descending"
+
+      if self[:content_engine] == "resource"
+        self[:permalink] = "pretty" if self[:permalink].blank?
+        self[:collections][:pages] = {} unless self[:collections][:pages]
+        self[:collections][:pages][:output] = true
+        self[:collections][:pages][:permalink] ||= "/:path/"
+
+        self[:collections][:data] = {} unless self[:collections][:data]
+        self[:collections][:data][:output] = false
+
+        unless self[:collections][:posts][:permalink]
+          self[:collections][:posts][:permalink] = self[:permalink]
+        end
+      else
+        self[:permalink] = "date" if self[:permalink].blank?
+        unless self[:collections][:posts][:permalink]
+          self[:collections][:posts][:permalink] = style_to_permalink(self[:permalink])
         end
       end
 
@@ -284,9 +303,9 @@ module Bridgetown
         self["ruby_in_front_matter"]
     end
 
-    # rubocop:disable Metrics/CyclomaticComplexity #
-    def style_to_permalink(permalink_style)
-      case permalink_style.to_sym
+    # Deprecated, to be removed when Bridgetown goes Resource-only
+    def style_to_permalink(permalink_style) # rubocop:todo Metrics/CyclomaticComplexity
+      case permalink_style.to_s.to_sym
       when :pretty
         "/:categories/:year/:month/:day/:title/"
       when :simple
@@ -303,7 +322,6 @@ module Bridgetown
         permalink_style.to_s
       end
     end
-    # rubocop:enable Metrics/CyclomaticComplexity #
 
     def check_include_exclude
       %w(include exclude).each do |option|
@@ -314,8 +332,10 @@ module Bridgetown
               "'#{option}' should be set as an array, but was: #{self[option].inspect}."
       end
 
-      # add _pages to includes set
-      self[:include] << "_pages"
+      unless self[:include].include?("_pages") || self[:content_engine] == "resource"
+        # add _pages to includes set
+        self[:include] << "_pages"
+      end
 
       self
     end

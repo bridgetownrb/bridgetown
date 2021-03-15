@@ -2,6 +2,7 @@
 
 module Bridgetown
   module Utils
+    # TODO: deprecate, we should try not to have any platform-specific code
     module Platforms
       extend self
 

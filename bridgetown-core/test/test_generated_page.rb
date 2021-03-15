@@ -2,8 +2,8 @@
 
 require "helper"
 
-class TestPageWithoutAFile < BridgetownUnitTest
-  def setup_page(*args, base: source_dir, klass: PageWithoutAFile)
+class TestGeneratedPage < BridgetownUnitTest
+  def setup_page(*args, base: source_dir, klass: GeneratedPage)
     dir, file = args
     if file.nil?
       file = dir
@@ -18,7 +18,7 @@ class TestPageWithoutAFile < BridgetownUnitTest
     @site.write
   end
 
-  context "A PageWithoutAFile" do
+  context "A GeneratedPage" do
     setup do
       clear_dest
       @site = Site.new(Bridgetown.configuration(
@@ -34,7 +34,7 @@ class TestPageWithoutAFile < BridgetownUnitTest
       end
 
       should "identify itself properly" do
-        assert_equal "#<Bridgetown::PageWithoutAFile properties.html>",
+        assert_equal "#<Bridgetown::GeneratedPage properties.html>",
                      @page.inspect
       end
 
@@ -61,13 +61,13 @@ class TestPageWithoutAFile < BridgetownUnitTest
           "title"     => "Properties Page",
         }
         attrs.each do |prop, value|
-          # assert that all attributes (of a Bridgetown::PageWithoutAFile instance) other than
+          # assert that all attributes (of a Bridgetown::GeneratedPage instance) other than
           # "dir", "name", "path", "url" are `nil`.
           # For example, @page[dir] should be "/" but @page[content] or @page[layout], should
           # simply be nil.
           #
           if basic_attrs.include?(prop)
-            assert_equal value, @page[prop], "For Bridgetown::PageWithoutAFile attribute '#{prop}':"
+            assert_equal value, @page[prop], "For Bridgetown::GeneratedPage attribute '#{prop}':"
           else
             assert_nil @page[prop]
           end

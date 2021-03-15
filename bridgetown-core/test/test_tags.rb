@@ -12,7 +12,7 @@ class TestTags < BridgetownUnitTest
     site = fixture_site({ "highlighter" => "rouge" }.merge(override))
 
     site.posts.docs.concat(PostReader.new(site).read_posts("")) if override["read_posts"]
-    CollectionReader.new(site).read if override["read_collections"]
+    Reader.new(site).read_collections if override["read_collections"]
     site.read if override["read_all"]
 
     info = { filters: [Bridgetown::Filters], registers: { site: site } }

@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version     = ">= 2.5.0"
   s.required_rubygems_version = ">= 2.7.0"
 
+  s.add_runtime_dependency("activemodel",           "~> 6.0")
   s.add_runtime_dependency("activesupport",         "~> 6.0")
   s.add_runtime_dependency("addressable",           "~> 2.4")
   s.add_runtime_dependency("amazing_print",         "~> 1.2")
@@ -45,7 +46,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("liquid",                "~> 5.0")
   s.add_runtime_dependency("liquid-component",      ">= 0.1")
   s.add_runtime_dependency("listen",                "~> 3.0")
-  s.add_runtime_dependency("pathutil",              "~> 0.9")
   s.add_runtime_dependency("rouge",                 "~> 3.0")
   s.add_runtime_dependency("safe_yaml",             "~> 1.0")
   s.add_runtime_dependency("terminal-table",        "~> 1.8")

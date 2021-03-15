@@ -7,7 +7,7 @@ ENV["BRIDGETOWN_ENV"] = "test"
 if ENV["CI"]
   require "simplecov"
   SimpleCov.start
-else
+elsif !ENV["SKIP_COV"]
   require File.expand_path("simplecov_custom_profile", __dir__)
   SimpleCov.start "gem" do
     add_filter "/vendor/gem"
@@ -65,6 +65,10 @@ module DirectoryHelpers
 
   def site_root_dir(*subdirs)
     test_dir("source", *subdirs)
+  end
+
+  def resources_root_dir(*subdirs)
+    test_dir("resources", *subdirs)
   end
 
   def source_dir(*subdirs)
@@ -134,12 +138,13 @@ class BridgetownUnitTest < Minitest::Test
     Bridgetown::Site.new(site_configuration(overrides))
   end
 
-  def default_configuration
-    Marshal.load(Marshal.dump(Bridgetown::Configuration::DEFAULTS))
-  end
-
-  def build_configs(overrides, base_hash = default_configuration)
-    Utils.deep_merge_hashes(base_hash, overrides)
+  def resources_site(overrides = {})
+    overrides["content_engine"] = "resource"
+    new_config = site_configuration(overrides)
+    new_config.root_dir = resources_root_dir
+    new_config.source = resources_root_dir("src")
+    new_config.plugins_dir = resources_root_dir("plugins")
+    Bridgetown::Site.new new_config
   end
 
   def load_plugin_content
@@ -157,11 +162,9 @@ class BridgetownUnitTest < Minitest::Test
   def site_configuration(overrides = {})
     load_plugin_content
 
-    full_overrides = build_configs(overrides, build_configs(
-                                                "destination" => dest_dir,
-                                                "plugins_dir" => site_root_dir("plugins"),
-                                                "incremental" => false
-                                              ))
+    full_overrides = Utils.deep_merge_hashes({ "destination" => dest_dir,
+                                               "plugins_dir" => site_root_dir("plugins"),
+                                               "incremental" => false, }, overrides)
     Configuration.from(full_overrides.merge(
                          "root_dir" => site_root_dir,
                          "source"   => source_dir

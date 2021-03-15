@@ -98,7 +98,7 @@ module Bridgetown
       if item.is_a?(Document)
         site.posts.docs << item
       elsif item.is_a?(StaticFile)
-        site.posts.files << item
+        site.posts.static_files << item
         site.static_files << item
       end
 

@@ -58,7 +58,13 @@ module Bridgetown
     # Returns a Set with the file paths
     def new_files
       @new_files ||= Set.new.tap do |files|
-        site.each_site_file { |item| files << item.destination(site.dest) }
+        site.each_site_file do |item|
+          files << if item.method(:destination).arity == 1
+                     item.destination(site.dest)
+                   else
+                     item.destination.output_path
+                   end
+        end
       end
     end
 

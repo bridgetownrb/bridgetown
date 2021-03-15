@@ -4,7 +4,7 @@ module Bridgetown
   class StaticFile
     extend Forwardable
 
-    attr_reader :relative_path, :extname, :name, :data
+    attr_reader :relative_path, :extname, :name, :data, :site, :collection
 
     def_delegator :to_liquid, :to_json, :to_json
 
@@ -25,8 +25,7 @@ module Bridgetown
     # base - The String path to the <source>.
     # dir  - The String path between <source> and the file.
     # name - The String filename of the file.
-    # rubocop: disable Metrics/ParameterLists
-    def initialize(site, base, dir, name, collection = nil)
+    def initialize(site, base, dir, name, collection = nil) # rubocop:disable Metrics/ParameterLists
       @site = site
       @base = base
       @dir  = dir
@@ -34,9 +33,15 @@ module Bridgetown
       @collection = collection
       @relative_path = File.join(*[@dir, @name].compact)
       @extname = File.extname(@name)
-      @data = @site.frontmatter_defaults.all(relative_path, type)
+      @data = @site.frontmatter_defaults.all(relative_path, type).with_dot_access
+      if site.uses_resource? && !data.permalink
+        data.permalink = if collection && !collection.builtin?
+                           "/:collection/:path.*"
+                         else
+                           "/:path.*"
+                         end
+      end
     end
-    # rubocop: enable Metrics/ParameterLists
 
     # Returns source file path.
     def path
@@ -51,8 +56,11 @@ module Bridgetown
     #
     # Returns destination file path.
     def destination(dest)
-      dest = @site.in_dest_dir(dest)
-      @site.in_dest_dir(dest, Bridgetown::URL.unescape_path(url))
+      dest = site.in_dest_dir(dest)
+      dest_url = url
+      dest_url = dest_url.delete_prefix(site.baseurl) if site.uses_resource? &&
+        site.baseurl.present? && collection
+      site.in_dest_dir(dest, Bridgetown::URL.unescape_path(dest_url))
     end
 
     def destination_rel_dir
@@ -118,6 +126,15 @@ module Bridgetown
       @basename ||= File.basename(name, extname).gsub(%r!\.*\z!, "")
     end
 
+    def relative_path_basename_without_prefix
+      return_path = Pathname.new("")
+      Pathname.new(cleaned_relative_path).each_filename do |filename|
+        return_path += filename unless filename.starts_with?("_")
+      end
+
+      (return_path.dirname + return_path.basename(".*")).to_s
+    end
+
     def placeholders
       {
         collection: @collection.label,
@@ -154,15 +171,21 @@ module Bridgetown
     # be overriden in the collection's configuration in bridgetown.config.yml.
     def url
       @url ||= begin
-        base = if @collection.nil? || @collection.label == "posts"
+        newly_processed = false
+        special_posts_case = @collection&.label == "posts" &&
+          site.config.content_engine != "resource"
+        base = if @collection.nil? || special_posts_case
                  cleaned_relative_path
+               elsif site.uses_resource?
+                 newly_processed = true
+                 Bridgetown::Resource::PermalinkProcessor.new(self).transform
                else
                  Bridgetown::URL.new(
                    template: @collection.url_template,
                    placeholders: placeholders
                  )
                end.to_s.chomp("/")
-        base << extname
+        newly_processed ? base : "#{base}#{extname}"
       end
     end
 
@@ -174,7 +197,7 @@ module Bridgetown
     # Returns the front matter defaults defined for the file's URL and/or type
     # as defined in bridgetown.config.yml.
     def defaults
-      @defaults ||= @site.frontmatter_defaults.all url, type
+      @defaults ||= site.frontmatter_defaults.all url, type
     end
 
     # Returns a debug string on inspecting the static file.

@@ -63,6 +63,7 @@ module Bridgetown
     # Returns the given filename or title as a lowercase URL String.
     # See Utils.slugify for more detail.
     def slugify(input, mode = nil)
+      mode = @context.registers[:site].config.slugify_mode if mode.nil?
       Utils.slugify(input, mode: mode)
     end
 
@@ -102,7 +103,7 @@ module Bridgetown
     #
     # Returns the escaped String.
     def cgi_escape(input)
-      CGI.escape(input)
+      CGI.escape(input.to_s)
     end
 
     # URI escape a string.

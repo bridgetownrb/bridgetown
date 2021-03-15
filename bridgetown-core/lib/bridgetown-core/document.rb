@@ -52,7 +52,7 @@ module Bridgetown
       @has_yaml_header = nil
 
       data.default_proc = proc do |_, key|
-        site.frontmatter_defaults.find(relative_path, type, key)
+        site.frontmatter_defaults.find(relative_path, type, key.to_s)
       end
 
       trigger_hooks(:post_init)
@@ -81,7 +81,7 @@ module Bridgetown
     #
     # Return document date string.
     def date
-      data["date"] ||= site.time
+      data["date"] ||= site.time # TODO: this doesn't reflect documented behavior
     end
 
     # Return document file modification time in the form of a Time object.
@@ -402,21 +402,13 @@ module Bridgetown
     end
 
     def populate_categories
-      categories = Array(data["categories"]) + Utils.pluralized_array_from_hash(
-        data, "category", "categories"
-      )
-      categories.map!(&:to_s)
-      categories.flatten!
-      categories.uniq!
-
-      merge_data!({ "categories" => categories })
+      data.categories = Utils.pluralized_array_from_hash(
+        data, :category, :categories
+      ).map(&:to_s)
     end
 
     def populate_tags
-      tags = Utils.pluralized_array_from_hash(data, "tag", "tags")
-      tags.flatten!
-
-      merge_data!({ "tags" => tags })
+      data.tags = Utils.pluralized_array_from_hash(data, :tag, :tags)
     end
 
     def determine_locale

@@ -11,20 +11,29 @@ module Bridgetown
     # Read Site data from disk and load it into internal data structures.
     #
     # Returns nothing.
-    # rubocop:disable Metrics/AbcSize
-    def read
-      @site.defaults_reader.read
-      @site.layouts = LayoutReader.new(site).read
+    def read # rubocop:todo Metrics/AbcSize
+      site.defaults_reader.read
+      site.layouts = LayoutReader.new(site).read
       read_directories
       read_included_excludes
       sort_files!
-      @site.data = DataReader.new(site).read(site.config["data_dir"])
-      CollectionReader.new(site).read
+      read_collections
+      site.data = if site.uses_resource?
+                    site.collections.data.merge_data_resources
+                  else
+                    DataReader.new(site).read
+                  end
       Bridgetown::PluginManager.source_manifests.map(&:content).compact.each do |plugin_content_dir|
         PluginContentReader.new(site, plugin_content_dir).read
       end
     end
-    # rubocop:enable Metrics/AbcSize
+
+    def read_collections
+      site.collections.each_value do |collection|
+        collection.read unless !site.uses_resource? &&
+          collection.legacy_reader?
+      end
+    end
 
     # Sorts posts, pages, and static files.
     def sort_files!
@@ -61,7 +70,7 @@ module Bridgetown
         end
       end
 
-      retrieve_posts(dir)
+      retrieve_posts(dir) unless site.uses_resource?
       retrieve_dirs(base, dir, dot_dirs)
       retrieve_pages(dir, dot_pages)
       retrieve_static_files(dir, dot_static_files)
@@ -102,6 +111,13 @@ module Bridgetown
     #
     # Returns nothing.
     def retrieve_pages(dir, dot_pages)
+      if site.uses_resource?
+        dot_pages.each do |page_path|
+          site.collections.pages.send(:read_resource, site.in_source_dir(dir, page_path))
+        end
+        return
+      end
+
       site.pages.concat(PageReader.new(site, dir).read(dot_pages))
     end
 
@@ -126,7 +142,7 @@ module Bridgetown
     #
     # Returns the Array of filtered entries.
     def filter_entries(entries, base_directory = nil)
-      EntryFilter.new(site, base_directory).filter(entries)
+      EntryFilter.new(site, base_directory: base_directory).filter(entries)
     end
 
     # Read the entries from a particular directory for processing
@@ -165,14 +181,11 @@ module Bridgetown
     end
 
     def read_included_excludes
-      entry_filter = EntryFilter.new(site)
-
       site.include.each do |entry|
         next if entry == ".htaccess"
 
         entry_path = site.in_source_dir(entry)
         next if File.directory?(entry_path)
-        next if entry_filter.symlink?(entry_path)
 
         read_included_file(entry_path) if File.file?(entry_path)
       end

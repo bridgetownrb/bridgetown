@@ -18,7 +18,7 @@ class TestRegenerator < BridgetownUnitTest
 
       @site.read
       @page = @site.pages.first
-      @post = @site.posts.first
+      @post = @site.posts.docs.first
       @document = @site.docs_to_write.first
       @regenerator = @site.regenerator
     end
@@ -91,7 +91,7 @@ class TestRegenerator < BridgetownUnitTest
       )
 
       @site.read
-      @post = @site.posts.first
+      @post = @site.posts.docs.first
       @regenerator = @site.regenerator
       @regenerator.regenerate?(@post)
 

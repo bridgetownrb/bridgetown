@@ -21,7 +21,7 @@ layout: default
       {% if page.previous %}
         <nav class="is-pulled-left mt-8 mb-1">
           <strong class="has-text-info">Previous</strong><br/>
-          <a href="{{ page.previous.url }}" class="mt-2 button is-info is-small">
+          <a href="{{ page.previous.relative_url }}" class="mt-2 button is-info is-small">
             <ui-icon class="icon" aria-hidden="true">
               <i class="fa fa-chevron-left"></i>
             </ui-icon>
@@ -33,7 +33,7 @@ layout: default
       {% if page.next %}
         <nav class="is-pulled-right has-text-right mt-8 mb-1">
           <strong class="has-text-info">Next</strong><br/>
-          <a href="{{ page.next.url }}" class="mt-2 button is-info is-small">
+          <a href="{{ page.next.relative_url }}" class="mt-2 button is-info is-small">
             <ui-label>{{ page.next.title }}</ui-label>
             <ui-icon class="icon" aria-hidden="true">
               <i class="fa fa-chevron-right"></i>

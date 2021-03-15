@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Bridgetown
+  # TODO: to be retired once the Resource engine is made official
   module Validatable
     # FIXME: there should be ONE TRUE METHOD to read the YAML frontmatter
     # in the entire project. Both this and the equivalent Document method

@@ -5,7 +5,7 @@ require_relative "./helper"
 class TestNavbar < Minitest::Test
   context "top navbar" do
     setup do
-      page = site.pages.find { |doc| doc.url == "/about/" }
+      page = site.collections.pages.resources.find { |doc| doc.relative_url == "/about/" }
       document_root page
     end
 

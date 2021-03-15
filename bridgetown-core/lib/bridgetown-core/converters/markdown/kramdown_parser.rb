@@ -69,6 +69,8 @@ module Bridgetown
   module Converters
     class Markdown
       class KramdownParser
+        attr_reader :extractions
+
         def initialize(config)
           @main_fallback_highlighter = config["highlighter"] || "rouge"
           @config = config["kramdown"] || {}
@@ -95,6 +97,7 @@ module Bridgetown
               Bridgetown.logger.warn "Kramdown warning:", warning
             end
           end
+          @extractions = document.root.options[:extractions] # could be nil
           html_output
         end
 

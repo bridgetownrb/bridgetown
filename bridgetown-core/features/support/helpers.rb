@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "open3"
 require "bridgetown-core"
 require "bridgetown-paginate"
 
@@ -119,7 +120,7 @@ end
 #
 
 def run_in_shell(*args)
-  p, output = Bridgetown::Utils::Exec.run(*args)
+  p, output = exec_command(*args)
 
   File.write(Paths.status_file, p.exitstatus)
   File.open(Paths.output_file, "wb") do |f|
@@ -130,6 +131,15 @@ def run_in_shell(*args)
   end
 
   p
+end
+
+def exec_command(*args)
+  stdin, stdout, stderr, process = Open3.popen3(*args)
+  out = stdout.read.strip
+  err = stderr.read.strip
+
+  [stdin, stdout, stderr].each(&:close)
+  [process.value, out + err]
 end
 
 #

@@ -23,6 +23,16 @@ module Bridgetown
       @config = config
     end
 
+    # Logic to do the content conversion.
+    #
+    # @param content [String] content of file (without front matter).
+    # @param convertible [Bridgetown::Document, Bridgetown::Layout, Bridgetown::Resource::Base]
+    #
+    # @return [String] the converted content.
+    def convert(content, convertible = nil) # rubocop:disable Lint/UnusedMethodArgument
+      content
+    end
+
     # Does the given extension match this converter's list of acceptable extensions?
     #
     # @param [String] ext
@@ -41,6 +51,10 @@ module Bridgetown
     # @return [String] The output file extension (including the dot)
     def output_ext(_ext)
       ".html"
+    end
+
+    def inspect
+      "#<#{self.class}#{self.class.extname_list ? " #{self.class.extname_list.join(", ")}" : nil}>"
     end
   end
 end

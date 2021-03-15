@@ -30,9 +30,13 @@ class Bridgetown::Site
       configure_include_paths
       configure_file_read_opts
 
-      self.permalink_style = config["permalink"].to_sym
+      self.permalink_style = (config["permalink"] || "pretty").to_sym
 
       @config
+    end
+
+    def uses_resource?
+      config[:content_engine] == "resource"
     end
 
     def defaults_reader
@@ -78,7 +82,7 @@ class Bridgetown::Site
     # @return [Array<String>] Return an array of updated paths if multiple paths given.
     def in_root_dir(*paths)
       paths.reduce(root_dir) do |base, path|
-        Bridgetown.sanitized_path(base, path)
+        Bridgetown.sanitized_path(base, path.to_s)
       end
     end
 
@@ -91,7 +95,7 @@ class Bridgetown::Site
     # @return [Array<String>] Return an array of updated paths if multiple paths given.
     def in_source_dir(*paths)
       paths.reduce(source) do |base, path|
-        Bridgetown.sanitized_path(base, path)
+        Bridgetown.sanitized_path(base, path.to_s)
       end
     end
 

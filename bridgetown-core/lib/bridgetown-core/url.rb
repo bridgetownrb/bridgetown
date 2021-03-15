@@ -129,6 +129,7 @@ module Bridgetown
     #
     # Returns the escaped path.
     def self.escape_path(path)
+      path = path.to_s
       return path if path.empty? || %r!^[a-zA-Z0-9./-]+$!.match?(path)
 
       # Because URI.escape doesn't escape "?", "[" and "]" by default,
