@@ -186,12 +186,16 @@ class Bridgetown::Site
       resources.select(&:write?)
     end
 
-    # Get all posts.
+    # Get all posts. Deprecated, to be removed in v1.0.
     #
     # @return [Collection] Returns {#collections}`["posts"]`, creating it if need be
     # @see Collection
     def posts
-      Bridgetown::Deprecator.deprecation_message "Call site.collections.posts instead of site.posts"
+      unless @wrote_deprecation_msg
+        Bridgetown::Deprecator.deprecation_message "Call site.collections.posts " \
+                                                   "instead of site.posts (Ruby code)"
+      end
+      @wrote_deprecation_msg ||= true
       collections["posts"] ||= Bridgetown::Collection.new(self, "posts")
     end
 
