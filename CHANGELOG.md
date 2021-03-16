@@ -7,6 +7,7 @@
 * Exclude current post from LSI-powered related posts [#253](https://github.com/bridgetownrb/bridgetown/pull/253) ([katafrakt](https://github.com/katafrakt))
 * The `inspect` string for `Bridgetown::Site` is now lean and clean.
 * The history bug with the `bridgetown console` has been fixed! Now pressing your up arrow after entering the console will pull up all previous commands entered. Up, up, and away!
+* Support added for upcoming gem `bridgetown-mdjs` which will allow inline JS code blocks in Markdown similar in purpose to MDX (but for web components and other HTML-native solutions). Stay tuned!
 
 # 0.19.3 / 2020-02-11
 
