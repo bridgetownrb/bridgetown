@@ -1084,7 +1084,7 @@ class TestFilters < BridgetownUnitTest
         posts = site.site_payload["site"]["posts"]
         results = @filter.where_exp(posts, "obj", "obj.title == 'Foo Bar'")
         assert_equal 1, results.length
-        assert_equal site.posts.find { |p| p.title == "Foo Bar" }, results.first
+        assert_equal site.posts.docs.find { |p| p.title == "Foo Bar" }, results.first
       end
 
       should "always return an array if the object responds to 'select'" do
@@ -1273,8 +1273,11 @@ class TestFilters < BridgetownUnitTest
     end
 
     context "slugify filter" do
-      should "return a slugified string" do
+      should "return a slugified string with default mode" do
+        reset_mode = @filter.site.config.slugify_mode
+        @filter.site.config.slugify_mode = "default"
         assert_equal "q-bert-says", @filter.slugify(" Q*bert says @!#?@!")
+        @filter.site.config.slugify_mode = reset_mode
       end
 
       should "return a slugified string with mode" do

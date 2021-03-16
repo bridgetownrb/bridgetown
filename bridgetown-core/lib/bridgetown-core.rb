@@ -18,6 +18,7 @@ end
 require "rubygems"
 
 # stdlib
+require "find"
 require "forwardable"
 require "fileutils"
 require "time"
@@ -31,13 +32,16 @@ require "json"
 # 3rd party
 require "active_support"
 require "active_support/core_ext/hash/keys"
+require "active_support/core_ext/module/delegation"
 require "active_support/core_ext/object/blank"
+require "active_support/core_ext/object/deep_dup"
+require "active_support/core_ext/object/inclusion"
 require "active_support/core_ext/string/inflections"
 require "active_support/core_ext/string/inquiry"
 require "active_support/core_ext/string/starts_ends_with"
+require "active_support/current_attributes"
 require "active_support/descendants_tracker"
 require "hash_with_dot_access"
-require "pathutil"
 require "addressable/uri"
 require "safe_yaml/load"
 require "liquid"
@@ -47,6 +51,7 @@ require "colorator"
 require "i18n"
 require "faraday"
 require "thor"
+require "zeitwerk"
 
 module HashWithDotAccess
   class Hash # :nodoc:
@@ -73,7 +78,6 @@ if RUBY_VERSION.start_with?("3.0")
 end
 
 module Bridgetown
-  # internal requires
   autoload :Cleaner,             "bridgetown-core/cleaner"
   autoload :Collection,          "bridgetown-core/collection"
   autoload :Configuration,       "bridgetown-core/configuration"
@@ -81,30 +85,38 @@ module Bridgetown
   autoload :Deprecator,          "bridgetown-core/deprecator"
   autoload :Document,            "bridgetown-core/document"
   autoload :EntryFilter,         "bridgetown-core/entry_filter"
+  # TODO: we have too many errors! This is silly
   autoload :Errors,              "bridgetown-core/errors"
   autoload :Excerpt,             "bridgetown-core/excerpt"
+  # TODO: this is a poorly named, unclear class. Relocate to Utils:
   autoload :External,            "bridgetown-core/external"
   autoload :FrontmatterDefaults, "bridgetown-core/frontmatter_defaults"
   autoload :Hooks,               "bridgetown-core/hooks"
   autoload :Layout,              "bridgetown-core/layout"
   autoload :LayoutPlaceable,     "bridgetown-core/concerns/layout_placeable"
   autoload :Cache,               "bridgetown-core/cache"
-  autoload :CollectionReader,    "bridgetown-core/readers/collection_reader"
+  autoload :Current,             "bridgetown-core/current"
+  # TODO: remove this when legacy content engine is gone:
   autoload :DataReader,          "bridgetown-core/readers/data_reader"
   autoload :DefaultsReader,      "bridgetown-core/readers/defaults_reader"
   autoload :LayoutReader,        "bridgetown-core/readers/layout_reader"
+  # TODO: remove this when legacy content engine is gone:
   autoload :PostReader,          "bridgetown-core/readers/post_reader"
+  # TODO: we can merge this back into Reader class:
   autoload :PageReader,          "bridgetown-core/readers/page_reader"
   autoload :PluginContentReader, "bridgetown-core/readers/plugin_content_reader"
+  # TODO: also merge this:
   autoload :StaticFileReader,    "bridgetown-core/readers/static_file_reader"
   autoload :LogAdapter,          "bridgetown-core/log_adapter"
   autoload :Page,                "bridgetown-core/page"
-  autoload :PageWithoutAFile,    "bridgetown-core/page_without_a_file"
+  autoload :GeneratedPage,       "bridgetown-core/page"
+  # TODO: figure out how to get rid of this seemingly banal class:
   autoload :PathManager,         "bridgetown-core/path_manager"
   autoload :PluginManager,       "bridgetown-core/plugin_manager"
   autoload :Publishable,         "bridgetown-core/concerns/publishable"
   autoload :Publisher,           "bridgetown-core/publisher"
   autoload :Reader,              "bridgetown-core/reader"
+  # TODO: remove this when the incremental regenerator is gone:
   autoload :Regenerator,         "bridgetown-core/regenerator"
   autoload :RelatedPosts,        "bridgetown-core/related_posts"
   autoload :Renderer,            "bridgetown-core/renderer"
@@ -130,6 +142,7 @@ module Bridgetown
 
   require "bridgetown-core/drops/drop"
   require "bridgetown-core/drops/document_drop"
+  require "bridgetown-core/drops/resource_drop"
   require_all "bridgetown-core/converters"
   require_all "bridgetown-core/converters/markdown"
   require_all "bridgetown-core/drops"
@@ -193,11 +206,7 @@ module Bridgetown
     # @return [void]
     # rubocop:disable Naming/AccessorMethodName
     def set_timezone(timezone)
-      ENV["TZ"] = if Utils::Platforms.really_windows?
-                    Utils::WinTZ.calculate(timezone)
-                  else
-                    timezone
-                  end
+      ENV["TZ"] = timezone
     end
     # rubocop:enable Naming/AccessorMethodName
 
@@ -218,11 +227,11 @@ module Bridgetown
       @logger = LogAdapter.new(writer, (ENV["BRIDGETOWN_LOG_LEVEL"] || :info).to_sym)
     end
 
-    # An array of sites. Currently only ever a single entry.
+    # Deprecated. Now using the Current site.
     #
     # @return [Array<Bridgetown::Site>] the Bridgetown sites created.
     def sites
-      @sites ||= []
+      [Bridgetown::Current.site].compact
     end
 
     # Ensures the questionable path is prefixed with the base directory
@@ -259,3 +268,13 @@ module Bridgetown
     Bridgetown::External.require_if_present("liquid/c")
   end
 end
+
+module Bridgetown
+  module Model; end
+  module Resource; end
+end
+
+loader = Zeitwerk::Loader.new
+loader.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model
+loader.push_dir File.join(__dir__, "bridgetown-core/resource"), namespace: Bridgetown::Resource
+loader.setup # ready!

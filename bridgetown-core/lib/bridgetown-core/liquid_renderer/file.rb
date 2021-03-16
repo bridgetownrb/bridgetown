@@ -2,6 +2,7 @@
 
 module Bridgetown
   class LiquidRenderer
+    # TODO: deprecate or move to a separate repo/plugin
     class File
       def initialize(renderer, filename)
         @renderer = renderer

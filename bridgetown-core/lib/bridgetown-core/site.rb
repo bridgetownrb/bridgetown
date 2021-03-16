@@ -26,6 +26,10 @@ module Bridgetown
     # @return [Array<Page>]
     attr_accessor :pages
 
+    # NOTE: Eventually pages will be deprecated once the Resource content engine
+    # is default
+    alias_method :generated_pages, :pages
+
     attr_accessor :exclude, :include, :lsi, :highlighter, :permalink_style,
                   :time, :future, :unpublished, :limit_posts,
                   :keep_files, :baseurl, :data, :file_read_opts,
@@ -46,7 +50,7 @@ module Bridgetown
 
       ensure_not_in_dest
 
-      Bridgetown.sites << self
+      Bridgetown::Current.site = self
       Bridgetown::Hooks.trigger :site, :after_init, self
 
       reset   # Processable

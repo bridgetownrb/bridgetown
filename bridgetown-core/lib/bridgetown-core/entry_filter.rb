@@ -4,12 +4,14 @@ module Bridgetown
   class EntryFilter
     attr_reader :site
     SPECIAL_LEADING_CHAR_REGEX = %r!\A#{Regexp.union([".", "_", "#", "~"])}!o.freeze
+    SPECIAL_LEADING_CHAR_NO_UNDERSCORES_REGEX = %r!\A#{Regexp.union([".", "#", "~"])}!o.freeze
 
-    def initialize(site, base_directory = nil)
+    def initialize(site, base_directory: nil, include_underscores: false)
       @site = site
       @base_directory = derive_base_directory(
         @site, base_directory.to_s.dup
       )
+      @include_underscores = include_underscores
     end
 
     def base_directory
@@ -32,8 +34,6 @@ module Bridgetown
         # Reject this entry if it is just a "dot" representation.
         #   e.g.: '.', '..', '_movies/.', 'music/..', etc
         next true if e.end_with?(".")
-        # Reject this entry if it is a symlink.
-        next true if symlink?(e)
         # Do not reject this entry if it is included.
         next false if included?(e)
 
@@ -48,8 +48,13 @@ module Bridgetown
     end
 
     def special?(entry)
-      SPECIAL_LEADING_CHAR_REGEX.match?(entry) ||
-        SPECIAL_LEADING_CHAR_REGEX.match?(File.basename(entry))
+      use_regex = if @include_underscores
+                    SPECIAL_LEADING_CHAR_NO_UNDERSCORES_REGEX
+                  else
+                    SPECIAL_LEADING_CHAR_REGEX
+                  end
+
+      use_regex.match?(entry) || use_regex.match?(File.basename(entry))
     end
 
     def backup?(entry)
@@ -65,24 +70,6 @@ module Bridgetown
           )
         end
       end
-    end
-
-    # --
-    # TODO: this is for old Safe mode and can be removed.
-    # --
-    def symlink?(_entry)
-      false
-    end
-
-    # --
-    # NOTE: Pathutil#in_path? gets the realpath.
-    # @param [<Anything>] entry the entry you want to validate.
-    # Check if a path is outside of our given root.
-    # --
-    def symlink_outside_site_source?(entry)
-      !Pathutil.new(entry).in_path?(
-        site.in_source_dir
-      )
     end
 
     # Check if an entry matches a specific pattern.

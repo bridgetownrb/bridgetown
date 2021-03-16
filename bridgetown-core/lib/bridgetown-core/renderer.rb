@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module Bridgetown
+  # This class handles the output rendering and layout placement of pages and
+  # documents. For rendering of resources in particular, see Bridgetown::Resource::Transformer
   class Renderer
     attr_reader :document, :site
 
@@ -121,21 +123,11 @@ module Bridgetown
         "in #{document.relative_path} does not exist."
     end
 
-    def converters_for_layout(layout)
-      site.converters.select do |converter|
-        if converter.method(:matches).arity == 1
-          converter.matches(layout.ext)
-        else
-          converter.matches(layout.ext, layout)
-        end
-      end.sort
-    end
-
     # Render layout content into document.output
     #
     # Returns String rendered content
     def render_layout(output, layout)
-      layout_converters = converters_for_layout(layout)
+      layout_converters = site.matched_converters_for_convertible(layout)
 
       layout_content = layout.content.dup
       layout_converters.reduce(layout_content) do |layout_output, converter|
@@ -163,7 +155,8 @@ module Bridgetown
 
     def permalink_ext
       document_permalink = document.permalink
-      if document_permalink && !document_permalink.end_with?("/")
+      if document_permalink &&
+          !document_permalink.end_with?("/")
         permalink_ext = File.extname(document_permalink)
         permalink_ext unless permalink_ext.empty?
       end

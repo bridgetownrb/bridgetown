@@ -15,6 +15,10 @@ module Bridgetown
         @site_drop ||= SiteDrop.new(@obj)
       end
 
+      def collections
+        @obj.collections
+      end
+
       private
 
       def fallback_data

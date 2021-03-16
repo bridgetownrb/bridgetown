@@ -1,8 +1,16 @@
 # frozen_string_literal: true
 
+# Handles Legacy Pages
 Bridgetown::Hooks.register :pages, :post_init, reloadable: false do |page|
   if page.class != Bridgetown::PrototypePage && page.data["prototype"].is_a?(Hash)
     Bridgetown::PrototypeGenerator.add_matching_template(page)
+  end
+end
+
+# Handles Resources
+Bridgetown::Hooks.register :resources, :post_read, reloadable: false do |resource|
+  if resource.data["prototype"].is_a?(Hash)
+    Bridgetown::PrototypeGenerator.add_matching_template(resource)
   end
 end
 
@@ -13,27 +21,27 @@ module Bridgetown
     # @return [Bridgetown::Site]
     attr_reader :site
 
-    @matching_templates = []
+    # @return [Array<Bridgetown::Page, Bridgetown::Resource::Base>]
+    def self.matching_templates
+      @matching_templates ||= []
+    end
 
     def self.add_matching_template(template)
-      @matching_templates << template
+      matching_templates << template
     end
 
-    class << self
-      # @return [Array<Page>]
-      attr_reader :matching_templates
-    end
-
+    # @param site [Bridgetown::Site]
     def generate(site)
       @site = site
-      @configured_collection = "posts"
+      @configured_collection = "posts" unless site.uses_resource?
+      page_list = site.uses_resource? ? site.collections.pages.resources : site.pages
 
       prototype_pages = self.class.matching_templates.select do |page|
-        site.pages.include? page
+        page_list.include?(page)
       end
 
       if prototype_pages.length.positive?
-        site.pages.reject! do |page|
+        page_list.reject! do |page|
           prototype_pages.include? page
         end
 
@@ -42,7 +50,7 @@ module Bridgetown
           next if search_term.nil?
 
           terms_matching_pages(search_term).each do |term|
-            generate_new_page_from_prototype(prototype_page, search_term, term).data
+            generate_new_page_from_prototype(prototype_page, search_term, term)
           end
         end
       end
@@ -50,7 +58,7 @@ module Bridgetown
 
     # Check incoming prototype configuration and normalize options.
     #
-    # @param prototype_page [PrototypePage]
+    # @param prototype_page [Bridgetown::Page, Bridgetown::Resource::Base]
     #
     # @return [String, nil]
     def validate_search_term(prototype_page)
@@ -71,7 +79,7 @@ module Bridgetown
 
     def generate_new_page_from_prototype(prototype_page, search_term, term)
       new_page = PrototypePage.new(prototype_page, @configured_collection, search_term, term)
-      site.pages << new_page
+      site.add_generated_page new_page
       new_page
     end
 
@@ -81,16 +89,26 @@ module Bridgetown
     #
     # @return [Array<String>]
     def terms_matching_pages(search_term)
+      pages_list = if site.uses_resource?
+                     site.collections[@configured_collection].resources
+                   else
+                     site.collections[@configured_collection].docs
+                   end
+
       Bridgetown::Paginate::PaginationIndexer.index_documents_by(
-        site.collections[@configured_collection].docs, search_term
+        pages_list, search_term
       ).keys
     end
   end
 
-  class PrototypePage < Page
-    # @return [Page]
+  class PrototypePage < GeneratedPage
+    # @return [Bridgetown::Page, Bridgetown::Resource::Base]
     attr_reader :prototyped_page
 
+    # @param prototyped_page [Bridgetown::Page, Bridgetown::Resource::Base]
+    # @param collection [Bridgetown::Collection]
+    # @param search_term [String]
+    # @param term [String]
     def initialize(prototyped_page, collection, search_term, term)
       @prototyped_page = prototyped_page
       @site = prototyped_page.site
@@ -107,7 +125,7 @@ module Bridgetown
       validate_data! prototyped_page.path
       validate_permalink! prototyped_page.path
 
-      @dir = Pathname.new(prototyped_page.relative_path).dirname.to_s
+      @dir = Pathname.new(prototyped_page.relative_path).dirname.to_s.sub(%r{^_pages}, "")
       @path = site.in_source_dir(@dir, @name)
 
       process_prototype_page_data(collection, search_term, term)
@@ -132,7 +150,7 @@ module Bridgetown
       slugify_term(term)
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:todo Metrics/AbcSize
     def process_title_data_placeholder(search_term, term)
       if prototyped_page.data["prototype"]["data"]
         if data["title"]&.include?(":prototype-data-label")
@@ -164,7 +182,7 @@ module Bridgetown
     end
 
     def slugify_term(term)
-      term_slug = Bridgetown::Utils.slugify(term)
+      term_slug = Bridgetown::Utils.slugify(term, mode: site.config.slugify_mode)
       @url = if permalink.is_a?(String)
                data["permalink"] = data["permalink"].sub(":term", term_slug)
              else

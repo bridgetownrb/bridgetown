@@ -2,6 +2,7 @@
 
 module Bridgetown
   class LiquidRenderer
+    # TODO: deprecate or move to a separate repo/plugin
     class Table
       GAUGES = [:count, :bytes, :time].freeze
 

@@ -29,6 +29,26 @@ class Bridgetown::Site
       end
     end
 
+    def matched_converters_for_convertible(convertible)
+      @layout_converters ||= {}
+
+      if convertible.is_a?(Bridgetown::Layout) && @layout_converters[convertible]
+        return @layout_converters[convertible]
+      end
+
+      matches = converters.select do |converter|
+        if converter.method(:matches).arity == 1
+          converter.matches(convertible.extname)
+        else
+          converter.matches(convertible.extname, convertible)
+        end
+      end
+
+      @layout_converters[convertible] = matches if convertible.is_a?(Bridgetown::Layout)
+
+      matches
+    end
+
     # Renders all documents
     # @return [void]
     def render_docs
@@ -36,6 +56,12 @@ class Bridgetown::Site
         collection.docs.each do |document|
           render_with_locale(document) do
             render_regenerated document
+          end
+        end
+
+        collection.resources.each do |resource|
+          render_with_locale(resource) do
+            resource.transform!
           end
         end
       end

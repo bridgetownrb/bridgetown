@@ -1,0 +1,6 @@
+---
+data:
+  goes:
+    here: 1
+config:
+  output: false

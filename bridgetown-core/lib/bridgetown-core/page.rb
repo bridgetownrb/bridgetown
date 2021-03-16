@@ -47,7 +47,7 @@ module Bridgetown
       read_yaml(PathManager.join(base, dir), name)
 
       data.default_proc = proc do |_, key|
-        site.frontmatter_defaults.find(relative_path, type, key)
+        site.frontmatter_defaults.find(relative_path, type, key.to_s)
       end
 
       Bridgetown::Hooks.trigger :pages, :post_init, self
@@ -116,6 +116,7 @@ module Bridgetown
         permalink: permalink
       ).to_s
     end
+    alias_method :relative_url, :url
 
     # Returns a hash of URL placeholder names (as symbols) mapping to the
     # desired placeholder replacements. For details see "url.rb"
@@ -216,6 +217,13 @@ module Bridgetown
 
     def write?
       true
+    end
+  end
+
+  # set up virtual page class for future compatibility
+  class GeneratedPage < Page
+    def read_yaml(_base, _name, _opts = {})
+      self.data ||= HashWithDotAccess::Hash.new
     end
   end
 end

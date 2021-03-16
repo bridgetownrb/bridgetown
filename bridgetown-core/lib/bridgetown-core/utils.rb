@@ -4,12 +4,9 @@ module Bridgetown
   module Utils
     extend self
     autoload :Ansi, "bridgetown-core/utils/ansi"
-    autoload :Exec, "bridgetown-core/utils/exec"
-    autoload :Internet, "bridgetown-core/utils/internet"
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
     autoload :Platforms, "bridgetown-core/utils/platforms"
     autoload :ThreadEvent, "bridgetown-core/utils/thread_event"
-    autoload :WinTZ, "bridgetown-core/utils/win_tz"
 
     # Constants for use in #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
@@ -74,38 +71,32 @@ module Bridgetown
       end
     end
 
-    # Read array from the supplied hash favouring the singular key
-    # and then the plural key, and handling any nil entries.
+    # Read array from the supplied hash, merging the singular key with the
+    # plural key as needing, and handling any nil or duplicate entries.
     #
-    # hash - the hash to read from
-    # singular_key - the singular key
-    # plural_key - the plural key
-    #
-    # Returns an array
-    def pluralized_array_from_hash(hash, singular_key, plural_key)
-      array = []
-      value = value_from_singular_key(hash, singular_key)
-      value ||= value_from_plural_key(hash, plural_key)
+    # @param hsh [Hash] the hash to read from
+    # @param singular_key [Symbol] the singular key
+    # @param plural_key [Symbol] the plural key
+    # @return [Array]
+    def pluralized_array_from_hash(hsh, singular_key, plural_key)
+      array = [
+        hsh[singular_key],
+        value_from_plural_key(hsh, plural_key),
+      ]
 
-      array << value
       array.flatten!
       array.compact!
+      array.uniq!
       array
     end
 
-    def value_from_singular_key(hash, key)
-      hash[key] if hash.key?(key) || (hash.default_proc && hash[key])
-    end
-
-    def value_from_plural_key(hash, key)
-      if hash.key?(key) || (hash.default_proc && hash[key])
-        val = hash[key]
-        case val
-        when String
-          val.split
-        when Array
-          val.compact
-        end
+    def value_from_plural_key(hsh, key)
+      val = hsh[key]
+      case val
+      when String
+        val.split
+      when Array
+        val.compact
       end
     end
 
@@ -124,7 +115,7 @@ module Bridgetown
 
     # Determines whether a given file has
     #
-    # Returns true if the YAML front matter is present.
+    # @return [Boolean] if the YAML front matter is present.
     # rubocop: disable Naming/PredicateName
     def has_yaml_header?(file)
       File.open(file, "rb", &:readline).match? %r!\A---\s*\r?\n!
@@ -134,7 +125,7 @@ module Bridgetown
 
     # Determine whether the given content string contains Liquid Tags or Vaiables
     #
-    # Returns true is the string contains sequences of `{%` or `{{`
+    # @return [Boolean] if the string contains sequences of `{%` or `{{`
     def has_liquid_construct?(content)
       return false if content.nil? || content.empty?
 
@@ -207,7 +198,7 @@ module Bridgetown
       slug.gsub!(%r!^\-|\-$!i, "")
 
       slug.downcase! unless cased
-      Bridgetown.logger.warn("Warning:", "Empty `slug` generated for '#{string}'.") if slug.empty?
+
       slug
     end
 
@@ -347,7 +338,7 @@ module Bridgetown
 
     # Return an asset path based on the Webpack manifest file
     # @param site [Bridgetown::Site] The current site object
-    # @param asset_type [String] js or css
+    # @param asset_type [String] js or css, or filename in manifest
     #
     # @return [String] Returns "MISSING_WEBPACK_MANIFEST" if the manifest
     # file isnt found
@@ -363,21 +354,30 @@ module Bridgetown
       manifest = JSON.parse(File.read(manifest_file))
 
       known_assets = %w(js css)
+      asset_path = nil
       if known_assets.include?(asset_type)
         asset_path = manifest["main.#{asset_type}"]
-
         log_webpack_asset_error(asset_type) && return if asset_path.nil?
-
-        asset_path = asset_path.split("/").last
-        return [static_frontend_path(site), asset_type, asset_path].join("/")
+      else
+        asset_path = manifest.find do |item, _|
+          item.sub(%r{^../(frontend/|src/)?}, "") == asset_type
+        end&.last
       end
 
-      Bridgetown.logger.error("Unknown Webpack asset type", asset_type)
-      nil
+      if asset_path
+        static_frontend_path(site, ["js", asset_path])
+      else
+        Bridgetown.logger.error("Unknown Webpack asset type", asset_type)
+        nil
+      end
     end
 
-    def static_frontend_path(site)
-      path_parts = [site.config["baseurl"].to_s.chomp("/"), "_bridgetown/static"]
+    def static_frontend_path(site, additional_parts = [])
+      path_parts = [
+        site.config["baseurl"].to_s.gsub(%r(^/|/$), ""),
+        "_bridgetown/static",
+        *additional_parts,
+      ]
       path_parts[0] = "/#{path_parts[0]}" unless path_parts[0].empty?
       Addressable::URI.parse(path_parts.join("/")).normalize.to_s
     end

@@ -90,6 +90,15 @@ module Bridgetown
         @last_page_path = Utils.format_page_number(paginated_page_url, @total_pages, @total_pages)
       end
 
+      # TODO: eventually deprecate documents and only have resources
+      def resources
+        documents
+      end
+
+      def total_resources
+        total_documents
+      end
+
       # Convert this Paginator's data to a Hash suitable for use by Liquid.
       #
       # Returns the Hash representation of this Paginator.
@@ -97,7 +106,9 @@ module Bridgetown
         {
           "per_page"           => per_page,
           "documents"          => documents,
+          "resources"          => documents,
           "total_documents"    => total_documents,
+          "total_resources"    => total_resources,
           "total_pages"        => total_pages,
           "page"               => page,
           "page_path"          => page_path,

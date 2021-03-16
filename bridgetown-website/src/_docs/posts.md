@@ -5,6 +5,10 @@ top_section: Content
 category: posts
 ---
 
+{% rendercontent "docs/note", type: "warning" %}
+The post as a distinct content type is part of the legacy content engine which will be deprecated and eventually removed by Bridgetown 1.0. Read about the new [resource content engine](/docs/resources) to find out more.
+{% endrendercontent %}
+
 Blogging is a key part of Bridgetown. You can write blog posts as text files and Bridgetown provides everything you need to turn those into a blog. Under the hood, posts are simply a built-in type of [collection](/docs/collections), so you're not obligated to use them if a custom collection makes more sense.
 
 {% toc %}

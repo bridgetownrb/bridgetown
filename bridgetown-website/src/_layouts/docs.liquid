@@ -6,7 +6,7 @@ layout: default
   <layout-columns class="columns">
     <layout-column class="column is-three-quarters" id="swup-with-sidebar">
       {% rendercontent "shared/box" %}
-        {% assign url_sections = page.url | split: "/" %}
+        {% assign url_sections = page.relative_url | split: "/" %}
         {% if url_sections.size > 3 %}
           {% assign button_label = page.category | capitalize | replace: "-", " " | prepend: "Back to " %}
           {% assign button_url = "/docs/" | append: page.category %}
@@ -33,9 +33,10 @@ layout: default
           {% unless next_order %}
             {% assign next_order = page.order | plus: 1 %}
           {% endunless %}
-          {% find next_page in site.docs, order == next_order %}
+          {% assign alldocs = collections.docs.resources %}
+          {% find next_page in alldocs, order == next_order %}
           {% if next_page %}
-          <p class="has-text-right mt-8 mb-1"><a href="{{ next_page.url }}" class="button is-info is-small">
+          <p class="has-text-right mt-8 mb-1"><a href="{{ next_page.relative_url }}" class="button is-info is-small">
             <ui-label>Next: {{ next_page.title }}</ui-label>
             <ui-icon class="icon" aria-hidden="true">
               <i class="fa fa-chevron-right"></i>
@@ -46,7 +47,7 @@ layout: default
       {% endrendercontent %}
     </layout-column>
     <layout-sidebar class="column pl-8">
-      {% render "docs/toc", docs: site.docs, page: page %}
+      {% render "docs/toc", docs: collections.docs.resources, page: page %}
     </layout-sidebar>
   </layout-columns>
 </section>

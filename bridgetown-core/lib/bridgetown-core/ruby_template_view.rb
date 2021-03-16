@@ -41,6 +41,10 @@ module Bridgetown
       end
     end
 
+    def collections
+      site.collections
+    end
+
     def site_drop
       site.site_payload.site
     end

@@ -25,15 +25,6 @@ module Bridgetown
       def output_ext(ext)
         ext
       end
-
-      # Logic to do the content conversion.
-      #
-      # content - String content of file (without front matter).
-      #
-      # Returns a String of the converted content.
-      def convert(content)
-        content
-      end
     end
   end
 end

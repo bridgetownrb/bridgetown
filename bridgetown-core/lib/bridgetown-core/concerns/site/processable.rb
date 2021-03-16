@@ -11,6 +11,7 @@ class Bridgetown::Site
     # @see #cleanup
     # @see #write
     def process
+      Bridgetown::Current.site = self
       reset
       read
       generate  # Extensible

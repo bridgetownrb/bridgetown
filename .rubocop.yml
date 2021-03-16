@@ -175,6 +175,10 @@ Style/HashTransformKeys:
   Enabled: false
 Style/HashTransformValues:
   Enabled: true
+Style/Lambda:
+  EnforcedStyle: literal
+Style/LambdaCall:
+  Enabled: false
 Style/MixinUsage:
   Exclude:
     - bridgetown-core/test/helper.rb

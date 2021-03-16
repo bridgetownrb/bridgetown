@@ -5,7 +5,7 @@ require_relative "./helper"
 class TestDocumentation < Minitest::Test
   context "plugins page" do
     setup do
-      page = site.collections[:docs].docs.find { |doc| doc.url == "/docs/plugins" }
+      page = site.collections.docs.resources.find { |doc| doc.relative_url == "/docs/plugins" }
       document_root nokogiri(page)
     end
 

@@ -5,7 +5,7 @@ require_relative "./helper"
 class TestBlog < Minitest::Test
   context "blog page" do
     setup do
-      page = site.pages.find { |doc| doc.url == "/blog/index.html" }
+      page = site.generated_pages.find { |doc| doc.url == "/blog/index.html" }
       document_root page
     end
 
@@ -25,7 +25,7 @@ class TestBlog < Minitest::Test
 
   context "blog page" do
     setup do
-      page = site.collections[:docs].docs.find { |doc| doc.url == "/docs/plugins" }
+      page = site.collections.docs.resources.find { |doc| doc.relative_url == "/docs/plugins" }
       document_root nokogiri(page)
     end
 
@@ -41,7 +41,7 @@ class TestBlog < Minitest::Test
 
   context "blog post" do
     setup do
-      page = site.posts.docs.find { |doc| doc.url == "/release/whats-new-in-0.14-hazelwood/" }
+      page = site.collections.posts.resources.find { |doc| doc.relative_url == "/release/whats-new-in-0.14-hazelwood/" }
       document_root nokogiri(page)
     end
 
