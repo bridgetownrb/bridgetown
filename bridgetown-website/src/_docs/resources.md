@@ -24,7 +24,7 @@ The legacy content engine will be deprecated and eventually removed prior to the
 
 The resource is a 1:1 mapping between a unit of content and a URL (remember the acronym Uniform **Resource** Locator?). A "unit of content" is typically a Markdown or HTML file along with [YAML front matter](/docs/front-matter) saved somewhere in the `src` folder.
 
-While certain resources don't actually get written to URLs such as data files, (and other resources and/or collections can be marked to avoid output), the concept is sound. Resources encapsulate the logic for how raw data is transformed into final content within the site rendering pipeline.
+While certain resources don't actually get written to URLs such as data files (and other resources and/or collections can be marked to avoid output), the concept is sound. Resources encapsulate the logic for how raw data is transformed into final content within the site rendering pipeline.
 
 Resources come with a merry band of objects to help them along the way. These are called Origins, Models, Transformers, and Destinations. Here's a diagram of how it all works.
 
