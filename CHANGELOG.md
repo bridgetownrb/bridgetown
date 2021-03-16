@@ -1,5 +1,13 @@
 # main
 
+# 0.20.0 / 2020-03-15
+
+* EXPERIMENTAL (and opt-in): the Great Resource Content Engine PR has been merged. 135 files changed. Holy guacamole! [#243](https://github.com/bridgetownrb/bridgetown/pull/243) ([jaredcwhite](https://github.com/jaredcwhite)) [Read the Docs](https://www.bridgetownrb.com/docs/resources)
+* Further improved Webpack integration by allowing multiple entry points and loading any manifest item with webpack_path helper [#247](https://github.com/bridgetownrb/bridgetown/pull/247) ([jaredcwhite](https://github.com/jaredcwhite)) [Docs](https://www.bridgetownrb.com/docs/frontend-assets#additional-bundled-assets-fonts-images)
+* Exclude current post from LSI-powered related posts [#253](https://github.com/bridgetownrb/bridgetown/pull/253) ([katafrakt](https://github.com/katafrakt))
+* The `inspect` string for `Bridgetown::Site` is now lean and clean.
+* The history bug with the `bridgetown console` has been fixed! Now pressing your up arrow after entering the console will pull up all previous commands entered. Up, up, and away!
+
 # 0.19.3 / 2020-02-11
 
 * Fix css-loader's resolving of `/path/to/file` type URLs [#240](https://github.com/bridgetownrb/bridgetown/pull/240) ([jaredcwhite](https://github.com/jaredcwhite))
