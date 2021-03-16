@@ -123,6 +123,7 @@ module Bridgetown
           collection_by_name_lambda
         )
         count = model.run(default_config, templates, site_title)
+        self.class.matching_templates.clear
         Bridgetown.logger.info "Pagination:", "Complete, processed #{count} pagination page(s)"
       end
     end
