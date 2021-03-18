@@ -38,6 +38,10 @@ Some popular services include:
 
 [Netlify](https://www.netlify.com) is a web developer platform which focuses on productivity and global scale without requiring costly infrastructure. Get set up with continuous deployment, lead gen forms, one click HTTPS, and so much more.
 
+### Qovery
+
+[Qovery](https://qovery.com) is a fully-managed cloud platform that runs on your AWS, GCP, Azure and Digital Ocean account where you can host static sites, backend APIs, databases, cron jobs, and all your other apps in one place.
+
 ### Render
 
 [Render](https://render.com) provides the easiest cloud for all your static sites, APIs, databases, and containers. Render is a unified platform which can build and run apps and websites with free SSL, a global CDN, private networks, and auto deploys from Git.
