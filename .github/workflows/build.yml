@@ -15,23 +15,16 @@ jobs:
       matrix:
         ruby_version: [2.5.8, 2.6.6, 2.7.2, 3.0.0]
     continue-on-error: ${{ endsWith(matrix.ruby, 'head') || matrix.ruby == 'debug' }}
+    # Has to be top level to cache properly
+    env:
+      BUNDLE_JOBS: 4
+      BUNDLE_PATH: "vendor/bundle"
     steps:
       - uses: actions/checkout@master
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby_version }}
-      - uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
-      - name: Install Bundler
-        run: gem install bundler
-      - name: Configure vendor path
-        run: bundle config path vendor/bundle
-      - name: Bundle Install
-        run: bundle install --jobs 4 --retry 3
+          bundler-cache: true
       - name: Test with Rake
         run: bundle exec rake
