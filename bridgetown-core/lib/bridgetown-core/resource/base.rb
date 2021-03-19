@@ -57,6 +57,10 @@ module Bridgetown
         @transformer ||= Bridgetown::Resource::Transformer.new(self)
       end
 
+      def relations
+        @relations ||= Bridgetown::Resource::Relations.new(self)
+      end
+
       # @param new_data [HashWithDotAccess::Hash]
       def data=(new_data)
         unless new_data.is_a?(HashWithDotAccess::Hash)
