@@ -57,6 +57,7 @@ module Bridgetown
         @transformer ||= Bridgetown::Resource::Transformer.new(self)
       end
 
+      # @return [Bridgetown::Resource::Relations]
       def relations
         @relations ||= Bridgetown::Resource::Relations.new(self)
       end
@@ -112,6 +113,7 @@ module Bridgetown
         trigger_hooks :"post_#{hook_suffix}"
       end
 
+      # @return [String]
       def relative_path_basename_without_prefix
         return_path = Pathname.new("")
         relative_path.each_filename do |filename|
@@ -125,6 +127,7 @@ module Bridgetown
         (return_path.dirname + return_path.basename(".*")).to_s
       end
 
+      # @return [String]
       def basename_without_ext
         relative_path.basename(".*").to_s
       end
@@ -139,14 +142,17 @@ module Bridgetown
         data&.permalink
       end
 
+      # @return [String]
       def path
         (model.origin.respond_to?(:original_path) ? model.origin.original_path : relative_path).to_s
       end
 
+      # @return [String]
       def absolute_url
         format_url destination&.absolute_url
       end
 
+      # @return [String]
       def relative_url
         format_url destination&.relative_url
       end
@@ -193,7 +199,7 @@ module Bridgetown
 
       # Create a Liquid-understandable version of this resource.
       #
-      # @return [Drops::DocumentDrop] represents this resource's data.
+      # @return [Drops::ResourceDrop] represents this resource's data.
       def to_liquid
         @to_liquid ||= Drops::ResourceDrop.new(self)
       end
