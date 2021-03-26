@@ -3,7 +3,17 @@
 module Bridgetown
   module Model
     class FileOrigin < Origin
+      include Bridgetown::Utils::RubyFrontMatterDSL
+
       YAML_FRONT_MATTER_REGEXP = %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m.freeze
+      RUBY_FRONT_MATTER_REGEXP =
+        %r!\A[~`#]{3,}(?:ruby|<%|{%)\s*\n(.*?\n?)^((?:%>|%})?[~`#]{3,}\s*$\n?)!m.freeze
+
+      # @return [String]
+      attr_accessor :content
+
+      # @return [Integer]
+      attr_accessor :front_matter_line_count
 
       class << self
         def handle_scheme?(scheme)
@@ -11,7 +21,7 @@ module Bridgetown
         end
 
         def data_file_extensions
-          %w(.yaml .yml .json .csv .tsv).freeze
+          %w(.yaml .yml .json .csv .tsv .rb).freeze
         end
       end
 
@@ -20,11 +30,16 @@ module Bridgetown
         @data[:_id_] = id
         @data[:_origin_] = self
         @data[:_collection_] = collection
-        @data[:_content_] = @content if @content
+        @data[:_content_] = content if content
 
         @data
+      rescue SyntaxError => e
+        Bridgetown.logger.error "Error:",
+                                "Ruby Exception reading #{original_path}: #{e.message}"
+        exit(false)
       rescue StandardError => e
         handle_read_error(e)
+        exit(false)
       end
 
       def url
@@ -67,14 +82,14 @@ module Bridgetown
         case original_path.extname.downcase
         when ".csv"
           {
-            array:
+            rows:
               CSV.read(original_path,
                        headers: true,
                        encoding: Bridgetown::Current.site.config["encoding"]).map(&:to_hash),
           }
         when ".tsv"
           {
-            array:
+            rows:
               CSV.read(original_path,
                        col_sep: "\t",
                        headers: true,
@@ -82,21 +97,35 @@ module Bridgetown
           }
         else
           yaml_data = SafeYAML.load_file(original_path)
-          yaml_data.is_a?(Array) ? { array: yaml_data } : yaml_data
+          yaml_data.is_a?(Array) ? { rows: yaml_data } : yaml_data
         end
       end
 
       def read_frontmatter
-        @content = File.read(
+        file_contents = File.read(
           original_path, **Bridgetown::Utils.merged_file_read_opts(Bridgetown::Current.site, {})
         )
-        content_match = @content.match(YAML_FRONT_MATTER_REGEXP)
-        if content_match
-          @content = content_match.post_match
-          SafeYAML.load(content_match[1])
+        yaml_content = file_contents.match(YAML_FRONT_MATTER_REGEXP)
+        if !yaml_content && Bridgetown::Current.site.config.should_execute_inline_ruby?
+          ruby_content = file_contents.match(RUBY_FRONT_MATTER_REGEXP)
+        end
+
+        if yaml_content
+          self.content = yaml_content.post_match
+          self.front_matter_line_count = yaml_content[1].lines.size - 1
+          SafeYAML.load(yaml_content[1])
+        elsif ruby_content
+          self.content = ruby_content.post_match
+          self.front_matter_line_count = ruby_content[1].lines.size
+          instance_eval(ruby_content[1], original_path.to_s, 2).to_h
+        elsif Bridgetown::Utils.has_rbfm_header?(original_path)
+          ruby_data = instance_eval(
+            File.read(original_path).lines[1..-1].join("\n"), original_path.to_s, 2
+          )
+          ruby_data.is_a?(Array) ? { rows: ruby_data } : ruby_data.to_h
         else
           yaml_data = SafeYAML.load_file(original_path)
-          yaml_data.is_a?(Array) ? { array: yaml_data } : yaml_data
+          yaml_data.is_a?(Array) ? { rows: yaml_data } : yaml_data
         end
       end
 

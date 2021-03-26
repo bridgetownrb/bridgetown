@@ -5,6 +5,7 @@ module Bridgetown
     extend self
     autoload :Ansi, "bridgetown-core/utils/ansi"
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
+    autoload :RubyFrontMatterDSL, "bridgetown-core/utils/ruby_front_matter"
     autoload :Platforms, "bridgetown-core/utils/platforms"
     autoload :ThreadEvent, "bridgetown-core/utils/thread_event"
 
@@ -119,6 +120,12 @@ module Bridgetown
     # rubocop: disable Naming/PredicateName
     def has_yaml_header?(file)
       File.open(file, "rb", &:readline).match? %r!\A---\s*\r?\n!
+    rescue EOFError
+      false
+    end
+
+    def has_rbfm_header?(file)
+      File.open(file, "rb", &:readline).match? %r!\A[~`#]{3,}(?:ruby|<%|{%)\s*\r?\n!
     rescue EOFError
       false
     end

@@ -74,15 +74,16 @@ module Bridgetown
       },
 
       "kramdown"             => {
-        "auto_ids"      => true,
-        "toc_levels"    => (1..6).to_a,
-        "entity_output" => "as_char",
-        "smart_quotes"  => "lsquo,rsquo,ldquo,rdquo",
-        "input"         => "GFM",
-        "hard_wrap"     => false,
-        "guess_lang"    => true,
-        "footnote_nr"   => 1,
-        "show_warnings" => false,
+        "auto_ids"                => true,
+        "toc_levels"              => (1..6).to_a,
+        "entity_output"           => "as_char",
+        "smart_quotes"            => "lsquo,rsquo,ldquo,rdquo",
+        "input"                   => "GFM",
+        "hard_wrap"               => false,
+        "guess_lang"              => true,
+        "footnote_nr"             => 1,
+        "show_warnings"           => false,
+        "include_extraction_tags" => false,
       },
     }.each_with_object(Configuration.new) { |(k, v), hsh| hsh[k] = v.freeze }.freeze
 

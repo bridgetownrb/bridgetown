@@ -14,9 +14,11 @@ module Bridgetown
         data_keys = convertible.data.keys
         data_keys.each do |k|
           v = convertible.data[k]
-          next unless v.is_a?(Rb) || v.is_a?(Hash)
+          next unless v.is_a?(Rb) || v.is_a?(Hash) || v.is_a?(Proc)
 
-          if v.is_a?(Hash)
+          if v.is_a?(Proc)
+            convertible.data[k] = convertible.instance_exec(&v)
+          elsif v.is_a?(Hash)
             v.each do |nested_k, nested_v|
               next unless nested_v.is_a?(Rb)
 

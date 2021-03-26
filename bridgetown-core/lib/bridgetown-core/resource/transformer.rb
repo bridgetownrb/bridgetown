@@ -12,19 +12,21 @@ module Bridgetown
       # @return [Bridgetown::Site]
       attr_reader :site
 
-      # @return [String]
-      attr_reader :output_ext
-
       def initialize(resource)
         @resource = resource
         @site = resource.site
-        execute_inline_ruby
-        @output_ext = output_ext_from_converters
+      end
+
+      # @return [String]
+      def output_ext
+        @output_ext ||= output_ext_from_converters
       end
 
       # @return [String]
       def final_ext
-        permalink_ext || output_ext
+        ext_from_converters = output_ext # we always need this to get run
+
+        permalink_ext || ext_from_converters
       end
 
       def process!
@@ -33,6 +35,12 @@ module Bridgetown
           run_conversions
           resource.place_in_layout? ? place_into_layouts : resource.output = resource.content.dup
         end
+      end
+
+      def execute_inline_ruby!
+        return unless site.config.should_execute_inline_ruby?
+
+        Bridgetown::Utils::RubyExec.search_data_for_ruby_code(resource, self)
       end
 
       def inspect
@@ -101,12 +109,6 @@ module Bridgetown
       end
 
       ### Transformation Actions
-
-      def execute_inline_ruby
-        return unless site.config.should_execute_inline_ruby?
-
-        Bridgetown::Utils::RubyExec.search_data_for_ruby_code(resource, self)
-      end
 
       def run_conversions # rubocop:disable Metrics/AbcSize
         input = resource.content.to_s

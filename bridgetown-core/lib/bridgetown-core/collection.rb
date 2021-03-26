@@ -78,7 +78,8 @@ module Bridgetown
         if site.uses_resource?
           next if File.basename(file_path).starts_with?("_")
 
-          if label == "data" || Utils.has_yaml_header?(full_path)
+          if label == "data" || Utils.has_yaml_header?(full_path) ||
+              Utils.has_rbfm_header?(full_path)
             read_resource(full_path)
           else
             read_static_file(file_path, full_path)
@@ -256,7 +257,7 @@ module Bridgetown
           sanitized_segment = sanitize_filename.(File.basename(segment, ".*"))
           hsh = nested.empty? ? data_contents : data_contents.dig(*nested)
           hsh[sanitized_segment] = if index == segments.length - 1
-                                     data_resource.data.array || data_resource.data
+                                     data_resource.data.rows || data_resource.data
                                    else
                                      {}
                                    end

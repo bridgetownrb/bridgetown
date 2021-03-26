@@ -80,9 +80,11 @@ module Bridgetown
 
         unless collection.data?
           self.untransformed_content = content
-          determine_slug_and_date
           normalize_categories_and_tags
           import_taxonomies_from_data
+          ensure_default_data
+          transformer.execute_inline_ruby!
+          set_date_from_string(data.date)
         end
 
         @destination = Destination.new(self) if requires_destination?
@@ -149,7 +151,7 @@ module Bridgetown
       alias_method :id, :relative_url
 
       def date
-        data["date"] ||= site.time # TODO: this doesn't reflect documented behavior
+        data["date"] ||= site.time
       end
 
       # @return [Hash<String, Hash<String => Bridgetown::Resource::TaxonomyType,
@@ -229,23 +231,25 @@ module Bridgetown
 
       private
 
-      def determine_slug_and_date
-        return unless relative_path.to_s =~ DATE_FILENAME_MATCHER
+      def ensure_default_data
+        slug = if matches = relative_path.to_s.match(DATE_FILENAME_MATCHER) # rubocop:disable Lint/AssignmentInCondition
+                 set_date_from_string(matches[1]) unless data.date
+                 matches[2]
+               else
+                 basename_without_ext
+               end
 
-        new_date, slug = Regexp.last_match.captures
-        modify_date(new_date)
-
-        slug.gsub!(%r!\.*\z!, "")
         data.slug ||= slug
+        data.title ||= Bridgetown::Utils.titleize_slug(slug)
       end
 
-      def modify_date(new_date)
-        if !data.date || data.date.to_i == site.time.to_i
-          data.date = Utils.parse_date(
-            new_date,
-            "Document '#{relative_path}' does not have a valid date in the #{model}."
-          )
-        end
+      def set_date_from_string(new_date) # rubocop:disable Naming/AccessorMethodName
+        return unless new_date.is_a?(String)
+
+        data.date = Bridgetown::Utils.parse_date(
+          new_date,
+          "Document '#{relative_path}' does not have a valid date in the #{model}."
+        )
       end
 
       def normalize_categories_and_tags
