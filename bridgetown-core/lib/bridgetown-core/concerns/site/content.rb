@@ -173,9 +173,8 @@ class Bridgetown::Site
       documents.select(&:write?)
     end
 
-    # Get all documents.
-    # @return [Array<Document>] an array of documents from the
-    # configuration
+    # Get all loaded resources.
+    # @return [Array<Bridgetown::Resource::Base>] an array of resources
     def resources
       collections.each_with_object(Set.new) do |(_, collection), set|
         set.merge(collection.resources)
