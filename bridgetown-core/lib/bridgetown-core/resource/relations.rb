@@ -69,7 +69,8 @@ module Bridgetown
       def kind_of_relation_for_type(type)
         relation_schema.each do |relation_type, collections|
           collections = Array(collections).yield_self do |collections_arr|
-            collections_arr + collections_arr.map { |item| ActiveSupport::Inflector.pluralize(item) }
+            collections_arr +
+              collections_arr.map { |item| ActiveSupport::Inflector.pluralize(item) }
           end.flatten.uniq
           return relation_type if collections.include?(type.to_s)
         end
