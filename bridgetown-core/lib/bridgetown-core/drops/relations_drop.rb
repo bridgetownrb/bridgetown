@@ -6,10 +6,8 @@ module Bridgetown
       mutable false
 
       def [](type)
-        p "type?", type
         return nil unless type.to_s.in?(@obj.relation_types)
 
-        p "type!"
         @obj.resources_for_type(type)
       end
 
