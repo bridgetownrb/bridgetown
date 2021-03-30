@@ -57,6 +57,10 @@ module Bridgetown
         type.to_s.in?(relation_types)
       end
 
+      def to_liquid
+        @to_liquid ||= Drops::RelationsDrop.new(self)
+      end
+
       private
 
       # @param type [Symbol]
