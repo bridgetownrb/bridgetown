@@ -22,11 +22,14 @@ module Bridgetown
 
       # @return [Array<String>]
       def relation_types
-        types = []
-        relation_schema.each do |_relation_type, collections|
-          types << collections
+        @relation_types ||= begin
+          types = []
+          relation_schema.each do |_relation_type, collections|
+            types << collections
+            types << Array(collections).map { |item| ActiveSupport::Inflector.pluralize(item) }
+          end
+          types.flatten.uniq
         end
-        types.uniq.flatten
       end
 
       # @param type [Symbol]
@@ -38,8 +41,6 @@ module Bridgetown
         case relation_kind.to_sym
         when :belongs_to
           belongs_to_relation_for_type(type)
-        when :belongs_to_many
-          belongs_to_many_relation_for_type(type)
         when :has_many
           has_many_relation_for_type(type)
         when :has_one
@@ -67,7 +68,10 @@ module Bridgetown
       # @return [String]
       def kind_of_relation_for_type(type)
         relation_schema.each do |relation_type, collections|
-          return relation_type if collections == type.to_s || collections.include?(type.to_s)
+          collections = Array(collections).yield_self do |collections_arr|
+            collections_arr + collections_arr.map { |item| ActiveSupport::Inflector.pluralize(item) }
+          end.flatten.uniq
+          return relation_type if collections.include?(type.to_s)
         end
       end
 
@@ -86,18 +90,16 @@ module Bridgetown
       end
 
       # @param type [Symbol]
-      # @return [Bridgetown::Resource::Base]
+      # @return [Bridgetown::Resource::Base, Array<Bridgetown::Resource::Base>]
       def belongs_to_relation_for_type(type)
-        other_collection_for_type(type).resources.find do |other_resource|
-          other_resource.data.slug == resource.data[type]
-        end
-      end
-
-      # @param type [Symbol]
-      # @return [Array<Bridgetown::Resource::Base>]
-      def belongs_to_many_relation_for_type(type)
-        other_collection_for_type(type).resources.select do |other_resource|
-          other_resource.data.slug.in?(resource.data[type])
+        if resource.data[type].is_a?(Array)
+          other_collection_for_type(type).resources.select do |other_resource|
+            other_resource.data.slug.in?(resource.data[type])
+          end
+        else
+          other_collection_for_type(type).resources.find do |other_resource|
+            other_resource.data.slug == resource.data[type]
+          end
         end
       end
 
