@@ -156,7 +156,11 @@ module Bridgetown
       def relative_url
         format_url destination&.relative_url
       end
-      alias_method :id, :relative_url
+
+      # @return [String]
+      def id
+        model.origin.id
+      end
 
       def date
         data["date"] ||= site.time # TODO: this doesn't reflect documented behavior

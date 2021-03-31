@@ -232,6 +232,7 @@ collections:
 
 * The most obvious differences are what you use in templates (Liquid or ERB). For example, instead of `site.posts` in Liquid or `site.posts.docs` in ERB, you'd use `collections.posts.resources` (in both Liquid and ERB). (`site.collection_name_here` syntax is no longer available.) Pages are just another collection now so you can iterate through them as well via `collections.pages.resources`.
 * Resources don't have a `url` variable. Your templates/plugins will need to reference either `relative_url` or `absolute_url`. Also, the site's `baseurl` (if configured) is built into both values, so you won't need to prepend it manually.
+* Whereas the `id` of a document is the relative destination URL, the `id` of a resource is its origin id. You can define an id in front matter separately however.
 * The paginator items are now accessed via `paginator.resources` instead of `paginator.documents`.
 * Instead of `pagination:\n  enabled: true` in your front matter for a paginated page, you'll put the collection name instead. Also you can use the term `paginate` instead of `pagination`. So to paginate through posts, just add `paginate:\n  collection: posts` to your front matter.
 * Categories and tags are collated from all collections (even pages!), so if you used category/tag front matter manually before outside of posts, you may get a lot more site-wide category/tag data than expected.
