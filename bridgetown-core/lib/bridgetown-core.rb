@@ -80,6 +80,7 @@ end
 module Bridgetown
   autoload :Cleaner,             "bridgetown-core/cleaner"
   autoload :Collection,          "bridgetown-core/collection"
+  autoload :Component,           "bridgetown-core/component"
   autoload :Configuration,       "bridgetown-core/configuration"
   autoload :DataAccessible,      "bridgetown-core/concerns/data_accessible"
   autoload :Deprecator,          "bridgetown-core/deprecator"
