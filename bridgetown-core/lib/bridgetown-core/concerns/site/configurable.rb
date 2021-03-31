@@ -149,6 +149,13 @@ class Bridgetown::Site
       @collections_path ||= dir_str.empty? ? source : in_source_dir(dir_str)
     end
 
+    # Whether or not a site uses PostCSS to process stylesheets.
+    #
+    # @return [Boolean] true if `postcss.config.js` exists, false if not
+    def uses_postcss?
+      File.exist?(in_root_dir("postcss.config.js"))
+    end
+
     private
 
     # Disable Marshaling cache to disk in Safe Mode
