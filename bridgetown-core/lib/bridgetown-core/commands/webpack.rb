@@ -37,12 +37,20 @@ module Bridgetown
         File.expand_path("./webpack", __dir__)
       end
 
+      def self.destination_root
+        site.root_dir
+      end
+
+      def site
+        @site ||= Bridgetown::Site.new(Bridgetown.configuration)
+      end
+
       protected
 
       def perform(action)
         automation = find_in_source_paths("#{action}.rb")
         inside(New.created_site_dir || Dir.pwd) do
-          Apply.new.invoke(:apply_automation, [automation])
+          apply automation, verbose: false
         end
       end
 
