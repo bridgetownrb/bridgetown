@@ -6,6 +6,8 @@ module Bridgetown
 
     def_delegators :@_parent_view_context, :render, :liquid_render, :helpers
 
+    attr_reader :site # will be nil unless you explicitly set a `@site` ivar
+
     class << self
       attr_accessor :source_location
 
@@ -81,6 +83,11 @@ module Bridgetown
       else
         ""
       end
+    rescue StandardError => e
+      Bridgetown.logger.error "Component error:",
+                              "#{self.class} encountered an error while "\
+                              "rendering `#{self.class.component_template_path}'"
+      raise e
     end
 
     def template

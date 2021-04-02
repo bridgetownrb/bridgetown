@@ -140,7 +140,7 @@ module Bridgetown
         if options[:trace]
           Bridgetown.logger.info e.backtrace.join("\n")
         else
-          Bridgetown.logger.warn "Error:", "Use the --trace option for more information."
+          Bridgetown.logger.warn "Backtrace:", "Use the --trace option for more information."
         end
       end
       Bridgetown.logger.info ""

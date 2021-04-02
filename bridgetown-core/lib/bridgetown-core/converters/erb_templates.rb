@@ -65,8 +65,7 @@ module Bridgetown
         block.nil? ? input.to_s : capture(&block)
       )
       converter = site.find_converter_instance(Bridgetown::Converters::Markdown)
-      result = converter.convert(content).strip
-      result.respond_to?(:html_safe) ? result.html_safe : result
+      safe(converter.convert(content).strip)
     end
 
     def capture(*args, &block)
@@ -77,7 +76,7 @@ module Bridgetown
       result = yield(*args)
       @_erbout = previous_buffer_state
 
-      result.respond_to?(:html_safe) ? result.html_safe : result
+      safe(result)
     end
   end
 
