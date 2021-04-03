@@ -32,6 +32,18 @@ module Bridgetown
         pairs.select { |_key, truthy| truthy }.keys.join(" ")
       end
 
+      # Convert a Markdown string into HTML output.
+      #
+      # @param input [String] the Markdown to convert, if no block is passed
+      # @return [String]
+      def markdownify(input = nil, &block)
+        content = Bridgetown::Utils.reindent_for_markdown(
+          block.nil? ? input.to_s : view.capture(&block)
+        )
+        converter = site.find_converter_instance(Bridgetown::Converters::Markdown)
+        safe(converter.convert(content).strip)
+      end
+
       # This helper will generate the correct permalink URL for the file path.
       #
       # @param relative_path [String, Object] source file path, e.g.

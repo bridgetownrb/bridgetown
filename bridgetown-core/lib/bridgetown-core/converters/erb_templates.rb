@@ -60,14 +60,6 @@ module Bridgetown
       ).render(self, options)
     end
 
-    def markdownify(input = nil, &block)
-      content = Bridgetown::Utils.reindent_for_markdown(
-        block.nil? ? input.to_s : capture(&block)
-      )
-      converter = site.find_converter_instance(Bridgetown::Converters::Markdown)
-      safe(converter.convert(content).strip)
-    end
-
     def capture(*args)
       previous_buffer_state = @_erbout
       @_erbout = ERBBuffer.new
