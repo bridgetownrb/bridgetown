@@ -68,9 +68,7 @@ module Bridgetown
       safe(converter.convert(content).strip)
     end
 
-    def capture(*args, &block)
-      return capture_in_view_component(*args, &block) if @in_view_component
-
+    def capture(*args)
       previous_buffer_state = @_erbout
       @_erbout = ERBBuffer.new
       result = yield(*args)
