@@ -27,7 +27,7 @@ module Bridgetown
           Tilt::ErubiTemplate.new(
             component_template_path,
             outvar: "@_erbout",
-            bufval: "Bridgetown::ERBBuffer.new",
+            bufval: "Bridgetown::OutputBuffer.new",
             engine_class: Bridgetown::ERBEngine,
             &block
           )
@@ -69,7 +69,7 @@ module Bridgetown
     end
 
     def content
-      @_content_block&.call
+      @_parent_view_context.capture(&@_content_block) if @_content_block
     end
 
     def render_in(view_context, &block)

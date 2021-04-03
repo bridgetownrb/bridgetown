@@ -27,13 +27,10 @@ module Bridgetown
 
     def render(item, options = {}, &block)
       if item.respond_to?(:render_in)
-        previous_buffer_state = @_erbout
-        @_erbout = Bridgetown::ERBBuffer.new
         result = item.render_in(self, &block)
-        @_erbout = previous_buffer_state
-        result
+        result&.html_safe
       else
-        partial(item, options, &block)
+        partial(item, options, &block)&.html_safe
       end
     end
 
@@ -56,7 +53,7 @@ module Bridgetown
         Bridgetown.logger.warn "Liquid Warning:",
                                LiquidRenderer.format_error(e, path || document.relative_path)
       end
-      template.render!(options.deep_stringify_keys, _liquid_context)
+      template.render!(options.deep_stringify_keys, _liquid_context).html_safe
     end
 
     def helpers

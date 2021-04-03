@@ -3,14 +3,26 @@
 require "tilt/erubi"
 
 module Bridgetown
-  class ERBBuffer < String
-    def concat_to_s(input)
-      concat input.to_s
+  class OutputBuffer < ActiveSupport::SafeBuffer
+    def initialize(*)
+      super
+      encode!
     end
 
-    alias_method :safe_append=, :concat_to_s
-    alias_method :append=, :concat_to_s
-    alias_method :safe_expr_append=, :concat_to_s
+    def <<(value)
+      return self if value.nil?
+
+      super(value.to_s)
+    end
+    alias_method :append=, :<<
+
+    def safe_expr_append=(val)
+      return self if val.nil?
+
+      safe_concat val.to_s
+    end
+
+    alias_method :safe_append=, :safe_concat
   end
 
   class ERBEngine < Erubi::Engine
@@ -22,20 +34,29 @@ module Bridgetown
       @src << ";" unless code[Erubi::RANGE_LAST] == "\n"
     end
 
+    def add_text(text)
+      return if text.empty?
+
+      src << bufvar << ".safe_append='"
+      src << text.gsub(%r{['\\]}, '\\\\\&')
+      src << "'.freeze;"
+    end
+
     # pulled from Rails' ActionView
     BLOCK_EXPR = %r!\s*((\s+|\))do|\{)(\s*\|[^|]*\|)?\s*\Z!.freeze
 
     def add_expression(indicator, code)
-      if BLOCK_EXPR.match?(code)
-        src << "#{@bufvar}.append= " << code
-      else
-        super
-      end
-    end
+      src << bufvar << if (indicator == "==") || @escape
+                         ".safe_expr_append="
+                       else
+                         ".append="
+                       end
 
-    # Don't allow == to output escaped strings, as that's the opposite of Rails
-    def add_expression_result_escaped(code)
-      add_expression_result(code)
+      if BLOCK_EXPR.match?(code)
+        src << " " << code
+      else
+        src << "(" << code << ");"
+      end
     end
   end
 
@@ -55,15 +76,16 @@ module Bridgetown
       Tilt::ErubiTemplate.new(
         site.in_source_dir(site.config[:partials_dir], "#{partial_name}.erb"),
         outvar: "@_erbout",
-        bufval: "Bridgetown::ERBBuffer.new",
+        bufval: "Bridgetown::OutputBuffer.new",
         engine_class: ERBEngine
       ).render(self, options)
     end
 
     def capture(*args)
       previous_buffer_state = @_erbout
-      @_erbout = ERBBuffer.new
+      @_erbout = OutputBuffer.new
       result = yield(*args)
+      result = @_erbout.presence || result
       @_erbout = previous_buffer_state
 
       safe(result)
@@ -90,13 +112,13 @@ module Bridgetown
         erb_renderer = Tilt::ErubiTemplate.new(
           convertible.relative_path,
           outvar: "@_erbout",
-          bufval: "Bridgetown::ERBBuffer.new",
+          bufval: "Bridgetown::OutputBuffer.new",
           engine_class: ERBEngine
         ) { content }
 
         if convertible.is_a?(Bridgetown::Layout)
           erb_renderer.render(erb_view) do
-            convertible.current_document_output
+            convertible.current_document_output.html_safe
           end
         else
           erb_renderer.render(erb_view)
