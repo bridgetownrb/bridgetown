@@ -7,7 +7,7 @@ module Bridgetown
 
       class << self
         def handle_scheme?(scheme)
-          scheme == "file"
+          scheme == "repo"
         end
 
         def data_file_extensions

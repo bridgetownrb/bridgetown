@@ -150,6 +150,11 @@ module Bridgetown
   require_all "bridgetown-core/tags"
 
   class << self
+    def fast_render(origin_id, &block)
+      Bridgetown::PluginManager.require_from_bundler
+      Bridgetown::Site.start.fast_render(origin_id, &block)
+    end
+
     # Tells you which Bridgetown environment you are building in so
     #   you can skip tasks if you need to.
     def environment
