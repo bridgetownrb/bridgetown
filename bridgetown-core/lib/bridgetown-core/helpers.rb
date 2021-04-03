@@ -114,9 +114,7 @@ module Bridgetown
       # @param input [Object]
       # @return [String]
       def safe(input)
-        input.to_s.yield_self do |str|
-          str.respond_to?(:html_safe) ? str.html_safe : str
-        end
+        input.to_s.html_safe
       end
     end
   end
