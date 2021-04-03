@@ -4,6 +4,7 @@ module Bridgetown
   class RubyTemplateView
     class Helpers
       include Bridgetown::Filters
+      include Bridgetown::Filters::FromLiquid
 
       # @return [Bridgetown::RubyTemplateView]
       attr_reader :view

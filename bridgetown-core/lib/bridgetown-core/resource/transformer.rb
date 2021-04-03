@@ -125,7 +125,7 @@ module Bridgetown
             output: Bridgetown.env.production? ? nil : output,
             output_ext: conversions[index][:output_ext],
           }
-          output
+          output.html_safe
         rescue StandardError => e
           Bridgetown.logger.error "Conversion error:",
                                   "#{converter.class} encountered an error while "\
