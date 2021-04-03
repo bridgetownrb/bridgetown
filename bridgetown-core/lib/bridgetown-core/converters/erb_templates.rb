@@ -60,7 +60,21 @@ module Bridgetown
     end
   end
 
+  module ERBCapture
+    def capture(*args)
+      previous_buffer_state = @_erbout
+      @_erbout = OutputBuffer.new
+      result = yield(*args)
+      result = @_erbout.presence || result
+      @_erbout = previous_buffer_state
+
+      safe(result)
+    end
+  end
+
   class ERBView < RubyTemplateView
+    include ERBCapture
+
     def h(input)
       Erubi.h(input)
     end
@@ -79,16 +93,6 @@ module Bridgetown
         bufval: "Bridgetown::OutputBuffer.new",
         engine_class: ERBEngine
       ).render(self, options)
-    end
-
-    def capture(*args)
-      previous_buffer_state = @_erbout
-      @_erbout = OutputBuffer.new
-      result = yield(*args)
-      result = @_erbout.presence || result
-      @_erbout = previous_buffer_state
-
-      safe(result)
     end
   end
 

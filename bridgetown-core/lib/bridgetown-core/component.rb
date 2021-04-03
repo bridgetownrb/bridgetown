@@ -4,7 +4,7 @@ module Bridgetown
   class Component
     extend Forwardable
 
-    def_delegators :@_parent_view_context, :render, :liquid_render, :helpers
+    def_delegators :@_parent_view_context, :helpers, :liquid_render, :partial
 
     attr_reader :site # will be nil unless you explicitly set a `@site` ivar
 
@@ -24,6 +24,8 @@ module Bridgetown
       def renderer_for_ext(ext, &block)
         case ext
         when "erb"
+          include ERBCapture
+
           Tilt::ErubiTemplate.new(
             component_template_path,
             outvar: "@_erbout",
@@ -70,6 +72,18 @@ module Bridgetown
 
     def content
       @_parent_view_context.capture(&@_content_block) if @_content_block
+    end
+
+    def render(item, options = {}, &block)
+      if item.respond_to?(:render_in)
+        result = ""
+        capture do # this ensures no leaky interactions between BT<=>VC blocks
+          result = item.render_in(self, &block)
+        end
+        result&.html_safe
+      else
+        partial(item, options, &block)&.html_safe
+      end
     end
 
     def render_in(view_context, &block)
