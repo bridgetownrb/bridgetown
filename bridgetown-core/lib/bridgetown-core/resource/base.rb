@@ -196,6 +196,29 @@ module Bridgetown
         @to_liquid ||= Drops::ResourceDrop.new(self)
       end
 
+      def to_h
+        {
+          id: id,
+          absolute_url: absolute_url,
+          relative_path: relative_path,
+          relative_url: relative_url,
+          date: date,
+          data: data,
+          taxonomies: taxonomies,
+          untransformed_content: untransformed_content,
+          content: content,
+          output: output,
+        }
+      end
+
+      def as_json(**_options)
+        to_h
+      end
+
+      def to_json(**options)
+        as_json(**options).to_json(**options)
+      end
+
       def inspect
         "#<#{self.class} [#{collection.label}] #{relative_path}>"
       end
