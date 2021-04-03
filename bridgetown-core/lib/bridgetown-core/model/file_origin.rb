@@ -35,7 +35,7 @@ module Bridgetown
         @data
       rescue SyntaxError => e
         Bridgetown.logger.error "Error:",
-                                "Ruby Exception reading #{original_path}: #{e.message}"
+                                "Ruby Exception in #{e.message}"
         exit(false)
       rescue StandardError => e
         handle_read_error(e)
@@ -95,6 +95,12 @@ module Bridgetown
                        headers: true,
                        encoding: Bridgetown::Current.site.config["encoding"]).map(&:to_hash),
           }
+        when ".rb"
+          begin
+            instance_eval(File.read(original_path), original_path.to_s, 1).to_h
+          rescue StandardError => e
+            raise "Missing output value in Ruby code that responds to `to_h'"
+          end
         else
           yaml_data = SafeYAML.load_file(original_path)
           yaml_data.is_a?(Array) ? { rows: yaml_data } : yaml_data
