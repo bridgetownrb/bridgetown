@@ -67,28 +67,6 @@ module Bridgetown
       setup   # Extensible
     end
 
-    def fast_render(origin_id)
-      self.fast_render_mode = true
-      Bridgetown::Hooks.trigger :site, :pre_read, self
-      defaults_reader.tap do |d|
-        d.path_defaults.clear
-        d.read
-      end
-      self.layouts = LayoutReader.new(self).read
-      Bridgetown::Hooks.trigger :site, :post_read, self
-
-      yield(self) if block_given? # provide additional setup hook
-      generate
-
-      model = Bridgetown::Model::Base.find(origin_id)
-      resource = model.as_resource_in_collection
-      resource.transform!
-
-      self.fast_render_mode = false
-
-      resource.content
-    end
-
     # Check that the destination dir isn't the source dir or a directory
     # parent to the source dir.
     def ensure_not_in_dest
