@@ -68,7 +68,7 @@ module Bridgetown
       result = @_erbout.presence || result
       @_erbout = previous_buffer_state
 
-      safe(result)
+      result.is_a?(String) ? ERB::Util.h(result) : result
     end
   end
 
