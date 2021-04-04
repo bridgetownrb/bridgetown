@@ -2,7 +2,7 @@
 
 module Bridgetown
   module Model
-    class FileOrigin < Origin
+    class RepoOrigin < Origin
       YAML_FRONT_MATTER_REGEXP = %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m.freeze
 
       class << self
