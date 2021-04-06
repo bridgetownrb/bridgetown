@@ -90,9 +90,8 @@ module Bridgetown
       @_parent_view_context = view_context
       @_content_block = block
 
-      before_render
-
       if render?
+        before_render
         template
       else
         ""
