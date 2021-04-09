@@ -16,6 +16,18 @@ module Bridgetown
       def method_missing(key, value) # rubocop:disable Style/MissingRespondToMissing
         return super if respond_to?(key)
 
+        set(key, value)
+      end
+
+      def each(&block)
+        @data.each(&block)
+      end
+
+      def get(key)
+        @data[key]
+      end
+
+      def set(key, value)
         @data[key] = value
       end
 

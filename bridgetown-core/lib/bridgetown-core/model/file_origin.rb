@@ -6,8 +6,9 @@ module Bridgetown
       include Bridgetown::Utils::RubyFrontMatterDSL
 
       YAML_FRONT_MATTER_REGEXP = %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m.freeze
+      RUBY_FRONT_MATTER_HEADER = %r!\A[~`#\-]{3,}(?:ruby|<%|{%)\s*\n!.freeze
       RUBY_FRONT_MATTER_REGEXP =
-        %r!\A[~`#]{3,}(?:ruby|<%|{%)\s*\n(.*?\n?)^((?:%>|%})?[~`#]{3,}\s*$\n?)!m.freeze
+        %r!#{RUBY_FRONT_MATTER_HEADER.source}(.*?\n?)^((?:%>|%})?[~`#\-]{3,}\s*$\n?)!m.freeze
 
       # @return [String]
       attr_accessor :content
@@ -27,19 +28,19 @@ module Bridgetown
 
       def read
         @data = (in_data_collection? ? read_file_data : read_frontmatter) || {}
+      rescue SyntaxError => e
+        Bridgetown.logger.error "Error:",
+                                "Ruby Exception in #{e.message}"
+      rescue StandardError => e
+        handle_read_error(e)
+      ensure
+        @data ||= {}
         @data[:_id_] = id
         @data[:_origin_] = self
         @data[:_collection_] = collection
         @data[:_content_] = content if content
 
         @data
-      rescue SyntaxError => e
-        Bridgetown.logger.error "Error:",
-                                "Ruby Exception in #{e.message}"
-        exit(false)
-      rescue StandardError => e
-        handle_read_error(e)
-        exit(false)
       end
 
       def url
@@ -96,11 +97,7 @@ module Bridgetown
                        encoding: Bridgetown::Current.site.config["encoding"]).map(&:to_hash),
           }
         when ".rb"
-          begin
-            instance_eval(File.read(original_path), original_path.to_s, 1).to_h
-          rescue StandardError => e
-            raise "Missing output value in Ruby code that responds to `to_h'"
-          end
+          process_ruby_data(File.read(original_path), 1)
         else
           yaml_data = SafeYAML.load_file(original_path)
           yaml_data.is_a?(Array) ? { rows: yaml_data } : yaml_data
@@ -121,18 +118,24 @@ module Bridgetown
           self.front_matter_line_count = yaml_content[1].lines.size - 1
           SafeYAML.load(yaml_content[1])
         elsif ruby_content
+          # rbfm header + content underneath
           self.content = ruby_content.post_match
           self.front_matter_line_count = ruby_content[1].lines.size
-          instance_eval(ruby_content[1], original_path.to_s, 2).to_h
+          process_ruby_data(ruby_content[1], 2)
         elsif Bridgetown::Utils.has_rbfm_header?(original_path)
-          ruby_data = instance_eval(
-            File.read(original_path).lines[1..-1].join("\n"), original_path.to_s, 2
-          )
-          ruby_data.is_a?(Array) ? { rows: ruby_data } : ruby_data.to_h
+          p "Wut?!", original_path
+          process_ruby_data(File.read(original_path).lines[1..-1].join("\n"), 2)
         else
           yaml_data = SafeYAML.load_file(original_path)
           yaml_data.is_a?(Array) ? { rows: yaml_data } : yaml_data
         end
+      end
+
+      def process_ruby_data(rubycode, starting_line)
+        ruby_data = instance_eval(rubycode, original_path.to_s, starting_line)
+        ruby_data.is_a?(Array) ? { rows: ruby_data } : ruby_data.to_h
+      rescue StandardError => e
+        raise "Missing output value in Ruby code that is an array or responds to `to_h'"
       end
 
       def handle_read_error(error)

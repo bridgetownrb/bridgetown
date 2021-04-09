@@ -125,7 +125,7 @@ module Bridgetown
     end
 
     def has_rbfm_header?(file)
-      File.open(file, "rb", &:readline).match? %r!\A[~`#]{3,}(?:ruby|<%|{%)\s*\r?\n!
+      File.open(file, "rb", &:readline).match? Bridgetown::Model::FileOrigin::RUBY_FRONT_MATTER_HEADER
     rescue EOFError
       false
     end

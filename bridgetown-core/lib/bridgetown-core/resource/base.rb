@@ -96,7 +96,7 @@ module Bridgetown
       alias_method :read, :read! # TODO: eventually use the bang version only
 
       def transform!
-        transformer.process! unless collection.data?
+        transformer.process! if output_allowed?
       end
 
       def trigger_hooks(hook_name, *args)
@@ -167,8 +167,12 @@ module Bridgetown
         end
       end
 
+      def output_allowed?
+        !collection.data? && data.config&.output != false
+      end
+
       def requires_destination?
-        collection.write? && data.config&.output != false
+        collection.write? && output_allowed?
       end
 
       def write?

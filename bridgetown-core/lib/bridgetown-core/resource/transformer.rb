@@ -24,9 +24,9 @@ module Bridgetown
 
       # @return [String]
       def final_ext
-        ext_from_converters = output_ext # we always need this to get run
+        output_ext # we always need this to get run
 
-        permalink_ext || ext_from_converters
+        permalink_ext || output_ext
       end
 
       def process!
