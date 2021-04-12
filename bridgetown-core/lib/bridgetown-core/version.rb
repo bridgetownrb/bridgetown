@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  VERSION = "0.20.0"
-  CODE_NAME = "Healy Heights"
+  VERSION = "0.21.0.beta1"
+  CODE_NAME = "Broughton Beach"
 end
