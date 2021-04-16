@@ -17,7 +17,7 @@ module Bridgetown
     alias_method :append=, :<<
 
     def safe_expr_append=(val)
-      return self if val.nil?
+      return self if val.nil? # rubocop:disable Lint/ReturnInVoidContext
 
       safe_concat val.to_s
     end
