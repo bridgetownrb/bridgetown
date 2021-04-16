@@ -70,7 +70,7 @@ module Bridgetown
       def find_relative_url_for_path(relative_path)
         site.each_site_file do |item|
           if item.relative_path == relative_path || item.relative_path == "/#{relative_path}"
-            safe(item.respond_to?(:relative_url) ? item.relative_url : relative_url(item))
+            return safe(item.respond_to?(:relative_url) ? item.relative_url : relative_url(item))
           end
         end
 
