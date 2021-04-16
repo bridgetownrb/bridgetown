@@ -97,6 +97,7 @@ module Bridgetown
           attr = attr.to_s.tr("_", "-")
           segments << "#{attr}=\"#{Utils.xml_escape(option)}\""
         end
+        # TODO: this might leak an XSS string into text, need to check
         safe("<#{segments.join(" ")}>#{text}</a>")
       end
 
@@ -116,6 +117,7 @@ module Bridgetown
       def safe(input)
         input.to_s.html_safe
       end
+      alias_method :raw, :safe
     end
   end
 end
