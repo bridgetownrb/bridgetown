@@ -9,7 +9,7 @@ module Bridgetown
     # @return [Bridgetown::Site]
     attr_reader :site # will be nil unless you explicitly set a `@site` ivar
 
-    # @return [Bridgetown::RubyTemplateView]
+    # @return [Bridgetown::RubyTemplateView, Bridgetown::Component]
     attr_reader :view_context
 
     class << self
