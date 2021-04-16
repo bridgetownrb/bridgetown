@@ -4,9 +4,13 @@ module Bridgetown
   class Component
     extend Forwardable
 
-    def_delegators :@_parent_view_context, :helpers, :liquid_render, :partial
+    def_delegators :@view_context, :helpers, :liquid_render, :partial
 
+    # @return [Bridgetown::Site]
     attr_reader :site # will be nil unless you explicitly set a `@site` ivar
+
+    # @return [Bridgetown::RubyTemplateView]
+    attr_reader :view_context
 
     class << self
       attr_accessor :source_location
@@ -21,18 +25,19 @@ module Bridgetown
         super
       end
 
+      # Return the appropriate template renderer for a given extension.
+      # TODO: make this extensible
+      #
+      # @param ext [String] erb, slim, etc.
       def renderer_for_ext(ext, &block)
         case ext
         when "erb"
           include ERBCapture
-
-          Tilt::ErubiTemplate.new(
-            component_template_path,
-            outvar: "@_erbout",
-            bufval: "Bridgetown::OutputBuffer.new",
-            engine_class: Bridgetown::ERBEngine,
-            &block
-          )
+          Tilt::ErubiTemplate.new(component_template_path,
+                                  outvar: "@_erbout",
+                                  bufval: "Bridgetown::OutputBuffer.new",
+                                  engine_class: Bridgetown::ERBEngine,
+                                  &block)
         when "serb" # requires serbea
           include Serbea::Helpers
           Tilt::SerbeaTemplate.new(component_template_path, &block)
@@ -41,10 +46,15 @@ module Bridgetown
         when "haml" # requires bridgetown-haml
           Tilt::HamlTemplate.new(component_template_path, &block)
         else
-          raise "No component rendering engine could be found for .#{ext} templates"
+          raise NameError
         end
+      rescue NameError, LoadError
+        raise "No component rendering engine could be found for .#{ext} templates"
       end
 
+      # Find the first matching template path based on source location and extension.
+      #
+      # @return [String]
       def component_template_path
         stripped_path = File.join(
           File.dirname(source_location),
@@ -61,19 +71,36 @@ module Bridgetown
         raise "No matching templates could be found in #{File.dirname(source_location)}"
       end
 
+      # Read the template file.
+      #
+      # @return [String]
       def component_template_content
         File.read(component_template_path)
       end
 
+      # A list of extensions supported by the renderer
+      # TODO: make this extensible
+      #
+      # @return [Array<String>]
       def supported_template_extensions
         %w(erb serb slim haml)
       end
     end
 
+    # If a content block was originally passed into via `render`, capture its output.
+    #
+    # @return [String] or nil
     def content
-      @_parent_view_context.capture(&@_content_block) if @_content_block
+      @_content ||= begin
+        view_context.capture(self, &@_content_block) if @_content_block
+      end
     end
 
+    # Provide a render helper for evaluation within the component context.
+    #
+    # @param item [Object] a component supporting `render_in` or a partial name
+    # @param options [Hash] passed to the `partial` helper if needed
+    # @return [String]
     def render(item, options = {}, &block)
       if item.respond_to?(:render_in)
         result = ""
@@ -86,8 +113,11 @@ module Bridgetown
       end
     end
 
+    # This is where the magic happens. Render the component within a view context.
+    #
+    # @param view_context [Bridgetown::RubyTemplateView]
     def render_in(view_context, &block)
-      @_parent_view_context = view_context
+      @view_context = view_context
       @_content_block = block
 
       if render?
@@ -103,21 +133,28 @@ module Bridgetown
       raise e
     end
 
+    # Subclasses can override this method to return a string from their own
+    # template handling.
     def template
       call || _renderer.render(self)
     end
 
+    # Typically not used but here as a compatibility nod toward ViewComponent.
     def call
       nil
     end
 
+    # Subclasses can override this method to perform tasks before a render.
     def before_render; end
 
+    # Subclasses can override this method to determine if the component should
+    # be rendered based on initialized data or other logic.
     def render?
       true
     end
 
     def _renderer
+      # TODO: figure out a way to compile templates for increased performance
       @_renderer ||= begin
         ext = File.extname(self.class.component_template_path).delete_prefix(".")
         self.class.renderer_for_ext(ext) { self.class.component_template_content }
