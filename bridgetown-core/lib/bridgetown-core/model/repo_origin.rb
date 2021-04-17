@@ -2,12 +2,12 @@
 
 module Bridgetown
   module Model
-    class FileOrigin < Origin
+    class RepoOrigin < Origin
       YAML_FRONT_MATTER_REGEXP = %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m.freeze
 
       class << self
         def handle_scheme?(scheme)
-          scheme == "file"
+          scheme == "repo"
         end
 
         def data_file_extensions

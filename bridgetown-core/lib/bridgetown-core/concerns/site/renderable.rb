@@ -2,6 +2,37 @@
 
 class Bridgetown::Site
   module Renderable
+    # Set up a minimalist rendering pipeline and transform the resource given an
+    # origin ID
+    #
+    # @param origin_id [String]
+    # @return [Bridgetown::Resource::Base] the resource with transformed output
+    def fast_render(origin_id)
+      self.fast_render_mode = true
+      Bridgetown::Hooks.trigger :site, :pre_read, self
+      defaults_reader.tap do |d|
+        d.path_defaults.clear
+        d.read
+      end
+      self.layouts = Bridgetown::LayoutReader.new(self).read
+      collections.data.tap do |coll|
+        coll.read
+        self.data = coll.merge_data_resources
+      end
+      Bridgetown::Hooks.trigger :site, :post_read, self
+
+      yield(self) if block_given? # provide additional setup hook
+      generate
+
+      model = Bridgetown::Model::Base.find(origin_id)
+      resource = model.as_resource_in_collection
+      resource.transform!
+
+      self.fast_render_mode = false
+
+      resource
+    end
+
     # Render all pages & documents so they're ready to be written out to disk.
     # @return [void]
     # @see Page

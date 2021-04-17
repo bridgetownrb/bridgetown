@@ -26,6 +26,12 @@ module Bridgetown
     # @return [Array<Page>]
     attr_accessor :pages
 
+    # @return [Boolean]
+    attr_accessor :fast_render_mode
+    def fast_render_mode?
+      fast_render_mode == true
+    end
+
     # NOTE: Eventually pages will be deprecated once the Resource content engine
     # is default
     alias_method :generated_pages, :pages
@@ -34,6 +40,10 @@ module Bridgetown
                   :time, :future, :unpublished, :limit_posts,
                   :keep_files, :baseurl, :data, :file_read_opts,
                   :plugin_manager, :converters, :generators, :reader
+
+    def self.start(overrides = {})
+      new(Bridgetown.configuration(overrides))
+    end
 
     # Public: Initialize a new Site.
     #
