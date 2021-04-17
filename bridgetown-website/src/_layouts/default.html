@@ -19,7 +19,7 @@ github_participation: !ruby/string:Rb |
   <head>
     <%= render Shared::Head.new(metadata: site.metadata, title: resource.data.title) %>
   </head>
-  <body class="<%= page.data.layout %> <%= page.data.page_class %>">
+  <body class="<%= resource.data.layout %> <%= resource.data.page_class %>">
     <%=
       render Shared::Navbar.new(
         metadata: site.metadata, resource: resource, version: Bridgetown::VERSION
