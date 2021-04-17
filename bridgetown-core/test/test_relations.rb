@@ -36,5 +36,10 @@ class TestRelations < BridgetownUnitTest
     should "noodle has many posts" do
       assert_equal "I'm a bløg pöst? 😄", @resource.relations.noodle.relations.posts.first.data.title
     end
+
+    should "be accessible in Liquid loop" do
+      page = @site.collections.pages.resources.find { |pg| pg.data.title == "I'm the Noodles index" }
+      assert_includes page.output, "<li>Noodles!: /noodles/ramen/ (I'm a bløg pöst? 😄)"
+    end
   end
 end
