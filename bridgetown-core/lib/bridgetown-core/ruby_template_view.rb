@@ -7,6 +7,7 @@ module Bridgetown
     require "bridgetown-core/helpers"
 
     attr_reader :layout, :page, :paginator, :site, :content
+    alias_method :resource, :page
 
     def initialize(convertible)
       if convertible.is_a?(Layout)

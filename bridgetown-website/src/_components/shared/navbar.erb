@@ -1,24 +1,9 @@
-{%- assign about_active = "" -%}
-{%- assign docs_active = "" -%}
-{%- assign news_active = "" -%}
-{%- assign is_beta = "" %}
-
-{%- if page.relative_url == "/plugins/" -%}
-{%- assign plugins_active = "is-active" -%}
-{%- elsif page.relative_url contains "/docs/" -%}
-{%- assign docs_active = "is-active" -%}
-{%- elsif page.relative_url contains "/blog/" or page.layout == "post" %}
-{%- assign news_active = "is-active" -%}
-{%- endif -%}
-{%- if version contains "beta" -%}
-{%- assign is_beta = "beta" %}
-{%- endif -%}
-<nav class="main-nav navbar {{ is_beta }}" id="topnav">
+<nav class="main-nav navbar <%= beta_class %>" id="topnav">
   <nav-inner class="container">
     <nav-section class="navbar-brand">
-      <a class="navbar-item {{ home_active }}" href="/">
-        <img-container class="bridgetown-logo">{% svg images/Bridgetown-Logo.svg %}</img-container>
-        {% if is_beta != "" %}<ui-label class="tag is-warning">Beta</ui-label>{% endif %}
+      <a class="navbar-item" href="/">
+        <img-container class="bridgetown-logo"><%= liquid_render "shared/logo" %></img-container>
+        <% if beta_class %><ui-label class="tag is-warning">Beta</ui-label><% end %>
         <h1 class="title is-5">Bridgetown</h1>
       </a>
 
@@ -33,16 +18,16 @@
 
     <nav-menu id="topNavbar" class="navbar-menu">
       <nav-section class="navbar-start">
-        <a class="navbar-item {{ docs_active }}" href="/docs/">Documentation</a>
-        <a class="navbar-item {{ plugins_active }}" href="/plugins/">Plugins</a>
-        <a class="navbar-item {{ news_active }}" href="/blog/">News</a>
+        <a class="navbar-item <%= docs_active %>" href="/docs/">Documentation</a>
+        <a class="navbar-item <%= plugins_active %>" href="/plugins/">Plugins</a>
+        <a class="navbar-item <%= news_active %>" href="/blog/">News</a>
       </nav-section>
 
       <nav-section class="navbar-end">
         <nav-search class="navbar-item search-item">
-          {% render "bridgetown_quick_search/search", placeholder: "Search", input_class: "input" %}
+          <%= liquid_render "bridgetown_quick_search/search", placeholder: "Search", input_class: "input" %>
         </nav-search>
-        <a class="navbar-item" href="https://github.com/{{ metadata.github }}" target="_blank" rel="noopener">
+        <a class="navbar-item" href="https://github.com/<%= @metadata.github %>" target="_blank" rel="noopener">
           <button class="button is-info is-small">
             <ui-icon class="icon"> <i class="fa fa-github is-size-6"></i> </ui-icon>
             <ui-label class="has-text-weight-bold">Star</ui-label>
@@ -53,7 +38,7 @@
           <ui-icon class="icon"><i class="fa fa-exclamation-circle is-size-6"></i></ui-icon>
           <ui-label class="is-hidden-tablet">Report Issue</ui-label>
         </a>
-        <a class="navbar-item is-hidden-desktop-only" href="https://twitter.com/{{ metadata.twitter }}" target="_blank" rel="noopener">
+        <a class="navbar-item is-hidden-desktop-only" href="https://twitter.com/<%= @metadata.twitter %>" target="_blank" rel="noopener">
           <ui-icon class="icon"><i class="fa fa-twitter is-size-6"></i></ui-icon>
           <ui-label class="is-hidden-tablet">Twitter</ui-label>
         </a>
