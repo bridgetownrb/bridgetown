@@ -2,9 +2,9 @@
 
 require "helper"
 
-class TestERB < BridgetownUnitTest
+class TestComponents < BridgetownUnitTest
   def setup
-    @site = fixture_site
+    @site = fixture_site({ level: "Level" })
     @site.process
     @erb_page = @site.pages.find { |p| p[:title] == "I'm an ERB Page" }
   end

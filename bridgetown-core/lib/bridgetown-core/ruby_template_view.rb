@@ -60,7 +60,7 @@ module Bridgetown
       @helpers ||= Helpers.new(self, site)
     end
 
-    def method_missing(method, *args, &block)
+    ruby2_keywords def method_missing(method, *args, &block)
       if helpers.respond_to?(method.to_sym)
         helpers.send method.to_sym, *args, &block
       else
