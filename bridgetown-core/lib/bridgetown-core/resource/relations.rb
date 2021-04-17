@@ -24,7 +24,7 @@ module Bridgetown
       def relation_types
         @relation_types ||= begin
           types = []
-          relation_schema.each do |_relation_type, collections|
+          relation_schema&.each do |_relation_type, collections|
             types << collections
             types << Array(collections).map { |item| ActiveSupport::Inflector.pluralize(item) }
           end
@@ -67,7 +67,7 @@ module Bridgetown
       # @param type [Symbol]
       # @return [String]
       def kind_of_relation_for_type(type)
-        relation_schema.each do |relation_type, collections|
+        relation_schema&.each do |relation_type, collections|
           collections = Array(collections).yield_self do |collections_arr|
             collections_arr +
               collections_arr.map { |item| ActiveSupport::Inflector.pluralize(item) }
