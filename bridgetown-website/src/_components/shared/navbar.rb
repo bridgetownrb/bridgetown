@@ -7,15 +7,15 @@ module Shared
     end
 
     def docs_active
-      "is_active" if @resource.relative_url.include?("/docs/")
+      "is-active" if @resource.relative_url.include?("/docs/")
     end
 
     def plugins_active
-      "is_active" if @resource.relative_url == "/plugins/"
+      "is-active" if @resource.relative_url == "/plugins/"
     end
 
     def news_active
-      "is_active" if @resource.relative_url.include?("/blog/") || @resource.data.layout == "post"
+      "is-active" if @resource.relative_url.include?("/blog/") || @resource.data.layout == "post"
     end
 
     def beta_class
