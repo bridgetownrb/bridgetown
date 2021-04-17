@@ -219,10 +219,10 @@ collections:
 
 The following data accessors would be available:
 
-`actor.relations.movies`
-`movie.relations.actors`
-`movie.relations.studio`
-`studio.relations.movies`
+* `actor.relations.movies`
+* `movie.relations.actors`
+* `movie.relations.studio`
+* `studio.relations.movies`
 
 The `belongs_to` type relations are where you add the resource references in front matter—Bridgetown will use a resource's slug to perform the search. `belongs_to` can support solo or multiple relations. For example:
 
