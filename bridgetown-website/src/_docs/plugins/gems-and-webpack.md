@@ -8,7 +8,7 @@ category: plugins
 When authoring a [plugin](/docs/plugins#creating-a-gem){:data-no-swup="true"}
 or [theme](/docs/themes) for Bridgetown, you may find
 yourself wanting to ensure users of your plugin are able to load in your
-frontend assets through Webpack (such as Javascript, CSS, etc.) The best way to
+frontend assets through Webpack (such as JavaScript, CSS, etc.) The best way to
 do this is to set up a `package.json` manifest and [publish your frontend code as a package to the NPM registry](https://docs.npmjs.com/creating-node-js-modules#create-the-file-that-will-be-loaded-when-your-module-is-required-by-another-application).
 
 Let's assume you've been building an awesome plugin called, unsurprisingly,

@@ -189,7 +189,7 @@ The location of pages in your source folder structure will by default be mirrore
       </td>
       <td>
         <p>
-          Manifest used by Yarn to install frontend assets and set up commands you can run to compile your Javascript, CSS, etc. via Webpack—as well as perform other tasks. Typically there are a couple scripts that are used to load the live-reload Browsersync server and run the Bridgetown and Webpack watchers simultaneously.
+          Manifest used by Yarn to install frontend assets and set up commands you can run to compile your JavaScript, CSS, etc. via Webpack—as well as perform other tasks. Typically there are a couple scripts that are used to load the live-reload Browsersync server and run the Bridgetown and Webpack watchers simultaneously.
         </p>
       </td>
     </tr>

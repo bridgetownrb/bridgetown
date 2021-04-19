@@ -33,7 +33,7 @@ To change Bridgetown's default build behavior have a look through the [configura
 Bridgetown also comes with some handy Yarn scripts to help spin up both Bridgetown
 and Webpack during development, as well as use Browsersync to provide live-reload
 functionality. Take a look at the `scripts` configuration in `package.json`, as well as
-the `start.js` and `sync.js` Javascript files.
+the `start.js` and `sync.js` JavaScript files.
 
 \*To build your site for production, you can run `yarn deploy` so that all the
 Webpack assets get built alongside the published Bridgetown output. If you need to add

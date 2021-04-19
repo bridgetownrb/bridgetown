@@ -5,7 +5,7 @@ top_section: Introduction
 category: intro
 ---
 
-In a nutshell, Bridgetown is a **static site generator**. You give it text written in an author-friendly markup language like Markdown, and it uses layouts and templates to build a website and save the compiled HTML, CSS, and Javascript to an output folder. You can tweak how you want the pages to look, what data gets displayed on the site, and more.
+In a nutshell, Bridgetown is a **static site generator**. You give it text written in an author-friendly markup language like Markdown, and it uses layouts and templates to build a website and save the compiled HTML, CSS, and JavaScript to an output folder. You can tweak how you want the pages to look, what data gets displayed on the site, and more.
 
 Bridgetown works best as part of a version-controlled repository powered by Git. You can centrally store your repository on a service like [GitHub](https://github.com) so that you and everyone else working on the website (plus your hosting provider) all have direct, secure access to the latest website content and design files.
 
