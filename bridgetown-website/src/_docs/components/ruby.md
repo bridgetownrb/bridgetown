@@ -184,20 +184,130 @@ In addition to simply rendering a template for you, `Bridgetown::Component` prov
 * `render?` – if you define this method and return `false`, the component will not get rendered at all.
 * `before_render` – called right before the component is rendered when the view_context is known and all helpers available.
 
-## Need Compatibility with Rails? Try ViewComponent
+## Need Compatibility with Rails? Try ViewComponent (experimental)
 
 If you've used GitHub's [ViewComponent](https://viewcomponent.org) in the past, you might be thinking by now that `Bridgetown::Component` feels an awful lot like `ViewComponent::Base`. And you're right! We've _intentionally_ modeled our component class off of what we think is one of the most exciting developments in Ruby on Rails view technology in a decade.
 
 But we didn't stop there. Besides being able to use `Brigetown::Component` in your Bridgetown sites, you can actually use ViewComponent itself! How is this even possible?!
 
-By creating a compatibility shim which "fools" ViewComponent into thinking it's booted up in a Rails app when it's actually not. ViewComponent itself is mainly only reliant on the ActionView framework within Rails, so we include that along with the shim, and then you're off to the races. There are a few gotchas you may need to work through depending on how you use ViewComponent, so let's break it down.
+By creating a compatibility shim which "fools" ViewComponent into thinking it's booted up in a Rails app when it's actually not. ViewComponent itself is mainly only reliant on the ActionView framework within Rails, so we include that along with the shim, and then you're off to the races. (Note: this functionality is still considered _experimental_.)
 
-### Setup
+Let's break it down!
 
-First, you'll need to add the compatibility gem to your Gemfile (which will also add in ViewComponent as a dependency):
+### Quick Tutorial
+
+First, you'll need to add the compatibility gem to your Gemfile (which will also add in ViewComponent as a dependency). In a new Bridgetown site folder, run the following command:
 
 ```
 bundle add bridgetown-view-component -g bridgetown_plugins
 ```
 
-Next...
+Next create a `shared` folder in `src/_components` and add the following two files:
+
+```ruby
+# src/_components/shared/header.rb
+module Shared
+  class Header < ViewComponent::Base
+    include Bridgetown::ViewComponentHelpers
+
+    def initialize(title:, description:)
+      @title, @description = title, description
+    end
+  end
+end
+```
+
+```erb
+<!-- src/_components/shared/header.erb -->
+<header style="text-align:center; color: teal">
+  <h1 style="color: darkgreen"><%%= @title %></h1>
+
+  <%%= markdownify @description %>
+</header>
+```
+
+Now let's set up a new layout to render our component. Add `src/_layouts/vc.erb`:
+
+```erb
+---
+layout: default
+---
+
+<%%= render(Shared::Header.new(
+      title: resource.data.title,
+      description: resource.data.description
+    )) %>
+
+<%%= yield %>
+```
+
+Finally, update your home page (`src/index.md`) like so:
+
+```md
+---
+layout: vc
+title: ViewComponent
+description: It's _here_ and it **works**!
+---
+
+Yay! 😃
+```
+
+Now run `yarn start`, load your website at localhost:4000, and you should see the new homepage with the `Shared::Header` ViewComponent rendered into the layout!
+
+### Helpers
+
+So far, pretty standard fare for ViewComponent, but you'll notice we had to add `include Bridgetown::ViewComponentHelpers` to the definition of our `Shared::Header` class. That's because, out of the box, ViewComponent doesn't know about any of Bridgetown's helpers. We could have injected helpers directly into the base class, but that might adversely affect components written with Rails in mind, so at least in this early phase we're including the module manually.
+
+<%= liquid_render "docs/note", extra_margin: true do %>
+As a shortcut, you could create your own base class, say `SiteViewComponent`, which inherits from `ViewComponent::Base`, include the `Bridgetown::ViewComponentHelpers` module, and then subclass all your site components from `SiteViewComponent`.
+<% end %>
+
+### Using Primer
+
+[Primer](https://primer.style) is a component library and design system published by GitHub, and you can use it now with Bridgetown! However, you'll need to do a bit of extra "shim" work to get Primer view components loaded within the Bridgetown context.
+
+First, add the following to your Gemfile:
+
+```ruby
+gem "primer_view_components", github: "primer/view_components", branch: "main"
+```
+
+Next, add the following file to your plugins folder:
+
+```ruby
+# plugins/builders/primer_builder.rb
+
+require "action_dispatch"
+require "rails/engine"
+require "primer/view_components/engine"
+
+class PrimerBuilder < SiteBuilder
+  def build
+    site.config.loaded_primer ||= begin
+      primer_loader = Zeitwerk::Loader.new
+      Primer::ViewComponents::Engine.config.autoload_once_paths.each do |path|
+        primer_loader.push_dir path
+      end
+      primer_loader.setup
+      Rails.application.config = Primer::ViewComponents::Engine.config
+    end
+  end
+end
+```
+
+What this does is import a couple of additional Rails dependencies, set up the autoloading functionalty provided by Zeitwerk, and ensure Primer's engine config is added to the Rails shim. We also want to guarantee this code only runs once when in Bridgetown's watch mode.
+
+Let's also add the Primer CSS link tag to your site's head:
+
+```
+<link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet" />
+```
+
+Now you can use Primer components in any Ruby template in your Bridgetown project!
+
+```erb
+<%%= render(Primer::FlashComponent.new(scheme: :success)) do %>
+  <span markdown="1">This is a **success** flash message!</span>
+<%% end %>
+```
