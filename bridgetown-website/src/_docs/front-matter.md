@@ -265,7 +265,7 @@ or
 I'm a **Markdown** file.
 ```
 
-For ERB or Serbea files, you can use `---<%` / `%>---` or `---{%` / `%}---` delimeters respectively. (You can substitute `~` instead of `-` if you prefer.)
+For ERB or Serbea files, you can use `---<%` / `%>---` or {% raw %}`---{%` / `%}---`{% endraw %} delimeters respectively. (You can substitute `~` instead of `-` if you prefer.)
 
 For all-Ruby files, you can use `---ruby` / `---` or `###ruby` / `###` delimeters.
 
