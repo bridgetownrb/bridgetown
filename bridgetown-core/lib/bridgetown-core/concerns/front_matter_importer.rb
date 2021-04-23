@@ -8,7 +8,7 @@ module Bridgetown
     end
 
     YAML_HEADER = %r!\A---\s*\n!.freeze
-    YAML_BLOCK = %r!#{YAML_HEADER.source}.*?\n?)^((---|\.\.\.)\s*$\n?)!m.freeze
+    YAML_BLOCK = %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m.freeze
     RUBY_HEADER = %r!\A[~`#\-]{3,}(?:ruby|<%|{%)\s*\n!.freeze
     RUBY_BLOCK =
       %r!#{RUBY_HEADER.source}(.*?\n?)^((?:%>|%})?[~`#\-]{3,}\s*$\n?)!m.freeze
