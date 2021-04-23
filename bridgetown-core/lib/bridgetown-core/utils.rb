@@ -119,13 +119,13 @@ module Bridgetown
     # @return [Boolean] if the YAML front matter is present.
     # rubocop: disable Naming/PredicateName
     def has_yaml_header?(file)
-      File.open(file, "rb", &:readline).match? %r!\A---\s*\r?\n!
+      File.open(file, "rb", &:readline).match? Bridgetown::FrontMatterImporter::YAML_HEADER
     rescue EOFError
       false
     end
 
     def has_rbfm_header?(file)
-      File.open(file, "rb", &:readline).match? Bridgetown::Model::FileOrigin::RUBY_FRONT_MATTER_HEADER
+      File.open(file, "rb", &:readline).match? Bridgetown::FrontMatterImporter::RUBY_HEADER
     rescue EOFError
       false
     end

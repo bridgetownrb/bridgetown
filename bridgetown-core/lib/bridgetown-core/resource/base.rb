@@ -224,7 +224,7 @@ module Bridgetown
       end
 
       def inspect
-        "#<#{self.class} [#{collection.label}] #{relative_path}>"
+        "#<#{self.class} #{id}>"
       end
 
       # Compare this document against another document.

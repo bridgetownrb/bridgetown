@@ -3,8 +3,8 @@
 module Bridgetown
   class Layout
     include DataAccessible
+    include FrontMatterImporter
     include LiquidRenderable
-    include Validatable
 
     # Gets the Site object.
     attr_reader :site
@@ -27,7 +27,11 @@ module Bridgetown
     attr_accessor :data
 
     # Gets/Sets the content of this layout.
+    # @return [String]
     attr_accessor :content
+
+    # @return [Integer]
+    attr_accessor :front_matter_line_count
 
     # Gets/Sets the current document (for layout-compatible converters)
     attr_accessor :current_document
@@ -54,9 +58,29 @@ module Bridgetown
         @path = site.in_source_dir(base, name)
       end
       @relative_path = @path.sub(@base_dir, "")
+      @ext = File.extname(name)
 
-      process(name)
-      read_yaml(base, name)
+      @data = read_front_matter(@path).with_dot_access
+    rescue SyntaxError => e
+      Bridgetown.logger.error "Error:",
+                              "Ruby Exception in #{e.message}"
+    rescue StandardError => e
+      handle_read_error(e)
+    ensure
+      @data ||= HashWithDotAccess::Hash.new
+    end
+
+    def handle_read_error(error)
+      if error.is_a? Psych::SyntaxError
+        Bridgetown.logger.warn "YAML Exception reading #{@path}: #{error.message}"
+      else
+        Bridgetown.logger.warn "Error reading file #{@path}: #{error.message}"
+      end
+
+      if site.config["strict_front_matter"] ||
+          error.is_a?(Bridgetown::Errors::FatalException)
+        raise error
+      end
     end
 
     # The inspect string for this document.
@@ -65,15 +89,6 @@ module Bridgetown
     # Returns the inspect string for this document.
     def inspect
       "#<#{self.class} #{@path}>"
-    end
-
-    # Extract information from the layout filename.
-    #
-    # name - The String filename of the layout file.
-    #
-    # Returns nothing.
-    def process(name)
-      self.ext = File.extname(name)
     end
 
     # Provide this Layout's data to a Hash suitable for use by Liquid.

@@ -5,8 +5,7 @@ module Bridgetown
     module RubyExec
       extend self
 
-      # rubocop:disable Metrics/AbcSize
-      def search_data_for_ruby_code(convertible, renderer)
+      def search_data_for_ruby_code(convertible, renderer) # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
         return if convertible.data.empty?
 
         # Iterate using `keys` here so inline Ruby script can add new data keys
@@ -17,23 +16,26 @@ module Bridgetown
           next unless v.is_a?(Rb) || v.is_a?(Hash) || v.is_a?(Proc)
 
           if v.is_a?(Proc)
-            convertible.data[k] = convertible.instance_exec(&v)
+            log_exec_message { convertible.data[k] = convertible.instance_exec(&v) }
           elsif v.is_a?(Hash)
             v.each do |nested_k, nested_v|
               next unless nested_v.is_a?(Rb)
 
-              Bridgetown.logger.debug("Executing inline Ruby…", convertible.relative_path)
-              convertible.data[k][nested_k] = run(nested_v, convertible, renderer)
-              Bridgetown.logger.debug("Inline Ruby completed!", convertible.relative_path)
+              log_exec_message do
+                convertible.data[k][nested_k] = run(nested_v, convertible, renderer)
+              end
             end
           else
-            Bridgetown.logger.debug("Executing inline Ruby…", convertible.relative_path)
-            convertible.data[k] = run(v, convertible, renderer)
-            Bridgetown.logger.debug("Inline Ruby completed!", convertible.relative_path)
+            log_exec_message { convertible.data[k] = run(v, convertible, renderer) }
           end
         end
       end
-      # rubocop:enable Metrics/AbcSize
+
+      def log_exec_message
+        Bridgetown.logger.debug("Executing inline Ruby…", convertible.relative_path)
+        yield
+        Bridgetown.logger.debug("Inline Ruby completed!", convertible.relative_path)
+      end
 
       # Sets up a new context in which to eval Ruby coming from front matter.
       #
