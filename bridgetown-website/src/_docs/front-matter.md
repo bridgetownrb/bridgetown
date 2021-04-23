@@ -5,12 +5,7 @@ top_section: Content
 category: front-matter
 ---
 
-Front matter is a snippet of [YAML](https://yaml.org/) which sits between two
-triple-dashed lines at the top of a file. You use front matter to add metadata,
-like a title or a description, to files such as pages and documents as well as site
-layouts. Front matter can be used in various ways to set configuration options
-on a per-file basis, and starting with Bridgetown v0.13, you can even write Ruby
-code for dynamic front matter variables.
+Front matter is a snippet of [YAML](https://yaml.org/) or Ruby data which sits at the top of a file between special line delimiters. You can think of front matter as a datastore consisting of one or more key-value pairs (aka a `Hash` in Ruby). You use front matter to add metadata, like a title or a description, to files such as pages and documents as well as site layouts. Front matter can be used in various ways to set configuration options on a per-file basis, and if you need more dynamic handling of variable data, you can write Ruby code for processing as front matter.
 
 {% rendercontent "docs/note", title: "Don't repeat yourself" %}
 If you'd like to avoid repeating your frequently used variables
@@ -27,8 +22,8 @@ Bridgetown. Files without front matter are considered [static files](/docs/stati
 and are copied verbatim from the source folder to destination during the build
 process.
 
-The front matter must be the first thing in the file and must take the form of valid
-YAML set between triple-dashed lines. Here is a basic example:
+The front matter must be the first thing in the file and must either take the form of valid
+YAML set between triple-dashed lines, or one of several Ruby-based formats (more on that below). Here is a basic example:
 
 ```yaml
 ---
@@ -238,17 +233,87 @@ If you use UTF-8 encoding, make sure that no `BOM` header characters exist in yo
 you may encounter build errors.
 {% endrendercontent %}
 
-## Ruby Front Matter
+## The Power of Ruby, in Front Matter
 
-For advanced use cases where you wish to generate dynamic values for front matter variables, you can use Ruby Front Matter (new in Bridgetown v0.13). This feature is available for pages, posts, and other documents–as well as layouts for site-wide access to your Ruby return values.
+For advanced use cases where you wish to generate dynamic values for front matter variables, you can use Ruby Front Matter (hereafter named rbfm). (Requires Bridgetown v0.21 or greater. Only applies to sites using the [Resource content engine](/docs/resources)—otherwise read the Legacy Format of Ruby Front Matter section below.)
 
-{% rendercontent "docs/note" %}
-Prior to v0.17, this required the environment variable `BRIDGETOWN_RUBY_IN_FRONT_MATTER` to be set to `"true"`, otherwise the code would not be executed and would be treated as a raw string.
+Any valid Ruby code is allowed in rbfm as long as it returns a `Hash`—or an object which `respond_to?(:to_h)`. There are several different ways you can define rbfm at the top of your file. This is so syntax highlighting will work in various different template scenarios.
+
+For Markdown files, you can use backticks or tildes plus the term `ruby` to take advantage of GFM (GitHub-flavored Markdown) syntax highlighting.
+
+~~~md
+```ruby
+{
+  layout: :page,
+  title: "About"
+}
+```
+
+I'm a **Markdown** file.
+~~~
+
+or
+
+```md
+~~~ruby
+{
+  layout: :page,
+  title: "About"
+}
+~~~
+
+I'm a **Markdown** file.
+```
+
+For ERB or Serbea files, you can use `---<%` / `%>---` or `---{%` / `%}---` delimeters respectively. (You can substitute `~` instead of `-` if you prefer.)
+
+For all-Ruby files, you can use `---ruby` / `---` or `###ruby` / `###` delimeters.
+
+However you define your rbfm, bear in mind that the front matter code is executed _prior_ to any processing of the template file itself and within a different context. (rbfm will be executed initially within either `Bridgetown::Model::RepoOrigin` or `Bridgetown::Layout`.)
+
+Thankfully, there is a solution for when you want a front matter variable resolved within the execution context of a resource (aka `Bridgetown::Resource::Base`): use a lambda. Any lambda (or proc in general) will be resolved at the time a resource has been fully initialized. A good use case for this would be to define a custom permalink based on other front matter variables. For example:
+
+```md
+~~~ruby
+{
+  layout: :page,
+  segments: ["custom", "permalink"],
+  title: "About Us",
+  permalink: -> { "#{data.segments.join("/")}/#{Bridgetown::Utils.slugify(data.title)}" }
+}
+~~~
+
+This will now show up for the path: /custom/permalink/about-us
+```
+
+Besides using a simple `Hash`, you can also use the handy `front_matter` DSL. Any valid method call made directly in the block will translate to a front matter key. Let's rewrite the above example:
+
+```md
+~~~ruby
+front_matter do
+  layout :page
+
+  url_segments = ["custom"]
+  url_segments << "permalink"
+  segments url_segments
+
+  title "About Us"
+  permalink -> { "#{data.segments.join("/")}/#{Bridgetown::Utils.slugify(data.title)}" }
+end
+~~~
+
+This will now show up for the path: /custom/permalink/about-us
+```
+
+As you can see, literally any valid Ruby code has the potential to be transformed into front matter. The sky's the limit!
+
+## Legacy Format of Ruby Front Matter
+
+{% rendercontent "docs/note", type: "warning" %}
+Embedding Ruby code within YAML is deprecated and will be removed by the release of Bridgetown 1.0.
 {% endrendercontent %}
 
-[Here's a blog post with a high-level overview](/feature/supercharge-your-bridgetown-site-with-ruby-front-matter/){:data-no-swup="true"} of what Ruby Front Matter is capable of and why you might want to use it.
-
-To write Ruby code in your front matter, use the special tagged string `!ruby/string:Rb`. Here is an example:
+This feature is available for pages, posts, and other documents–as well as layouts for site-wide access to your Ruby return values. To write Ruby code in your front matter, use the special tagged string `!ruby/string:Rb`. Here is an example:
 
 {% raw %}
 ```liquid

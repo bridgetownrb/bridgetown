@@ -71,33 +71,12 @@ module Bridgetown
           output = @parser.convert(content)
           if convertible && @parser.respond_to?(:extractions)
             convertible.data.markdown_extractions = @parser.extractions
-            process_content_parts(convertible)
           end
           output
         end
       end
 
       private
-
-      def process_content_parts(convertible)
-        if convertible.data.markdown_extractions.present?
-          convertible.data.markdown_extractions.each do |extraction|
-            next unless extraction[:meta].starts_with?(part_prefix)
-
-            code = extraction[:code]
-            if extraction[:lang] == "md" || extraction[:lang] == "markdown"
-              code = convertible.site.find_converter_instance(
-                Bridgetown::Converters::Markdown
-              ).convert(code)
-            end
-            convertible.data[extraction[:meta].partition(part_prefix).last] = code
-          end
-        end
-      end
-
-      def part_prefix
-        @config.kramdown.part_prefix || ":"
-      end
 
       def custom_processor
         converter_name = @config["markdown"]
