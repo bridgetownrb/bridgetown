@@ -229,12 +229,12 @@ module Bridgetown
         }
       end
 
-      def as_json(**_options)
+      def as_json(*)
         to_h
       end
 
-      def to_json(**options)
-        as_json(**options).to_json(**options)
+      ruby2_keywords def to_json(*options)
+        as_json(*options).to_json(*options)
       end
 
       def inspect
