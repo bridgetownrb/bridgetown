@@ -28,13 +28,15 @@ module Bridgetown
       end
 
       def read
-        @data = (in_data_collection? ? read_file_data : read_front_matter(original_path)) || {}
-      rescue SyntaxError => e
-        Bridgetown.logger.error "Error:",
-                                "Ruby Exception in #{e.message}"
-      rescue StandardError => e
-        handle_read_error(e)
-      ensure
+        begin
+          @data = (in_data_collection? ? read_file_data : read_front_matter(original_path)) || {}
+        rescue SyntaxError => e
+          Bridgetown.logger.error "Error:",
+                                  "Ruby Exception in #{e.message}"
+        rescue StandardError => e
+          handle_read_error(e)
+        end
+
         @data ||= {}
         @data[:_id_] = id
         @data[:_origin_] = self

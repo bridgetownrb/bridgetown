@@ -33,10 +33,15 @@ Say howdy 👋 to our growing list of the first twenty sponsors of Bridgetown on
 |<a href="https://github.com/johnchambers">@johnchambers</a>|<a href="https://github.com/wout">@wout</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/DRBragg">@DRBragg</a>|<a href="https://github.com/jasoncharnes">@jasoncharnes</a>|
 ||<a href="https://tilishop.com">Website</a>|<a href="https://pascal.rocks">Website</a>|<a href="https://www.drbragg.ninja/">Website</a>|<a href="http://www.jasoncharnes.com">Website</a>|
 
-|<img src="https://avatars.githubusercontent.com/leastbad?s=256" alt="leastbad" width="128" />|<img src="https://avatars.githubusercontent.com/asaaki?s=256" alt="asaaki" width="128" />|<img src="https://avatars.githubusercontent.com/scoutapm-sponsorships?s=256" alt="scoutapm-sponsorships" width="128" />|<img src="https://avatars.githubusercontent.com/adrianvalenz?s=256" alt="adrianvalenz" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|<img src="https://avatars.githubusercontent.com/leastbad?s=256" alt="leastbad" width="128" />|<img src="https://avatars.githubusercontent.com/asaaki?s=256" alt="asaaki" width="128" />|<img src="https://avatars.githubusercontent.com/scoutapm-sponsorships?s=256" alt="scoutapm-sponsorships" width="128" />|<img src="https://avatars.githubusercontent.com/adrianvalenz?s=256" alt="adrianvalenz" width="128" />|<img src="https://avatars.githubusercontent.com/bpo?s=256" alt="bpo" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/leastbad">@leastbad</a>|<a href="https://github.com/asaaki">@asaaki</a>|<a href="https://github.com/scoutapm-sponsorships">@scoutapm-sponsorships</a>|<a href="https://github.com/adrianvalenz">@adrianvalenz</a>|You Next?|
-||<a href="https://markentier.tech/">Website</a>|<a href="https://markentier.tech/">Website</a>||<a href="https://scoutapm.com">Website</a>||
+|<a href="https://github.com/leastbad">@leastbad</a>|<a href="https://github.com/asaaki">@asaaki</a>|<a href="https://github.com/scoutapm-sponsorships">@scoutapm-sponsorships</a>|<a href="https://github.com/adrianvalenz">@adrianvalenz</a>|<a href="https://github.com/bpo">@bpo</a>|
+||<a href="https://markentier.tech/">Website</a>|<a href="https://scoutapm.com">Website</a>||<a href="https://brian.orourke.io/">Website</a>|
+
+|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|
+|You Next?|
+||
 
 ## Commercial Support
 
@@ -118,16 +123,20 @@ Bridgetown is built by:
 |<a href="https://github.com/jaredcwhite">@jaredcwhite</a>|<a href="https://github.com/jaredmoody">@jaredmoody</a>|<a href="https://github.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/ParamagicDev">@ParamagicDev</a>|<a href="https://github.com/MikeRogers0">@MikeRogers0</a>|
 |Portland, OR|Portland, OR|Wilmington, NC|Providence, RI|Ny-Ålesund, Svalbard|
 
-|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/codemargaret?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/julianrubisch?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/ianbayne?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/ayushn21?s=256" alt="" width="128" />|
+|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="wout" width="128" />|<img src="https://avatars.githubusercontent.com/codemargaret?s=256" alt="codemargaret" width="128" />|<img src="https://avatars.githubusercontent.com/julianrubisch?s=256" alt="julianrubisch" width="128" />|<img src="https://avatars.githubusercontent.com/ianbayne?s=256" alt="ianbayne" width="128" />|<img src="https://avatars.githubusercontent.com/ayushn21?s=256" alt="ayushn" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
 |<a href="https://github.com/wout">@wout</a>|<a href="https://github.com/codemargaret">@codemargaret</a>|<a href="https://github.com/julianrubisch">@julianrubisch</a>|<a href="https://github.com/ianbayne">@ianbayne</a>|<a href="https://github.com/ayushn21">@ayushn21</a>|
 |Brighton, UK|Portland, OR|Vienna, Austria|Tokyo, Japan|London, UK|
 
-
-|<img src="https://avatars.githubusercontent.com/bkmgit?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/pascalwengerter?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/u/57881112?s=460&u=51f2d296a79c3f045172c7b18a704c994e0eee08&v=4" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/juanvqz?s=256" alt="" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|<img src="https://avatars.githubusercontent.com/bkmgit?s=256" alt="" width="128" />|<img src="https://avatars.githubusercontent.com/pascalwengerter?s=256" alt="pascalwengerter" width="128" />|<img src="https://avatars.githubusercontent.com/u/57881112?s=460&u=51f2d296a79c3f045172c7b18a704c994e0eee08&v=4" alt="marketerly" width="128" />|<img src="https://avatars.githubusercontent.com/juanvqz?s=256" alt="juanvqz" width="128" />|<img src="https://avatars.githubusercontent.com/katafrakt?s=256" alt="katafrakt" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/bkmgit">@bkmgit</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/marketerly">@marketerly</a>|<a href="https://github.com/juanvqz">@juanvqz</a>|You Next?|
-||Lisbon, Portugal|Tripoli, Libya|Oaxaca, México|Anywhere|
+|<a href="https://github.com/bkmgit">@bkmgit</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/marketerly">@marketerly</a>|<a href="https://github.com/juanvqz">@juanvqz</a>|<a href="https://github.com/katafrakt">@katafrakt</a>|
+||Lisbon, Portugal|Tripoli, Libya|Oaxaca, México|Wrocław, PL|
+
+|<img src="https://avatars.githubusercontent.com/erikyuzwa?s=256" alt="erikyuzwa" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|
+|<a href="https://github.com/erikyuzwa">@erikyuzwa</a>|You Next?|
+|Calgary, AB|Anywhere|
 
 Interested in joining the Bridgetown Core Team? Send a DM to Jared in [Discord](https://discord.gg/4E6hktQGz4) and let's chat!
 

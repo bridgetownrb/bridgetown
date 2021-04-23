@@ -193,6 +193,85 @@ Title: <%= site.taxonomy_types.genres.metadata.title %>
 <% end %>
 ```
 
+## Resource Relations
+
+You can configure one-to-one, one-to-many, or many-to-many relations between resources in different collections. You can then add the necessary references via front matter or metadata from an API request and access those relations in your templates, plugins, and components.
+
+For example, given a config of:
+
+```yaml
+collections:
+  actors:
+    output: true
+    relations:
+      has_many: movies
+  movies:
+    output: true
+    relations:
+      belongs_to:
+        - actors
+        - studio
+  studios:
+    output: true
+    relations:
+      has_many: movies
+```
+
+The following data accessors would be available:
+
+* `actor.relations.movies`
+* `movie.relations.actors`
+* `movie.relations.studio`
+* `studio.relations.movies`
+
+The `belongs_to` type relations are where you add the resource references in front matter—Bridgetown will use a resource's slug to perform the search. `belongs_to` can support solo or multiple relations. For example:
+
+```yaml
+# _movies/_1982/blade-runner.md
+name: Blade Runner
+description: A blade runner must pursue and terminate four replicants who stole a ship in space, and have returned to Earth to find their creator.
+year: 1982
+actors:
+  - harrison-ford # _actors/_h/harrison-ford.md
+  - rutger-howard # _actors/_r/rutger-howard.md
+  - sean-young # _actors/_s/sean-young.md
+studio: warner-brothers # _studios/warner-brothers.md
+```
+
+Thus if you were building a layout for the movies collection, it might look something like this:
+
+```erb
+<!-- src/_layouts/movies.erb -->
+
+<h1><%= resource.data.name %> (<%= resource.data.year %>)</h1>
+<h2><%= resource.data.description %></h2>
+
+<p><strong>Starring:</strong></p>
+
+<ul>
+  <% resource.relations.actors.each do |actor| %>
+    <li><%= link_to actor.name, actor %></li>
+  <% end %>
+</ul>
+
+<p>Released by <%= link_to resource.relations.studio.name, resource.relations.studio %></p>
+```
+
+The three types of relations you can configure are:
+
+* **belongs_to**: a single string or an array of strings which are the slugs of the resources you want to reference
+* **has_one**: a single resource you want to reference will define the slug of the current resource in _its_ front matter
+* **has_many**: multiple resources you want to reference will define the slug of the current resource in their front matter
+
+The "inflector" loaded in from Rails' ActiveSupport is used to convert between singular and plural collection names automatically. If you need to customize the inflector with words it doesn't specifically recognize, create a plugin and add your own:
+
+```ruby
+ActiveSuport::Inflector.inflections(:en) do |inflect|
+  inflect.plural /^(ox)$/i, '\1\2en'
+  inflect.singular /^(ox)en/i, '\1'
+end
+```
+
 ## Configuring Permalinks
 
 Bridgetown uses permalink "templates" to determine the default permalink to use for resource destination URLs. You can override a resource permalink on a case-by-case basis by using the `permalink` front matter key. Otherwise, the permalink is determined as follows (unless you change the site config):
@@ -234,6 +313,7 @@ collections:
 * Front matter data is now accessed in Liquid through the `data` variable just like in ERB and skipping `data` is deprecated. Use `{{ post.data.description }}` instead of just `{{ post.description }}`.
 * In addition, instead of referencing the current "page" through `page` (aka `page.data.title`), you can use `resource` instead: `resource.data.title`.
 * Resources don't have a `url` variable. Your templates/plugins will need to reference either `relative_url` or `absolute_url`. Also, the site's `baseurl` (if configured) is built into both values, so you won't need to prepend it manually.
+* Whereas the `id` of a document is the relative destination URL, the `id` of a resource is its origin id. You can define an id in front matter separately however.
 * The paginator items are now accessed via `paginator.resources` instead of `paginator.documents`.
 * Instead of `pagination:\n  enabled: true` in your front matter for a paginated page, you'll put the collection name instead. Also you can use the term `paginate` instead of `pagination`. So to paginate through posts, just add `paginate:\n  collection: posts` to your front matter.
 * Categories and tags are collated from all collections (even pages!), so if you used category/tag front matter manually before outside of posts, you may get a lot more site-wide category/tag data than expected.

@@ -22,7 +22,8 @@ module Bridgetown
                      :relative_path,
                      :relative_url,
                      :date,
-                     :taxonomies
+                     :taxonomies,
+                     :relations
 
       private def_delegator :@obj, :data, :fallback_data
 

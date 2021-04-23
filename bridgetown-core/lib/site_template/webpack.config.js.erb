@@ -72,7 +72,7 @@ module.exports = {
           },
           "postcss-loader"
         ],
-      },      
+      },
       <% else %>
       {
         test: /\.(s[ac]|c)ss$/,
@@ -87,7 +87,9 @@ module.exports = {
           {
             loader: "sass-loader",
             options: {
+              implementation: require("sass"),
               sassOptions: {
+                fiber: false,
                 includePaths: [
                   path.resolve(__dirname, "src/_components")
                 ],

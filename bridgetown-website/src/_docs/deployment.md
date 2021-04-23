@@ -30,17 +30,17 @@ We recommend setting up an automatic deployment solution at the earliest opportu
 
 Some popular services include:
 
+### Render
+
+[Render](https://render.com) provides the easiest cloud for all your static sites, APIs, databases, and containers. Render is a unified platform which can build and run apps and websites with free SSL, a global CDN, private networks, and auto deploys from Git. Use Render's simple admin dashboard or write an "infrastructure as code" YAML file to configure all your services at once. The choice is yours.
+
 ### Vercel
 
-[Vercel](https://www.vercel.com) combines the best developer experience with an obsessive focus on end-user performance. Changes instantly go live on their global edge network. Everything is taken care of for you, from SSL encryption to asset compression and cache invalidation. Vercel is the platform for developers and designers…and those who aspire to become one.
+[Vercel](https://www.vercel.com) combines a great developer experience with an obsessive focus on end-user performance. Changes instantly go live on their global edge network along with SSL encryption and cache invalidation. Vercel is the platform for developers and designers…and those who aspire to become one.
 
 ### Netlify
 
 [Netlify](https://www.netlify.com) is a web developer platform which focuses on productivity and global scale without requiring costly infrastructure. Get set up with continuous deployment, lead gen forms, one click HTTPS, and so much more.
-
-### Render
-
-[Render](https://render.com) provides the easiest cloud for all your static sites, APIs, databases, and containers. Render is a unified platform which can build and run apps and websites with free SSL, a global CDN, private networks, and auto deploys from Git.
 
 ## Manual Deployment
 
