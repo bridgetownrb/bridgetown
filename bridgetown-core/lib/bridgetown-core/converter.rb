@@ -53,6 +53,15 @@ module Bridgetown
       ".html"
     end
 
+    def line_start(convertible)
+      if convertible.is_a?(Bridgetown::Resource::Base) &&
+          convertible.model.origin.respond_to?(:front_matter_line_count)
+        convertible.model.origin.front_matter_line_count + 4
+      else
+        1
+      end
+    end
+
     def inspect
       "#<#{self.class}#{self.class.extname_list ? " #{self.class.extname_list.join(", ")}" : nil}>"
     end

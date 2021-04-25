@@ -3,10 +3,6 @@
 module Bridgetown
   # TODO: to be retired once the Resource engine is made official
   module Validatable
-    # FIXME: there should be ONE TRUE METHOD to read the YAML frontmatter
-    # in the entire project. Both this and the equivalent Document method
-    # should be extracted and generalized.
-    #
     # Read the YAML frontmatter.
     #
     # base - The String path to the dir containing the file.

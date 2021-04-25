@@ -6,6 +6,7 @@ module Bridgetown
       mutable true
 
       attr_accessor :page, :layout, :content, :paginator
+      alias_method :resource, :page
 
       def bridgetown
         BridgetownDrop.global

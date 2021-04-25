@@ -14,6 +14,7 @@ module Bridgetown
       def_delegator :@obj, :relative_path, :path
       def_delegators :@obj,
                      :id,
+                     :data,
                      :output,
                      :content,
                      :to_s,

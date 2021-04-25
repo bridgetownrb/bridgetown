@@ -63,7 +63,7 @@ module Bridgetown
         file_path = @site.in_source_dir(base, entry)
         if File.directory?(file_path)
           dot_dirs << entry
-        elsif Utils.has_yaml_header?(file_path)
+        elsif Utils.has_yaml_header?(file_path) || Utils.has_rbfm_header?(file_path)
           dot_pages << entry
         else
           dot_static_files << entry
@@ -113,7 +113,7 @@ module Bridgetown
     def retrieve_pages(dir, dot_pages)
       if site.uses_resource?
         dot_pages.each do |page_path|
-          site.collections.pages.send(:read_resource, site.in_source_dir(dir, page_path))
+          site.collections.pages.read_resource(site.in_source_dir(dir, page_path))
         end
         return
       end

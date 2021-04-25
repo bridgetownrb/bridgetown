@@ -93,6 +93,7 @@ module Bridgetown
   # TODO: this is a poorly named, unclear class. Relocate to Utils:
   autoload :External,            "bridgetown-core/external"
   autoload :FrontmatterDefaults, "bridgetown-core/frontmatter_defaults"
+  autoload :FrontMatterImporter, "bridgetown-core/concerns/front_matter_importer"
   autoload :Hooks,               "bridgetown-core/hooks"
   autoload :Layout,              "bridgetown-core/layout"
   autoload :LayoutPlaceable,     "bridgetown-core/concerns/layout_placeable"

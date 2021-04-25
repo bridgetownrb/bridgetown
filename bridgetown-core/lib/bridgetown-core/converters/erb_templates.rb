@@ -115,6 +115,7 @@ module Bridgetown
 
         erb_renderer = Tilt::ErubiTemplate.new(
           convertible.relative_path,
+          line_start(convertible),
           outvar: "@_erbout",
           bufval: "Bridgetown::OutputBuffer.new",
           engine_class: ERBEngine

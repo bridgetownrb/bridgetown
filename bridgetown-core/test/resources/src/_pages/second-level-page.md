@@ -1,5 +1,5 @@
----
-title: I'm a Second Level Page
----
+~~~ruby
+{ title: "I'm a Second Level Page" }
+~~~
 
 That's **nice**.
