@@ -338,7 +338,7 @@ Starting in Bridgetown v0.21, the ERB template engine has switched to using a sa
 
 That means that you'll sometimes find that if you simply output a front matter variable or some other string value that contains HTML tags and entities, the string will be "escaped" so that the actual angle brackets and so forth are displayed in the website content (rather than being interpreted as valid HTML tags).
 
-Often that's the right call for [security purposes to avoid XSS attacks](https://guides.rubyonrails.org/security.html#cross-site-scripting-xss) or to bypass potential markup errors. However, to explicitly mark a string as safe, you can use the `html_safe` method. Bridgetown provides the `raw` or `safe` helpers as well. You can also use a double-equals sign to bypass escaping entirely (`<%%==`>).
+Often that's the right call for [security purposes to avoid XSS attacks](https://guides.rubyonrails.org/security.html#cross-site-scripting-xss) or to bypass potential markup errors. However, to explicitly mark a string as safe, you can use the `html_safe` method. Bridgetown provides the `raw` or `safe` helpers as well. You can also use a double-equals sign to bypass escaping entirely.
 
 ```erb
 <%%= some_value.html_safe %>
