@@ -332,6 +332,28 @@ Usage is pretty straightforward:
 {{ "WAY DOWN LOW" | lowercase_string }}
 ```
 
+## Escaping and HTML Safety
+
+Starting in Bridgetown v0.21, the ERB template engine has switched to using a safe output buffer—[the same one used in Rails](https://guides.rubyonrails.org/active_support_core_extensions.html#output-safety).
+
+That means that you'll sometimes find that if you simply output a front matter variable or some other string value that contains HTML tags and entities, the string will be "escaped" so that the actual angle brackets and so forth are displayed in the website content (rather than being interpreted as valid HTML tags).
+
+Often that's the right call for [security purposes to avoid XSS attacks](https://guides.rubyonrails.org/security.html#cross-site-scripting-xss) or to bypass potential markup errors. However, to explicitly mark a string as safe, you can use the `html_safe` method. Bridgetown provides the `raw` or `safe` helpers as well. You can also use a double-equals sign to bypass escaping entirely (`<%%==`>).
+
+```erb
+<%%= some_value.html_safe %>
+<!-- or -->
+<%%= raw some_value %>
+<!-- or -->
+<%%= safe some_value %>
+<-- or -->
+<%%== some_value %>
+```
+
+Note that using `html_safe` directly _requires_ the value to be a string already. If you use the `raw`/`safe` helpers, it will first perform `to_s` automatically. Also bear in mind that `<%%= yield %>` or `<%%= content %>` or rendering components/partials won't perform escaping on the rendered template output. (This is for obvious reasons—otherwise you'd get a visual mess of escaped HTML tags.)
+
+If you find a particular use case where escaping occurs (or doesn't occur) in an unexpected manner, [please file a bug report in the Bridgetown GitHub repo](https://github.com/bridgetownrb/bridgetown/issues/new?assignees=&labels=bug&template=bug_report.md&title=).
+
 ## Haml and Slim
 
 Bridgetown comes with ERB support out-of-the-box, but you can easily add support for either Haml or Slim by installing our officially supported plugins.
