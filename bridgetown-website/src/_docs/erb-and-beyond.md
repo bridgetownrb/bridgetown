@@ -8,11 +8,11 @@ template_engine: erb
 
 Bridgetown's primary template language is [**Liquid**](/docs/liquid), due to historical reasons (its heritage coming from Jekyll) and well as Liquid's simple syntax and safe execution context making it ideal for designer-led template creation.
 
-However, Bridgetown's implementation language, Ruby, has a rich history of promoting [ERB (Embedded RuBy)](https://docs.ruby-lang.org/en/2.7.0/ERB.html) for templates and view layers across a wide variety of tools and frameworks, and other template languages such as [Haml](https://haml.info), [Slim](http://slim-lang.com), and [Serbea](https://www.serbea.dev) boast their fair share of enthusiasts.
+However, Bridgetown's implementation language, Ruby, has a rich history of providing [ERB (Embedded RuBy)](https://docs.ruby-lang.org/en/2.7.0/ERB.html) for templates and view layers across a wide variety of tools and frameworks. Other Ruby-based template languages such as [Haml](https://haml.info), [Slim](http://slim-lang.com), and [Serbea](https://www.serbea.dev) garner enthusiastic usage as well.
 
-So, starting with Bridgetown 0.16, you can now add ERB-based templates and pages (and partials too) to your site. In additional, there are plugins you can easily install for Haml and Slim as well. Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process these Ruby templates.
+Bridgetown makes it easy to add ERB-based templates and components to any site. In additional, there are plugins you can easily install for Haml, Slim, and Serbea support. Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process these Ruby templates.
 
-Interested in switching your entire site to use ERB? [It's now possible to do that too!](/docs/template-engines)
+Interested in switching your entire site to use ERB by default? [It's possible to do that too!](/docs/template-engines)
 
 <%= toc %>
 
@@ -93,7 +93,7 @@ You can also pass variables to partials using either a `locals` hash or as keywo
 
 ## Rendering Ruby Components
 
-LINK
+For better encapsulation and reuse of Ruby-based templates as part of a "design system" for your site, we encourage you to write Ruby components using either `Bridgetown::Component` or GitHub's ViewComponent library. [Check out the documentation and code examples here](/docs/components/ruby).
 
 ## Liquid Filters, Tags, and Components
 
