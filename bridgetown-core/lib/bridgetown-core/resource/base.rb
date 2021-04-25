@@ -23,13 +23,6 @@ module Bridgetown
       # @return [String]
       attr_accessor :content, :untransformed_content, :output
 
-      # @!attribute [r] collection
-      #   @return [Bridgetown::Collection] collection of this resource
-
-      # @!attribute [r] relative_path
-      #   @return [Pathname] the relative path of source file or
-      #     file-like origin
-
       DATE_FILENAME_MATCHER = %r!^(?>.+/)*?(\d{2,4}-\d{1,2}-\d{1,2})-([^/]*)(\.[^.]+)$!.freeze
 
       # @param site [Bridgetown::Site]
@@ -42,11 +35,15 @@ module Bridgetown
         trigger_hooks(:post_init)
       end
 
+      # Collection associated with this resource
+      #
       # @return [Bridgetown::Collection]
       def collection
         model.collection
       end
 
+      # The relative path of source file or file-like origin
+      #
       # @return [Pathname]
       def relative_path
         model.origin.relative_path

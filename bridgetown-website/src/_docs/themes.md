@@ -25,7 +25,7 @@ bundle exec bridgetown apply https://github.com/super-great-themes/theme-one
 
 The theme creator will typically provide some simple instructions on how to use
 the provided theme files and enhancements. Perhaps you'll use some stylesheets
-or Javascript modules provided by the theme. Perhaps the theme will include
+or JavaScript modules provided by the theme. Perhaps the theme will include
 components such as navbars or slideshows or ways to display new content types
 you can add to your site templates. Or perhaps the theme will come with layouts
 you can assign to your content such as posts or collection documents.

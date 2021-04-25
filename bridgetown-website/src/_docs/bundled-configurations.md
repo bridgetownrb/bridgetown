@@ -46,7 +46,7 @@ bundle exec bridgetown configure tailwindcss
 
 ### PurgeCSS Post-Build Hook
 
-🧼 Adds a builder plugin which runs [PurgeCSS](https://purgecss.com) against the output HTML + frontend Javascript and produces a much smaller CSS output bundle for sites which use large CSS frameworks.
+🧼 Adds a builder plugin which runs [PurgeCSS](https://purgecss.com) against the output HTML + frontend JavaScript and produces a much smaller CSS output bundle for sites which use large CSS frameworks.
 
 🛠 **Configure using:**
 
