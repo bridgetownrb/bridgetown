@@ -42,7 +42,7 @@ module Bridgetown
       end
 
       def site
-        @site ||= Bridgetown::Site.new(Bridgetown.configuration)
+        @site ||= Bridgetown::Site.new(Bridgetown.configuration(quiet: true))
       end
 
       protected
