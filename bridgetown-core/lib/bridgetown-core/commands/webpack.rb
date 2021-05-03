@@ -24,7 +24,7 @@ module Bridgetown
         return show_actions if args.empty?
 
         action = args.first
-        if supported_actions.include?(action.to_sym)
+        if supported_actions.include?(action)
           perform action
         else
           logger.error "Error:".red, "🚨 Please enter a valid action."
@@ -57,14 +57,16 @@ module Bridgetown
       def show_actions
         say "Available actions:\n".bold
         supported_actions.each do |action, description|
-          say "#{action}".bold.blue + "\t\t" + "# #{description}"
+          say "#{action}".bold.blue + "\t" + "# #{description}"
         end
       end
 
       def supported_actions
         {
-          update: "Updates the webpack configuration to the latest available version"
-        }
+          setup: "Sets up a webpack integration with Bridgetown in your project",
+          update: "Updates the webpack configuration to the latest available version",
+          "enable-postcss": "Configures PostCSS in your project"
+        }.with_indifferent_access
       end
     end
   end

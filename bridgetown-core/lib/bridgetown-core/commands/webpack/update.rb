@@ -1,3 +1,1 @@
-template "bridgetown.webpack.config.js.erb", "bridgetown.webpack.config.js"
-copy_file "webpack.config.js"
-
+template "webpack.defaults.js.erb", "webpack.defaults.js"

@@ -1,3 +1,3 @@
-const config = require("./bridgetown.webpack.config.js")
+const config = require("./webpack.defaults.js")
 
 module.exports = config
