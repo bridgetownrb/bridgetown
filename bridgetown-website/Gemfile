@@ -8,7 +8,7 @@ gem "bridgetown-core", path: "../bridgetown-core"
 gem "bridgetown-paginate", path: "../bridgetown-paginate"
 
 group :bridgetown_plugins do
-  gem "bridgetown-feed", "~> 1.0", github: "bridgetownrb/bridgetown-feed", branch: "support-resources"
+  gem "bridgetown-feed", "~> 2.0", github: "bridgetownrb/bridgetown-feed", branch: "support-resources"
   gem "bridgetown-inline-svg", "~> 1.1"
   gem "bridgetown-quick-search", "~> 1.0.3", github: "bridgetownrb/bridgetown-quick-search", branch: "support-resources"
   gem "bridgetown-seo-tag", "3.0.5"
