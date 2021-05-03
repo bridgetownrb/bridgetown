@@ -19,6 +19,7 @@ You can use this command in a number of ways:
   Bridgetown's native Ruby API.
 * [`bridgetown plugins [list|cd]`](/docs/commands/plugins) - Display information about installed plugins or allow you to copy content out of gem-based plugins into your site folders.
 * `bridgetown apply` - Run an [automation script](/docs/automations) for your existing site.
+* `bridgetown configure CONFIGURATION` - Run a [bundled configuration](/docs/bundled-configurations) for your existing site. Invoke without arguments to see all available configurations.
 * `bridgetown help` - Shows help, optionally for a given subcommand, e.g. `bridgetown help build`.
 * `bridgetown doctor` - Outputs any deprecation or configuration issues.
 * `bridgetown clean` - Removes all generated files: destination folder, metadata file, and Bridgetown caches.
