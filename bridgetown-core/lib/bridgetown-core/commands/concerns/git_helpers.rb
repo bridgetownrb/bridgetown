@@ -3,7 +3,6 @@
 module Bridgetown
   module Commands
     module GitHelpers
-
       def initialize_new_repo
         run "git init", abort_on_failure: true
         `git symbolic-ref HEAD refs/heads/main` if user_default_branch.empty?
