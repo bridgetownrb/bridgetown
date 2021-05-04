@@ -4,6 +4,7 @@ module Bridgetown
   module Commands
     class Webpack < Thor::Group
       include Thor::Actions
+      include ConfigurationOverridable
       extend Summarizable
 
       Registrations.register do
@@ -42,7 +43,7 @@ module Bridgetown
       end
 
       def site
-        @site ||= Bridgetown::Site.new(Bridgetown.configuration(quiet: true))
+        @site ||= Bridgetown::Site.new(configuration_with_overrides(quiet: true))
       end
 
       protected
