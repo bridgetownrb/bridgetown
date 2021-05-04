@@ -23,6 +23,7 @@ You can use this command in a number of ways:
 * `bridgetown help` - Shows help, optionally for a given subcommand, e.g. `bridgetown help build`.
 * `bridgetown doctor` - Outputs any deprecation or configuration issues.
 * `bridgetown clean` - Removes all generated files: destination folder, metadata file, and Bridgetown caches.
+* `bridgetown webpack ACTION` - Allows you to perform actions such as `update` on your project's Webpack configuration. Invoke without arguments to see all available actions.
 
 Typically you'll use `bridgetown serve` while developing locally and
 `bridgetown build` when you need to generate the site for production*.
