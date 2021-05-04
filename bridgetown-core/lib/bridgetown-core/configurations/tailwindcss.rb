@@ -4,9 +4,7 @@
 
 TEMPLATE_PATH = File.expand_path("./tailwindcss", __dir__)
 
-begin
-  find_in_source_paths("postcss.config.js")
-rescue Thor::Error
+unless File.exist?("postcss.config.js")
   error_message = "#{"postcss.config.js".bold} not found. Please configure postcss in your project."
 
   @logger.error "\nError:".red, "🚨 #{error_message}"
