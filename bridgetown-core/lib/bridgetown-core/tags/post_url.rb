@@ -57,6 +57,8 @@ module Bridgetown
     end
 
     class PostUrl < Liquid::Tag
+      include Bridgetown::Filters::URLFilters
+
       def initialize(tag_name, post, tokens)
         super
         @orig_post = post.strip
@@ -76,7 +78,7 @@ module Bridgetown
         site = context.registers[:site]
 
         site.posts.docs.each do |document|
-          return Bridgetown::Filters::URLFilters.relative_url(document) if @post == document
+          return relative_url(document) if @post == document
         end
 
         # New matching method did not match, fall back to old method
@@ -90,7 +92,7 @@ module Bridgetown
             "a post using the new matching method of checking name " \
             "(path-date-slug) equality. Please make sure that you " \
             "change this tag to match the post's name exactly."
-          return Bridgetown::Filters::URLFilters.relative_url(document)
+          return relative_url(document)
         end
 
         raise Bridgetown::Errors::PostURLError, <<~MSG

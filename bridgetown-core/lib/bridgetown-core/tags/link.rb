@@ -20,16 +20,16 @@ module Bridgetown
       def render(context)
         @context = context
         site = context.registers[:site]
-        parsed_path = Liquid::Template.parse(@relative_path).render(context)
+        relative_path = Liquid::Template.parse(@relative_path).render(context)
 
         site.each_site_file do |item|
-          next unless item.relative_path == parsed_path || item.relative_path == "/#{parsed_path}"
-
-          return Bridgetown::Filters::URLFilters.relative_url(item)
+          return relative_url(item) if item.relative_path == relative_path
+          # This takes care of the case for static files that have a leading /
+          return relative_url(item) if item.relative_path == "/#{relative_path}"
         end
 
         raise ArgumentError, <<~MSG
-          Could not find document '#{parsed_path}' in tag '#{self.class.tag_name}'.
+          Could not find document '#{relative_path}' in tag '#{self.class.tag_name}'.
 
           Make sure the document exists and the path is correct.
         MSG
