@@ -66,7 +66,7 @@ module Bridgetown
       def supported_actions
         {
           setup: "Sets up a webpack integration with Bridgetown in your project",
-          update: "Updates the webpack configuration to the latest available version",
+          update: "Updates the Bridgetown webpack defaults to the latest available version",
           "enable-postcss": "Configures PostCSS in your project"
         }.with_indifferent_access
       end
