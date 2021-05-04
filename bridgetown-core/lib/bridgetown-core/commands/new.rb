@@ -88,6 +88,7 @@ module Bridgetown
         template("frontend/javascript/index.js.erb", "frontend/javascript/index.js")
 
         options["use-postcss"] ? configure_postcss : configure_sass
+        invoke(Webpack, ["setup"], {})
       end
 
       def configure_sass
@@ -113,7 +114,6 @@ module Bridgetown
         @skipped_yarn = true
         yarn_install path unless options["skip-yarn"]
 
-        invoke(Webpack, ["setup"], {})
         invoke(Apply, [], options) if options[:apply]
         invoke(Configure, options[:configure].split(","), {}) if options[:configure]
 
