@@ -3,6 +3,8 @@
 module Bridgetown
   module Filters
     module URLFilters
+      extend self
+
       # Produces an absolute URL based on site.url and site.baseurl.
       #
       # input - the URL to make absolute.
@@ -33,6 +35,16 @@ module Bridgetown
         return if input.nil? || input.to_s.empty?
 
         input.sub(%r!/index\.html?$!, "/")
+      end
+
+      # Strips the extension (if present) off a path/URL
+      #
+      # @param input [Object] value which responds to `to_s`
+      # @return [String]
+      def strip_extname(input)
+        Pathname.new(input.to_s).yield_self do |path|
+          path.dirname + path.basename(".*")
+        end.to_s
       end
 
       private

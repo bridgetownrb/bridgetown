@@ -264,4 +264,14 @@ class TestResource < BridgetownUnitTest
       assert_equal "ruby", @site.data.languages[1]
     end
   end
+
+  context "dotfile permalink" do
+    should "get saved to destination" do
+      @site = resources_site
+      @site.process
+      @dest_file = File.read(dest_dir(".nojekyll"))
+
+      assert_equal "nojekyll", @dest_file.strip
+    end
+  end
 end
