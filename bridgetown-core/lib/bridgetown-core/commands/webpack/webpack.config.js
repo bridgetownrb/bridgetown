@@ -5,7 +5,7 @@ const config = require("./webpack.defaults.js")
 // Eg:
 //
 //  ```
-//    const path = require("path");
+//    const path = require("path")
 //    config.resolve.modules.push(path.resolve(__dirname, 'frontend', 'components'))
 //    config.resolve.alias.frontendComponents = path.resolve(__dirname, 'frontend', 'components')
 //  ```
