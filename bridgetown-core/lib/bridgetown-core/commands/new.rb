@@ -4,6 +4,7 @@ module Bridgetown
   module Commands
     class New < Thor::Group
       include Thor::Actions
+      include GitHelpers
       extend Summarizable
 
       Registrations.register do
@@ -157,8 +158,7 @@ module Bridgetown
       def git_init(path)
         unless Bridgetown.environment == "test"
           inside(path) do
-            run "git init", abort_on_failure: true
-            run "if [[ -n $(git status | grep 'On branch master') ]]; then git checkout -b main; fi"
+            initialize_new_repo
           end
         end
       rescue SystemExit

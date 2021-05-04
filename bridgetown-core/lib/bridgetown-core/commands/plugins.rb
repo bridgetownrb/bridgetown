@@ -5,6 +5,7 @@ module Bridgetown
     class Plugins < Thor
       include Thor::Actions
       include ConfigurationOverridable
+      include GitHelpers
 
       Registrations.register do
         desc "plugins <command>", "List installed plugins or access plugin content"
@@ -148,9 +149,8 @@ module Bridgetown
         new_gemspec = "#{name}.gemspec"
 
         inside name do # rubocop:todo Metrics/BlockLength
-          run "rm -rf .git"
-          run "git init"
-          run "if [[ -n $(git status | grep 'On branch master') ]]; then git checkout -b main; fi"
+          destroy_existing_repo
+          initialize_new_repo
 
           run "mv bridgetown-sample-plugin.gemspec #{new_gemspec}"
           gsub_file new_gemspec, "https://github.com/bridgetownrb/bridgetown-sample-plugin", "https://github.com/username/#{name}"
