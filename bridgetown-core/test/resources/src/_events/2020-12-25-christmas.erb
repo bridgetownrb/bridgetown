@@ -1,5 +1,8 @@
----
-title: Christmas 2020
----
+---<%
+front_matter do
+  old_title "Christmas 2019"
+  title get(:old_title).sub("2019", "2020")
+end
+%>---
 
 Fa <%= 8.times.map { "la" }.join(" ") %>!

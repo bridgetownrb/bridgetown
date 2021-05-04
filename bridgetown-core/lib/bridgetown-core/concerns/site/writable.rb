@@ -21,7 +21,7 @@ class Bridgetown::Site
     end
 
     # Yields all content objects while looping through {#pages},
-    #   {#static_files_to_write}, and {#docs_to_write}.
+    #   {#static_files_to_write}, {#docs_to_write}, {#resources_to_write}.
     #
     # @yieldparam item [Document, Page, StaticFile]
     #

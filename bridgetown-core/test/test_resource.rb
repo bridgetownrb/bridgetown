@@ -99,6 +99,7 @@ class TestResource < BridgetownUnitTest
     end
 
     should "have transformed content" do
+      assert_equal "Christmas 2020", @resource.data.title
       assert_equal "Fa la la la la la la la la!", @resource.content.strip
     end
   end
@@ -183,6 +184,10 @@ class TestResource < BridgetownUnitTest
     should "have a fancy title" do
       assert_equal "I'm a bløg pöst? 😄", @resource.data.title
     end
+
+    should "include content" do
+      assert_equal "<p>W00t!</p>\n", @resource.content
+    end
   end
 
   context "a resource in the posts collection" do
@@ -249,6 +254,14 @@ class TestResource < BridgetownUnitTest
       assert_equal "cheese", @resource.data.products.first.name
       assert_equal "cheese", @site.data.categories.dairy.products.first.name
       assert_equal 5.3, @site.data.categories.dairy.products.first.price
+    end
+  end
+
+  context "a Ruby data resource" do
+    should "provide an array" do
+      @site = resources_site
+      @site.process
+      assert_equal "ruby", @site.data.languages[1]
     end
   end
 end

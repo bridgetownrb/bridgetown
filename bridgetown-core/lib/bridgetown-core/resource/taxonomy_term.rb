@@ -17,8 +17,17 @@ module Bridgetown
 
       def to_liquid
         {
-          label: label,
+          "label" => label,
         }
+      end
+      alias_method :to_h, :to_liquid
+
+      def as_json(*)
+        to_h
+      end
+
+      ruby2_keywords def to_json(*options)
+        as_json(*options).to_json(*options)
       end
     end
   end

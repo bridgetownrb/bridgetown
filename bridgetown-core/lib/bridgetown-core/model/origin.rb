@@ -35,4 +35,4 @@ module Bridgetown
 end
 
 require "bridgetown-core/model/builder_origin"
-require "bridgetown-core/model/file_origin"
+require "bridgetown-core/model/repo_origin"

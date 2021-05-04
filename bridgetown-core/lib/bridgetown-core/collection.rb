@@ -78,7 +78,8 @@ module Bridgetown
         if site.uses_resource?
           next if File.basename(file_path).starts_with?("_")
 
-          if label == "data" || Utils.has_yaml_header?(full_path)
+          if label == "data" || Utils.has_yaml_header?(full_path) ||
+              Utils.has_rbfm_header?(full_path)
             read_resource(full_path)
           else
             read_static_file(file_path, full_path)
@@ -256,7 +257,7 @@ module Bridgetown
           sanitized_segment = sanitize_filename.(File.basename(segment, ".*"))
           hsh = nested.empty? ? data_contents : data_contents.dig(*nested)
           hsh[sanitized_segment] = if index == segments.length - 1
-                                     data_resource.data.array || data_resource.data
+                                     data_resource.data.rows || data_resource.data
                                    else
                                      {}
                                    end
@@ -279,6 +280,16 @@ module Bridgetown
       data_contents
     end
 
+    # Read in resource from repo path
+    # @param full_path [String]
+    def read_resource(full_path)
+      id = "repo://#{label}.collection/" + Addressable::URI.escape(
+        Pathname(full_path).relative_path_from(Pathname(site.source)).to_s
+      )
+      resource = Bridgetown::Model::Base.find(id).to_resource.read!
+      resources << resource if site.unpublished || resource.published?
+    end
+
     private
 
     def container
@@ -288,14 +299,6 @@ module Bridgetown
     def read_document(full_path)
       doc = Document.new(full_path, site: site, collection: self).tap(&:read)
       docs << doc if site.unpublished || doc.published?
-    end
-
-    def read_resource(full_path)
-      id = "file://#{label}.collection/" + Addressable::URI.escape(
-        Pathname(full_path).relative_path_from(Pathname(site.source)).to_s
-      )
-      resource = Bridgetown::Model::Base.find(id).to_resource.read!
-      resources << resource if site.unpublished || resource.published?
     end
 
     def sort_docs!

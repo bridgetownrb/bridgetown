@@ -18,9 +18,9 @@ Built upon proven open source technology, **Bridgetown** is a _fast_, _scalable_
 
 * <ui-icon class="icon is-medium"><i class="fa fa-cogs is-size-4 has-text-primary"></i></ui-icon>**Customize with Plugins.**{:.is-size-5.has-text-brown} Develop your own plugins in the delightful Ruby programming language to enable totally custom projects, or [install community gems](/plugins/) to supercharge your site build. Sprinkle Ruby Front Matter on templates to bring them to life.
 
-* <ui-icon class="icon is-medium"><i class="fa fa-react is-size-4 has-text-primary"></i></ui-icon>**Add a Modern Frontend.**{:.is-size-5.has-text-brown} Bridgetown comes with support for **Webpack** out-of-the-box, which means you can add Javascript frameworks like **React**, **Vue**, **Stimulus** as well as CSS frameworks like **Bulma** or **Tailwind** to get a leg up fast.
+* <ui-icon class="icon is-medium"><i class="fa fa-react is-size-4 has-text-primary"></i></ui-icon>**Add a Modern Frontend.**{:.is-size-5.has-text-brown} Bridgetown comes with support for **Webpack** out-of-the-box, which means you can add JavaScript frameworks like **React**, **Vue**, **Stimulus** as well as CSS frameworks like **Bulma** or **Tailwind** to get a leg up fast.
 
-* <ui-icon class="icon is-medium"><i class="fa fa-globe is-size-4 has-text-primary"></i></ui-icon>**Deploy Anywhere.**{:.is-size-5.has-text-brown} Use an automated hosting service like [Netlify](https://www.netlify.com) to deploy your site upon every update, or just sync the `output` folder to a standard web server and you're done. It's without a doubt the most flexible publishing system available.
+* <ui-icon class="icon is-medium"><i class="fa fa-globe is-size-4 has-text-primary"></i></ui-icon>**Deploy Anywhere.**{:.is-size-5.has-text-brown} Use an automated hosting service like [Render](https://www.render.com) to deploy your site upon every update, or just sync the `output` folder to a standard web server and you're done. It's without a doubt the most flexible publishing system available.
 
 ### Watch the Comprehensive Overview Video
 {: .has-text-centered .has-text-danger .mt-10}

@@ -69,7 +69,7 @@ module Bridgetown
           end
         else
           output = @parser.convert(content)
-          if @parser.respond_to?(:extractions)
+          if convertible && @parser.respond_to?(:extractions)
             convertible.data.markdown_extractions = @parser.extractions
           end
           output

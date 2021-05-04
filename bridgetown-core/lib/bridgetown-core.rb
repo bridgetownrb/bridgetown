@@ -38,6 +38,7 @@ require "active_support/core_ext/object/deep_dup"
 require "active_support/core_ext/object/inclusion"
 require "active_support/core_ext/string/inflections"
 require "active_support/core_ext/string/inquiry"
+require "active_support/core_ext/string/output_safety"
 require "active_support/core_ext/string/starts_ends_with"
 require "active_support/current_attributes"
 require "active_support/descendants_tracker"
@@ -80,6 +81,7 @@ end
 module Bridgetown
   autoload :Cleaner,             "bridgetown-core/cleaner"
   autoload :Collection,          "bridgetown-core/collection"
+  autoload :Component,           "bridgetown-core/component"
   autoload :Configuration,       "bridgetown-core/configuration"
   autoload :DataAccessible,      "bridgetown-core/concerns/data_accessible"
   autoload :Deprecator,          "bridgetown-core/deprecator"
@@ -91,6 +93,7 @@ module Bridgetown
   # TODO: this is a poorly named, unclear class. Relocate to Utils:
   autoload :External,            "bridgetown-core/external"
   autoload :FrontmatterDefaults, "bridgetown-core/frontmatter_defaults"
+  autoload :FrontMatterImporter, "bridgetown-core/concerns/front_matter_importer"
   autoload :Hooks,               "bridgetown-core/hooks"
   autoload :Layout,              "bridgetown-core/layout"
   autoload :LayoutPlaceable,     "bridgetown-core/concerns/layout_placeable"

@@ -5,8 +5,8 @@ module Bridgetown
     module RubyExec
       extend self
 
-      # rubocop:disable Metrics/AbcSize
-      def search_data_for_ruby_code(convertible, renderer)
+      # TODO: Deprecate storing Ruby code in YAML, Rb, etc. and just use native Ruby Front Matter
+      def search_data_for_ruby_code(convertible, renderer) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
         return if convertible.data.empty?
 
         # Iterate using `keys` here so inline Ruby script can add new data keys
@@ -14,24 +14,21 @@ module Bridgetown
         data_keys = convertible.data.keys
         data_keys.each do |k|
           v = convertible.data[k]
-          next unless v.is_a?(Rb) || v.is_a?(Hash)
+          next unless v.is_a?(Rb) || v.is_a?(Hash) || v.is_a?(Proc)
 
-          if v.is_a?(Hash)
+          if v.is_a?(Proc)
+            convertible.data[k] = convertible.instance_exec(&v)
+          elsif v.is_a?(Hash)
             v.each do |nested_k, nested_v|
               next unless nested_v.is_a?(Rb)
 
-              Bridgetown.logger.debug("Executing inline Ruby…", convertible.relative_path)
               convertible.data[k][nested_k] = run(nested_v, convertible, renderer)
-              Bridgetown.logger.debug("Inline Ruby completed!", convertible.relative_path)
             end
           else
-            Bridgetown.logger.debug("Executing inline Ruby…", convertible.relative_path)
             convertible.data[k] = run(v, convertible, renderer)
-            Bridgetown.logger.debug("Inline Ruby completed!", convertible.relative_path)
           end
         end
       end
-      # rubocop:enable Metrics/AbcSize
 
       # Sets up a new context in which to eval Ruby coming from front matter.
       #

@@ -27,6 +27,19 @@ Oats, <%= array_to_sentence_string ["peas", "beans", "barley"] %> grow.
 
 <%= render RubyComponent.new %>
 
+<%= render(Card.new(title: "I'm a card", footer: "I'm a footer")) do |c| %>
+  <% c.image do %>
+    <img src="test.jpg" />
+  <% end %>
+  <p>I'm the body of the <%= c.kind %></p>
+<% end %>
+
+<%= render(Card.new(title: "Nope", footer: "CANCEL!")) do %>
+  Canceled!
+<% end %>
+
+<%= render (Nested.new(level: 1)) do %>Level 1<% end %>
+
 <%= render Example::OverrideComponent.new %>
 
 ===

@@ -23,13 +23,6 @@ module Bridgetown
       # @return [String]
       attr_accessor :content, :untransformed_content, :output
 
-      # @!attribute [r] collection
-      #   @return [Bridgetown::Collection] collection of this resource
-
-      # @!attribute [r] relative_path
-      #   @return [Pathname] the relative path of source file or
-      #     file-like origin
-
       DATE_FILENAME_MATCHER = %r!^(?>.+/)*?(\d{2,4}-\d{1,2}-\d{1,2})-([^/]*)(\.[^.]+)$!.freeze
 
       # @param site [Bridgetown::Site]
@@ -42,11 +35,15 @@ module Bridgetown
         trigger_hooks(:post_init)
       end
 
+      # Collection associated with this resource
+      #
       # @return [Bridgetown::Collection]
       def collection
         model.collection
       end
 
+      # The relative path of source file or file-like origin
+      #
       # @return [Pathname]
       def relative_path
         model.origin.relative_path
@@ -55,6 +52,11 @@ module Bridgetown
       # @return [Bridgetown::Resource::Transformer]
       def transformer
         @transformer ||= Bridgetown::Resource::Transformer.new(self)
+      end
+
+      # @return [Bridgetown::Resource::Relations]
+      def relations
+        @relations ||= Bridgetown::Resource::Relations.new(self)
       end
 
       # @param new_data [HashWithDotAccess::Hash]
@@ -80,9 +82,11 @@ module Bridgetown
 
         unless collection.data?
           self.untransformed_content = content
-          determine_slug_and_date
           normalize_categories_and_tags
           import_taxonomies_from_data
+          ensure_default_data
+          transformer.execute_inline_ruby!
+          set_date_from_string(data.date)
         end
 
         @destination = Destination.new(self) if requires_destination?
@@ -94,7 +98,7 @@ module Bridgetown
       alias_method :read, :read! # TODO: eventually use the bang version only
 
       def transform!
-        transformer.process! unless collection.data?
+        transformer.process! if output_allowed?
       end
 
       def trigger_hooks(hook_name, *args)
@@ -108,6 +112,7 @@ module Bridgetown
         trigger_hooks :"post_#{hook_suffix}"
       end
 
+      # @return [String]
       def relative_path_basename_without_prefix
         return_path = Pathname.new("")
         relative_path.each_filename do |filename|
@@ -121,6 +126,7 @@ module Bridgetown
         (return_path.dirname + return_path.basename(".*")).to_s
       end
 
+      # @return [String]
       def basename_without_ext
         relative_path.basename(".*").to_s
       end
@@ -135,21 +141,28 @@ module Bridgetown
         data&.permalink
       end
 
+      # @return [String]
       def path
         (model.origin.respond_to?(:original_path) ? model.origin.original_path : relative_path).to_s
       end
 
+      # @return [String]
       def absolute_url
         format_url destination&.absolute_url
       end
 
+      # @return [String]
       def relative_url
         format_url destination&.relative_url
       end
-      alias_method :id, :relative_url
+
+      # @return [String]
+      def id
+        model.origin.id
+      end
 
       def date
-        data["date"] ||= site.time # TODO: this doesn't reflect documented behavior
+        data["date"] ||= site.time
       end
 
       # @return [Hash<String, Hash<String => Bridgetown::Resource::TaxonomyType,
@@ -165,8 +178,12 @@ module Bridgetown
         end
       end
 
+      def output_allowed?
+        !collection.data? && data.config&.output != false
+      end
+
       def requires_destination?
-        collection.write? && data.config&.output != false
+        collection.write? && output_allowed?
       end
 
       def write?
@@ -189,13 +206,36 @@ module Bridgetown
 
       # Create a Liquid-understandable version of this resource.
       #
-      # @return [Drops::DocumentDrop] represents this resource's data.
+      # @return [Drops::ResourceDrop] represents this resource's data.
       def to_liquid
         @to_liquid ||= Drops::ResourceDrop.new(self)
       end
 
+      def to_h
+        {
+          id: id,
+          absolute_url: absolute_url,
+          relative_path: relative_path,
+          relative_url: relative_url,
+          date: date,
+          data: data,
+          taxonomies: taxonomies,
+          untransformed_content: untransformed_content,
+          content: content,
+          output: output,
+        }
+      end
+
+      def as_json(*)
+        to_h
+      end
+
+      ruby2_keywords def to_json(*options)
+        as_json(*options).to_json(*options)
+      end
+
       def inspect
-        "#<#{self.class} [#{collection.label}] #{relative_path}>"
+        "#<#{self.class} #{id}>"
       end
 
       # Compare this document against another document.
@@ -229,23 +269,25 @@ module Bridgetown
 
       private
 
-      def determine_slug_and_date
-        return unless relative_path.to_s =~ DATE_FILENAME_MATCHER
+      def ensure_default_data
+        slug = if matches = relative_path.to_s.match(DATE_FILENAME_MATCHER) # rubocop:disable Lint/AssignmentInCondition
+                 set_date_from_string(matches[1]) unless data.date
+                 matches[2]
+               else
+                 basename_without_ext
+               end
 
-        new_date, slug = Regexp.last_match.captures
-        modify_date(new_date)
-
-        slug.gsub!(%r!\.*\z!, "")
         data.slug ||= slug
+        data.title ||= Bridgetown::Utils.titleize_slug(slug)
       end
 
-      def modify_date(new_date)
-        if !data.date || data.date.to_i == site.time.to_i
-          data.date = Utils.parse_date(
-            new_date,
-            "Document '#{relative_path}' does not have a valid date in the #{model}."
-          )
-        end
+      def set_date_from_string(new_date) # rubocop:disable Naming/AccessorMethodName
+        return unless new_date.is_a?(String)
+
+        data.date = Bridgetown::Utils.parse_date(
+          new_date,
+          "Document '#{relative_path}' does not have a valid date in the #{model}."
+        )
       end
 
       def normalize_categories_and_tags

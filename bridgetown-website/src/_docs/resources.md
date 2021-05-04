@@ -33,7 +33,7 @@ Resources come with a merry band of objects to help them along the way. These ar
 
 Let's say you add a new blog post by saving `src/_posts/2021-05-10-super-cool-blog-post.md`. To make the transition from a Markdown file with Liquid or ERB template syntax to a final URL on your website, Bridgetown takes your data through several steps:
 
-1. It finds the appropriate origin class to load the post. The posts collection file reader uses a special **origin ID** identify the file (in this case: `file://posts.collection/_posts/2021-05-10-super-cool-blog-post.md`). Other origin classes could handle different protocols to download content from third-party APIs or load in content directly from scripts.
+1. It finds the appropriate origin class to load the post. The posts collection file reader uses a special **origin ID** identify the file (in this case: `repo://posts.collection/_posts/2021-05-10-super-cool-blog-post.md`). Other origin classes could handle different protocols to download content from third-party APIs or load in content directly from scripts.
 2. Once the origin provides the post's data it is used to create a model object. The model will be a `Bridgetown::Model::Base` object by default, but you can create your own subclasses to alter and enhance data, or for use in a Ruby-based CMS environment. For example, `class Post < Bridgetown::Model::Base; end` will get used automatically for the `posts` collection (because Bridgetown will use the Rails inflector to map `posts` to `Post`). You can save subclasses in your `plugins` folder.
 3. The model then "emits" a resource object. The resource is provided a clone of the model data which it can then process for use within template like Liquid, ERB, and so forth. Resources may also point to other resources within their collection, and templates can access resources through various means (looping through collections, referencing resources by source paths, etc.)
 4. The resource is transformed by a transformer object which runs a pipeline to convert Markdown to HTML, render Liquid or ERB templates, and any other conversions specified—as well as optionally place the resource output within a converted layout.
@@ -148,9 +148,9 @@ You can easily loop through collection resources by name, e.g., `collections.pos
 
 {% for post in paginator.resources %}
   <article>
-    <a href="{{ post.relative_url }}"><h2>{{ post.title }}</h2></a>
+    <a href="{{ post.relative_url }}"><h2>{{ post.data.title }}</h2></a>
 
-    <p>{{ post.description }}</p>
+    <p>{{ post.data.description }}</p>
   </article>
 {% endfor %}
 ```
@@ -178,7 +178,7 @@ Accessing taxonomies for resources is simple as well:
 
 Title: {{ site.taxonomy_types.genres.metadata.title }}
 
-{% for term in page.taxonomies.genres.terms %}
+{% for term in resource.taxonomies.genres.terms %}
   Term: {{ term.label }}
 {% endfor %}
 ```
@@ -188,9 +188,88 @@ Title: {{ site.taxonomy_types.genres.metadata.title }}
 
 Title: <%= site.taxonomy_types.genres.metadata.title %>
 
-<% page.taxonomies.genres.terms.each do |term| %>
+<% resource.taxonomies.genres.terms.each do |term| %>
   Term: <%= term.label %>
 <% end %>
+```
+
+## Resource Relations
+
+You can configure one-to-one, one-to-many, or many-to-many relations between resources in different collections. You can then add the necessary references via front matter or metadata from an API request and access those relations in your templates, plugins, and components.
+
+For example, given a config of:
+
+```yaml
+collections:
+  actors:
+    output: true
+    relations:
+      has_many: movies
+  movies:
+    output: true
+    relations:
+      belongs_to:
+        - actors
+        - studio
+  studios:
+    output: true
+    relations:
+      has_many: movies
+```
+
+The following data accessors would be available:
+
+* `actor.relations.movies`
+* `movie.relations.actors`
+* `movie.relations.studio`
+* `studio.relations.movies`
+
+The `belongs_to` type relations are where you add the resource references in front matter—Bridgetown will use a resource's slug to perform the search. `belongs_to` can support solo or multiple relations. For example:
+
+```yaml
+# _movies/_1982/blade-runner.md
+name: Blade Runner
+description: A blade runner must pursue and terminate four replicants who stole a ship in space, and have returned to Earth to find their creator.
+year: 1982
+actors:
+  - harrison-ford # _actors/_h/harrison-ford.md
+  - rutger-howard # _actors/_r/rutger-howard.md
+  - sean-young # _actors/_s/sean-young.md
+studio: warner-brothers # _studios/warner-brothers.md
+```
+
+Thus if you were building a layout for the movies collection, it might look something like this:
+
+```erb
+<!-- src/_layouts/movies.erb -->
+
+<h1><%= resource.data.name %> (<%= resource.data.year %>)</h1>
+<h2><%= resource.data.description %></h2>
+
+<p><strong>Starring:</strong></p>
+
+<ul>
+  <% resource.relations.actors.each do |actor| %>
+    <li><%= link_to actor.name, actor %></li>
+  <% end %>
+</ul>
+
+<p>Released by <%= link_to resource.relations.studio.name, resource.relations.studio %></p>
+```
+
+The three types of relations you can configure are:
+
+* **belongs_to**: a single string or an array of strings which are the slugs of the resources you want to reference
+* **has_one**: a single resource you want to reference will define the slug of the current resource in _its_ front matter
+* **has_many**: multiple resources you want to reference will define the slug of the current resource in their front matter
+
+The "inflector" loaded in from Rails' ActiveSupport is used to convert between singular and plural collection names automatically. If you need to customize the inflector with words it doesn't specifically recognize, create a plugin and add your own:
+
+```ruby
+ActiveSuport::Inflector.inflections(:en) do |inflect|
+  inflect.plural /^(ox)$/i, '\1\2en'
+  inflect.singular /^(ox)en/i, '\1'
+end
 ```
 
 ## Configuring Permalinks
@@ -228,17 +307,57 @@ collections:
     permalink: /lots-of/:collection/:year/:title/
 ```
 
+## Ruby Front Matter and All-Ruby Templates
+
+For advanced use cases where you wish to generate dynamic values for front matter variables, you can use Ruby Front Matter. [Read the documentation here.](/docs/front-matter)
+
+In addition, you can add all-Ruby page templates to your site besides just the typical Markdown/Liquid/ERB options. Yes, you're reading that right: put `.rb` files directly in your `src` folder! As long as the final statement in your code returns a string or can be converted to a string via `to_s`, you're golden. Ruby templates are evaluated in a `Bridgetown::ERBView` context (even though they aren't actually ERB), so all the usual Ruby template helpers are available.
+
+For example, if we were to convert the out-of-the-box `about.md` page to `about.rb`, it would look something like this:
+
+```ruby
+###ruby
+front_matter do
+  layout :page
+  title "About Us"
+end
+###
+
+output = Array("This is the basic Bridgetown site template. You can find out more info about customizing your Bridgetown site, as well as basic Bridgetown usage documentation at [bridgetownrb.com](https://bridgetownrb.com/)")
+
+output << ""
+output << "You can find the source code for Bridgetown at GitHub:"
+output << "[bridgetownrb](https://github.com/bridgetownrb) /"
+output << "[bridgetown](https://github.com/bridgetownrb/bridgetown)"
+
+markdownify output.join("\n")
+```
+
+Now obviously it's silly to build up Markdown content in an array of strings in a Ruby code file…but imagine building or using third-party DSLs to generate sophisticated markup and advanced structural documents of all kinds. [Arbre](https://activeadmin.github.io/arbre/) is but one example of a Ruby-first approach to creating templates.
+
+```
+# What if your .rb template looked like this?
+
+Arbre::Context.new do
+  h1 "Hello World"
+
+  para "I'm a Ruby template. w00t"
+end
+```
+
 ## Differences Between Resource and Legacy Engines
 
 * The most obvious differences are what you use in templates (Liquid or ERB). For example, instead of `site.posts` in Liquid or `site.posts.docs` in ERB, you'd use `collections.posts.resources` (in both Liquid and ERB). (`site.collection_name_here` syntax is no longer available.) Pages are just another collection now so you can iterate through them as well via `collections.pages.resources`.
+* Front matter data is now accessed in Liquid through the `data` variable just like in ERB and skipping `data` is deprecated. Use `{{ post.data.description }}` instead of just `{{ post.description }}`.
+* In addition, instead of referencing the current "page" through `page` (aka `page.data.title`), you can use `resource` instead: `resource.data.title`.
 * Resources don't have a `url` variable. Your templates/plugins will need to reference either `relative_url` or `absolute_url`. Also, the site's `baseurl` (if configured) is built into both values, so you won't need to prepend it manually.
+* Whereas the `id` of a document is the relative destination URL, the `id` of a resource is its origin id. You can define an id in front matter separately however.
 * The paginator items are now accessed via `paginator.resources` instead of `paginator.documents`.
 * Instead of `pagination:\n  enabled: true` in your front matter for a paginated page, you'll put the collection name instead. Also you can use the term `paginate` instead of `pagination`. So to paginate through posts, just add `paginate:\n  collection: posts` to your front matter.
 * Categories and tags are collated from all collections (even pages!), so if you used category/tag front matter manually before outside of posts, you may get a lot more site-wide category/tag data than expected.
 * Since user-authored pages are no longer loaded as `Page` objects and everything formerly loaded as `Document` will now be a `Resource::Base`, plugins will need to be adapted accordingly. The `Page` class will eventually be renamed to `GeneratedPage` to indicate it is only used for content generated by plugins.
 * With the legacy engine, any folder starting with an underscore within a collection would be skipped. With the resource engine, folders can start with underscores but they aren't included in the final permalink. (Files starting with an underscore are always skipped however.)
 * The `YYYY-MM-DD-slug.ext` filename format will now work for any collection, not just posts.
-* Structured data files (aka YAML, JSON, CSV, etc.) starting with triple-dashes/front-matter can be placed in collection folders, and they will be read and transformed like any other resource. (CSV/TSV data gets loaded into the `rows` front matter key).
 * The [Document Builder API](/docs/plugins/external-apis) no longer works when the resource content engine is configured. We'll be restoring this functionality in a future point release of Bridgetown.
 * Automatic excerpts are not included in the current resource featureset. We'll be opening up a brand-new Excerpt/Summary API in the near future.
 

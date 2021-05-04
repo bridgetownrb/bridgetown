@@ -7,6 +7,7 @@ module Bridgetown
     require "bridgetown-core/helpers"
 
     attr_reader :layout, :page, :paginator, :site, :content
+    alias_method :resource, :page
 
     def initialize(convertible)
       if convertible.is_a?(Layout)
@@ -27,17 +28,10 @@ module Bridgetown
 
     def render(item, options = {}, &block)
       if item.respond_to?(:render_in)
-        previous_buffer_state = @_erbout
-        @_erbout = Bridgetown::ERBBuffer.new
-
-        @in_view_component ||= defined?(::ViewComponent::Base) && item.is_a?(::ViewComponent::Base)
         result = item.render_in(self, &block)
-        @in_view_component = false
-
-        @_erbout = previous_buffer_state
-        result
+        result&.html_safe
       else
-        partial(item, options, &block)
+        partial(item, options, &block)&.html_safe
       end
     end
 
@@ -60,14 +54,15 @@ module Bridgetown
         Bridgetown.logger.warn "Liquid Warning:",
                                LiquidRenderer.format_error(e, path || document.relative_path)
       end
-      template.render!(options.deep_stringify_keys, _liquid_context)
+      template.render!(options.deep_stringify_keys, _liquid_context).html_safe
     end
 
     def helpers
       @helpers ||= Helpers.new(self, site)
     end
 
-    def method_missing(method, *args, &block)
+    # rubocop:disable Style/MissingRespondToMissing
+    ruby2_keywords def method_missing(method, *args, &block)
       if helpers.respond_to?(method.to_sym)
         helpers.send method.to_sym, *args, &block
       else
@@ -78,6 +73,7 @@ module Bridgetown
     def respond_to_missing?(method, include_private = false)
       helpers.respond_to?(method.to_sym, include_private) || super
     end
+    # rubocop:enable Style/MissingRespondToMissing
 
     private
 

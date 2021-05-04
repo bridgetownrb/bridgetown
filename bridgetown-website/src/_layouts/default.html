@@ -17,10 +17,14 @@ github_participation: !ruby/string:Rb |
 <!doctype html>
 <html lang="en">
   <head>
-    <%= liquid_render "shared/head", metadata: site.metadata, title: page.data.title %>
+    <%= render Shared::Head.new(metadata: site.metadata, title: resource.data.title) %>
   </head>
-  <body class="<%= page.data.layout %> <%= page.data.page_class %>">
-    <%= liquid_render "shared/navbar", metadata: site.metadata, page: page, version: Bridgetown::Drops::BridgetownDrop.global.version %>
+  <body class="<%= resource.data.layout %> <%= resource.data.page_class %>">
+    <%=
+      render Shared::Navbar.new(
+        metadata: site.metadata, resource: resource, version: Bridgetown::VERSION
+      )
+    %>
 
     <main>
       <%= yield %>

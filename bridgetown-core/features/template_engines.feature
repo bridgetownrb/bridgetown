@@ -90,7 +90,7 @@ Feature: Template Engines
       """
       ---
       ---
-      <%= jsonify({key: [1, 1+1, 1+1+1]}) %>
+      <%= raw jsonify({key: [1, 1+1, 1+1+1]}) %>
       """
     And I have a configuration file with:
       | key             | value |
