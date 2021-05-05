@@ -4,7 +4,6 @@ require "helper"
 require "byebug"
 
 class TestWebpackCommand < BridgetownUnitTest
-
   context "the webpack command" do
     setup do
       @path = "new-site"
@@ -40,7 +39,7 @@ class TestWebpackCommand < BridgetownUnitTest
         @cmd.invoke(:webpack, ["setup"])
       end
 
-      byebug
+      #      byebug
     end
 
     # should "update webpack config" do
