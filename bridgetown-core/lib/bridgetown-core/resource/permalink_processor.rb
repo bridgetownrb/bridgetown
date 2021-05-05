@@ -32,7 +32,7 @@ module Bridgetown
 
         # Strip out file extension and process each segment of a URL to swap out
         # placeholders such as :categories or :title
-        url_segments = permalink.sub(%r{\.[^/]*$}, "").split("/")
+        url_segments = Bridgetown::Filters::URLFilters.strip_extname(permalink).split("/")
         new_url = url_segments.map do |segment|
           segment.starts_with?(":") ? process_segment(segment.sub(%r{^:}, "")) : segment
         end.select(&:present?).join("/")
