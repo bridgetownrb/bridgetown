@@ -3,6 +3,14 @@
 require "helper"
 
 class TestWebpackCommand < BridgetownUnitTest
+  def webpack_defaults
+    File.join(@full_path, "webpack.defaults.js")
+  end
+
+  def webpack_config
+    File.join(@full_path, "webpack.config.js")
+  end
+
   context "the webpack command" do
     setup do
       @path = "new-site"
@@ -34,8 +42,6 @@ class TestWebpackCommand < BridgetownUnitTest
     end
 
     should "setup webpack defaults and config" do
-      webpack_defaults = File.join(@full_path, "webpack.defaults.js")
-      webpack_config = File.join(@full_path, "webpack.config.js")
       File.delete webpack_defaults # Delete the file created during setup
 
       @cmd.inside(@full_path) do
