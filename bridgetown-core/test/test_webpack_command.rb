@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "helper"
-require "byebug"
 
 class TestWebpackCommand < BridgetownUnitTest
   context "the webpack command" do
@@ -9,7 +8,7 @@ class TestWebpackCommand < BridgetownUnitTest
       @path = "new-site"
       @full_path = File.expand_path(@path, Dir.pwd)
 
-      Bridgetown::Commands::Base.start(["new", @path])
+      capture_stdout { Bridgetown::Commands::Base.start(["new", @path]) }
       @cmd = Bridgetown::Commands::Webpack.new
     end
 
@@ -35,25 +34,39 @@ class TestWebpackCommand < BridgetownUnitTest
     end
 
     should "setup webpack defaults and config" do
+      webpack_defaults = File.join(@full_path, "webpack.defaults.js")
+      webpack_config = File.join(@full_path, "webpack.config.js")
+      File.delete webpack_defaults # Delete the file created during setup
+
       @cmd.inside(@full_path) do
-        @cmd.invoke(:webpack, ["setup"])
+        capture_stdout { @cmd.invoke(:webpack, ["setup"]) }
       end
 
-      #      byebug
+      assert_exist webpack_defaults
+      assert_exist webpack_config
     end
 
-    # should "update webpack config" do
-    #   output = capture_stdout do
-    #     @cmd.invoke(:webpack, ["setup"])
-    #   end
-    #   assert_match %r!fixture.*?Works\!!, output
-    # end
+    should "update webpack config" do
+      webpack_defaults = File.join(@full_path, "webpack.defaults.js")
+      File.write(webpack_defaults, "OLD_VERSION")
 
-    # should "enable postcss in webpack config" do
-    #   output = capture_stdout do
-    #     @cmd.invoke(:webpack, ["setup"])
-    #   end
-    #   assert_match %r!fixture.*?Works\!!, output
-    # end
+      @cmd.inside(@full_path) do
+        capture_stdout { @cmd.invoke(:webpack, ["update"]) }
+      end
+
+      assert_file_contains %r!module.exports!, webpack_defaults
+      refute_file_contains %r!OLD_VERSION!, webpack_defaults
+    end
+
+    should "enable postcss in webpack config" do
+      webpack_defaults = File.join(@full_path, "webpack.defaults.js")
+      refute_file_contains %r!postcss-loader!, webpack_defaults
+
+      @cmd.inside(@full_path) do
+        capture_stdout { @cmd.invoke(:webpack, ["enable-postcss"]) }
+      end
+
+      assert_file_contains %r!postcss-loader!, webpack_defaults
+    end
   end
 end

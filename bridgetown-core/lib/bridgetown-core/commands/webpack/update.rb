@@ -1,1 +1,1 @@
-template "webpack.defaults.js.erb", "webpack.defaults.js"
+template "webpack.defaults.js.erb", "webpack.defaults.js", force: true
