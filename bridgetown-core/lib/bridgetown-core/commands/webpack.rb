@@ -60,7 +60,7 @@ module Bridgetown
 
         longest_action = supported_actions.keys.max_by(&:size).size
         supported_actions.each do |action, description|
-          say "#{action.ljust(longest_action)}".bold.blue + "\t" + "# #{description}"
+          say action.ljust(longest_action).to_s.bold.blue + "\t" + "# #{description}"
         end
       end
 
@@ -68,7 +68,7 @@ module Bridgetown
         {
           setup: "Sets up a webpack integration with Bridgetown in your project",
           update: "Updates the Bridgetown webpack defaults to the latest available version",
-          "enable-postcss": "Configures PostCSS in your project"
+          "enable-postcss": "Configures PostCSS in your project",
         }.with_indifferent_access
       end
     end
