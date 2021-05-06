@@ -13,7 +13,7 @@ module Bridgetown
     end
 
     def reset
-      @glob_cache = {} if @glob_cache
+      @glob_cache = {} if defined?(@glob_cache)
     end
 
     def update_deprecated_types(set)

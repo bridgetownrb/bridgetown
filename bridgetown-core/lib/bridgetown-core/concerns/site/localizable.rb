@@ -5,7 +5,7 @@ class Bridgetown::Site
     # Returns the current and/or default configured locale
     # @return String
     def locale
-      if @locale
+      if defined?(@locale)
         @locale
       else
         @locale = ENV.fetch("BRIDGETOWN_LOCALE", config[:default_locale]).to_sym
