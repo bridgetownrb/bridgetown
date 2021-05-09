@@ -1,5 +1,11 @@
 # main
 
+# 0.21.0.beta2 / 2020-05-08
+
+* Refactor old TODOs and deprecations
+* Remove deprecated `sassify`/`scssify` filters, add html_safe to the `obfuscate_link` helper
+* Fix dotfiles or multiple extension permalinks (for the resource content engine) ([jaredcwhite](https://github.com/jaredcwhite)) [#292](https://github.com/bridgetownrb/bridgetown/pull/292)
+
 # 0.21.0.beta1 / 2020-04-25
 
 * End-to-end Ruby [front matter, templates](https://beta.bridgetownrb.com/docs/resources#ruby-front-matter-and-all-ruby-templates), and [data files](https://beta.bridgetownrb.com/docs/datafiles) ([jaredcwhite](https://github.com/jaredcwhite)) [#285](https://github.com/bridgetownrb/bridgetown/pull/285)
