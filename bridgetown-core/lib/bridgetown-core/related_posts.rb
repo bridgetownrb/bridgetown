@@ -11,11 +11,11 @@ module Bridgetown
     def initialize(post)
       @post = post
       @site = post.site
-      Bridgetown::External.require_with_graceful_fail("classifier-reborn") if site.lsi
+      Bridgetown::Utils::RequireGems.require_with_graceful_fail("classifier-reborn") if site.lsi
     end
 
     def build
-      return [] unless site.posts.docs.size > 1
+      return [] unless site.collections.posts.docs.size > 1
 
       if site.lsi
         build_index
@@ -30,7 +30,7 @@ module Bridgetown
         lsi = ClassifierReborn::LSI.new(auto_rebuild: false)
         Bridgetown.logger.info("Populating LSI...")
 
-        site.posts.docs.each do |x|
+        site.collections.posts.docs.each do |x|
           lsi.add_item(x)
         end
 
@@ -46,7 +46,7 @@ module Bridgetown
     end
 
     def most_recent_posts
-      @most_recent_posts ||= (site.posts.docs.last(11).reverse - [post]).first(10)
+      @most_recent_posts ||= (site.collections.posts.docs.last(11).reverse - [post]).first(10)
     end
   end
 end

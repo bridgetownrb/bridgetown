@@ -318,58 +318,6 @@ end
 
 #
 
-Then(%r!^I should (not )?see "(.*)" in "(.*)" if on Windows$!) do |negative, text, file|
-  step %(the "#{file}" file should exist)
-  regexp = Regexp.new(text, Regexp::MULTILINE)
-  if negative.nil? || negative.empty?
-    if Bridgetown::Utils::Platforms.really_windows?
-      expect(file_contents(file)).to match regexp
-    else
-      expect(file_contents(file)).not_to match regexp
-    end
-  end
-end
-
-#
-
-Then(%r!^I should (not )?see "(.*)" in "(.*)" unless Windows$!) do |negative, text, file|
-  step %(the "#{file}" file should exist)
-  regexp = Regexp.new(text, Regexp::MULTILINE)
-  if negative.nil? || negative.empty?
-    if Bridgetown::Utils::Platforms.really_windows?
-      expect(file_contents(file)).not_to match regexp
-    else
-      expect(file_contents(file)).to match regexp
-    end
-  end
-end
-
-#
-
-Then(%r!^I should see date "(.*)" in "(.*)" unless Windows$!) do |text, file|
-  step %(the "#{file}" file should exist)
-  regexp = Regexp.new(text)
-  if Bridgetown::Utils::Platforms.really_windows? && !dst_active?
-    expect(file_contents(file)).not_to match regexp
-  else
-    expect(file_contents(file)).to match regexp
-  end
-end
-
-#
-
-Then(%r!^I should see date "(.*)" in "(.*)" if on Windows$!) do |text, file|
-  step %(the "#{file}" file should exist)
-  regexp = Regexp.new(text)
-  if Bridgetown::Utils::Platforms.really_windows? && !dst_active?
-    expect(file_contents(file)).to match regexp
-  else
-    expect(file_contents(file)).not_to match regexp
-  end
-end
-
-#
-
 Then(%r!^I should see exactly "(.*)" in "(.*)"$!) do |text, file|
   step %(the "#{file}" file should exist)
   expect(file_contents(file).strip).to eq text

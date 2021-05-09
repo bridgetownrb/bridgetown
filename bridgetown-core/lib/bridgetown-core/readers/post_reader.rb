@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Bridgetown
+  # TODO: to be retired once the Resource engine is made official
   class PostReader
     attr_reader :site, :unfiltered_content
 
@@ -47,7 +48,7 @@ module Bridgetown
           # Process as Document
           Document.new(path,
                        site: @site,
-                       collection: @site.posts)
+                       collection: @site.collections.posts)
         else
           # Process as Static File
           read_static_file(
@@ -66,7 +67,7 @@ module Bridgetown
         site.source,
         relative_dir,
         File.basename(full_path),
-        @site.posts
+        @site.collections.posts
       )
     end
 
@@ -96,9 +97,9 @@ module Bridgetown
       return false unless processable?(item)
 
       if item.is_a?(Document)
-        site.posts.docs << item
+        site.collections.posts.docs << item
       elsif item.is_a?(StaticFile)
-        site.posts.static_files << item
+        site.collections.posts.static_files << item
         site.static_files << item
       end
 

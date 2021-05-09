@@ -25,7 +25,9 @@ module Bridgetown
       priority :low
 
       def initialize(config)
-        Bridgetown::External.require_with_graceful_fail "kramdown" unless defined?(Kramdown)
+        unless defined?(Kramdown)
+          Bridgetown::Utils::RequireGems.require_with_graceful_fail "kramdown"
+        end
         @config = config["kramdown"].dup || {}
         @config[:input] = :SmartyPants
       end

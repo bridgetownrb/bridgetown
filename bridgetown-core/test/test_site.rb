@@ -213,10 +213,8 @@ class TestSite < BridgetownUnitTest
         static_files.html
         trailing-dots...md
       )
-      unless Utils::Platforms.really_windows?
-        # files in symlinked directories may appear twice
-        sorted_pages.push("main.scss", "symlinked-file").sort!
-      end
+      # files in symlinked directories may appear twice
+      sorted_pages.push("main.scss", "symlinked-file").sort!
       assert_equal sorted_pages, @site.pages.map(&:name).sort!
     end
 

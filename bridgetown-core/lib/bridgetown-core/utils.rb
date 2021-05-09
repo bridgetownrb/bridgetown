@@ -4,10 +4,9 @@ module Bridgetown
   module Utils
     extend self
     autoload :Ansi, "bridgetown-core/utils/ansi"
+    autoload :RequireGems, "bridgetown-core/utils/require_gems"
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
     autoload :RubyFrontMatterDSL, "bridgetown-core/utils/ruby_front_matter"
-    autoload :Platforms, "bridgetown-core/utils/platforms"
-    autoload :ThreadEvent, "bridgetown-core/utils/thread_event"
 
     # Constants for use in #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze

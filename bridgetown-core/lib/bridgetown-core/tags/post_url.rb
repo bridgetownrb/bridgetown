@@ -77,14 +77,14 @@ module Bridgetown
         @context = context
         site = context.registers[:site]
 
-        site.posts.docs.each do |document|
+        site.collections.posts.docs.each do |document|
           return relative_url(document) if @post == document
         end
 
         # New matching method did not match, fall back to old method
         # with deprecation warning if this matches
 
-        site.posts.docs.each do |document|
+        site.collections.posts.docs.each do |document|
           next unless @post.deprecated_equality document
 
           Bridgetown::Deprecator.deprecation_message "A call to "\
