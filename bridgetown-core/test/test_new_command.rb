@@ -56,16 +56,6 @@ class TestNewCommand < BridgetownUnitTest
       assert_match(%r!"start": "node start.js"!, File.read(packagejson))
     end
 
-    should "display a success message" do
-      output = capture_output do
-        Bridgetown::Commands::Base.start(argumentize(@args))
-      end
-      success_message = "Your new Bridgetown site was generated in" \
-                        " #{@path.cyan}."
-
-      assert_includes output, success_message
-    end
-
     should "copy the static files for postcss configuration in site template to the new directory" do
       postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
       postcss_template_files = static_template_files + postcss_config_files + template_config_files
@@ -122,18 +112,22 @@ class TestNewCommand < BridgetownUnitTest
 
     should "force created folder" do
       capture_output { Bridgetown::Commands::Base.start(argumentize(@args)) }
+
       output = capture_output do
         Bridgetown::Commands::Base.start(argumentize("#{@args} --force"))
       end
-      assert_match %r!new Bridgetown site was generated in!, output
+
+      refute_match %r!try again with `--force` to proceed and overwrite any files.!, output
+      assert_match %r!identical!, output
     end
 
     should "skip bundle install when opted to" do
-      output = capture_output do
+      capture_output do
         Bridgetown::Commands::Base.start(argumentize("#{@args} --skip-bundle"))
       end
       bundle_message = "Bundle install skipped."
-      assert_includes output, bundle_message
+
+      refute_exist File.join(@full_path, "Gemfile.lock")
     end
   end
 
