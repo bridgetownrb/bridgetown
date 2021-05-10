@@ -125,7 +125,6 @@ class TestNewCommand < BridgetownUnitTest
       capture_output do
         Bridgetown::Commands::Base.start(argumentize("#{@args} --skip-bundle"))
       end
-      bundle_message = "Bundle install skipped."
 
       refute_exist File.join(@full_path, "Gemfile.lock")
     end
