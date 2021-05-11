@@ -47,7 +47,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("liquid-component",      ">= 0.1")
   s.add_runtime_dependency("listen",                "~> 3.0")
   s.add_runtime_dependency("rouge",                 "~> 3.0")
-  s.add_runtime_dependency("safe_yaml",             "~> 1.0")
   s.add_runtime_dependency("terminal-table",        "~> 1.8")
   s.add_runtime_dependency("thor",                  "~> 1.1")
   s.add_runtime_dependency("tilt",                  "~> 2.0")
