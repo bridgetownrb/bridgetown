@@ -118,6 +118,7 @@ module Bridgetown
   autoload :Validatable,         "bridgetown-core/concerns/validatable"
   autoload :VERSION,             "bridgetown-core/version"
   autoload :Watcher,             "bridgetown-core/watcher"
+  autoload :YAMLParser,          "bridgetown-core/yaml_parser"
 
   # extensions
   require "bridgetown-core/commands/registrations"
@@ -135,9 +136,7 @@ module Bridgetown
   require_all "bridgetown-core/drops"
   require_all "bridgetown-core/generators"
   require_all "bridgetown-core/tags"
-  require_all "core_ext"
-
-  YAML_PERMITTED_CLASSES = [Date, Time, Rb].freeze
+  require_all "bridgetown-core/core_ext"
 
   class << self
     # Tells you which Bridgetown environment you are building in so
@@ -264,7 +263,10 @@ module Bridgetown
   module Resource; end
 end
 
-Psych.extend Bridgetown::CoreExt::Psych
+# This method is available in Ruby 3, monkey patching for older versions
+unless Psych.respond_to?(:safe_load_file)
+  Psych.extend Bridgetown::CoreExt::Psych::SafeLoadFile
+end
 
 loader = Zeitwerk::Loader.new
 loader.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model

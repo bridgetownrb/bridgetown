@@ -215,7 +215,7 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "not raise an error on empty files" do
-      allow(YAML).to receive(:bt_safe_load_file).with(File.expand_path("empty.yml")).and_return(false)
+      allow(Bridgetown::YAMLParser).to receive(:load).with(File.expand_path("empty.yml")).and_return(false)
       Bridgetown.logger.log_level = :warn
       @config.read_config_file("empty.yml")
       Bridgetown.logger.log_level = :info
@@ -228,8 +228,8 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "continue to read config files if one is empty" do
-      allow(YAML).to receive(:bt_safe_load_file).with(File.expand_path("empty.yml")).and_return(false)
-      allow(YAML).to receive(:bt_safe_load_file).with(File.expand_path("not_empty.yml")).and_return(
+      allow(Bridgetown::YAMLParser).to receive(:load).with(File.expand_path("empty.yml")).and_return(false)
+      allow(Bridgetown::YAMLParser).to receive(:load).with(File.expand_path("not_empty.yml")).and_return(
         "foo" => "bar"
       )
       Bridgetown.logger.log_level = :warn
@@ -270,7 +270,7 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "fire warning with no bridgetown.config.yml" do
-      allow(YAML).to receive(:bt_safe_load_file).with(@path) do
+      allow(Bridgetown::YAMLParser).to receive(:load).with(@path) do
         raise SystemCallError, "No such file or directory - #{@path}"
       end
       allow($stderr).to receive(:puts).with(
@@ -280,13 +280,13 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "load configuration as hash" do
-      allow(YAML).to receive(:bt_safe_load_file).with(@path).and_return({})
+      allow(Bridgetown::YAMLParser).to receive(:load).with(@path).and_return({})
       allow($stdout).to receive(:puts).with("Configuration file: #{@path}")
       assert_equal site_configuration, Bridgetown.configuration(test_config)
     end
 
     should "fire warning with bad config" do
-      allow(YAML).to receive(:bt_safe_load_file).with(@path).and_return([])
+      allow(Bridgetown::YAMLParser).to receive(:load).with(@path).and_return([])
       allow($stderr)
         .to receive(:puts)
         .and_return(
@@ -300,7 +300,7 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "fire warning when user-specified config file isn't there" do
-      allow(YAML).to receive(:bt_safe_load_file).with(@user_config) do
+      allow(Bridgetown::YAMLParser).to receive(:load).with(@user_config) do
         raise SystemCallError, "No such file or directory - #{@user_config}"
       end
       allow($stderr)
@@ -326,14 +326,14 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "load default plus posts config if no config_file is set" do
-      allow(YAML).to receive(:bt_safe_load_file).with(@paths[:default]).and_return({})
+      allow(Bridgetown::YAMLParser).to receive(:load).with(@paths[:default]).and_return({})
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:default]}")
       assert_equal site_configuration, Bridgetown.configuration(test_config)
     end
 
     should "load different config if specified" do
-      allow(YAML)
-        .to receive(:bt_safe_load_file)
+      allow(Bridgetown::YAMLParser)
+        .to receive(:load_file)
         .with(@paths[:other])
         .and_return("baseurl" => "http://example.com")
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:other]}")
@@ -346,9 +346,9 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "load different config if specified with symbol key" do
-      allow(YAML).to receive(:bt_safe_load_file).with(@paths[:default]).and_return({})
-      allow(YAML)
-        .to receive(:bt_safe_load_file)
+      allow(Bridgetown::YAMLParser).to receive(:load).with(@paths[:default]).and_return({})
+      allow(Bridgetown::YAMLParser)
+        .to receive(:load_file)
         .with(@paths[:other])
         .and_return("baseurl" => "http://example.com")
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:other]}")
@@ -361,7 +361,7 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "load default config if path passed is empty" do
-      allow(YAML).to receive(:bt_safe_load_file).with(@paths[:default]).and_return({})
+      allow(Bridgetown::YAMLParser).to receive(:load).with(@paths[:default]).and_return({})
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:default]}")
       assert_equal \
         site_configuration("config" => [@paths[:empty]]),
@@ -383,8 +383,8 @@ class TestConfiguration < BridgetownUnitTest
     should "load multiple config files" do
       External.require_with_graceful_fail("tomlrb")
 
-      allow(YAML).to receive(:bt_safe_load_file).with(@paths[:default]).and_return({})
-      allow(YAML).to receive(:bt_safe_load_file).with(@paths[:other]).and_return({})
+      allow(Bridgetown::YAMLParser).to receive(:load).with(@paths[:default]).and_return({})
+      allow(Bridgetown::YAMLParser).to receive(:load).with(@paths[:other]).and_return({})
       allow(Tomlrb).to receive(:load_file).with(@paths[:toml]).and_return({})
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:default]}")
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:other]}")
@@ -402,12 +402,12 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "load multiple config files and last config should win" do
-      allow(YAML)
-        .to receive(:bt_safe_load_file)
+      allow(Bridgetown::YAMLParser)
+        .to receive(:load_file)
         .with(@paths[:default])
         .and_return("baseurl" => "http://example.dev")
-      allow(YAML)
-        .to receive(:bt_safe_load_file)
+      allow(Bridgetown::YAMLParser)
+        .to receive(:load_file)
         .with(@paths[:other])
         .and_return("baseurl" => "http://example.com")
       allow($stdout)

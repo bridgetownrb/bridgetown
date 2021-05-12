@@ -14,7 +14,7 @@ class TestServeCommand < BridgetownUnitTest
     setup do
       @cmd = Bridgetown::Commands::Serve.new
       Bridgetown.sites.clear
-      allow(YAML).to receive(:bt_safe_load_file).and_return({})
+      allow(Bridgetown::YAMLParser).to receive(:load_file).and_return({})
       allow_any_instance_of(Bridgetown::Commands::Build).to receive(:build)
       allow_any_instance_of(Bridgetown::Commands::Serve).to receive(:start_up_webrick)
     end

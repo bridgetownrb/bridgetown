@@ -140,13 +140,13 @@ module Bridgetown
     end
     alias_method :verbose?, :verbose
 
-    def bt_safe_load_file(filename)
+    def safe_load_file(filename)
       case File.extname(filename)
       when %r!\.toml!i
         Bridgetown::External.require_with_graceful_fail("tomlrb") unless defined?(Tomlrb)
         Tomlrb.load_file(filename)
       when %r!\.ya?ml!i
-        YAML.bt_safe_load_file(filename) || {}
+        YAMLParser.load_file(filename) || {}
       else
         raise ArgumentError,
               "No parser for '#{filename}' is available. Use a .y(a)ml or .toml file instead."
@@ -219,7 +219,7 @@ module Bridgetown
     # Returns this configuration, overridden by the values in the file
     def read_config_file(file)
       file = File.expand_path(file)
-      next_config = bt_safe_load_file(file)
+      next_config = safe_load_file(file)
 
       unless next_config.is_a?(Hash)
         raise ArgumentError, "Configuration file: (INVALID) #{file}".yellow

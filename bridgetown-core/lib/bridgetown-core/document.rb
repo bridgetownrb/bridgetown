@@ -223,7 +223,7 @@ module Bridgetown
       Bridgetown.logger.debug "Reading:", relative_path
 
       if yaml_file?
-        @data = YAML.bt_safe_load_file(path)
+        @data = YAMLParser.load_file(path)
       else
         begin
           merge_defaults
@@ -357,7 +357,7 @@ module Bridgetown
       self.content = File.read(path, **Utils.merged_file_read_opts(site, opts))
       if content =~ YAML_FRONT_MATTER_REGEXP
         self.content = $POSTMATCH
-        data_file = YAML.bt_safe_load(Regexp.last_match(1))
+        data_file = YAMLParser.load(Regexp.last_match(1))
         merge_data!(data_file, source: "YAML front matter") if data_file
       end
     end
