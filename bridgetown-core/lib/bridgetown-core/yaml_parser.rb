@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bridgetown
   class YAMLParser
     PERMITTED_CLASSES = [Date, Time, Rb].freeze

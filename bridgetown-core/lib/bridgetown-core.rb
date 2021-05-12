@@ -264,9 +264,7 @@ module Bridgetown
 end
 
 # This method is available in Ruby 3, monkey patching for older versions
-unless Psych.respond_to?(:safe_load_file)
-  Psych.extend Bridgetown::CoreExt::Psych::SafeLoadFile
-end
+Psych.extend Bridgetown::CoreExt::Psych::SafeLoadFile unless Psych.respond_to?(:safe_load_file)
 
 loader = Zeitwerk::Loader.new
 loader.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model
