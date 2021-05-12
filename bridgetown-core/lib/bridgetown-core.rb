@@ -137,7 +137,7 @@ module Bridgetown
   require_all "bridgetown-core/tags"
   require_all "core_ext"
 
-  YAML_PERMITTED_CLASSES = [Date, Time, Rb]
+  YAML_PERMITTED_CLASSES = [Date, Time, Rb].freeze
 
   class << self
     # Tells you which Bridgetown environment you are building in so

@@ -467,8 +467,8 @@ class TestSite < BridgetownUnitTest
         site.process
 
         file_content = YAML.bt_safe_load_file(File.join(
-                                            source_dir, "_data", "categories", "dairy.yaml"
-                                          ))
+                                                source_dir, "_data", "categories", "dairy.yaml"
+                                              ))
 
         assert_equal site.data["categories"]["dairy"], file_content
         assert_equal(
@@ -482,8 +482,8 @@ class TestSite < BridgetownUnitTest
         site.process
 
         file_content = YAML.bt_safe_load_file(File.join(
-                                            source_dir, "_data", "categories.01", "dairy.yaml"
-                                          ))
+                                                source_dir, "_data", "categories.01", "dairy.yaml"
+                                              ))
 
         assert_equal site.data["categories01"]["dairy"], file_content
         assert_equal(
