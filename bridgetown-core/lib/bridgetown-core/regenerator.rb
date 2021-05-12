@@ -154,7 +154,7 @@ module Bridgetown
           begin
             Marshal.load(content)
           rescue TypeError
-            YAML.safe_load(content)
+            YAML.bt_safe_load(content)
           rescue ArgumentError => e
             Bridgetown.logger.warn("Failed to load #{metadata_file}: #{e}")
             {}

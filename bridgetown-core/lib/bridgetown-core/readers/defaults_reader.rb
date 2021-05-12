@@ -18,7 +18,7 @@ module Bridgetown
 
       entries.each do |entry|
         path = @site.in_source_dir(entry)
-        @path_defaults[File.dirname(path) + File::SEPARATOR] = YAML.safe_load_file(path)
+        @path_defaults[File.dirname(path) + File::SEPARATOR] = YAML.bt_safe_load_file(path)
       end
 
       @path_defaults

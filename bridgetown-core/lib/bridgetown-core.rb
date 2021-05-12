@@ -137,6 +137,8 @@ module Bridgetown
   require_all "bridgetown-core/tags"
   require_all "core_ext"
 
+  YAML_PERMITTED_CLASSES = [Date, Time, Rb]
+
   class << self
     # Tells you which Bridgetown environment you are building in so
     #   you can skip tasks if you need to.
@@ -262,10 +264,7 @@ module Bridgetown
   module Resource; end
 end
 
-# This method is available in Ruby 3, monkey patching for older versions
-unless Psych.respond_to?(:safe_load_file)
-  Psych.extend Bridgetown::CoreExt::Psych
-end
+Psych.extend Bridgetown::CoreExt::Psych
 
 loader = Zeitwerk::Loader.new
 loader.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model

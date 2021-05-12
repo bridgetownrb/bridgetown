@@ -188,7 +188,7 @@ end
 Given(%r!^I have a configuration file with "(.*)" set to "(.*)"$!) do |key, value|
   config = \
     if source_dir.join("bridgetown.config.yml").exist?
-      YAML.safe_load_file(source_dir.join("bridgetown.config.yml"))
+      YAML.bt_safe_load_file(source_dir.join("bridgetown.config.yml"))
     else
       {}
     end
