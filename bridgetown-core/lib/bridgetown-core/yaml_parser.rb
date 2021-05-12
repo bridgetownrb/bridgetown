@@ -9,7 +9,11 @@ module Bridgetown
       end
 
       def load(yaml)
-        YAML.safe_load yaml, permitted_classes: PERMITTED_CLASSES
+        if RUBY_VERSION.start_with?("2.5")
+          YAML.safe_load yaml, PERMITTED_CLASSES
+        else
+          YAML.safe_load yaml, permitted_classes: PERMITTED_CLASSES
+        end
       end
     end
   end
