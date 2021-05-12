@@ -23,7 +23,7 @@ module Bridgetown
                                  **Utils.merged_file_read_opts(site, opts))
         if content =~ Document::YAML_FRONT_MATTER_REGEXP
           self.content = $POSTMATCH
-          self.data = SafeYAML.load(Regexp.last_match(1))&.with_dot_access
+          self.data = YAML.safe_load(Regexp.last_match(1))&.with_dot_access
         end
       rescue Psych::SyntaxError => e
         Bridgetown.logger.warn "YAML Exception reading #{filename}: #{e.message}"

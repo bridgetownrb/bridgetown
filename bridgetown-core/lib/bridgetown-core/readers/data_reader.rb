@@ -67,7 +67,7 @@ module Bridgetown
                  headers: true,
                  encoding: site.config["encoding"]).map(&:to_hash)
       else
-        SafeYAML.load_file(path)
+        YAML.safe_load_file(path)
       end
     end
 

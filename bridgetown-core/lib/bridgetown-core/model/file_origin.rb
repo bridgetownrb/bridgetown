@@ -81,7 +81,7 @@ module Bridgetown
                        encoding: Bridgetown::Current.site.config["encoding"]).map(&:to_hash),
           }
         else
-          yaml_data = SafeYAML.load_file(original_path)
+          yaml_data = YAML.safe_load_file(original_path)
           yaml_data.is_a?(Array) ? { array: yaml_data } : yaml_data
         end
       end
@@ -93,9 +93,9 @@ module Bridgetown
         content_match = @content.match(YAML_FRONT_MATTER_REGEXP)
         if content_match
           @content = content_match.post_match
-          SafeYAML.load(content_match[1])
+          YAML.safe_load(content_match[1])
         else
-          yaml_data = SafeYAML.load_file(original_path)
+          yaml_data = YAML.safe_load_file(original_path)
           yaml_data.is_a?(Array) ? { array: yaml_data } : yaml_data
         end
       end
