@@ -6,10 +6,10 @@ class Bridgetown::Site
     # @return String
     def locale
       @locale ||= begin
-        ENV.fetch("BRIDGETOWN_LOCALE", config[:default_locale]).to_sym
+        locale = ENV.fetch("BRIDGETOWN_LOCALE", config[:default_locale]).to_sym
         I18n.load_path << Dir[in_source_dir("_locales") + "/*.yml"]
         I18n.available_locales = config[:available_locales]
-        I18n.default_locale = @locale
+        I18n.default_locale = locale
       end
     end
 
