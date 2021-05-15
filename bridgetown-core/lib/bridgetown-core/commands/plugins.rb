@@ -145,14 +145,15 @@ module Bridgetown
         name = folder_name.dasherize
         module_name = folder_name.camelize
 
-        run "git clone https://github.com/bridgetownrb/bridgetown-sample-plugin #{name}"
+        # TODO: upon 0.21 release, remove the explicit branch name!
+        run "git clone -b switch-to-minitest https://github.com/bridgetownrb/bridgetown-sample-plugin #{name}"
         new_gemspec = "#{name}.gemspec"
 
         inside name do # rubocop:todo Metrics/BlockLength
           destroy_existing_repo
           initialize_new_repo
 
-          run "mv bridgetown-sample-plugin.gemspec #{new_gemspec}"
+          FileUtils.mv "bridgetown-sample-plugin.gemspec", new_gemspec.to_s
           gsub_file new_gemspec, "https://github.com/bridgetownrb/bridgetown-sample-plugin", "https://github.com/username/#{name}"
           gsub_file new_gemspec, "bridgetown-sample-plugin", name
           gsub_file new_gemspec, "sample-plugin", name
@@ -161,21 +162,21 @@ module Bridgetown
           gsub_file "package.json", "https://github.com/bridgetownrb/bridgetown-sample-plugin", "https://github.com/username/#{name}"
           gsub_file "package.json", "bridgetown-sample-plugin", name
 
-          run "mv lib/sample-plugin.rb lib/#{name}.rb"
+          FileUtils.mv "lib/sample-plugin.rb", "lib/#{name}.rb"
           gsub_file "lib/#{name}.rb", "sample-plugin", name
           gsub_file "lib/#{name}.rb", "SamplePlugin", module_name
 
-          run "mv lib/sample-plugin lib/#{name}"
+          FileUtils.mv "lib/sample-plugin", "lib/#{name}"
           gsub_file "lib/#{name}/builder.rb", "SamplePlugin", module_name
           gsub_file "lib/#{name}/version.rb", "SamplePlugin", module_name
 
-          run "mv spec/sample-plugin_spec.rb spec/#{name}_spec.rb"
-          gsub_file "spec/#{name}_spec.rb", "SamplePlugin", module_name
-          gsub_file "spec/spec_helper.rb", "sample-plugin", name
+          FileUtils.mv "test/test_sample_plugin.rb", "test/test_#{folder_name}.rb"
+          gsub_file "test/test_#{folder_name}.rb", "SamplePlugin", module_name
+          gsub_file "test/helper.rb", "sample-plugin", name
 
-          run "mv components/sample_plugin components/#{folder_name}"
-          run "mv content/sample_plugin content/#{folder_name}"
-          run "mv layouts/sample_plugin layouts/#{folder_name}"
+          FileUtils.mv "components/sample_plugin", "components/#{folder_name}"
+          FileUtils.mv "content/sample_plugin", "content/#{folder_name}"
+          FileUtils.mv "layouts/sample_plugin", "layouts/#{folder_name}"
 
           gsub_file "layouts/#{folder_name}/layout.html", "sample_plugin", folder_name
           gsub_file "content/#{folder_name}/example_page.md", "sample_plugin", folder_name
