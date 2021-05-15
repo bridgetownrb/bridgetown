@@ -92,6 +92,7 @@ class TestResource < BridgetownUnitTest
 
     should "produce the right destination file" do
       assert_equal @dest_file, @resource.destination.output_path
+      assert File.exist?(@dest_file)
     end
 
     should "honor the output extension of its permalink" do
@@ -124,6 +125,34 @@ class TestResource < BridgetownUnitTest
 
     should "produce the right destination file" do
       assert_equal @dest_file, @resource.destination.output_path
+    end
+  end
+
+  context "a resource that's configured not to output" do
+    setup do
+      @site = resources_site(
+        "collections" => {
+          "events" => {
+            "output" => true,
+          },
+        }
+      )
+      @site.process
+      @resource = @site.collections.events.resources[1]
+      @dest_file = dest_dir("events/the-weeknd/index.html")
+    end
+
+    should "not have any URL" do
+      assert_equal "", @resource.relative_url
+    end
+
+    should "not have any destination file" do
+      assert_nil @resource.destination
+      refute File.exist?(@dest_file)
+    end
+
+    should "still have processed content" do
+      assert_equal "Ladies and gentlemen, The Weeknd!", @resource.content
     end
   end
 
