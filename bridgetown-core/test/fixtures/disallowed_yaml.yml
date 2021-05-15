@@ -1,0 +1,4 @@
+key: value
+list:
+- !ruby/object:TestYAMLParser::CustomYAMLSerializable
+  lorem: ipsum

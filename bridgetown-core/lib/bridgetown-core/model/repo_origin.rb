@@ -102,7 +102,7 @@ module Bridgetown
         when ".rb"
           process_ruby_data(File.read(original_path), original_path, 1)
         else
-          yaml_data = SafeYAML.load_file(original_path)
+          yaml_data = YAMLParser.load_file(original_path)
           yaml_data.is_a?(Array) ? { rows: yaml_data } : yaml_data
         end
       end

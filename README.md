@@ -38,10 +38,10 @@ Say howdy 👋 to our growing list of the first twenty sponsors of Bridgetown on
 |<a href="https://github.com/leastbad">@leastbad</a>|<a href="https://github.com/asaaki">@asaaki</a>|<a href="https://github.com/scoutapm-sponsorships">@scoutapm-sponsorships</a>|<a href="https://github.com/adrianvalenz">@adrianvalenz</a>|<a href="https://github.com/bpo">@bpo</a>|
 ||<a href="https://markentier.tech/">Website</a>|<a href="https://scoutapm.com">Website</a>||<a href="https://brian.orourke.io/">Website</a>|
 
-|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|
-|You Next?|
-||
+|<img src="https://avatars.githubusercontent.com/williamkennedy?s=256" alt="williamkennedy" width="128" />|<img src="https://avatars.githubusercontent.com/eclectic-coding?s=256" alt="eclectic-coding" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|
+|<a href="https://github.com/williamkennedy">@williamkennedy</a>|<a href="https://github.com/eclectic-coding">@eclectic-coding</a>|You Next?|
+|<a href="http://williamkennedy.ninja/">Website</a>|<a href="https://www.eclecticsaddlebag.com">Website</a>||
 
 ## Commercial Support
 
@@ -133,10 +133,10 @@ Bridgetown is built by:
 |<a href="https://github.com/bkmgit">@bkmgit</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/marketerly">@marketerly</a>|<a href="https://github.com/juanvqz">@juanvqz</a>|<a href="https://github.com/katafrakt">@katafrakt</a>|
 ||Lisbon, Portugal|Tripoli, Libya|Oaxaca, México|Wrocław, PL|
 
-|<img src="https://avatars.githubusercontent.com/erikyuzwa?s=256" alt="erikyuzwa" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|
-|<a href="https://github.com/erikyuzwa">@erikyuzwa</a>|You Next?|
-|Calgary, AB|Anywhere|
+|<img src="https://avatars.githubusercontent.com/erikyuzwa?s=256" alt="erikyuzwa" width="128" />|<img src="https://avatars.githubusercontent.com/eclectic-coding?s=256" alt="eclectic-coding" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|
+|<a href="https://github.com/erikyuzwa">@erikyuzwa</a>|<a href="https://github.com/eclectic-coding">@eclectic-coding</a>|You Next?|
+|Calgary, AB|North Carolina, US|Anywhere|
 
 Interested in joining the Bridgetown Core Team? Send a DM to Jared in [Discord](https://discord.gg/4E6hktQGz4) and let's chat!
 

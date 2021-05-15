@@ -25,7 +25,7 @@ module Bridgetown
       if yaml_content
         self.content = yaml_content.post_match
         self.front_matter_line_count = yaml_content[1].lines.size - 1
-        SafeYAML.load(yaml_content[1])
+        YAMLParser.load(yaml_content[1])
       elsif ruby_content
         # rbfm header + content underneath
         self.content = ruby_content.post_match
@@ -37,7 +37,7 @@ module Bridgetown
         self.content = file_contents
         {}
       else
-        yaml_data = SafeYAML.load_file(file_path)
+        yaml_data = YAMLParser.load_file(file_path)
         yaml_data.is_a?(Array) ? { rows: yaml_data } : yaml_data
       end
     end

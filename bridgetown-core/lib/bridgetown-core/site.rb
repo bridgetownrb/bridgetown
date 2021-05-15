@@ -34,7 +34,7 @@ module Bridgetown
                   :file_read_opts, :plugin_manager, :converters,
                   :generators, :reader
 
-    # Public: Initialize a new Site.
+    # Initialize a new Site.
     #
     # config - A Hash containing site configuration details.
     def initialize(config)

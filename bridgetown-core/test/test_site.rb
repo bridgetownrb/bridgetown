@@ -423,7 +423,7 @@ class TestSite < BridgetownUnitTest
         site = Site.new(site_configuration)
         site.process
 
-        file_content = SafeYAML.load_file(File.join(source_dir, "_data", "members.yaml"))
+        file_content = Bridgetown::YAMLParser.load_file(File.join(source_dir, "_data", "members.yaml"))
 
         assert_equal site.data["members"], file_content
         assert_equal site.site_payload["site"]["data"]["members"], file_content
@@ -444,7 +444,7 @@ class TestSite < BridgetownUnitTest
         site = Site.new(site_configuration)
         site.process
 
-        file_content = SafeYAML.load_file(File.join(source_dir, "_data", "languages.yml"))
+        file_content = Bridgetown::YAMLParser.load_file(File.join(source_dir, "_data", "languages.yml"))
 
         assert_equal site.data["languages"], file_content
         assert_equal site.site_payload["site"]["data"]["languages"], file_content
@@ -454,7 +454,7 @@ class TestSite < BridgetownUnitTest
         site = Site.new(site_configuration)
         site.process
 
-        file_content = SafeYAML.load_file(File.join(source_dir, "_data", "members.json"))
+        file_content = Bridgetown::YAMLParser.load_file(File.join(source_dir, "_data", "members.json"))
 
         assert_equal site.data["members"], file_content
         assert_equal site.site_payload["site"]["data"]["members"], file_content
@@ -464,9 +464,9 @@ class TestSite < BridgetownUnitTest
         site = Site.new(site_configuration)
         site.process
 
-        file_content = SafeYAML.load_file(File.join(
-                                            source_dir, "_data", "categories", "dairy.yaml"
-                                          ))
+        file_content = Bridgetown::YAMLParser.load_file(File.join(
+                                                          source_dir, "_data", "categories", "dairy.yaml"
+                                                        ))
 
         assert_equal site.data["categories"]["dairy"], file_content
         assert_equal(
@@ -479,9 +479,9 @@ class TestSite < BridgetownUnitTest
         site = Site.new(site_configuration)
         site.process
 
-        file_content = SafeYAML.load_file(File.join(
-                                            source_dir, "_data", "categories.01", "dairy.yaml"
-                                          ))
+        file_content = Bridgetown::YAMLParser.load_file(File.join(
+                                                          source_dir, "_data", "categories.01", "dairy.yaml"
+                                                        ))
 
         assert_equal site.data["categories01"]["dairy"], file_content
         assert_equal(
@@ -494,7 +494,7 @@ class TestSite < BridgetownUnitTest
         site = Site.new(site_configuration)
         site.process
 
-        file_content = SafeYAML.load_file(File.join(source_dir, "_data", "products.yml"))
+        file_content = Bridgetown::YAMLParser.load_file(File.join(source_dir, "_data", "products.yml"))
 
         assert_equal site.data["products"], file_content
         assert_equal site.site_payload["site"]["data"]["products"], file_content
