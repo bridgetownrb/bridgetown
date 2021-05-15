@@ -18,7 +18,7 @@ class TestEntryFilter < BridgetownUnitTest
 
     should "allow regexp filtering" do
       files = %w(README.md)
-      @site.exclude = [
+      @site.config.exclude = [
         %r!README!,
       ]
 
@@ -31,7 +31,7 @@ class TestEntryFilter < BridgetownUnitTest
       excludes = %w(README TODO vendor/bundle)
       files = %w(index.html site.css .htaccess vendor)
 
-      @site.exclude = excludes + ["exclude*"]
+      @site.config.exclude = excludes + ["exclude*"]
       assert_equal files, @site.reader.filter_entries(excludes + files + ["excludeA"])
     end
 
@@ -39,7 +39,7 @@ class TestEntryFilter < BridgetownUnitTest
       excludes = %w(README TODO css)
       files = %w(index.html vendor/css .htaccess)
 
-      @site.exclude = excludes
+      @site.config.exclude = excludes
       assert_equal files, @site.reader.filter_entries(excludes + files + ["css"])
     end
 
@@ -47,7 +47,7 @@ class TestEntryFilter < BridgetownUnitTest
       excludes = %w(README TODO css)
       files = %w(index.html .htaccess)
 
-      @site.exclude = excludes
+      @site.config.exclude = excludes
       assert_equal(
         files,
         @site.reader.filter_entries(
@@ -60,7 +60,7 @@ class TestEntryFilter < BridgetownUnitTest
       includes = %w(_index.html .htaccess include*)
       files = %w(index.html _index.html .htaccess includeA)
 
-      @site.include = includes
+      @site.config.include = includes
       assert_equal files, @site.reader.filter_entries(files)
     end
   end

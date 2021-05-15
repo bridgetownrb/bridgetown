@@ -18,18 +18,13 @@ class Bridgetown::Site
       @root_dir        = File.expand_path(config["root_dir"]).freeze
       @source          = File.expand_path(config["source"]).freeze
       @dest            = File.expand_path(config["destination"]).freeze
-      @cache_dir       = in_root_dir(config["cache_dir"]).freeze
-
-      %w(lsi highlighter baseurl exclude include future unpublished
-         limit_posts keep_files).each do |opt|
-        send("#{opt}=", config[opt])
-      end
 
       configure_cache
       configure_component_paths
       configure_include_paths
       configure_file_read_opts
 
+      self.baseurl = config.baseurl
       self.permalink_style = (config["permalink"] || "pretty").to_sym
 
       @config
@@ -153,7 +148,8 @@ class Bridgetown::Site
 
     # Disable Marshaling cache to disk in Safe Mode
     def configure_cache
-      Bridgetown::Cache.cache_dir = in_root_dir(config["cache_dir"], "Bridgetown/Cache")
+      @cache_dir = in_root_dir(config["cache_dir"]).freeze
+      Bridgetown::Cache.cache_dir = File.join(cache_dir, "Bridgetown/Cache")
       Bridgetown::Cache.disable_disk_cache! if config["disable_disk_cache"]
     end
 

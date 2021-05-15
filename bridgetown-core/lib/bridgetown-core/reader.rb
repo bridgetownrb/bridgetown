@@ -183,7 +183,7 @@ module Bridgetown
     end
 
     def read_included_excludes
-      site.include.each do |entry|
+      site.config.include.each do |entry|
         next if entry == ".htaccess"
 
         entry_path = site.in_source_dir(entry)

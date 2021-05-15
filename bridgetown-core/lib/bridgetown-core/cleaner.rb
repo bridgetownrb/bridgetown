@@ -101,7 +101,7 @@ module Bridgetown
     #
     # Returns a Set with the directory paths
     def keep_dirs
-      site.keep_files.flat_map { |file| parent_dirs(site.in_dest_dir(file)) }.to_set
+      site.config.keep_files.flat_map { |file| parent_dirs(site.in_dest_dir(file)) }.to_set
     end
 
     # Private: Creates a regular expression from the config's keep_files array
@@ -112,7 +112,7 @@ module Bridgetown
     #
     # Returns the regular expression
     def keep_file_regex
-      %r!\A#{Regexp.quote(site.dest)}\/(#{Regexp.union(site.keep_files).source})!
+      %r!\A#{Regexp.quote(site.dest)}\/(#{Regexp.union(site.config.keep_files).source})!
     end
   end
 end

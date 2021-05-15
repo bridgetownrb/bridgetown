@@ -12,13 +12,15 @@ module Bridgetown
     def initialize(post)
       @post = post
       @site = post.site
-      Bridgetown::Utils::RequireGems.require_with_graceful_fail("classifier-reborn") if site.lsi
+      if site.config.lsi
+        Bridgetown::Utils::RequireGems.require_with_graceful_fail("classifier-reborn")
+      end
     end
 
     def build
       return [] unless site.collections.posts.docs.size > 1
 
-      if site.lsi
+      if site.config.lsi
         build_index
         lsi_related_posts
       else
