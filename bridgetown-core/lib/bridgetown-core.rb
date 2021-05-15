@@ -28,6 +28,7 @@ require "logger"
 require "set"
 require "csv"
 require "json"
+require "yaml"
 
 # 3rd party
 require "active_support"
@@ -43,7 +44,6 @@ require "active_support/current_attributes"
 require "active_support/descendants_tracker"
 require "hash_with_dot_access"
 require "addressable/uri"
-require "safe_yaml/load"
 require "liquid"
 require "liquid-component"
 require "kramdown"
@@ -61,21 +61,8 @@ module HashWithDotAccess
   end
 end
 
-SafeYAML::OPTIONS[:suppress_warnings] = true
-
 # Create our little String subclass for Ruby Front Matter
 class Rb < String; end
-SafeYAML::OPTIONS[:whitelisted_tags] = ["!ruby/string:Rb"]
-
-if RUBY_VERSION.start_with?("3.0")
-  # workaround for Ruby 3 preview 2, maybe can remove later
-  # rubocop:disable Style/GlobalVars
-  old_verbose = $VERBOSE
-  $VERBOSE = nil
-  SafeYAML::SafeToRubyVisitor.const_set(:INITIALIZE_ARITY, 2)
-  $verbose = old_verbose
-  # rubocop:enable Style/GlobalVars
-end
 
 module Bridgetown
   autoload :Cleaner,             "bridgetown-core/cleaner"
@@ -131,6 +118,7 @@ module Bridgetown
   autoload :Validatable,         "bridgetown-core/concerns/validatable"
   autoload :VERSION,             "bridgetown-core/version"
   autoload :Watcher,             "bridgetown-core/watcher"
+  autoload :YAMLParser,          "bridgetown-core/yaml_parser"
 
   # extensions
   require "bridgetown-core/commands/registrations"
@@ -148,6 +136,7 @@ module Bridgetown
   require_all "bridgetown-core/drops"
   require_all "bridgetown-core/generators"
   require_all "bridgetown-core/tags"
+  require_all "bridgetown-core/core_ext"
 
   class << self
     # Tells you which Bridgetown environment you are building in so
@@ -273,6 +262,9 @@ module Bridgetown
   module Model; end
   module Resource; end
 end
+
+# This method is available in Ruby 3, monkey patching for older versions
+Psych.extend Bridgetown::CoreExt::Psych::SafeLoadFile unless Psych.respond_to?(:safe_load_file)
 
 loader = Zeitwerk::Loader.new
 loader.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model
