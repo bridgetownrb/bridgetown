@@ -274,4 +274,15 @@ class TestResource < BridgetownUnitTest
       assert_equal "nojekyll", @dest_file.strip
     end
   end
+
+  context "previous and next resource methods" do
+    should "return the correct resource" do
+      @site = resources_site
+      @site.process
+      @resource = @site.collections.pages.resources[0]
+
+      assert_equal @site.collections.pages.resources[1], @resource.next_resource
+      assert_equal @site.collections.pages.resources[0], @resource.next_resource.previous_resource
+    end
+  end
 end

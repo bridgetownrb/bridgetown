@@ -262,7 +262,7 @@ module Bridgetown
       alias_method :next_doc, :next_resource
 
       def previous_resource
-        pos = collection.docs.index { |item| item.equal?(self) }
+        pos = collection.resources.index { |item| item.equal?(self) }
         collection.resources[pos - 1] if pos&.positive?
       end
       alias_method :previous_doc, :previous_resource
