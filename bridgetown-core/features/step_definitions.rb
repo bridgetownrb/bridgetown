@@ -188,7 +188,7 @@ end
 Given(%r!^I have a configuration file with "(.*)" set to "(.*)"$!) do |key, value|
   config = \
     if source_dir.join("bridgetown.config.yml").exist?
-      SafeYAML.load_file(source_dir.join("bridgetown.config.yml"))
+      Bridgetown::YAMLParser.load_file(source_dir.join("bridgetown.config.yml"))
     else
       {}
     end
@@ -310,58 +310,6 @@ Then(%r!^I should (not )?see "(.*)" in "(.*)"$!) do |negative, text, file|
   step %(the "#{file}" file should exist)
   regexp = Regexp.new(text, Regexp::MULTILINE)
   if negative.nil? || negative.empty?
-    expect(file_contents(file)).to match regexp
-  else
-    expect(file_contents(file)).not_to match regexp
-  end
-end
-
-#
-
-Then(%r!^I should (not )?see "(.*)" in "(.*)" if on Windows$!) do |negative, text, file|
-  step %(the "#{file}" file should exist)
-  regexp = Regexp.new(text, Regexp::MULTILINE)
-  if negative.nil? || negative.empty?
-    if Bridgetown::Utils::Platforms.really_windows?
-      expect(file_contents(file)).to match regexp
-    else
-      expect(file_contents(file)).not_to match regexp
-    end
-  end
-end
-
-#
-
-Then(%r!^I should (not )?see "(.*)" in "(.*)" unless Windows$!) do |negative, text, file|
-  step %(the "#{file}" file should exist)
-  regexp = Regexp.new(text, Regexp::MULTILINE)
-  if negative.nil? || negative.empty?
-    if Bridgetown::Utils::Platforms.really_windows?
-      expect(file_contents(file)).not_to match regexp
-    else
-      expect(file_contents(file)).to match regexp
-    end
-  end
-end
-
-#
-
-Then(%r!^I should see date "(.*)" in "(.*)" unless Windows$!) do |text, file|
-  step %(the "#{file}" file should exist)
-  regexp = Regexp.new(text)
-  if Bridgetown::Utils::Platforms.really_windows? && !dst_active?
-    expect(file_contents(file)).not_to match regexp
-  else
-    expect(file_contents(file)).to match regexp
-  end
-end
-
-#
-
-Then(%r!^I should see date "(.*)" in "(.*)" if on Windows$!) do |text, file|
-  step %(the "#{file}" file should exist)
-  regexp = Regexp.new(text)
-  if Bridgetown::Utils::Platforms.really_windows? && !dst_active?
     expect(file_contents(file)).to match regexp
   else
     expect(file_contents(file)).not_to match regexp

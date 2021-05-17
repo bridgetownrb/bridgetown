@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Bridgetown
+  # TODO: to be retired once the Resource engine is made official
   class Document
     extend Forwardable
     include DataAccessible
@@ -223,7 +224,7 @@ module Bridgetown
       Bridgetown.logger.debug "Reading:", relative_path
 
       if yaml_file?
-        @data = SafeYAML.load_file(path)
+        @data = YAMLParser.load_file(path)
       else
         begin
           merge_defaults
@@ -357,7 +358,7 @@ module Bridgetown
       self.content = File.read(path, **Utils.merged_file_read_opts(site, opts))
       if content =~ YAML_FRONT_MATTER_REGEXP
         self.content = $POSTMATCH
-        data_file = SafeYAML.load(Regexp.last_match(1))
+        data_file = YAMLParser.load(Regexp.last_match(1))
         merge_data!(data_file, source: "YAML front matter") if data_file
       end
     end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Bridgetown
+  # TODO: to be retired once the Resource engine is made official
   class DataReader
     attr_reader :site, :content
 
@@ -67,7 +68,7 @@ module Bridgetown
                  headers: true,
                  encoding: site.config["encoding"]).map(&:to_hash)
       else
-        SafeYAML.load_file(path)
+        YAMLParser.load_file(path)
       end
     end
 

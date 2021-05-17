@@ -33,7 +33,6 @@ module Bridgetown
 
       def healthy?(site)
         [
-          fsnotify_buggy?(site),
           !conflicting_urls(site),
           !urls_only_differ_by_case(site),
           proper_site_url?(site),
@@ -59,7 +58,7 @@ module Bridgetown
         conflicting_urls = false
         urls = {}
         urls = collect_urls(urls, site.pages, site.dest)
-        urls = collect_urls(urls, site.posts.docs, site.dest)
+        urls = collect_urls(urls, site.collections.posts.docs, site.dest)
         urls.each do |url, paths|
           next unless paths.size > 1
 
@@ -68,23 +67,6 @@ module Bridgetown
             " for the following pages: #{paths.join(", ")}"
         end
         conflicting_urls
-      end
-
-      def fsnotify_buggy?(_site)
-        return true unless Utils::Platforms.osx?
-
-        if Dir.pwd != `pwd`.strip
-          Bridgetown.logger.error "  " + <<-STR.strip.gsub(%r!\n\s+!, "\n  ")
-            We have detected that there might be trouble using fsevent on your
-            operating system, you can read https://github.com/thibaudgg/rb-fsevent/wiki/no-fsevents-fired-(OSX-bug)
-            for possible work arounds or you can work around it immediately
-            with `--force-polling`.
-          STR
-
-          false
-        end
-
-        true
       end
 
       def urls_only_differ_by_case(site)

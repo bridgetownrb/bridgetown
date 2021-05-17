@@ -287,7 +287,7 @@ module Bridgetown
         Pathname(full_path).relative_path_from(Pathname(site.source)).to_s
       )
       resource = Bridgetown::Model::Base.find(id).to_resource.read!
-      resources << resource if site.unpublished || resource.published?
+      resources << resource if site.config.unpublished || resource.published?
     end
 
     private
@@ -298,7 +298,7 @@ module Bridgetown
 
     def read_document(full_path)
       doc = Document.new(full_path, site: site, collection: self).tap(&:read)
-      docs << doc if site.unpublished || doc.published?
+      docs << doc if site.config.unpublished || doc.published?
     end
 
     def sort_docs!

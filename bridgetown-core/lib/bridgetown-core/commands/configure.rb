@@ -4,6 +4,7 @@ module Bridgetown
   module Commands
     class Configure < Thor::Group
       include Thor::Actions
+      include Actions
       extend Summarizable
 
       Registrations.register do
@@ -20,13 +21,13 @@ module Bridgetown
       end
 
       def perform_configurations
-        logger = Bridgetown.logger
+        @logger = Bridgetown.logger
         list_configurations if args.empty?
 
         args.each do |configuration|
           configure configuration
         rescue Thor::Error
-          logger.error "Error:".red, "🚨 Configuration doesn't exist: #{configuration}"
+          @logger.error "Error:".red, "🚨 Configuration doesn't exist: #{configuration}"
         end
       end
 
@@ -40,7 +41,7 @@ module Bridgetown
         configuration_file = find_in_source_paths("#{configuration}.rb")
 
         inside(New.created_site_dir || Dir.pwd) do
-          Apply.new.invoke(:apply_automation, [configuration_file])
+          apply configuration_file, verbose: false
         end
       end
 

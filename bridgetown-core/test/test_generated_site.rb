@@ -92,13 +92,6 @@ class TestGeneratedSite < BridgetownUnitTest
       assert_equal 5, @site.posts.docs.size
     end
 
-    should "ensure limit posts is 0 or more" do
-      assert_raises ArgumentError do
-        clear_dest
-        @site = fixture_site("limit_posts" => -1)
-      end
-    end
-
     should "acceptable limit post is 0" do
       clear_dest
       assert(

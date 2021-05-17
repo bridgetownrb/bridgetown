@@ -12,7 +12,7 @@ class TestCleaner < BridgetownUnitTest
       FileUtils.touch(File.join(dest_dir("to_keep/child_dir"), "index.html"))
 
       @site = fixture_site
-      @site.keep_files = ["to_keep/child_dir"]
+      @site.config.keep_files = ["to_keep/child_dir"]
 
       @cleaner = Cleaner.new(@site)
       @cleaner.cleanup!
@@ -49,7 +49,7 @@ class TestCleaner < BridgetownUnitTest
       FileUtils.touch(File.join(dest_dir("username.github.io"), "index.html"))
 
       @site = fixture_site
-      @site.keep_files = [".git"]
+      @site.config.keep_files = [".git"]
 
       @cleaner = Cleaner.new(@site)
       @cleaner.cleanup!

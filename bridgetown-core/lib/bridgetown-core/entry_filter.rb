@@ -43,8 +43,8 @@ module Bridgetown
     end
 
     def included?(entry)
-      glob_include?(site.include, entry) ||
-        glob_include?(site.include, File.basename(entry))
+      glob_include?(site.config.include, entry) ||
+        glob_include?(site.config.include, File.basename(entry))
     end
 
     def special?(entry)
@@ -62,7 +62,9 @@ module Bridgetown
     end
 
     def excluded?(entry)
-      glob_include?(site.exclude - site.include, relative_to_source(entry)).tap do |excluded|
+      glob_include?(
+        site.config.exclude - site.config.include, relative_to_source(entry)
+      ).tap do |excluded|
         if excluded
           Bridgetown.logger.debug(
             "EntryFilter:",
@@ -75,12 +77,12 @@ module Bridgetown
     # Check if an entry matches a specific pattern.
     # Returns true if path matches against any glob pattern, else false.
     def glob_include?(enumerator, entry)
-      entry_with_source = PathManager.join(site.source, entry)
+      entry_with_source = File.join(site.source, entry)
 
       enumerator.any? do |pattern|
         case pattern
         when String
-          pattern_with_source = PathManager.join(site.source, pattern)
+          pattern_with_source = File.join(site.source, pattern)
 
           File.fnmatch?(pattern_with_source, entry_with_source) ||
             entry_with_source.start_with?(pattern_with_source)

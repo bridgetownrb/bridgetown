@@ -15,6 +15,7 @@ module Bridgetown
       def initialize(resource)
         @resource = resource
         @site = resource.site
+        @conversions = []
       end
 
       # @return [String]
@@ -110,7 +111,7 @@ module Bridgetown
 
       ### Transformation Actions
 
-      def run_conversions # rubocop:disable Metrics/AbcSize
+      def run_conversions # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
         input = resource.content.to_s
 
         # @param content [String]
@@ -125,7 +126,8 @@ module Bridgetown
             type: :content,
             converter: converter,
             output: Bridgetown.env.production? ? nil : output,
-            output_ext: conversions[index][:output_ext],
+            output_ext: conversions[index]&.dig(:output_ext) ||
+              converter.output_ext(resource.extname),
           }
           output.html_safe
         rescue StandardError => e

@@ -5,7 +5,7 @@ module Shared
     attr_reader :metadata
 
     def initialize(title:, metadata:)
-      @title = title || ""
+      @title = title.present? && title != "Index" ? title : ""
       @metadata = metadata
     end
 

@@ -112,7 +112,7 @@ module Bridgetown
       def locate_include_file(context, file)
         includes_dirs = tag_includes_dirs(context)
         includes_dirs.each do |dir|
-          path = PathManager.join(dir, file)
+          path = File.join(dir, file)
           return path if valid_include_file?(path, dir.to_s)
         end
         raise IOError, could_not_locate_message(file, includes_dirs)

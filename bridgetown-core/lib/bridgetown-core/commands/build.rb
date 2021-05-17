@@ -79,17 +79,6 @@ module Bridgetown
       #
       # Returns nothing.
       def watch_site(config_options)
-        # Warn Windows users that they might need to upgrade.
-        if Utils::Platforms.bash_on_windows?
-          Bridgetown.logger.warn "",
-                                 "Auto-regeneration may not work on some Windows versions."
-          Bridgetown.logger.warn "",
-                                 "Please see: https://github.com/Microsoft/BashOnWindows/issues/216"
-          Bridgetown.logger.warn "",
-                                 "If it does not work, please upgrade Bash on Windows or "\
-                                 "run Bridgetown with --no-watch."
-        end
-
         Bridgetown::Watcher.watch(@site, config_options)
       end
 

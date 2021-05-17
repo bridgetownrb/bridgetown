@@ -28,6 +28,7 @@ require "logger"
 require "set"
 require "csv"
 require "json"
+require "yaml"
 
 # 3rd party
 require "active_support"
@@ -44,7 +45,6 @@ require "active_support/current_attributes"
 require "active_support/descendants_tracker"
 require "hash_with_dot_access"
 require "addressable/uri"
-require "safe_yaml/load"
 require "liquid"
 require "liquid-component"
 require "kramdown"
@@ -62,21 +62,8 @@ module HashWithDotAccess
   end
 end
 
-SafeYAML::OPTIONS[:suppress_warnings] = true
-
 # Create our little String subclass for Ruby Front Matter
 class Rb < String; end
-SafeYAML::OPTIONS[:whitelisted_tags] = ["!ruby/string:Rb"]
-
-if RUBY_VERSION.start_with?("3.0")
-  # workaround for Ruby 3 preview 2, maybe can remove later
-  # rubocop:disable Style/GlobalVars
-  old_verbose = $VERBOSE
-  $VERBOSE = nil
-  SafeYAML::SafeToRubyVisitor.const_set(:INITIALIZE_ARITY, 2)
-  $verbose = old_verbose
-  # rubocop:enable Style/GlobalVars
-end
 
 module Bridgetown
   autoload :Cleaner,             "bridgetown-core/cleaner"
@@ -90,8 +77,6 @@ module Bridgetown
   # TODO: we have too many errors! This is silly
   autoload :Errors,              "bridgetown-core/errors"
   autoload :Excerpt,             "bridgetown-core/excerpt"
-  # TODO: this is a poorly named, unclear class. Relocate to Utils:
-  autoload :External,            "bridgetown-core/external"
   autoload :FrontmatterDefaults, "bridgetown-core/frontmatter_defaults"
   autoload :FrontMatterImporter, "bridgetown-core/concerns/front_matter_importer"
   autoload :Hooks,               "bridgetown-core/hooks"
@@ -105,16 +90,12 @@ module Bridgetown
   autoload :LayoutReader,        "bridgetown-core/readers/layout_reader"
   # TODO: remove this when legacy content engine is gone:
   autoload :PostReader,          "bridgetown-core/readers/post_reader"
-  # TODO: we can merge this back into Reader class:
+  # TODO: remove this when legacy content engine is gone:
   autoload :PageReader,          "bridgetown-core/readers/page_reader"
   autoload :PluginContentReader, "bridgetown-core/readers/plugin_content_reader"
-  # TODO: also merge this:
-  autoload :StaticFileReader,    "bridgetown-core/readers/static_file_reader"
   autoload :LogAdapter,          "bridgetown-core/log_adapter"
   autoload :Page,                "bridgetown-core/page"
   autoload :GeneratedPage,       "bridgetown-core/page"
-  # TODO: figure out how to get rid of this seemingly banal class:
-  autoload :PathManager,         "bridgetown-core/path_manager"
   autoload :PluginManager,       "bridgetown-core/plugin_manager"
   autoload :Publishable,         "bridgetown-core/concerns/publishable"
   autoload :Publisher,           "bridgetown-core/publisher"
@@ -134,6 +115,7 @@ module Bridgetown
   autoload :Validatable,         "bridgetown-core/concerns/validatable"
   autoload :VERSION,             "bridgetown-core/version"
   autoload :Watcher,             "bridgetown-core/watcher"
+  autoload :YAMLParser,          "bridgetown-core/yaml_parser"
 
   # extensions
   require "bridgetown-core/commands/registrations"
@@ -151,6 +133,7 @@ module Bridgetown
   require_all "bridgetown-core/drops"
   require_all "bridgetown-core/generators"
   require_all "bridgetown-core/tags"
+  require_all "bridgetown-core/core_ext"
 
   class << self
     # Tells you which Bridgetown environment you are building in so
@@ -268,7 +251,7 @@ module Bridgetown
     end
 
     # Conditional optimizations
-    Bridgetown::External.require_if_present("liquid/c")
+    Bridgetown::Utils::RequireGems.require_if_present("liquid/c")
   end
 end
 
@@ -276,6 +259,9 @@ module Bridgetown
   module Model; end
   module Resource; end
 end
+
+# This method is available in Ruby 3, monkey patching for older versions
+Psych.extend Bridgetown::CoreExt::Psych::SafeLoadFile unless Psych.respond_to?(:safe_load_file)
 
 loader = Zeitwerk::Loader.new
 loader.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model

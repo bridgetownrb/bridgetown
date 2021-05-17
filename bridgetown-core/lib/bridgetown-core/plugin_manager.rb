@@ -133,7 +133,7 @@ module Bridgetown
         sorted_plugin_files.each do |plugin_file|
           self.class.add_registered_plugin plugin_file
         end
-        Bridgetown::External.require_with_graceful_fail(sorted_plugin_files)
+        Bridgetown::Utils::RequireGems.require_with_graceful_fail(sorted_plugin_files)
       end
     end
 

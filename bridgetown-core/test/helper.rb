@@ -99,14 +99,7 @@ module DirectoryHelpers
   end
 
   def temp_dir(*subdirs)
-    if Utils::Platforms.windows?
-      drive = Dir.pwd.sub(%r!^([^\/]+).*!, '\1')
-      temp_root = File.join(drive, "tmp")
-    else
-      temp_root = "/tmp"
-    end
-
-    File.join(temp_root, *subdirs)
+    File.join("/tmp", *subdirs)
   end
 end
 
@@ -226,13 +219,6 @@ class BridgetownUnitTest < Minitest::Test
     Nokogiri::HTML.fragment(
       str
     )
-  end
-
-  def skip_if_windows(msg = nil)
-    if Utils::Platforms.really_windows?
-      msg ||= "Bridgetown does not currently support this feature on Windows."
-      skip msg.to_s.magenta
-    end
   end
 
   def symlink_if_allowed(target, sym_file)

@@ -30,10 +30,9 @@ module Bridgetown
     # is default
     alias_method :generated_pages, :pages
 
-    attr_accessor :exclude, :include, :lsi, :highlighter, :permalink_style,
-                  :time, :future, :unpublished, :limit_posts,
-                  :keep_files, :baseurl, :data, :file_read_opts,
-                  :plugin_manager, :converters, :generators, :reader
+    attr_accessor :permalink_style, :time, :baseurl, :data,
+                  :file_read_opts, :plugin_manager, :converters,
+                  :generators, :reader
 
     # Initialize a new Site.
     #

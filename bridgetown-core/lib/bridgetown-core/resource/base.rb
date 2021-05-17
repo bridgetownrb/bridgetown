@@ -98,7 +98,7 @@ module Bridgetown
       alias_method :read, :read! # TODO: eventually use the bang version only
 
       def transform!
-        transformer.process! if output_allowed?
+        transformer.process! unless collection.data?
       end
 
       def trigger_hooks(hook_name, *args)
@@ -178,12 +178,8 @@ module Bridgetown
         end
       end
 
-      def output_allowed?
-        !collection.data? && data.config&.output != false
-      end
-
       def requires_destination?
-        collection.write? && output_allowed?
+        collection.write? && data.config&.output != false
       end
 
       def write?
@@ -262,7 +258,7 @@ module Bridgetown
       alias_method :next_doc, :next_resource
 
       def previous_resource
-        pos = collection.docs.index { |item| item.equal?(self) }
+        pos = collection.resources.index { |item| item.equal?(self) }
         collection.resources[pos - 1] if pos&.positive?
       end
       alias_method :previous_doc, :previous_resource

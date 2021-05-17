@@ -92,6 +92,7 @@ class TestResource < BridgetownUnitTest
 
     should "produce the right destination file" do
       assert_equal @dest_file, @resource.destination.output_path
+      assert File.exist?(@dest_file)
     end
 
     should "honor the output extension of its permalink" do
@@ -124,6 +125,34 @@ class TestResource < BridgetownUnitTest
 
     should "produce the right destination file" do
       assert_equal @dest_file, @resource.destination.output_path
+    end
+  end
+
+  context "a resource that's configured not to output" do
+    setup do
+      @site = resources_site(
+        "collections" => {
+          "events" => {
+            "output" => true,
+          },
+        }
+      )
+      @site.process
+      @resource = @site.collections.events.resources[1]
+      @dest_file = dest_dir("events/the-weeknd/index.html")
+    end
+
+    should "not have any URL" do
+      assert_equal "", @resource.relative_url
+    end
+
+    should "not have any destination file" do
+      assert_nil @resource.destination
+      refute File.exist?(@dest_file)
+    end
+
+    should "still have processed content" do
+      assert_equal "Ladies and gentlemen, The Weeknd!", @resource.content
     end
   end
 
@@ -262,6 +291,27 @@ class TestResource < BridgetownUnitTest
       @site = resources_site
       @site.process
       assert_equal "ruby", @site.data.languages[1]
+    end
+  end
+
+  context "dotfile permalink" do
+    should "get saved to destination" do
+      @site = resources_site
+      @site.process
+      @dest_file = File.read(dest_dir(".nojekyll"))
+
+      assert_equal "nojekyll", @dest_file.strip
+    end
+  end
+
+  context "previous and next resource methods" do
+    should "return the correct resource" do
+      @site = resources_site
+      @site.process
+      @resource = @site.collections.pages.resources[0]
+
+      assert_equal @site.collections.pages.resources[1], @resource.next_resource
+      assert_equal @site.collections.pages.resources[0], @resource.next_resource.previous_resource
     end
   end
 end
