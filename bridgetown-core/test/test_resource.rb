@@ -2,6 +2,21 @@
 
 require "helper"
 
+# stub
+module Bridgetown
+  module Paginate
+    class PaginationIndexer
+      def self.index_documents_by(pages_list, search_term)
+        # site.collections[@configured_collection].resources
+
+        pages_list.map do |resource|
+          [resource.data[search_term], nil]
+        end.to_h
+      end
+    end
+  end
+end
+
 class TestResource < BridgetownUnitTest
   context "a top-level page" do
     setup do
@@ -312,6 +327,20 @@ class TestResource < BridgetownUnitTest
 
       assert_equal @site.collections.pages.resources[1], @resource.next_resource
       assert_equal @site.collections.pages.resources[0], @resource.next_resource.previous_resource
+    end
+  end
+
+  context "prototype pages" do
+    setup do
+      @site = resources_site
+      @site.process
+      @page = @site.generated_pages.find { |page| page.data.title == "Noodles Archive" }
+      @dest_file = dest_dir("noodle-archive/ramen/index.html")
+    end
+
+    should "be generated for the given term" do
+      assert File.exist?(@dest_file)
+      assert_includes @page.output, "<h1>ramen</h1>"
     end
   end
 end
