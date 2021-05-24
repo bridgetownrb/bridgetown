@@ -22,7 +22,13 @@ class TestNewCommand < BridgetownUnitTest
   end
 
   def template_config_files
-    ["/Gemfile", "/package.json", "/webpack.config.js", "/frontend/javascript/index.js"]
+    ["/Gemfile", "/package.json", "/frontend/javascript/index.js", "/webpack.config.js", "/webpack.defaults.js"]
+  end
+
+  def static_template_files
+    dir_contents(site_template).reject do |f|
+      File.extname(f) =~ %r!\.erb|\.(s[ac]|c)ss!
+    end
   end
 
   context "when args contains a path" do
@@ -50,21 +56,7 @@ class TestNewCommand < BridgetownUnitTest
       assert_match(%r!"start": "node start.js"!, File.read(packagejson))
     end
 
-    should "display a success message" do
-      output = capture_output do
-        Bridgetown::Commands::Base.start(argumentize(@args))
-      end
-      success_message = "Your new Bridgetown site was generated in" \
-                        " #{@path.cyan}."
-
-      assert_includes output, success_message
-    end
-
     should "copy the static files for postcss configuration in site template to the new directory" do
-      static_template_files = dir_contents(site_template).reject do |f|
-        File.extname(f) =~ %r!\.erb|\.(s[ac]|c)ss!
-      end
-
       postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
       postcss_template_files = static_template_files + postcss_config_files + template_config_files
 
@@ -80,10 +72,6 @@ class TestNewCommand < BridgetownUnitTest
     end
 
     should "copy the static files for sass configuration in site template to the new directory" do
-      static_template_files = dir_contents(site_template).reject do |f|
-        File.extname(f) =~ %r!\.erb|\.(s[ac]|c)ss!
-      end
-
       sass_config_files = ["/frontend/styles/index.scss"]
       sass_template_files = static_template_files + sass_config_files + template_config_files
 
@@ -124,18 +112,21 @@ class TestNewCommand < BridgetownUnitTest
 
     should "force created folder" do
       capture_output { Bridgetown::Commands::Base.start(argumentize(@args)) }
+
       output = capture_output do
         Bridgetown::Commands::Base.start(argumentize("#{@args} --force"))
       end
-      assert_match %r!new Bridgetown site was generated in!, output
+
+      refute_match %r!try again with `--force` to proceed and overwrite any files.!, output
+      assert_match %r!identical!, output
     end
 
     should "skip bundle install when opted to" do
-      output = capture_output do
+      capture_output do
         Bridgetown::Commands::Base.start(argumentize("#{@args} --skip-bundle"))
       end
-      bundle_message = "Bundle install skipped."
-      assert_includes output, bundle_message
+
+      refute_exist File.join(@full_path, "Gemfile.lock")
     end
   end
 

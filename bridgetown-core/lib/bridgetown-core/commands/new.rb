@@ -86,10 +86,10 @@ module Bridgetown
         )
         template("Gemfile.erb", "Gemfile")
         template("package.json.erb", "package.json")
-        template("webpack.config.js.erb", "webpack.config.js")
         template("frontend/javascript/index.js.erb", "frontend/javascript/index.js")
 
         options["use-postcss"] ? configure_postcss : configure_sass
+        invoke(Webpack, ["setup"], {})
       end
 
       def configure_sass

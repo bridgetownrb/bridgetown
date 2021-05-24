@@ -8,7 +8,7 @@ unless File.exist?("postcss.config.js")
   error_message = "#{"postcss.config.js".bold} not found. Please configure postcss in your project."
 
   @logger.error "\nError:".red, "🚨 #{error_message}"
-  @logger.info "\nFor new projects, you can use #{"bridgetown new my_project --use-postcss".bold.blue}\n"
+  @logger.info "\nRun #{"bridgetown webpack enable-postcss".bold.blue} to set it up.\n"
 
   return
 end
