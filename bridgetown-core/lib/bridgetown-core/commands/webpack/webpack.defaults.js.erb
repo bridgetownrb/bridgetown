@@ -32,7 +32,7 @@ module.exports = {
     modules: [
       path.resolve(rootDir, 'frontend', 'javascript'),
       path.resolve(rootDir, 'frontend', 'styles'),
-      path.resolve('../node_modules')
+      path.resolve(rootDir, 'node_modules')
     ],
     alias: {
       bridgetownComponents: path.resolve(rootDir, "src", "_components")
@@ -101,7 +101,7 @@ module.exports = {
               sassOptions: {
                 fiber: false,
                 includePaths: [
-                  path.resolve(__dirname, "src/_components")
+                  path.resolve(rootDir, "src/_components")
                 ],
               },
             },
