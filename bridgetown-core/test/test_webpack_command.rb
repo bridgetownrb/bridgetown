@@ -53,7 +53,6 @@ class TestWebpackCommand < BridgetownUnitTest
     end
 
     should "update webpack config" do
-      webpack_defaults = File.join(@full_path, "webpack.defaults.js")
       File.write(webpack_defaults, "OLD_VERSION")
 
       @cmd.inside(@full_path) do
