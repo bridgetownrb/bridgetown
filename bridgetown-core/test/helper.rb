@@ -35,11 +35,6 @@ include Bridgetown
 
 require "bridgetown-core/commands/serve/servlet"
 
-# Stub this out so tests can pass without adding a bridgetown-builder dependency
-module Bridgetown
-  class Builder; end
-end
-
 # Report with color.
 Minitest::Reporters.use! [
   Minitest::Reporters::DefaultReporter.new(
