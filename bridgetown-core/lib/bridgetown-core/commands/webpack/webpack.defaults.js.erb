@@ -13,7 +13,7 @@ const ManifestPlugin = require("webpack-manifest-plugin");
 
 module.exports = {
   entry: {
-    main: "../frontend/javascript/index.js"
+    main: path.resolve(rootDir, "frontend", "javascript", "index.js")
   },
   devtool: "source-map",
   // Set some or all of these to true if you want more verbose logging:
