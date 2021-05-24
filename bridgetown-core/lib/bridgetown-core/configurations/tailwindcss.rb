@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable all
+
 TEMPLATE_PATH = File.expand_path("./tailwindcss", __dir__)
 
 unless File.exist?("postcss.config.js")
@@ -23,3 +25,5 @@ prepend_to_file "frontend/styles/index.css",
                 File.read("#{TEMPLATE_PATH}/css_imports.css")
 
 run "bundle exec bridgetown configure purgecss"
+
+# rubocop:enable all
