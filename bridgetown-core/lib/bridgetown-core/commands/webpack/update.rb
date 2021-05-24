@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-template "webpack.defaults.js.erb", "webpack.defaults.js", force: true
+template "webpack.defaults.js.erb", "config/webpack.defaults.js", force: true
