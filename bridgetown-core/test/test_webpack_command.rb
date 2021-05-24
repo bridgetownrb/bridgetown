@@ -4,7 +4,7 @@ require "helper"
 
 class TestWebpackCommand < BridgetownUnitTest
   def webpack_defaults
-    File.join(@full_path, "webpack.defaults.js")
+    File.join(@full_path, "config", "webpack.defaults.js")
   end
 
   def webpack_config
