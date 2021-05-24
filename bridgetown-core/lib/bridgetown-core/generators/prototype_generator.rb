@@ -23,7 +23,7 @@ module Bridgetown
 
     # @return [Array<Bridgetown::Page, Bridgetown::Resource::Base>]
     def self.matching_templates
-      @matching_templates ||= []
+      @matching_templates ||= Set.new
     end
 
     def self.add_matching_template(template)
@@ -37,10 +37,13 @@ module Bridgetown
       page_list = site.uses_resource? ? site.collections.pages.resources : site.pages
 
       prototype_pages = self.class.matching_templates.select do |page|
-        page_list.include?(page)
+        # ensure we don't end up with zombies in tests
+        page_list.include?(page) && page.site == @site
       end
 
       if prototype_pages.length.positive?
+        ensure_pagination_enabled
+
         page_list.reject! do |page|
           prototype_pages.include? page
         end
@@ -53,6 +56,15 @@ module Bridgetown
             generate_new_page_from_prototype(prototype_page, search_term, term)
           end
         end
+      end
+    end
+
+    def ensure_pagination_enabled
+      unless @site.config.dig(:pagination, :enabled)
+        Bridgetown.logger.warn(
+          "Pagination:",
+          "Must be enabled for prototype pages to contain matches"
+        )
       end
     end
 
@@ -70,7 +82,12 @@ module Bridgetown
         @configured_collection = prototype_page.data["prototype"]["collection"]
       end
 
-      return nil unless site.collections[@configured_collection]
+      unless site.collections[@configured_collection]
+        Bridgetown.logger.warn(
+          "No collection specified for prototype page #{prototype_page.relative_path}"
+        )
+        return nil
+      end
 
       # Categories and Tags are unique in that singular and plural front matter
       # can be present for each

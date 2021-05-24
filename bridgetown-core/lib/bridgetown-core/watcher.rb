@@ -127,6 +127,7 @@ module Bridgetown
 
     def process(site, time, options)
       begin
+        I18n.reload! # make sure any locale files get read again
         Bridgetown::Hooks.trigger :site, :pre_reload, site
         Bridgetown::Hooks.clear_reloadable_hooks
         site.plugin_manager.reload_plugin_files

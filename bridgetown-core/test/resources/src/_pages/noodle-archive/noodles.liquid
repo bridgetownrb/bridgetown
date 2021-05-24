@@ -1,0 +1,12 @@
+---
+title: Noodles Archive
+prototype:
+  term: noodle
+  collection: posts
+---
+
+<h1>{{ resource.noodle }}</h1>
+
+{% for post in paginator.resources %}
+  <h2>{{ post.title }}</h1>
+{% endfor %}
