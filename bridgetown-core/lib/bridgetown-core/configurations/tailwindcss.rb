@@ -14,7 +14,7 @@ unless File.exist?("postcss.config.js")
 end
 
 confirm = ask "This configuration will ovewrite your existing #{"postcss.config.js".bold.white}. Would you like to continue? [Yn]"
-return unless confirm.upcase == "Y"
+return unless confirm.casecmp?("Y")
 
 run "yarn add -D tailwindcss"
 run "npx tailwindcss init"
