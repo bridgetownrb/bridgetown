@@ -7,7 +7,7 @@ category: frontendassets
 
 Bridgetown comes with a default configuration of [Webpack](https://webpack.js.org) to handle building and exporting frontend assets such as JavaScript/TypeScript/etc., CSS/Sass/etc., and related files that are imported through Webpack (fonts, icons, etc.)
 
-The default configuration is defined in `webpack.defaults.js`. You can add or override config options in `webpack.config.js`.
+The default configuration is defined in `config/webpack.defaults.js`. You can add or override config options in `webpack.config.js`.
 
 The default configuration can be updated to the latest version provided by Bridgetown using the `webpack` CLI tool:
 
