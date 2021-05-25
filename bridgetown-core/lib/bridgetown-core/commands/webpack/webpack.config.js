@@ -1,4 +1,4 @@
-const config = require("./webpack.defaults.js")
+const config = require("./config/webpack.defaults.js")
 
 // Add any overrides to the default webpack config here:
 

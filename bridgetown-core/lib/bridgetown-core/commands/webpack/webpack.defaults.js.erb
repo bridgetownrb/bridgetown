@@ -7,12 +7,13 @@
 // `webpack.config.js` instead of editing this file.
 
 const path = require("path");
+const rootDir = path.resolve(__dirname, "..")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 
 module.exports = {
   entry: {
-    main: "./frontend/javascript/index.js"
+    main: path.resolve(rootDir, "frontend", "javascript", "index.js")
   },
   devtool: "source-map",
   // Set some or all of these to true if you want more verbose logging:
@@ -23,18 +24,18 @@ module.exports = {
     children: false,
   },
   output: {
-    path: path.resolve(__dirname, "output", "_bridgetown", "static", "js"),
+    path: path.resolve(rootDir, "output", "_bridgetown", "static", "js"),
     filename: "[name].[contenthash].js",
   },
   resolve: {
     extensions: [".js", ".jsx"],
     modules: [
-      path.resolve(__dirname, 'frontend', 'javascript'),
-      path.resolve(__dirname, 'frontend', 'styles'),
-      path.resolve('./node_modules')
+      path.resolve(rootDir, 'frontend', 'javascript'),
+      path.resolve(rootDir, 'frontend', 'styles'),
+      path.resolve(rootDir, 'node_modules')
     ],
     alias: {
-      bridgetownComponents: path.resolve(__dirname, "src", "_components")
+      bridgetownComponents: path.resolve(rootDir, "src", "_components")
     }
   },
   plugins: [
@@ -42,7 +43,7 @@ module.exports = {
       filename: "../css/[name].[contenthash].css",
     }),
     new ManifestPlugin({
-      fileName: path.resolve(__dirname, ".bridgetown-webpack", "manifest.json"),
+      fileName: path.resolve(rootDir, ".bridgetown-webpack", "manifest.json"),
     }),
   ],
   module: {
@@ -100,7 +101,7 @@ module.exports = {
               sassOptions: {
                 fiber: false,
                 includePaths: [
-                  path.resolve(__dirname, "src/_components")
+                  path.resolve(rootDir, "src/_components")
                 ],
               },
             },

@@ -22,7 +22,7 @@ class TestNewCommand < BridgetownUnitTest
   end
 
   def template_config_files
-    ["/Gemfile", "/package.json", "/frontend/javascript/index.js", "/webpack.config.js", "/webpack.defaults.js"]
+    ["/Gemfile", "/package.json", "/frontend/javascript/index.js", "/webpack.config.js", "/config/webpack.defaults.js"]
   end
 
   def static_template_files
