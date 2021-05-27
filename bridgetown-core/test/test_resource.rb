@@ -342,5 +342,12 @@ class TestResource < BridgetownUnitTest
       assert File.exist?(@dest_file)
       assert_includes @page.output, "<h1>ramen</h1>"
     end
+
+    should "not persist across rebuilds" do
+      page_count = @site.generated_pages.size
+      Bridgetown::Hooks.trigger :site, :pre_reload, @site
+      @site.process
+      assert_equal page_count, @site.generated_pages.size
+    end
   end
 end

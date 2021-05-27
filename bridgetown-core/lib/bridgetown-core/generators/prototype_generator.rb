@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Handles Legacy Pages
+# Handles Generated Pages
 Bridgetown::Hooks.register :pages, :post_init, reloadable: false do |page|
   if page.class != Bridgetown::PrototypePage && page.data["prototype"].is_a?(Hash)
     Bridgetown::PrototypeGenerator.add_matching_template(page)
@@ -14,6 +14,11 @@ Bridgetown::Hooks.register :resources, :post_read, reloadable: false do |resourc
   end
 end
 
+# Ensure sites clear out templates before rebuild
+Bridgetown::Hooks.register :site, :after_reset, reloadable: false do |_site|
+  Bridgetown::PrototypeGenerator.matching_templates.clear
+end
+
 module Bridgetown
   class PrototypeGenerator < Generator
     priority :low
@@ -21,7 +26,7 @@ module Bridgetown
     # @return [Bridgetown::Site]
     attr_reader :site
 
-    # @return [Array<Bridgetown::Page, Bridgetown::Resource::Base>]
+    # @return [Set<Bridgetown::Page, Bridgetown::Resource::Base>]
     def self.matching_templates
       @matching_templates ||= Set.new
     end
@@ -37,8 +42,7 @@ module Bridgetown
       page_list = site.uses_resource? ? site.collections.pages.resources : site.pages
 
       prototype_pages = self.class.matching_templates.select do |page|
-        # ensure we don't end up with zombies in tests
-        page_list.include?(page) && page.site == @site
+        page_list.include?(page)
       end
 
       if prototype_pages.length.positive?
