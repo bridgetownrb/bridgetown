@@ -48,6 +48,10 @@ class TestResource < BridgetownUnitTest
       assert_equal "pages", @resource.collection.label
     end
 
+    should "know its layout" do
+      assert_equal "default", @resource.layout.label
+    end
+
     should "know whether it's a YAML file" do
       assert_equal false, @resource.yaml_file?
     end
