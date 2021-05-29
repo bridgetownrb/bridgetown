@@ -10,11 +10,9 @@ task deploy: [
   :linthtml,
   "frontend:build",
 ] do
-  sh "bundle exec bridgetown build"
-end
-
-task :bundle_with_test do
-  sh "bundle install --with test"
+  Bundler.with_original_env do
+    sh "bundle exec bridgetown build"
+  end
 end
 
 task :linthtml do
@@ -23,7 +21,9 @@ end
 
 desc "Build the site in a test environment"
 task :test do
-  sh "BRIDGETOWN_ENV=test bundle exec bridgetown build"
+  Bundler.with_original_env do
+    sh "BRIDGETOWN_ENV=test bundle exec bridgetown build"
+  end
 end
 
 desc "Runs the clean command"
