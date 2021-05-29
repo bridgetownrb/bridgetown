@@ -173,6 +173,10 @@ module Bridgetown
       Bridgetown::Commands::Registrations.register(&block)
     end
 
+    def load_tasks
+      load File.expand_path("bridgetown-core/tasks/bridgetown_tasks.rake", __dir__)
+    end
+
     # Determines the correct Bundler environment block method to use and passes
     # the block on to it.
     #

@@ -24,8 +24,16 @@ module Bridgetown
           end
         end
 
+        def display_rake_tasks(rake)
+          rake.options.show_all_tasks = true
+          rake.options.show_task_pattern = Regexp.new("")
+          rake.options.show_tasks = :tasks
+          rake.display_tasks_and_comments
+        end
+
         def handle_no_command_error(cmd, _has_namespace = $thor_runner)
           require "rake"
+          Rake::TaskManager.record_task_metadata = true
 
           Rake.with_application do |rake|
             rake.instance_variable_set(:@name, "bridgetown")
@@ -38,7 +46,7 @@ module Bridgetown
               end
               rake.load_rakefile
               rake.top_level
-              load File.expand_path("../tasks/bridgetown_tasks.rake", __dir__)
+              #              load File.expand_path("../tasks/bridgetown_tasks.rake", __dir__)
             end
             cmd = cmd.split("[")
             args = []
@@ -52,11 +60,7 @@ module Bridgetown
               Rake::Task[cmd[0]].invoke(*args)
             else
               puts "Unknown task: #{cmd[0]}\n\nHere's a list of tasks you can run:"
-              rake.options.show_all_tasks = true
-              rake.options.show_task_pattern = Regexp.new("")
-              rake.options.show_tasks = :tasks
-              Rake::TaskManager.record_task_metadata = true
-              rake.display_tasks_and_comments
+              display_rake_tasks(rake)
             end
           end
           #          super
@@ -85,6 +89,21 @@ module Bridgetown
           puts "  bridgetown <command> [options]"
           puts ""
           super
+
+          require "rake"
+          Rake::TaskManager.record_task_metadata = true
+          Rake.with_application do |rake|
+            rake.instance_variable_set(:@name, "  bridgetown")
+            rake.standard_exception_handling do
+              rakefile, _location = rake.find_rakefile_location
+              return unless rakefile # rubocop:disable Lint/NonLocalExitFromIterator
+
+              rake.load_rakefile
+              rake.top_level
+              puts "Available Rake Tasks:"
+              self.class.display_rake_tasks(rake)
+            end
+          end
         end
       end
     end

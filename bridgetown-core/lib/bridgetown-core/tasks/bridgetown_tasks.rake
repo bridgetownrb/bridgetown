@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+desc "Start the Puma server and Bridgetown watcher"
 task :start do
   ARGV.reject! { |arg| arg == "start" }
   if ARGV.include?("--help") || ARGV.include?("-h")
@@ -31,8 +32,5 @@ task :start do
   end
 end
 
+desc "Alias of start"
 task dev: :start
-
-task :sanity do
-  puts "I'm sane. =)"
-end
