@@ -29,7 +29,7 @@ task :start do
 
   unless Bridgetown.env.production?
     Bridgetown::Utils::Aux.group do
-      run_process "Frontend", :yellow, "bin/bridgetown frontend:dev"
+      run_process "Frontend", :yellow, "bundle exec bridgetown frontend:dev"
       run_process "Live", nil, "sleep 7 && yarn sync --color"
     end
     sleep 4 # give Webpack time to boot
