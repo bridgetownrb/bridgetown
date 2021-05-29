@@ -9,27 +9,43 @@ task :start do
     next
   end
 
-  if Bundler.definition.specs.find { |s| s.name == "puma" }
-    Bridgetown.logger.writer.enable_prefix
-    Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
-                           " (codename \"#{Bridgetown::CODE_NAME.yellow}\")"
-    sleep 0.5
+  Bridgetown.logger.writer.enable_prefix
+  Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
+                         " (codename \"#{Bridgetown::CODE_NAME.yellow}\")"
+  sleep 0.5
 
+  pumapid =
     Process.fork do
-      require "puma/cli"
+      if Bundler.definition.specs.find { |s| s.name == "puma" }
+        require "puma/cli"
 
-      cli = Puma::CLI.new []
-      cli.run
+        cli = Puma::CLI.new []
+        cli.run
+      else
+        puts "** No Rack-compatible server found, falling back on Webrick **"
+        Bridgetown::Commands::Serve.start(["-P", "4001", "--quiet", "--no-watch", "--skip-initial-build"])
+      end
     end
 
-    sleep 4
-    Bridgetown::Commands::Build.start(["-w"] + ARGV)
-
-    sleep 0.5 # let Puma finish cleaning up
-  else
-    puts "** No Rack-compatible server found, falling back on Webrick **"
-    Bridgetown::Commands::Serve.start(ARGV)
+  unless Bridgetown.env.production?
+    Bridgetown::Utils::Aux.group do
+      run_process "Frontend", :yellow, "bin/bridgetown frontend:dev"
+      run_process "Live", nil, "sleep 7 && yarn sync --color"
+    end
+    sleep 4 # give Webpack time to boot
   end
+
+  begin
+    Bridgetown::Commands::Build.start(["-w"] + ARGV)
+  rescue StandardError => e
+    Process.kill "SIGINT", pumapid
+    sleep 0.5
+    raise e
+  ensure
+    Bridgetown::Utils::Aux.kill_processes
+  end
+
+  sleep 0.5 # finish cleaning up
 end
 
 desc "Alias of start"

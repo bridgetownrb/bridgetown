@@ -7,7 +7,7 @@ category: bundledconfigurations
 ---
 
 Bridgetown bundles a number of automation scripts to set up common project
-configurations. You can run these scripts using `bundle exec bridgetown
+configurations. You can run these scripts using `bin/bridgetown
 configure [CONFIGURATION]`
 
 The configurations we include are:
@@ -41,7 +41,7 @@ This configuration will overwrite your `postcss.config.js` file.
 🛠 **Configure using:**
 
 ```
-bundle exec bridgetown configure tailwindcss
+bin/bridgetown configure tailwindcss
 ````
 
 ### PurgeCSS Post-Build Hook
@@ -51,7 +51,7 @@ bundle exec bridgetown configure tailwindcss
 🛠 **Configure using:**
 
 ```
-bundle exec bridgetown configure purgecss
+bin/bridgetown configure purgecss
 ```
 
 ### Stimulus
@@ -61,7 +61,7 @@ bundle exec bridgetown configure purgecss
 🛠 **Configure using:**
 
 ```
-bundle exec bridgetown configure stimulus
+bin/bridgetown configure stimulus
 ```
 
 ### Turbo
@@ -71,7 +71,7 @@ bundle exec bridgetown configure stimulus
 🛠 **Configure using:**
 
 ```
-bundle exec bridgetown configure turbo
+bin/bridgetown configure turbo
 ```
 
 ### Bridgetown recommended PostCSS plugins
@@ -89,7 +89,7 @@ This configuration will overwrite your `postcss.config.js` file.
 
 🛠 **Configure using:**
 ```
-bundle exec bridgetown configure bt-postcss
+bin/bridgetown configure bt-postcss
 ```
 If you'd like to customize your setup further you can find more plugins [here](https://www.postcss.parts).
 
@@ -100,7 +100,7 @@ If you'd like to customize your setup further you can find more plugins [here](h
 🛠 **Configure using:**
 
 ```
-bundle exec bridgetown configure netlify
+bin/bridgetown configure netlify
 ```
 
 ### Swup.js Page Transitions
@@ -110,7 +110,7 @@ bundle exec bridgetown configure netlify
 🛠 **Configure using:**
 
 ```
-bundle exec bridgetown configure swup
+bin/bridgetown configure swup
 ```
 
 
@@ -121,5 +121,5 @@ bundle exec bridgetown configure swup
 🛠 **Configure using:**
 
 ```
-bundle exec bridgetown configure minitesting
+bin/bridgetown configure minitesting
 ```

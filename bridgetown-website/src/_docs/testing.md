@@ -21,7 +21,7 @@ One of the benefits of this testing approach is it's _very_ fast, due to the fac
 In install, apply the following automation:
 
 ```sh
-bundle exec bridgetown apply https://github.com/bridgetownrb/automations/minitesting.rb
+bin/bridgetown apply https://github.com/bridgetownrb/automations/minitesting.rb
 ```
 
 This will set up the plugin, test gems, and an example test suite in the `test` folder.
@@ -64,7 +64,7 @@ option is to use an automation like [bridgetown-automation-cypress](https://gith
 To install via an automation, run:
 
 ```sh
-bundle exec bridgetown apply https://github.com/ParamagicDev/bridgetown-automation-cypress
+bin/bridgetown apply https://github.com/ParamagicDev/bridgetown-automation-cypress
 ```
 
 then skip down to the **Adding Tests** section.
@@ -110,7 +110,7 @@ would like to run. To run it in your project, type the following
 into your terminal:
 
 ```bash
-yarn start-server-and-test 'yarn start' http-get://localhost:4001 'yarn cy:open'
+yarn start-server-and-test 'bin/bridgetown start' http-get://localhost:4001 'yarn cy:open'
 ```
 
 The other command you can run is `cypress run`.
@@ -120,7 +120,7 @@ meant for things like CI environments that cannot open up a headed browser. To
 run this command simply type the following in your project:
 
 ```bash
-yarn start-server-and-test 'yarn start' http-get://localhost:4001 'yarn cy:open'
+yarn start-server-and-test 'bin/bridgetown start' http-get://localhost:4001 'yarn cy:open'
 ```
 
 #### package.json scripts
@@ -132,9 +132,9 @@ To save time, let's add some useful scripts to our `package.json` file.
   "__filename": "package.json",
   "scripts": {
     "cy:open": "cypress open",
-    "cy:test": "start-server-and-test 'yarn start' http-get://localhost:4001 'yarn cy:open'",
+    "cy:test": "start-server-and-test 'bin/bridgetown start' http-get://localhost:4001 'yarn cy:open'",
     "cy:run": "cypress run",
-    "cy:test:ci": "start-server-and-test 'yarn start' http-get://localhost:4001 'yarn cy:run'"
+    "cy:test:ci": "start-server-and-test 'bin/bridgetown start' http-get://localhost:4001 'yarn cy:run'"
   }
 }
 ```

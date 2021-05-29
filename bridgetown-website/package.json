@@ -3,15 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "bundle exec bridgetown build",
-    "serve": "bundle exec bridgetown serve",
-    "clean": "bundle exec bridgetown clean",
     "webpack-build": "webpack --mode production",
     "webpack-dev": "webpack --mode development -w",
-    "deploy": "bundle install --with test && yarn clean && yarn lint:html && yarn webpack-build && yarn build",
     "sync": "node sync.js",
-    "start": "node start.js",
-    "test": "BRIDGETOWN_ENV=test yarn build",
     "lint:html": "yarn linthtml \"src/**/*.{html,erb,serb,liquid,md}\""
   },
   "devDependencies": {
@@ -24,7 +18,6 @@
     "@ruby2js/webpack-loader": "^1.3.1",
     "babel-loader": "^8.1.0",
     "browser-sync": "^2.26.7",
-    "concurrently": "^5.2.0",
     "css-loader": "^4.3.0",
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^1.3.1",

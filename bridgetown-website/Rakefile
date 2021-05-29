@@ -1,0 +1,48 @@
+# frozen_string_literal: true
+
+require "bridgetown"
+
+Bridgetown.load_tasks
+
+desc "Build the Bridgetown site for deployment"
+task deploy: [
+  :bundle_with_test,
+  :clean,
+  :linthtml,
+  "frontend:build",
+] do
+  sh "bundle exec bridgetown build"
+end
+
+task :bundle_with_test do
+  sh "bundle install --with test"
+end
+
+task :linthtml do
+  sh "yarn lint:html"
+end
+
+desc "Build the site in a test environment"
+task :test do
+  sh "BRIDGETOWN_ENV=test bundle exec bridgetown build"
+end
+
+desc "Runs the clean command"
+task :clean do
+  sh "bundle exec bridgetown clean"
+end
+
+namespace :frontend do
+  desc "Build the frontend with Webpack for deployment"
+  task :build do
+    sh "yarn run webpack-build"
+  end
+
+  desc "Watch the frontend with Webpack during development"
+  task :dev do
+    sh "yarn run webpack-dev --color"
+  rescue Interrupt
+  end
+end
+
+task default: :deploy

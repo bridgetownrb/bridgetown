@@ -33,3 +33,8 @@ browserSync.init({
     },
   },
 });
+
+/*process.on("SIGTERM", function() {
+  browserSync.exit()
+  process.exit(0)
+})*/

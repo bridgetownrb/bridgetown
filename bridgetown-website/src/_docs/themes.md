@@ -20,7 +20,7 @@ bundle add really-cool-theme -g bridgetown_plugins
 Or by applying an [automation](/docs/automations):
 
 ```sh
-bundle exec bridgetown apply https://github.com/super-great-themes/theme-one
+bin/bridgetown apply https://github.com/super-great-themes/theme-one
 ```
 
 The theme creator will typically provide some simple instructions on how to use

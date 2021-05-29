@@ -33,7 +33,7 @@ bridgetown new mysite --apply=/path/to/automation.rb
 For existing sites, you can use the `apply` command:
 
 ```sh
-bundle exec bridgetown apply /path/to/automation.rb
+bin/bridgetown apply /path/to/automation.rb
 ```
 
 If you don't supply any filename or URL to `apply`, it will look for
@@ -42,7 +42,7 @@ If you don't supply any filename or URL to `apply`, it will look for
 ```sh
 vim bridgetown.automation.rb # save an automation script
 
-bundle exec bridgetown apply
+bin/bridgetown apply
 ```
 
 Remote URLs to automation scripts are also supported, and GitHub repo or gist
@@ -50,14 +50,14 @@ URLs are automatically transformed to locate the right file from GitHub's CDN:
 
 ```sh
 # Install and configure the bridgetown-cloudinary gem
-bundle exec bridgetown apply https://github.com/bridgetownrb/bridgetown-cloudinary
+bin/bridgetown apply https://github.com/bridgetownrb/bridgetown-cloudinary
 ```
 
 You can also load a file other than `bridgetown.automation.rb` from GitHub:
 
 ```sh
 # Set up a default configuration for Netlify hosting
-bundle exec bridgetown apply https://github.com/bridgetownrb/automations/netlify.rb
+bin/bridgetown apply https://github.com/bridgetownrb/automations/netlify.rb
 ```
 
 ## Writing Automations
@@ -75,7 +75,7 @@ site repo:
 create_file "netlify.toml" do
   <<~NETLIFY
     [build]
-      command = "yarn deploy"
+      command = "bin/bridgetown deploy"
       publish = "output"
     [build.environment]
       NODE_VERSION = "12"

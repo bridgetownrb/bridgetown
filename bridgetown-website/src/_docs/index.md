@@ -49,7 +49,7 @@ $ cd mysite
 
 6. Build the site and run a live-reload development server:
 ```
-$ yarn start
+$ bin/bridgetown start
 ```
 
 7. Browse to [http://localhost:4000](http://localhost:4000){:target="_blank"}

@@ -14,7 +14,7 @@ Bridgetown's included site template automatically provides a Yarn script you can
 build both your Webpack bundle and your website. Simply run
 
 ```shell
-yarn deploy
+bin/bridgetown deploy
 ```
 
 as part of your deployment process, which will kick off both the `webpack` and the `bridgetown build` commands in that order.
@@ -80,8 +80,8 @@ test:
   - bundle install
   - yarn install
   - yarn webpack --mode production
-  - bundle exec bridgetown build --baseurl mysite  --url https://bridgetownrb.gitlab.io
-  - bundle exec bridgetown clean
+  - bin/bridgetown build --baseurl mysite  --url https://bridgetownrb.gitlab.io
+  - bin/bridgetown clean
   except:
     - master
 
@@ -100,7 +100,7 @@ pages:
   - bundle install
   - yarn install
   - yarn webpack --mode production
-  - bundle exec bridgetown build --baseurl mysite --url https://bridgetownrb.gitlab.io
+  - bin/bridgetown build --baseurl mysite --url https://bridgetownrb.gitlab.io
   - mv output public
   artifacts:
     paths:
@@ -160,7 +160,7 @@ Finally, add the following line to the `scripts` section in your package.json:
   // ...
   "scripts": {
     // ...
-    "heroku-postbuild": "yarn deploy",
+    "heroku-postbuild": "bin/bridgetown deploy",
     // ...
   },
   // ...
