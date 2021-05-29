@@ -46,7 +46,6 @@ module Bridgetown
               end
               rake.load_rakefile
               rake.top_level
-              #              load File.expand_path("../tasks/bridgetown_tasks.rake", __dir__)
             end
             cmd = cmd.split("[")
             args = []

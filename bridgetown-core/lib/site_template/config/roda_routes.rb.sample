@@ -1,0 +1,17 @@
+# Rename this file to roda_routes.rb if you want to add additional Roda routes
+# to your Bridgetown site
+
+class RodaRoutes
+  def self.draw(r)
+    r.get "hello", String do |name|
+      {hello: "friend #{name}"}
+    end
+
+    # This will activate your Rails nano backend if it's installed
+    if defined?(NanoAPI)
+      r.on "backend" do
+        r.run NanoAPI # see additional routes in backend/config/routes
+      end
+    end
+  end
+end

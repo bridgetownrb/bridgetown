@@ -78,13 +78,15 @@ module Bridgetown
 
       loader = Zeitwerk::Loader.new
       loader.push_dir(File.join(Dir.pwd, "config"))
-      loader.enable_reloading
+      loader.enable_reloading unless ENV["BRIDGETOWN_ENV"] == "production"
       loader.setup
 
-      listener = Listen.to(File.join(Dir.pwd, "config")) do |_modified, _added, _removed|
-        loader.reload
+      unless ENV["BRIDGETOWN_ENV"] == "production"
+        listener = Listen.to(File.join(Dir.pwd, "config")) do |_modified, _added, _removed|
+          loader.reload
+        end
+        listener.start
       end
-      listener.start
 
       @mutex = Thread::Mutex.new
       Colors.enable($stdout)
