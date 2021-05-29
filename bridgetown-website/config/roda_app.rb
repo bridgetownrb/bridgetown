@@ -1,11 +1,10 @@
 require "bridgetown-core/rack/roda"
+require "bridgetown-core/rack/routes"
 
 class RodaApp < Bridgetown::Rack::Roda
-  route do |r|
-    bridgetown_setup(r)
-
+  route do
     if defined?(RodaRoutes)
-      RodaRoutes.draw(r)
+      RodaRoutes.merge self
     end
   end
 end

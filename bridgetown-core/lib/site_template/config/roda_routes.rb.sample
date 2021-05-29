@@ -1,8 +1,8 @@
 # Rename this file to roda_routes.rb if you want to add additional Roda routes
-# to your Bridgetown site
+# to your Bridgetown site.
 
-class RodaRoutes
-  def self.draw(r)
+class RodaRoutes < Bridgetown::Rack::Routes
+  route do |r|
     r.get "hello", String do |name|
       {hello: "friend #{name}"}
     end

@@ -1,3 +1,7 @@
+# Puma is a fast, concurrent web server for Ruby & Rack
+#
+# Learn more at: https://puma.io
+
 port 4001
 
 if ENV["BRIDGETOWN_ENV"] == "production"

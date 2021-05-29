@@ -4,4 +4,4 @@ require "bridgetown-core/rack/boot"
 
 Bridgetown::Rack.boot
 
-run RodaApp.freeze.app
+run RodaApp.freeze.app # see config/roda_app.rb
