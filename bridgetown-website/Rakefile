@@ -6,7 +6,6 @@ Bridgetown.load_tasks
 
 desc "Build the Bridgetown site for deployment"
 task deploy: [
-  :bundle_with_test,
   :clean,
   :linthtml,
   "frontend:build",
