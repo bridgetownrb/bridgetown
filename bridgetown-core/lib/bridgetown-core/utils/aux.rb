@@ -42,12 +42,6 @@ module Bridgetown
 
       def self.group(&block)
         @mutex = Thread::Mutex.new
-
-        # Not sure if this is currently used:
-        Signal.trap("SIGINT") do
-          kill_processes
-        end
-
         instance_exec(&block)
       end
 

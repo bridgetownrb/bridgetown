@@ -14,7 +14,7 @@ task :start do
                          " (codename \"#{Bridgetown::CODE_NAME.yellow}\")"
   sleep 0.5
 
-  pumapid =
+  rackpid =
     Process.fork do
       if Bundler.definition.specs.find { |s| s.name == "puma" }
         require "puma/cli"
@@ -27,18 +27,12 @@ task :start do
       end
     end
 
-  unless Bridgetown.env.production?
-    Bridgetown::Utils::Aux.group do
-      run_process "Frontend", :yellow, "bundle exec bridgetown frontend:dev"
-      run_process "Live", nil, "sleep 7 && yarn sync --color"
-    end
-    sleep 4 # give Webpack time to boot
-  end
+  Rake::Task["frontend:servers"].invoke(true) unless Bridgetown.env.production?
 
   begin
     Bridgetown::Commands::Build.start(["-w"] + ARGV)
   rescue StandardError => e
-    Process.kill "SIGINT", pumapid
+    Process.kill "SIGINT", rackpid
     sleep 0.5
     raise e
   ensure
@@ -50,6 +44,27 @@ end
 
 desc "Alias of start"
 task dev: :start
+
+namespace :frontend do
+  desc "Run frontend bundler and live reload server independently"
+  task :servers, :sidecar do |_task, args|
+    sidecar = args[:sidecar] == true
+    Bridgetown::Utils::Aux.group do
+      run_process "Frontend", :yellow, "bundle exec bridgetown frontend:dev"
+      run_process "Live", nil, "#{"sleep 7 &&" if sidecar} yarn sync --color"
+    end
+    if sidecar
+      sleep 4 # give Webpack time to boot
+    else
+      trap("INT") do
+        Bridgetown::Utils::Aux.kill_processes
+        sleep 0.5
+        exit(0)
+      end
+      loop { sleep 1000 }
+    end
+  end
+end
 
 desc "Prerequisite task which loads site and provides automation"
 task :environment do
