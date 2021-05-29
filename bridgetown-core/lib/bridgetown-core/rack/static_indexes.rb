@@ -25,5 +25,7 @@ Roda::RodaPlugins::Public::RequestMethods.module_eval do
     end
 
     segments
+  rescue IndexError
+    nil
   end
 end
