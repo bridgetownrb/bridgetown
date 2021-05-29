@@ -1,0 +1,20 @@
+require "bridgetown"
+
+Bridgetown.load_tasks
+
+desc "Build the Bridgetown site for deployment"
+task :deploy do
+  steps = [
+    "bundle exec bridgetown clean",
+    "yarn webpack-build",
+    "bundle exec bridgetown build",
+  ]
+  sh steps.join(" && ")
+end
+
+desc "Build the site in a test environment"
+task :test do
+  sh "BRIDGETOWN_ENV=test bundle exec bridgetown build"
+end
+
+task default: :deploy

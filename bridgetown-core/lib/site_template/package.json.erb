@@ -3,14 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "bundle exec bridgetown build",
-    "serve": "bundle exec bridgetown serve",
-    "clean": "bundle exec bridgetown clean",
+    "sync": "node sync.js",
     "webpack-build": "webpack --mode production",
     "webpack-dev": "webpack --mode development -w",
-    "deploy": "yarn clean && yarn webpack-build && yarn build",
-    "sync": "node sync.js",
-    "start": "node start.js"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
@@ -20,7 +15,6 @@
     "@babel/preset-env": "^7.9.0",
     "babel-loader": "^8.1.0",
     "browser-sync": "^2.26.7",
-    "concurrently": "^5.2.0",
     "css-loader": "^4.3.0",
     "file-loader": "^6.2.0",
     "mini-css-extract-plugin": "^1.3.1",
