@@ -12,6 +12,12 @@ module Bridgetown
       end
     end
 
+    def enable_prefix
+      @formatter = proc do |_, _, _, msg|
+        "\e[32m[Bridgetown]\e[0m #{msg}"
+      end
+    end
+
     def add(severity, message = nil, progname = nil)
       severity ||= UNKNOWN
       @logdev = logdevice(severity)

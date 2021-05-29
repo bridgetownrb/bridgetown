@@ -23,6 +23,44 @@ module Bridgetown
             super
           end
         end
+
+        def handle_no_command_error(cmd, _has_namespace = $thor_runner)
+          require "rake"
+
+          Rake.with_application do |rake|
+            rake.instance_variable_set(:@name, "bridgetown")
+            rake.standard_exception_handling do
+              rakefile, _location = rake.find_rakefile_location
+              unless rakefile
+                puts "No Rakefile found (looking for: #{rake.class::DEFAULT_RAKEFILES.join(", ")})\n"
+                new.invoke("help")
+                return # rubocop:disable Lint/NonLocalExitFromIterator
+              end
+              rake.load_rakefile
+              rake.top_level
+              load File.expand_path("../tasks/bridgetown_tasks.rake", __dir__)
+            end
+            cmd = cmd.split("[")
+            args = []
+            if cmd[1]
+              args = cmd[1].gsub('\,', "__COMMA__").delete_suffix!("]").split(",").map do |item|
+                item.gsub("__COMMA__", ",")
+              end
+            end
+
+            if Rake::Task.task_defined?(cmd[0])
+              Rake::Task[cmd[0]].invoke(*args)
+            else
+              puts "Unknown task: #{cmd[0]}\n\nHere's a list of tasks you can run:"
+              rake.options.show_all_tasks = true
+              rake.options.show_task_pattern = Regexp.new("")
+              rake.options.show_tasks = :tasks
+              Rake::TaskManager.record_task_metadata = true
+              rake.display_tasks_and_comments
+            end
+          end
+          #          super
+        end
       end
 
       desc "dream", "There's a place where that idea still exists as a reality"
