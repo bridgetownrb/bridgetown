@@ -174,6 +174,8 @@ module Bridgetown
     end
 
     def load_tasks
+      require "bridgetown-core/commands/base"
+      Bridgetown::PluginManager.require_from_bundler
       load File.expand_path("bridgetown-core/tasks/bridgetown_tasks.rake", __dir__)
     end
 

@@ -4,21 +4,18 @@ Bridgetown.load_tasks
 
 desc "Build the Bridgetown site for deployment"
 task :deploy => [:clean, "frontend:build"] do
-  Bundler.with_original_env do
-    sh "bundle exec bridgetown build"
-  end
+  Bridgetown::Commands::Build.start
 end
 
 desc "Build the site in a test environment"
 task :test do
-  Bundler.with_original_env do
-    sh "BRIDGETOWN_ENV=test bundle exec bridgetown build"
-  end
+  ENV["BRIDGETOWN_ENV"] = "test"
+  Bridgetown::Commands::Build.start
 end
 
 desc "Runs the clean command"
 task :clean do
-  sh "bundle exec bridgetown clean"
+  Bridgetown::Commands::Clean.start
 end
 
 namespace :frontend do
