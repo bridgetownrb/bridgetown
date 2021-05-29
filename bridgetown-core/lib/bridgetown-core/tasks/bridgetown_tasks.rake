@@ -34,3 +34,35 @@ end
 
 desc "Alias of start"
 task dev: :start
+
+desc "Prerequisite task which loads site and provides automation"
+task :environment do
+  class HammerActions < Thor
+    include Thor::Actions
+    include Bridgetown::Commands::Actions
+
+    def self.source_root
+      Dir.pwd
+    end
+
+    def self.exit_on_failure?
+      true
+    end
+
+    private
+
+    def site
+      @site ||= Bridgetown::Site.new(Bridgetown.configuration)
+    end
+  end
+
+  define_singleton_method :automation do |*args, &block|
+    @hammer ||= HammerActions.new
+    @hammer.instance_exec(*args, &block)
+  end
+
+  define_singleton_method :site do
+    @hammer ||= HammerActions.new
+    @hammer.site
+  end
+end
