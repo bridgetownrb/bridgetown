@@ -30,6 +30,7 @@ task :start do
   Rake::Task["frontend:servers"].invoke(true) unless Bridgetown.env.production?
 
   begin
+    # TODO: set the site's url value in the config to localhost, etc.
     Bridgetown::Commands::Build.start(["-w"] + ARGV)
   rescue StandardError => e
     Process.kill "SIGINT", rackpid

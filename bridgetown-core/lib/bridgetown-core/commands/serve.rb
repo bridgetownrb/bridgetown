@@ -52,6 +52,9 @@ module Bridgetown
       ).freeze
 
       def serve
+        Bridgetown::Deprecator.deprecation_message "The serve command will be " \
+          "removed in favor of using Puma in the next major release of Bridgetown"
+
         @mutex = Mutex.new
         @run_cond = ConditionVariable.new
         @running = false
