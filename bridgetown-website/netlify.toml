@@ -1,5 +1,5 @@
 [build]
-  command = "bin/bridgetown deploy && ./bin/netlify.sh"
+  command = "rake bundle_with_test && bin/bridgetown deploy && ./bin/netlify.sh"
   publish = "output"
 
 [build.environment]
