@@ -42,7 +42,7 @@ module Bridgetown
       end
 
       def config
-        @config ||= Bridgetown.configuration({root_dir: Dir.pwd})
+        @config ||= Bridgetown.configuration({ root_dir: Dir.pwd })
       end
 
       protected
