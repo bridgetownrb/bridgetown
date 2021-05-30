@@ -5,6 +5,28 @@ All notable changes to Bridgetown will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.21.0.beta4 - 2021-05-30
+
+### Added
+
+- Memoization for caching templates in `Bridgetown::Component` [#326](https://github.com/bridgetownrb/bridgetown/pull/326) ([jaredcwhite](https://github.com/jaredcwhite))
+- `layout` method in `Resource::Base` [#324](https://github.com/bridgetownrb/bridgetown/pull/324) ([jaredcwhite](https://github.com/jaredcwhite))
+- Include Bridgetown version in Webpack defaults [#322](https://github.com/bridgetownrb/bridgetown/pull/322) ([ayushn21](https://github.com/ayushn21))
+- Confirmation for overwriting postcss config in tailwindcss and bt-postcss bundled configurations [#317](https://github.com/bridgetownrb/bridgetown/pull/317) ([ayushn21](https://github.com/ayushn21))
+- Create new config directory and move Webpack defaults into it [#316](https://github.com/bridgetownrb/bridgetown/pull/316) ([ayushn21](https://github.com/ayushn21))
+
+### Changed
+
+- Fix the Bridgetown logger and other test improvements [#328](https://github.com/bridgetownrb/bridgetown/pull/328) ([ayushn21](https://github.com/ayushn21))
+  - **NOTE:** the `Configuration file` log message is now output with a `debug` log level instead of `info`. This means you will no longer see the config path in your terminal/logs unless you use the `--verbose` flag.
+
+### Fixed
+
+- Install required packages in Webpack enable postcss tool [#319](https://github.com/bridgetownrb/bridgetown/pull/319) ([ayushn21](https://github.com/ayushn21))
+- Update Babel configuration to prevent overt warning [#314](https://github.com/bridgetownrb/bridgetown/pull/314) ([ayushn21](https://github.com/ayushn21))
+- Resolve issue with zombie templates in Pagination/Prototype logic
+- Locale files now reload when the site regenerates
+
 ## 0.21.0.beta3 - 2021-05-15
 
 ### Changed
@@ -30,7 +52,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Refactor old TODOs and deprecations
 * Remove deprecated `sassify`/`scssify` filters, add html_safe to the `obfuscate_link` helper
-* Fix dotfiles or multiple extension permalinks (for the resource content engine) ([jaredcwhite](https://github.com/jaredcwhite)) [#292](https://github.com/bridgetownrb/bridgetown/pull/292)
+* Fix dotfiles or multiple extension permalinks (for the resource content engine) [#292](https://github.com/bridgetownrb/bridgetown/pull/292) ([jaredcwhite](https://github.com/jaredcwhite))
 
 ## 0.21.0.beta1 - 2021-04-25
 
