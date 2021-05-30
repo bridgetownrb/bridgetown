@@ -6,6 +6,8 @@ author: jared
 category: release
 ---
 
+<figure style="box-shadow: 0px 10px 30px rgba(0,0,0,0.2);border-radius: 4px;overflow: hidden;"><img src="https://res.cloudinary.com/mariposta/image/upload/c_fill,w_1920,h_1160,q_65/broughton-beach.jpg" alt="Photo Broughton Beach in Portland, Oregon" style="display:block"></figure>
+
 **Bridgetown v0.21 "Broughton Beach" has been released!** 🎉 It's a major leap forward for the project (just look at those release notes! LINK), and we're proud of the work we've accomplished to push Bridgetown much closer to its 1.0 milestone. As always, you can upgrade by simply bumping the version in your Gemfile:
 
 ```ruby
@@ -16,7 +18,7 @@ and running `bundle update bridgetown`. In addition, we now have a way to upgrad
 
 So what's new in Broughton Beach and why do we think Ruby is the best language for building many of today's demanding websites?
 
-TOC
+{% toc %}
 
 ### The Rise of Components
 
