@@ -39,12 +39,22 @@ module Bridgetown
     # Gets/Sets the document output (for layout-compatible converters)
     attr_accessor :current_document_output
 
+    # Determines the label a layout should use based on its filename
+    #
+    # @param file [String]
+    # @return [String]
+    def self.label_for_file(file)
+      # TODO: refactor this so multi-extension layout filenames don't leak
+      # middle extensions into layout label
+      file.split(".")[0..-2].join(".")
+    end
+
     # Initialize a new Layout.
     #
-    # site - The Site.
-    # base - The String path to the source.
-    # name - The String filename of the layout file.
-    # from_plugin - true if the layout comes from a Gem-based plugin folder.
+    # @param site [Bridgetown::Site]
+    # @param base [String] The path to the source.
+    # @param name [String] The filename of the layout file.
+    # @param from_plugin [Boolean] if the layout comes from a Gem-based plugin folder.
     def initialize(site, base, name, from_plugin: false)
       @site = site
       @base = base
@@ -83,17 +93,24 @@ module Bridgetown
       end
     end
 
-    # The inspect string for this document.
-    # Includes the relative path and the collection label.
+    # The label of the layout (should match what would used in front matter
+    # references).
     #
-    # Returns the inspect string for this document.
-    def inspect
-      "#<#{self.class} #{@path}>"
+    # @return [String]
+    def label
+      @label ||= self.class.label_for_file(name)
     end
 
-    # Provide this Layout's data to a Hash suitable for use by Liquid.
+    # The inspect string for this layout. Includes the relative path.
     #
-    # Returns the Hash representation of this Layout.
+    # @return [String]
+    def inspect
+      "#<#{self.class} #{relative_path}>"
+    end
+
+    # Provide this Layout's data for use by Liquid.
+    #
+    # @return [HashWithDotAccess::Hash]
     def to_liquid
       data
     end

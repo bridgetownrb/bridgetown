@@ -44,7 +44,7 @@ module Bridgetown
     end
 
     def layout_name(file)
-      file.split(".")[0..-2].join(".")
+      Layout.label_for_file(file)
     end
 
     def within(directory)

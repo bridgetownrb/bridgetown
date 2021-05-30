@@ -42,6 +42,22 @@ module Bridgetown
         model.collection
       end
 
+      # Layout associated with this resource
+      # This will output a warning if the layout can't be found.
+      #
+      # @return [Bridgetown::Layout]
+      def layout
+        return @layout if @layout
+        return if no_layout?
+
+        @layout = site.layouts[data.layout].tap do |layout|
+          unless layout
+            Bridgetown.logger.warn "Resource:", "Layout '#{data.layout}' " \
+            "requested via #{relative_path} does not exist."
+          end
+        end
+      end
+
       # The relative path of source file or file-like origin
       #
       # @return [Pathname]

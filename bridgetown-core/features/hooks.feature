@@ -11,7 +11,7 @@ Feature: Hooks
         def initialize(site, base)
           @site = site
           @base = base
-          @data = {}
+          @data = HashWithDotAccess::Hash.new
           @dir = '/'
           @name = 'foo.html'
           @content = 'mytinypage'
