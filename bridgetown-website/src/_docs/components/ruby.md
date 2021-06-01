@@ -270,6 +270,8 @@ As a shortcut, you could create your own base class, say `SiteViewComponent`, wh
 First, add the following to your Gemfile:
 
 ```ruby
+gem "railties" # required by Primer
+gem "actionpack" # required by Primer
 gem "primer_view_components", github: "primer/view_components", branch: "main"
 ```
 
@@ -291,6 +293,7 @@ class PrimerBuilder < SiteBuilder
       end
       primer_loader.setup
       Rails.application.config = Primer::ViewComponents::Engine.config
+      true
     end
   end
 end
