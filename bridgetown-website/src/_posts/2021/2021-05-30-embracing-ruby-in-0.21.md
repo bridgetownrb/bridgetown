@@ -52,7 +52,7 @@ Also be advised **this is the last release** where the Legacy content engine is 
 
 ### Webpack upgrades are now a piece of cake
 
-Thanks to a tremendous effort by core contributor Ayush Newatia, we now provide a canonical Webpack configuration automatically managed by Bridgetown within your repo and provide a clear integration point to add your customizations (should you need to). Check out this blog post by Ayush to learn more about how you can upgrade your existing Bridgetown sites to the latest Webpack. LINK
+Thanks to a tremendous effort by core contributor [Ayush Newatia](https://twitter.com/ayushn21), we now provide a canonical Webpack configuration automatically managed by Bridgetown within your repo and provide a clear integration point to add your customizations (should you need to). [Check out this blog post](https://binarysolo.chapter24.blog/bridgetown-s-new-webpack-cli-tool/) by Ayush to learn more about how you can upgrade your existing Bridgetown sites to the latest Webpack.
 
 Down the road, we anticipate a similar approach to new frontend bundling tools like Snowpack or Vite, as well as adding a flag so you can prevent initial installation of any frontend bundler. Stay tuned.
 
