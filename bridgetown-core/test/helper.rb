@@ -20,7 +20,7 @@ require "nokogiri"
 require "rubygems"
 require "ostruct"
 require "minitest/autorun"
-# require "minitest/reporters"
+require "minitest/reporters"
 require "minitest/profile"
 require "rspec/mocks"
 require_relative "../lib/bridgetown-core.rb"
@@ -35,19 +35,14 @@ include Bridgetown
 
 require "bridgetown-core/commands/serve/servlet"
 
-Minitest::ProgressReporter.class_eval do
-  def prerecord(_klass, name)
-    io.print format("\n%s ", name.sub(%r{^test_: }, "")) # rubocop:disable Style/FormatStringToken
-    io.flush
-  end
-end
-
-# Report with color.
-# Minitest::Reporters.use! [
-#  Minitest::Reporters::DefaultReporter.new(
-#    color: true
-#  ),
-# ]
+# Report with color. ::DefaultReporter
+# Switch to Minitest::Reporters::SpecReporter if you want detailed
+# test output!
+Minitest::Reporters.use! [
+  Minitest::Reporters::SpecReporter.new(
+    color: true
+  ),
+]
 
 module Minitest::Assertions
   def assert_exist(filename, msg = nil)
