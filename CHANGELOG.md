@@ -5,6 +5,14 @@ All notable changes to Bridgetown will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.21.0 - 2021-06-01
+
+Final release of 0.21.0! See below for full changelog.
+
+### Fixed
+
+- Configuration change to remove Webpack warning regarding Babel [#314](https://github.com/bridgetownrb/bridgetown/pull/314) ([eclectic-coding](https://github.com/eclectic-coding))
+
 ## 0.21.0.beta4 - 2021-05-30
 
 ### Added
