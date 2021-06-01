@@ -64,10 +64,10 @@ Final release of 0.21.0! See below for full changelog.
 
 ## 0.21.0.beta1 - 2021-04-25
 
-* End-to-end Ruby [front matter, templates](https://beta.bridgetownrb.com/docs/resources#ruby-front-matter-and-all-ruby-templates), and [data files](https://beta.bridgetownrb.com/docs/datafiles) ([jaredcwhite](https://github.com/jaredcwhite)) [#285](https://github.com/bridgetownrb/bridgetown/pull/285)
+* End-to-end Ruby [front matter, templates](https://www.bridgetownrb.com/docs/resources#ruby-front-matter-and-all-ruby-templates), and [data files](https://www.bridgetownrb.com/docs/datafiles) ([jaredcwhite](https://github.com/jaredcwhite)) [#285](https://github.com/bridgetownrb/bridgetown/pull/285)
 * New `Bridgetown::Component` class with a ViewComponent-inspired API [#268](https://github.com/bridgetownrb/bridgetown/pull/268) ([jaredcwhite](https://github.com/jaredcwhite)) [Read the Docs](https://www.bridgetownrb.com/docs/components/ruby)
-  * **Breaking Change:** ERB now uses an output safety buffer to escape HTML in strings, same as in Rails. [Read the Docs](https://beta.bridgetownrb.com/docs/erb-and-beyond#escaping-and-html-safety)
-* Relations for resources (belongs_to, has_many, etc.) [#261](https://github.com/bridgetownrb/bridgetown/pull/261) ([jaredcwhite](https://github.com/jaredcwhite)) [Read the Docs](https://beta.bridgetownrb.com/docs/resources#resource-relations)
+  * **Breaking Change:** ERB now uses an output safety buffer to escape HTML in strings, same as in Rails. [Read the Docs](https://www.bridgetownrb.com/docs/erb-and-beyond#escaping-and-html-safety)
+* Relations for resources (belongs_to, has_many, etc.) [#261](https://github.com/bridgetownrb/bridgetown/pull/261) ([jaredcwhite](https://github.com/jaredcwhite)) [Read the Docs](https://www.bridgetownrb.com/docs/resources#resource-relations)
 * Migrate to dart-sass since node-sass is deprecated [#279](https://github.com/bridgetownrb/bridgetown/pull/279) ([eclectic-coding](https://github.com/eclectic-coding))
 
 ## 0.20.0 - 2021-03-15
