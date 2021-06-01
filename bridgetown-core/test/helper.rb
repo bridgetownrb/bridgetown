@@ -36,8 +36,8 @@ include Bridgetown
 require "bridgetown-core/commands/serve/servlet"
 
 Minitest::ProgressReporter.class_eval do
-  def prerecord(_klass, name) #:nodoc:
-    io.print format("\n%s ", name.sub(%r{^test_: }, ""))
+  def prerecord(_klass, name)
+    io.print format("\n%s ", name.sub(%r{^test_: }, "")) # rubocop:disable Style/FormatStringToken
     io.flush
   end
 end
