@@ -36,13 +36,11 @@ module Bridgetown
         code = super.to_s.gsub(LEADING_OR_TRAILING_LINE_TERMINATORS, "")
 
         output =
-          case context.registers[:site].highlighter
+          case context.registers[:site].config.highlighter
           when "rouge"
             render_rouge(code)
-          when "pygments"
-            render_pygments(code, context)
           else
-            render_codehighlighter(code)
+            h(code).strip
           end
 
         rendered_output = add_code_tag(output)
@@ -72,13 +70,6 @@ module Bridgetown
         options
       end
 
-      def render_pygments(code, _context)
-        Bridgetown.logger.warn "Warning:", "Highlight Tag no longer supports" \
-                                " rendering with Pygments."
-        Bridgetown.logger.warn "", "Using the default highlighter, Rouge, instead."
-        render_rouge(code)
-      end
-
       def render_rouge(code)
         require "rouge"
         formatter = ::Rouge::Formatters::HTMLLegacy.new(
@@ -90,10 +81,6 @@ module Bridgetown
         )
         lexer = ::Rouge::Lexer.find_fancy(@lang, code) || Rouge::Lexers::PlainText
         formatter.format(lexer.lex(code))
-      end
-
-      def render_codehighlighter(code)
-        h(code).strip
       end
 
       def add_code_tag(code)

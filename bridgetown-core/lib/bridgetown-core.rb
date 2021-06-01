@@ -39,6 +39,7 @@ require "active_support/core_ext/object/deep_dup"
 require "active_support/core_ext/object/inclusion"
 require "active_support/core_ext/string/inflections"
 require "active_support/core_ext/string/inquiry"
+require "active_support/core_ext/string/output_safety"
 require "active_support/core_ext/string/starts_ends_with"
 require "active_support/current_attributes"
 require "active_support/descendants_tracker"
@@ -67,6 +68,7 @@ class Rb < String; end
 module Bridgetown
   autoload :Cleaner,             "bridgetown-core/cleaner"
   autoload :Collection,          "bridgetown-core/collection"
+  autoload :Component,           "bridgetown-core/component"
   autoload :Configuration,       "bridgetown-core/configuration"
   autoload :DataAccessible,      "bridgetown-core/concerns/data_accessible"
   autoload :Deprecator,          "bridgetown-core/deprecator"
@@ -75,9 +77,8 @@ module Bridgetown
   # TODO: we have too many errors! This is silly
   autoload :Errors,              "bridgetown-core/errors"
   autoload :Excerpt,             "bridgetown-core/excerpt"
-  # TODO: this is a poorly named, unclear class. Relocate to Utils:
-  autoload :External,            "bridgetown-core/external"
   autoload :FrontmatterDefaults, "bridgetown-core/frontmatter_defaults"
+  autoload :FrontMatterImporter, "bridgetown-core/concerns/front_matter_importer"
   autoload :Hooks,               "bridgetown-core/hooks"
   autoload :Layout,              "bridgetown-core/layout"
   autoload :LayoutPlaceable,     "bridgetown-core/concerns/layout_placeable"
@@ -89,16 +90,12 @@ module Bridgetown
   autoload :LayoutReader,        "bridgetown-core/readers/layout_reader"
   # TODO: remove this when legacy content engine is gone:
   autoload :PostReader,          "bridgetown-core/readers/post_reader"
-  # TODO: we can merge this back into Reader class:
+  # TODO: remove this when legacy content engine is gone:
   autoload :PageReader,          "bridgetown-core/readers/page_reader"
   autoload :PluginContentReader, "bridgetown-core/readers/plugin_content_reader"
-  # TODO: also merge this:
-  autoload :StaticFileReader,    "bridgetown-core/readers/static_file_reader"
   autoload :LogAdapter,          "bridgetown-core/log_adapter"
   autoload :Page,                "bridgetown-core/page"
   autoload :GeneratedPage,       "bridgetown-core/page"
-  # TODO: figure out how to get rid of this seemingly banal class:
-  autoload :PathManager,         "bridgetown-core/path_manager"
   autoload :PluginManager,       "bridgetown-core/plugin_manager"
   autoload :Publishable,         "bridgetown-core/concerns/publishable"
   autoload :Publisher,           "bridgetown-core/publisher"
@@ -254,7 +251,7 @@ module Bridgetown
     end
 
     # Conditional optimizations
-    Bridgetown::External.require_if_present("liquid/c")
+    Bridgetown::Utils::RequireGems.require_if_present("liquid/c")
   end
 end
 

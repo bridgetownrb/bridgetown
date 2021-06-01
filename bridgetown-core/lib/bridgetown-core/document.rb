@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Bridgetown
+  # TODO: to be retired once the Resource engine is made official
   class Document
     extend Forwardable
     include DataAccessible

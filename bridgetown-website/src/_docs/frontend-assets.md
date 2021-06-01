@@ -7,6 +7,19 @@ category: frontendassets
 
 Bridgetown comes with a default configuration of [Webpack](https://webpack.js.org) to handle building and exporting frontend assets such as JavaScript/TypeScript/etc., CSS/Sass/etc., and related files that are imported through Webpack (fonts, icons, etc.)
 
+The default configuration is defined in `config/webpack.defaults.js`. You can add or override config options in `webpack.config.js`.
+
+The default configuration can be updated to the latest version provided by Bridgetown using the `webpack` CLI tool:
+
+```shell
+bundle exec bridgetown webpack update
+```
+
+All options provided by the `webpack` CLI tool can be viewed by running:
+```shell
+bundle exec bridgetown webpack
+```
+
 Files to be processed by Webpack are placed in the top-level `frontend` folder within your site root. This folder is entirely separate from the Bridgetown source folder where your content, templates, plugins, etc. live. However, using relative paths you can reference files from Webpack that live in the source folder (so you could keep CSS partials alongside Liquid templates, for example).
 
 {% rendercontent "docs/note" %}
@@ -148,10 +161,7 @@ You can also use the `webpack_path` Liquid tag/Ruby helper to reference assets a
 If you need to manage more than one Webpack bundle, you can add additional entry points to the `webpack.config.js` file (in Bridgetown 0.20 and above). For example:
 
 ```js
-  entry: {
-    main: "./frontend/javascript/index.js",
-    something_else: "./frontend/otherscript/something_else.js"
-  },
+  config.entry.somethingElse = "./frontend/otherscript/something_else.js"
 ```
 
 Then simply reference the entry point filename via `webpack_path` wherever you'd like to load it in your HTML:

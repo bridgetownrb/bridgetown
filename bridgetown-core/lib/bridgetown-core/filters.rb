@@ -31,30 +31,6 @@ module Bridgetown
       ).convert(input.to_s)
     end
 
-    # TODO: This should be removed, there is no Sass converter
-    # Convert a Sass string into CSS output.
-    #
-    # input - The Sass String to convert.
-    #
-    # Returns the CSS formatted String.
-    def sassify(input)
-      @context.registers[:site].find_converter_instance(
-        Bridgetown::Converters::Sass
-      ).convert(input)
-    end
-
-    # TODO: This should be removed, there is no Scss converter
-    # Convert a Scss string into CSS output.
-    #
-    # input - The Scss String to convert.
-    #
-    # Returns the CSS formatted String.
-    def scssify(input)
-      @context.registers[:site].find_converter_instance(
-        Bridgetown::Converters::Scss
-      ).convert(input)
-    end
-
     # Slugify a filename or title.
     #
     # input - The filename or title to slugify.
@@ -132,7 +108,7 @@ module Bridgetown
       script += "function(c){{var j=c.charCodeAt(0);if((j>=33)&&(j<=126)){"
       script += "return String.fromCharCode(33+((j+ 14)%94));}"
       script += "else{return String.fromCharCode(j);}}}));</script>"
-      script
+      script.html_safe
     end
 
     # Replace any whitespace in the input string with a single space

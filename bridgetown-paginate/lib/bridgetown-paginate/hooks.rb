@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Handles Legacy Pages
+# Handles Generated Pages
 Bridgetown::Hooks.register :pages, :post_init, reloadable: false do |page|
   if page.class != Bridgetown::Paginate::PaginationPage &&
       page.site.config.dig("pagination", "enabled")
@@ -20,4 +20,9 @@ Bridgetown::Hooks.register :resources, :post_read, reloadable: false do |page|
     )
     Bridgetown::Paginate::PaginationGenerator.add_matching_template(page)
   end
+end
+
+# Ensure sites clear out templates before rebuild
+Bridgetown::Hooks.register :site, :after_reset, reloadable: false do |_site|
+  Bridgetown::Paginate::PaginationGenerator.matching_templates.clear
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Bridgetown
+  # TODO: to be retired once the Resource engine is made official
   class Page
     include DataAccessible
     include LayoutPlaceable
@@ -44,7 +45,7 @@ module Bridgetown
               end
 
       process(name)
-      read_yaml(PathManager.join(base, dir), name)
+      read_yaml(File.join(base, dir), name)
 
       data.default_proc = proc do |_, key|
         site.frontmatter_defaults.find(relative_path, type, key.to_s)

@@ -5,11 +5,11 @@ top_section: Introduction
 category: intro
 ---
 
-In a nutshell, Bridgetown is a **static site generator**. You give it text written in an author-friendly markup language like Markdown, and it uses layouts and templates to build a website and save the compiled HTML, CSS, and Javascript to an output folder. You can tweak how you want the pages to look, what data gets displayed on the site, and more.
+In a nutshell, Bridgetown is a **static site generator**. You give it text written in an author-friendly markup language like Markdown, and it uses layouts and templates to build a website and save the compiled HTML, CSS, and JavaScript to an output folder. You can tweak how you want the pages to look, what data gets displayed on the site, and more.
 
 Bridgetown works best as part of a version-controlled repository powered by Git. You can centrally store your repository on a service like [GitHub](https://github.com) so that you and everyone else working on the website (plus your hosting provider) all have direct, secure access to the latest website content and design files.
 
-During the development process, you will likely be running Bridgetown from the command line on your local developer machine (or perhaps a remote staging server). Once content is ready to publish, you would commit your website codebase to the Git repository and use an automated build tool to generate and upload the final output to a server or CDN (Content Delivery Network). [Netlify](https://www.netlify.com) is a popular service for this, but there are many others. You can also just literally copy the generated files contained in the `output` folder to any HTTP web server and it should Just Work. 😊
+During the development process, you will likely be running Bridgetown from the command line on your local developer machine (or perhaps a remote staging server). Once content is ready to publish, you would commit your website codebase to the Git repository and use an automated build tool to generate and upload the final output to a server or CDN (Content Delivery Network). [Render](https://www.render.com) is a popular service for this, but there are many others. You can also just literally copy the generated files contained in the `output` folder to any HTTP web server and it should Just Work. 😊
 
 For more background on this development approach, [read up on our Jamstack primer](/docs/jamstack/).
 

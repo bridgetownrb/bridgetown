@@ -42,8 +42,6 @@ class Bridgetown::Site
       @liquid_renderer.reset
       frontmatter_defaults.reset
 
-      raise ArgumentError, "limit_posts must be a non-negative number" if limit_posts.negative?
-
       Bridgetown::Cache.clear_if_config_changed config
       Bridgetown::Hooks.trigger :site, :after_reset, self
     end
@@ -61,8 +59,11 @@ class Bridgetown::Site
 
     # Limits the current posts; removes the posts which exceed the limit_posts
     def limit_posts!
-      if limit_posts.positive?
-        limit = posts.docs.length < limit_posts ? posts.docs.length : limit_posts
+      if config.limit_posts.positive?
+        Bridgetown::Deprecator.deprecation_message(
+          "The limit_posts config option will be removed prior to Bridgetown 1.0"
+        )
+        limit = posts.docs.length < config.limit_posts ? posts.docs.length : config.limit_posts
         posts.docs = posts.docs[-limit, limit]
       end
     end

@@ -23,6 +23,7 @@ You can use this command in a number of ways:
 * `bridgetown help` - Shows help, optionally for a given subcommand, e.g. `bridgetown help build`.
 * `bridgetown doctor` - Outputs any deprecation or configuration issues.
 * `bridgetown clean` - Removes all generated files: destination folder, metadata file, and Bridgetown caches.
+* `bridgetown webpack ACTION` - Allows you to perform actions such as `update` on your project's Webpack configuration. Invoke without arguments to see all available actions.
 
 Typically you'll use `bridgetown serve` while developing locally and
 `bridgetown build` when you need to generate the site for production*.
@@ -34,7 +35,7 @@ To change Bridgetown's default build behavior have a look through the [configura
 Bridgetown also comes with some handy Yarn scripts to help spin up both Bridgetown
 and Webpack during development, as well as use Browsersync to provide live-reload
 functionality. Take a look at the `scripts` configuration in `package.json`, as well as
-the `start.js` and `sync.js` Javascript files.
+the `start.js` and `sync.js` JavaScript files.
 
 \*To build your site for production, you can run `yarn deploy` so that all the
 Webpack assets get built alongside the published Bridgetown output. If you need to add

@@ -13,14 +13,13 @@ module Bridgetown
       # This generator should be passive with regard to its execution
       priority :lowest
 
-      @matching_templates = []
-
-      def self.add_matching_template(template)
-        @matching_templates << template
+      # @return [Set<Bridgetown::Page, Bridgetown::Resource::Base>]
+      def self.matching_templates
+        @matching_templates ||= Set.new
       end
 
-      class << self
-        attr_reader :matching_templates
+      def self.add_matching_template(template)
+        matching_templates << template
       end
 
       # Generate paginated pages if necessary (Default entry point)
@@ -47,7 +46,7 @@ module Bridgetown
         # Get all matching pages in the site found by the init hooks, and ensure they're
         # still in the site.pages array
         templates = self.class.matching_templates.select do |page|
-          site.pages.include?(page) || site.resources.include?(page)
+          site.generated_pages.include?(page) || site.resources.include?(page)
         end
 
         # Get the default title of the site (used as backup when there is no

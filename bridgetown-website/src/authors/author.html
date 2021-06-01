@@ -2,6 +2,7 @@
 layout: default
 title: Articles by :prototype-data-label
 prototype:
+  collection: posts
   term: author
   data: authors
   data_label: name
@@ -25,7 +26,7 @@ prototype:
     {% endif %}
   </p>
 
-  {% for post in paginator.documents %}
+  {% for post in paginator.resources %}
     {% render "content/news_item", post: post, authors: site.data.authors %}
   {% endfor %}
 

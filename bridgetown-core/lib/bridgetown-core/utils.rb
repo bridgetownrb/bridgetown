@@ -4,9 +4,9 @@ module Bridgetown
   module Utils
     extend self
     autoload :Ansi, "bridgetown-core/utils/ansi"
+    autoload :RequireGems, "bridgetown-core/utils/require_gems"
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
-    autoload :Platforms, "bridgetown-core/utils/platforms"
-    autoload :ThreadEvent, "bridgetown-core/utils/thread_event"
+    autoload :RubyFrontMatterDSL, "bridgetown-core/utils/ruby_front_matter"
 
     # Constants for use in #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
@@ -118,7 +118,13 @@ module Bridgetown
     # @return [Boolean] if the YAML front matter is present.
     # rubocop: disable Naming/PredicateName
     def has_yaml_header?(file)
-      File.open(file, "rb", &:readline).match? %r!\A---\s*\r?\n!
+      File.open(file, "rb", &:readline).match? Bridgetown::FrontMatterImporter::YAML_HEADER
+    rescue EOFError
+      false
+    end
+
+    def has_rbfm_header?(file)
+      File.open(file, "rb", &:readline).match? Bridgetown::FrontMatterImporter::RUBY_HEADER
     rescue EOFError
       false
     end

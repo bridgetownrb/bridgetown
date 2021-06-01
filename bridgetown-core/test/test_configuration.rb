@@ -381,7 +381,7 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "load multiple config files" do
-      External.require_with_graceful_fail("tomlrb")
+      Utils::RequireGems.require_with_graceful_fail("tomlrb")
 
       allow(Bridgetown::YAMLParser).to receive(:load_file).with(@paths[:default]).and_return({})
       allow(Bridgetown::YAMLParser).to receive(:load_file).with(@paths[:other]).and_return({})

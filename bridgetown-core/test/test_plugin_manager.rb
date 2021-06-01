@@ -149,7 +149,7 @@ class TestPluginManager < BridgetownUnitTest
                     in_source_dir: "/tmp/")
       plugin_manager = PluginManager.new(site)
 
-      expect(Bridgetown::External).to receive(:require_with_graceful_fail)
+      expect(Bridgetown::Utils::RequireGems).to receive(:require_with_graceful_fail)
       plugin_manager.require_plugin_files
     end
   end

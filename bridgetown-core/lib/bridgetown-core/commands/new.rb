@@ -86,10 +86,10 @@ module Bridgetown
         )
         template("Gemfile.erb", "Gemfile")
         template("package.json.erb", "package.json")
-        template("webpack.config.js.erb", "webpack.config.js")
         template("frontend/javascript/index.js.erb", "frontend/javascript/index.js")
 
         options["use-postcss"] ? configure_postcss : configure_sass
+        invoke(Webpack, ["setup"], {})
       end
 
       def configure_sass
@@ -140,7 +140,7 @@ module Bridgetown
       # rubocop:enable Metrics/PerceivedComplexity
 
       def bundle_install(path)
-        unless Bridgetown.environment == "test"
+        unless Bridgetown.environment.test?
           require "bundler"
           Bridgetown.with_unbundled_env do
             inside(path) do
@@ -156,7 +156,7 @@ module Bridgetown
       end
 
       def git_init(path)
-        unless Bridgetown.environment == "test"
+        unless Bridgetown.environment.test?
           inside(path) do
             initialize_new_repo
           end
@@ -166,7 +166,7 @@ module Bridgetown
       end
 
       def yarn_install(path)
-        unless Bridgetown.environment == "test"
+        unless Bridgetown.environment.test?
           inside(path) do
             run "yarn install", abort_on_failure: true
           end

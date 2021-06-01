@@ -52,7 +52,7 @@ module Bridgetown
       output = document.content
       Bridgetown.logger.debug "Rendering Markup:", document.relative_path
       output = convert(output.to_s, document)
-      document.content = output
+      document.content = output.html_safe
 
       if document.place_in_layout?
         Bridgetown.logger.debug "Rendering Layout:", document.relative_path

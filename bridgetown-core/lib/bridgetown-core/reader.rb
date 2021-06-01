@@ -63,7 +63,7 @@ module Bridgetown
         file_path = @site.in_source_dir(base, entry)
         if File.directory?(file_path)
           dot_dirs << entry
-        elsif Utils.has_yaml_header?(file_path)
+        elsif Utils.has_yaml_header?(file_path) || Utils.has_rbfm_header?(file_path)
           dot_pages << entry
         else
           dot_static_files << entry
@@ -98,7 +98,7 @@ module Bridgetown
     def retrieve_dirs(_base, dir, dot_dirs)
       dot_dirs.each do |file|
         dir_path = site.in_source_dir(dir, file)
-        rel_path = PathManager.join(dir, file)
+        rel_path = File.join(dir, file)
         @site.reader.read_directories(rel_path) unless @site.dest.chomp("/") == dir_path
       end
     end
@@ -113,7 +113,7 @@ module Bridgetown
     def retrieve_pages(dir, dot_pages)
       if site.uses_resource?
         dot_pages.each do |page_path|
-          site.collections.pages.send(:read_resource, site.in_source_dir(dir, page_path))
+          site.collections.pages.read_resource(site.in_source_dir(dir, page_path))
         end
         return
       end
@@ -124,12 +124,14 @@ module Bridgetown
     # Retrieve all the static files from the current directory,
     # add them to the site and sort them.
     #
-    # dir - The directory retrieve the static files from.
-    # dot_static_files - The static files in the dir.
-    #
-    # Returns nothing.
-    def retrieve_static_files(dir, dot_static_files)
-      site.static_files.concat(StaticFileReader.new(site, dir).read(dot_static_files))
+    # @param dir [String] The directory retrieve the static files from.
+    # @param files [Array<String>] The static files in the dir.
+    def retrieve_static_files(dir, files)
+      site.static_files.concat(
+        files.map do |file|
+          StaticFile.new(site, site.source, dir, file)
+        end
+      )
     end
 
     # Filter out any files/directories that are hidden or backup files (start
@@ -181,7 +183,7 @@ module Bridgetown
     end
 
     def read_included_excludes
-      site.include.each do |entry|
+      site.config.include.each do |entry|
         next if entry == ".htaccess"
 
         entry_path = site.in_source_dir(entry)
@@ -197,7 +199,7 @@ module Bridgetown
       if Utils.has_yaml_header?(entry_path)
         site.pages.concat(PageReader.new(site, dir).read(file))
       else
-        site.static_files.concat(StaticFileReader.new(site, dir).read(file))
+        retrieve_static_files(dir, file)
       end
     end
   end

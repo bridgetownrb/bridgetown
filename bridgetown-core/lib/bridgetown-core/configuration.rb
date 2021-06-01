@@ -74,15 +74,16 @@ module Bridgetown
       },
 
       "kramdown"             => {
-        "auto_ids"      => true,
-        "toc_levels"    => (1..6).to_a,
-        "entity_output" => "as_char",
-        "smart_quotes"  => "lsquo,rsquo,ldquo,rdquo",
-        "input"         => "GFM",
-        "hard_wrap"     => false,
-        "guess_lang"    => true,
-        "footnote_nr"   => 1,
-        "show_warnings" => false,
+        "auto_ids"                => true,
+        "toc_levels"              => (1..6).to_a,
+        "entity_output"           => "as_char",
+        "smart_quotes"            => "lsquo,rsquo,ldquo,rdquo",
+        "input"                   => "GFM",
+        "hard_wrap"               => false,
+        "guess_lang"              => true,
+        "footnote_nr"             => 1,
+        "show_warnings"           => false,
+        "include_extraction_tags" => false,
       },
     }.each_with_object(Configuration.new) { |(k, v), hsh| hsh[k] = v.freeze }.freeze
 
@@ -117,7 +118,7 @@ module Bridgetown
     # override - the command-line options hash
     #
     # Returns the path to the Bridgetown root directory
-    def root_dir(override)
+    def root_dir(override = "")
       get_config_value_with_override("root_dir", override)
     end
 
@@ -126,7 +127,7 @@ module Bridgetown
     # override - the command-line options hash
     #
     # Returns the path to the Bridgetown source directory
-    def source(override)
+    def source(override = "")
       get_config_value_with_override("source", override)
     end
 
@@ -143,7 +144,7 @@ module Bridgetown
     def safe_load_file(filename)
       case File.extname(filename)
       when %r!\.toml!i
-        Bridgetown::External.require_with_graceful_fail("tomlrb") unless defined?(Tomlrb)
+        Bridgetown::Utils::RequireGems.require_with_graceful_fail("tomlrb") unless defined?(Tomlrb)
         Tomlrb.load_file(filename)
       when %r!\.ya?ml!i
         YAMLParser.load_file(filename) || {}
@@ -225,7 +226,7 @@ module Bridgetown
         raise ArgumentError, "Configuration file: (INVALID) #{file}".yellow
       end
 
-      Bridgetown.logger.info "Configuration file:", file
+      Bridgetown.logger.debug "Configuration file:", file
       next_config
     rescue SystemCallError
       if @default_config_file ||= nil
@@ -338,6 +339,13 @@ module Bridgetown
       end
 
       self
+    end
+
+    # Whether or not PostCSS is being used to process stylesheets.
+    #
+    # @return [Boolean] true if `postcss.config.js` exists, false if not
+    def uses_postcss?
+      File.exist?(Bridgetown.sanitized_path(root_dir, "postcss.config.js"))
     end
   end
 end

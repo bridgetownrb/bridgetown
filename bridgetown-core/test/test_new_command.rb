@@ -22,7 +22,13 @@ class TestNewCommand < BridgetownUnitTest
   end
 
   def template_config_files
-    ["/Gemfile", "/package.json", "/webpack.config.js", "/frontend/javascript/index.js"]
+    ["/Gemfile", "/package.json", "/webpack.config.js", "/frontend/javascript/index.js", "/config/webpack.defaults.js"]
+  end
+
+  def static_template_files
+    dir_contents(site_template).reject do |f|
+      File.extname(f) =~ %r!\.erb|\.(s[ac]|c)ss!
+    end
   end
 
   context "when args contains a path" do
@@ -61,10 +67,6 @@ class TestNewCommand < BridgetownUnitTest
     end
 
     should "copy the static files for postcss configuration in site template to the new directory" do
-      static_template_files = dir_contents(site_template).reject do |f|
-        File.extname(f) =~ %r!\.erb|\.(s[ac]|c)ss!
-      end
-
       postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
       postcss_template_files = static_template_files + postcss_config_files + template_config_files
 
@@ -80,10 +82,6 @@ class TestNewCommand < BridgetownUnitTest
     end
 
     should "copy the static files for sass configuration in site template to the new directory" do
-      static_template_files = dir_contents(site_template).reject do |f|
-        File.extname(f) =~ %r!\.erb|\.(s[ac]|c)ss!
-      end
-
       sass_config_files = ["/frontend/styles/index.scss"]
       sass_template_files = static_template_files + sass_config_files + template_config_files
 
@@ -134,6 +132,8 @@ class TestNewCommand < BridgetownUnitTest
       output = capture_output do
         Bridgetown::Commands::Base.start(argumentize("#{@args} --skip-bundle"))
       end
+
+      refute_exist File.join(@full_path, "Gemfile.lock")
       bundle_message = "Bundle install skipped."
       assert_includes output, bundle_message
     end

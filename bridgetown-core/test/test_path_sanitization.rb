@@ -38,34 +38,6 @@ class TestPathSanitization < BridgetownUnitTest
                  Bridgetown.sanitized_path(source_dir, "/#{subdir}/#{file_path}")
   end
 
-  if Bridgetown::Utils::Platforms.really_windows?
-    context "on Windows with absolute path" do
-      setup do
-        @base_path = "D:/demo"
-        @file_path = "D:/demo/_site"
-        allow(Dir).to receive(:pwd).and_return("D:/")
-      end
-
-      should "strip just the clean path drive name" do
-        assert_equal "D:/demo/_site",
-                     Bridgetown.sanitized_path(@base_path, @file_path)
-      end
-    end
-
-    context "on Windows with file path has matching prefix" do
-      setup do
-        @base_path = "D:/site"
-        @file_path = "D:/sitemap.xml"
-        allow(Dir).to receive(:pwd).and_return("D:/")
-      end
-
-      should "not strip base path" do
-        assert_equal "D:/site/sitemap.xml",
-                     Bridgetown.sanitized_path(@base_path, @file_path)
-      end
-    end
-  end
-
   should "not strip base path if file path has matching prefix" do
     assert_equal "/site/sitemap.xml",
                  Bridgetown.sanitized_path("/site", "sitemap.xml")

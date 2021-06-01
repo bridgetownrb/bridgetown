@@ -13,10 +13,6 @@ module Bridgetown
 
       class_option :host, aliases: "-H", desc: "Host to bind to"
       class_option :port, aliases: "-P", desc: "Port to listen on"
-      class_option :open_url,
-                   aliases: "-o",
-                   type: :boolean,
-                   desc: "Launch your site in a browser"
       class_option :detach,
                    aliases: "-B",
                    type: :boolean,
@@ -167,16 +163,6 @@ module Bridgetown
           server.config[:Port],
           options["baseurl"]
         )
-      end
-
-      def launch_browser(server, opts)
-        address = server_address(server, opts)
-        return system "start", address if Utils::Platforms.windows?
-        return system "xdg-open", address if Utils::Platforms.linux?
-        return system "open", address if Utils::Platforms.osx?
-
-        Bridgetown.logger.error "Refusing to launch browser; " \
-          "Platform launcher unknown."
       end
 
       # Keep in our area with a thread or detach the server as requested

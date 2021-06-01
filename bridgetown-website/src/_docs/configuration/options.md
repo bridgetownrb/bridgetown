@@ -269,7 +269,7 @@ a staging area and copy files from there to your web server.
       <td>
         <p class="name"><strong>LSI</strong></p>
         <p class="description">Produce an index for related posts. Requires the
-          <a href="http://www.classifier-reborn.com/" rel="noopener">classifier-reborn</a> plugin.</p>
+          <a href="https://jekyll.github.io/classifier-reborn/" rel="noopener">classifier-reborn</a> plugin.</p>
       </td>
       <td class="has-text-centered">
         <p><code class="option">lsi: BOOL</code></p>

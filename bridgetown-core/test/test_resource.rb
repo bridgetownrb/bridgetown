@@ -2,6 +2,21 @@
 
 require "helper"
 
+# stub
+module Bridgetown
+  module Paginate
+    class PaginationIndexer
+      def self.index_documents_by(pages_list, search_term)
+        # site.collections[@configured_collection].resources
+
+        pages_list.map do |resource|
+          [resource.data[search_term], nil]
+        end.to_h
+      end
+    end
+  end
+end
+
 class TestResource < BridgetownUnitTest
   context "a top-level page" do
     setup do
@@ -31,6 +46,10 @@ class TestResource < BridgetownUnitTest
 
     should "know its collection" do
       assert_equal "pages", @resource.collection.label
+    end
+
+    should "know its layout" do
+      assert_equal "default", @resource.layout.label
     end
 
     should "know whether it's a YAML file" do
@@ -92,6 +111,7 @@ class TestResource < BridgetownUnitTest
 
     should "produce the right destination file" do
       assert_equal @dest_file, @resource.destination.output_path
+      assert File.exist?(@dest_file)
     end
 
     should "honor the output extension of its permalink" do
@@ -99,6 +119,7 @@ class TestResource < BridgetownUnitTest
     end
 
     should "have transformed content" do
+      assert_equal "Christmas 2020", @resource.data.title
       assert_equal "Fa la la la la la la la la!", @resource.content.strip
     end
   end
@@ -123,6 +144,34 @@ class TestResource < BridgetownUnitTest
 
     should "produce the right destination file" do
       assert_equal @dest_file, @resource.destination.output_path
+    end
+  end
+
+  context "a resource that's configured not to output" do
+    setup do
+      @site = resources_site(
+        "collections" => {
+          "events" => {
+            "output" => true,
+          },
+        }
+      )
+      @site.process
+      @resource = @site.collections.events.resources[1]
+      @dest_file = dest_dir("events/the-weeknd/index.html")
+    end
+
+    should "not have any URL" do
+      assert_equal "", @resource.relative_url
+    end
+
+    should "not have any destination file" do
+      assert_nil @resource.destination
+      refute File.exist?(@dest_file)
+    end
+
+    should "still have processed content" do
+      assert_equal "Ladies and gentlemen, The Weeknd!", @resource.content
     end
   end
 
@@ -182,6 +231,10 @@ class TestResource < BridgetownUnitTest
 
     should "have a fancy title" do
       assert_equal "I'm a bløg pöst? 😄", @resource.data.title
+    end
+
+    should "include content" do
+      assert_equal "<p>W00t!</p>\n", @resource.content
     end
   end
 
@@ -249,6 +302,56 @@ class TestResource < BridgetownUnitTest
       assert_equal "cheese", @resource.data.products.first.name
       assert_equal "cheese", @site.data.categories.dairy.products.first.name
       assert_equal 5.3, @site.data.categories.dairy.products.first.price
+    end
+  end
+
+  context "a Ruby data resource" do
+    should "provide an array" do
+      @site = resources_site
+      @site.process
+      assert_equal "ruby", @site.data.languages[1]
+    end
+  end
+
+  context "dotfile permalink" do
+    should "get saved to destination" do
+      @site = resources_site
+      @site.process
+      @dest_file = File.read(dest_dir(".nojekyll"))
+
+      assert_equal "nojekyll", @dest_file.strip
+    end
+  end
+
+  context "previous and next resource methods" do
+    should "return the correct resource" do
+      @site = resources_site
+      @site.process
+      @resource = @site.collections.pages.resources[0]
+
+      assert_equal @site.collections.pages.resources[1], @resource.next_resource
+      assert_equal @site.collections.pages.resources[0], @resource.next_resource.previous_resource
+    end
+  end
+
+  context "prototype pages" do
+    setup do
+      @site = resources_site
+      @site.process
+      @page = @site.generated_pages.find { |page| page.data.title == "Noodles Archive" }
+      @dest_file = dest_dir("noodle-archive/ramen/index.html")
+    end
+
+    should "be generated for the given term" do
+      assert File.exist?(@dest_file)
+      assert_includes @page.output, "<h1>ramen</h1>"
+    end
+
+    should "not persist across rebuilds" do
+      page_count = @site.generated_pages.size
+      Bridgetown::Hooks.trigger :site, :pre_reload, @site
+      @site.process
+      assert_equal page_count, @site.generated_pages.size
     end
   end
 end

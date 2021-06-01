@@ -72,21 +72,11 @@ module Bridgetown
         attr_reader :extractions
 
         def initialize(config)
-          @main_fallback_highlighter = config["highlighter"] || "rouge"
           @config = config["kramdown"] || {}
-          @highlighter = nil
-          setup
-          load_dependencies
-        end
-
-        # Setup and normalize the configuration:
-        #   * Create Kramdown if it doesn't exist.
-        #   * Set syntax_highlighter
-        #   * Make sure `syntax_highlighter_opts` exists.
-        def setup
-          @config["syntax_highlighter"] ||= highlighter
+          @config["syntax_highlighter"] ||= config["highlighter"] || "rouge"
           @config["syntax_highlighter_opts"] ||= {}
           @config["syntax_highlighter_opts"]["guess_lang"] = @config["guess_lang"]
+          require "kramdown-parser-gfm" if @config["input"] == "GFM"
         end
 
         def convert(content)
@@ -99,32 +89,6 @@ module Bridgetown
           end
           @extractions = document.root.options[:extractions] # could be nil
           html_output
-        end
-
-        private
-
-        def load_dependencies
-          require "kramdown-parser-gfm" if @config["input"] == "GFM"
-
-          # `mathjax` emgine is bundled within kramdown-2.x and will be handled by
-          # kramdown itself.
-          if (math_engine = @config["math_engine"]) && math_engine != "mathjax"
-            Bridgetown::External.require_with_graceful_fail("kramdown-math-#{math_engine}")
-          end
-        end
-
-        # config[kramdown][syntax_higlighter] >
-        #   config[highlighter]
-        def highlighter
-          return @highlighter if @highlighter
-
-          if @config["syntax_highlighter"]
-            return @highlighter = @config[
-              "syntax_highlighter"
-            ]
-          end
-
-          @highlighter = @main_fallback_highlighter
         end
       end
     end

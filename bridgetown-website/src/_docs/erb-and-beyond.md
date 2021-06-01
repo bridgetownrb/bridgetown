@@ -8,11 +8,11 @@ template_engine: erb
 
 Bridgetown's primary template language is [**Liquid**](/docs/liquid), due to historical reasons (its heritage coming from Jekyll) and well as Liquid's simple syntax and safe execution context making it ideal for designer-led template creation.
 
-However, Bridgetown's implementation language, Ruby, has a rich history of promoting [ERB (Embedded RuBy)](https://docs.ruby-lang.org/en/2.7.0/ERB.html) for templates and view layers across a wide variety of tools and frameworks, and other template languages such as [Haml](http://haml.info) and [Slim](http://slim-lang.com) boast their fair share of enthusiasts.
+However, Bridgetown's implementation language, Ruby, has a rich history of providing [ERB (Embedded RuBy)](https://docs.ruby-lang.org/en/2.7.0/ERB.html) for templates and view layers across a wide variety of tools and frameworks. Other Ruby-based template languages such as [Haml](https://haml.info), [Slim](http://slim-lang.com), and [Serbea](https://www.serbea.dev) garner enthusiastic usage as well.
 
-So, starting with Bridgetown 0.16, you can now add ERB-based templates and pages (and partials too) to your site. In additional, there are plugins you can easily install for Haml and Slim as well. Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process these Ruby templates.
+Bridgetown makes it easy to add ERB-based templates and components to any site. In additional, there are plugins you can easily install for Haml, Slim, and Serbea support. Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process these Ruby templates.
 
-Interested in switching your entire site to use ERB? [It's now possible to do that too!](/docs/template-engines)
+Interested in switching your entire site to use ERB by default? [It's possible to do that too!](/docs/template-engines)
 
 <%= toc %>
 
@@ -93,58 +93,7 @@ You can also pass variables to partials using either a `locals` hash or as keywo
 
 ## Rendering Ruby Components
 
-Starting in Bridgetown 0.18, you can even render Ruby objects directly! This opens the door to a fully-featured view component architecture for ERB and other Ruby-based template languages in Bridgetown, and we will have more to announce on that front going forward.
-
-Bridgetown automatically loads `.rb` files you add to the `src/_components` folder, so that's likely where you'll want to save your component class definitions. It also load components from plugins which provide a `components` source manifest. Bridgetown's component loader is based on [Zeitwerk](https://github.com/fxn/zeitwerk){:rel="noopener"}, so you'll need to make sure you class names and namespaces line up with your component folder hierarchy.
-
-To create a Ruby component, all you have to do is define a `render_in` method which accepts a single `view_context` argument as well as optional block. Whatever string value you return from the method will be inserted into the template. For example:
-
-```ruby
-class MyComponent
-  def render_in(view_context, &block)
-    "Hello from MyComponent!"
-  end
-end
-```
-
-```eruby
-<%%= render MyComponent.new %>
-
-  output: Hello from MyComponent!
-```
-
-To pass variables along to a component, simply write an `initialize` method:
-
-```ruby
-class FieldComponent
-  def initialize(type: "text", name:, label:)
-    @type, @name, @label = type, name, label
-  end
-
-  def render_in(view_context)
-    <<~HTML
-    <field-component>
-      <label>#{@label}</label>
-      <input type="#{@type}" name="#{@name}" />
-    </field-component>
-    HTML
-  end
-end
-```
-
-```eruby
-<%%= render FieldComponent.new(type: "email", name: "email_address", label: "Email Address") %>
-
-  output:
-  <field-component>
-    <label>Email Address</label>
-    <input type="email" name="email_address" />
-  </field-component>
-```
-
-<%= liquid_render "docs/note", type: "warning", extra_margin: true do %>
-Bear in mind that Ruby components aren't accessible from Liquid templates. So if you need a component which can be used in either templating system, consider writing a Liquid component (see below).
-<% end %>
+For better encapsulation and reuse of Ruby-based templates as part of a "design system" for your site, we encourage you to write Ruby components using either `Bridgetown::Component` or GitHub's ViewComponent library. [Check out the documentation and code examples here](/docs/components/ruby).
 
 ## Liquid Filters, Tags, and Components
 
@@ -159,7 +108,7 @@ These helpers are actually methods of the `helper` object which is an instance o
 
 A few Liquid tags are also available as helpers too, such as [`class_map`](/docs/liquid/tags#class-map-tag){:data-no-swup="true"} and [`webpack_path`](/docs/frontend-assets#linking-to-the-output-bundles){:data-no-swup="true"}.
 
-In addition to using Liquid helpers, you can also render [Liquid components](/docs/components) from within your ERB templates via the `liquid_render` helper.
+In addition to using Liquid helpers, you can also render [Liquid components](/docs/components/liquid) from within your ERB templates via the `liquid_render` helper.
 
 ```eruby
 <p>
@@ -383,6 +332,28 @@ Usage is pretty straightforward:
 {{ "WAY DOWN LOW" | lowercase_string }}
 ```
 
+## Escaping and HTML Safety
+
+Starting in Bridgetown v0.21, the ERB template engine has switched to using a safe output buffer—[the same one used in Rails](https://guides.rubyonrails.org/active_support_core_extensions.html#output-safety).
+
+That means that you'll sometimes find that if you simply output a front matter variable or some other string value that contains HTML tags and entities, the string will be "escaped" so that the actual angle brackets and so forth are displayed in the website content (rather than being interpreted as valid HTML tags).
+
+Often that's the right call for [security purposes to avoid XSS attacks](https://guides.rubyonrails.org/security.html#cross-site-scripting-xss) or to bypass potential markup errors. However, to explicitly mark a string as safe, you can use the `html_safe` method. Bridgetown provides the `raw` or `safe` helpers as well. You can also use a double-equals sign to bypass escaping entirely.
+
+```erb
+<%%= some_value.html_safe %>
+<!-- or -->
+<%%= raw some_value %>
+<!-- or -->
+<%%= safe some_value %>
+<-- or -->
+<%%== some_value %>
+```
+
+Note that using `html_safe` directly _requires_ the value to be a string already. If you use the `raw`/`safe` helpers, it will first perform `to_s` automatically. Also bear in mind that `<%%= yield %>` or `<%%= content %>` or rendering components/partials won't perform escaping on the rendered template output. (This is for obvious reasons—otherwise you'd get a visual mess of escaped HTML tags.)
+
+If you find a particular use case where escaping occurs (or doesn't occur) in an unexpected manner, [please file a bug report in the Bridgetown GitHub repo](https://github.com/bridgetownrb/bridgetown/issues/new?assignees=&labels=bug&template=bug_report.md&title=).
+
 ## Haml and Slim
 
 Bridgetown comes with ERB support out-of-the-box, but you can easily add support for either Haml or Slim by installing our officially supported plugins.
@@ -390,4 +361,14 @@ Bridgetown comes with ERB support out-of-the-box, but you can easily add support
 * [`bridgetown-haml`](https://github.com/bridgetownrb/bridgetown-haml){:rel="noopener"}
 * [`bridgetown-slim`](https://github.com/bridgetownrb/bridgetown-slim){:rel="noopener"}
 
-All you'd need to do is run `bundle add bridgetown-haml -g bridgetown_plugins` (or `bridgetown-slim`) to install the plugin, and then you can immediately start using `.haml` or `.slim` pages, layouts, and partials in your Bridgetown site.
+All you'd need to do is run `bundle add bridgetown-haml -g bridgetown_plugins` (or `bridgetown-slim`) to install the plugin, and then you can immediately start using `.haml` or `.slim` pages, layouts, partials, and [components](/docs/components/ruby) in your Bridgetown site.
+
+## Serbea
+
+Serbea combines the best ideas from “brace-style” template languages such as Liquid, Nunjucks, Twig, Jinja, Mustache, etc.—and applies them to the world of ERB. In addition to Bridgetown sites, you can use Serbea in Rails applications or pretty much any Ruby scenario you could imagine.
+
+```
+bundle add serbea -g bridgetown_plugins
+```
+
+[Find out more about using Serbea in Bridgetown here.](https://www.serbea.dev/#bridgetown-support)
