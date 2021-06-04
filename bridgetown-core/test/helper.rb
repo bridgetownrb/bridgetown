@@ -39,7 +39,7 @@ require "bridgetown-core/commands/serve/servlet"
 # Switch to Minitest::Reporters::SpecReporter if you want detailed
 # test output!
 Minitest::Reporters.use! [
-  Minitest::Reporters::SpecReporter.new(
+  Minitest::Reporters::DefaultReporter.new(
     color: true
   ),
 ]
