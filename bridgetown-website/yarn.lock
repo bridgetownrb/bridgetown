@@ -1519,10 +1519,10 @@ braces@^3.0.1, braces@~3.0.2:
   dependencies:
     fill-range "^7.0.1"
 
-bridgetown-quick-search@1.0.5:
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/bridgetown-quick-search/-/bridgetown-quick-search-1.0.5.tgz#4286bc8268626d2193ad61392c21829ff73496a7"
-  integrity sha512-P+x5pGHakw7aWkd7slV3GGtZHBzghvCIBERq5XSczpo0vIR/7Q629lB5FwWGH3ILW/poDBW12nWhsgtX3pMjAw==
+bridgetown-quick-search@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/bridgetown-quick-search/-/bridgetown-quick-search-1.1.0.tgz#ebedad0f68e84556b063762a684db515e77b6789"
+  integrity sha512-ilfsGI1EP8W9PbwdrQbsVIf9Td59hC1ERblxBqCu2krpnembBEBjfrRFQ027vb/imMhY7ADsDdfyflTi45Kp3A==
   dependencies:
     "@babel/runtime" "^7.10.1"
     lit-element "^2.3.1"
