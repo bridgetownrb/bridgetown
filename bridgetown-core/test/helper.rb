@@ -35,7 +35,9 @@ include Bridgetown
 
 require "bridgetown-core/commands/serve/servlet"
 
-# Report with color.
+# Report with color. ::DefaultReporter
+# Switch to Minitest::Reporters::SpecReporter if you want detailed
+# test output!
 Minitest::Reporters.use! [
   Minitest::Reporters::DefaultReporter.new(
     color: true
