@@ -9,12 +9,12 @@ say "🎉 Webpack configuration updated successfully!"
 return if Bridgetown.environment.test?
 
 say "Installing required packages"
-run "yarn add -D #{required_packages.join(' ')}"
+run "yarn add -D #{required_packages.join(" ")}"
 
-packages_to_remove = self.package_json["devDependencies"].slice(*redundant_packages).keys
+packages_to_remove = package_json["devDependencies"].slice(*redundant_packages).keys
 unless packages_to_remove.empty?
   confirm = ask "\nThe following packages will be removed: \n\n#{packages_to_remove.join("\n")}\n\nWould you like to continue? [Yn]"
   return unless confirm.casecmp?("Y")
 
-  run "yarn remove #{packages_to_remove.join(' ')}"
+  run "yarn remove #{packages_to_remove.join(" ")}"
 end
