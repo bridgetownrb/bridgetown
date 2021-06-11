@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Layout/LineLength
+
 required_packages = %w(esbuild esbuild-loader)
 redundant_packages = %w(@babel/core @babel/plugin-proposal-class-properties @babel/plugin-proposal-decorators @babel/plugin-transform-runtime @babel/preset-env babel-loader)
 
@@ -18,3 +20,5 @@ unless packages_to_remove.empty?
 
   run "yarn remove #{packages_to_remove.join(" ")}"
 end
+
+# rubocop:enable Layout/LineLength
