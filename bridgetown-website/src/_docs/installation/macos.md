@@ -2,7 +2,7 @@
 title: Bridgetown on macOS
 hide_in_toc: true
 category: installation
-ruby_version: 2.6.6
+ruby_version: 3.0.1
 order: 0
 ---
 
@@ -26,19 +26,19 @@ rbenv init
 
 Restart your terminal for changes to take effect.
 
-Now you can install a new Ruby version. At the time of this writing, Ruby 2.6.6 is a fast and stable option. You'll also want to install Bundler to manage Rubygem dependencies.
+Now you can install a new Ruby version. At the time of this writing, Ruby {{ page.ruby_version }} is the latest stable version. (Note: the installation may take a few minutes to complete.)
 
 ```sh
 rbenv install {{ page.ruby_version }}
 rbenv global {{ page.ruby_version }}
 
 ruby -v
-> ruby 2.6.6p146 (2020-03-31 revision 67876) [x86_64-darwin19]
-
-gem install bundler -N
+> ruby 3.0.1p64 (2021-04-05 revision 0fb782ee38) [arm64-darwin20]
 ```
 
-And that's it! Head over [rbenv command references](https://github.com/rbenv/rbenv#command-reference) to learn how to use different versions of Ruby in your projects.
+(If for some reason `bundler` isn't installed automatically, just run `gem install bundler -N`)
+
+And that's it! Check out [rbenv command references](https://github.com/rbenv/rbenv#command-reference) to learn how to use different versions of Ruby in your projects.
 
 Now jump down to the [Install Node & Yarn](#node) section.
 
