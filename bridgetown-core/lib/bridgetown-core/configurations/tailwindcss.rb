@@ -2,8 +2,6 @@
 
 # rubocop:disable all
 
-TEMPLATE_PATH = File.expand_path("./tailwindcss", __dir__)
-
 unless File.exist?("postcss.config.js")
   error_message = "#{"postcss.config.js".bold} not found. Please configure postcss in your project."
 
@@ -19,10 +17,10 @@ return unless confirm.casecmp?("Y")
 run "yarn add -D tailwindcss"
 run "npx tailwindcss init"
 
-copy_file "#{TEMPLATE_PATH}/postcss.config.js", "postcss.config.js", force: true
+copy_file in_templates_dir("postcss.config.js"), "postcss.config.js", force: true
 
 prepend_to_file "frontend/styles/index.css",
-                File.read("#{TEMPLATE_PATH}/css_imports.css")
+                File.read(in_templates_dir("css_imports.css"))
 
 run "bundle exec bridgetown configure purgecss"
 

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-TEMPLATE_PATH = File.expand_path("./netlify", __dir__)
-
-copy_file "#{TEMPLATE_PATH}/netlify.toml", "netlify.toml"
-copy_file "#{TEMPLATE_PATH}/netlify.sh", "bin/netlify.sh"
+copy_file in_templates_dir("netlify.toml"), "netlify.toml"
+copy_file in_templates_dir("netlify.sh"), "bin/netlify.sh"
 `chmod a+x ./bin/netlify.sh`
