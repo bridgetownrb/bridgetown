@@ -19,6 +19,7 @@ The configurations we include are:
 - [Netlify TOML Configuration](#netlify-toml-configuration) (`netlify`)
 - [Swup.js Page Transitions](#swupjs-page-transitions) (`swup`)
 - [Automated Test Suite using Minitest](#automated-test-suite-using-minitest) (`minitesting`)
+- [Cypress](#cypress) (`cypress`)
 
 The full list of configurations can also be seen by running `bridgetown configure` without arguments.
 
@@ -122,4 +123,14 @@ bundle exec bridgetown configure swup
 
 ```
 bundle exec bridgetown configure minitesting
+```
+
+### Cypress
+
+⚙️ Installs and sets up [Cypress](https://www.cypress.io/) for browser based end-to-end testing. Check out [our automated testing guide](/docs/testing#headless-browser-testing-with-cypress) for more info!
+
+🛠 **Configure using:**
+
+```
+bundle exec bridgetown configure cypress
 ```
