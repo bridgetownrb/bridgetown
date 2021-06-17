@@ -57,7 +57,7 @@ As part of the automation setup mentioned above, you should now have new scripts
 
 ## Headless Browser Testing with Cypress
 
-You can install Cypress using a (bundled configuration)[/docs/bundled-configurations]. Just run:
+You can install Cypress using a [bundled configuration](/docs/bundled-configurations). Just run:
 
 ```sh
 bundle exec bridgetown configure cypress
