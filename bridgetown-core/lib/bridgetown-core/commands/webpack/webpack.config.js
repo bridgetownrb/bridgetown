@@ -1,5 +1,6 @@
-var config = require("./config/webpack.defaults.js")
 const { merge } = require('webpack-merge')
+
+var config = require("./config/webpack.defaults.js")
 
 // Add any overrides to the default webpack config here:
 //
