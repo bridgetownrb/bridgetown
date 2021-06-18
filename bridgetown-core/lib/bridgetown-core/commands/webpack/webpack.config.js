@@ -11,7 +11,7 @@ const { merge } = require('webpack-merge')
 //    config.resolve.alias.frontendComponents = path.resolve(__dirname, 'frontend', 'components')
 //  ```
 //
-// You can also merge in custom config using the included `webpack-merge` package.
+// You can also merge in a custom config using the included `webpack-merge` package.
 // Complete docs available at: https://github.com/survivejs/webpack-merge
 //
 // Eg:
