@@ -10,11 +10,8 @@ require_relative "static_indexes"
 
 module Bridgetown
   module Rack
-    def self.boot(backend: "backend")
-      backend_path = File.join(Dir.pwd, backend, "config", "application.rb")
-      load backend_path if File.exist?(backend_path)
-
-      Roda.opts[:public_root] = "output"
+    def self.boot(destination: "output")
+      Roda.opts[:public_root] = destination
 
       loader = Zeitwerk::Loader.new
       loader.push_dir(File.join(Dir.pwd, "config"))
