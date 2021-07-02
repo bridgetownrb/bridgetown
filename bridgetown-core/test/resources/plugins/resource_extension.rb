@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
-module ResourceExtension
+module TestResourceExtension
   def self.return_string
     "return value"
   end
 
   module LiquidResource
     def heres_a_liquid_method
-      "Liquid #{ResourceExtension.return_string}"
+      "Liquid #{TestResourceExtension.return_string}"
     end
   end
 
   module RubyResource
     def heres_a_method(arg = nil)
-      "Ruby #{ResourceExtension.return_string}! #{arg}"
+      "Ruby #{TestResourceExtension.return_string}! #{arg}"
     end
   end
 end
 
-Bridgetown::Resource.register_extension ResourceExtension
+Bridgetown::Resource.register_extension TestResourceExtension
 
 module TestSummaryService
   module RubyResource
