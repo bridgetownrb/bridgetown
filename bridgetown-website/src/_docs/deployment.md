@@ -121,9 +121,9 @@ git push -u origin master
 
 After the build the site should be live at https://bridgetownrb.gitlab.io/mysite
 
-### GitHub Actions
+### GitHub Pages
 
-_description coming soon_
+Much like with GitLab, you can also deploy static sites to [GitHub Pages](https://pages.github.com/). You can make use of [GitHub Actions](https://github.com/features/actions) to automate building and deploying your site to GitHub Pages. For an out-of-the-box solution, check out the [`bridgetown-gh-pages-action`](https://github.com/andrewmcodes/bridgetown-gh-pages-action). One thing to note is that this action's default deployment branch is the `gh-pages` branch, so if you're using the default, you'll need to make sure your repo's GitHub Pages Settings at `https://github.com/<your-account>/<your-site>/settings/pages` have Source set to the `gh-pages` branch.
 
 ### Dokku
 
