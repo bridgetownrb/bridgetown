@@ -265,7 +265,7 @@ As a shortcut, you could create your own base class, say `SiteViewComponent`, wh
 
 ### Rails Helpers
 
-Including `Bridgetown::ViewComponentHelpers` in a ViewComponent provides access to [Action View Helpers](https://guides.rubyonrails.org/action_view_helpers.html), but most of the helpers are disabled by default. Many helpers rely on Rails and will not work with Bridgetown.
+Including `Bridgetown::ViewComponentHelpers` in a ViewComponent provides access to Bridgetown helpers within the component. However, to faciliate that, most of the default [Action View Helpers](https://guides.rubyonrails.org/action_view_helpers.html) get disabled, since many helpers rely on Rails and will not work with Bridgetown.
 
 `Bridgetown::ViewComponentHelpers#allow_rails_helpers` provides an API to enable supplied Action View Helpers like `ActionView::Helpers::TagHelper`:
 
