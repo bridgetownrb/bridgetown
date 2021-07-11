@@ -181,6 +181,16 @@ module Bridgetown
         data["date"] ||= site.time
       end
 
+      # Ask the configured summary extension to output a summary of the content,
+      # otherwise return the first line.
+      #
+      # @return [String]
+      def summary
+        return summary_extension_output if respond_to?(:summary_extension_output)
+
+        content.to_s.strip.lines.first.to_s.strip
+      end
+
       # @return [Hash<String, Hash<String => Bridgetown::Resource::TaxonomyType,
       #   Array<Bridgetown::Resource::TaxonomyTerm>>>]
       def taxonomies
