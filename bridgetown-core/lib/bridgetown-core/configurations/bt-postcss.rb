@@ -2,8 +2,6 @@
 
 # rubocop:disable all
 
-TEMPLATE_PATH = File.expand_path("./bt-postcss", __dir__)
-
 unless File.exist?("postcss.config.js")
   error_message = "#{"postcss.config.js".bold} not found. Please configure postcss in your project."
 
@@ -21,6 +19,6 @@ plugins = %w(postcss-easy-import postcss-mixins postcss-color-function cssnano)
 say "Adding the following PostCSS plugins: #{plugins.join(' | ')}", :green
 run "yarn add -D #{plugins.join(' ')}"
 
-copy_file "#{TEMPLATE_PATH}/postcss.config.js", "postcss.config.js", force: true
+copy_file in_templates_dir("postcss.config.js"), "postcss.config.js", force: true
 
 # rubocop:enable all
