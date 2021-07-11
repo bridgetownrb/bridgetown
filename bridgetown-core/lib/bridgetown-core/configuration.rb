@@ -54,7 +54,7 @@ module Bridgetown
       "detach"               => false, # default to not detaching the server
       "port"                 => "4000",
       "host"                 => "127.0.0.1",
-      "baseurl"              => nil, # this mounts at /, i.e. no subdirectory
+      "base_path"            => "/",
       "show_dir_listing"     => false,
 
       # Output Configuration
@@ -247,7 +247,7 @@ module Bridgetown
       self
     end
 
-    def add_default_collections # rubocop:todo all
+    def add_default_collections
       # It defaults to `{}`, so this is only if someone sets it to null manually.
       return self if self[:collections].nil?
 
@@ -305,7 +305,7 @@ module Bridgetown
     end
 
     # Deprecated, to be removed when Bridgetown goes Resource-only
-    def style_to_permalink(permalink_style) # rubocop:todo Metrics/CyclomaticComplexity
+    def style_to_permalink(permalink_style)
       case permalink_style.to_s.to_sym
       when :pretty
         "/:categories/:year/:month/:day/:title/"

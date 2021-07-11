@@ -8,6 +8,7 @@ module Bridgetown
       mutable false
 
       def_delegators :@obj,
+                     :base_path,
                      :data,
                      :locale,
                      :time,

@@ -80,7 +80,7 @@ test:
   - bundle install
   - yarn install
   - yarn webpack --mode production
-  - bundle exec bridgetown build --baseurl mysite  --url https://bridgetownrb.gitlab.io
+  - bundle exec bridgetown build --base_path mysite  --url https://bridgetownrb.gitlab.io
   - bundle exec bridgetown clean
   except:
     - master
@@ -100,7 +100,7 @@ pages:
   - bundle install
   - yarn install
   - yarn webpack --mode production
-  - bundle exec bridgetown build --baseurl mysite --url https://bridgetownrb.gitlab.io
+  - bundle exec bridgetown build --base_path mysite --url https://bridgetownrb.gitlab.io
   - mv output public
   artifacts:
     paths:
