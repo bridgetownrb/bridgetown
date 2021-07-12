@@ -247,7 +247,7 @@ module Bridgetown
       self
     end
 
-    def add_default_collections
+    def add_default_collections # rubocop:todo all
       # It defaults to `{}`, so this is only if someone sets it to null manually.
       return self if self[:collections].nil?
 
@@ -305,7 +305,7 @@ module Bridgetown
     end
 
     # Deprecated, to be removed when Bridgetown goes Resource-only
-    def style_to_permalink(permalink_style)
+    def style_to_permalink(permalink_style) # rubocop:todo Metrics/CyclomaticComplexity
       case permalink_style.to_s.to_sym
       when :pretty
         "/:categories/:year/:month/:day/:title/"
