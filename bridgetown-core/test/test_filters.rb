@@ -40,7 +40,7 @@ class TestFilters < BridgetownUnitTest
       @filter = make_filter_mock(
         "timezone"               => "UTC",
         "url"                    => "http://example.com",
-        "baseurl"                => "/base",
+        "base_path"              => "/base",
         "dont_show_posts_before" => @sample_time
       )
       @sample_date = Date.parse("2013-03-02")
@@ -397,7 +397,7 @@ class TestFilters < BridgetownUnitTest
 
     should "obfuscate email addresses" do
       assert_match(
-        %r!>2:=E@iE6DEo6I2>A=6]4@>!,
+        %r!>2:=E@iE6DEo6I2>A=6\]4@>!,
         @filter.obfuscate_link("test@example.com")
       )
     end
@@ -427,11 +427,11 @@ class TestFilters < BridgetownUnitTest
         assert_equal "http://example.com/base/#{page_url}", @filter.absolute_url(page_url)
       end
 
-      should "ensure the leading slash for the baseurl" do
+      should "ensure the leading slash for the base_path" do
         page_url = "about/my_favorite_page/"
         filter = make_filter_mock(
-          "url"     => "http://example.com",
-          "baseurl" => "base"
+          "url"       => "http://example.com",
+          "base_path" => "base"
         )
         assert_equal "http://example.com/base/#{page_url}", filter.absolute_url(page_url)
       end
@@ -439,8 +439,8 @@ class TestFilters < BridgetownUnitTest
       should "be ok with a blank but present 'url'" do
         page_url = "about/my_favorite_page/"
         filter = make_filter_mock(
-          "url"     => "",
-          "baseurl" => "base"
+          "url"       => "",
+          "base_path" => "base"
         )
         assert_equal "/base/#{page_url}", filter.absolute_url(page_url)
       end
@@ -448,17 +448,17 @@ class TestFilters < BridgetownUnitTest
       should "be ok with a nil 'url'" do
         page_url = "about/my_favorite_page/"
         filter = make_filter_mock(
-          "url"     => nil,
-          "baseurl" => "base"
+          "url"       => nil,
+          "base_path" => "base"
         )
         assert_equal "/base/#{page_url}", filter.absolute_url(page_url)
       end
 
-      should "be ok with a nil 'baseurl'" do
+      should "be ok with a nil 'base_path'" do
         page_url = "about/my_favorite_page/"
         filter = make_filter_mock(
-          "url"     => "http://example.com",
-          "baseurl" => nil
+          "url"       => "http://example.com",
+          "base_path" => nil
         )
         assert_equal "http://example.com/#{page_url}", filter.absolute_url(page_url)
       end
@@ -466,8 +466,8 @@ class TestFilters < BridgetownUnitTest
       should "not prepend a forward slash if input is empty" do
         page_url = ""
         filter = make_filter_mock(
-          "url"     => "http://example.com",
-          "baseurl" => "/base"
+          "url"       => "http://example.com",
+          "base_path" => "/base"
         )
         assert_equal "http://example.com/base", filter.absolute_url(page_url)
       end
@@ -475,26 +475,26 @@ class TestFilters < BridgetownUnitTest
       should "not append a forward slash if input is '/'" do
         page_url = "/"
         filter = make_filter_mock(
-          "url"     => "http://example.com",
-          "baseurl" => "/base"
+          "url"       => "http://example.com",
+          "base_path" => "/base"
         )
         assert_equal "http://example.com/base/", filter.absolute_url(page_url)
       end
 
-      should "not append a forward slash if input is '/' and nil 'baseurl'" do
+      should "not append a forward slash if input is '/' and nil 'base_path'" do
         page_url = "/"
         filter = make_filter_mock(
-          "url"     => "http://example.com",
-          "baseurl" => nil
+          "url"       => "http://example.com",
+          "base_path" => nil
         )
         assert_equal "http://example.com/", filter.absolute_url(page_url)
       end
 
-      should "not append a forward slash if both input and baseurl are simply '/'" do
+      should "not append a forward slash if both input and base_path are simply '/'" do
         page_url = "/"
         filter = make_filter_mock(
-          "url"     => "http://example.com",
-          "baseurl" => "/"
+          "url"       => "http://example.com",
+          "base_path" => "/"
         )
         assert_equal "http://example.com/", filter.absolute_url(page_url)
       end
@@ -502,8 +502,8 @@ class TestFilters < BridgetownUnitTest
       should "normalize international URLs" do
         page_url = ""
         filter = make_filter_mock(
-          "url"     => "http://ümlaut.example.org/",
-          "baseurl" => nil
+          "url"       => "http://ümlaut.example.org/",
+          "base_path" => nil
         )
         assert_equal "http://xn--mlaut-jva.example.org/", filter.absolute_url(page_url)
       end
@@ -547,14 +547,14 @@ class TestFilters < BridgetownUnitTest
         assert_equal "/base#{page_url}", @filter.relative_url(page_url)
       end
 
-      should "ensure the leading slash between baseurl and input" do
+      should "ensure the leading slash between base_path and input" do
         page_url = "about/my_favorite_page/"
         assert_equal "/base/#{page_url}", @filter.relative_url(page_url)
       end
 
-      should "ensure the leading slash for the baseurl" do
+      should "ensure the leading slash for the base_path" do
         page_url = "about/my_favorite_page/"
-        filter = make_filter_mock("baseurl" => "base")
+        filter = make_filter_mock("base_path" => "base")
         assert_equal "/base/#{page_url}", filter.relative_url(page_url)
       end
 
@@ -563,11 +563,11 @@ class TestFilters < BridgetownUnitTest
         assert_equal "/base/%E9%94%99%E8%AF%AF.html", @filter.relative_url(page_url)
       end
 
-      should "be ok with a nil 'baseurl'" do
+      should "be ok with a nil 'base_path'" do
         page_url = "about/my_favorite_page/"
         filter = make_filter_mock(
-          "url"     => "http://example.com",
-          "baseurl" => nil
+          "url"       => "http://example.com",
+          "base_path" => nil
         )
         assert_equal "/#{page_url}", filter.relative_url(page_url)
       end
@@ -575,52 +575,46 @@ class TestFilters < BridgetownUnitTest
       should "not prepend a forward slash if input is empty" do
         page_url = ""
         filter = make_filter_mock(
-          "url"     => "http://example.com",
-          "baseurl" => "/base"
+          "url"       => "http://example.com",
+          "base_path" => "/base"
         )
         assert_equal "/base", filter.relative_url(page_url)
       end
 
-      should "not prepend a forward slash if baseurl ends with a single '/'" do
+      should "not prepend a forward slash if base_path ends with a single '/'" do
         page_url = "/css/main.css"
         filter = make_filter_mock(
-          "url"     => "http://example.com",
-          "baseurl" => "/base/"
+          "url"       => "http://example.com",
+          "base_path" => "/base/"
         )
         assert_equal "/base/css/main.css", filter.relative_url(page_url)
       end
 
-      should "not return valid URI if baseurl ends with multiple '/'" do
+      should "not return valid URI if base_path ends with multiple '/'" do
         page_url = "/css/main.css"
         filter = make_filter_mock(
-          "url"     => "http://example.com",
-          "baseurl" => "/base//"
+          "url"       => "http://example.com",
+          "base_path" => "/base//"
         )
         refute_equal "/base/css/main.css", filter.relative_url(page_url)
       end
 
-      should "not prepend a forward slash if both input and baseurl are simply '/'" do
+      should "not prepend a forward slash if both input and base_path are simply '/'" do
         page_url = "/"
         filter = make_filter_mock(
-          "url"     => "http://example.com",
-          "baseurl" => "/"
+          "url"       => "http://example.com",
+          "base_path" => "/"
         )
         assert_equal "/", filter.relative_url(page_url)
       end
 
       should "not return the url by reference" do
-        filter = make_filter_mock(baseurl: nil)
+        filter = make_filter_mock(base_path: nil)
         page = Page.new(filter.site, test_dir("fixtures"), "", "front_matter.erb")
         assert_equal "/front_matter.html", page.url
         url = filter.relative_url(page.url)
         url << "foo"
         assert_equal "/front_matter.html", page.url
-      end
-
-      should "transform the input baseurl to a string" do
-        page_url = "/my-page.html"
-        filter = make_filter_mock("baseurl" => Value.new(proc { "/baseurl/" }))
-        assert_equal "/baseurl#{page_url}", filter.relative_url(page_url)
       end
 
       should "transform protocol-relative url" do

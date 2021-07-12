@@ -356,12 +356,12 @@ a staging area and copy files from there to your web server.
     </tr>
     <tr class="setting">
       <td>
-        <p class="name"><strong>Base URL</strong></p>
-        <p class="description">Serve the website from the given base URL.</p>
+        <p class="name"><strong>Base Path</strong></p>
+        <p class="description">Serve the website from the given base path.</p>
       </td>
       <td class="has-text-centered">
-        <p><code class="option">baseurl: URL</code></p>
-        <p><code class="flag">--baseurl URL</code></p>
+        <p><code class="option">base_path: URL</code></p>
+        <p><code class="flag">--base_path URL</code></p>
       </td>
     </tr>
   </tbody>
@@ -497,7 +497,7 @@ incremental         : false
 detach              : false
 port                : 4000
 host                : 127.0.0.1
-baseurl             : "" # does not include hostname
+base_path           : "/"
 show_dir_listing    : false
 
 # System

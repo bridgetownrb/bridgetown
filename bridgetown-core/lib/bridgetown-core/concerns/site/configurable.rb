@@ -24,7 +24,6 @@ class Bridgetown::Site
       configure_include_paths
       configure_file_read_opts
 
-      self.baseurl = config.baseurl
       self.permalink_style = (config["permalink"] || "pretty").to_sym
 
       @config
@@ -32,6 +31,22 @@ class Bridgetown::Site
 
     def uses_resource?
       config[:content_engine] == "resource"
+    end
+
+    # Returns a base path from which the site is served (aka `/cool-site`) or
+    # `/` if served from root.
+    #
+    # @param strip_slash_only [Boolean] set to true if you wish "/" to be returned as ""
+    # @return [String]
+    def base_path(strip_slash_only: false)
+      (config[:base_path] || config[:baseurl]).yield_self do |path|
+        strip_slash_only ? path.to_s.sub(%r{^/$}, "") : path
+      end
+    end
+
+    def baseurl
+      Bridgetown::Deprecator.deprecation_message "Site#baseurl is now Site#base_path"
+      base_path(strip_slash_only: true).presence
     end
 
     def defaults_reader

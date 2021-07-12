@@ -30,7 +30,7 @@ module Bridgetown
     # is default
     alias_method :generated_pages, :pages
 
-    attr_accessor :permalink_style, :time, :baseurl, :data,
+    attr_accessor :permalink_style, :time, :data,
                   :file_read_opts, :plugin_manager, :converters,
                   :generators, :reader
 

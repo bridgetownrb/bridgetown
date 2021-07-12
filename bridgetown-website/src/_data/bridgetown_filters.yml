@@ -18,19 +18,19 @@
 #
 - name: Relative URL
   description: >-
-    Prepend the <code>baseurl</code> value to the input. Useful if
+    Prepend the <code>base_path</code> value to the input. Useful if
     your site is hosted at a subpath rather than the root of the domain.
   examples:
     - input: '{{ "/assets/image.jpg" | relative_url }}'
-      output: "/my-baseurl/assets/image.jpg"
+      output: "/my-basepath/assets/image.jpg"
 
 #
 
 - name: Absolute URL
-  description: Prepend the <code>url</code> and <code>baseurl</code> value to the input.
+  description: Prepend the <code>url</code> and <code>base_path</code> value to the input.
   examples:
     - input: '{{ "/assets/image.jpg" | absolute_url }}'
-      output: "http://example.com/my-baseurl/assets/image.jpg"
+      output: "http://example.com/my-basepath/assets/image.jpg"
 
 #
 
