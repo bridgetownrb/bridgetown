@@ -133,10 +133,10 @@ Bridgetown is built by:
 |<a href="https://github.com/bkmgit">@bkmgit</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/marketerly">@marketerly</a>|<a href="https://github.com/juanvqz">@juanvqz</a>|<a href="https://github.com/katafrakt">@katafrakt</a>|
 ||Lisbon, Portugal|Tripoli, Libya|Oaxaca, México|Wrocław, PL|
 
-|<img src="https://avatars.githubusercontent.com/erikyuzwa?s=256" alt="erikyuzwa" width="128" />|<img src="https://avatars.githubusercontent.com/eclectic-coding?s=256" alt="eclectic-coding" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|:---:|
-|<a href="https://github.com/erikyuzwa">@erikyuzwa</a>|<a href="https://github.com/eclectic-coding">@eclectic-coding</a>|You Next?|
-|Calgary, AB|North Carolina, US|Anywhere|
+|<img src="https://avatars.githubusercontent.com/erikyuzwa?s=256" alt="erikyuzwa" width="128" />|<img src="https://avatars.githubusercontent.com/eclectic-coding?s=256" alt="eclectic-coding" width="128" />|<img src="https://avatars.githubusercontent.com/collindonnell?s=256" alt="collindonnell" width="128" />|<img src="https://avatars.githubusercontent.com/juhat?s=256" alt="juhat" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/erikyuzwa">@erikyuzwa</a>|<a href="https://github.com/eclectic-coding">@eclectic-coding</a>|<a href="https://github.com/collindonnell">@collindonnell</a>|<a href="https://github.com/juhat">@juhat</a>|You Next?|
+|Calgary, AB|North Carolina, US|Portland, OR|Budapest, Hungary|Anywhere|
 
 Interested in joining the Bridgetown Core Team? Send a DM to Jared in [Discord](https://discord.gg/4E6hktQGz4) and let's chat!
 

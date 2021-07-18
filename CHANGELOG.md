@@ -5,6 +5,24 @@ All notable changes to Bridgetown will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Added
+
+- Resource extension API along with basic summary feature [#344](https://github.com/bridgetownrb/bridgetown/pull/344) ([jaredcwhite](https://github.com/jaredcwhite)) [Read the Docs](https://www.bridgetownrb.com/docs/resources#resource-extensions)
+
+### Fixed
+
+- Unintentional overwriting of data when using the Resource content engine [#343](https://github.com/bridgetownrb/bridgetown/pull/343) ([jaredcwhite](https://github.com/jaredcwhite))
+- Bug where in Liquid the `next_resource` method would mistakenly return the previous resource
+
+### Changed
+
+- Configure sites in subfolders via base_path, not baseurl [#348](https://github.com/bridgetownrb/bridgetown/pull/348) ([jaredcwhite](https://github.com/jaredcwhite))
+- Swap babel for ESBuild and upgrade to Webpack 5 [#334](https://github.com/bridgetownrb/bridgetown/pull/334) ([ayushn21](https://github.com/ayushn21))
+- Change postcss.config.js stage from 3 to 2 [#349](https://github.com/bridgetownrb/bridgetown/pull/349) ([juhat](https://github.com/juhat)) [Read the Docs](https://www.bridgetownrb.com/docs/frontend-assets#postcss)
+- Various improvements to the new Webpack config documentation
+
 ## 0.21.0 - 2021-06-01
 
 Final release of 0.21.0! See below for full changelog.

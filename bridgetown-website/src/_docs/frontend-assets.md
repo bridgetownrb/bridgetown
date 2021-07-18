@@ -107,13 +107,17 @@ module.exports = {
       autoprefixer: {
         flexbox: 'no-2009'
       },
-      stage: 3
+      stage: 2
     }
   }
 }
 ```
 
 The popular [TailwindCSS](https://tailwindcss.com) framework can be added to your project by following their [setup guide for PostCSS](https://tailwindcss.com/docs/installation#installing-tailwind-css-as-a-post-css-plugin).
+
+{% rendercontent "docs/note", title: "All the stylesheet's a stage…" %}
+By default, Bridgetown configures the postcss-preset-env **stage** to be **2**, but you maybe want to change it to **3** or even **4** for a more compact and performant stylesheet which the latest modern browsers can interpret. The lower the stage number, the more transformations/polyfills PostCSS will run in order to build a widely-compatible stylesheet. You can also determine which individual features to polyfill by adding the `features` option. [Read the postcss-preset-env documentation here](https://www.npmjs.com/package/postcss-preset-env#options) or [browse the list of features here](https://preset-env.cssdb.org/features).
+{% endrendercontent %}
 
 ## Linking to the Output Bundles
 
