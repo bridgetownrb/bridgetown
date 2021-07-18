@@ -36,9 +36,9 @@ module Bridgetown
         klass.class_option :limit_posts,
                            type: :numeric,
                            desc: "Limits the number of posts to parse and publish"
-        klass.class_option :baseurl,
+        klass.class_option :base_path,
                            aliases: "-b",
-                           desc: "Serve the website from the given base URL"
+                           desc: "Serve the website from the given base path"
         klass.class_option :force_polling,
                            type: :boolean,
                            desc: "Force watch to use polling"
