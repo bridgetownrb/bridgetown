@@ -303,6 +303,12 @@ class TestResource < BridgetownUnitTest
       assert_equal "cheese", @site.data.categories.dairy.products.first.name
       assert_equal 5.3, @site.data.categories.dairy.products.first.price
     end
+
+    should "not overwrite data in same folder" do
+      assert_equal "1.jpg", @site.data.gallery.album_1.file
+      assert_equal "2.jpg", @site.data.gallery.album_2.file
+      assert_equal "3.jpg", @site.data.gallery.album_1.interior.file
+    end
   end
 
   context "a Ruby data resource" do

@@ -5,7 +5,7 @@ module Bridgetown
     module URLFilters
       extend self
 
-      # Produces an absolute URL based on site.url and site.baseurl.
+      # Produces an absolute URL based on site.url and site.base_path.
       #
       # input - the URL to make absolute.
       #
@@ -15,7 +15,7 @@ module Bridgetown
         cache[input] ||= compute_absolute_url(input)
       end
 
-      # Produces a URL relative to the domain root based on site.baseurl
+      # Produces a URL relative to the domain root based on site.base_path
       # unless it is already an absolute url with an authority (host).
       #
       # input - the URL to make relative to the domain root
@@ -70,15 +70,11 @@ module Bridgetown
         input = input.url if input.respond_to?(:url)
         return input if Addressable::URI.parse(input.to_s).absolute?
 
-        parts = [sanitized_baseurl, input]
+        site = @context.registers[:site]
+        parts = [site.base_path.chomp("/"), input]
         Addressable::URI.parse(
           parts.compact.map { |part| ensure_leading_slash(part.to_s) }.join
         ).normalize.to_s
-      end
-
-      def sanitized_baseurl
-        site = @context.registers[:site]
-        site.config["baseurl"].to_s.chomp("/")
       end
 
       def ensure_leading_slash(input)
