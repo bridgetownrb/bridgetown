@@ -345,6 +345,62 @@ Arbre::Context.new do
 end
 ```
 
+## Resource Extensions
+
+Starting in 0.21.1, a new plugin API allows you or a third-party gem to augment resources with new methods (both via the Resource Liquid drop as well as the standard Ruby base class). Here's an example:
+
+```ruby
+module TestResourceExtension
+  def self.return_string
+    "return value"
+  end
+
+  module LiquidResource
+    def heres_a_liquid_method
+      "Liquid #{TestResourceExtension.return_string}"
+    end
+  end
+
+  module RubyResource
+    def heres_a_method(arg = nil)
+      "Ruby #{TestResourceExtension.return_string}! #{arg}"
+    end
+  end
+end
+
+Bridgetown::Resource.register_extension TestResourceExtension
+```
+
+Now in any Ruby template or other scenario, you can call `heres_a_method` on a resource:
+
+```ruby
+@site.resources.first.heres_a_method
+```
+
+Or in Liquid, it'll be available through the drop:
+
+```liquid
+{{ site.resources[0].heres_a_liquid_method }}
+```
+
+The extension itself can be any module whatsoever, doesn't matter—as long as you provide a sub-module of `RubyResource` and optionally `LiquidResource`, you're golden.
+
+In addition, the `summary` method is now available for resources. By default the first line of content is returned, but any resource extension can provide a new way to summarize resources by adding `summary_extension_output` within `RubyResource`.
+
+```ruby
+module TestSummaryService
+  module RubyResource
+    def summary_extension_output
+      "SUMMARY! #{content.strip[0..10]} DONE"
+    end
+  end
+end
+
+Bridgetown::Resource.register_extension TestSummaryService
+```
+
+Your extension might provide detailed semantic analysis using AI, or call out to a 3rd-party API (and ideally cache the results for better performance)…anything you can imagine.
+
 ## Differences Between Resource and Legacy Engines
 
 * The most obvious differences are what you use in templates (Liquid or ERB). For example, instead of `site.posts` in Liquid or `site.posts.docs` in ERB, you'd use `collections.posts.resources` (in both Liquid and ERB). (`site.collection_name_here` syntax is no longer available.) Pages are just another collection now so you can iterate through them as well via `collections.pages.resources`.
