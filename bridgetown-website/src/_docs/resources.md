@@ -416,6 +416,6 @@ Your extension might provide detailed semantic analysis using AI, or call out to
 * With the legacy engine, any folder starting with an underscore within a collection would be skipped. With the resource engine, folders can start with underscores but they aren't included in the final permalink. (Files starting with an underscore are always skipped however.)
 * The `YYYY-MM-DD-slug.ext` filename format will now work for any collection, not just posts.
 * The [Document Builder API](/docs/plugins/external-apis) no longer works when the resource content engine is configured. We'll be restoring this functionality in a future point release of Bridgetown.
-* Automatic excerpts are not included in the current resource featureset. We'll be opening up a brand-new Excerpt/Summary API in the near future.
+* The resource content engine doesn't provide a related/similar result set using LSI classification. So there's no direct replacement for the `related_posts` feature of the legacy engine. However, anyone can create a gem-based plugin using the new resource extension API which could restore this type of functionality.
 
 {% endraw %}
