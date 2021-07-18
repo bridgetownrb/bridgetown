@@ -41,11 +41,18 @@ module Bridgetown
         config.root_dir
       end
 
+      protected
+
       def config
         @config ||= Bridgetown.configuration({ root_dir: Dir.pwd })
       end
 
-      protected
+      def package_json
+        @package_json ||= begin
+          package_json_file = File.read(Bridgetown.sanitized_path(config.root_dir, "package.json"))
+          JSON.parse(package_json_file)
+        end
+      end
 
       def perform(action)
         automation = find_in_source_paths("#{action}.rb")
