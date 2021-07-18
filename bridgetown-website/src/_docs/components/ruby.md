@@ -281,7 +281,7 @@ end
 
 In this example, `Bridgetown::ViewComponentHelpers.allow_rails_helpers :tag` enables `ActionView::Helpers::TagHelper`. We can create an inline ViewComponent that leverages `tag.h1` to create an `<h1>` element with our supplied content.
 
-In your template, `<%= render HeaderComponent.new.with_content("👋") %>` would output:
+In your template, `<%%= render HeaderComponent.new.with_content("👋") %>` would output:
 
 ```html
 <h1 class="my-8 text-3xl font-bold tracking-tight text-primary-white sm:text-4xl">👋</h1>
