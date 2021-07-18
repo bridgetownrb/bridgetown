@@ -66,8 +66,8 @@ class TestResource < BridgetownUnitTest
     end
 
     should "have untransformed and transformed content" do
-      assert_equal "That's **great**!", @resource.untransformed_content
-      assert_equal "<p>That’s <strong>great</strong>!</p>", @resource.content.strip
+      assert_equal "That's **great**!", @resource.untransformed_content.lines.first.strip
+      assert_equal "<p>That’s <strong>great</strong>!</p>", @resource.content.lines.first.strip
     end
   end
 
@@ -358,6 +358,53 @@ class TestResource < BridgetownUnitTest
       Bridgetown::Hooks.trigger :site, :pre_reload, @site
       @site.process
       assert_equal page_count, @site.generated_pages.size
+    end
+  end
+
+  context "resource extensions" do
+    setup do
+      @site = resources_site
+      @site.process
+    end
+
+    should "augment the Resource::Base class" do
+      resource = @site.resources.first
+      assert_equal "Ruby return value! ", resource.heres_a_method
+      assert_equal "Ruby return value! wee!", resource.heres_a_method("wee!")
+    end
+
+    should "augment the Drops::Resource class" do
+      resource = @site.collections.pages.resources.find do |page|
+        page.relative_path.to_s == "top-level-page.md"
+      end
+
+      assert_includes resource.output, "Test extension: Liquid return value"
+    end
+  end
+
+  context "summary extensions" do
+    setup do
+      @site = resources_site
+      @site.read
+
+      @resource = @site.collections.pages.resources.find do |page|
+        page.relative_path.to_s == "top-level-page.md"
+      end
+    end
+
+    should "work in a Ruby template" do
+      assert_equal "That's **great**!", @resource.summary
+
+      @resource.singleton_class.include TestSummaryService::RubyResource
+
+      assert_equal "SUMMARY! That's **gr DONE", @resource.summary
+    end
+
+    should "work in a Liquid template" do
+      @resource.singleton_class.include TestSummaryService::RubyResource
+      @site.render
+
+      assert_includes @resource.output, "Summary: :SUMMARY! That’s **gr DONE:"
     end
   end
 end

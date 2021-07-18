@@ -345,6 +345,62 @@ Arbre::Context.new do
 end
 ```
 
+## Resource Extensions
+
+Starting in 0.21.1, a new plugin API allows you or a third-party gem to augment resources with new methods (both via the Resource Liquid drop as well as the standard Ruby base class). Here's an example:
+
+```ruby
+module TestResourceExtension
+  def self.return_string
+    "return value"
+  end
+
+  module LiquidResource
+    def heres_a_liquid_method
+      "Liquid #{TestResourceExtension.return_string}"
+    end
+  end
+
+  module RubyResource
+    def heres_a_method(arg = nil)
+      "Ruby #{TestResourceExtension.return_string}! #{arg}"
+    end
+  end
+end
+
+Bridgetown::Resource.register_extension TestResourceExtension
+```
+
+Now in any Ruby template or other scenario, you can call `heres_a_method` on a resource:
+
+```ruby
+@site.resources.first.heres_a_method
+```
+
+Or in Liquid, it'll be available through the drop:
+
+```liquid
+{{ site.resources[0].heres_a_liquid_method }}
+```
+
+The extension itself can be any module whatsoever, doesn't matter—as long as you provide a sub-module of `RubyResource` and optionally `LiquidResource`, you're golden.
+
+In addition, the `summary` method is now available for resources. By default the first line of content is returned, but any resource extension can provide a new way to summarize resources by adding `summary_extension_output` within `RubyResource`.
+
+```ruby
+module TestSummaryService
+  module RubyResource
+    def summary_extension_output
+      "SUMMARY! #{content.strip[0..10]} DONE"
+    end
+  end
+end
+
+Bridgetown::Resource.register_extension TestSummaryService
+```
+
+Your extension might provide detailed semantic analysis using AI, or call out to a 3rd-party API (and ideally cache the results for better performance)…anything you can imagine.
+
 ## Differences Between Resource and Legacy Engines
 
 * The most obvious differences are what you use in templates (Liquid or ERB). For example, instead of `site.posts` in Liquid or `site.posts.docs` in ERB, you'd use `collections.posts.resources` (in both Liquid and ERB). (`site.collection_name_here` syntax is no longer available.) Pages are just another collection now so you can iterate through them as well via `collections.pages.resources`.
@@ -360,6 +416,6 @@ end
 * With the legacy engine, any folder starting with an underscore within a collection would be skipped. With the resource engine, folders can start with underscores but they aren't included in the final permalink. (Files starting with an underscore are always skipped however.)
 * The `YYYY-MM-DD-slug.ext` filename format will now work for any collection, not just posts.
 * The [Document Builder API](/docs/plugins/external-apis) no longer works when the resource content engine is configured. We'll be restoring this functionality in a future point release of Bridgetown.
-* Automatic excerpts are not included in the current resource featureset. We'll be opening up a brand-new Excerpt/Summary API in the near future.
+* The resource content engine doesn't provide a related/similar result set using LSI classification. So there's no direct replacement for the `related_posts` feature of the legacy engine. However, anyone can create a gem-based plugin using the new resource extension API which could restore this type of functionality.
 
 {% endraw %}
