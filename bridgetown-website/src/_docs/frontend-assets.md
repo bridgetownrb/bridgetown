@@ -90,6 +90,10 @@ You can run `bridgetown new mysite --use-postcss` to configure your site with Po
 
 The default `PostCSS` config is largely empty so you can set it up as per your preference. The only two plugins included by default are [`postcss-flexbugs-fixes`](https://github.com/luisrudge/postcss-flexbugs-fixes) and [`postcss-preset-env`](https://preset-env.cssdb.org).
 
+{% rendercontent "docs/note", title: "All the stylesheet’s a stage…", extra_margin: true %}
+By default, Bridgetown configures the postcss-preset-env **stage** to be **2**, but you may want to change it to **3** or even **4** for a more compact and performant stylesheet which the latest modern browsers can interpret. The lower the stage number, the more transformations/polyfills PostCSS will run in order to build a widely-compatible stylesheet. You can also determine which individual features to polyfill by adding the `features` option. [Read the postcss-preset-env documentation here](https://www.npmjs.com/package/postcss-preset-env#options) or [browse the list of features here](https://preset-env.cssdb.org/features).
+{% endrendercontent %}
+
 If you'd like to use `Sass` with `PostCSS`, you'll need to install a plugin for it:
 
 ```shell
@@ -114,10 +118,6 @@ module.exports = {
 ```
 
 The popular [TailwindCSS](https://tailwindcss.com) framework can be added to your project by following their [setup guide for PostCSS](https://tailwindcss.com/docs/installation#installing-tailwind-css-as-a-post-css-plugin).
-
-{% rendercontent "docs/note", title: "All the stylesheet's a stage…" %}
-By default, Bridgetown configures the postcss-preset-env **stage** to be **2**, but you maybe want to change it to **3** or even **4** for a more compact and performant stylesheet which the latest modern browsers can interpret. The lower the stage number, the more transformations/polyfills PostCSS will run in order to build a widely-compatible stylesheet. You can also determine which individual features to polyfill by adding the `features` option. [Read the postcss-preset-env documentation here](https://www.npmjs.com/package/postcss-preset-env#options) or [browse the list of features here](https://preset-env.cssdb.org/features).
-{% endrendercontent %}
 
 ## Linking to the Output Bundles
 
