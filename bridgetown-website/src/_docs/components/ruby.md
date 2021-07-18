@@ -265,7 +265,7 @@ As a shortcut, you could create your own base class, say `SiteViewComponent`, wh
 
 ### Rails Helpers
 
-Including `Bridgetown::ViewComponentHelpers` in a ViewComponent provides access to Bridgetown helpers within the component. However, to faciliate that, most of the default [Action View Helpers](https://guides.rubyonrails.org/action_view_helpers.html) get disabled, since many helpers rely on Rails and will not work with Bridgetown.
+Including `Bridgetown::ViewComponentHelpers` in a ViewComponent provides access to Bridgetown helpers within the component. However, to facilitate that, most of the default [Action View Helpers](https://guides.rubyonrails.org/action_view_helpers.html) get disabled, since many helpers rely on Rails and will not work with Bridgetown.
 
 `Bridgetown::ViewComponentHelpers#allow_rails_helpers` provides an API to enable supplied Action View Helpers like `ActionView::Helpers::TagHelper`:
 
@@ -287,7 +287,7 @@ In your template, `<%%= render HeaderComponent.new.with_content("👋") %>` woul
 <h1 class="my-8 text-3xl font-bold tracking-tight text-primary-white sm:text-4xl">👋</h1>
 ```
 
-Like helpers, you can include `Bridgetown::ViewComponentHelpers.allow_rails_helpers :tag` in a base class that your components inheirt from to reduce duplication.
+Like helpers, you can include `Bridgetown::ViewComponentHelpers.allow_rails_helpers :tag` in a base class that your components inherit from to reduce duplication.
 
 ### Using Primer
 
@@ -325,7 +325,7 @@ class PrimerBuilder < SiteBuilder
 end
 ```
 
-What this does is import a couple of additional Rails dependencies, set up the autoloading functionalty provided by Zeitwerk, and ensure Primer's engine config is added to the Rails shim. We also want to guarantee this code only runs once when in Bridgetown's watch mode.
+What this does is import a couple of additional Rails dependencies, set up the autoloading functionality provided by Zeitwerk, and ensure Primer's engine config is added to the Rails shim. We also want to guarantee this code only runs once when in Bridgetown's watch mode.
 
 Let's also add the Primer CSS link tag to your site's head:
 
