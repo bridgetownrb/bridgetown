@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+.
+
+## 0.21.1 - 2021-07-19
+
 ### Added
 
 - Resource extension API along with basic summary feature [#344](https://github.com/bridgetownrb/bridgetown/pull/344) ([jaredcwhite](https://github.com/jaredcwhite)) [Read the Docs](https://www.bridgetownrb.com/docs/resources#resource-extensions)
