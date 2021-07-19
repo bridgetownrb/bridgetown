@@ -59,7 +59,7 @@ $ yarn start
 If you encounter any errors during this process, try revisiting your installation and setup steps, and if all else fails, [reach out to the Bridgetown community for support](/docs/community/). Also, make sure you've installed the development headers and other prerequisites as mentioned in the [Requirements](/docs/installation/#requirements) section.
 
 {% rendercontent "docs/note" %}
-More detailed installation instructions for macOS, Ubuntu Linux, and Windows 10 are [available here](/docs/installation/#guides).
+More detailed installation instructions for macOS, Ubuntu Linux, Fedora Linux and Windows 10 are [available here](/docs/installation/#guides).
 {% endrendercontent %}
 
 Bridgetown comes with the `bridgetown` CLI tool as well as several Yarn scripts,
