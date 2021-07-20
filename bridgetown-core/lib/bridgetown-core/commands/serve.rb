@@ -34,7 +34,7 @@ module Bridgetown
       def self.banner
         "bridgetown serve [options]"
       end
-      summary "Serve your site locally using WEBrick"
+      summary "DEPRECATED (Serve your site locally using WEBrick)"
 
       class << self
         attr_accessor :loaded_config
