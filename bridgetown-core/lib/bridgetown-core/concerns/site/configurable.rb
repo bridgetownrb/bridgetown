@@ -24,7 +24,6 @@ class Bridgetown::Site
       configure_include_paths
       configure_file_read_opts
 
-      self.baseurl = config.baseurl
       self.permalink_style = (config["permalink"] || "pretty").to_sym
 
       @config
@@ -158,13 +157,6 @@ class Bridgetown::Site
     def collections_path
       dir_str = config["collections_dir"]
       @collections_path ||= dir_str.empty? ? source : in_source_dir(dir_str)
-    end
-
-    # Whether or not a site uses PostCSS to process stylesheets.
-    #
-    # @return [Boolean] true if `postcss.config.js` exists, false if not
-    def uses_postcss?
-      File.exist?(in_root_dir("postcss.config.js"))
     end
 
     private
