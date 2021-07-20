@@ -156,6 +156,7 @@ As expected, helpers are available as well just like in standard templates:
 <!-- src/_components/posts/excerpt.erb -->
 <post-excerpt>
   <h3><%%= link_to @post.data.title, @post %></h3>
+
   <%%= markdownify @post.data.description %>
 </post-excerpt>
 ```
