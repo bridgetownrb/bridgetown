@@ -116,7 +116,7 @@ bin/bridgetown configure swup
 
 ### Automated Test Suite using Minitest
 
-⚙️ Adds a basic test suite using [Minitest](https://rubygems.org/gems/minitest) and Rails DOM assertions for extremely fast verification of your output HTML.
+⚙️ Adds a basic test suite using [Minitest](https://rubygems.org/gems/minitest) and Rails DOM assertions for extremely fast verification of your output HTML. Check out [our automated testing guide](/docs/testing#use-ruby-and-minitest-to-test-html-directly) for more info!
 
 🛠 **Configure using:**
 

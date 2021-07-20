@@ -48,6 +48,10 @@ class TestResource < BridgetownUnitTest
       assert_equal "pages", @resource.collection.label
     end
 
+    should "know its layout" do
+      assert_equal "default", @resource.layout.label
+    end
+
     should "know whether it's a YAML file" do
       assert_equal false, @resource.yaml_file?
     end
@@ -62,8 +66,8 @@ class TestResource < BridgetownUnitTest
     end
 
     should "have untransformed and transformed content" do
-      assert_equal "That's **great**!", @resource.untransformed_content
-      assert_equal "<p>That’s <strong>great</strong>!</p>", @resource.content.strip
+      assert_equal "That's **great**!", @resource.untransformed_content.lines.first.strip
+      assert_equal "<p>That’s <strong>great</strong>!</p>", @resource.content.lines.first.strip
     end
   end
 
@@ -298,6 +302,109 @@ class TestResource < BridgetownUnitTest
       assert_equal "cheese", @resource.data.products.first.name
       assert_equal "cheese", @site.data.categories.dairy.products.first.name
       assert_equal 5.3, @site.data.categories.dairy.products.first.price
+    end
+
+    should "not overwrite data in same folder" do
+      assert_equal "1.jpg", @site.data.gallery.album_1.file
+      assert_equal "2.jpg", @site.data.gallery.album_2.file
+      assert_equal "3.jpg", @site.data.gallery.album_1.interior.file
+    end
+  end
+
+  context "a Ruby data resource" do
+    should "provide an array" do
+      @site = resources_site
+      @site.process
+      assert_equal "ruby", @site.data.languages[1]
+    end
+  end
+
+  context "dotfile permalink" do
+    should "get saved to destination" do
+      @site = resources_site
+      @site.process
+      @dest_file = File.read(dest_dir(".nojekyll"))
+
+      assert_equal "nojekyll", @dest_file.strip
+    end
+  end
+
+  context "previous and next resource methods" do
+    should "return the correct resource" do
+      @site = resources_site
+      @site.process
+      @resource = @site.collections.pages.resources[0]
+
+      assert_equal @site.collections.pages.resources[1], @resource.next_resource
+      assert_equal @site.collections.pages.resources[0], @resource.next_resource.previous_resource
+    end
+  end
+
+  context "prototype pages" do
+    setup do
+      @site = resources_site
+      @site.process
+      @page = @site.generated_pages.find { |page| page.data.title == "Noodles Archive" }
+      @dest_file = dest_dir("noodle-archive/ramen/index.html")
+    end
+
+    should "be generated for the given term" do
+      assert File.exist?(@dest_file)
+      assert_includes @page.output, "<h1>ramen</h1>"
+    end
+
+    should "not persist across rebuilds" do
+      page_count = @site.generated_pages.size
+      Bridgetown::Hooks.trigger :site, :pre_reload, @site
+      @site.process
+      assert_equal page_count, @site.generated_pages.size
+    end
+  end
+
+  context "resource extensions" do
+    setup do
+      @site = resources_site
+      @site.process
+    end
+
+    should "augment the Resource::Base class" do
+      resource = @site.resources.first
+      assert_equal "Ruby return value! ", resource.heres_a_method
+      assert_equal "Ruby return value! wee!", resource.heres_a_method("wee!")
+    end
+
+    should "augment the Drops::Resource class" do
+      resource = @site.collections.pages.resources.find do |page|
+        page.relative_path.to_s == "top-level-page.md"
+      end
+
+      assert_includes resource.output, "Test extension: Liquid return value"
+    end
+  end
+
+  context "summary extensions" do
+    setup do
+      @site = resources_site
+      @site.read
+
+      @resource = @site.collections.pages.resources.find do |page|
+        page.relative_path.to_s == "top-level-page.md"
+      end
+    end
+
+    should "work in a Ruby template" do
+      assert_equal "That's **great**!", @resource.summary
+
+      @resource.singleton_class.include TestSummaryService::RubyResource
+
+      assert_equal "SUMMARY! That's **gr DONE", @resource.summary
+    end
+
+    should "work in a Liquid template" do
+      @resource.singleton_class.include TestSummaryService::RubyResource
+      @site.render
+
+      assert_includes @resource.output, "Summary: :SUMMARY! That’s **gr DONE:"
     end
   end
 

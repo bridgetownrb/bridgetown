@@ -20,14 +20,14 @@ class TestSite < BridgetownUnitTest
   end
 
   context "configuring sites" do
-    should "default baseurl to `nil`" do
+    should "default base_path to `/`" do
       site = Site.new(Bridgetown::Configuration::DEFAULTS.deep_dup)
-      assert_nil site.baseurl
+      assert_equal "/", site.base_path
     end
 
-    should "expose baseurl passed in from config" do
-      site = Site.new(site_configuration("baseurl" => "/blog"))
-      assert_equal "/blog", site.baseurl
+    should "expose base_path passed in from config" do
+      site = Site.new(site_configuration("base_path" => "/blog"))
+      assert_equal "/blog", site.base_path
     end
 
     should "configure cache_dir" do

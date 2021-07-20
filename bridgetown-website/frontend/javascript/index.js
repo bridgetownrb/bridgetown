@@ -4,7 +4,7 @@ import SwupSlideTheme from "@swup/slide-theme"
 import SwupBodyClassPlugin from "@swup/body-class-plugin"
 import SwupScrollPlugin from "@swup/scroll-plugin"
 import animateScrollTo from "animated-scroll-to"
-import "bridgetown-quick-search"
+import "bridgetown-quick-search/dist"
 import { toggleMenuIcon, addHeadingAnchors } from "./lib/functions.js.rb"
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -34,18 +34,18 @@ document.addEventListener('DOMContentLoaded', () => {
     containers = [mainEl, "#topnav"]
   }
 
-  if(!window.matchMedia('(prefers-reduced-motion)').matches) {
+  if (!window.matchMedia('(prefers-reduced-motion)').matches) {
     const swup = new Swup({
       containers: containers,
       plugins: [
-        new SwupSlideTheme({mainElement: mainEl}),
+        new SwupSlideTheme({ mainElement: mainEl }),
         new SwupBodyClassPlugin(),
-        new SwupScrollPlugin({animateScroll: false})
+        new SwupScrollPlugin({ animateScroll: false })
       ],
 
     })
 
-    swup.on('contentReplaced', function() {
+    swup.on('contentReplaced', function () {
       addHeadingAnchors()
     })
   }

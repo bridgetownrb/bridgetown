@@ -30,24 +30,24 @@ module Bridgetown
       #
       # @param ext [String] erb, slim, etc.
       def renderer_for_ext(ext, &block)
-        case ext
-        when "erb"
-          include ERBCapture
-          Tilt::ErubiTemplate.new(component_template_path,
-                                  outvar: "@_erbout",
-                                  bufval: "Bridgetown::OutputBuffer.new",
-                                  engine_class: Bridgetown::ERBEngine,
-                                  &block)
-        when "serb" # requires serbea
-          include Serbea::Helpers
-          Tilt::SerbeaTemplate.new(component_template_path, &block)
-        when "slim" # requires bridgetown-slim
-          Slim::Template.new(component_template_path, &block)
-        when "haml" # requires bridgetown-haml
-          Tilt::HamlTemplate.new(component_template_path, &block)
-        else
-          raise NameError
-        end
+        @_tmpl ||= case ext
+                   when "erb"
+                     include ERBCapture
+                     Tilt::ErubiTemplate.new(component_template_path,
+                                             outvar: "@_erbout",
+                                             bufval: "Bridgetown::OutputBuffer.new",
+                                             engine_class: Bridgetown::ERBEngine,
+                                             &block)
+                   when "serb" # requires serbea
+                     include Serbea::Helpers
+                     Tilt::SerbeaTemplate.new(component_template_path, &block)
+                   when "slim" # requires bridgetown-slim
+                     Slim::Template.new(component_template_path, &block)
+                   when "haml" # requires bridgetown-haml
+                     Tilt::HamlTemplate.new(component_template_path, &block)
+                   else
+                     raise NameError
+                   end
       rescue NameError, LoadError
         raise "No component rendering engine could be found for .#{ext} templates"
       end
@@ -56,26 +56,32 @@ module Bridgetown
       #
       # @return [String]
       def component_template_path
-        stripped_path = File.join(
-          File.dirname(source_location),
-          File.basename(source_location, ".*")
-        )
-        supported_template_extensions.each do |ext|
-          test_path = "#{stripped_path}.#{ext}"
-          return test_path if File.exist?(test_path)
+        @_tmpl_path ||= begin
+          stripped_path = File.join(
+            File.dirname(source_location),
+            File.basename(source_location, ".*")
+          )
+          supported_template_extensions.each do |ext|
+            test_path = "#{stripped_path}.#{ext}"
+            break test_path if File.exist?(test_path)
 
-          test_path = "#{stripped_path}.html.#{ext}"
-          return test_path if File.exist?(test_path)
+            test_path = "#{stripped_path}.html.#{ext}"
+            break test_path if File.exist?(test_path)
+          end
         end
 
-        raise "No matching templates could be found in #{File.dirname(source_location)}"
+        unless @_tmpl_path.is_a?(String)
+          raise "#{name}: no matching template could be found in #{File.dirname(source_location)}"
+        end
+
+        @_tmpl_path
       end
 
       # Read the template file.
       #
       # @return [String]
       def component_template_content
-        File.read(component_template_path)
+        @_tmpl_content ||= File.read(component_template_path)
       end
 
       # A list of extensions supported by the renderer
@@ -154,7 +160,6 @@ module Bridgetown
     end
 
     def _renderer
-      # TODO: figure out a way to compile templates for increased performance
       @_renderer ||= begin
         ext = File.extname(self.class.component_template_path).delete_prefix(".")
         self.class.renderer_for_ext(ext) { self.class.component_template_content }

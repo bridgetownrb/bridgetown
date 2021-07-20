@@ -42,6 +42,22 @@ module Bridgetown
         model.collection
       end
 
+      # Layout associated with this resource
+      # This will output a warning if the layout can't be found.
+      #
+      # @return [Bridgetown::Layout]
+      def layout
+        return @layout if @layout
+        return if no_layout?
+
+        @layout = site.layouts[data.layout].tap do |layout|
+          unless layout
+            Bridgetown.logger.warn "Resource:", "Layout '#{data.layout}' " \
+            "requested via #{relative_path} does not exist."
+          end
+        end
+      end
+
       # The relative path of source file or file-like origin
       #
       # @return [Pathname]
@@ -163,6 +179,16 @@ module Bridgetown
 
       def date
         data["date"] ||= site.time
+      end
+
+      # Ask the configured summary extension to output a summary of the content,
+      # otherwise return the first line.
+      #
+      # @return [String]
+      def summary
+        return summary_extension_output if respond_to?(:summary_extension_output)
+
+        content.to_s.strip.lines.first.to_s.strip
       end
 
       # @return [Hash<String, Hash<String => Bridgetown::Resource::TaxonomyType,

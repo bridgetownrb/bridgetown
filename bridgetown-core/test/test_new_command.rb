@@ -22,7 +22,7 @@ class TestNewCommand < BridgetownUnitTest
   end
 
   def template_config_files
-    ["/Gemfile", "/package.json", "/frontend/javascript/index.js", "/webpack.config.js", "/config/webpack.defaults.js"]
+    ["/Gemfile", "/package.json", "/webpack.config.js", "/frontend/javascript/index.js", "/config/webpack.defaults.js"]
   end
 
   def static_template_files
@@ -33,7 +33,7 @@ class TestNewCommand < BridgetownUnitTest
 
   context "when args contains a path" do
     setup do
-      @path = "new-site"
+      @path = SecureRandom.alphanumeric
       @args = "new #{@path}"
       @full_path = File.expand_path(@path, Dir.pwd)
       @full_path_source = File.expand_path("src", @full_path)
@@ -127,6 +127,8 @@ class TestNewCommand < BridgetownUnitTest
       end
 
       refute_exist File.join(@full_path, "Gemfile.lock")
+      bundle_message = "Bundle install skipped."
+      assert_includes output, bundle_message
     end
   end
 

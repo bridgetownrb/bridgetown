@@ -140,7 +140,7 @@ module Bridgetown
       # rubocop:enable Metrics/PerceivedComplexity
 
       def bundle_install(path)
-        unless Bridgetown.environment == "test"
+        unless Bridgetown.environment.test?
           require "bundler"
           Bridgetown.with_unbundled_env do
             inside(path) do
@@ -157,7 +157,7 @@ module Bridgetown
       end
 
       def git_init(path)
-        unless Bridgetown.environment == "test"
+        unless Bridgetown.environment.test?
           inside(path) do
             initialize_new_repo
           end
@@ -167,7 +167,7 @@ module Bridgetown
       end
 
       def yarn_install(path)
-        unless Bridgetown.environment == "test"
+        unless Bridgetown.environment.test?
           inside(path) do
             run "yarn install", abort_on_failure: true
           end

@@ -54,7 +54,7 @@ module Bridgetown
       "detach"               => false, # default to not detaching the server
       "port"                 => "4000",
       "host"                 => "127.0.0.1",
-      "baseurl"              => nil, # this mounts at /, i.e. no subdirectory
+      "base_path"            => "/",
       "show_dir_listing"     => false,
 
       # Output Configuration
@@ -118,7 +118,7 @@ module Bridgetown
     # override - the command-line options hash
     #
     # Returns the path to the Bridgetown root directory
-    def root_dir(override)
+    def root_dir(override = "")
       get_config_value_with_override("root_dir", override)
     end
 
@@ -127,7 +127,7 @@ module Bridgetown
     # override - the command-line options hash
     #
     # Returns the path to the Bridgetown source directory
-    def source(override)
+    def source(override = "")
       get_config_value_with_override("source", override)
     end
 
@@ -226,7 +226,7 @@ module Bridgetown
         raise ArgumentError, "Configuration file: (INVALID) #{file}".yellow
       end
 
-      Bridgetown.logger.info "Configuration file:", file
+      Bridgetown.logger.debug "Configuration file:", file
       next_config
     rescue SystemCallError
       if @default_config_file ||= nil
@@ -339,6 +339,13 @@ module Bridgetown
       end
 
       self
+    end
+
+    # Whether or not PostCSS is being used to process stylesheets.
+    #
+    # @return [Boolean] true if `postcss.config.js` exists, false if not
+    def uses_postcss?
+      File.exist?(Bridgetown.sanitized_path(root_dir, "postcss.config.js"))
     end
   end
 end

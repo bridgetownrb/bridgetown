@@ -58,8 +58,9 @@ module Bridgetown
     def destination(dest)
       dest = site.in_dest_dir(dest)
       dest_url = url
-      dest_url = dest_url.delete_prefix(site.baseurl) if site.uses_resource? &&
-        site.baseurl.present? && collection
+      if site.uses_resource? && site.base_path.present? && collection
+        dest_url = dest_url.delete_prefix site.base_path(strip_slash_only: true)
+      end
       site.in_dest_dir(dest, Bridgetown::URL.unescape_path(dest_url))
     end
 

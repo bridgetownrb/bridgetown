@@ -263,7 +263,16 @@ end
 
 module Bridgetown
   module Model; end
-  module Resource; end
+  module Resource
+    def self.register_extension(mod)
+      if mod.const_defined?(:LiquidResource)
+        Bridgetown::Drops::ResourceDrop.include mod.const_get(:LiquidResource)
+      end
+      if mod.const_defined?(:RubyResource)
+        Bridgetown::Resource::Base.include mod.const_get(:RubyResource)
+      end
+    end
+  end
 end
 
 # This method is available in Ruby 3, monkey patching for older versions

@@ -5,6 +5,58 @@ All notable changes to Bridgetown will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+.
+
+## 0.21.1 - 2021-07-19
+
+### Added
+
+- Resource extension API along with basic summary feature [#344](https://github.com/bridgetownrb/bridgetown/pull/344) ([jaredcwhite](https://github.com/jaredcwhite)) [Read the Docs](https://www.bridgetownrb.com/docs/resources#resource-extensions)
+
+### Fixed
+
+- Unintentional overwriting of data when using the Resource content engine [#343](https://github.com/bridgetownrb/bridgetown/pull/343) ([jaredcwhite](https://github.com/jaredcwhite))
+- Bug where in Liquid the `next_resource` method would mistakenly return the previous resource
+
+### Changed
+
+- Configure sites in subfolders via base_path, not baseurl [#348](https://github.com/bridgetownrb/bridgetown/pull/348) ([jaredcwhite](https://github.com/jaredcwhite))
+- Swap babel for ESBuild and upgrade to Webpack 5 [#334](https://github.com/bridgetownrb/bridgetown/pull/334) ([ayushn21](https://github.com/ayushn21))
+- Change postcss.config.js stage from 3 to 2 [#349](https://github.com/bridgetownrb/bridgetown/pull/349) ([juhat](https://github.com/juhat)) [Read the Docs](https://www.bridgetownrb.com/docs/frontend-assets#postcss)
+- Various improvements to the new Webpack config documentation
+
+## 0.21.0 - 2021-06-01
+
+Final release of 0.21.0! See below for full changelog.
+
+### Fixed
+
+- Configuration change to remove Webpack warning regarding Babel [#314](https://github.com/bridgetownrb/bridgetown/pull/314) ([eclectic-coding](https://github.com/eclectic-coding))
+
+## 0.21.0.beta4 - 2021-05-30
+
+### Added
+
+- Memoization for caching templates in `Bridgetown::Component` [#326](https://github.com/bridgetownrb/bridgetown/pull/326) ([jaredcwhite](https://github.com/jaredcwhite))
+- `layout` method in `Resource::Base` [#324](https://github.com/bridgetownrb/bridgetown/pull/324) ([jaredcwhite](https://github.com/jaredcwhite))
+- Include Bridgetown version in Webpack defaults [#322](https://github.com/bridgetownrb/bridgetown/pull/322) ([ayushn21](https://github.com/ayushn21))
+- Confirmation for overwriting postcss config in tailwindcss and bt-postcss bundled configurations [#317](https://github.com/bridgetownrb/bridgetown/pull/317) ([ayushn21](https://github.com/ayushn21))
+- Create new config directory and move Webpack defaults into it [#316](https://github.com/bridgetownrb/bridgetown/pull/316) ([ayushn21](https://github.com/ayushn21))
+
+### Changed
+
+- Fix the Bridgetown logger and other test improvements [#328](https://github.com/bridgetownrb/bridgetown/pull/328) ([ayushn21](https://github.com/ayushn21))
+  - **NOTE:** the `Configuration file` log message is now output with a `debug` log level instead of `info`. This means you will no longer see the config path in your terminal/logs unless you use the `--verbose` flag.
+
+### Fixed
+
+- Install required packages in Webpack enable postcss tool [#319](https://github.com/bridgetownrb/bridgetown/pull/319) ([ayushn21](https://github.com/ayushn21))
+- Update Babel configuration to prevent overt warning [#314](https://github.com/bridgetownrb/bridgetown/pull/314) ([ayushn21](https://github.com/ayushn21))
+- Resolve issue with zombie templates in Pagination/Prototype logic
+- Locale files now reload when the site regenerates
+
 ## 0.21.0.beta3 - 2021-05-15
 
 ### Changed
@@ -30,14 +82,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 * Refactor old TODOs and deprecations
 * Remove deprecated `sassify`/`scssify` filters, add html_safe to the `obfuscate_link` helper
-* Fix dotfiles or multiple extension permalinks (for the resource content engine) ([jaredcwhite](https://github.com/jaredcwhite)) [#292](https://github.com/bridgetownrb/bridgetown/pull/292)
+* Fix dotfiles or multiple extension permalinks (for the resource content engine) [#292](https://github.com/bridgetownrb/bridgetown/pull/292) ([jaredcwhite](https://github.com/jaredcwhite))
 
 ## 0.21.0.beta1 - 2021-04-25
 
-* End-to-end Ruby [front matter, templates](https://beta.bridgetownrb.com/docs/resources#ruby-front-matter-and-all-ruby-templates), and [data files](https://beta.bridgetownrb.com/docs/datafiles) ([jaredcwhite](https://github.com/jaredcwhite)) [#285](https://github.com/bridgetownrb/bridgetown/pull/285)
+* End-to-end Ruby [front matter, templates](https://www.bridgetownrb.com/docs/resources#ruby-front-matter-and-all-ruby-templates), and [data files](https://www.bridgetownrb.com/docs/datafiles) ([jaredcwhite](https://github.com/jaredcwhite)) [#285](https://github.com/bridgetownrb/bridgetown/pull/285)
 * New `Bridgetown::Component` class with a ViewComponent-inspired API [#268](https://github.com/bridgetownrb/bridgetown/pull/268) ([jaredcwhite](https://github.com/jaredcwhite)) [Read the Docs](https://www.bridgetownrb.com/docs/components/ruby)
-  * **Breaking Change:** ERB now uses an output safety buffer to escape HTML in strings, same as in Rails. [Read the Docs](https://beta.bridgetownrb.com/docs/erb-and-beyond#escaping-and-html-safety)
-* Relations for resources (belongs_to, has_many, etc.) [#261](https://github.com/bridgetownrb/bridgetown/pull/261) ([jaredcwhite](https://github.com/jaredcwhite)) [Read the Docs](https://beta.bridgetownrb.com/docs/resources#resource-relations)
+  * **Breaking Change:** ERB now uses an output safety buffer to escape HTML in strings, same as in Rails. [Read the Docs](https://www.bridgetownrb.com/docs/erb-and-beyond#escaping-and-html-safety)
+* Relations for resources (belongs_to, has_many, etc.) [#261](https://github.com/bridgetownrb/bridgetown/pull/261) ([jaredcwhite](https://github.com/jaredcwhite)) [Read the Docs](https://www.bridgetownrb.com/docs/resources#resource-relations)
 * Migrate to dart-sass since node-sass is deprecated [#279](https://github.com/bridgetownrb/bridgetown/pull/279) ([eclectic-coding](https://github.com/eclectic-coding))
 
 ## 0.20.0 - 2021-03-15

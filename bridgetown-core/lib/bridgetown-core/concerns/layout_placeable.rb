@@ -11,7 +11,7 @@ module Bridgetown
     end
 
     def no_layout?
-      data["layout"] == "none" || data["layout"] == false
+      data.layout.nil? || data.layout == "none" || data.layout == false
     end
   end
 end

@@ -381,7 +381,7 @@ module Bridgetown
 
     def static_frontend_path(site, additional_parts = [])
       path_parts = [
-        site.config["baseurl"].to_s.gsub(%r(^/|/$), ""),
+        site.base_path.gsub(%r(^/|/$), ""),
         "_bridgetown/static",
         *additional_parts,
       ]

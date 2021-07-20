@@ -242,7 +242,7 @@ module Bridgetown
       site.config.collections[label] || HashWithDotAccess::Hash.new
     end
 
-    def merge_data_resources
+    def merge_data_resources # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
       data_contents = {}
 
       sanitize_filename = ->(name) do
@@ -256,11 +256,16 @@ module Bridgetown
         segments.each_with_index do |segment, index|
           sanitized_segment = sanitize_filename.(File.basename(segment, ".*"))
           hsh = nested.empty? ? data_contents : data_contents.dig(*nested)
-          hsh[sanitized_segment] = if index == segments.length - 1
-                                     data_resource.data.rows || data_resource.data
-                                   else
-                                     {}
-                                   end
+          if !hsh.is_a?(Hash)
+            Bridgetown.logger.error(
+              "Error:",
+              "#{nested.join("/")} is not a Hash structure, #{segment} cannot be read"
+            )
+          elsif index == segments.length - 1
+            hsh[sanitized_segment] = data_resource.data.rows || data_resource.data
+          elsif !hsh.key?(sanitized_segment)
+            hsh[sanitized_segment] = {}
+          end
           nested << sanitized_segment
         end
       end

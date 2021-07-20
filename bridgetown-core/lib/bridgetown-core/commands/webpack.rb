@@ -4,7 +4,6 @@ module Bridgetown
   module Commands
     class Webpack < Thor::Group
       include Thor::Actions
-      include ConfigurationOverridable
       extend Summarizable
 
       Registrations.register do
@@ -21,14 +20,14 @@ module Bridgetown
       end
 
       def webpack
-        logger = Bridgetown.logger
+        @logger = Bridgetown.logger
         return show_actions if args.empty?
 
         action = args.first
         if supported_actions.include?(action)
           perform action
         else
-          logger.error "Error:".red, "🚨 Please enter a valid action."
+          @logger.error "Error:".red, "🚨 Please enter a valid action."
           say "\n"
           show_actions
         end
@@ -39,14 +38,21 @@ module Bridgetown
       end
 
       def self.destination_root
-        site.root_dir
-      end
-
-      def site
-        @site ||= Bridgetown::Site.new(configuration_with_overrides(quiet: true))
+        config.root_dir
       end
 
       protected
+
+      def config
+        @config ||= Bridgetown.configuration({ root_dir: Dir.pwd })
+      end
+
+      def package_json
+        @package_json ||= begin
+          package_json_file = File.read(Bridgetown.sanitized_path(config.root_dir, "package.json"))
+          JSON.parse(package_json_file)
+        end
+      end
 
       def perform(action)
         automation = find_in_source_paths("#{action}.rb")

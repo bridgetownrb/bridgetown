@@ -17,6 +17,7 @@ module Bridgetown
                      :data,
                      :output,
                      :content,
+                     :summary,
                      :to_s,
                      :absolute_url,
                      :relative_path,
@@ -48,7 +49,7 @@ module Bridgetown
       end
 
       def next
-        @next ||= @obj.previous_resource.to_liquid
+        @next ||= @obj.next_resource.to_liquid
       end
 
       # Generate a Hash for use in generating JSON.

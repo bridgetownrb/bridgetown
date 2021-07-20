@@ -14,14 +14,14 @@ Bridgetown doesn't come with an opinionated testing setup, so you're welcome to 
 
 ## Use Ruby and Minitest to Test HTML Directly
 
-New in Bridgetown 0.15, you can apply an automation to your site to add a [`post_write` hook plugin](/docs/plugins/hooks) which kicks off a Minitest-based test suite. The plugin will automatically detect if the [Bridgetown environment](/docs/configuration/environments) isn't `development` (aka it's `test` or `production`) and if the optional set of test gems (Minitest, Nokogiri, etc.) are available. If so, the tests will run after the site has been built.
+You can run a [bundled configuration](/docs/bundled-configurations) on your site to add a [`post_write` hook plugin](/docs/plugins/hooks) which kicks off a Minitest-based test suite. The plugin will automatically detect if the [Bridgetown environment](/docs/configuration/environments) isn't `development` (i.e. it's `test` or `production`) and if the optional set of test gems (Minitest, Nokogiri, etc.) are available. If so, the tests will run after the site has been built.
 
 One of the benefits of this testing approach is it's _very_ fast, due to the fact that all the static HTML has been built and is in memory when the test suite runs.
 
-In install, apply the following automation:
+To install, run the following command:
 
 ```sh
-bin/bridgetown apply https://github.com/bridgetownrb/automations/minitesting.rb
+bundle exec bridgetown configure minitesting
 ```
 
 This will set up the plugin, test gems, and an example test suite in the `test` folder.
