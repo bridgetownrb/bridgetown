@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 .
 
+## 0.21.2 - 2021-07-21
+
+### Fixed
+
+- Add missing comma in package.json which broken install #354
+
 ## 0.21.1 - 2021-07-19
 
 ### Added
