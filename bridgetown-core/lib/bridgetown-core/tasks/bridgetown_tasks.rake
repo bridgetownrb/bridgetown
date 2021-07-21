@@ -27,7 +27,9 @@ task :start do
       end
     end
 
-  Rake::Task["frontend:servers"].invoke(true) unless Bridgetown.env.production?
+  unless Bridgetown.env.production? || ARGV.include?("--skip-frontend")
+    Rake::Task["frontend:servers"].invoke(true)
+  end
 
   begin
     # TODO: set the site's url value in the config to localhost, etc.
