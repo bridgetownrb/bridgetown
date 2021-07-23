@@ -20,7 +20,7 @@ module Bridgetown
         "500 Internal Server Error"
       end
 
-      def _roda_run_main_route(r)
+      def _roda_run_main_route(r) # rubocop:disable Naming/MethodParameterName
         r.public
 
         r.root do

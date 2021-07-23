@@ -68,7 +68,7 @@ module Bridgetown
 
         # TODO: this prints the configuration file log message out-of-order
         self.class.loaded_config = configuration_with_overrides(options)
-        if Bridgetown.environment == "development"
+        if Bridgetown.environment == "development" && !options["url"]
           self.class.loaded_config["url"] = default_url(self.class.loaded_config)
         end
 

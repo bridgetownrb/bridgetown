@@ -24,7 +24,8 @@ module Bridgetown
             loader.reload
           end
           listener.start
-        rescue ThreadError # interrupt isn't handled well by the listener
+        # interrupt isn't handled well by the listener
+        rescue ThreadError # rubocop:disable Lint/SuppressedException
         end
       end
     end

@@ -1,63 +1,18 @@
 # frozen_string_literal: true
 
-desc "Start the Puma server and Bridgetown watcher"
-task :start do
-  ARGV.reject! { |arg| arg == "start" }
-  if ARGV.include?("--help") || ARGV.include?("-h")
-    Bridgetown::Commands::Build.start(ARGV)
-    puts "  Using watch mode"
-    next
-  end
-
-  Bridgetown.logger.writer.enable_prefix
-  Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
-                         " (codename \"#{Bridgetown::CODE_NAME.yellow}\")"
-  sleep 0.5
-
-  rackpid =
-    Process.fork do
-      if Bundler.definition.specs.find { |s| s.name == "puma" }
-        require "puma/cli"
-
-        cli = Puma::CLI.new []
-        cli.run
-      else
-        puts "** No Rack-compatible server found, falling back on Webrick **"
-        Bridgetown::Commands::Serve.start(["-P", "4001", "--quiet", "--no-watch", "--skip-initial-build"])
-      end
-    end
-
-  unless Bridgetown.env.production? || ARGV.include?("--skip-frontend")
-    Rake::Task["frontend:servers"].invoke(true)
-  end
-
-  begin
-    # TODO: set the site's url value in the config to localhost, etc.
-    Bridgetown::Commands::Build.start(["-w"] + ARGV)
-  rescue StandardError => e
-    Process.kill "SIGINT", rackpid
-    sleep 0.5
-    raise e
-  ensure
-    Bridgetown::Utils::Aux.kill_processes
-  end
-
-  sleep 0.5 # finish cleaning up
-end
-
-desc "Alias of start"
-task dev: :start
-
 namespace :frontend do
   desc "Run frontend bundler and live reload server independently"
-  task :servers, :sidecar do |_task, args|
+  task :servers, :sidecar, :skip_sync do |_task, args|
+    # sidecar is when the task is running alongside the start command
     sidecar = args[:sidecar] == true
     Bridgetown::Utils::Aux.group do
       run_process "Frontend", :yellow, "bundle exec bridgetown frontend:dev"
-      run_process "Live", nil, "#{"sleep 7 &&" if sidecar} yarn sync --color"
+      unless args[:skip_sync]
+        run_process "Live", nil, "#{"sleep 7 &&" if sidecar} yarn sync --color"
+      end
     end
     if sidecar
-      sleep 4 # give Webpack time to boot
+      sleep 4 # give Webpack time to boot before returning control to the start command
     else
       trap("INT") do
         Bridgetown::Utils::Aux.kill_processes
@@ -97,6 +52,6 @@ task :environment do
 
   define_singleton_method :site do
     @hammer ||= HammerActions.new
-    @hammer.site
+    @hammer.send(:site)
   end
 end

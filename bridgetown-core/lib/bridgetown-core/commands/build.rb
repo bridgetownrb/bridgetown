@@ -21,13 +21,21 @@ module Bridgetown
                    aliases: "-w",
                    desc: "Watch for changes and rebuild"
 
+      def self.print_startup_message
+        Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
+                               " (codename \"#{Bridgetown::CODE_NAME.yellow}\")"
+      end
+
       # Build your bridgetown site
       # Continuously watch if `watch` is set to true in the config.
       def build
         Bridgetown.logger.adjust_verbosity(options)
 
-        Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
-                               " (codename \"#{Bridgetown::CODE_NAME.yellow}\")"
+        unless caller_locations.find do |loc|
+          loc.to_s.include?("bridgetown-core/commands/start.rb")
+        end
+          self.class.print_startup_message
+        end
 
         config_options = Serve.loaded_config || configuration_with_overrides(options)
         config_options["serving"] = false unless config_options["serving"]

@@ -49,7 +49,7 @@ module Bridgetown
         Bridgetown.logger.info "Stopping auxiliary processes..."
         running_pids.each do |pid|
           Process.kill("SIGTERM", -Process.getpgid(pid))
-        rescue Errno::ESRCH, Errno::EPERM, Errno::ECHILD
+        rescue Errno::ESRCH, Errno::EPERM, Errno::ECHILD # rubocop:disable Lint/SuppressedException
         end
       end
     end

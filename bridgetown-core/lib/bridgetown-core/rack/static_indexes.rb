@@ -4,7 +4,7 @@ require "roda/plugins/public"
 
 Roda::RodaPlugins::Public::RequestMethods.module_eval do
   SPLIT = Regexp.union(*[File::SEPARATOR, File::ALT_SEPARATOR].compact)
-  def public_path_segments(path)
+  def public_path_segments(path) # rubocop:disable Metrics/CyclomaticComplexity
     segments = []
 
     path.split(SPLIT).each do |seg|
@@ -19,7 +19,6 @@ Roda::RodaPlugins::Public::RequestMethods.module_eval do
       if ::File.file?(path)
         segments << "index.html"
       else
-        path = ::File.join(Roda.opts[:public_root], *segments)
         segments[segments.size - 1] = "#{segments.last}.html"
       end
     end

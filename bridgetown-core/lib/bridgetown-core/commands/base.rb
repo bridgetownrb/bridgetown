@@ -31,6 +31,7 @@ module Bridgetown
           rake.display_tasks_and_comments
         end
 
+        # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Style/GlobalVars
         def handle_no_command_error(cmd, _has_namespace = $thor_runner)
           require "rake"
           Rake::TaskManager.record_task_metadata = true
@@ -40,7 +41,7 @@ module Bridgetown
             rake.standard_exception_handling do
               rakefile, _location = rake.find_rakefile_location
               unless rakefile
-                puts "No Rakefile found (looking for: #{rake.class::DEFAULT_RAKEFILES.join(", ")})\n"
+                puts "No Rakefile found (searching: #{rake.class::DEFAULT_RAKEFILES.join(", ")})\n"
                 new.invoke("help")
                 return # rubocop:disable Lint/NonLocalExitFromIterator
               end
@@ -62,9 +63,9 @@ module Bridgetown
               display_rake_tasks(rake)
             end
           end
-          #          super
         end
       end
+      # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Style/GlobalVars
 
       desc "dream", "There's a place where that idea still exists as a reality"
       def dream
@@ -76,7 +77,7 @@ module Bridgetown
       end
 
       desc "help <command>", "Show detailed command usage information and exit"
-      def help(subcommand = nil)
+      def help(subcommand = nil) # rubocop:disable Metrics/MethodLength
         if subcommand && respond_to?(subcommand)
           klass = Kernel.const_get("Bridgetown::Commands::#{subcommand.capitalize}")
           klass.start(["-h"])

@@ -128,7 +128,8 @@ module Bridgetown
           logger.info "You'll probably also want to #{"yarn install".cyan}" \
                       " to load in your frontend assets."
         else
-          logger.info "You can now #{"cd".cyan} #{cli_path.cyan} and run #{bt_start.cyan} to get started."
+          logger.info "You can now #{"cd".cyan} #{cli_path.cyan} and run #{bt_start.cyan}" \
+                      " to get started."
         end
         logger.info "Then check out our online documentation for" \
                     " next steps: #{DOCSURL.cyan}"
