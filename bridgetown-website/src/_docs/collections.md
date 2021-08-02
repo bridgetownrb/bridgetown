@@ -30,7 +30,7 @@ requires defining the collection as a mapping. For more information, see the sec
 Create a corresponding folder (e.g. `<source>/_staff_members`) and add
 documents. Front matter is processed if the [front matter](/docs/front-matter/) exists, and everything
 after the front matter is pushed into the document's `content` attribute. If no front
-matter is provided, Bridgetown will consider it to be a [static file](/docs/static-files/)
+matter is provided, Bridgetown will consider it to be a [static file](/docs/static_files/)
 and the contents will not undergo further processing. If front matter is provided,
 Bridgetown will process the file contents into the expected output.
 
