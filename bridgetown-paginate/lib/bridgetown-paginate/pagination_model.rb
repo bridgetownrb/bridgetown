@@ -340,7 +340,9 @@ module Bridgetown
                                  else
                                    template.dir
                                  end
-          first_index_page_url = Utils.ensure_trailing_slash(first_index_page_url)
+          first_index_page_url = Utils.ensure_trailing_slash(
+            Utils.remove_leading_slash(first_index_page_url)
+          )
           paginated_page_url = File.join(first_index_page_url, paginated_page_url)
 
           # 3. Create the paginator logic for this page, pass in the prev and next
