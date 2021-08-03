@@ -188,7 +188,7 @@ module Bridgetown
       def summary
         return summary_extension_output if respond_to?(:summary_extension_output)
 
-        content.to_s.strip.lines.first.to_s.strip
+        content.to_s.strip.lines.first.to_s.strip.html_safe
       end
 
       # @return [Hash<String, Hash<String => Bridgetown::Resource::TaxonomyType,
