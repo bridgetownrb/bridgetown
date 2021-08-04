@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  # This class handles custom defaults for YAML frontmatter settings.
-  # These are set in bridgetown.config.yml and apply both to internal use (e.g. layout)
-  # and the data available to liquid.
-  #
+  # This class handles custom defaults for YAML frontmatter variables.
   # It is exposed via the frontmatter_defaults method on the site class.
+  # TODO: needs simplification/refactoring.
   class FrontmatterDefaults
-    # Initializes a new instance.
+    # @return [Bridgetown::Site]
+    attr_reader :site
+
     def initialize(site)
       @site = site
     end
@@ -45,7 +45,7 @@ module Bridgetown
       set
     end
 
-    # Finds a default value for a given setting, filtered by path and type
+    # TODO: deprecated – see all method instead
     #
     # path - the path (relative to the source) of the page or
     # post the default is used in
@@ -96,8 +96,8 @@ module Bridgetown
     private
 
     def merge_data_cascade_for_path(path, merged_data)
-      absolute_path = @site.in_source_dir(path)
-      @site.defaults_reader.path_defaults
+      absolute_path = site.in_source_dir(path)
+      site.defaults_reader.path_defaults
         .select { |k, _v| absolute_path.include? k }
         .sort_by { |k, _v| k.length }
         .each do |defaults|
@@ -130,7 +130,7 @@ module Bridgetown
     end
 
     def glob_scope(sanitized_path, rel_scope_path)
-      site_source    = Pathname.new(@site.source)
+      site_source    = Pathname.new(site.source)
       abs_scope_path = site_source.join(rel_scope_path).to_s
 
       glob_cache(abs_scope_path).each do |scope_path|
@@ -152,7 +152,7 @@ module Bridgetown
     end
 
     def strip_collections_dir(path)
-      collections_dir  = @site.config["collections_dir"]
+      collections_dir  = site.config["collections_dir"]
       slashed_coll_dir = collections_dir.empty? ? "/" : "#{collections_dir}/"
       return path if collections_dir.empty? || !path.to_s.start_with?(slashed_coll_dir)
 
@@ -226,7 +226,7 @@ module Bridgetown
     #
     # Returns an array of hashes
     def valid_sets
-      sets = @site.config["defaults"]
+      sets = site.config["defaults"]
       return [] unless sets.is_a?(Array)
 
       sets.map do |set|
