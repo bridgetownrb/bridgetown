@@ -30,9 +30,9 @@ module Bridgetown
       def initialize(model:)
         @model = model
         @site = model.site
-        self.data = HashWithDotAccess::Hash.new
+        @data = front_matter_defaults
 
-        trigger_hooks(:post_init)
+        trigger_hooks :post_init
       end
 
       # Collection associated with this resource
@@ -75,20 +75,21 @@ module Bridgetown
         @relations ||= Bridgetown::Resource::Relations.new(self)
       end
 
+      # Loads in any default front matter associated with the resource.
+      #
+      # @return [HashWithDotAccess::Hash]
+      def front_matter_defaults
+        site.frontmatter_defaults.all(
+          relative_path.to_s,
+          collection.label.to_sym
+        ).with_dot_access
+      end
+
+      # Merges new data into the existing data hash.
+      #
       # @param new_data [HashWithDotAccess::Hash]
       def data=(new_data)
-        unless new_data.is_a?(HashWithDotAccess::Hash)
-          raise "#{self.class} data should be of type HashWithDotAccess::Hash"
-        end
-
-        @data = new_data
-        @data.default_proc = proc do |_, key|
-          site.frontmatter_defaults.find(
-            relative_path.to_s,
-            collection.label.to_sym,
-            key.to_s
-          )
-        end
+        @data = @data.merge(new_data)
       end
 
       # @return [Bridgetown::Resource::Base]
@@ -107,7 +108,7 @@ module Bridgetown
 
         @destination = Destination.new(self) if requires_destination?
 
-        trigger_hooks(:post_read)
+        trigger_hooks :post_read
 
         self
       end

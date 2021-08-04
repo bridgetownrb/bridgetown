@@ -36,9 +36,8 @@ module Bridgetown
       #         If the input already has a dot in position zero, it will be
       #         returned unchanged.
       #
-      # path - a String path
-      #
-      # Returns the path with a leading slash
+      # @param path [String]
+      # @return [String] the path with a leading slash
       def self.ensure_leading_dot(path)
         path[0..0] == "." ? path : ".#{path}"
       end
@@ -47,29 +46,26 @@ module Bridgetown
       #         If the input already has a forward slash in position zero, it will be
       #         returned unchanged.
       #
-      # path - a String path
-      #
-      # Returns the path with a leading slash
+      # @param path [String]
+      # @return [String] the path with a leading slash
       def self.ensure_leading_slash(path)
         path[0..0] == "/" ? path : "/#{path}"
       end
 
-      # Static: Return a String version of the input without a leading slash.
+      # Static: Return a String version of the input with only one leading slash.
       #
-      # path - a String path
-      #
-      # Returns the input without the leading slash
-      def self.remove_leading_slash(path)
-        path[0..0] == "/" ? path[1..-1] : path
+      # @param path [String]
+      # @return [String] the input without the leading slash
+      def self.remove_double_slash(path)
+        path[0..1] == "//" ? path[1..-1] : path
       end
 
       # Static: Return a String version of the input which has a trailing slash.
       #         If the input already has a forward slash at the end, it will be
       #         returned unchanged.
       #
-      # path - a String path
-      #
-      # Returns the path with a trailing slash
+      # @param path [String]
+      # @return [String] the path with a trailing slash
       def self.ensure_trailing_slash(path)
         path[-1] == "/" ? path : "#{path}/"
       end
