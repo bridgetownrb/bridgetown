@@ -45,7 +45,7 @@ module Bridgetown
       set
     end
 
-    # TODO: deprecated – see all method instead
+    # TODO: deprecated. See `all` method instead
     #
     # path - the path (relative to the source) of the page or
     # post the default is used in
