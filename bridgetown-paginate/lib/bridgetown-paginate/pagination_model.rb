@@ -341,7 +341,7 @@ module Bridgetown
                                    template.dir
                                  end
           first_index_page_url = Utils.ensure_trailing_slash(
-            Utils.remove_leading_slash(first_index_page_url)
+            Utils.remove_double_slash(first_index_page_url)
           )
           paginated_page_url = File.join(first_index_page_url, paginated_page_url)
 
