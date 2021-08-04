@@ -236,6 +236,11 @@ class TestResource < BridgetownUnitTest
     should "include content" do
       assert_equal "<p>W00t!</p>\n", @resource.content
     end
+
+    should "properly load front matter defaults" do
+      assert_equal "present and accounted for", @resource.data.defaults_are
+      assert_equal "present and accounted for", {}.merge(@resource.data.to_h)["defaults_are"]
+    end
   end
 
   context "a resource in the posts collection" do
