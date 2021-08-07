@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 .
 
+## 0.21.3 - 2021-08-06
+
+### Fixed
+
+- Resource: switch from default proc to preemptive defaults [#359](https://github.com/bridgetownrb/bridgetown/pull/359) ([jaredcwhite](https://github.com/jaredcwhite))
+- Ensure there aren't double-slashes in pagination links ([jaredcwhite](https://github.com/jaredcwhite))
+- Ensure summary content is html safe ([jaredcwhite](https://github.com/jaredcwhite))
+
 ## 0.21.2 - 2021-07-21
 
 ### Fixed
