@@ -45,3 +45,4 @@ end
 gem "bridgetown-builder", path: "bridgetown-builder"
 gem "bridgetown-core", path: "bridgetown-core"
 gem "bridgetown-paginate", path: "bridgetown-paginate"
+gem "bridgetown", path: "bridgetown"
