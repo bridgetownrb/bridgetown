@@ -3,15 +3,9 @@
 
 class RodaRoutes < Bridgetown::Rack::Routes
   route do |r|
+    # example GET: /hello/nelly
     r.get "hello", String do |name|
       {hello: "friend #{name}"}
-    end
-
-    # This will activate your Rails nano backend if it's installed
-    if defined?(NanoAPI)
-      r.on "backend" do
-        r.run NanoAPI # see additional routes in backend/config/routes
-      end
     end
   end
 end
