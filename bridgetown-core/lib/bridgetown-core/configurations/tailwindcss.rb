@@ -19,9 +19,14 @@ run "npx tailwindcss init"
 
 copy_file in_templates_dir("postcss.config.js"), "postcss.config.js", force: true
 
-prepend_to_file "frontend/styles/index.css",
-                File.read(in_templates_dir("css_imports.css"))
-
 run "bundle exec bridgetown configure purgecss"
+
+if File.exist?("frontend/styles/index.css")
+  prepend_to_file "frontend/styles/index.css",
+                  File.read(in_templates_dir("css_imports.css")
+else
+  say "\nPlease add the following lines to your CSS index file:"
+  say File.read(in_templates_dir("/css_imports.css"))
+end
 
 # rubocop:enable all

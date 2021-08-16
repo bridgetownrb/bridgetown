@@ -56,7 +56,7 @@ brew install ruby
 Add the brew ruby path to your shell config:
 
 ```sh
-echo 'export PATH="/usr/local/opt/ruby/bin:$PATH"' >> ~/.bash_profile
+echo 'export PATH="/usr/local/opt/ruby/bin:$PATH"' >> ~/.zprofile
 ```
 
 Then relaunch your terminal and check your updated Ruby setup:
@@ -79,7 +79,7 @@ gem install --user-install bundler
 Then append your path file with the following, replacing the `X.X` with the first two digits of your Ruby version.
 
 ```sh
-echo 'export PATH="$HOME/.gem/ruby/X.X.0/bin:$PATH"' >> ~/.bash_profile
+echo 'export PATH="$HOME/.gem/ruby/X.X.0/bin:$PATH"' >> ~/.zprofile
 ```
 
 Then relaunch your terminal and check that your gem paths point to your home directory by running:

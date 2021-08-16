@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 
+require 'bundler'
+Bundler.setup
+
 require 'pry'
-$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 require 'bridgetown'
 
 TEST_DIR = File.expand_path("../test", __dir__)

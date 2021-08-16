@@ -64,13 +64,13 @@ class TestWebpackCommand < BridgetownUnitTest
     end
 
     should "enable postcss in webpack config" do
-      refute_file_contains %r!postcss-loader!, webpack_defaults
+      refute_file_contains %r!mode: 'postcss'!, webpack_defaults
 
       @cmd.inside(@full_path) do
         capture_stdout { @cmd.invoke(:webpack, ["enable-postcss"]) }
       end
 
-      assert_file_contains %r!postcss-loader!, webpack_defaults
+      assert_file_contains %r!mode: 'postcss'!, webpack_defaults
     end
   end
 end

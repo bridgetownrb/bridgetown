@@ -156,7 +156,7 @@ As expected, helpers are available as well just like in standard templates:
 <!-- src/_components/posts/excerpt.erb -->
 <post-excerpt>
   <h3><%%= link_to @post.data.title, @post %></h3>
-  
+
   <%%= markdownify @post.data.description %>
 </post-excerpt>
 ```
@@ -263,6 +263,32 @@ So far, pretty standard fare for ViewComponent, but you'll notice we had to add 
 As a shortcut, you could create your own base class, say `SiteViewComponent`, which inherits from `ViewComponent::Base`, include the `Bridgetown::ViewComponentHelpers` module, and then subclass all your site components from `SiteViewComponent`.
 <% end %>
 
+### Rails Helpers
+
+Including `Bridgetown::ViewComponentHelpers` in a ViewComponent provides access to Bridgetown helpers within the component. However, to facilitate that, most of the default [Action View Helpers](https://guides.rubyonrails.org/action_view_helpers.html) get disabled, since many helpers rely on Rails and will not work with Bridgetown.
+
+`Bridgetown::ViewComponentHelpers#allow_rails_helpers` provides an API to enable supplied Action View Helpers like `ActionView::Helpers::TagHelper`:
+
+```ruby
+class HeaderComponent < ViewComponent::Base
+  Bridgetown::ViewComponentHelpers.allow_rails_helpers :tag
+
+  def call
+    tag.h1 content, class: "my-8 text-3xl font-bold tracking-tight text-primary-white sm:text-4xl"
+  end
+end
+```
+
+In this example, `Bridgetown::ViewComponentHelpers.allow_rails_helpers :tag` enables `ActionView::Helpers::TagHelper`. We can create an inline ViewComponent that leverages `tag.h1` to create an `<h1>` element with our supplied content.
+
+In your template, `<%%= render HeaderComponent.new.with_content("👋") %>` would output:
+
+```html
+<h1 class="my-8 text-3xl font-bold tracking-tight text-primary-white sm:text-4xl">👋</h1>
+```
+
+Like helpers, you can include `Bridgetown::ViewComponentHelpers.allow_rails_helpers :tag` in a base class that your components inherit from to reduce duplication.
+
 ### Using Primer
 
 [Primer](https://primer.style) is a component library and design system published by GitHub, and you can use it now with Bridgetown! However, you'll need to do a bit of extra "shim" work to get Primer view components loaded within the Bridgetown context.
@@ -299,7 +325,7 @@ class PrimerBuilder < SiteBuilder
 end
 ```
 
-What this does is import a couple of additional Rails dependencies, set up the autoloading functionalty provided by Zeitwerk, and ensure Primer's engine config is added to the Rails shim. We also want to guarantee this code only runs once when in Bridgetown's watch mode.
+What this does is import a couple of additional Rails dependencies, set up the autoloading functionality provided by Zeitwerk, and ensure Primer's engine config is added to the Rails shim. We also want to guarantee this code only runs once when in Bridgetown's watch mode.
 
 Let's also add the Primer CSS link tag to your site's head:
 

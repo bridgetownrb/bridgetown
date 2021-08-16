@@ -40,7 +40,7 @@ module Bridgetown
         # No relative URLs should ever end in /index.html
         new_url.sub!(%r{/index$}, "") if final_ext == ".html"
 
-        add_baseurl finalize_permalink(new_url, permalink)
+        add_base_path finalize_permalink(new_url, permalink)
       end
 
       def process_segment(segment)
@@ -96,8 +96,12 @@ module Bridgetown
         end
       end
 
-      def add_baseurl(permalink)
-        resource.site.baseurl.present? ? "#{resource.site.baseurl}#{permalink}" : permalink
+      def add_base_path(permalink)
+        if resource.site.base_path.present?
+          return "#{resource.site.base_path(strip_slash_only: true)}#{permalink}"
+        end
+
+        permalink
       end
 
       ### Default Placeholders Processors

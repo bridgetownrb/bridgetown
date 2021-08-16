@@ -17,6 +17,7 @@ module Bridgetown
                      :data,
                      :output,
                      :content,
+                     :summary,
                      :to_s,
                      :absolute_url,
                      :relative_path,
