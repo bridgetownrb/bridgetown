@@ -2,6 +2,7 @@
 
 module Bridgetown
   class Reader
+    # @return [Bridgetown::Site]
     attr_reader :site
 
     def initialize(site)
@@ -17,12 +18,13 @@ module Bridgetown
       read_directories
       read_included_excludes
       sort_files!
-      read_collections
       site.data = if site.uses_resource?
+                    site.collections.data.read
                     site.collections.data.merge_data_resources
                   else
                     DataReader.new(site).read
                   end
+      read_collections
       Bridgetown::PluginManager.source_manifests.map(&:content).compact.each do |plugin_content_dir|
         PluginContentReader.new(site, plugin_content_dir).read
       end
@@ -30,15 +32,17 @@ module Bridgetown
 
     def read_collections
       site.collections.each_value do |collection|
-        collection.read unless !site.uses_resource? &&
-          collection.legacy_reader?
+        next if site.uses_resource? && collection.data?
+        next if !site.uses_resource? && collection.legacy_reader?
+
+        collection.read
       end
     end
 
     # Sorts posts, pages, and static files.
     def sort_files!
-      site.collections.each_value { |c| c.docs.sort! }
-      site.pages.sort_by!(&:name)
+      site.collections.posts.docs.sort! unless site.uses_resource?
+      site.generated_pages.sort_by!(&:name)
       site.static_files.sort_by!(&:relative_path)
     end
 
@@ -197,6 +201,7 @@ module Bridgetown
       dir  = File.dirname(entry_path).sub(site.source, "")
       file = Array(File.basename(entry_path))
       if Utils.has_yaml_header?(entry_path)
+        # TODO: does this need to get incorporated into the resource engine?
         site.pages.concat(PageReader.new(site, dir).read(file))
       else
         retrieve_static_files(dir, file)
