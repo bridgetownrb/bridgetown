@@ -7,7 +7,6 @@ module Bridgetown
       # @return [Pathname]
       attr_reader :relative_path
 
-      # Override in subclass
       def self.handle_scheme?(scheme)
         scheme == "builder"
       end
