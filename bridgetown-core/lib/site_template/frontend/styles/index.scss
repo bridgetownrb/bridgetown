@@ -1,17 +1,108 @@
 $body-background: #fafafa;
 $body-color: #444;
+$min-desktop: 1024px;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
 body {
   background: $body-background;
   color: $body-color;
   font-family: sans-serif;
+  margin: 0;
 }
 
-h1, nav, footer {
+footer {
   text-align: center;
 }
 
 main {
   margin: 4rem auto;
   max-width: 60rem;
+  padding: 0 2rem;
+}
+
+nav {
+  box-shadow: 0 1px 5px #b1b1b1;
+  a {
+    color: $body-color;
+    text-decoration: none;
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+    &:visited {
+      color: $body-color;
+    }
+  }
+  .navbar-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    max-width: 60rem;
+    margin: 0 auto;
+    .navbar-head {
+      display: flex;
+      justify-content: space-between;
+      .navbar-title {
+        margin: 0;
+        display: flex;
+        align-items: center;
+      }
+      .navbar-btn {
+        $border-width: 2px;
+        display: none;
+        background: none;
+        cursor: pointer;
+        color: $body-color;
+        border: $border-width solid transparent;
+        padding: 3px;
+        &:hover,
+        &:focus {
+          outline: none;
+          border: $border-width solid $body-color;
+          border-radius: 3px;
+          // background: $body-color;
+          // color: $body-background;
+        }
+      }
+    }
+    .navbar-menu {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      li {
+      }
+    }
+  }
+}
+
+@media (max-width: $min-desktop) {
+  nav {
+    .navbar-wrapper {
+      &:focus-within {
+        .navbar-menu {
+          display: flex;
+        }
+      }
+      flex-direction: column;
+      .navbar-head {
+        .navbar-btn {
+          display: block;
+        }
+      }
+      .navbar-menu {
+        display: none;
+        align-items: baseline;
+        flex-direction: column;
+        margin-top: 1rem;
+      }
+    }
+  }
 }

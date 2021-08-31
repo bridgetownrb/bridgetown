@@ -1,5 +1,29 @@
 <nav>
-  <a href="/">Home</a>
-  <a href="/about">About</a>
-  <a href="/posts">Posts</a>
+  <div class="navbar-wrapper">
+    <div class="navbar-head">
+      <h1 class="navbar-title">
+        <a href="/">
+          {{ metadata.title }}
+        </a>
+      </h1>
+      <button aria-label="Open menu" class="navbar-btn">
+        <svg fill='currentColor' viewBox="0 -15 100 80" width="30" height="30">
+          <rect width="100%" height="10%" rx="3"></rect>
+          <rect y="25" width="100%" height="10%" rx="3"></rect>
+          <rect y="50" width="100%" height="10%" rx="3"></rect>
+        </svg>
+      </button>
+    </div>
+    <ul class="navbar-menu">
+      <li>
+        <a href="/">Home</a>
+      </li>
+      <li>
+        <a href="/about">About</a>
+      </li>
+      <li>
+        <a href="/posts">Posts</a>
+      </li>
+    </ul>
+  </div>
 </nav>
