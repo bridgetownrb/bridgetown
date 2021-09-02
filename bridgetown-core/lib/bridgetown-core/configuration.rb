@@ -91,7 +91,7 @@ module Bridgetown
     # need to check for _config.EXT as a backward-compatibility nod to our
     # progenitor
     CONFIG_FILE_PREFIXES = %w(bridgetown.config _config).freeze
-    CONFIG_FILE_EXTS = %w(yml yaml toml).freeze
+    CONFIG_FILE_EXTS = %w(yml yaml toml rb).freeze
 
     class << self
       # Static: Produce a Configuration ready for use in a Site.
@@ -148,6 +148,8 @@ module Bridgetown
         Tomlrb.load_file(filename)
       when %r!\.ya?ml!i
         YAMLParser.load_file(filename) || {}
+      when %r!\.rb!i
+        # code goes here
       else
         raise ArgumentError,
               "No parser for '#{filename}' is available. Use a .y(a)ml or .toml file instead."

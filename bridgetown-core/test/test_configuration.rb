@@ -192,6 +192,9 @@ class TestConfiguration < BridgetownUnitTest
         site_root_dir("bridgetown.config.toml")
       ).and_return(false)
       allow(File).to receive(:exist?).with(
+        site_root_dir("bridgetown.config.rb")
+      ).and_return(false)
+      allow(File).to receive(:exist?).with(
         site_root_dir("_config.yml")
       ).and_return(true)
       assert_equal [site_root_dir("_config.yml")], @config.config_files(@no_override)
