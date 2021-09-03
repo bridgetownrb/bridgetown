@@ -36,6 +36,12 @@ module Bridgetown
 
         super
       end
+
+      # Helper shorthand for Bridgetown::Current.site
+      # @return [Bridgetown::Site]
+      def bridgetown_site
+        Bridgetown::Current.site
+      end
     end
   end
 end
