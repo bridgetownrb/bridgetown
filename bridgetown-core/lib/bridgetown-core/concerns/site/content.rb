@@ -220,5 +220,15 @@ class Bridgetown::Site
     def add_generated_page(generated_page)
       generated_pages << generated_page
     end
+
+    # Loads and memoizes the parsed Webpack manifest file (if available)
+    # @return [Hash]
+    def frontend_manifest
+      @frontend_manifest ||= begin
+        manifest_file = in_root_dir(".bridgetown-webpack", "manifest.json")
+
+        JSON.parse(File.read(manifest_file)) if File.exist?(manifest_file)
+      end
+    end
   end
 end

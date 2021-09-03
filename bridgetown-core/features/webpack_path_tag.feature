@@ -30,7 +30,7 @@ Feature: WebpackPath Tag
     Then the "output/index.html" file should exist
     And I should see "/_bridgetown/static/js/all.hashgoeshere.js" in "output/index.html"
     And I should not see "//_bridgetown/static/js/all.hashgoeshere.js" in "output/index.html"
-    And I should not see "MISSING_WEBPACK_MANIFEST" in "output/index.html"
+    And I should not see "MISSING_WEBPACK_MANIFEST_FILE" in "output/index.html"
 
   Scenario: Use custom filename in Webpack manifest
     Given I have a _layouts directory
@@ -59,7 +59,7 @@ Feature: WebpackPath Tag
     When I run bridgetown build
     Then the "output/index.html" file should exist
     And I should see "/_bridgetown/static/frontend/images/folder/somefile.hashgoeshere.png" in "output/index.html"
-    And I should not see "MISSING_WEBPACK_MANIFEST" in "output/index.html"
+    And I should not see "MISSING_WEBPACK_MANIFEST_FILE" in "output/index.html"
 
   Scenario: Missing Webpack manifest
     Given I have a _layouts directory
@@ -78,7 +78,7 @@ Feature: WebpackPath Tag
     And I have an "index.html" page with layout "default" that contains "page content"
     When I run bridgetown build
     Then the "output/index.html" file should exist
-    And I should see "MISSING_WEBPACK_MANIFEST" in "output/index.html"
+    And I should see "MISSING_WEBPACK_MANIFEST_FILE" in "output/index.html"
 
   Scenario: Missing Webpack manifest
     Given I have a _layouts directory
@@ -104,7 +104,7 @@ Feature: WebpackPath Tag
       """
     When I run bridgetown build
     Then the "output/index.html" file should exist
-    And I should see "Unknown Webpack asset type" in the build output
+    And I should see "Webpack:" in the build output
 
   Scenario: Broken Webpack manifest (css)
     Given I have a _layouts directory
@@ -130,7 +130,7 @@ Feature: WebpackPath Tag
       """
     When I run bridgetown build
     Then the "output/index.html" file should exist
-    And I should see "WebpackAssetError" in the build output
+    And I should see "Webpack:" in the build output
 
   Scenario: Broken Webpack manifest (js)
     Given I have a _layouts directory
@@ -156,7 +156,7 @@ Feature: WebpackPath Tag
       """
     When I run bridgetown build
     Then the "output/index.html" file should exist
-    And I should see "WebpackAssetError" in the build output
+    And I should see "Webpack:" in the build output
 
   Scenario: Use Webpack manifest in an ERB layout
     Given I have a _layouts directory
@@ -186,4 +186,4 @@ Feature: WebpackPath Tag
     Then the "output/index.html" file should exist
     And I should see "/_bridgetown/static/js/all.hashgoeshere.js" in "output/index.html"
     And I should see "Static: /_bridgetown" in "output/index.html"
-    And I should not see "MISSING_WEBPACK_MANIFEST" in "output/index.html"
+    And I should not see "MISSING_WEBPACK_MANIFEST_FILE" in "output/index.html"
