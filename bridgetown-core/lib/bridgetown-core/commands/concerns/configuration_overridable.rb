@@ -11,7 +11,9 @@ module Bridgetown
       def configuration_with_overrides(options)
         return options if options.is_a?(Bridgetown::Configuration)
 
-        Bridgetown.configuration(options)
+        Bridgetown.configuration(options).tap do |new_config|
+          Bridgetown::Current.preloaded_configuration = new_config
+        end
       end
     end
   end

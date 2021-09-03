@@ -37,7 +37,8 @@ module Bridgetown
           self.class.print_startup_message
         end
 
-        config_options = Serve.loaded_config || configuration_with_overrides(options)
+        config_options = Bridgetown::Current.preloaded_configuration ||
+          configuration_with_overrides(options)
         config_options["serving"] = false unless config_options["serving"]
         @site = Bridgetown::Site.new(config_options)
 

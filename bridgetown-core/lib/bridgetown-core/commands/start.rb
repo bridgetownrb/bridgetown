@@ -34,6 +34,8 @@ module Bridgetown
           raise "** No Rack-compatible server found **"
         end
 
+        configuration_with_overrides(options) # load Bridgetown configuration into thread memory
+
         rackpid =
           Process.fork do
             require "puma/cli"

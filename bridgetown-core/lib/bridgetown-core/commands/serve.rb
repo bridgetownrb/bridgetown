@@ -36,10 +36,6 @@ module Bridgetown
       end
       summary "DEPRECATED (Serve your site locally using WEBrick)"
 
-      class << self
-        attr_accessor :loaded_config
-      end
-
       DIRECTORY_INDEX = %w(
         index.htm
         index.html
@@ -66,10 +62,9 @@ module Bridgetown
         options["serving"] = true
         options["watch"] = true unless no_watch
 
-        # TODO: this prints the configuration file log message out-of-order
-        self.class.loaded_config = configuration_with_overrides(options)
+        config = Bridgetown::Current.preloaded_configuration || configuration_with_overrides(options)
         if Bridgetown.environment == "development" && !options["url"]
-          self.class.loaded_config["url"] = default_url(self.class.loaded_config)
+          config.url = default_url(config)
         end
 
         invoke(Build, [], options)
@@ -79,11 +74,10 @@ module Bridgetown
       protected
 
       def start_server
-        config = self.class.loaded_config
-        destination = config["destination"]
+        destination = Bridgetown::Current.preloaded_configuration.destination
         setup(destination)
 
-        start_up_webrick(config, destination)
+        start_up_webrick(destination)
       end
 
       def setup(destination)
@@ -120,7 +114,8 @@ module Bridgetown
         opts
       end
 
-      def start_up_webrick(opts, destination)
+      def start_up_webrick(destination)
+        opts = Bridgetown::Current.preloaded_configuration
         @server = WEBrick::HTTPServer.new(webrick_opts(opts)).tap { |o| o.unmount("") }
         @server.mount(opts["base_path"].to_s, Servlet, destination, file_handler_opts)
 
