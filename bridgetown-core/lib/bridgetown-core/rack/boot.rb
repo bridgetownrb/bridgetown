@@ -11,7 +11,9 @@ require_relative "static_indexes"
 module Bridgetown
   module Rack
     def self.boot
-      Roda.opts[:public_root] = Bridgetown::Current.preloaded_configuration&.destination || "output"
+      Roda.opts[:bridgetown_preloaded_config] = Bridgetown::Current.preloaded_configuration ||
+        Bridgetown.configuration
+      Roda.opts[:public_root] = Roda.opts[:bridgetown_preloaded_config].destination
 
       loader = Zeitwerk::Loader.new
       loader.push_dir(File.join(Dir.pwd, "config"))
