@@ -62,7 +62,8 @@ module Bridgetown
         options["serving"] = true
         options["watch"] = true unless no_watch
 
-        config = Bridgetown::Current.preloaded_configuration || configuration_with_overrides(options)
+        config = Bridgetown::Current.preloaded_configuration ||
+          configuration_with_overrides(options)
         if Bridgetown.environment == "development" && !options["url"]
           config.url = default_url(config)
         end

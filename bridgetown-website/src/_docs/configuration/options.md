@@ -403,21 +403,10 @@ before your site is served.
     </tr>
     <tr class="setting">
       <td>
-        <p class="name"><strong>Live Reload</strong></p>
-        <p class="description">Reload a page automatically on the browser when its content is edited.</p>
-      </td>
-      <td class="has-text-centered">
-        <p><code class="option">livereload: true</code></p>
-        <p><code class="flag">-l, --livereload</code></p>
-      </td>
-    </tr>
-    <tr class="setting">
-      <td>
         <p class="name"><strong>Detach</strong></p>
         <p class="description">Detach the server from the terminal.</p>
       </td>
       <td class="has-text-centered">
-        <p><code class="option">detach: BOOL</code></p>
         <p><code class="flag">-B, --detach</code></p>
       </td>
     </tr>

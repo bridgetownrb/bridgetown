@@ -51,7 +51,6 @@ module Bridgetown
       "incremental"          => false,
 
       # Serving
-      "detach"               => false, # default to not detaching the server
       "port"                 => "4000",
       "host"                 => "127.0.0.1",
       "base_path"            => "/",
