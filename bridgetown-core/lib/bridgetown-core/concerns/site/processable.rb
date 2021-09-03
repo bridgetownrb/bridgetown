@@ -34,6 +34,7 @@ class Bridgetown::Site
       self.pages = []
       self.static_files = []
       self.data = HashWithDotAccess::Hash.new
+      @frontend_manifest = nil
       @post_attr_hash = {}
       @collections = nil
       @documents = nil

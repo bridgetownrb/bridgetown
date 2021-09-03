@@ -355,28 +355,19 @@ module Bridgetown
     # @raise [WebpackAssetError] if unable to find css or js in the manifest
     # file
     def parse_webpack_manifest_file(site, asset_type)
-      manifest_file = site.in_root_dir(".bridgetown-webpack", "manifest.json")
-      return "MISSING_WEBPACK_MANIFEST" unless File.exist?(manifest_file)
+      return log_webpack_asset_error("Webpack manifest") if site.frontend_manifest.nil?
 
-      manifest = JSON.parse(File.read(manifest_file))
+      asset_path = if %w(js css).include?(asset_type)
+                     site.frontend_manifest["main.#{asset_type}"]
+                   else
+                     site.frontend_manifest.find do |item, _|
+                       item.sub(%r{^../(frontend/|src/)?}, "") == asset_type
+                     end&.last
+                   end
 
-      known_assets = %w(js css)
-      asset_path = nil
-      if known_assets.include?(asset_type)
-        asset_path = manifest["main.#{asset_type}"]
-        log_webpack_asset_error(asset_type) && return if asset_path.nil?
-      else
-        asset_path = manifest.find do |item, _|
-          item.sub(%r{^../(frontend/|src/)?}, "") == asset_type
-        end&.last
-      end
+      return log_webpack_asset_error(asset_type) if asset_path.nil?
 
-      if asset_path
-        static_frontend_path(site, ["js", asset_path])
-      else
-        Bridgetown.logger.error("Unknown Webpack asset type", asset_type)
-        nil
-      end
+      static_frontend_path site, ["js", asset_path]
     end
 
     def static_frontend_path(site, additional_parts = [])
@@ -390,10 +381,13 @@ module Bridgetown
     end
 
     def log_webpack_asset_error(asset_type)
-      error_message = "There was an error parsing your #{asset_type} files. \
-        Please check your #{asset_type} for any errors."
+      Bridgetown.logger.warn(
+        "Webpack:",
+        "There was an error parsing your #{asset_type} file. \
+        Please check your #{asset_type} file for any errors."
+      )
 
-      Bridgetown.logger.warn(Errors::WebpackAssetError, error_message)
+      "MISSING_WEBPACK_MANIFEST_FILE"
     end
 
     def default_github_branch_name(repo_url)
