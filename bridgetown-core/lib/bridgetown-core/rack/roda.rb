@@ -8,7 +8,7 @@ module Bridgetown
       plugin :json
       plugin :json_parser
       plugin :cookies
-      plugin :public, root: opts[:public_root]
+      plugin :public, root: Bridgetown::Current.preloaded_configuration&.destination || "output"
       plugin :not_found do
         output_folder = Bridgetown::Current.preloaded_configuration&.destination || "output"
         File.read(File.join(output_folder, "404.html"))

@@ -22,6 +22,8 @@ module Bridgetown
         descendants.each do |klass|
           klass.merge roda_app
         end
+
+        nil
       end
 
       def initialize(roda_app)

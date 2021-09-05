@@ -16,7 +16,6 @@ module Bridgetown
       autoload_server_folder(root: Dir.pwd)
       RodaApp.opts[:bridgetown_preloaded_config] = Bridgetown::Current.preloaded_configuration ||
         Bridgetown.configuration
-      RodaApp.opts[:public_root] = RodaApp.opts[:bridgetown_preloaded_config].destination
     end
 
     def self.autoload_server_folder(root:)
