@@ -7,6 +7,8 @@ require "json"
 require "roda/plugins/public"
 
 require_relative "static_indexes"
+require_relative "roda"
+require_relative "routes"
 
 module Bridgetown
   module Rack
