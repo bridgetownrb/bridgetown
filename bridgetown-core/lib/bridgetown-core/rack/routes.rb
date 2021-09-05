@@ -18,6 +18,12 @@ module Bridgetown
         new(roda_app).handle_routes
       end
 
+      def self.start!(roda_app)
+        descendants.each do |klass|
+          klass.merge roda_app
+        end
+      end
+
       def initialize(roda_app)
         @roda_app = roda_app
       end

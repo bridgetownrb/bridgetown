@@ -34,30 +34,6 @@ module Bridgetown
                   :file_read_opts, :plugin_manager, :converters,
                   :generators, :reader
 
-    def self.autoload_config_folder(root:)
-      config_folder = File.join(root, "config")
-      loader = Zeitwerk::Loader.new
-      loader.push_dir config_folder
-      loader.ignore(File.join(config_folder, "puma.rb"))
-      loader.enable_reloading unless ENV["BRIDGETOWN_ENV"] == "production"
-      loader.setup
-      loader.eager_load
-
-      unless ENV["BRIDGETOWN_ENV"] == "production"
-        begin
-          listener = Listen.to(config_folder) do |_modified, _added, _removed|
-            loader.reload
-          end
-          listener.start
-        # interrupt isn't handled well by the listener
-        rescue ThreadError # rubocop:disable Lint/SuppressedException
-        end
-      end
-    rescue Zeitwerk::Error
-      # We assume if there's an error it's becuase Zeitwerk already registered this folder,
-      # so it's fine to swallow the error
-    end
-
     # Initialize a new Site.
     #
     # config - A Hash containing site configuration details.
@@ -74,7 +50,6 @@ module Bridgetown
       ensure_not_in_dest
 
       Bridgetown::Current.site = self
-      self.class.autoload_config_folder(root: config.root_dir)
       Bridgetown::Hooks.trigger :site, :after_init, self
 
       reset   # Processable
