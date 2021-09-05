@@ -26,11 +26,13 @@ module Bridgetown
       loader.enable_reloading unless ENV["BRIDGETOWN_ENV"] == "production"
       loader.setup
       loader.eager_load
+      loader.do_not_eager_load(File.join(server_folder, "roda_app.rb"))
 
       unless ENV["BRIDGETOWN_ENV"] == "production"
         begin
           Listen.to(server_folder) do |_modified, _added, _removed|
             loader.reload
+            loader.eager_load
             Bridgetown::Rack::Routes.reload_subclasses
           end.start
         # interrupt isn't handled well by the listener

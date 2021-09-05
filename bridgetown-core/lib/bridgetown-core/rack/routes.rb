@@ -18,7 +18,7 @@ module Bridgetown
 
         def reload_subclasses
           Bridgetown::Rack::Routes.tracked_subclasses.each_key do |klassname|
-            Kernel.const_get(klassname) # trigger Zeitwerk
+            Kernel.const_get(klassname)
           rescue NameError
             Bridgetown::Rack::Routes.tracked_subclasses.delete klassname
           end
