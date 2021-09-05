@@ -25,7 +25,7 @@ module Bridgetown
       end
 
       def _roda_run_main_route(r) # rubocop:disable Naming/MethodParameterName
-        Bridgetown::Current.preloaded_configuration = Roda.opts[:bridgetown_preloaded_config]
+        Bridgetown::Current.preloaded_configuration = self.class.opts[:bridgetown_preloaded_config]
 
         r.public
 
