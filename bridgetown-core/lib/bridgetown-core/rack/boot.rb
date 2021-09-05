@@ -19,7 +19,7 @@ module Bridgetown
       RodaApp.opts[:bridgetown_preloaded_config] = Bridgetown::Current.preloaded_configuration
     end
 
-    def self.autoload_server_folder(root:)
+    def self.autoload_server_folder(root:) # rubocop:disable Metrics/MethodLength
       server_folder = File.join(root, "server")
       loader = Zeitwerk::Loader.new
       loader.push_dir server_folder
@@ -34,7 +34,10 @@ module Bridgetown
 
       unless ENV["BRIDGETOWN_ENV"] == "production"
         begin
-          Listen.to(server_folder) { |_modified, _added, _removed| loader.reload }.start
+          Listen.to(server_folder) do |_modified, _added, _removed|
+            loader.reload
+            Bridgetown::Rack::Routes.reload_subclasses
+          end.start
         # interrupt isn't handled well by the listener
         rescue ThreadError # rubocop:disable Lint/SuppressedException
         end

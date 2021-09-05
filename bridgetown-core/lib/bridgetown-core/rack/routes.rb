@@ -11,6 +11,12 @@ module Bridgetown
           Bridgetown::Rack::Routes.tracked_subclasses[klass.name] = klass
         end
 
+        def reload_subclasses
+          Bridgetown::Rack::Routes.tracked_subclasses.each_key do |klassname|
+            Kernel.const_get(klassname) # trigger Zeitwerk
+          end
+        end
+
         attr_accessor :router_block
 
         def route(&block)
