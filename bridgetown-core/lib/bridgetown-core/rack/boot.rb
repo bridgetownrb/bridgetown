@@ -5,6 +5,8 @@ require "roda"
 require "json"
 require "roda/plugins/public"
 
+Bridgetown::Current.preloaded_configuration ||= Bridgetown.configuration
+
 require_relative "logger"
 require_relative "roda"
 require_relative "routes"
@@ -14,8 +16,7 @@ module Bridgetown
   module Rack
     def self.boot
       autoload_server_folder(root: Dir.pwd)
-      RodaApp.opts[:bridgetown_preloaded_config] = Bridgetown::Current.preloaded_configuration ||
-        Bridgetown.configuration
+      RodaApp.opts[:bridgetown_preloaded_config] = Bridgetown::Current.preloaded_configuration
     end
 
     def self.autoload_server_folder(root:)
