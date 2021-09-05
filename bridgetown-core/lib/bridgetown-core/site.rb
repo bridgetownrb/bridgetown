@@ -38,13 +38,16 @@ module Bridgetown
       config_folder = File.join(root, "config")
       loader = Zeitwerk::Loader.new
       loader.push_dir config_folder
+      loader.ignore(File.join(config_folder, "puma.rb"))
       loader.enable_reloading unless ENV["BRIDGETOWN_ENV"] == "production"
       loader.setup
+      loader.eager_load
 
       unless ENV["BRIDGETOWN_ENV"] == "production"
         begin
           listener = Listen.to(config_folder) do |_modified, _added, _removed|
             loader.reload
+            loader.eager_load
           end
           listener.start
         # interrupt isn't handled well by the listener
