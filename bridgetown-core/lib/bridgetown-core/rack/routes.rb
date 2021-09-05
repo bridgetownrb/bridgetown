@@ -14,8 +14,6 @@ module Bridgetown
         return unless router_block
 
         new(roda_app).handle_routes
-
-        #        app.instance_exec(app.request, &router_block)
       end
 
       def initialize(roda_app)
