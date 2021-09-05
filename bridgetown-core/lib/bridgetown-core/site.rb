@@ -47,7 +47,6 @@ module Bridgetown
         begin
           listener = Listen.to(config_folder) do |_modified, _added, _removed|
             loader.reload
-            loader.eager_load
           end
           listener.start
         # interrupt isn't handled well by the listener
