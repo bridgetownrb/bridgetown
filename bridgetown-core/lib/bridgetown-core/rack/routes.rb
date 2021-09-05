@@ -29,7 +29,7 @@ module Bridgetown
       end
 
       def handle_routes
-        instance_exec(&self.class.router_block)
+        instance_exec(@roda_app.request, &self.class.router_block)
       end
 
       # rubocop:disable Style/MissingRespondToMissing
