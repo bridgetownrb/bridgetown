@@ -20,7 +20,7 @@ module Bridgetown
     end
 
     def self.autoload_server_folder(root:)
-      server_folder = File.join(root, "config")
+      server_folder = File.join(root, "server")
       loader = Zeitwerk::Loader.new
       loader.push_dir server_folder
       loader.enable_reloading unless ENV["BRIDGETOWN_ENV"] == "production"
