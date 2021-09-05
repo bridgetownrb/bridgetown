@@ -3,6 +3,8 @@
 module Bridgetown
   module Rack
     class Routes
+      extend ActiveSupport::DescendantsTracker
+
       class << self
         attr_accessor :router_block
       end
