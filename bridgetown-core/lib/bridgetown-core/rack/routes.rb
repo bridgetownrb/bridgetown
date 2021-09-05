@@ -24,7 +24,7 @@ module Bridgetown
         end
 
         def start!(roda_app)
-          Bridgetown::Rack::Routes.tracked_subclasses.each do |klass|
+          Bridgetown::Rack::Routes.tracked_subclasses.each_value do |klass|
             klass.merge roda_app
           end
 

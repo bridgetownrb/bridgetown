@@ -25,17 +25,16 @@ module Bridgetown
       loader.push_dir server_folder
       loader.enable_reloading unless ENV["BRIDGETOWN_ENV"] == "production"
       loader.on_load do |_cpath, value, _abspath|
-        Bridgetown::Rack::Routes.track_subclass value if value.is_a?(Bridgetown::Rack::Routes)
+        if value.ancestors.include?(Bridgetown::Rack::Routes)
+          Bridgetown::Rack::Routes.track_subclass value
+        end
       end
       loader.setup
       loader.eager_load
 
       unless ENV["BRIDGETOWN_ENV"] == "production"
         begin
-          listener = Listen.to(server_folder) do |_modified, _added, _removed|
-            loader.reload
-          end
-          listener.start
+          Listen.to(server_folder) { |_modified, _added, _removed| loader.reload }.start
         # interrupt isn't handled well by the listener
         rescue ThreadError # rubocop:disable Lint/SuppressedException
         end
