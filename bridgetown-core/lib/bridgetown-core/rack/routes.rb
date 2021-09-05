@@ -6,6 +6,11 @@ module Bridgetown
       class << self
         attr_accessor :tracked_subclasses
 
+        def inherited(base)
+          Bridgetown::Rack::Routes.track_subclass base
+          super
+        end
+
         def track_subclass(klass)
           Bridgetown::Rack::Routes.tracked_subclasses ||= {}
           Bridgetown::Rack::Routes.tracked_subclasses[klass.name] = klass
@@ -14,6 +19,8 @@ module Bridgetown
         def reload_subclasses
           Bridgetown::Rack::Routes.tracked_subclasses.each_key do |klassname|
             Kernel.const_get(klassname) # trigger Zeitwerk
+          rescue NameError
+            Bridgetown::Rack::Routes.tracked_subclasses.delete klassname
           end
         end
 

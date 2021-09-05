@@ -19,16 +19,11 @@ module Bridgetown
       RodaApp.opts[:bridgetown_preloaded_config] = Bridgetown::Current.preloaded_configuration
     end
 
-    def self.autoload_server_folder(root:) # rubocop:disable Metrics/MethodLength
+    def self.autoload_server_folder(root:)
       server_folder = File.join(root, "server")
       loader = Zeitwerk::Loader.new
       loader.push_dir server_folder
       loader.enable_reloading unless ENV["BRIDGETOWN_ENV"] == "production"
-      loader.on_load do |_cpath, value, _abspath|
-        if value.ancestors.include?(Bridgetown::Rack::Routes)
-          Bridgetown::Rack::Routes.track_subclass value
-        end
-      end
       loader.setup
       loader.eager_load
 
