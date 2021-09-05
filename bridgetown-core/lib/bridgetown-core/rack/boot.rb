@@ -24,6 +24,9 @@ module Bridgetown
       loader = Zeitwerk::Loader.new
       loader.push_dir server_folder
       loader.enable_reloading unless ENV["BRIDGETOWN_ENV"] == "production"
+      loader.on_load do |_cpath, value, _abspath|
+        Bridgetown::Rack::Routes.track_subclass value if value.is_a?(Bridgetown::Rack::Routes)
+      end
       loader.setup
       loader.eager_load
 

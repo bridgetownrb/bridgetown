@@ -3,27 +3,33 @@
 module Bridgetown
   module Rack
     class Routes
-      extend ActiveSupport::DescendantsTracker
-
       class << self
-        attr_accessor :router_block
-      end
-      def self.route(&block)
-        self.router_block = block
-      end
+        attr_accessor :tracked_subclasses
 
-      def self.merge(roda_app)
-        return unless router_block
-
-        new(roda_app).handle_routes
-      end
-
-      def self.start!(roda_app)
-        descendants.each do |klass|
-          klass.merge roda_app
+        def track_subclass(klass)
+          Bridgetown::Rack::Routes.tracked_subclasses ||= {}
+          Bridgetown::Rack::Routes.tracked_subclasses[klass.name] = klass
         end
 
-        nil
+        attr_accessor :router_block
+
+        def route(&block)
+          self.router_block = block
+        end
+
+        def merge(roda_app)
+          return unless router_block
+
+          new(roda_app).handle_routes
+        end
+
+        def start!(roda_app)
+          Bridgetown::Rack::Routes.tracked_subclasses.each do |klass|
+            klass.merge roda_app
+          end
+
+          nil
+        end
       end
 
       def initialize(roda_app)
