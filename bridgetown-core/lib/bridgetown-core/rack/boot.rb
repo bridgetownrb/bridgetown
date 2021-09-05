@@ -40,7 +40,7 @@ module Bridgetown
         end
       end
     rescue Zeitwerk::Error
-      # We assume if there's an error it's becuase Zeitwerk already registered this folder,
+      # We assume if there's an error it's because Zeitwerk already registered this folder,
       # so it's fine to swallow the error
     end
   end

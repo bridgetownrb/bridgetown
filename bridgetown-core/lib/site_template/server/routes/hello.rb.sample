@@ -1,0 +1,8 @@
+class Routes::Hello < Bridgetown::Rack::Routes
+  route do |r|
+    # example GET: /hello/nelly
+    r.get "hello", String do |name|
+      {hello: "friend #{name}"}
+    end
+  end
+end

@@ -17,7 +17,7 @@ module Bridgetown
         end
 
         def reload_subclasses
-          Bridgetown::Rack::Routes.tracked_subclasses.each_key do |klassname|
+          Bridgetown::Rack::Routes.tracked_subclasses&.each_key do |klassname|
             Kernel.const_get(klassname)
           rescue NameError
             Bridgetown::Rack::Routes.tracked_subclasses.delete klassname
@@ -37,7 +37,7 @@ module Bridgetown
         end
 
         def start!(roda_app)
-          Bridgetown::Rack::Routes.tracked_subclasses.each_value do |klass|
+          Bridgetown::Rack::Routes.tracked_subclasses&.each_value do |klass|
             klass.merge roda_app
           end
 

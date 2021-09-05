@@ -5,9 +5,11 @@
 # Learn more at: http://roda.jeremyevans.net
 
 class RodaApp < Bridgetown::Rack::Roda
+  # Add Roda configuration here if needed
+
   route do
-    if defined?(RodaRoutes) # see config/roda_routes.rb.sample
-      RodaRoutes.merge self
-    end
+    # Load all the files in server/routes
+    # see hello.rb.sample
+    Bridgetown::Rack::Routes.start! self
   end
 end
