@@ -13,7 +13,7 @@ Roda::RodaPlugins::Public::RequestMethods.module_eval do
       seg == ".." ? segments.pop : segments << seg
     end
 
-    path = ::File.join(Roda.opts[:public_root], *segments)
+    path = ::File.join(roda_class.opts[:public_root], *segments)
     unless ::File.file?(path)
       path = ::File.join(path, "index.html")
       if ::File.file?(path)
