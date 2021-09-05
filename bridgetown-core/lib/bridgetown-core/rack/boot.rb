@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "zeitwerk"
-require "listen"
 require "roda"
 require "json"
 require "roda/plugins/public"

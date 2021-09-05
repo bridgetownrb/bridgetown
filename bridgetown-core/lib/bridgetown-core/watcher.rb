@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "listen"
-
 module Bridgetown
   module Watcher
     extend self
