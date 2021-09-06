@@ -10,6 +10,7 @@ module Bridgetown
     include Localizable
     include Processable
     include Renderable
+    include SSR
     include Writable
 
     attr_reader   :root_dir, :source, :dest, :cache_dir, :config,
