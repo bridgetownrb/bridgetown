@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "rack/indifferent"
+
 class Roda
   module RodaPlugins
     module BridgetownSSR

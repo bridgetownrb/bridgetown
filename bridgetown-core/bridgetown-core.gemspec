@@ -46,6 +46,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("liquid",                "~> 5.0")
   s.add_runtime_dependency("liquid-component",      ">= 0.1")
   s.add_runtime_dependency("listen",                "~> 3.0")
+  s.add_runtime_dependency("rack-indifferent",      ">= 1.2.0")
   s.add_runtime_dependency("rake",                  ">= 13.0")
   s.add_runtime_dependency("roda",                  "~> 3.46")
   s.add_runtime_dependency("rouge",                 "~> 3.0")
