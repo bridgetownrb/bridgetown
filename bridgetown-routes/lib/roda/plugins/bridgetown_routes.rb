@@ -21,19 +21,16 @@ class Roda
       module InstanceMethods
         def render_with(data: {})
           path = Kernel.caller_locations(1, 1).first.absolute_path
-
+          source_path = Pathname.new(path).relative_path_from(Bridgetown::Current.site.source)
           code = @_route_file_code || File.read(path)
 
-          data = Bridgetown::Model::BuilderOrigin.new("builder://#{path}").read do
+          data = Bridgetown::Model::BuilderOrigin.new("builder://#{source_path}").read do
             data[:_collection_] = Bridgetown::Current.site.collections.pages
+            data[:_content_] = code
             data
           end
 
-          model = Bridgetown::Model::Base.new(data.merge({
-            _content_: code,
-          }))
-
-          model.to_resource.tap do |resource|
+          Bridgetown::Model::Base.new(data).to_resource.tap do |resource|
             resource.roda_data[:request] = request
             resource.roda_data[:response] = response
             #            resource.roda_data[:flash] = flash
