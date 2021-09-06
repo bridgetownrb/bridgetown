@@ -46,24 +46,24 @@ module Bridgetown
       end
 
       def initialize(roda_app)
-        @roda_app = roda_app
+        @_roda_app = roda_app
       end
 
       def handle_routes
-        instance_exec(@roda_app.request, &self.class.router_block)
+        instance_exec(@_roda_app.request, &self.class.router_block)
       end
 
       # rubocop:disable Style/MissingRespondToMissing
       ruby2_keywords def method_missing(method_name, *args, &block)
-        if @roda_app.respond_to?(method_name.to_sym)
-          @roda_app.send method_name.to_sym, *args, &block
+        if @_roda_app.respond_to?(method_name.to_sym)
+          @_roda_app.send method_name.to_sym, *args, &block
         else
           super
         end
       end
 
       def respond_to_missing?(method_name, include_private = false)
-        @roda_app.respond_to?(method_name.to_sym, include_private) || super
+        @_roda_app.respond_to?(method_name.to_sym, include_private) || super
       end
       # rubocop:enable Style/MissingRespondToMissing
     end
