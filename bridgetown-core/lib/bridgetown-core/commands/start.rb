@@ -36,7 +36,7 @@ module Bridgetown
 
         configuration_with_overrides(options) # load Bridgetown configuration into thread memory
 
-        rackpid =
+        puma_pid =
           Process.fork do
             require "puma/cli"
 
@@ -59,6 +59,12 @@ module Bridgetown
             end
           end
 
+          Signal.trap("TERM") do
+            Process.kill "SIGINT", puma_pid
+            sleep 0.5 # let it breathe
+            exit 0 # this runs the ensure block below
+          end
+
           build_args = ["-w"] + ARGV.reject { |arg| arg == "start" }
           if Bridgetown.environment == "development" && !options["url"]
             build_args << "--url"
@@ -66,14 +72,13 @@ module Bridgetown
           end
           Bridgetown::Commands::Build.start(build_args)
         rescue StandardError => e
-          Process.kill "SIGINT", rackpid
+          Process.kill "SIGINT", puma_pid
           sleep 0.5
           raise e
         ensure
+          # Shut down webpack, browsersync, etc. if they're running
           Bridgetown::Utils::Aux.kill_processes
         end
-
-        sleep 0.5 # finish cleaning up
       end
     end
   end
