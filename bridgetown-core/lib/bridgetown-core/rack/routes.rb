@@ -37,11 +37,6 @@ module Bridgetown
         end
 
         def start!(roda_app)
-          unless Bridgetown::Current.site.nil? || Bridgetown.env.production?
-            Bridgetown::Current.site.reset
-            Bridgetown::Current.site.read
-          end
-
           Bridgetown::Rack::Routes.tracked_subclasses&.each_value do |klass|
             klass.merge roda_app
           end
