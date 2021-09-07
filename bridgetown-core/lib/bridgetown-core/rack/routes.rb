@@ -46,6 +46,10 @@ module Bridgetown
             klass.merge roda_app
           end
 
+          if defined?(Bridgetown::Routes::RodaRouter)
+            Bridgetown::Routes::RodaRouter.start!(roda_app)
+          end
+
           nil
         end
       end
