@@ -417,6 +417,9 @@ module Bridgetown
                 }
                 setTimeout(() => checkForReload(), 700)
               })
+            } else {
+              if (connection_errors < 20) setTimeout(() => checkForReload(), 6000)
+              connection_errors++
             }
           }).catch((err) => {
             if (connection_errors < 20) setTimeout(() => checkForReload(), 6000)
