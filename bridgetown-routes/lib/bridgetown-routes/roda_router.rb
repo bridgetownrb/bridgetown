@@ -6,6 +6,11 @@ module Bridgetown
       def self.start!(app)
         r = app.request
         response = app.response
+
+        if Bridgetown.env.development? && !Bridgetown::Current.site.config.skip_live_reload
+          setup_live_reload r
+        end
+
         Bridgetown::Routes::Manifest.generate_manifest.each do |route|
           file, file_slug, segment_keys = route
 
@@ -26,6 +31,14 @@ module Bridgetown
         end
 
         nil
+      end
+
+      def self.setup_live_reload(r)
+        r.get "_bridgetown/live_reload" do
+          { last_mod: File.stat(Bridgetown::Current.site.in_dest_dir("index.html")).mtime.to_i }
+        rescue StandardError => e
+          { last_mod: 0, error: e.message }
+        end
       end
 
       def self.eval_route_file(file, file_slug, app)

@@ -1,15 +1,12 @@
 # frozen_string_literal: true
 
 namespace :frontend do
-  desc "Run frontend bundler and live reload server independently"
-  task :servers, :sidecar, :skip_sync do |_task, args|
+  desc "Run frontend bundler independently"
+  task :watcher, :sidecar do |_task, args|
     # sidecar is when the task is running alongside the start command
     sidecar = args[:sidecar] == true
     Bridgetown::Utils::Aux.group do
       run_process "Frontend", :yellow, "bundle exec bridgetown frontend:dev"
-      unless args[:skip_sync]
-        run_process "Live", nil, "#{"sleep 7 &&" if sidecar} yarn sync --color"
-      end
     end
     if sidecar
       sleep 4 # give Webpack time to boot before returning control to the start command

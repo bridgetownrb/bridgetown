@@ -34,6 +34,9 @@ module Bridgetown
           raise "** No Rack-compatible server found **"
         end
 
+        options = Thor::CoreExt::HashWithIndifferentAccess.new(self.options)
+        options[:using_puma] = true
+
         configuration_with_overrides(options) # load Bridgetown configuration into thread memory
 
         puma_pid =
@@ -55,7 +58,7 @@ module Bridgetown
             require "rake"
             Rake.with_application do |rake|
               rake.load_rakefile
-              rake["frontend:servers"].invoke(true, options[:skip_live_reload])
+              rake["frontend:watcher"].invoke(true)
             end
           end
 

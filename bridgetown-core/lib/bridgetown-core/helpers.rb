@@ -26,6 +26,10 @@ module Bridgetown
         Bridgetown::Utils.parse_webpack_manifest_file(site, asset_type.to_s)
       end
 
+      def live_reload_dev_js(site)
+        Bridgetown::Utils.live_reload_js(site)
+      end
+
       # @param pairs [Hash] A hash of key/value pairs.
       #
       # @return [String] Space-separated keys where the values are truthy.

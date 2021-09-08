@@ -81,6 +81,15 @@ module Bridgetown
         @site.process
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
                                 " #{(Time.now - t).ceil(2)} seconds."
+        if config_options[:using_puma]
+          require "socket"
+          external_ip = Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address
+          port = config_options.bind&.split(":")&.last || ENV["BRIDGETOWN_PORT"] || 4000
+          Bridgetown.logger.info ""
+          Bridgetown.logger.info "Now serving at:", "http://localhost:#{port}".magenta
+          Bridgetown.logger.info "", "http://#{external_ip}:#{port}".magenta
+          Bridgetown.logger.info ""
+        end
       end
 
       # Watch for file changes and rebuild the site.

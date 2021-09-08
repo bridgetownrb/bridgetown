@@ -17,9 +17,9 @@ module Bridgetown
       listener = build_listener(site, options)
       listener.start
 
-      Bridgetown.logger.info "Auto-regeneration:", "enabled."
+      Bridgetown.logger.info "Auto-regeneration:", "enabled." unless options[:using_puma]
 
-      unless options["serving"]
+      unless options[:serving]
         trap("INT") do
           listener.stop
           Bridgetown.logger.info "", "Halting auto-regeneration."

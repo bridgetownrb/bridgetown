@@ -6,6 +6,8 @@ module Bridgetown
   module Rack
     class Logger < Logger
       def self.message_with_prefix(msg)
+        return if msg.include?("/_bridgetown/live_reload")
+
         "\e[35m[Puma]\e[0m #{msg}"
       end
 
