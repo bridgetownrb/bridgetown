@@ -79,6 +79,8 @@ module Bridgetown
           # Shut down webpack, browsersync, etc. if they're running
           Bridgetown::Utils::Aux.kill_processes
         end
+
+        sleep 0.5 # finish cleaning up
       end
     end
   end
