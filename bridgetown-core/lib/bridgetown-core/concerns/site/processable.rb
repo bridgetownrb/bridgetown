@@ -22,8 +22,10 @@ class Bridgetown::Site
     end
 
     # Reset all in-memory data and content.
+    #
+
     # @return [void]
-    def reset
+    def reset(soft: false)
       self.time = Time.now
       if config["time"]
         self.time = Bridgetown::Utils.parse_date(
@@ -33,18 +35,18 @@ class Bridgetown::Site
       self.layouts = HashWithDotAccess::Hash.new
       self.pages = []
       self.static_files = []
-      self.data = HashWithDotAccess::Hash.new
+      self.data = HashWithDotAccess::Hash.new unless soft
       @frontend_manifest = nil
       @post_attr_hash = {}
       @collections = nil
       @documents = nil
       @docs_to_write = nil
-      @regenerator.clear_cache
+      @regenerator.clear_cache unless soft
       @liquid_renderer.reset
-      frontmatter_defaults.reset
+      frontmatter_defaults.reset unless soft
 
-      Bridgetown::Cache.clear_if_config_changed config
-      Bridgetown::Hooks.trigger :site, :after_reset, self
+      Bridgetown::Cache.clear_if_config_changed config unless soft
+      Bridgetown::Hooks.trigger :site, (soft ? :after_soft_reset : :after_reset), self
     end
 
     # Read data from disk and load it into internal memory.
