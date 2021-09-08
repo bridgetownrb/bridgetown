@@ -43,6 +43,17 @@ module Bridgetown
           Process.fork do
             require "puma/cli"
 
+            Puma::Runner.class_eval do
+              def output_header(mode)
+                log "* Puma version: #{Puma::Const::PUMA_VERSION} (#{ruby_engine}) (\"#{Puma::Const::CODE_NAME}\")"
+                if mode == "cluster"
+                  log "* Cluster Master PID: #{Process.pid}"
+                else
+                  log "* PID: #{Process.pid}"
+                end
+              end
+            end
+
             puma_args = []
             if options[:bind]
               puma_args << "--bind"
