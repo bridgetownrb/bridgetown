@@ -79,11 +79,11 @@ module Bridgetown
     # @return [String, nil]
     def validate_search_term(prototype_page)
       # @type [String]
-      search_term = prototype_page.data["prototype"]["term"]
-      return nil unless search_term.is_a?(String)
+      search_term = prototype_page.data["prototype"]["term"].to_s
+      return nil unless search_term.present?
 
       if prototype_page.data["prototype"]["collection"]
-        @configured_collection = prototype_page.data["prototype"]["collection"]
+        @configured_collection = prototype_page.data["prototype"]["collection"].to_s
       end
 
       unless site.collections[@configured_collection]

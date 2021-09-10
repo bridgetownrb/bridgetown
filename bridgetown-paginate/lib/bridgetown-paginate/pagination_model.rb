@@ -50,13 +50,18 @@ module Bridgetown
           template_config = Bridgetown::Utils.deep_merge_hashes(
             default_config,
             template.data["pagination"] || template.data["paginate"] || {}
-          )
+          ).tap do |config|
+            config["collection"] = config["collection"].to_s if config["collection"].is_a?(Symbol)
+            config["category"] = config["category"].to_s if config["category"].is_a?(Symbol)
+            config["tag"] = config["tag"].to_s if config["tag"].is_a?(Symbol)
+            config["locale"] = config["locale"].to_s if config["locale"].is_a?(Symbol)
+          end
 
           # Is debugging enabled on the page level
           @debug = template_config["debug"]
           _debug_print_config_info(template_config, template.path)
 
-          next if template_config["enabled"] == false
+          next unless template_config["enabled"]
 
           @logging_lambda.call "found page: " + template.path, "debug" unless @debug
 
