@@ -37,7 +37,8 @@ module Bridgetown
         end
 
         def start!(roda_app)
-          if Bridgetown.env.development? && !Bridgetown::Current.site.config.skip_live_reload
+          if Bridgetown.env.development? &&
+              !Bridgetown::Current.preloaded_configuration.skip_live_reload
             setup_live_reload roda_app.request
           end
 
@@ -54,7 +55,11 @@ module Bridgetown
 
         def setup_live_reload(request)
           request.get "_bridgetown/live_reload" do
-            { last_mod: File.stat(Bridgetown::Current.site.in_dest_dir("index.html")).mtime.to_i }
+            {
+              last_mod: File.stat(
+                File.join(Bridgetown::Current.preloaded_configuration.destination, "index.html")
+              ).mtime.to_i,
+            }
           rescue StandardError => e
             { last_mod: 0, error: e.message }
           end
