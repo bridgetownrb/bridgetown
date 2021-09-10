@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 .
 
+## 0.21.4 - 2021-09-10
+
+### Fixed
+
+- Allow symbols for use in pagination/prototype front matter [#386](https://github.com/bridgetownrb/bridgetown/pull/386) ([jaredcwhite](https://github.com/jaredcwhite))
+- Ensure the data collection is read first [#373](https://github.com/bridgetownrb/bridgetown/pull/373) ([jaredcwhite](https://github.com/jaredcwhite))
+- Strip out newlines in generated package.json and index.js [#369](https://github.com/bridgetownrb/bridgetown/pull/369) ([eclectic-coding](https://github.com/eclectic-coding))
+
+### Changed
+
+- Resolve postcss-focus-within to v4 [#366](https://github.com/bridgetownrb/bridgetown/pull/366) ([ayushn21](https://github.com/ayushn21))
+- Performance refactor of the Webpack helper [#382](https://github.com/bridgetownrb/bridgetown/pull/382) ([jaredcwhite](https://github.com/jaredcwhite))
+- Several documentation improvments thanks to JuanVqz and debashis-biswal
+
 ## 0.21.3 - 2021-08-06
 
 ### Fixed
