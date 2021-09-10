@@ -26,7 +26,7 @@ module Bridgetown
         Bridgetown::Utils.parse_webpack_manifest_file(site, asset_type.to_s)
       end
 
-      def live_reload_dev_js(site)
+      def live_reload_dev_js
         Bridgetown::Utils.live_reload_js(site)
       end
 

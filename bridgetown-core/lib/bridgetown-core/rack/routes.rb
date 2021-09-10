@@ -37,6 +37,10 @@ module Bridgetown
         end
 
         def start!(roda_app)
+          if Bridgetown.env.development? && !Bridgetown::Current.site.config.skip_live_reload
+            setup_live_reload roda_app.request
+          end
+
           Bridgetown::Rack::Routes.tracked_subclasses&.each_value do |klass|
             klass.merge roda_app
           end
@@ -46,6 +50,14 @@ module Bridgetown
           end
 
           nil
+        end
+
+        def setup_live_reload(request)
+          request.get "_bridgetown/live_reload" do
+            { last_mod: File.stat(Bridgetown::Current.site.in_dest_dir("index.html")).mtime.to_i }
+          rescue StandardError => e
+            { last_mod: 0, error: e.message }
+          end
         end
       end
 
