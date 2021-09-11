@@ -134,7 +134,11 @@ module Bridgetown
         logger.info "Then check out our online documentation for" \
                     " next steps: #{DOCSURL.cyan}"
 
-        logger.info "Bundle install skipped.".yellow if @skipped_bundle
+        if @skipped_bundle
+          logger.info "Bundle install skipped.".yellow
+          logger.info "You will need to run #{"bundle binstub bridgetown-core".cyan} manually."
+        end
+
         logger.info "Yarn install skipped.".yellow if @skipped_yarn
       end
       # rubocop:enable Metrics/CyclomaticComplexity
