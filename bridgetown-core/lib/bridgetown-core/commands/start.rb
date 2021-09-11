@@ -79,6 +79,8 @@ module Bridgetown
             exit 0 # this runs the ensure block below
           end
 
+          Process.setproctitle("bridgetown #{Bridgetown::VERSION} [#{File.basename(Dir.pwd)}]")
+
           build_args = ["-w"] + ARGV.reject { |arg| arg == "start" }
           if Bridgetown.environment == "development" && !options["url"]
             build_args << "--url"
