@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  class Collection
+  class Collection # rubocop:todo Metrics/ClassLength
     # @return [Bridgetown::Site]
     attr_reader :site
 
