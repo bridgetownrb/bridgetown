@@ -48,6 +48,20 @@ module Bridgetown
       @resources ||= []
     end
 
+    # Fetch the collection resources and arrange them by slug in a hash.
+    #
+    # @return [Hash<String, Bridgetown::Resource::Base>]
+    def resources_by_slug
+      resources.group_by { |item| item.data.slug }.transform_values(&:first)
+    end
+
+    # Fetch the collection resources and arrange them by relative URL in a hash.
+    #
+    # @return [Hash<String, Bridgetown::Resource::Base>]
+    def resources_by_relative_url
+      resources.group_by(&:relative_url).transform_values(&:first)
+    end
+
     # Iterate over either Resources or Documents depending on how the site is
     # configured
     def each(&block)
