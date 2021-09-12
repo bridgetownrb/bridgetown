@@ -64,9 +64,6 @@ module Bridgetown
           Bridgetown.logger.info "Unpublished mode:",
                                  "enabled. Processing documents marked unpublished"
         end
-        incremental = config_options["incremental"]
-        Bridgetown.logger.info "Incremental build:",
-                               (incremental ? "enabled" : "disabled. Enable with --incremental")
         Bridgetown.logger.info "Generating…"
         @site.process
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \

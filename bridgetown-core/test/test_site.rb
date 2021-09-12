@@ -109,7 +109,6 @@ class TestSite < BridgetownUnitTest
     should "write only modified static files" do
       clear_dest
       StaticFile.reset_cache
-      @site.regenerator.clear
 
       @site.process
       some_static_file = @site.static_files[0].path
@@ -139,7 +138,6 @@ class TestSite < BridgetownUnitTest
     should "write static files if not modified but missing in destination" do
       clear_dest
       StaticFile.reset_cache
-      @site.regenerator.clear
 
       @site.process
       dest = File.expand_path(@site.static_files[0].destination(@site.dest))
@@ -301,7 +299,6 @@ class TestSite < BridgetownUnitTest
     context "with orphaned files in destination" do
       setup do
         clear_dest
-        @site.regenerator.clear
         @site.process
         # generate some orphaned files:
         # single file
@@ -388,8 +385,7 @@ class TestSite < BridgetownUnitTest
 
         bad_processor = "Custom::Markdown"
         s = Site.new(site_configuration(
-                       "markdown"    => bad_processor,
-                       "incremental" => false
+                       "markdown"    => bad_processor
                      ))
         assert_raises Bridgetown::Errors::FatalException do
           s.process
@@ -409,8 +405,7 @@ class TestSite < BridgetownUnitTest
       should "throw FatalException at process time" do
         bad_processor = "not a processor name"
         s = Site.new(site_configuration(
-                       "markdown"    => bad_processor,
-                       "incremental" => false
+                       "markdown"    => bad_processor
                      ))
         assert_raises Bridgetown::Errors::FatalException do
           s.process
@@ -504,9 +499,7 @@ class TestSite < BridgetownUnitTest
     context "manipulating the Bridgetown environment" do
       setup do
         ENV.delete("BRIDGETOWN_ENV")
-        @site = Site.new(site_configuration(
-                           "incremental" => false
-                         ))
+        @site = Site.new(site_configuration)
         @site.process
         @page = @site.pages.find { |p| p.name == "environment.html" }
       end
@@ -522,9 +515,7 @@ class TestSite < BridgetownUnitTest
       context "in production" do
         setup do
           ENV["BRIDGETOWN_ENV"] = "production"
-          @site = Site.new(site_configuration(
-                             "incremental" => false
-                           ))
+          @site = Site.new(site_configuration)
           @site.process
           @page = @site.pages.find { |p| p.name == "environment.html" }
         end
@@ -551,61 +542,6 @@ class TestSite < BridgetownUnitTest
       should "print profile table" do
         expect(@site.liquid_renderer).to receive(:stats_table)
         @site.process
-      end
-    end
-
-    context "incremental build" do
-      setup do
-        @site = Site.new(site_configuration(
-                           "incremental" => true
-                         ))
-        @site.read
-      end
-
-      should "build incrementally" do
-        contacts_html = @site.pages.find { |p| p.name == "contacts.html" }
-        @site.process
-
-        source = @site.in_source_dir(contacts_html.path)
-        dest = File.expand_path(contacts_html.destination(@site.dest))
-        mtime1 = File.stat(dest).mtime.to_i # first run must generate dest file
-
-        # need to sleep because filesystem timestamps have best resolution in seconds
-        sleep 1
-        @site.process
-        mtime2 = File.stat(dest).mtime.to_i
-        assert_equal mtime1, mtime2 # no modifications, so remain the same
-
-        # simulate file modification by user
-        FileUtils.touch source
-
-        sleep 1
-        @site.process
-        mtime3 = File.stat(dest).mtime.to_i
-        refute_equal mtime2, mtime3 # must be regenerated
-
-        sleep 1
-        @site.process
-        mtime4 = File.stat(dest).mtime.to_i
-        assert_equal mtime3, mtime4 # no modifications, so remain the same
-      end
-
-      should "regenerate files that have had their destination deleted" do
-        contacts_html = @site.pages.find { |p| p.name == "contacts.html" }
-        @site.process
-
-        dest = File.expand_path(contacts_html.destination(@site.dest))
-        mtime1 = File.stat(dest).mtime.to_i # first run must generate dest file
-
-        # simulate file modification by user
-        File.unlink dest
-        refute File.file?(dest)
-
-        sleep 1 # sleep for 1 second, since mtimes have 1s resolution
-        @site.process
-        assert File.file?(dest)
-        mtime2 = File.stat(dest).mtime.to_i
-        refute_equal mtime1, mtime2 # must be regenerated
       end
     end
 

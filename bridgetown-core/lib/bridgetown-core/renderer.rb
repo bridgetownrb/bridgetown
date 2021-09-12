@@ -98,7 +98,6 @@ module Bridgetown
 
       while layout
         output = render_layout(output, layout)
-        add_regenerator_dependencies(layout)
 
         next unless (layout = site.layouts[layout.data["layout"]])
         break if used.include?(layout)
@@ -142,15 +141,6 @@ module Bridgetown
                                 "converting `#{document.relative_path}'"
         raise e
       end
-    end
-
-    def add_regenerator_dependencies(layout)
-      return unless document.write?
-
-      site.regenerator.add_dependency(
-        site.in_source_dir(document.path),
-        layout.path
-      )
     end
 
     def permalink_ext

@@ -13,4 +13,3 @@ Bridgetown gives you a lot of flexibility to customize how it builds your site. 
 * [Markdown Options]({{ '/docs/configuration/markdown/' | relative_url }})
 * [Liquid Options]({{ '/docs/configuration/liquid/' | relative_url }})
 * [Webrick Options]({{ '/docs/configuration/webrick/' | relative_url }})
-* [Incremental Regeneration]({{ '/docs/configuration/incremental-regeneration/' | relative_url }})

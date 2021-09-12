@@ -62,18 +62,6 @@ class Bridgetown::Site
       @frontmatter_defaults ||= Bridgetown::FrontmatterDefaults.new(self)
     end
 
-    # Whether to perform a full rebuild without incremental regeneration.
-    #   If either `override["incremental"]` or `config["incremental"]` are true,
-    #   fully rebuild the site. If not, incrementally build the site.
-    #
-    # @param [Hash] override
-    #   An override hash to override the current config value
-    # @option override [Boolean] "incremental" Whether to incrementally build
-    # @return [Boolean] true for full rebuild, false for normal build
-    def incremental?(override = {})
-      override["incremental"] || config["incremental"]
-    end
-
     # Returns the current instance of {Publisher} or creates a new instance of
     #   {Publisher} if one doesn't exist.
     #

@@ -100,8 +100,6 @@ module Bridgetown
   autoload :Publishable,         "bridgetown-core/concerns/publishable"
   autoload :Publisher,           "bridgetown-core/publisher"
   autoload :Reader,              "bridgetown-core/reader"
-  # TODO: remove this when the incremental regenerator is gone:
-  autoload :Regenerator,         "bridgetown-core/regenerator"
   autoload :RelatedPosts,        "bridgetown-core/related_posts"
   autoload :Renderer,            "bridgetown-core/renderer"
   autoload :LiquidRenderable,    "bridgetown-core/concerns/liquid_renderable"

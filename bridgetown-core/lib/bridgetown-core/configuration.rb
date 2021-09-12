@@ -48,7 +48,6 @@ module Bridgetown
       "highlighter"          => "rouge",
       "lsi"                  => false,
       "excerpt_separator"    => "\n\n",
-      "incremental"          => false,
 
       # Serving
       "detach"               => false, # default to not detaching the server

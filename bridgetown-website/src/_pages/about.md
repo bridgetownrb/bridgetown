@@ -44,10 +44,7 @@ As of spring 2020, here is the vision for where Bridgetown is headed. And this i
 - Support **additional template languages** popular in the Ruby community such as ERB, HAML, and Slim.
 - **Simple webhooks** — allow remote webhooks to be pinged after a successful build.
   - **“Private” pages** — aka put a website section behind a randomized URL that changes frequently and then allow that to be pinged to a webhook somewhere.
-- Continued improvement of the incremental site generator for **lightning-fast page previews**.
-- _LONGSHOT…_ **Rails engine** for Bridgetown — it's a missed opportunity that Rails doesn't have a good Jamstack story. This would explore the ability to load and manipulate site content and trigger new builds from within any Rails-based application.
-- _LONGSHOT…_ Investigate potentially huge wins regarding **headless CMS + Bridgetown integrations** as officially recommended plugins.
-- _LONGSHOT…_ Use the new Liquid Components support to enable a **drag-and-drop visual page builder** plugin.
+- Investigate potentially huge wins regarding **headless CMS + Bridgetown integrations** as officially recommended plugins.
 
 And generally speaking, as an [open source](https://en.wikipedia.org/wiki/Open_source) project we want to be good stewards of the codebase and community, which starts with adhering to a predictable release schedule. Based on [SemVer](https://semver.org), our goal is to strive for:
 

@@ -119,15 +119,11 @@ module Bridgetown
       end
 
       def render(context)
-        site = context.registers[:site]
-
         file = render_variable(context) || @file
         validate_file_name(file)
 
         path = locate_include_file(context, file)
         return unless path
-
-        add_include_to_dependency(site, path, context)
 
         partial = load_cached_partial(path, context)
 
@@ -140,15 +136,6 @@ module Bridgetown
             e.markup_context = "included " if e.markup_context.nil?
             raise e
           end
-        end
-      end
-
-      def add_include_to_dependency(site, path, context)
-        if context.registers[:page]&.key?("path")
-          site.regenerator.add_dependency(
-            site.in_source_dir(context.registers[:page]["path"]),
-            path
-          )
         end
       end
 
