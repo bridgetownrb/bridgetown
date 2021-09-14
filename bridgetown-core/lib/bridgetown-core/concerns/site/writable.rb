@@ -13,10 +13,7 @@ class Bridgetown::Site
     #
     # @return [void]
     def write
-      each_site_file do |item|
-        item.write(dest) if regenerator.regenerate?(item)
-      end
-      regenerator.write_metadata
+      each_site_file { |item| item.write(dest) }
       Bridgetown::Hooks.trigger :site, :post_write, self
     end
 

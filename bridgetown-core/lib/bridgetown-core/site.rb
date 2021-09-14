@@ -13,7 +13,7 @@ module Bridgetown
     include Writable
 
     attr_reader   :root_dir, :source, :dest, :cache_dir, :config,
-                  :regenerator, :liquid_renderer, :components_load_paths,
+                  :liquid_renderer, :components_load_paths,
                   :includes_load_paths
 
     # All files not pages/documents or structured data in the source folder
@@ -44,7 +44,6 @@ module Bridgetown
       @plugin_manager  = PluginManager.new(self)
       @cleaner         = Cleaner.new(self)
       @reader          = Reader.new(self)
-      @regenerator     = Regenerator.new(self)
       @liquid_renderer = LiquidRenderer.new(self)
 
       ensure_not_in_dest

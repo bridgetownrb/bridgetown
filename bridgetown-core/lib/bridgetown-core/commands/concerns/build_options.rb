@@ -63,10 +63,6 @@ module Bridgetown
                            aliases: "-V",
                            type: :boolean,
                            desc: "Print verbose output."
-        klass.class_option :incremental,
-                           aliases: "-I",
-                           type: :boolean,
-                           desc: "Enable incremental rebuild."
         klass.class_option :strict_front_matter,
                            type: :boolean,
                            desc: "Fail if errors are present in front matter"
