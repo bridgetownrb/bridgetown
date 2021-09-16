@@ -175,6 +175,16 @@ class TestConfiguration < BridgetownUnitTest
       assert_equal [site_root_dir("bridgetown.config.toml")], @config.config_files(@no_override)
     end
 
+    should "return .rb if that exists" do
+      allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.toml")).and_return(false)
+      allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.yml")).and_return(false)
+      allow(File).to receive(:exist?).with(
+        site_root_dir("bridgetown.config.yaml")
+      ).and_return(false)
+      allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.rb")).and_return(true)
+      assert_equal [site_root_dir("bridgetown.config.rb")], @config.config_files(@no_override)
+    end
+
     should "return .yml if both .yml and .toml exist" do
       allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.yml")).and_return(true)
       allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.toml")).and_return(true)
@@ -324,6 +334,7 @@ class TestConfiguration < BridgetownUnitTest
         default: site_root_dir("bridgetown.config.yml"),
         other: site_root_dir("_config.live.yml"),
         toml: site_root_dir("_config.dev.toml"),
+        rb: site_root_dir("_config.dev.rb"),
         empty: site_root_dir(""),
       }
     end
@@ -371,6 +382,14 @@ class TestConfiguration < BridgetownUnitTest
         Bridgetown.configuration(test_config.merge("config" => [@paths[:empty]]))
     end
 
+    should "load ruby config if path passed is empty" do
+      allow(Bridgetown).to receive(:load_configure).with(@paths[:rb]).and_return({})
+      allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:rb]}")
+      assert_equal \
+        site_configuration("config" => [@paths[:empty]]),
+        Bridgetown.configuration(test_config.merge("config" => [@paths[:empty]]))
+    end
+
     should "successfully load a TOML file" do
       Bridgetown.logger.log_level = :warn
       assert_equal \
@@ -389,16 +408,18 @@ class TestConfiguration < BridgetownUnitTest
       allow(Bridgetown::YAMLParser).to receive(:load_file).with(@paths[:default]).and_return({})
       allow(Bridgetown::YAMLParser).to receive(:load_file).with(@paths[:other]).and_return({})
       allow(Tomlrb).to receive(:load_file).with(@paths[:toml]).and_return({})
+      allow(Bridgetown::Configure).to receive(:load_configure).with(@paths[:rb]).and_return({})
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:default]}")
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:other]}")
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:toml]}")
+      allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:rb]}")
       assert_equal(
         site_configuration(
-          "config" => [@paths[:default], @paths[:other], @paths[:toml]]
+          "config" => [@paths[:default], @paths[:other], @paths[:toml], @paths[:rb]]
         ),
         Bridgetown.configuration(
           test_config.merge(
-            "config" => [@paths[:default], @paths[:other], @paths[:toml]]
+            "config" => [@paths[:default], @paths[:other], @paths[:toml], @paths[:rb]]
           )
         )
       )

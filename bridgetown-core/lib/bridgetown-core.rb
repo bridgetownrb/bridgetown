@@ -70,6 +70,7 @@ module Bridgetown
   autoload :Collection,          "bridgetown-core/collection"
   autoload :Component,           "bridgetown-core/component"
   autoload :Configuration,       "bridgetown-core/configuration"
+  autoload :Configure,           "bridgetown-core/configure"
   autoload :DataAccessible,      "bridgetown-core/concerns/data_accessible"
   autoload :Deprecator,          "bridgetown-core/deprecator"
   autoload :Document,            "bridgetown-core/document"
@@ -248,6 +249,14 @@ module Bridgetown
         clean_path.sub!(%r!\A\w:/!, "/")
         File.join(base_directory, clean_path)
       end
+    end
+
+    def configure
+      yield load_configure
+    end
+
+    def load_configure
+      @load_configure ||= Configure.new
     end
 
     # Conditional optimizations

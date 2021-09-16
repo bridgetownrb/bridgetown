@@ -149,7 +149,7 @@ module Bridgetown
       when %r!\.ya?ml!i
         YAMLParser.load_file(filename) || {}
       when %r!\.rb!i
-        # code goes here
+        Bridgetown.load_configure
       else
         raise ArgumentError,
               "No parser for '#{filename}' is available. Use a .y(a)ml or .toml file instead."
