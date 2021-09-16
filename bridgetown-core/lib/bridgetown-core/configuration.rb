@@ -67,12 +67,12 @@ module Bridgetown
       "defaults"             => [],
 
       "liquid"               => {
-        "error_mode"       => "warn",
-        "strict_filters"   => false,
-        "strict_variables" => false,
+        "error_mode"         => "warn",
+        "strict_filters"     => false,
+        "strict_variables"   => false,
       },
 
-      "kramdown"             => {
+      "kramdown"                  => {
         "auto_ids"                => true,
         "toc_levels"              => (1..6).to_a,
         "entity_output"           => "as_char",
