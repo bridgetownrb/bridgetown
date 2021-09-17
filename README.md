@@ -20,8 +20,8 @@ Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern
 
 ## Special Thanks to Our Founding Members! 🙏 🎉
 
-Say howdy 👋 to our growing list of the first ~~twenty~~ twenty-five sponsors of Bridgetown on GitHub.
-[You too can join this list and sponsor Bridgetown!](https://github.com/sponsors/jaredcwhite)
+Say howdy 👋 to our growing list of the first ~~twenty~~ twenty-five and counting sponsors of Bridgetown on GitHub!
+[You too can join this list and sponsor Bridgetown.](https://github.com/sponsors/jaredcwhite)
 
 |<img src="https://avatars.githubusercontent.com/pilotcph?s=256" alt="pilotcph" width="128" />|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://avatars.githubusercontent.com/miatrinity?s=256" alt="miatrinity" width="128" />|<img src="https://avatars.githubusercontent.com/marcoroth?s=256" alt="marcoroth" width="128" />|<img src="https://avatars.githubusercontent.com/mtomov?s=256" alt="mtomov" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
@@ -48,9 +48,10 @@ Say howdy 👋 to our growing list of the first ~~twenty~~ twenty-five sponsors 
 |<a href="https://github.com/MikeRogers0">@MikeRogers0</a>|<a href="https://github.com/jespr">@jespr</a>|<a href="https://github.com/jc00ke">@jc00ke</a>|<a href="https://github.com/matoni109">@matoni109</a>|<a href="https://github.com/rootnoob">@rootnoob</a>|
 |<a href="https://mikerogers.io">Website</a>||<a href="https://relativepath.io/">Website</a>|||
 
-|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|
-|You Next?|
+|<img src="https://avatars.githubusercontent.com/collindonnell?s=256" alt="collindonnell" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|
+|<a href="https://github.com/collindonnell">@collindonnell</a>|You Next?|
+|<a href="https://keyandnib.com">Website</a>||
 
 ## Commercial Support
 
