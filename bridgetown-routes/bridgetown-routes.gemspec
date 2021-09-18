@@ -15,4 +15,5 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency("bridgetown-core", Bridgetown::VERSION)
+  spec.add_dependency("roda-route_list", ">= 2.1")
 end
