@@ -16,7 +16,7 @@ module Bridgetown
     # rubocop:disable Bridgetown/NoPutsAllowed
     def self.print_roda_routes
       routes = begin
-                 JSON.parse(File.read("#{Dir.pwd}/routes.json"))
+                 JSON.parse(File.read("#{Dir.pwd}/.routes.json"))
                rescue StandardError
                  []
                end
