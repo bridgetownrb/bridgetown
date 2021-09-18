@@ -23,18 +23,6 @@ module Bridgetown
       # def csrf_token(...)
       #   request.scope.csrf_token(...)
       # end
-
-      def output(type = nil)
-        content = yield
-
-        case type
-        when :json
-          response["content-type"] = "application/json"
-          content.to_json
-        else
-          content
-        end
-      end
     end
   end
 end

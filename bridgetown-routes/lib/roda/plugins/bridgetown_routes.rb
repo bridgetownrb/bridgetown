@@ -19,19 +19,19 @@ class Roda
       end
 
       module InstanceMethods
-        def render_with(data: {}, content: -1)
+        def render_with(data: {}) # rubocop:todo Metrics/AbcSize
           path = Kernel.caller_locations(1, 1).first.absolute_path
-          if content != -1 && File.extname(path) != ".rb"
-            raise Bridgetown::Errors::FatalException,
-                  "Only Ruby route files (.rb) support the `content' argument for `render_with'"
-          end
-
           source_path = Pathname.new(path).relative_path_from(Bridgetown::Current.site.source)
-          code = @_route_file_code || File.read(path)
+          code = @_route_file_code
+
+          unless code.present?
+            raise Bridgetown::Errors::FatalException,
+                  "The `render_with' method can only be called from a route file in `src/_routes'"
+          end
 
           data = Bridgetown::Model::BuilderOrigin.new("builder://#{source_path}").read do
             data[:_collection_] = Bridgetown::Current.site.collections.pages
-            data[:_content_] = content != -1 ? "<<-OUTPUT\n#{content}\nOUTPUT" : code
+            data[:_content_] = code
             data
           end
 
@@ -44,17 +44,29 @@ class Roda
         end
 
         ruby2_keywords def render(*args, &block)
-          fake_resource = HashWithDotAccess::Hash.new({
-            data: {},
-            roda_data: {
-              request: request,
-              response: response,
-              flash: nil, # flash,
-            },
-            site: bridgetown_site,
-          })
-          view = Bridgetown::ERBView.new(fake_resource)
           view.render(*args, &block)
+        end
+
+        def view(view_class: Bridgetown::ERBView)
+          response._fake_resource_view(view_class: view_class, request: request, bridgetown_site: bridgetown_site)
+        end
+      end
+
+      module ResponseMethods
+        def _fake_resource_view(view_class:, request:, bridgetown_site:)
+          @_fake_resource_views ||= {}
+          @_fake_resource_views[view_class] ||= view_class.new(
+            # TODO: use a Stuct for better performance...?
+            HashWithDotAccess::Hash.new({
+              data: {},
+              roda_data: {
+                request: request,
+                response: self,
+                flash: nil, # flash,
+              },
+              site: bridgetown_site,
+            })
+          )
         end
       end
     end

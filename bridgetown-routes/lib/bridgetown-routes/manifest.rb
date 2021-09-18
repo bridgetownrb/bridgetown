@@ -5,7 +5,7 @@ module Bridgetown
     module Manifest
       class << self
         def routable_extensions
-          %w(rb md serb erb)
+          %w(rb md serb erb liquid)
         end
 
         def generate_manifest # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
