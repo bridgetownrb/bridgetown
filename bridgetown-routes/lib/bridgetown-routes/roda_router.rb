@@ -21,7 +21,9 @@ module Bridgetown
             end
 
             route_block = Bridgetown::Routes::CodeBlocks.route_block(file_slug)
-            app.instance_variable_set(:@_route_file_code, route_block.instance_variable_get(:@_route_file_code)) # could be nil
+            app.instance_variable_set(
+              :@_route_file_code, route_block.instance_variable_get(:@_route_file_code)
+            ) # could be nil
             app.instance_exec(&route_block)
           end
         end
@@ -29,7 +31,7 @@ module Bridgetown
         nil
       end
 
-      def self.eval_route_file(file, file_slug, app)
+      def self.eval_route_file(file, file_slug, app) # rubocop:disable Lint/UnusedMethodArgument
         code = File.read(file)
         code_postmatch = nil
         ruby_content = code.match(Bridgetown::FrontMatterImporter::RUBY_BLOCK)
@@ -37,8 +39,6 @@ module Bridgetown
           code = ruby_content[1]
           code_postmatch = ruby_content.post_match
         end
-
-        app
 
         code = <<~RUBY
           r = app.request

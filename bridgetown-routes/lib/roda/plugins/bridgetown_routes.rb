@@ -26,7 +26,7 @@ class Roda
 
           unless code.present?
             raise Bridgetown::Errors::FatalException,
-                  "The `render_with' method can only be called from a route file in `src/_routes'"
+                  "`render_with' method must be called from a template-based file in `src/_routes'"
           end
 
           data = Bridgetown::Model::BuilderOrigin.new("builder://#{source_path}").read do

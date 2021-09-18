@@ -11,13 +11,16 @@ module Bridgetown
         def generate_manifest # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
           return @route_manifest if @route_manifest && Bridgetown.env.production?
 
-          routes = File.expand_path("src/_routes", Dir.pwd)
+          routes_dir = File.expand_path("src/_routes", Dir.pwd)
           # @type [Array]
-          routes_examined = Dir.glob(routes + "/**/*.{#{routable_extensions.join(",")}}").map do |file|
-            next if File.basename(file).start_with?("_")
+          routes = Dir.glob(routes_dir + "/**/*.{#{routable_extensions.join(",")}}").map do |file|
+            if File.basename(file).start_with?("_", ".") ||
+                File.basename(file, ".*").end_with?(".test")
+              next
+            end
 
             # @type [String]
-            file_slug = file.delete_prefix(routes + "/").then do |f|
+            file_slug = file.delete_prefix(routes_dir + "/").then do |f|
               [File.dirname(f), File.basename(f, ".*")].join("/").delete_prefix("./")
             end.delete_suffix("/index")
             segment_keys = []
@@ -29,7 +32,7 @@ module Bridgetown
             [file, file_slug, segment_keys]
           end.compact
 
-          routes_examined.sort! do |route_a, route_b|
+          routes.sort! do |route_a, route_b|
             # @type [String]
             _, slug_a = route_a
             _, slug_b = route_b
@@ -42,7 +45,7 @@ module Bridgetown
             end
           end.reverse!
 
-          @route_manifest = routes_examined
+          @route_manifest = routes
         end
       end
     end
