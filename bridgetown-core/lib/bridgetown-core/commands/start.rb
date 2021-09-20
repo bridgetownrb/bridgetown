@@ -37,7 +37,7 @@ module Bridgetown
         options = Thor::CoreExt::HashWithIndifferentAccess.new(self.options)
         options[:using_puma] = true
 
-        configuration_with_overrides(options) # load Bridgetown configuration into thread memory
+        bt_options = configuration_with_overrides(options) # load Bridgetown configuration into thread memory
 
         puma_pid =
           Process.fork do
@@ -55,9 +55,9 @@ module Bridgetown
             end
 
             puma_args = []
-            if options[:bind]
+            if bt_options[:bind]
               puma_args << "--bind"
-              puma_args << options[:bind]
+              puma_args << bt_options[:bind]
             end
 
             cli = Puma::CLI.new puma_args
@@ -82,7 +82,7 @@ module Bridgetown
           Process.setproctitle("bridgetown #{Bridgetown::VERSION} [#{File.basename(Dir.pwd)}]")
 
           build_args = ["-w"] + ARGV.reject { |arg| arg == "start" }
-          if Bridgetown.environment == "development" && !options["url"]
+          if Bridgetown.env.development? && !options["url"]
             build_args << "--url"
             build_args << "http://localhost:4000"
           end
