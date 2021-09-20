@@ -85,10 +85,11 @@ module Bridgetown
         if config_options[:using_puma]
           require "socket"
           external_ip = Socket.ip_address_list.find { |ai| ai.ipv4? && !ai.ipv4_loopback? }.ip_address
+          scheme = config_options.bind&.split("://")&.first == "ssl" ? "https" : "http"
           port = config_options.bind&.split(":")&.last || ENV["BRIDGETOWN_PORT"] || 4000
           Bridgetown.logger.info ""
-          Bridgetown.logger.info "Now serving at:", "http://localhost:#{port}".magenta
-          Bridgetown.logger.info "", "http://#{external_ip}:#{port}".magenta
+          Bridgetown.logger.info "Now serving at:", "#{scheme}://localhost:#{port}".magenta
+          Bridgetown.logger.info "", "#{scheme}://#{external_ip}:#{port}".magenta
           Bridgetown.logger.info ""
         end
       end
