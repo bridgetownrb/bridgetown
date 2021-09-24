@@ -46,7 +46,6 @@ module Bridgetown
       # Conversion
       "markdown"             => "kramdown",
       "highlighter"          => "rouge",
-      "lsi"                  => false,
       "excerpt_separator"    => "\n\n",
 
       # Serving

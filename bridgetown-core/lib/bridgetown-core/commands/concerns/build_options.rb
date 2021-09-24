@@ -45,9 +45,6 @@ module Bridgetown
         klass.class_option :force_polling,
                            type: :boolean,
                            desc: "Force watch to use polling"
-        klass.class_option :lsi,
-                           type: :boolean,
-                           desc: "Use LSI for improved related posts (DEPRECATED)"
         klass.class_option :unpublished,
                            type: :boolean,
                            aliases: "-U",
