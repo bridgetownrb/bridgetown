@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  module Utils
+  module Utils # rubocop:todo Metrics/ModuleLength
     extend self
     autoload :Ansi, "bridgetown-core/utils/ansi"
     autoload :Aux, "bridgetown-core/utils/aux"

@@ -57,6 +57,9 @@ Lint/SuppressedException:
     - bridgetown-core/lib/bridgetown-core/commands/new.rb
 Lint/UnreachableCode:
   Severity: error
+Lint/UnusedBlockArgument:
+  Exclude:
+    - bridgetown-core/lib/site_template/**/*.rb
 Lint/Void:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/concerns/site/configurable.rb
@@ -148,6 +151,8 @@ Style/ClassAndModuleChildren:
     - bridgetown-core/test/**/*.rb
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always
+  Exclude:
+    - bridgetown-core/lib/site_template/**/*.rb
 Style/Documentation:
   Enabled: false
 Style/DoubleNegation:

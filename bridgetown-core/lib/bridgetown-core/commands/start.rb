@@ -25,7 +25,7 @@ module Bridgetown
       end
       summary "Start the Puma server, frontend bundler, and Bridgetown watcher"
 
-      def start
+      def start # rubocop:todo Metrics/PerceivedComplexity
         Bridgetown.logger.writer.enable_prefix
         Bridgetown::Commands::Build.print_startup_message
         sleep 0.25
@@ -37,7 +37,8 @@ module Bridgetown
         options = Thor::CoreExt::HashWithIndifferentAccess.new(self.options)
         options[:using_puma] = true
 
-        bt_options = configuration_with_overrides(options) # load Bridgetown configuration into thread memory
+        # Load Bridgetown configuration into thread memory
+        bt_options = configuration_with_overrides(options)
 
         puma_pid =
           Process.fork do
@@ -45,7 +46,7 @@ module Bridgetown
 
             Puma::Runner.class_eval do
               def output_header(mode)
-                log "* Puma version: #{Puma::Const::PUMA_VERSION} (#{ruby_engine}) (\"#{Puma::Const::CODE_NAME}\")"
+                log "* Puma version: #{Puma::Const::PUMA_VERSION} (#{ruby_engine}) (\"#{Puma::Const::CODE_NAME}\")" # rubocop:disable Layout/LineLength
                 if mode == "cluster"
                   log "* Cluster Master PID: #{Process.pid}"
                 else
@@ -83,8 +84,9 @@ module Bridgetown
 
           build_args = ["-w"] + ARGV.reject { |arg| arg == "start" }
           if Bridgetown.env.development? && !options["url"]
+            port = bt_options.bind&.split(":")&.last || ENV["BRIDGETOWN_PORT"] || 4000
             build_args << "--url"
-            build_args << "http://localhost:4000"
+            build_args << "http://localhost:#{port}"
           end
           Bridgetown::Commands::Build.start(build_args)
         rescue StandardError => e
