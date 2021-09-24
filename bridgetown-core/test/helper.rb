@@ -172,8 +172,7 @@ class BridgetownUnitTest < Minitest::Test
     load_plugin_content
 
     full_overrides = Utils.deep_merge_hashes({ "destination" => dest_dir,
-                                               "plugins_dir" => site_root_dir("plugins"),
-                                               "incremental" => false, }, overrides)
+                                               "plugins_dir" => site_root_dir("plugins"), }, overrides)
     Configuration.from(full_overrides.merge(
                          "root_dir" => site_root_dir,
                          "source"   => source_dir

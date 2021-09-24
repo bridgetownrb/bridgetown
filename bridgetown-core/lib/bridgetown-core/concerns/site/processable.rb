@@ -41,7 +41,6 @@ class Bridgetown::Site
       @collections = nil
       @documents = nil
       @docs_to_write = nil
-      @regenerator.clear_cache unless soft
       @liquid_renderer.reset
       frontmatter_defaults.reset unless soft
 

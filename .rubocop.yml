@@ -132,7 +132,6 @@ Naming/MemoizedInstanceVariableName:
 Security/MarshalLoad:
   Exclude:
     - !ruby/regexp /bridgetown-core/test\/.*.rb$/
-    - bridgetown-core/lib/bridgetown-core/regenerator.rb
 Security/YAMLLoad:
   Exclude:
     - !ruby/regexp /bridgetown-core/features\/.*.rb/

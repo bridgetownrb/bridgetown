@@ -317,21 +317,6 @@ a staging area and copy files from there to your web server.
     </tr>
     <tr class="setting">
       <td>
-        <p class="name"><strong>Incremental build</strong></p>
-        <p class="description">
-            Enable the experimental incremental build feature. Incremental build only
-            re-builds posts and pages that have changed, resulting in significant performance
-            improvements for large sites, but may also break site generation in certain
-            cases.
-        </p>
-      </td>
-      <td class="has-text-centered">
-        <p><code class="option">incremental: BOOL</code></p>
-        <p><code class="flag">-I, --incremental</code></p>
-      </td>
-    </tr>
-    <tr class="setting">
-      <td>
         <p class="name"><strong>Liquid profiler</strong></p>
         <p class="description">
             Generate a Liquid rendering profile to help you identify performance bottlenecks.
@@ -480,7 +465,6 @@ markdown            : kramdown
 highlighter         : rouge
 lsi                 : false
 excerpt_separator   : "\n\n"
-incremental         : false
 
 # Serving
 detach              : false
