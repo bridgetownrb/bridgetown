@@ -6,6 +6,7 @@ module Bridgetown
     autoload :Ansi, "bridgetown-core/utils/ansi"
     autoload :RequireGems, "bridgetown-core/utils/require_gems"
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
+    autoload :RubyFrontMatter, "bridgetown-core/utils/ruby_front_matter"
     autoload :RubyFrontMatterDSL, "bridgetown-core/utils/ruby_front_matter"
 
     # Constants for use in #slugify
