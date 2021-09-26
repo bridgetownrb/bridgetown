@@ -84,9 +84,10 @@ module Bridgetown
 
           build_args = ["-w"] + ARGV.reject { |arg| arg == "start" }
           if Bridgetown.env.development? && !options["url"]
+            scheme = bt_options.bind&.split("://")&.first == "ssl" ? "https" : "http"
             port = bt_options.bind&.split(":")&.last || ENV["BRIDGETOWN_PORT"] || 4000
             build_args << "--url"
-            build_args << "http://localhost:#{port}"
+            build_args << "#{scheme}://localhost:#{port}"
           end
           Bridgetown::Commands::Build.start(build_args)
         rescue StandardError => e
