@@ -6,8 +6,6 @@ gem "rake", "~> 13.0"
 
 group :development do
   gem "launchy", "~> 2.3"
-  gem "pry"
-  gem "pry-byebug"
   gem "solargraph"
 end
 
