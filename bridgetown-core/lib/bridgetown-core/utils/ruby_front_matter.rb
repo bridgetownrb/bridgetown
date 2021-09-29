@@ -3,15 +3,15 @@
 module Bridgetown
   module Utils
     module RubyFrontMatterDSL
-      def front_matter(eval_with: nil, &block)
-        RubyFrontMatter.new(eval_with: eval_with).tap { |fm| fm.instance_exec(&block) }
+      def front_matter(scope: nil, &block)
+        RubyFrontMatter.new(scope: scope).tap { |fm| fm.instance_exec(&block) }
       end
     end
 
     class RubyFrontMatter
-      def initialize(eval_with: nil)
+      def initialize(scope: nil)
         @data = {}
-        @eval_with = eval_with
+        @scope = scope
       end
 
       def method_missing(key, value = nil, &block) # rubocop:disable Metrics/CyclomaticComplexity, Style/MissingRespondToMissing
@@ -33,14 +33,14 @@ module Bridgetown
       def set(key, value = nil, &block)
         # Handle nested data within a block
         if block
-          value = self.class.new(eval_with: @eval_with).tap do |fm|
+          value = self.class.new(scope: @scope).tap do |fm|
             fm.instance_exec(&block)
           end.to_h
         end
 
         # Execute lambda value within the resolver
-        if @eval_with && value.is_a?(Hash) && value[:eval].is_a?(Proc)
-          value = @eval_with.instance_exec(&value[:eval])
+        if @scope && value.is_a?(Hash) && value[:from].is_a?(Proc)
+          value = @scope.instance_exec(&value[:from])
         end
 
         @data[key] = value

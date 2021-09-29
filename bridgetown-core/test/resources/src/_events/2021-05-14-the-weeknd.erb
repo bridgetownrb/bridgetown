@@ -2,10 +2,10 @@
 special_config = Struct.new(:should_output).new
 special_config.should_output = false
 
-front_matter eval_with: special_config do
+front_matter scope: special_config do
   title "The Weeknd"
   config do
-    output eval: -> { should_output }
+    output from: -> { should_output }
   end
 end
 %>---
