@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-.
+### Fixed
+
+- Prevent `.js` matches with any file like `foo.js.txt.bat.png` [#399](https://github.com/bridgetownrb/bridgetown/issues/399) ([nachoal](https://github.com/nachoal/))
 
 ## 0.21.4 - 2021-09-10
 
