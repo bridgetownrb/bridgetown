@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-.
+### Changed
+
+- Bumped minimum recommended Node requirement to v12 and updated the docs for Homebrew installation on macOS.
 
 ## 0.21.4 - 2021-09-10
 
