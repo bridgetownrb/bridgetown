@@ -15,7 +15,7 @@ Ruby versions, which comes in handy when you need to run a specific Ruby version
 
 ```sh
 # Install Homebrew
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 # Install rbenv and ruby-build
 brew install rbenv
@@ -48,7 +48,7 @@ You may install Ruby directly through [Homebrew](https://brew.sh).
 
 ```sh
 # Install Homebrew
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 brew install ruby
 ```
