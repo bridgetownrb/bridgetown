@@ -14,7 +14,7 @@ module Bridgetown
     # Returns nothing.
     def read # rubocop:todo Metrics/AbcSize
       site.defaults_reader.read
-      site.layouts = LayoutReader.new(site).read
+      read_layouts
       read_directories
       read_included_excludes
       sort_files!
@@ -28,6 +28,10 @@ module Bridgetown
       Bridgetown::PluginManager.source_manifests.map(&:content).compact.each do |plugin_content_dir|
         PluginContentReader.new(site, plugin_content_dir).read
       end
+    end
+
+    def read_layouts
+      site.layouts = LayoutReader.new(site).read
     end
 
     def read_collections

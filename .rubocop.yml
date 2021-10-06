@@ -10,6 +10,7 @@ Bridgetown/NoPutsAllowed:
     - rake/*.rake
     - bridgetown-core/lib/bridgetown-core/commands/base.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
+    - bridgetown-core/lib/bridgetown-core/rack/roda.rb
 
 AllCops:
   TargetRubyVersion: 2.5
@@ -23,6 +24,7 @@ AllCops:
     - bridgetown-core/script/**/*
     - bridgetown-core/vendor/**/*
     - bridgetown-core/tmp/**/*
+    - bridgetown-core/lib/site_template/config/**/*
     - bridgetown-core/lib/site_template/plugins/site_builder.rb
 Layout/HashAlignment:
   EnforcedHashRocketStyle: table
@@ -55,6 +57,9 @@ Lint/SuppressedException:
     - bridgetown-core/lib/bridgetown-core/commands/new.rb
 Lint/UnreachableCode:
   Severity: error
+Lint/UnusedBlockArgument:
+  Exclude:
+    - bridgetown-core/lib/site_template/**/*.rb
 Lint/Void:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/concerns/site/configurable.rb
@@ -65,6 +70,7 @@ Metrics/AbcSize:
     - bridgetown-core/lib/bridgetown-core/commands/new.rb
     - bridgetown-core/lib/bridgetown-core/commands/console.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
+    - bridgetown-core/lib/bridgetown-core/commands/start.rb
     - bridgetown-core/lib/bridgetown-core/watcher.rb
 Metrics/BlockLength:
   Exclude:
@@ -82,7 +88,9 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/utils.rb
+    - bridgetown-core/lib/bridgetown-core/commands/build.rb
     - bridgetown-core/lib/bridgetown-core/commands/serve.rb
+    - bridgetown-core/lib/bridgetown-core/commands/start.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
 Layout/LineLength:
   Exclude:
@@ -99,9 +107,11 @@ Metrics/MethodLength:
   Severity: error
   Exclude:
     - bridgetown-core/lib/bridgetown-core/commands/concerns/build_options.rb
+    - bridgetown-core/lib/bridgetown-core/commands/build.rb
     - bridgetown-core/lib/bridgetown-core/commands/console.rb
     - bridgetown-core/lib/bridgetown-core/commands/new.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
+    - bridgetown-core/lib/bridgetown-core/commands/start.rb
 Metrics/ModuleLength:
   Max: 240
   Exclude:
@@ -113,6 +123,7 @@ Metrics/ParameterLists:
 Metrics/PerceivedComplexity:
   Max: 8
   Exclude:
+    - bridgetown-core/lib/bridgetown-core/commands/build.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
 Naming/FileName:
   Enabled: false
@@ -140,6 +151,8 @@ Style/ClassAndModuleChildren:
     - bridgetown-core/test/**/*.rb
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always
+  Exclude:
+    - bridgetown-core/lib/site_template/**/*.rb
 Style/Documentation:
   Enabled: false
 Style/DoubleNegation:

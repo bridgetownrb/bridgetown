@@ -33,7 +33,7 @@ bundle install && yarn install
 
 ## Development
 
-To start your site in development mode, run `yarn start` and navigate to [localhost:4000](https://localhost:4000/)!
+To start your site in development mode, run `bin/bridgetown start` and navigate to [localhost:4000](https://localhost:4000/)!
 
 Use a [theme](https://github.com/topics/bridgetown-theme), add some [plugins](https://www.bridgetownrb.com/plugins/), and/or run some [automations](https://github.com/topics/bridgetown-automation) to get started quickly.
 
@@ -41,13 +41,13 @@ Use a [theme](https://github.com/topics/bridgetown-theme), add some [plugins](ht
 
 ```sh
 # running locally
-yarn start
+bin/bridgetown start
 
 # build & deploy to production
-yarn deploy
+bin/bridgetown deploy
 
 # load the site up within a Ruby console (IRB)
-bundle exec bridgetown console
+bin/bridgetown console
 ```
 
 > Learn more: [Bridgetown CLI Documentation](https://www.bridgetownrb.com/docs/command-line-usage)

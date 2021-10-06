@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.author        = "Bridgetown Team"
   spec.email         = "maintainers@bridgetownrb.com"
   spec.summary       = "A Bridgetown plugin to provide a sophisticated DSL for writing plugins at a higher level of abstraction."
-  spec.homepage      = "https://github.com/bridgetownrb/bridgetown/tree/master/bridgetown-builder"
+  spec.homepage      = "https://github.com/bridgetownrb/bridgetown/tree/main/bridgetown-builder"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r!^(test|script|spec|features)/!) }

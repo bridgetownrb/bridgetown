@@ -4,7 +4,6 @@ inherit_from: ../.rubocop.yml
 AllCops:
   Include:
     - lib/**/*.rb
-    - spec/**/*.rb
 
 Metrics/AbcSize:
   Exclude:

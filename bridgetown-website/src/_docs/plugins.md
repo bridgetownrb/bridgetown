@@ -42,7 +42,7 @@ bundle add bridgetown-feed -g bridgetown_plugins
 3. Running an [automation](/docs/automations) which will install one or more
 plugins along with other set up and configuration:
   ```sh
-bundle exec bridgetown apply https://github.com/bridgetownrb/bridgetown-cloudinary
+bin/bridgetown apply https://github.com/bridgetownrb/bridgetown-cloudinary
   ```
    
 ## Introduction to the Builder API

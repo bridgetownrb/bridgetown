@@ -53,7 +53,7 @@ There's one aspect of the build process overlooked above: the compiling,
 compressing, and bundling of [frontend assets](/docs/frontend-assets) like
 JavaScript, CSS, web fonts, and so forth.
 
-When using Bridgetown's built-in `yarn start` or `yarn deploy` commands,
+When using Bridgetown's built-in `start` or `deploy` commands,
 essentially _two_ build processes are kicked off: the Webpack build process and the
 Bridgetown build process. The two align when something magical happens.
 

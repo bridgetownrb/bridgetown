@@ -79,9 +79,15 @@ module Bridgetown
         Bridgetown::Resource::Base.new(model: self)
       end
 
+      # @return [Bridgetown::Resource::Base]
       def as_resource_in_collection
         collection.resources << to_resource.read!
         collection.resources.last
+      end
+
+      # @return [Bridgetown::Resource::Base]
+      def render_as_resource
+        to_resource.read!.transform!
       end
 
       # override if need be

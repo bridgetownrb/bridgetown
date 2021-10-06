@@ -116,6 +116,8 @@ module Bridgetown
 
       def transform!
         transformer.process! unless collection.data?
+
+        self
       end
 
       def trigger_hooks(hook_name, *args)

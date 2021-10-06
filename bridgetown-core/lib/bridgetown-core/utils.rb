@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  module Utils
+  module Utils # rubocop:todo Metrics/ModuleLength
     extend self
     autoload :Ansi, "bridgetown-core/utils/ansi"
+    autoload :Aux, "bridgetown-core/utils/aux"
     autoload :RequireGems, "bridgetown-core/utils/require_gems"
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
     autoload :RubyFrontMatterDSL, "bridgetown-core/utils/ruby_front_matter"
@@ -396,6 +397,39 @@ module Bridgetown
     rescue StandardError => e
       Bridgetown.logger.warn("Unable to connect to GitHub API: #{e.message}")
       "master"
+    end
+
+    def live_reload_js(site) # rubocop:disable Metrics/MethodLength
+      return "" unless Bridgetown.env.development? && !site.config.skip_live_reload
+
+      code = <<~JAVASCRIPT
+        let first_mod = 0
+        let connection_errors = 0
+        const checkForReload = () => {
+          fetch("/_bridgetown/live_reload").then(response => {
+            if (response.ok) {
+              response.json().then(data => {
+                const last_mod = data.last_mod
+                if (first_mod === 0) {
+                  first_mod = last_mod
+                } else if (last_mod > first_mod) {
+                  location.reload()
+                }
+                setTimeout(() => checkForReload(), 700)
+              })
+            } else {
+              if (connection_errors < 20) setTimeout(() => checkForReload(), 6000)
+              connection_errors++
+            }
+          }).catch((err) => {
+            if (connection_errors < 20) setTimeout(() => checkForReload(), 6000)
+            connection_errors++
+          })
+        }
+        checkForReload()
+      JAVASCRIPT
+
+      %(<script type="module">#{code}</script>)
     end
 
     private
