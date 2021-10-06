@@ -53,7 +53,7 @@ class TestNewCommand < BridgetownUnitTest
       assert_exist gemfile
       assert_exist packagejson
       assert_match(%r!gem "bridgetown", "~> #{Bridgetown::VERSION}"!, File.read(gemfile))
-      assert_match(%r!"start": "node start.js"!, File.read(packagejson))
+      assert_match(%r!"esbuild":!, File.read(packagejson))
     end
 
     should "display a success message" do

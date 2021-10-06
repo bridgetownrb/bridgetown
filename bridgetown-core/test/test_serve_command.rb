@@ -20,6 +20,7 @@ class TestServeCommand < BridgetownUnitTest
     end
     teardown do
       Bridgetown.sites.clear
+      Bridgetown::Current.preloaded_configuration = nil
     end
 
     context "with custom options" do
@@ -132,12 +133,6 @@ class TestServeCommand < BridgetownUnitTest
           assert_equal "c1", result[:SSLCertificate]
         end
       end
-    end
-
-    should "read `configuration` only once" do
-      expect(Bridgetown).to receive(:configuration).once.and_call_original
-      @cmd.options = { "watch" => false }.with_indifferent_access
-      @cmd.serve
     end
   end
 end

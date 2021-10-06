@@ -64,8 +64,11 @@ module Bridgetown
 
         config = Bridgetown::Current.preloaded_configuration ||
           configuration_with_overrides(options)
-        if Bridgetown.environment == "development" && !options["url"]
-          config.url = default_url(config)
+        if Bridgetown.environment == "development"
+          default_url(config).tap do |url|
+            options["url"] = url
+            config.url = url
+          end
         end
 
         invoke(Build, [], options)
