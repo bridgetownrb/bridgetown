@@ -2,14 +2,14 @@
 # Vendors the MIME type config from the mime-db list
 # usage: script/vendor-mimes
 
-require 'json'
-require 'open-uri'
+require "json"
+require "open-uri"
 
 config = File.expand_path "../lib/bridgetown-core/mime.types", __dir__
 
 # Create an array of vendored mimetype => [extensions]
 mimes = {}
-json = open('https://raw.githubusercontent.com/jshttp/mime-db/master/db.json').read
+json = open("https://raw.githubusercontent.com/jshttp/mime-db/master/db.json").read
 data = JSON.parse(json)
 data.reject! { |mime, meta| meta["extensions"].nil? || meta["extensions"].empty? }
 data.each do |mime, meta|
