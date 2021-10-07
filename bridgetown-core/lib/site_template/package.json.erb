@@ -3,18 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "bundle exec bridgetown build",
-    "serve": "bundle exec bridgetown serve",
-    "clean": "bundle exec bridgetown clean",
     "webpack-build": "webpack --mode production",
-    "webpack-dev": "webpack --mode development -w",
-    "deploy": "yarn clean && yarn webpack-build && yarn build",
-    "sync": "node sync.js",
-    "start": "node start.js"
+    "webpack-dev": "webpack --mode development -w"
   },
   "devDependencies": {
-    "browser-sync": "^2.26.7",
-    "concurrently": "^5.2.0",
     "css-loader": "^4.3.0",
     "esbuild": "^0.12.7",
     "esbuild-loader": "^2.13.1",

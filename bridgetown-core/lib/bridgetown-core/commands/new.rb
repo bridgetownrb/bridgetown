@@ -119,7 +119,7 @@ module Bridgetown
         invoke(Configure, options[:configure].split(","), {}) if options[:configure]
 
         logger = Bridgetown.logger
-        yarn_start = "yarn start"
+        bt_start = "bin/bridgetown start"
         logger.info ""
         logger.info "Success!".green, "🎉 Your new Bridgetown site was" \
                     " generated in #{cli_path.cyan}."
@@ -128,12 +128,17 @@ module Bridgetown
           logger.info "You'll probably also want to #{"yarn install".cyan}" \
                       " to load in your frontend assets."
         else
-          logger.info "You can now #{"cd".cyan} and run #{yarn_start.cyan} to get started."
+          logger.info "You can now #{"cd".cyan} #{cli_path.cyan} and run #{bt_start.cyan}" \
+                      " to get started."
         end
         logger.info "Then check out our online documentation for" \
                     " next steps: #{DOCSURL.cyan}"
 
-        logger.info "Bundle install skipped.".yellow if @skipped_bundle
+        if @skipped_bundle
+          logger.info "Bundle install skipped.".yellow
+          logger.info "You will need to run #{"bundle binstub bridgetown-core".cyan} manually."
+        end
+
         logger.info "Yarn install skipped.".yellow if @skipped_yarn
       end
       # rubocop:enable Metrics/CyclomaticComplexity
@@ -145,6 +150,7 @@ module Bridgetown
           Bridgetown.with_unbundled_env do
             inside(path) do
               run "bundle install", abort_on_failure: true
+              run "bundle binstub bridgetown-core"
             end
           end
         end

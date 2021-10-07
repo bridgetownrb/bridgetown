@@ -36,15 +36,15 @@ module Bridgetown
         klass.class_option :limit_posts,
                            type: :numeric,
                            desc: "Limits the number of posts to parse and publish"
+        klass.class_option :url,
+                           aliases: "-u",
+                           desc: "Override the configured url for the website"
         klass.class_option :base_path,
                            aliases: "-b",
                            desc: "Serve the website from the given base path"
         klass.class_option :force_polling,
                            type: :boolean,
                            desc: "Force watch to use polling"
-        klass.class_option :lsi,
-                           type: :boolean,
-                           desc: "Use LSI for improved related posts"
         klass.class_option :unpublished,
                            type: :boolean,
                            aliases: "-U",

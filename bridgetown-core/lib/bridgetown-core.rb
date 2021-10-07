@@ -47,6 +47,7 @@ require "hash_with_dot_access"
 require "addressable/uri"
 require "liquid"
 require "liquid-component"
+require "listen"
 require "kramdown"
 require "colorator"
 require "i18n"
@@ -169,6 +170,12 @@ module Bridgetown
     # @see Bridgetown::Commands::Registrations.register
     def register_command(&block)
       Bridgetown::Commands::Registrations.register(&block)
+    end
+
+    def load_tasks
+      require "bridgetown-core/commands/base"
+      Bridgetown::PluginManager.require_from_bundler
+      load File.expand_path("bridgetown-core/tasks/bridgetown_tasks.rake", __dir__)
     end
 
     # Determines the correct Bundler environment block method to use and passes

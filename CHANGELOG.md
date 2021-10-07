@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Prevent `.js` matches with any file like `foo.js.txt.bat.png` [#399](https://github.com/bridgetownrb/bridgetown/issues/399) ([nachoal](https://github.com/nachoal/))
 
+### Changed
+
+- Bumped minimum recommended Node requirement to v12 and updated the docs for Homebrew installation on macOS.
+
 ## 0.21.4 - 2021-09-10
 
 ### Fixed
