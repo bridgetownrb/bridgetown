@@ -1,3 +1,0 @@
-[build]
-  command = "yardoc"
-  publish = "doc"
