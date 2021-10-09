@@ -16,24 +16,6 @@ module Bridgetown
       @glob_cache = {}
     end
 
-    def update_deprecated_types(set)
-      return set unless set.key?("scope") && set["scope"].key?("type")
-
-      set["scope"]["type"] =
-        case set["scope"]["type"]
-        when "page"
-          Deprecator.defaults_deprecate_type("page", "pages")
-          "pages"
-        when "post"
-          Deprecator.defaults_deprecate_type("post", "posts")
-          "posts"
-        else
-          set["scope"]["type"]
-        end
-
-      set
-    end
-
     def ensure_time!(set)
       return set unless set.key?("values") && set["values"].key?("date")
       return set if set["values"]["date"].is_a?(Time)
@@ -43,31 +25,6 @@ module Bridgetown
         "An invalid date format was found in a front-matter default set: #{set}"
       )
       set
-    end
-
-    # TODO: deprecated. See `all` method instead
-    #
-    # path - the path (relative to the source) of the page or
-    # post the default is used in
-    # type - a symbol indicating whether a :page,
-    # a :post calls this method
-    #
-    # Returns the default value or nil if none was found
-    def find(path, type, setting)
-      merged_data = {}
-      merge_data_cascade_for_path(path, merged_data)
-      return merged_data[setting] if merged_data.key?(setting)
-
-      value = nil
-      old_scope = nil
-
-      matching_sets(path, type).each do |set|
-        if set["values"].key?(setting) && has_precedence?(old_scope, set["scope"])
-          value = set["values"][setting]
-          old_scope = set["scope"]
-        end
-      end
-      value
     end
 
     # Collects a hash with all default values for a page or post
@@ -231,7 +188,8 @@ module Bridgetown
 
       sets.map do |set|
         if valid?(set)
-          ensure_time!(update_deprecated_types(set))
+          # TODO: is this trip really necessary?
+          ensure_time!(set)
         else
           Bridgetown.logger.warn "Defaults:", "An invalid front-matter default set was found:"
           Bridgetown.logger.warn set.to_s

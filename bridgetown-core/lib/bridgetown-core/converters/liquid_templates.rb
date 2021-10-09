@@ -18,7 +18,7 @@ module Bridgetown
       # Logic to do the Liquid content conversion.
       #
       # @param content [String] Content of the file (without front matter).
-      # @param convertible [Bridgetown::Page, Bridgetown::Document, Bridgetown::Layout]
+      # @param convertible [Bridgetown::GeneratedPage, Bridgetown::Resource::Base, Bridgetown::Layout]
       #   The instantiated object which is processing the file.
       #
       # @return [String] The converted content.

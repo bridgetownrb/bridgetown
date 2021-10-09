@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Public: Methods that generate a URL for a resource such as a Post or a Page.
+# Public: Methods that generate a URL for GeneratedPage.
 #
 # Examples
 #

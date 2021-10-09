@@ -29,12 +29,14 @@ module Bridgetown
       name = File.basename(path)
 
       @content_files << if Utils.has_yaml_header?(path)
-                          Bridgetown::Page.new(site, content_dir, dir, name, from_plugin: true)
+                          Bridgetown::GeneratedPage.new(
+                            site, content_dir, dir, name, from_plugin: true
+                          )
                         else
                           Bridgetown::StaticFile.new(site, content_dir, "/#{dir}", name)
                         end
 
-      add_to(site.pages, Bridgetown::Page)
+      add_to(site.generated_pages, Bridgetown::GeneratedPage)
       add_to(site.static_files, Bridgetown::StaticFile)
     end
 

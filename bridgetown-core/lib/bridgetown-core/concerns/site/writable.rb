@@ -17,14 +17,14 @@ class Bridgetown::Site
       Bridgetown::Hooks.trigger :site, :post_write, self
     end
 
-    # Yields all content objects while looping through {#pages},
-    #   {#static_files_to_write}, {#docs_to_write}, {#resources_to_write}.
+    # Yields all content objects while looping through {#generated_pages},
+    #   {#static_files_to_write}, {#resources_to_write}.
     #
-    # @yieldparam item [Document, Page, StaticFile]
+    # @yieldparam item [Bridgetown::Resource::Base, GeneratedPage, StaticFile]
     #
     # @return [void]
     def each_site_file
-      %w(pages static_files_to_write resources_to_write).each do |type|
+      %w(generated_pages static_files_to_write resources_to_write).each do |type|
         send(type).each do |item|
           yield item
         end

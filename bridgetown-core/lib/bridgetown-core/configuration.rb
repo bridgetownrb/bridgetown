@@ -28,7 +28,7 @@ module Bridgetown
       },
 
       # Handling Reading
-      "include"              => ["_pages", ".htaccess", "_redirects", ".well-known"],
+      "include"              => [".htaccess", "_redirects", ".well-known"],
       "exclude"              => [],
       "keep_files"           => [".git", ".svn", "_bridgetown"],
       "encoding"             => "utf-8",

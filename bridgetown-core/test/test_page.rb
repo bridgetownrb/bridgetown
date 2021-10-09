@@ -53,7 +53,7 @@ class TestPage < BridgetownUnitTest
         liquid_rep = page.to_liquid
         refute_equal Hash, liquid_rep.class
         assert_equal true, liquid_rep.is_a?(Liquid::Drop)
-        assert_equal Bridgetown::Drops::PageDrop, liquid_rep.class
+        assert_equal Bridgetown::Drops::GeneratedPageDrop, liquid_rep.class
       end
 
       should "make attributes accessible for use in Liquid templates" do

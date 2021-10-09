@@ -78,33 +78,7 @@ class Bridgetown::Site
 
     # The Hash payload containing site-wide data.
     #
-    # @example
-    #   site_payload
-    #   # => { "site" => data } Where data is a Hash. See example below
-    #
-    #   site = site_payload["site"]
-    #   # => Returns a Hash with the following keys:
-    #   #
-    #   # site["time"]       - The Time as specified in the configuration or the
-    #   #                      current time if none was specified.
-    #   #
-    #   # site["posts"]      - The Array of Posts, sorted chronologically by post date
-    #   #                      and then title.
-    #   #
-    #   # site["pages"]      - The Array of all Pages.
-    #   #
-    #   # site["html_pages"] - The Array of HTML Pages.
-    #   #
-    #   # site["categories"] - The Hash of category values and Posts.
-    #   #                      See Site#post_attr_hash for type info.
-    #   #
-    #   # site["tags"]       - The Hash of tag values and Posts.
-    #   #                      See Site#post_attr_hash for type info.
-    #
     # @return [Hash] Returns a hash in the structure of { "site" => data }
-    #
-    #   See above example for usage.
-    #
     # @see #post_attr_hash
     def site_payload
       Bridgetown::Drops::UnifiedPayloadDrop.new self

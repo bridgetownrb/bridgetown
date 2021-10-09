@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Handles Generated Pages
-Bridgetown::Hooks.register :pages, :post_init, reloadable: false do |page|
+Bridgetown::Hooks.register :generated_pages, :post_init, reloadable: false do |page|
   if page.class != Bridgetown::PrototypePage && page.data["prototype"].is_a?(Hash)
     Bridgetown::PrototypeGenerator.add_matching_template(page)
   end
@@ -74,7 +74,7 @@ module Bridgetown
 
     # Check incoming prototype configuration and normalize options.
     #
-    # @param prototype_page [Bridgetown::Page, Bridgetown::Resource::Base]
+    # @param prototype_page [Bridgetown::GeneratedPage, Bridgetown::Resource::Base]
     #
     # @return [String, nil]
     def validate_search_term(prototype_page)
@@ -123,7 +123,7 @@ module Bridgetown
   end
 
   class PrototypePage < GeneratedPage
-    # @return [Bridgetown::Page, Bridgetown::Resource::Base]
+    # @return [Bridgetown::GeneratedPage, Bridgetown::Resource::Base]
     attr_reader :prototyped_page
 
     # @param prototyped_page [Bridgetown::Page, Bridgetown::Resource::Base]
@@ -136,13 +136,13 @@ module Bridgetown
       @url = ""
       @name = "index.html"
       @path = prototyped_page.path
-
-      process(@name)
+      @ext = "html"
+      @basename = "index"
 
       self.data = Bridgetown::Utils.deep_merge_hashes prototyped_page.data, {}
       self.content = prototyped_page.content
 
-      # Perform some validation that is also performed in Bridgetown::Page
+      # Perform some validation that is also performed in Bridgetown::GeneratedPage
       validate_data! prototyped_page.path
       validate_permalink! prototyped_page.path
 
@@ -151,7 +151,7 @@ module Bridgetown
 
       process_prototype_page_data(collection, search_term, term)
 
-      Bridgetown::Hooks.trigger :pages, :post_init, self
+      Bridgetown::Hooks.trigger :generated_pages, :post_init, self
     end
 
     def process_prototype_page_data(collection, search_term, term)

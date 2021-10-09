@@ -352,8 +352,7 @@ module Bridgetown
 
           # 3. Create the paginator logic for this page, pass in the prev and next
           # page numbers, assign paginator to in-memory page
-          # TODO: remove .pager by v1.0, deprecated
-          newpage.paginator = newpage.pager = Paginator.new(
+          newpage.paginator = Paginator.new(
             config["per_page"],
             first_index_page_url,
             paginated_page_url,

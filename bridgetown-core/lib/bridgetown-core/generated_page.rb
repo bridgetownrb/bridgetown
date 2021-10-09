@@ -1,16 +1,13 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  # TODO: to be retired once the Resource engine is made official
-  class Page
-    include DataAccessible
+  class GeneratedPage
     include LayoutPlaceable
     include LiquidRenderable
     include Publishable
-    include Validatable
 
     attr_writer :dir
-    attr_accessor :site, :paginator, :pager
+    attr_accessor :site, :paginator
     attr_accessor :name, :ext, :basename
     attr_accessor :data, :content, :output
 
@@ -25,7 +22,7 @@ module Bridgetown
       .htm
     ).freeze
 
-    # Initialize a new Page.
+    # Initialize a new GeneratedPage.
     #
     # site - The Site object.
     # base - The String path to the source.
@@ -38,22 +35,35 @@ module Bridgetown
       @base = base
       @dir  = dir
       @name = name
+      @ext = File.extname(name)
+      @basename = File.basename(name, ".*")
       @path = if from_plugin
                 File.join(base, dir, name)
               else
                 site.in_source_dir(base, dir, name)
               end
 
-      process(name)
-      read_yaml(File.join(base, dir), name)
+      process
 
-      data.default_proc = proc do |_, key|
-        site.frontmatter_defaults.find(relative_path, type, key.to_s)
-      end
+      self.data ||= HashWithDotAccess::Hash.new
 
-      Bridgetown::Hooks.trigger :pages, :post_init, self
+      Bridgetown::Hooks.trigger :generated_pages, :post_init, self
     end
     # rubocop:enable Metrics/ParameterLists
+
+    # Returns the contents as a String.
+    def to_s
+      output || content || ""
+    end
+
+    # Accessor for data properties by Liquid.
+    #
+    # property - The String name of the property to retrieve.
+    #
+    # Returns the String value or nil if the property isn't included.
+    def [](property)
+      data[property]
+    end
 
     # The generated directory into which the page will be placed
     # upon generation. This is derived from the permalink or, if
@@ -69,29 +79,15 @@ module Bridgetown
       end
     end
 
-    def liquid_drop
-      @liquid_drop ||= begin
-        defaults = site.frontmatter_defaults.all(relative_path, type)
-        unless defaults.empty?
-          Utils.deep_merge_hashes!(data, Utils.deep_merge_hashes!(defaults, data))
-        end
-        Drops::PageDrop.new(self)
-      end
-    end
-
-    # Public
-    #
     # Liquid representation of current page
     def to_liquid
-      liquid_drop
+      @liquid_drop ||= Drops::GeneratedPageDrop.new(self)
     end
 
     # The full path and filename of the post. Defined in the YAML of the post
-    # body.
-    #
-    # Returns the String permalink or nil if none has been set.
+    # body
     def permalink
-      data.nil? ? nil : data["permalink"]
+      data&.permalink
     end
 
     # The template of the permalink.
@@ -123,33 +119,20 @@ module Bridgetown
     # desired placeholder replacements. For details see "url.rb"
     def url_placeholders
       {
-        path: qualified_pages_path_for_url,
+        path: dir,
         basename: basename,
         output_ext: output_ext,
       }
     end
 
-    # Strips _pages prefix off if needed for the url/destination generation
-    # @return [String]
-    def qualified_pages_path_for_url
-      @dir.sub(%r!^/_pages!, "")
-    end
-
-    # Extract information from the page filename.
-    #
-    # name - The String filename of the page file.
-    #
-    # NOTE: `String#gsub` removes all trailing periods (in comparison to `String#chomp`)
-    # Returns nothing.
-    def process(name)
-      self.ext = File.extname(name)
-      self.basename = name[0..-ext.length - 1].gsub(%r!\.*\z!, "")
+    # Overide this in subclasses for custom initialization behavior
+    def process
+      raise "Override `GeneratedPage#process' in subclass"
     end
 
     # The path to the source file
-    #
-    # Returns the path to the source file
     def path
+      # TODO: is this trip really necessary?!
       data.fetch("path") { relative_path }
     end
 
@@ -209,22 +192,15 @@ module Bridgetown
     end
 
     def trigger_hooks(hook_name, *args)
-      Bridgetown::Hooks.trigger :pages, hook_name, self, *args
+      Bridgetown::Hooks.trigger :generated_pages, hook_name, self, *args
     end
 
     def type
-      :pages
+      :generated_pages
     end
 
     def write?
       true
-    end
-  end
-
-  # set up virtual page class for future compatibility
-  class GeneratedPage < Page
-    def read_yaml(_base, _name, _opts = {})
-      self.data ||= HashWithDotAccess::Hash.new
     end
   end
 end

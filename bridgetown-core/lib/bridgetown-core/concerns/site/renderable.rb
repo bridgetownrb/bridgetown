@@ -14,18 +14,15 @@ class Bridgetown::Site
       Bridgetown::Hooks.trigger :site, :post_render, self
     end
 
-    # Executes inline Ruby frontmatter
+    # Executes procs in Ruby frontmatter
     #
-    # @example
-    #   calculation: !ruby/string:Rb |
-    #     [2 * 4, 5 + 2].min
     # @return [void]
     # @see https://www.bridgetownrb.com/docs/front-matter#ruby-front-matter
     def execute_inline_ruby_for_layouts!
       return unless config.should_execute_inline_ruby?
 
       layouts.each_value do |layout|
-        Bridgetown::Utils::RubyExec.search_data_for_ruby_code(layout, self)
+        Bridgetown::Utils::RubyExec.search_data_for_ruby_code(layout)
       end
     end
 
