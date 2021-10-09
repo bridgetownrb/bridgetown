@@ -23,10 +23,6 @@ module Bridgetown
       label.in? %w(posts pages data).freeze
     end
 
-    def legacy_reader?
-      label.in? %w(posts data).freeze
-    end
-
     def data?
       label == "data"
     end

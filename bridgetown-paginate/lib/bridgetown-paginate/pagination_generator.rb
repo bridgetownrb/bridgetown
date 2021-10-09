@@ -32,7 +32,6 @@ module Bridgetown
           DEFAULT,
           site.config["pagination"] || {}
         )
-        default_config["collection"] = "posts" unless site.uses_resource?
 
         # If disabled then simply quit
         unless default_config["enabled"]

@@ -38,8 +38,7 @@ module Bridgetown
     # @param site [Bridgetown::Site]
     def generate(site)
       @site = site
-      @configured_collection = "posts" unless site.uses_resource?
-      page_list = site.uses_resource? ? site.collections.pages.resources : site.pages
+      page_list = site.collections.pages.resources
 
       prototype_pages = self.class.matching_templates.select do |page|
         page_list.include?(page)
@@ -110,11 +109,7 @@ module Bridgetown
     #
     # @return [Array<String>]
     def terms_matching_pages(search_term)
-      pages_list = if site.uses_resource?
-                     site.collections[@configured_collection].resources
-                   else
-                     site.collections[@configured_collection].docs
-                   end
+      pages_list = site.collections[@configured_collection].resources
 
       Bridgetown::Paginate::PaginationIndexer.index_documents_by(
         pages_list, search_term

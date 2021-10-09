@@ -37,7 +37,6 @@ class Bridgetown::Site
       self.static_files = []
       self.data = HashWithDotAccess::Hash.new unless soft
       @frontend_manifest = nil
-      @post_attr_hash = {}
       @collections = nil
       @documents = nil
       @docs_to_write = nil

@@ -3,37 +3,9 @@
 class Bridgetown::Site
   # Content is king!
   module Content
-    # Construct a Hash of Posts indexed by the specified Post attribute.
-    #
-    # Returns a hash like so: `{ attr => posts }` where:
-    #
-    # * `attr` - One of the values for the requested attribute.
-    # * `posts` - The array of Posts with the given attr value.
-    #
-    # @param post_attr [String] The String name of the Post attribute.
-    #
-    # @example
-    #   post_attr_hash('categories')
-    #   # => { 'tech' => [<Post A>, <Post B>],
-    #   #      'ruby' => [<Post B>] }
-    #
-    # @return [Hash{String, Symbol => Array<Post>}]
-    #   Returns a hash of !{attr => posts}
-    def post_attr_hash(post_attr)
-      # Build a hash map based on the specified post attribute ( post attr =>
-      # array of posts ) then sort each array in reverse order.
-      @post_attr_hash[post_attr] ||= begin
-        hash = Hash.new { |h, key| h[key] = [] }
-        posts.docs.each do |p|
-          p.data[post_attr]&.each { |t| hash[t] << p }
-        end
-        hash.each_value { |posts| posts.sort!.reverse! }
-        hash
-      end
-    end
-
     def resources_grouped_by_taxonomy(taxonomy)
-      @post_attr_hash[taxonomy.label] ||= begin
+      data.site_taxonomies_hash ||= {}
+      data.site_taxonomies_hash[taxonomy.label] ||= begin
         taxonomy.terms.transform_values { |terms| terms.map(&:resource).sort.reverse }
       end
     end
@@ -44,29 +16,12 @@ class Bridgetown::Site
       end
     end
 
-    # Returns a hash of "tags" using {#post_attr_hash} where each tag is a key
-    #  and each value is a post which contains the key.
-    # @example
-    #   tags
-    #   # => { 'tech': [<Post A>, <Post B>],
-    #   #      'ruby': [<Post C> }
-    # @return [Hash{String, Array<Post>}] Returns a hash of all tags and their corresponding posts
-    # @see post_attr_hash
     def tags
-      uses_resource? ? taxonomies.tag : post_attr_hash("tags")
+      taxonomies.tag
     end
 
-    # Returns a hash of "categories" using {#post_attr_hash} where each tag is
-    #  a key and each value is a post which contains the key.
-    # @example
-    #   categories
-    #   # => { 'tech': [<Post A>, <Post B>],
-    #   #      'ruby': [<Post C> }
-    # @return [Hash{String, Array<Post>}] Returns a hash of all categories and
-    #   their corresponding posts
-    # @see post_attr_hash
     def categories
-      uses_resource? ? taxonomies.category : post_attr_hash("categories")
+      taxonomies.category
     end
 
     # Returns the value of `data["site_metadata"]` or creates a new instance of
@@ -79,7 +34,6 @@ class Bridgetown::Site
     # The Hash payload containing site-wide data.
     #
     # @return [Hash] Returns a hash in the structure of { "site" => data }
-    # @see #post_attr_hash
     def site_payload
       Bridgetown::Drops::UnifiedPayloadDrop.new self
     end
@@ -136,6 +90,8 @@ class Bridgetown::Site
       end.to_a
     end
 
+    alias_method :contents, :resources
+
     def resources_to_write
       resources.select(&:write?)
     end
@@ -148,15 +104,6 @@ class Bridgetown::Site
     # @see StaticFile
     def static_files_to_write
       static_files.select(&:write?)
-    end
-
-    # Get all pages and documents (posts and collection items) in a single array.
-    #
-    # @return [Array]
-    def contents
-      return resources if uses_resource?
-
-      pages + documents
     end
 
     def add_generated_page(generated_page)
