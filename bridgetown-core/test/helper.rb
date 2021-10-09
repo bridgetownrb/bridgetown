@@ -149,6 +149,7 @@ class BridgetownUnitTest < Minitest::Test
 
   def resources_site(overrides = {})
     overrides["content_engine"] = "resource"
+    overrides["available_locales"] ||= %w[en fr]
     new_config = site_configuration(overrides)
     new_config.root_dir = resources_root_dir
     new_config.source = resources_root_dir("src")
@@ -229,6 +230,21 @@ end
 
 class FakeLogger
   def <<(str); end
+end
+
+# stub
+module Bridgetown
+  module Paginate
+    class PaginationIndexer
+      def self.index_documents_by(pages_list, search_term)
+        # site.collections[@configured_collection].resources
+
+        pages_list.map do |resource|
+          [resource.data[search_term], nil]
+        end.to_h
+      end
+    end
+  end
 end
 
 module TestWEBrick

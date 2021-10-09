@@ -295,12 +295,16 @@ module Bridgetown
       private
 
       def ensure_default_data
+        determine_locale
+
         slug = if matches = relative_path.to_s.match(DATE_FILENAME_MATCHER) # rubocop:disable Lint/AssignmentInCondition
                  set_date_from_string(matches[1]) unless data.date
                  matches[2]
                else
                  basename_without_ext
                end
+
+        slug.chomp!(".#{data.locale}") if data.locale && slug.ends_with?(".#{data.locale}")
 
         data.slug ||= slug
         data.title ||= Bridgetown::Utils.titleize_slug(slug)
@@ -332,6 +336,24 @@ module Bridgetown
             )
           end
         end
+      end
+
+      def determine_locale
+        unless data.locale
+          data.locale = locale_from_alt_data_or_filename.presence || site.config.default_locale
+        end
+
+        if data.locale_overrides&.is_a?(Hash) && data.locale_overrides&.key?(data.locale)
+          data.merge!(data.locale_overrides[data.locale])
+        end
+      end
+
+      # Look for alternative front matter or look at the filename pattern: slug.locale.ext
+      def locale_from_alt_data_or_filename
+        found_locale = data.language || data.lang || basename_without_ext.split(".")[1..-1].last
+        return unless found_locale && site.config.available_locales.include?(found_locale.to_sym)
+
+        found_locale
       end
 
       def format_url(url)

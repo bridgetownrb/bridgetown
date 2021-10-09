@@ -55,8 +55,8 @@ module Bridgetown
       "show_dir_listing"     => false,
 
       # Output Configuration
-      "available_locales"    => ["en"],
-      "default_locale"       => "en",
+      "available_locales"    => [:en],
+      "default_locale"       => :en,
       "permalink"            => nil, # default is set according to content engine
       "timezone"             => nil, # use the local timezone
 
@@ -100,6 +100,7 @@ module Bridgetown
       def from(user_config, starting_defaults = DEFAULTS)
         Utils.deep_merge_hashes(starting_defaults.deep_dup, Configuration[user_config])
           .merge_environment_specific_options!
+          .setup_locales
           .add_default_collections
           .add_default_excludes
           .check_include_exclude
@@ -244,6 +245,12 @@ module Bridgetown
       self
     end
 
+    def setup_locales
+      self.default_locale = default_locale.to_sym
+      available_locales.map!(&:to_sym)
+      self
+    end
+
     def add_default_collections # rubocop:todo all
       # It defaults to `{}`, so this is only if someone sets it to null manually.
       return self if self[:collections].nil?
@@ -264,7 +271,7 @@ module Bridgetown
         self[:permalink] = "pretty" if self[:permalink].blank?
         self[:collections][:pages] = {} unless self[:collections][:pages]
         self[:collections][:pages][:output] = true
-        self[:collections][:pages][:permalink] ||= "/:path/"
+        self[:collections][:pages][:permalink] ||= "/:locale/:path/"
 
         self[:collections][:data] = {} unless self[:collections][:data]
         self[:collections][:data][:output] = false

@@ -21,10 +21,11 @@ module Bridgetown
 
     # Initialize a new StaticFile.
     #
-    # site - The Site.
-    # base - The String path to the <source>.
-    # dir  - The String path between <source> and the file.
-    # name - The String filename of the file.
+    # @param site [Bridgetown::Site]
+    # @param base [String] path to the <source>.
+    # @param dir [String] path between <source> and the file.
+    # @param name [String] filename of the file.
+    # @param collection [Bridgetown::Collection] optional collection the file is attached to
     def initialize(site, base, dir, name, collection = nil) # rubocop:disable Metrics/ParameterLists
       @site = site
       @base = base
@@ -36,7 +37,7 @@ module Bridgetown
       @data = @site.frontmatter_defaults.all(relative_path, type).with_dot_access
       if site.uses_resource? && !data.permalink
         data.permalink = if collection && !collection.builtin?
-                           "/:collection/:path.*"
+                           collection.default_permalink.chomp("/").chomp(".*") + ".*"
                          else
                            "/:path.*"
                          end
