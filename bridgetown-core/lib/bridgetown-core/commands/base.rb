@@ -19,6 +19,8 @@ module Bridgetown
         def find_command_possibilities(subcommand)
           if subcommand == "c"
             ["console"]
+          elsif subcommand == "s"
+            ["start"]
           else
             super
           end
