@@ -136,6 +136,7 @@ Feature: Fancy permalinks
     And I have a configuration file with:
       | key               | value                           |
       | permalink         | /:lang/:year/:month/:day/:slug/ |
+      | content_engine    | resource                        |
       | available_locales | [en, es]                        |
     When I run bridgetown build
     Then I should get a zero exit status
@@ -154,11 +155,12 @@ Feature: Fancy permalinks
     And I have a configuration file with:
       | key               | value                            |
       | permalink         | /:lang/:year/:month/:day/:title/ |
+      | content_engine    | resource                         |
       | available_locales | [en, es]                         |
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Impresionante!" in "output/es/2009/03/27/multi-lingual/index.html"
+    And I should see "Impresionante!" in "output/es/2009/03/27/custom-locale/index.html"
 
   Scenario: Don't use language permalink if locales aren't configured
     Given I have a _posts directory
@@ -170,39 +172,13 @@ Feature: Fancy permalinks
       Impresionante!
       """
     And I have a configuration file with:
-      | key       | value                           |
-      | permalink | /:lang/:year/:month/:day/:slug/ |
+      | key            | value                           |
+      | permalink      | /:lang/:year/:month/:day/:slug/ |
+      | content_engine | resource                        |
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Impresionante!" in "output/2009/03/27/not-multi-lingual-es/index.html"
-
-  Scenario: Use custom permalink schema with multiple languages
-    Given I have a _posts directory
-    And I have an "_posts/2009-03-27-multi-lingual.en.md" file with content:
-      """
-      ---
-      title: English Locale
-      ---
-      Awesome! {{ site.locale }}
-      """
-    And I have an "_posts/2009-03-27-multi-lingual.es.md" file with content:
-      """
-      ---
-      title: Custom Locale
-      language: es
-      ---
-      Impresionante! {{ site.locale }}
-      """
-    And I have a configuration file with:
-      | key               | value                            |
-      | permalink         | /:lang/:year/:month/:day/:title/ |
-      | available_locales | [en, es]                         |
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "Awesome! en" in "output/en/2009/03/27/multi-lingual/index.html"
-    And I should see "Impresionante! es" in "output/es/2009/03/27/multi-lingual/index.html"
+    And I should see "Impresionante!" in "output/2009/03/27/not-multi-lingual.es/index.html"
 
   Scenario: Use custom permalink schema with multiple languages and a default path
     Given I have a _posts directory
@@ -222,7 +198,8 @@ Feature: Fancy permalinks
       """
     And I have a configuration file with:
       | key               | value                              |
-      | permalink         | /:locale/:year/:month/:day/:title/ |
+      | permalink         | /:locale/:year/:month/:day/:slug/  |
+      | content_engine    | resource                           |
       | available_locales | [en, es]                           |
     When I run bridgetown build
     Then I should get a zero exit status
@@ -249,7 +226,8 @@ Feature: Fancy permalinks
       """
     And I have a configuration file with:
       | key               | value                            |
-      | collections       | {blogs: {output: true, permalink: "/:locale/:collection/:title/"}} |
+      | collections       | {blogs: {output: true, permalink: "/:locale/:collection/:slug/"}} |
+      | content_engine    | resource                         |
       | available_locales | [en, es]                         |
     When I run bridgetown build
     Then I should get a zero exit status
@@ -270,6 +248,7 @@ Feature: Fancy permalinks
     And I have a configuration file with:
       | key               | value                           |
       | permalink         | /:lang/:year/:month/:day/:slug/ |
+      | content_engine    | resource                        |
       | available_locales | [en, es]                        |
     When I run bridgetown build
     Then I should get a zero exit status
