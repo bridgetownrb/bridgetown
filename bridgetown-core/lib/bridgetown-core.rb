@@ -73,11 +73,9 @@ module Bridgetown
   autoload :Configuration,       "bridgetown-core/configuration"
   autoload :DataAccessible,      "bridgetown-core/concerns/data_accessible"
   autoload :Deprecator,          "bridgetown-core/deprecator"
-  autoload :Document,            "bridgetown-core/document"
   autoload :EntryFilter,         "bridgetown-core/entry_filter"
   # TODO: we have too many errors! This is silly
   autoload :Errors,              "bridgetown-core/errors"
-  autoload :Excerpt,             "bridgetown-core/excerpt"
   autoload :FrontmatterDefaults, "bridgetown-core/frontmatter_defaults"
   autoload :FrontMatterImporter, "bridgetown-core/concerns/front_matter_importer"
   autoload :Hooks,               "bridgetown-core/hooks"
@@ -125,7 +123,6 @@ module Bridgetown
   require "bridgetown-core/filters"
 
   require "bridgetown-core/drops/drop"
-  require "bridgetown-core/drops/document_drop"
   require "bridgetown-core/drops/resource_drop"
   require_all "bridgetown-core/converters"
   require_all "bridgetown-core/converters/markdown"

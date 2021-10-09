@@ -154,25 +154,6 @@ class Bridgetown::Site
       end.to_h.with_dot_access
     end
 
-    # Get all documents.
-    # @return [Array<Document>] an array of documents from the
-    # configuration
-    def documents
-      collections.each_with_object(Set.new) do |(_, collection), set|
-        set.merge(collection.docs)
-      end.to_a
-    end
-
-    # Get the documents to be written
-    #
-    # @return [Array<Document>] an array of documents which should be
-    #   written and that `respond_to :write?`
-    # @see #documents
-    # @see Collection
-    def docs_to_write
-      documents.select(&:write?)
-    end
-
     # Get all loaded resources.
     # @return [Array<Bridgetown::Resource::Base>] an array of resources
     def resources
@@ -183,19 +164,6 @@ class Bridgetown::Site
 
     def resources_to_write
       resources.select(&:write?)
-    end
-
-    # Get all posts. Deprecated, to be removed in v1.0.
-    #
-    # @return [Collection] Returns {#collections}`["posts"]`, creating it if need be
-    # @see Collection
-    def posts
-      unless @wrote_deprecation_msg
-        Bridgetown::Deprecator.deprecation_message "Call site.collections.posts " \
-                                                   "instead of site.posts (Ruby code)"
-      end
-      @wrote_deprecation_msg ||= true
-      collections["posts"] ||= Bridgetown::Collection.new(self, "posts")
     end
 
     # Get the static files to be written

@@ -53,12 +53,6 @@ class Bridgetown::Site
     # @return [void]
     def render_docs
       collections.each_value do |collection|
-        collection.docs.each do |document|
-          render_with_locale(document) do
-            render_item document
-          end
-        end
-
         collection.resources.each do |resource|
           render_with_locale(resource) do
             resource.transform!
@@ -71,7 +65,7 @@ class Bridgetown::Site
     # @return [void]
     def render_pages
       pages.each do |page|
-        render_item page
+        render_page page
       end
     end
 
@@ -91,10 +85,10 @@ class Bridgetown::Site
     end
 
     # Regenerates a content item using {Renderer}
-    # @param item [Document, Page] The document or page to regenerate.
+    # @param item [Page] The page to render
     # @return [void]
-    def render_item(item)
-      Bridgetown::Renderer.new(self, item).run
+    def render_page(page)
+      Bridgetown::Renderer.new(self, page).run
     end
   end
 end

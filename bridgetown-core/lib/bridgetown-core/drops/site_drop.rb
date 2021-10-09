@@ -42,34 +42,6 @@ module Bridgetown
         @obj.uses_resource?
       end
 
-      def posts
-        unless @obj.uses_resource?
-          @site_posts ||= @obj.collections.posts.docs.sort { |a, b| b <=> a }
-        end
-      end
-
-      # TODO: deprecate before v1.0
-      def html_pages
-        @site_html_pages ||= @obj.pages.select do |page|
-          page.html? || page.url.end_with?("/")
-        end
-      end
-
-      # TODO: deprecate before v1.0
-      def collections
-        @site_collections ||= @obj.collections.values.sort_by(&:label).map(&:to_liquid)
-      end
-
-      # `Site#documents` cannot be memoized so that `Site#docs_to_write` can access the
-      # latest state of the attribute.
-      #
-      # Since this method will be called after `Site#pre_render` hook, the `Site#documents`
-      # array shouldn't thereafter change and can therefore be safely memoized to prevent
-      # additional computation of `Site#documents`.
-      def documents
-        @documents ||= @obj.documents
-      end
-
       def resources
         @resources ||= @obj.resources
       end

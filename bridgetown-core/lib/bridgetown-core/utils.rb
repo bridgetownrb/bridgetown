@@ -482,7 +482,7 @@ module Bridgetown
         end
 
       # Strip according to the mode
-      string.gsub(replaceable_char, "-")
+      string.to_s.gsub(replaceable_char, "-")
     end
   end
 end

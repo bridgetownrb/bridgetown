@@ -71,7 +71,7 @@ module Bridgetown
 
       def urls_only_differ_by_case(site)
         urls_only_differ_by_case = false
-        urls = case_insensitive_urls(site.pages + site.docs_to_write, site.dest)
+        urls = case_insensitive_urls(site.resources, site.dest)
         urls.each_value do |real_urls|
           next unless real_urls.uniq.size > 1
 
@@ -106,9 +106,9 @@ module Bridgetown
         urls
       end
 
-      def case_insensitive_urls(things, destination)
+      def case_insensitive_urls(things, _destination)
         things.each_with_object({}) do |thing, memo|
-          dest = thing.destination(destination)
+          dest = thing.destination.output_path
           (memo[dest.downcase] ||= []) << dest
         end
       end

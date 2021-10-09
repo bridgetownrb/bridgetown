@@ -17,7 +17,7 @@ module Bridgetown
       begin
         self.content = File.read(@path || site.in_source_dir(base, name),
                                  **Utils.merged_file_read_opts(site, opts))
-        if content =~ Document::YAML_FRONT_MATTER_REGEXP
+        if content =~ Bridgetown::Model::RepoOrigin::YAML_FRONT_MATTER_REGEXP
           self.content = $POSTMATCH
           self.data = YAMLParser.load(Regexp.last_match(1))&.with_dot_access
         end

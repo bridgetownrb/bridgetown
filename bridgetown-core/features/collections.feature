@@ -16,8 +16,8 @@ Feature: Collections
     And the "output/methods/static-file.txt" file should not exist
 
   Scenario: Rendered collection
-    Given I have an "index.html" page that contains "Collections: output => {{ site.collections[0].output }} label => {{ site.collections[0].label }}"
-    And I have an "collection_metadata.html" page that contains "Methods metadata: {{ site.collections[0].foo }} {{ site.collections[0] }}"
+    Given I have an "index.html" page that contains "Collections: output => {{ collections.methods.output }} label => {{ collections.methods.label }}"
+    And I have an "collection_metadata.html" page that contains "Methods metadata: {{ collections.methods.foo }}"
     And I have fixture collections
     And I have a "_methods/static-file.txt" file that contains "Static Content {{ site.title }}"
     And I have a "bridgetown.config.yml" file with content:
@@ -32,8 +32,8 @@ Feature: Collections
     And the output directory should exist
     And I should see "Collections: output => true" in "output/index.html"
     And I should see "label => methods" in "output/index.html"
-    And I should see "Methods metadata: bar" in "output/collection_metadata.html"
-    And I should see "<p>Whatever: foo.bar</p>" in "output/methods/configuration.html"
+    And I should see "Methods metadata: bar" in "output/collection_metadata/index.html"
+    And I should see "<p>Whatever: foo.bar</p>" in "output/methods/configuration/index.html"
     And I should see "Static Content {{ site.title }}" in "output/methods/static-file.txt"
 
   Scenario: Rendered collection at a custom URL
@@ -52,7 +52,7 @@ Feature: Collections
     And I should see "<p>Whatever: foo.bar</p>" in "output/methods/configuration/index.html"
 
   Scenario: Rendered document in a layout
-    Given I have an "index.html" page that contains "Collections: output => {{ site.collections[0].output }} label => {{ site.collections[0].label }} foo => {{ site.collections[0].foo }}"
+    Given I have an "index.html" page that contains "Collections: output => {{ collections.methods.output }} label => {{ collections.methods.label }} foo => {{ collections.methods.foo }}"
     And I have a default layout that contains "<div class='title'>Tom Preston-Werner</div> {{content}}"
     And I have fixture collections
     And I have a "bridgetown.config.yml" file with content:
@@ -68,11 +68,11 @@ Feature: Collections
     And I should see "Collections: output => true" in "output/index.html"
     And I should see "label => methods" in "output/index.html"
     And I should see "foo => bar" in "output/index.html"
-    And I should see "<p>Run your generators! default</p>" in "output/methods/site/generate.html"
-    And I should see "<div class='title'>Tom Preston-Werner</div>" in "output/methods/site/generate.html"
+    And I should see "<p>Run your generators! default</p>" in "output/methods/site/generate/index.html"
+    And I should see "<div class='title'>Tom Preston-Werner</div>" in "output/methods/site/generate/index.html"
 
   Scenario: Collections specified as an array
-    Given I have an "index.html" page that contains "Collections: {% for method in site.methods %}{{ method.relative_path }} {% endfor %}"
+    Given I have an "index.html" page that contains "Collections: {% for method in collections.methods.resources %}{{ method.relative_path }} {% endfor %}"
     And I have fixture collections
     And I have a "bridgetown.config.yml" file with content:
     """
@@ -85,7 +85,7 @@ Feature: Collections
     And I should see "Collections: _methods/3940394-21-9393050-fifif1323-test.md _methods/collection/entries _methods/configuration.md _methods/escape-\+ #%20\[\].md _methods/sanitized_path.md _methods/site/generate.md _methods/site/initialize.md _methods/trailing-dots...md _methods/um_hi.md" in "output/index.html"
 
   Scenario: Collections specified as an hash
-    Given I have an "index.html" page that contains "Collections: {% for method in site.methods %}{{ method.relative_path }} {% endfor %}"
+    Given I have an "index.html" page that contains "Collections: {% for method in collections.methods.resources %}{{ method.relative_path }} {% endfor %}"
     And I have fixture collections
     And I have a "bridgetown.config.yml" file with content:
     """
@@ -112,12 +112,12 @@ Feature: Collections
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "content for Rover" in "output/puppies/rover.html"
-    And the "output/puppies/fido.html" file should not exist
+    And I should see "content for Rover" in "output/puppies/rover/index.html"
+    And the "output/puppies/fido/index.html" file should not exist
     When I run bridgetown build --future
     Then I should get a zero exit status
     And the output directory should exist
-    And the "output/puppies/fido.html" file should exist
+    And the "output/puppies/fido/index.html" file should exist
 
   Scenario: Access rendered collection with future dated document via Liquid
     Given I have a _puppies directory
