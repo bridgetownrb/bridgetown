@@ -295,12 +295,16 @@ module Bridgetown
       private
 
       def ensure_default_data
+        determine_locale
+
         slug = if matches = relative_path.to_s.match(DATE_FILENAME_MATCHER) # rubocop:disable Lint/AssignmentInCondition
                  set_date_from_string(matches[1]) unless data.date
                  matches[2]
                else
                  basename_without_ext
                end
+
+        slug.chomp!(".#{data.locale}") if data.locale && slug.ends_with?(".#{data.locale}")
 
         data.slug ||= slug
         data.title ||= Bridgetown::Utils.titleize_slug(slug)
@@ -330,6 +334,27 @@ module Bridgetown
             metadata.terms << TaxonomyTerm.new(
               resource: self, label: term, type: metadata.type
             )
+          end
+        end
+      end
+
+      def determine_locale
+        unless data.locale
+          # if locale key isn't directly set, look for alternative front matter
+          # or look at the filename pattern: slug.locale.ext
+          alternative = data.language || data.lang ||
+            basename_without_ext.split(".")[1..-1].last
+
+          data.locale = if !alternative.nil? && site.config.available_locales.include?(alternative.to_sym)
+                          alternative
+                        else
+                          site.config.default_locale
+                        end
+        end
+
+        if data.locale_overrides&.is_a?(Hash) && data.locale_overrides&.key?(data.locale)
+          data.locale_overrides[data.locale].each do |k, v|
+            data[k] = v
           end
         end
       end

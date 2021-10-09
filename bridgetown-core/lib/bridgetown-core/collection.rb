@@ -304,8 +304,22 @@ module Bridgetown
     def read_resource(full_path)
       id = "repo://#{label}.collection/" + Addressable::URI.escape(
         Pathname(full_path).relative_path_from(Pathname(site.source)).to_s
-      )
-      resource = Bridgetown::Model::Base.find(id).to_resource.read!
+      ).gsub("#", "%23")
+      model = Bridgetown::Model::Base.find(id)
+
+      if model.attributes.key?(:locale) && model.locale.to_sym == :multi
+        site.config.available_locales.each do |locale|
+          model.locale = locale
+          add_model_resource model
+        end
+        return
+      end
+
+      add_model_resource model
+    end
+
+    def add_model_resource(model)
+      resource = model.to_resource.read!
       resources << resource if site.config.unpublished || resource.published?
     end
 

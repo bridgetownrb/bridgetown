@@ -3,3 +3,5 @@
 ~~~
 
 That's **nice**.
+
+Locale: {{ resource.data.locale }}
