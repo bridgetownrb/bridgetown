@@ -340,23 +340,20 @@ module Bridgetown
 
       def determine_locale
         unless data.locale
-          # if locale key isn't directly set, look for alternative front matter
-          # or look at the filename pattern: slug.locale.ext
-          alternative = data.language || data.lang ||
-            basename_without_ext.split(".")[1..-1].last
-
-          data.locale = if !alternative.nil? && site.config.available_locales.include?(alternative.to_sym)
-                          alternative
-                        else
-                          site.config.default_locale
-                        end
+          data.locale = locale_from_alt_data_or_filename.presence || site.config.default_locale
         end
 
         if data.locale_overrides&.is_a?(Hash) && data.locale_overrides&.key?(data.locale)
-          data.locale_overrides[data.locale].each do |k, v|
-            data[k] = v
-          end
+          data.merge!(data.locale_overrides[data.locale])
         end
+      end
+
+      # Look for alternative front matter or look at the filename pattern: slug.locale.ext
+      def locale_from_alt_data_or_filename
+        found_locale = data.language || data.lang || basename_without_ext.split(".")[1..-1].last
+        return unless found_locale && site.config.available_locales.include?(found_locale.to_sym)
+
+        found_locale
       end
 
       def format_url(url)

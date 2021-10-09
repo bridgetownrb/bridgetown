@@ -271,7 +271,7 @@ module Bridgetown
         self[:permalink] = "pretty" if self[:permalink].blank?
         self[:collections][:pages] = {} unless self[:collections][:pages]
         self[:collections][:pages][:output] = true
-      self[:collections][:pages][:permalink] ||= "/:locale/:path/"
+        self[:collections][:pages][:permalink] ||= "/:locale/:path/"
 
         self[:collections][:data] = {} unless self[:collections][:data]
         self[:collections][:data][:output] = false

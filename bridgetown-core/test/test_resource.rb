@@ -2,21 +2,6 @@
 
 require "helper"
 
-# stub
-module Bridgetown
-  module Paginate
-    class PaginationIndexer
-      def self.index_documents_by(pages_list, search_term)
-        # site.collections[@configured_collection].resources
-
-        pages_list.map do |resource|
-          [resource.data[search_term], nil]
-        end.to_h
-      end
-    end
-  end
-end
-
 class TestResource < BridgetownUnitTest
   context "a top-level page" do
     setup do
@@ -77,7 +62,7 @@ class TestResource < BridgetownUnitTest
       @site.process
       # @type [Bridgetown::Resource::Base]
       @resource = @site.collections.pages.resources.find do |page|
-        page.relative_path.to_s == "_pages/second-level-page.md"
+        page.relative_path.to_s == "_pages/second-level-page.en.md"
       end
     end
 
