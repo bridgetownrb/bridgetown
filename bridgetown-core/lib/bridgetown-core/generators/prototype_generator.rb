@@ -130,7 +130,7 @@ module Bridgetown
       @site = prototyped_page.site
       @url = ""
       @name = "index.html"
-      @ext = "html"
+      @ext = ".html"
       @basename = "index"
       @dir = Pathname.new(prototyped_page.relative_path).dirname.to_s.sub(%r{^_pages}, "")
       @path = site.in_source_dir(@dir, @name)
