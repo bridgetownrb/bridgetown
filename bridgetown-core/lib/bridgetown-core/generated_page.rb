@@ -173,7 +173,7 @@ module Bridgetown
       FileUtils.mkdir_p(File.dirname(path))
       Bridgetown.logger.debug "Writing:", path
       File.write(path, output, mode: "wb")
-      Bridgetown::Hooks.trigger :pages, :post_write, self
+      Bridgetown::Hooks.trigger :generated_pages, :post_write, self
     end
 
     # Returns the object as a debug String.

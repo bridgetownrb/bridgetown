@@ -13,7 +13,6 @@ module Bridgetown
                      :data,
                      :locale,
                      :time,
-                     :pages,
                      :generated_pages,
                      :static_files,
                      :tags,
