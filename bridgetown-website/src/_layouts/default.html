@@ -17,6 +17,6 @@ template_engine: erb
       <%= yield %>
     </main>
 
-    <%= liquid_render "shared/footer", metadata: site.metadata, bridgetown: Bridgetown::Drops::BridgetownDrop.global, github_participation: layout.data.github_participation %>
+    <%= liquid_render "shared/footer", metadata: site.metadata, bridgetown: Bridgetown::Drops::BridgetownDrop.global %>
   </body>
 </html>

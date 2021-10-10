@@ -47,7 +47,7 @@ class TestGeneratedSite < BridgetownUnitTest
     end
 
     should "process a page with a folder permalink properly" do
-      about = @site.pages.find { |page| page.name == "about.html" }
+      about = @site.collections.pages.resources.find { |page| page.name == "about.html" }
       assert_equal dest_dir("about", "index.html"), about.destination(dest_dir)
       assert_exist dest_dir("about", "index.html")
     end

@@ -43,7 +43,7 @@ module Bridgetown
         Bridgetown.logger.debug "Pagination:", "Starting"
 
         # Get all matching pages in the site found by the init hooks, and ensure they're
-        # still in the site.pages array
+        # still in the site.generated_pages array
         templates = self.class.matching_templates.select do |page|
           site.generated_pages.include?(page) || site.resources.include?(page)
         end
@@ -95,7 +95,7 @@ module Bridgetown
           if page_to_remove.is_a?(Bridgetown::Resource::Base)
             page_to_remove.collection.resources.delete(page_to_remove)
           else
-            site.pages.delete(page_to_remove)
+            site.generated_pages.delete(page_to_remove)
           end
         end
 

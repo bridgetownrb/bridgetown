@@ -17,8 +17,8 @@ class TestFrontMatterDefaults < BridgetownUnitTest
         }]
       )
       @output = capture_output { @site.process }
-      @affected = @site.pages.find { |page| page.relative_path == "contacts/bar.html" }
-      @not_affected = @site.pages.find { |page| page.relative_path == "about.html" }
+      @affected = @site.collections.pages.resources.find { |page| page.relative_path == "contacts/bar.html" }
+      @not_affected = @site.collections.pages.resources.find { |page| page.relative_path == "about.html" }
     end
 
     should "affect only the specified path and type" do
@@ -45,8 +45,8 @@ class TestFrontMatterDefaults < BridgetownUnitTest
         }]
       )
       @output = capture_output { @site.process }
-      @affected = @site.pages.find { |page| page.relative_path == "contacts/bar.html" }
-      @not_affected = @site.pages.find { |page| page.relative_path == "about.html" }
+      @affected = @site.collections.pages.resources.find { |page| page.relative_path == "contacts/bar.html" }
+      @not_affected = @site.collections.pages.resources.find { |page| page.relative_path == "about.html" }
     end
 
     should "affect only the specified path and type" do
@@ -73,8 +73,8 @@ class TestFrontMatterDefaults < BridgetownUnitTest
       )
 
       @site.process
-      @affected = @site.pages.find { |page| page.relative_path == "index.html" }
-      @not_affected = @site.pages.find { |page| page.relative_path == "about.html" }
+      @affected = @site.collections.pages.resources.find { |page| page.relative_path == "index.html" }
+      @not_affected = @site.collections.pages.resources.find { |page| page.relative_path == "about.html" }
     end
 
     should "affect only the specified path" do
@@ -97,8 +97,8 @@ class TestFrontMatterDefaults < BridgetownUnitTest
       )
 
       @site.process
-      @affected = @site.posts.docs.find { |page| page.relative_path =~ %r!win\/! }
-      @not_affected = @site.pages.find { |page| page.relative_path == "about.html" }
+      @affected = @site.collections.pages.resources.docs.find { |page| page.relative_path =~ %r!win\/! }
+      @not_affected = @site.collections.pages.resources.find { |page| page.relative_path == "about.html" }
     end
 
     should "affect only the specified path and all types" do
@@ -121,8 +121,8 @@ class TestFrontMatterDefaults < BridgetownUnitTest
       )
 
       @site.process
-      @affected = @site.pages
-      @not_affected = @site.posts.docs
+      @affected = @site.collections.pages.resources
+      @not_affected = @site.collections.posts.resources
     end
 
     should "affect only the specified type and all paths" do
@@ -145,8 +145,8 @@ class TestFrontMatterDefaults < BridgetownUnitTest
         }]
       )
       @site.process
-      @affected = @site.pages
-      @not_affected = @site.posts.docs
+      @affected = @site.collections.pages.resources
+      @not_affected = @site.collections.posts.resources
     end
 
     should "affect only the specified type and all paths" do
@@ -168,8 +168,8 @@ class TestFrontMatterDefaults < BridgetownUnitTest
         }]
       )
       @site.process
-      @affected = @site.pages
-      @not_affected = @site.posts.docs
+      @affected = @site.collections.pages.resources
+      @not_affected = @site.collections.posts.resources
     end
 
     should "affect all types and paths" do
@@ -188,8 +188,8 @@ class TestFrontMatterDefaults < BridgetownUnitTest
         }]
       )
       @site.process
-      @affected = @site.pages
-      @not_affected = @site.posts.docs
+      @affected = @site.collections.pages.resources
+      @not_affected = @site.collections.posts.resources
     end
 
     should "affect all types and paths" do
@@ -218,8 +218,8 @@ class TestFrontMatterDefaults < BridgetownUnitTest
     should "parse date" do
       @site.process
       date = Time.parse("2015-01-01 00:00:01")
-      assert(@site.pages.find { |page| page.data["date"] == date })
-      assert(@site.posts.docs.find { |page| page.data["date"] == date })
+      assert(@site.collections.pages.resources.find { |page| page.data["date"] == date })
+      assert(@site.collections.posts.resources.find { |page| page.data["date"] == date })
     end
   end
 

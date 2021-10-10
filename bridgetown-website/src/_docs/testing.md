@@ -34,7 +34,7 @@ require_relative "./helper"
 class TestBlog < Minitest::Test
   context "blog page" do
     setup do
-      page = site.pages.find { |doc| doc.url == "/blog/index.html" }
+      page = site.collections.pages.resources.find { |page| page.relative_url == "/blog/index.html" }
       document_root page
     end
 

@@ -130,19 +130,13 @@ module Bridgetown
       @site = prototyped_page.site
       @url = ""
       @name = "index.html"
-      @path = prototyped_page.path
       @ext = "html"
       @basename = "index"
+      @dir = Pathname.new(prototyped_page.relative_path).dirname.to_s.sub(%r{^_pages}, "")
+      @path = site.in_source_dir(@dir, @name)
 
       self.data = Bridgetown::Utils.deep_merge_hashes prototyped_page.data, {}
       self.content = prototyped_page.content
-
-      # Perform some validation that is also performed in Bridgetown::GeneratedPage
-      validate_data! prototyped_page.path
-      validate_permalink! prototyped_page.path
-
-      @dir = Pathname.new(prototyped_page.relative_path).dirname.to_s.sub(%r{^_pages}, "")
-      @path = site.in_source_dir(@dir, @name)
 
       process_prototype_page_data(collection, search_term, term)
 

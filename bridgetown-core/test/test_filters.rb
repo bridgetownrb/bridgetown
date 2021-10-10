@@ -802,9 +802,9 @@ class TestFilters < BridgetownUnitTest
     end
 
     context "group_by filter" do
-      should "successfully group array of Bridgetown::Page's" do
+      should "successfully group array of pages" do
         @filter.site.process
-        grouping = @filter.group_by(@filter.site.pages, "layout")
+        grouping = @filter.group_by(@filter.site.collections.pages.resources, "layout")
         grouping.each do |g|
           assert(
             ["default",
@@ -839,7 +839,7 @@ class TestFilters < BridgetownUnitTest
       end
 
       should "include the size of each grouping" do
-        grouping = @filter.group_by(@filter.site.pages, "layout")
+        grouping = @filter.group_by(@filter.site.collections.pages.resources, "layout")
         grouping.each do |g|
           assert_equal(
             g["items"].size,
@@ -1098,7 +1098,7 @@ class TestFilters < BridgetownUnitTest
     context "group_by_exp filter" do
       should "successfully group array of Bridgetown::Page's" do
         @filter.site.process
-        groups = @filter.group_by_exp(@filter.site.pages, "page", "page.layout | upcase")
+        groups = @filter.group_by_exp(@filter.site.collections.pages.resources, "page", "page.layout | upcase")
         groups.each do |g|
           assert(
             ["DEFAULT",
@@ -1133,7 +1133,7 @@ class TestFilters < BridgetownUnitTest
       end
 
       should "include the size of each grouping" do
-        groups = @filter.group_by_exp(@filter.site.pages, "page", "page.layout")
+        groups = @filter.group_by_exp(@filter.site.collections.pages.resources, "page", "page.layout")
         groups.each do |g|
           assert_equal(
             g["items"].size,
@@ -1155,8 +1155,8 @@ class TestFilters < BridgetownUnitTest
       end
 
       should "be equivalent of group_by" do
-        actual = @filter.group_by_exp(@filter.site.pages, "page", "page.layout")
-        expected = @filter.group_by(@filter.site.pages, "layout")
+        actual = @filter.group_by_exp(@filter.site.collections.pages.resources, "page", "page.layout")
+        expected = @filter.group_by(@filter.site.site.collections.pages.resources, "layout")
 
         assert_equal expected, actual
       end

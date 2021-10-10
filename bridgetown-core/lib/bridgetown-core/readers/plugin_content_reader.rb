@@ -2,11 +2,14 @@
 
 module Bridgetown
   class PluginContentReader
-    attr_reader :site, :content_dir
+    attr_reader :site, :manifest, :content_dir
 
-    def initialize(site, plugin_content_dir)
+    # @param site [Bridgetown::Site]
+    # @param manifest [Bridgetown::Plugin::SourceManifest]
+    def initialize(site, manifest)
       @site = site
-      @content_dir = plugin_content_dir
+      @manifest = manifest
+      @content_dir = manifest.content
       @content_files = Set.new
     end
 
@@ -28,15 +31,11 @@ module Bridgetown
       dir = File.dirname(path.sub("#{content_dir}/", ""))
       name = File.basename(path)
 
-      @content_files << if Utils.has_yaml_header?(path)
-                          Bridgetown::GeneratedPage.new(
-                            site, content_dir, dir, name, from_plugin: true
-                          )
+      @content_files << if Utils.has_yaml_header?(path) || Utils.has_rbfm_header?(path)
+                          site.collections.pages.read_resource(path, manifest: manifest)
                         else
                           Bridgetown::StaticFile.new(site, content_dir, "/#{dir}", name)
                         end
-
-      add_to(site.generated_pages, Bridgetown::GeneratedPage)
       add_to(site.static_files, Bridgetown::StaticFile)
     end
 

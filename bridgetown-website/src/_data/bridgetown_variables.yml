@@ -25,27 +25,15 @@ site:
   - name: site.time
     description: >-
       The current time (when you run the <code>bridgetown</code> command).
-  - name: site.contents
+  - name: site.resources
     description: >-
-      A combined list of all Pages and Documents (from posts and other collections).
-  - name: site.pages
-    description: >-
-      A list of all Pages.
-  - name: site.posts
-    description: >-
-      A reverse chronological list of all Posts.
+      A list of all resources (from pages, posts and other collections).
   - name: site.static_files
     description: >-
       A list of all <a href="/docs/static-files/">static files</a> (i.e.
       files not processed by Bridgetown's converters or the Liquid renderer).
       Each file has five properties: <code>path</code>, <code>modified_time</code>,
       <code>name</code>, <code>basename</code> and <code>extname</code>.
-  - name: site.html_pages
-    description: >-
-      A subset of <code>site.pages</code> listing those which end in <code>.html</code>.
-  - name: site.html_files
-    description: >-
-      A subset of <code>site.static_files</code> listing those which end in <code>.html</code>.
   - name: site.collections
     description: >-
       A list of all the collections (including posts).
@@ -53,15 +41,12 @@ site:
     description: >-
       A list containing the data loaded from the YAML files located in the <code>_data</code>
       directory.
-  - name: site.documents
-    description: >-
-      A list of all the documents in every collection.
   - name: site.categories.CATEGORY
     description: >-
-      The list of all Posts in category <code>CATEGORY</code>.
+      The list of all resources in category <code>CATEGORY</code>.
   - name: site.tags.TAG
     description: >-
-      The list of all Posts with tag <code>TAG</code>.
+      The list of all resources with tag <code>TAG</code>.
   - name: site.url
     description: >-
       Contains the url of your site as it is configured in the <code>bridgetown.config.yml</code>.

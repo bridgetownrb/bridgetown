@@ -17,9 +17,8 @@ module Bridgetown
         @url = ""
         @name = index_pageandext.nil? ? "index#{template_ext}" : index_pageandext
         @path = page_to_copy.path
-
-        # Creates the basename and ext member values
-        process(@name)
+        @basename = File.basename(@path, ".*")
+        @ext = File.extname(@name)
 
         # Only need to copy the data part of the page as it already contains the
         # layout information
@@ -29,11 +28,7 @@ module Bridgetown
         # Store the current page and total page numbers in the pagination_info construct
         data["pagination_info"] = { "curr_page" => cur_page_nr, "total_pages" => total_pages }
 
-        # Perform some validation that is also performed in Bridgetown::Page
-        validate_data! page_to_copy.path
-        validate_permalink! page_to_copy.path
-
-        Bridgetown::Hooks.trigger :pages, :post_init, self
+        Bridgetown::Hooks.trigger :generated_pages, :post_init, self
       end
 
       # rubocop:disable Naming/AccessorMethodName

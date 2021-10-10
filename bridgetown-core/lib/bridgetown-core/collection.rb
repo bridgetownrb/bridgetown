@@ -272,9 +272,14 @@ module Bridgetown
 
     # Read in resource from repo path
     # @param full_path [String]
-    def read_resource(full_path)
-      id = "repo://#{label}.collection/" + Addressable::URI.escape(
-        Pathname(full_path).relative_path_from(Pathname(site.source)).to_s
+    def read_resource(full_path, manifest: nil) # rubocop:todo Metrics/AbcSize
+      scheme = manifest ? "plugin" : "repo"
+      id = +"#{scheme}://#{label}.collection/"
+      id += "#{manifest.origin}/" if manifest
+      id += Addressable::URI.escape(
+        Pathname(full_path).relative_path_from(
+          manifest ? manifest.content : Pathname(site.source)
+        ).to_s
       ).gsub("#", "%23")
       model = Bridgetown::Model::Base.find(id)
 

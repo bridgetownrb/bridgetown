@@ -33,7 +33,7 @@ class Bridgetown::Site
         )
       end
       self.layouts = HashWithDotAccess::Hash.new
-      self.pages = []
+      self.generated_pages = []
       self.static_files = []
       self.data = HashWithDotAccess::Hash.new unless soft
       @frontend_manifest = nil

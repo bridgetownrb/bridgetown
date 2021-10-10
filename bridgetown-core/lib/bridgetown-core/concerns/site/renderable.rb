@@ -9,8 +9,8 @@ class Bridgetown::Site
     def render
       Bridgetown::Hooks.trigger :site, :pre_render, self
       execute_inline_ruby_for_layouts!
-      render_docs
-      render_pages
+      render_resources
+      render_generated_pages
       Bridgetown::Hooks.trigger :site, :post_render, self
     end
 
@@ -46,9 +46,9 @@ class Bridgetown::Site
       matches
     end
 
-    # Renders all documents
+    # Renders all resources
     # @return [void]
-    def render_docs
+    def render_resources
       collections.each_value do |collection|
         collection.resources.each do |resource|
           render_with_locale(resource) do
@@ -58,10 +58,10 @@ class Bridgetown::Site
       end
     end
 
-    # Renders all pages
+    # Renders all generated pages
     # @return [void]
-    def render_pages
-      pages.each do |page|
+    def render_generated_pages
+      generated_pages.each do |page|
         render_page page
       end
     end

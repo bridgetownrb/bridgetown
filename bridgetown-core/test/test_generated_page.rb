@@ -147,11 +147,11 @@ class TestGeneratedPage < BridgetownUnitTest
       end
 
       should "be processed and written to destination when passed as "\
-        "an entry in 'site.pages' array" do
+        "an entry in 'site.generated_pages' array" do
         @page.content = "{{ site.title }}"
         @page.data["permalink"] = "/virtual-about/"
 
-        @site.pages << @page
+        @site.generated_pages << @page
         render_and_write
 
         refute_exist dest_dir("physical")

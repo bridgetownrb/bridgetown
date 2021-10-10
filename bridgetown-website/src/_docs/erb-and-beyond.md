@@ -244,7 +244,7 @@ You can also pass relative or aboslute URLs to `link_to` and they'll just pass-t
 Finally, if you pass a Ruby object (i.e., it responds to `url`), it will work as you'd expect:
 
 ```eruby
-<%%= link_to "My last page", @site.pages.last %>
+<%%= link_to "My last page", @site.collections.pages.resources.last %>
 
 <!-- output: -->
 <a href="/this/is/my-last-page">My last page</a>
