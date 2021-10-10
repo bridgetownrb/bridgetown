@@ -51,6 +51,7 @@ module Bridgetown
 
       def compute_absolute_url(input)
         return if input.nil?
+        return input.absolute_url if input.respond_to?(:absolute_url)
 
         input = input.url if input.respond_to?(:url)
         return input if Addressable::URI.parse(input.to_s).absolute?
@@ -66,6 +67,7 @@ module Bridgetown
 
       def compute_relative_url(input)
         return if input.nil?
+        return input.relative_url if input.respond_to?(:relative_url)
 
         input = input.url if input.respond_to?(:url)
         return input if Addressable::URI.parse(input.to_s).absolute?

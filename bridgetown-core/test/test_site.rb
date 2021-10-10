@@ -3,22 +3,6 @@
 require "helper"
 
 class TestSite < BridgetownUnitTest
-  def with_image_as_post
-    tmp_image_path = File.join(source_dir, "_posts", "2017-09-01-bridgetown-sticker.jpg")
-    FileUtils.cp File.join(Dir.pwd, "test", "fixtures", "bridgetown-image.jpg"), tmp_image_path
-    yield
-  ensure
-    FileUtils.rm tmp_image_path
-  end
-
-  def read_posts
-    PostReader.new(@site).read_posts("")
-    posts = Dir[source_dir("_posts", "**", "*")]
-    posts.delete_if do |post|
-      File.directory?(post) && post !~ Document::DATE_FILENAME_MATCHER
-    end
-  end
-
   context "configuring sites" do
     should "default base_path to `/`" do
       site = Site.new(Bridgetown::Configuration::DEFAULTS.deep_dup)
@@ -50,7 +34,7 @@ class TestSite < BridgetownUnitTest
   context "creating sites" do
     setup do
       @site = Site.new(site_configuration)
-      @num_invalid_posts = 7
+      @num_invalid_posts = 10
     end
 
     teardown do
@@ -192,19 +176,6 @@ class TestSite < BridgetownUnitTest
       assert_equal sorted_pages, @site.collections.pages.resources.map { |page| page.relative_path.basename.to_s }.sort!
     end
 
-    should "read posts" do
-      posts = read_posts
-      assert_equal posts.size - @num_invalid_posts, @site.posts.docs.size
-    end
-
-    should "skip posts with invalid encoding" do
-      with_image_as_post do
-        posts = read_posts
-        num_invalid_posts = @num_invalid_posts + 1
-        assert_equal posts.size - num_invalid_posts, @site.posts.docs.size
-      end
-    end
-
     should "read pages with YAML front matter" do
       abs_path = File.expand_path("about.html", @site.source)
       assert_equal true, Utils.has_yaml_header?(abs_path)
@@ -227,16 +198,16 @@ class TestSite < BridgetownUnitTest
       clear_dest
       @site.process
 
-      posts = Dir[source_dir("**", "_posts", "**", "*")]
+      posts = Dir[source_dir("_posts", "**", "*")]
       posts.delete_if do |post|
-        File.directory?(post) && post !~ Document::DATE_FILENAME_MATCHER
+        File.directory?(post) && post !~ Bridgetown::Resource::Base::DATE_FILENAME_MATCHER
       end
       categories = %w(
-        2013 bar baz foo z_category MixedCase Mixedcase publish_test
+        2013 bar baz foo z_category MixedCase Mixedcase test_post_reader publish_test
       ).sort
 
-      assert_equal posts.size - @num_invalid_posts, @site.posts.docs.size
-      assert_equal categories, @site.categories.keys.sort
+      assert_equal posts.size - @num_invalid_posts, @site.collections.posts.resources.size
+      assert_equal categories, @site.categories.keys.map(&:to_s).sort
       assert_equal 4, @site.categories["foo"].size
     end
 
@@ -400,17 +371,6 @@ class TestSite < BridgetownUnitTest
         assert_equal site.site_payload["site"]["data"]["members"], file_content
       end
 
-      should "load yaml files from extracted method" do
-        site = Site.new(site_configuration)
-        site.process
-
-        file_content = DataReader.new(site)
-          .read_data_file(source_dir("_data", "members.yaml"))
-
-        assert_equal site.data["members"], file_content
-        assert_equal site.site_payload["site"]["data"]["members"], file_content
-      end
-
       should "auto load yml files" do
         site = Site.new(site_configuration)
         site.process
@@ -442,21 +402,6 @@ class TestSite < BridgetownUnitTest
         assert_equal site.data["categories"]["dairy"], file_content
         assert_equal(
           site.site_payload["site"]["data"]["categories"]["dairy"],
-          file_content
-        )
-      end
-
-      should "auto load yaml files in subdirectory with a period in the name" do
-        site = Site.new(site_configuration)
-        site.process
-
-        file_content = Bridgetown::YAMLParser.load_file(File.join(
-                                                          source_dir, "_data", "categories.01", "dairy.yaml"
-                                                        ))
-
-        assert_equal site.data["categories01"]["dairy"], file_content
-        assert_equal(
-          site.site_payload["site"]["data"]["categories01"]["dairy"],
           file_content
         )
       end

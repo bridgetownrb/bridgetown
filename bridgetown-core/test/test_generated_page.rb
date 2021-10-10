@@ -39,39 +39,9 @@ class TestGeneratedPage < BridgetownUnitTest
       end
 
       should "not have page-content and page-data defined within it" do
-        assert_equal "pages", @page.type.to_s
+        assert_equal "generated_pages", @page.type.to_s
         assert_nil @page.content
         assert_empty @page.data
-      end
-
-      should "have basic attributes defined in it" do
-        regular_page = setup_page("properties.html", klass: Page)
-        # assert a couple of attributes accessible in a regular Bridgetown::Page instance
-        assert_equal "All the properties.\n", regular_page.content
-        assert_equal "properties.html", regular_page.name
-
-        basic_attrs = %w(dir name path url)
-        attrs = {
-          "content"   => "All the properties.\n",
-          "excerpt"   => nil,
-          "foo"       => "bar",
-          "layout"    => "default",
-          "permalink" => "/properties/",
-          "published" => nil,
-          "title"     => "Properties Page",
-        }
-        attrs.each do |prop, value|
-          # assert that all attributes (of a Bridgetown::GeneratedPage instance) other than
-          # "dir", "name", "path", "url" are `nil`.
-          # For example, @page[dir] should be "/" but @page[content] or @page[layout], should
-          # simply be nil.
-          #
-          if basic_attrs.include?(prop)
-            assert_equal value, @page[prop], "For Bridgetown::GeneratedPage attribute '#{prop}':"
-          else
-            assert_nil @page[prop]
-          end
-        end
       end
     end
 
@@ -83,31 +53,6 @@ class TestGeneratedPage < BridgetownUnitTest
       should "generate page url accordingly" do
         page = setup_page("properties.html")
         assert_equal "/properties", page.url
-      end
-    end
-
-    context "with default front matter configuration" do
-      setup do
-        @site.config["defaults"] = [
-          {
-            "scope"  => {
-              "path" => "",
-              "type" => "pages",
-            },
-            "values" => {
-              "layout" => "default",
-              "author" => "John Doe",
-            },
-          },
-        ]
-
-        @page = setup_page("info.md")
-      end
-
-      should "respect front matter defaults" do
-        assert_nil @page.data["title"]
-        assert_equal "John Doe", @page.data["author"]
-        assert_equal "default", @page.data["layout"]
       end
     end
 
