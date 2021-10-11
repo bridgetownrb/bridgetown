@@ -66,7 +66,7 @@ bin/bridgetown configure stimulus
 
 ### Turbo
 
-⚙️ Adds and configures [Turbo](https://turbo.hotwire.dev).
+⚙️ Adds and configures [Turbo](https://turbo.hotwired.dev).
 
 🛠 **Configure using:**
 
