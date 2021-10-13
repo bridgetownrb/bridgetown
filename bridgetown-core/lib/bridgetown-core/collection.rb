@@ -278,7 +278,7 @@ module Bridgetown
       id += "#{manifest.origin}/" if manifest
       id += Addressable::URI.escape(
         Pathname(full_path).relative_path_from(
-          manifest ? manifest.content : Pathname(site.source)
+          manifest ? Pathname(manifest.content) : Pathname(site.source)
         ).to_s
       ).gsub("#", "%23")
       model = Bridgetown::Model::Base.find(id)
