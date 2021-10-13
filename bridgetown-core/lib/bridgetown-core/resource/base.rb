@@ -268,7 +268,7 @@ module Bridgetown
       #
       # Returns -1, 0, +1 or nil depending on whether this doc's path is less than,
       #   equal or greater than the other doc's path. See String#<=> for more details.
-      def <=>(other) # rubocop:todo Metrics/AbcSize
+      def <=>(other) # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity
         return nil unless other.respond_to?(:data)
 
         cmp = if data.date.respond_to?(:to_datetime) && other.data.date.respond_to?(:to_datetime)
