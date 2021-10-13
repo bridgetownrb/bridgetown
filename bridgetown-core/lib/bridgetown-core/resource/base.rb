@@ -271,11 +271,11 @@ module Bridgetown
       def <=>(other) # rubocop:todo Metrics/AbcSize
         return nil unless other.respond_to?(:data)
 
-        if data.date.respond_to?(:to_datetime) && other.data.date.respond_to?(:to_datetime)
-          return data.date.to_datetime <=> other.data.date.to_datetime
-        end
+        cmp = if data.date.respond_to?(:to_datetime) && other.data.date.respond_to?(:to_datetime)
+                data.date.to_datetime <=> other.data.date.to_datetime
+              end
 
-        cmp = data["date"] <=> other.data["date"]
+        cmp = data["date"] <=> other.data["date"] if cmp.nil?
         cmp = path <=> other.path if cmp.nil? || cmp.zero?
         cmp
       end

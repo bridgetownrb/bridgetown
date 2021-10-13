@@ -79,7 +79,7 @@ Feature: Site data
   When I run bridgetown build
   Then I should get a zero exit status
     And the output directory should exist
-  And I should see "last:,A A:last,C C:A,B B:C,first first:B," in "output/index.html"
+  And I should see "last:,C C:last,B B:C,A A:B,first first:A," in "output/index.html"
 
   Scenario: Use configuration date in site payload
     Given I have an "index.html" page that contains "{{ site.url }}"

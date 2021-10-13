@@ -99,7 +99,7 @@ Feature: Fancy permalinks
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Totally wordpress." in "output/2009/03/27/Pretty-Permalink-Schema/index.html"
+    And I should see "Totally wordpress." in "output/2009/03/27/pretty-permalink-schema/index.html"
 
   Scenario: Use custom permalink schema with lowercase file name
     Given I have a _posts directory
@@ -248,7 +248,7 @@ Feature: Fancy permalinks
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Totally awesome" in "output/2009/03/27/Custom_Schema/index.html"
+    And I should see "Totally awesome" in "output/2009/03/27/custom_schema/index.html"
 
   Scenario: Use a non-HTML file extension in the permalink
     Given I have a _posts directory
