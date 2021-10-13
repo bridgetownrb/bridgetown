@@ -263,11 +263,10 @@ module Bridgetown
         "#<#{self.class} #{id}>"
       end
 
-      # Compare this document against another document.
-      # Comparison is a comparison between the 2 paths of the documents.
+      # Compare this resource against another resource.
+      # Comparison is a comparison between the 2 dates or paths of the resources.
       #
-      # Returns -1, 0, +1 or nil depending on whether this doc's path is less than,
-      #   equal or greater than the other doc's path. See String#<=> for more details.
+      # @return [Integer] -1, 0, or +1
       def <=>(other) # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity
         return nil unless other.respond_to?(:data)
 
