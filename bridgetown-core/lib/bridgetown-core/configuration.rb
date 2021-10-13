@@ -38,7 +38,6 @@ module Bridgetown
       "slugify_mode"         => "pretty",
 
       # Filtering Content
-      "limit_posts"          => 0,
       "future"               => false,
       "unpublished"          => false,
       "ruby_in_front_matter" => true,

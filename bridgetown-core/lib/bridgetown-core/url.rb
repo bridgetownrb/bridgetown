@@ -10,6 +10,7 @@
 #   }).to_s
 #
 module Bridgetown
+  # TODO: remove this class in favor of the new Resource permalink processor
   class URL
     # options - One of :permalink or :template must be supplied.
     #           :template     - The String used as template for URL generation,

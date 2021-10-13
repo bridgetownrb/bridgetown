@@ -136,6 +136,7 @@ class TestSite < BridgetownUnitTest
     end
 
     should "sort pages alphabetically" do
+      clear_dest
       method = Dir.method(:entries)
       allow(Dir).to receive(:entries) do |*args, &block|
         method.call(*args, &block).reverse
@@ -159,7 +160,6 @@ class TestSite < BridgetownUnitTest
         foo.md
         humans.txt
         index.html
-        index.html
         info.md
         layouts.html
         layouts_override.html
@@ -169,11 +169,11 @@ class TestSite < BridgetownUnitTest
         properties.html
         sitemap.xml
         static_files.html
+        symlinked-file
         trailing-dots...md
       )
-      # files in symlinked directories may appear twice
-      sorted_pages.push("main.scss", "symlinked-file").sort!
-      assert_equal sorted_pages, @site.collections.pages.resources.map { |page| page.relative_path.basename.to_s }.sort!
+
+      assert_equal sorted_pages, @site.collections.pages.resources.map { |page| page.relative_path.basename.to_s }.sort!.uniq!
     end
 
     should "read pages with YAML front matter" do

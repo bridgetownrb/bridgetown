@@ -14,7 +14,9 @@ testopts="--profile"
 if [[ $# -lt 1 ]]
 then
   set -x
-  time ruby -S bundle exec \
+  ruby -S bundle exec ruby -I test \
+    "test/test_resource.rb"
+  time BYPASS_RESOURCE_TEST=true SEED=1234 ruby -S bundle exec \
     rake TESTOPTS=$testopts test
 else
   set -x

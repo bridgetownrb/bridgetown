@@ -128,21 +128,6 @@ class BridgetownUnitTest < Minitest::Test
     RSpec::Mocks.teardown
   end
 
-  def fixture_document(relative_path)
-    site = fixture_site(
-      "collections" => {
-        "methods" => {
-          "output" => true,
-        },
-      }
-    )
-    site.read
-    matching_doc = site.collections["methods"].docs.find do |doc|
-      doc.relative_path == relative_path
-    end
-    [site, matching_doc]
-  end
-
   def fixture_site(overrides = {})
     Bridgetown::Site.new(site_configuration(overrides))
   end

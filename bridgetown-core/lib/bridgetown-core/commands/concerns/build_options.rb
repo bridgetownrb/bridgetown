@@ -33,9 +33,6 @@ module Bridgetown
         klass.class_option :future,
                            type: :boolean,
                            desc: "Publishes posts with a future date"
-        klass.class_option :limit_posts,
-                           type: :numeric,
-                           desc: "Limits the number of posts to parse and publish"
         klass.class_option :url,
                            aliases: "-u",
                            desc: "Override the configured url for the website"
