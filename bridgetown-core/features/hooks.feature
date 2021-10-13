@@ -7,26 +7,16 @@ Feature: Hooks
     And I have a "plugins/ext.rb" file with content:
     """
     Bridgetown::Hooks.register :site, :after_reset do |site|
-      pageklass = Class.new(Bridgetown::Page) do
-        def initialize(site, base)
-          @site = site
-          @base = base
-          @data = HashWithDotAccess::Hash.new
-          @dir = '/'
-          @name = 'foo.html'
-          @content = 'mytinypage'
+      pg = Bridgetown::GeneratedPage.new(site, site.source, "/", "foo.html")
+      pg.content = "mytinypage"
 
-          self.process(@name)
-        end
-      end
-
-      site.pages << pageklass.new(site, site.source)
+      site.generated_pages << pg
     end
     """
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "mytinypage" in "output/foo.html"
+    And I should see "mytinypage" in "output/foo/index.html"
 
   Scenario: Modify the site contents after reading
     Given I have a plugins directory
@@ -35,22 +25,22 @@ Feature: Hooks
     And I have a "plugins/ext.rb" file with content:
     """
     Bridgetown::Hooks.register :site, :post_read do |site|
-      site.pages.delete_if { |p| p.name == 'page1.html' }
+      site.collections.pages.resources.delete_if { |p| p.relative_path.basename.to_s == 'page1.html' }
     end
     """
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And the "output/page1.html" file should not exist
-    And I should see "page2" in "output/page2.html"
+    And the "output/page1/index.html" file should not exist
+    And I should see "page2" in "output/page2/index.html"
 
   Scenario: Work with the site files after they've been written to disk
     Given I have a plugins directory
     And I have a "plugins/ext.rb" file with content:
     """
     Bridgetown::Hooks.register :site, :post_write do |site|
-      firstpage = site.pages.first
-      content = File.read firstpage.destination(site.dest)
+      firstpage = site.collections.pages.resources.first
+      content = File.read firstpage.destination.output_path
       File.write(File.join(site.dest, 'firstpage.html'), content)
     end
     """
@@ -59,21 +49,6 @@ Feature: Hooks
     Then I should get a zero exit status
     And the output directory should exist
     And I should see "page1" in "output/firstpage.html"
-
-  Scenario: Alter a page right after it is initialized
-    Given I have a plugins directory
-    And I have a "plugins/ext.rb" file with content:
-    """
-    Bridgetown::Hooks.register :pages, :post_init do |page|
-      page.name = 'renamed.html'
-      page.process(page.name)
-    end
-    """
-    And I have a "page1.html" page that contains "page1"
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "page1" in "output/renamed.html"
 
   Scenario: Modify page contents before writing to disk
     Given I have a plugins directory
@@ -94,7 +69,7 @@ Feature: Hooks
     """
     Bridgetown::Hooks.register :pages, :post_write do |page|
       require 'fileutils'
-      filename = page.destination(page.site.dest)
+      filename = page.destination.output_path
       FileUtils.mv(filename, "#{filename}.moved")
     end
     """
@@ -117,7 +92,7 @@ Feature: Hooks
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "pbagrag sbe ragel1." in "output/2015/03/14/entry1.html"
+    And I should see "pbagrag sbe ragel1." in "output/2015/03/14/entry1/index.html"
 
   Scenario: Alter frontmatter data for certain posts
     Given I have a plugins directory
@@ -139,8 +114,8 @@ Feature: Hooks
       | entry1 | 2015-03-14 | nil    | {{ page.myvar }} post |
       | entry2 | 2015-03-15 | nil    | {{ page.myvar }} post |
     When I run bridgetown build
-    Then I should see "old post" in "output/2015/03/14/entry1.html"
-    And I should see "new post" in "output/2015/03/15/entry2.html"
+    Then I should see "old post" in "output/2015/03/14/entry1/index.html"
+    And I should see "new post" in "output/2015/03/15/entry2/index.html"
 
   Scenario: Modify post contents before writing to disk
     Given I have a plugins directory
@@ -157,8 +132,8 @@ Feature: Hooks
       | entry1 | 2015-03-14 | nil    | {{ 6 \| times: 7 }} |
       | entry2 | 2015-03-15 | nil    | {{ 6 \| times: 8 }} |
     When I run bridgetown build
-    Then I should see "the answer to life, the universe and everything" in "output/2015/03/14/entry1.html"
-    And I should see "48" in "output/2015/03/15/entry2.html"
+    Then I should see "the answer to life, the universe and everything" in "output/2015/03/14/entry1/index.html"
+    And I should see "48" in "output/2015/03/15/entry2/index.html"
 
   Scenario: Work with a post after writing it to disk
     Given I have a plugins directory
@@ -166,7 +141,7 @@ Feature: Hooks
     """
     # Log all post filesystem writes
     Bridgetown::Hooks.register :posts, :post_write do |post|
-      filename = post.destination(post.site.dest)
+      filename = post.destination.output_path
       open('output/post-build.log', 'a') do |f|
         f.puts "Wrote #{filename} at #{Time.now}"
       end
@@ -178,8 +153,8 @@ Feature: Hooks
       | entry1 | 2015-03-14 | nil    | entry one |
       | entry2 | 2015-03-15 | nil    | entry two |
     When I run bridgetown build
-    Then I should see "output/2015/03/14/entry1.html at" in "output/post-build.log"
-    Then I should see "output/2015/03/15/entry2.html at" in "output/post-build.log"
+    Then I should see "output/2015/03/14/entry1/index.html at" in "output/post-build.log"
+    Then I should see "output/2015/03/15/entry2/index.html at" in "output/post-build.log"
 
   Scenario: Register a hook on multiple owners at the same time
     Given I have a plugins directory
@@ -196,7 +171,7 @@ Feature: Hooks
       | entry1 | 2015-03-14 | nil    | entry one |
     When I run bridgetown build
     Then I should see "{{{{{ WRAP ME }}}}}" in "output/index.html"
-    And I should see "{{{{{ <p>entry one</p> }}}}}" in "output/2015/03/14/entry1.html"
+    And I should see "{{{{{ <p>entry one</p> }}}}}" in "output/2015/03/14/entry1/index.html"
 
   Scenario: Allow hooks to have a named priority
     Given I have a plugins directory
@@ -227,8 +202,8 @@ Feature: Hooks
     Given I have a plugins directory
     And I have a "plugins/ext.rb" file with content:
     """
-    Bridgetown::Hooks.register :documents, :pre_render do |doc, payload|
-      doc.data['text'] = doc.data['text'] << ' are belong to us'
+    Bridgetown::Hooks.register :resources, :pre_render do |doc, payload|
+      doc.data['text'] = doc.data['text'] << ' are belong to us' if doc.data['text']
     end
     """
     And I have a "bridgetown.config.yml" file that contains "collections: [ memes ]"
@@ -243,7 +218,7 @@ Feature: Hooks
     """
     ---
     ---
-    {{ site.memes.first.text }}
+    {{ collections.memes.resources.first.text }}
     """
     When I run bridgetown build
     Then I should get a zero exit status
@@ -254,7 +229,7 @@ Feature: Hooks
     Given I have a plugins directory
     And I have a "plugins/ext.rb" file with content:
     """
-    Bridgetown::Hooks.register :documents, :post_render do |doc|
+    Bridgetown::Hooks.register :resources, :post_render do |doc|
       doc.output.gsub! /<p>/, '<p class="meme">'
     end
     """
@@ -275,15 +250,15 @@ Feature: Hooks
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "<p class=\"meme\">all your base are belong to us" in "output/memes/doc1.html"
+    And I should see "<p class=\"meme\">all your base are belong to us" in "output/memes/doc1/index.html"
 
   Scenario: Perform an action after every document is written
     Given I have a plugins directory
     And I have a "plugins/ext.rb" file with content:
     """
-    Bridgetown::Hooks.register :documents, :post_write do |doc|
+    Bridgetown::Hooks.register :resources, :post_write do |doc|
       open('output/document-build.log', 'a') do |f|
-        f.puts "Wrote document #{doc.collection.docs.index doc} at #{Time.now}"
+        f.puts "Wrote document #{doc.collection.resources.index doc} at #{Time.now}"
       end
     end
     """
