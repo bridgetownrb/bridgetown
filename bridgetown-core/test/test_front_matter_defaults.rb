@@ -8,8 +8,8 @@ class TestFrontMatterDefaults < BridgetownUnitTest
       @site = fixture_site(
         "defaults" => [{
           "scope"  => {
-            "path" => "contacts",
-            "type" => "pages",
+            "path"       => "contacts",
+            "collection" => "pages",
           },
           "values" => {
             "key" => "val",

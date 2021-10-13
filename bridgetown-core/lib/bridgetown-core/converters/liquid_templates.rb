@@ -85,7 +85,7 @@ module Bridgetown
       def configure_payload(content = nil)
         payload["page"] = document.to_liquid
         payload["paginator"] = document.respond_to?(:paginator) ? document.paginator.to_liquid : nil
-        payload["layout"] = @layout ? @layout.data : {}
+        payload["layout"] = @layout ? @layout.to_liquid.merge({ data: @layout.data }) : {}
         payload["content"] = content
       end
 

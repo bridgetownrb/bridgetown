@@ -34,7 +34,6 @@ module Bridgetown
       "encoding"             => "utf-8",
       "markdown_ext"         => "markdown,mkdown,mkdn,mkd,md",
       "strict_front_matter"  => false,
-      "slugify_categories"   => true,
       "slugify_mode"         => "pretty",
 
       # Filtering Content

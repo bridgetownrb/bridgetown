@@ -13,7 +13,7 @@ Feature: Post data
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Post title: Star Wars" in "output/2009/03/27/star-wars.html"
+    And I should see "Post title: Star Wars" in "output/2009/03/27/star-wars/index.html"
 
   Scenario: Use post.url variable
     Given I have a _posts directory
@@ -21,11 +21,11 @@ Feature: Post data
     And I have the following post:
       | title     | date       | layout | content                 |
       | Star Wars | 2009-03-27 | simple | Luke, I am your father. |
-    And I have a simple layout that contains "Post url: {{ page.url }}"
+    And I have a simple layout that contains "Post url: {{ page.relative_url }}"
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Post url: /2009/03/27/star-wars.html" in "output/2009/03/27/star-wars.html"
+    And I should see "Post url: /2009/03/27/star-wars/" in "output/2009/03/27/star-wars/index.html"
 
   Scenario: Use post.date variable
     Given I have a _posts directory
@@ -37,21 +37,21 @@ Feature: Post data
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Post date: 27 Mar 2009" in "output/2009/03/27/star-wars.html"
+    And I should see "Post date: 27 Mar 2009" in "output/2009/03/27/star-wars/index.html"
 
   Scenario: Use post.date variable with invalid
     Given I have a _posts directory
     And I have a "_posts/2016-01-01-test.md" page with date "tuesday" that contains "I have a bad date."
     When I run bridgetown build
     Then the output directory should not exist
-    And I should see "Document '_posts/2016-01-01-test.md' does not have a valid date in the YAML front matter." in the build output
+    And I should see "Resource '_posts/2016-01-01-test.md' does not have a valid date." in the build output
 
   Scenario: Invalid date in filename
     Given I have a _posts directory
     And I have a "_posts/2016-22-01-test.md" page that contains "I have a bad date."
     When I run bridgetown build
     Then the output directory should not exist
-    And I should see "Document '_posts/2016-22-01-test.md' does not have a valid date in the filename." in the build output
+    And I should see "Resource '_posts/2016-22-01-test.md' does not have a valid date." in the build output
 
   Scenario: Use post.id variable
     Given I have a _posts directory
@@ -63,7 +63,7 @@ Feature: Post data
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Post id: /2009/03/27/star-wars" in "output/2009/03/27/star-wars.html"
+    And I should see "Post id: repo://posts.collection/_posts/2009-03-27-star-wars.markdown" in "output/2009/03/27/star-wars/index.html"
 
   Scenario: Use post.content variable
     Given I have a _posts directory
@@ -75,7 +75,7 @@ Feature: Post data
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Post content: <p>Luke, I am your father.</p>" in "output/2009/03/27/star-wars.html"
+    And I should see "Post content: <p>Luke, I am your father.</p>" in "output/2009/03/27/star-wars/index.html"
 
   Scenario: Use post.tags variable
     Given I have a _posts directory
@@ -87,7 +87,7 @@ Feature: Post data
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Post tags: twist" in "output/2009/05/18/star-wars.html"
+    And I should see "Post tags: twist" in "output/2009/05/18/star-wars/index.html"
 
   Scenario: Use post.categories variable when category is in YAML
     Given I have a _posts directory
@@ -99,7 +99,7 @@ Feature: Post data
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Post category: movies" in "output/movies/2009/03/27/star-wars.html"
+    And I should see "Post category: movies" in "output/movies/2009/03/27/star-wars/index.html"
 
   Scenario: Use post.categories variable when category is in YAML and is mixed-case
     Given I have a _posts directory
@@ -111,7 +111,7 @@ Feature: Post data
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Post category: Movies" in "output/movies/2009/03/27/star-wars.html"
+    And I should see "Post category: Movies" in "output/movies/2009/03/27/star-wars/index.html"
 
   Scenario: Use post.categories variable when categories are in YAML
     Given I have a _posts directory
@@ -123,7 +123,7 @@ Feature: Post data
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Post categories: scifi and movies" in "output/scifi/movies/2009/03/27/star-wars.html"
+    And I should see "Post categories: scifi and movies" in "output/scifi/movies/2009/03/27/star-wars/index.html"
 
   Scenario: Use post.categories variable when categories are in YAML and are duplicated
     Given I have a _posts directory
@@ -135,7 +135,7 @@ Feature: Post data
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Post category: movies" in "output/movies/2009/03/27/star-wars.html"
+    And I should see "Post category: movies" in "output/movies/2009/03/27/star-wars/index.html"
 
   Scenario: Subdirectories of _posts not applied to post.categories
     Given I have a _posts/scifi directory
@@ -145,7 +145,7 @@ Feature: Post data
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should not see "Post category: movies" in "output/2009/03/27/star-wars.html"
+    And I should not see "Post category: movies" in "output/2009/03/27/star-wars/index.html"
 
   Scenario: Use post.categories variable when categories are in YAML with mixed case
     Given I have a _posts directory
@@ -158,8 +158,8 @@ Feature: Post data
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Post categories: scifi and Movies" in "output/scifi/movies/2009/03/27/star-wars.html"
-    And I should see "Post categories: SciFi and movies" in "output/scifi/movies/2013/03/17/star-trek.html"
+    And I should see "Post categories: scifi and Movies" in "output/scifi/movies/2009/03/27/star-wars/index.html"
+    And I should see "Post categories: SciFi and movies" in "output/scifi/movies/2013/03/17/star-trek/index.html"
 
 Scenario: Use page.render_with_liquid variable
   Given I have a _posts directory
@@ -170,25 +170,9 @@ Scenario: Use page.render_with_liquid variable
   When I run bridgetown build
   Then I should get a zero exit status
   And the output directory should exist
-  And I should not see "Hello Unrendered Post" in "output/2017/07/06/unrendered-post.html"
-  But I should see "Hello {{ page.title }}" in "output/2017/07/06/unrendered-post.html"
-  And I should see "Hello Rendered Post" in "output/2017/07/06/rendered-post.html"
-
-  Scenario Outline: Use page.path variable
-    Given I have a <dir>/_posts directory
-    And I have the following post in "<dir>":
-      | title   | type | date       | content                      |
-      | my-post | html | 2013-04-12 | Source path: {{ page.path }} |
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "Source path: <path_prefix>_posts/2013-04-12-my-post.html" in "output/2013/04/12/my-post.html"
-
-    Examples:
-      | dir        | path_prefix |
-      | .          |             |
-      | dir        | dir/        |
-      | dir/nested | dir/nested/ |
+  And I should not see "Hello Unrendered Post" in "output/2017/07/06/unrendered-post/index.html"
+  But I should see "Hello {{ page.title }}" in "output/2017/07/06/unrendered-post/index.html"
+  And I should see "Hello Rendered Post" in "output/2017/07/06/rendered-post/index.html"
 
   Scenario: Cannot override page.path variable
     Given I have a _posts directory
@@ -198,7 +182,7 @@ Scenario: Use page.render_with_liquid variable
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Non-custom path: _posts/2013-04-12-override.markdown" in "output/2013/04/12/override.html"
+    And I should see "/src/_posts/2013-04-12-override.markdown" in "output/2013/04/12/override/index.html"
 
   Scenario: Disable a post from being published
     Given I have a _posts directory
@@ -209,7 +193,7 @@ Scenario: Use page.render_with_liquid variable
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And the "output/2009/03/27/star-wars.html" file should not exist
+    And the "output/2009/03/27/star-wars/index.html" file should not exist
     And I should see "Published!" in "output/index.html"
 
   Scenario: Use a custom variable
@@ -222,7 +206,7 @@ Scenario: Use page.render_with_liquid variable
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Post author: Darth Vader" in "output/2009/03/27/star-wars.html"
+    And I should see "Post author: Darth Vader" in "output/2009/03/27/star-wars/index.html"
 
   Scenario: Use a variable which is a reserved keyword in Ruby
     Given I have a _posts directory
@@ -234,7 +218,7 @@ Scenario: Use page.render_with_liquid variable
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "My post has class kewl-post" in "output/2016/01/21/my-post.html"
+    And I should see "My post has class kewl-post" in "output/2016/01/21/my-post/index.html"
 
   Scenario: Previous and next posts title
     Given I have a _posts directory
@@ -248,5 +232,5 @@ Scenario: Use page.render_with_liquid variable
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "next post: Some like it hot" in "output/2009/03/27/star-wars.html"
-    And I should see "Previous post: Some like it hot" in "output/2009/05/27/terminator.html"
+    And I should see "Previous post: Some like it hot" in "output/2009/03/27/star-wars/index.html"
+    And I should see "next post: Some like it hot" in "output/2009/05/27/terminator/index.html"

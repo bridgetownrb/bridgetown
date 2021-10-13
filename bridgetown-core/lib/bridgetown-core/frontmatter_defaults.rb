@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  # This class handles custom defaults for YAML frontmatter variables.
+  # This class handles custom defaults for front matter settings.
   # It is exposed via the frontmatter_defaults method on the site class.
-  # TODO: needs simplification/refactoring.
   class FrontmatterDefaults
     # @return [Bridgetown::Site]
     attr_reader :site
@@ -27,19 +26,19 @@ module Bridgetown
       set
     end
 
-    # Collects a hash with all default values for a page or post
+    # Collects a hash with all default values for a resource
     #
-    # path - the relative path of the page or post
-    # type - a symbol indicating the type (:post or :page)
+    # @param path [String] the relative path of the resource
+    # @param collection [Symbol] :posts, :pages, etc.
     #
-    # Returns a hash with all default values (an empty hash if there are none)
-    def all(path, type)
+    # @returns [Hash] all default values (an empty hash if there are none)
+    def all(path, collection)
       defaults = {}
 
       merge_data_cascade_for_path(path, defaults)
 
       old_scope = nil
-      matching_sets(path, type).each do |set|
+      matching_sets(path, collection).each do |set|
         if has_precedence?(old_scope, set["scope"])
           defaults = Utils.deep_merge_hashes(defaults, set["values"])
           old_scope = set["scope"]
@@ -62,22 +61,22 @@ module Bridgetown
         end
     end
 
-    # Checks if a given default setting scope matches the given path and type
+    # Checks if a given default setting scope matches the given path and collection
     #
     # scope - the hash indicating the scope, as defined in bridgetown.config.yml
     # path - the path to check for
-    # type - the type (:post or :page) to check for
+    # collection - the collection (:posts or :pages) to check for
     #
-    # Returns true if the scope applies to the given type and path
-    def applies?(scope, path, type)
-      applies_type?(scope, type) && applies_path?(scope, path)
+    # Returns true if the scope applies to the given collection and path
+    def applies?(scope, path, collection)
+      applies_collection?(scope, collection) && applies_path?(scope, path)
     end
 
     def applies_path?(scope, path)
       rel_scope_path = scope["path"]
       return true if !rel_scope_path.is_a?(String) || rel_scope_path.empty?
 
-      sanitized_path = sanitize_path(path)
+      sanitized_path = strip_collections_dir(sanitize_path(path))
 
       if rel_scope_path.include?("*")
         glob_scope(sanitized_path, rel_scope_path)
@@ -116,26 +115,24 @@ module Bridgetown
       path.sub(slashed_coll_dir, "")
     end
 
-    # Determines whether the scope applies to type.
-    # The scope applies to the type if:
-    #   1. no 'type' is specified
-    #   2. the 'type' in the scope is the same as the type asked about
+    # Determines whether the scope applies to collection.
+    # The scope applies to the collection if:
+    #   1. no 'collection' is specified
+    #   2. the 'collection' in the scope is the same as the collection asked about
     #
-    # scope - the Hash defaults set being asked about application
-    # type  - the type of the document being processed / asked about
-    #         its defaults.
+    # @param scope [Hash] the defaults set being asked about
+    # @param collection [Symbol] the collection of the resource being processed
     #
-    # Returns true if either of the above conditions are satisfied,
-    #   otherwise returns false
-    def applies_type?(scope, type)
-      !scope.key?("type") || scope["type"].eql?(type.to_s)
+    # @returns [Boolean] whether either of the above conditions are satisfied
+    def applies_collection?(scope, collection)
+      !scope.key?("collection") || scope["collection"].eql?(collection.to_s)
     end
 
     # Checks if a given set of default values is valid
     #
-    # set - the default value hash, as defined in bridgetown.config.yml
+    # @param set [Hash] the default value hash as defined in bridgetown.config.yml
     #
-    # Returns true if the set is valid and can be used in this class
+    # @returns [Boolean] if the set is valid and can be used
     def valid?(set)
       set.is_a?(Hash) && set["values"].is_a?(Hash)
     end
@@ -155,23 +152,23 @@ module Bridgetown
 
       if new_path.length != old_path.length
         new_path.length >= old_path.length
-      elsif new_scope.key?("type")
+      elsif new_scope.key?("collection")
         true
       else
-        !old_scope.key? "type"
+        !old_scope.key? "collection"
       end
     end
     # rubocop: enable Naming/PredicateName
 
-    # Collects a list of sets that match the given path and type
+    # Collects a list of sets that match the given path and collection
     #
-    # Returns an array of hashes
-    def matching_sets(path, type)
+    # @return [Array<Hash>]
+    def matching_sets(path, collection)
       @matched_set_cache ||= {}
       @matched_set_cache[path] ||= {}
-      @matched_set_cache[path][type] ||= begin
+      @matched_set_cache[path][collection] ||= begin
         valid_sets.select do |set|
-          !set.key?("scope") || applies?(set["scope"], path, type)
+          !set.key?("scope") || applies?(set["scope"], path, collection)
         end
       end
     end
@@ -181,13 +178,14 @@ module Bridgetown
     # This is not cached to allow plugins to modify the configuration
     # and have their changes take effect
     #
-    # Returns an array of hashes
+    # @return [Array<Hash>]
     def valid_sets
       sets = site.config["defaults"]
       return [] unless sets.is_a?(Array)
 
       sets.map do |set|
         if valid?(set)
+          massage_scope!(set)
           # TODO: is this trip really necessary?
           ensure_time!(set)
         else
@@ -198,10 +196,18 @@ module Bridgetown
       end.compact
     end
 
-    # Sanitizes the given path by removing a leading and adding a trailing slash
+    # Set path to blank if not specified and alias older type to collection
+    def massage_scope!(set)
+      set["scope"] ||= {}
+      set["scope"]["path"] ||= ""
+      if set["scope"]["type"] && !set["scope"]["collection"]
+        set["scope"]["collection"] = set["scope"]["type"]
+      end
+    end
 
     SANITIZATION_REGEX = %r!\A/|(?<=[^/])\z!.freeze
 
+    # Sanitizes the given path by removing a leading and adding a trailing slash
     def sanitize_path(path)
       if path.nil? || path.empty?
         ""

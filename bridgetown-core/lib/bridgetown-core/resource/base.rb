@@ -315,7 +315,7 @@ module Bridgetown
 
         data.date = Bridgetown::Utils.parse_date(
           new_date,
-          "Document '#{relative_path}' does not have a valid date in the #{model}."
+          "Resource '#{relative_path}' does not have a valid date."
         )
       end
 
