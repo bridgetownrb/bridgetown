@@ -702,7 +702,6 @@ class TestFilters < BridgetownUnitTest
           },
           "relative_path" => "_posts/2008-02-02-published.markdown",
           "next"          => nil,
-          "path"          => "/Users/jared/apps/bridgetown/bridgetown-core/test/source/src/_posts/2008-02-02-published.markdown",
           "date"          => "2008-02-02 00:00:00 +0000",
           "summary"       => "This should be published.",
           "data"          => {
@@ -734,6 +733,8 @@ class TestFilters < BridgetownUnitTest
           post.data.title == "Publish" && post.data.slug == "published"
         end.to_liquid))
 
+        actual.delete("path")
+        actual.delete("heres_a_liquid_method") # could be added in by accident through a plugin
         prev = actual.delete("previous")
         refute_nil prev
         assert prev.is_a?(Hash), "doc.next should be an object"
