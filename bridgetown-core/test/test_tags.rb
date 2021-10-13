@@ -7,7 +7,7 @@ class TestTags < BridgetownUnitTest
     FileUtils.mkdir_p("tmp")
   end
 
-  def create_post(content, override = {}, converter_class = Bridgetown::Converters::Markdown)
+  def create_post(content, override = {}, converter_class = Bridgetown::Converters::Markdown) # rubocop:disable Metrics/AbcSize
     site = fixture_site({ "highlighter" => "rouge" }.merge(override))
 
     site.collections.posts.read if override["read_posts"]
