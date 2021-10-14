@@ -16,7 +16,7 @@ class LiquidBook < SiteBuilder
 
     layouts = Bridgetown::LayoutReader.new(site).read
     @components.each do |component_filename, component_object|
-      Bridgetown::Model::Base.build(collection_name, "#{component_filename}.html", {
+      Bridgetown::Model::Base.build(self, collection_name, "#{component_filename}.html", {
         layout: "default",
         excerpt: "",
         component: component_object,

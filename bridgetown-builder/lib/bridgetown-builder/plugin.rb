@@ -5,6 +5,7 @@ require "bridgetown-builder/dsl/helpers"
 require "bridgetown-builder/dsl/hooks"
 require "bridgetown-builder/dsl/http"
 require "bridgetown-builder/dsl/liquid"
+require "bridgetown-builder/dsl/resources"
 module Bridgetown
   module Builders
     class PluginBuilder
@@ -13,6 +14,7 @@ module Bridgetown
       include DSL::Hooks
       include DSL::HTTP
       include DSL::Liquid
+      include DSL::Resources
 
       attr_accessor :functions, :name, :site, :config
 
@@ -34,8 +36,9 @@ module Bridgetown
         "#{name} (Hook)"
       end
 
-      def doc(path, &block)
-        DocumentsGenerator.add(path, block)
+      def doc(*)
+        raise Bridgetown::Errors::FatalException,
+              "The `doc' method has been removed. Please use the `new_resource' builder DSL instead"
       end
     end
   end

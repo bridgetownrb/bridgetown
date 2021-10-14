@@ -26,7 +26,7 @@ class TestHelpers < BridgetownUnitTest
       Bridgetown.sites.clear
       @site = Site.new(site_configuration)
       @builder = HelpersBuilder.new("HelpersBuilder", @site)
-      @resource = Bridgetown::Model::Base.build(:posts, "im-a-post.md", {
+      @resource = Bridgetown::Model::Base.build(self, :posts, "im-a-post.md", {
         title: "I'm a post!",
         date: "2019-05-01",
       }).as_resource_in_collection
