@@ -2,7 +2,6 @@
 
 module Bridgetown
   module Model
-    # Abstract Superclass
     class BuilderOrigin < Origin
       # @return [Pathname]
       attr_reader :relative_path

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Handles Generated Pages
-Bridgetown::Hooks.register :pages, :post_init, reloadable: false do |page|
+Bridgetown::Hooks.register :generated_pages, :post_init, reloadable: false do |page|
   if page.class != Bridgetown::Paginate::PaginationPage &&
       page.site.config.dig("pagination", "enabled")
     data = page.data.with_dot_access

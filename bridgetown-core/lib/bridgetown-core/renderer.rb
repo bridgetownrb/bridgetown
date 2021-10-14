@@ -65,7 +65,7 @@ module Bridgetown
     def execute_inline_ruby!
       return unless site.config.should_execute_inline_ruby?
 
-      Bridgetown::Utils::RubyExec.search_data_for_ruby_code(document, self)
+      Bridgetown::Utils::RubyExec.search_data_for_ruby_code(document)
     end
 
     # Convert the document using the converters which match this renderer's document.

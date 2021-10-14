@@ -16,11 +16,11 @@ class TestGeneratedSite < BridgetownUnitTest
     end
 
     should "ensure post count is as expected" do
-      assert_equal 61, @site.posts.docs.size
+      assert_equal 54, @site.collections.posts.resources.size
     end
 
     should "insert site.posts into the index" do
-      assert_includes @index, "#{@site.posts.docs.size} Posts"
+      assert_includes @index, "#{@site.collections.posts.resources.size} Posts"
     end
 
     should "insert variable from layout into the index" do
@@ -28,14 +28,13 @@ class TestGeneratedSite < BridgetownUnitTest
     end
 
     should "render latest post's content" do
-      assert_includes @index, @site.posts.docs.last.content
+      assert_includes @index, @site.collections.posts.resources.first.content
     end
 
     should "hide unpublished posts" do
-      published = Dir[dest_dir("publish-test/2008/02/02/*.html")].map \
+      published = Dir[dest_dir("publish_test/2008/02/02/published/*.html")].map \
         { |f| File.basename(f) }
       assert_equal 1, published.size
-      assert_equal "published.html", published.first
     end
 
     should "hide unpublished page" do
@@ -47,23 +46,23 @@ class TestGeneratedSite < BridgetownUnitTest
     end
 
     should "process a page with a folder permalink properly" do
-      about = @site.pages.find { |page| page.name == "about.html" }
-      assert_equal dest_dir("about", "index.html"), about.destination(dest_dir)
+      about = @site.collections.pages.resources.find { |page| page.relative_path.basename.to_s == "about.html" }
+      assert_equal dest_dir("about", "index.html"), about.destination.output_path
       assert_exist dest_dir("about", "index.html")
     end
 
     should "process other static files and generate correct permalinks" do
-      assert_exist dest_dir("contacts.html")
+      assert_exist dest_dir("contacts/index.html")
       assert_exist dest_dir("dynamic_file.php")
     end
 
     should "include a post with a abbreviated dates" do
       refute_nil(
-        @site.posts.docs.index do |post|
-          post.relative_path == "_posts/2017-2-5-i-dont-like-zeroes.md"
+        @site.collections.posts.resources.index do |post|
+          post.relative_path.to_s == "_posts/2017-2-5-i-dont-like-zeroes.md"
         end
       )
-      assert_exist dest_dir("2017", "02", "05", "i-dont-like-zeroes.html")
+      assert_exist dest_dir("2017", "02", "05", "i-dont-like-zeroes", "index.html")
     end
 
     should "print a nice list of static files" do
@@ -76,28 +75,7 @@ class TestGeneratedSite < BridgetownUnitTest
           - /products.yml last edited at #{time_regexp} with extname .yml
           - /symlink-test/symlinked-dir/screen.css last edited at #{time_regexp} with extname .css
       OUTPUT
-      assert_match expected_output, File.read(dest_dir("static_files.html"))
-    end
-  end
-
-  context "generating limited posts" do
-    setup do
-      clear_dest
-      @site = fixture_site("limit_posts" => 5)
-      @site.process
-      @index = File.read(dest_dir("index.html"))
-    end
-
-    should "generate only the specified number of posts" do
-      assert_equal 5, @site.posts.docs.size
-    end
-
-    should "acceptable limit post is 0" do
-      clear_dest
-      assert(
-        fixture_site("limit_posts" => 0),
-        "Couldn't create a site with limit_posts=0."
-      )
+      assert_match expected_output, File.read(dest_dir("static_files", "index.html"))
     end
   end
 end

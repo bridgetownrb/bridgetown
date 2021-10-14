@@ -31,11 +31,11 @@ class TestCollections < BridgetownUnitTest
     end
 
     should "have default URL template" do
-      assert_equal "/:collection/:path:output_ext", @collection.url_template
+      assert_equal "/:collection/:path/", @collection.default_permalink
     end
 
     should "contain no docs when initialized" do
-      assert_empty @collection.docs
+      assert_empty @collection.resources
     end
 
     should "know its relative directory" do
@@ -49,10 +49,6 @@ class TestCollections < BridgetownUnitTest
     context "when turned into Liquid" do
       should "have a label attribute" do
         assert_equal "methods", @collection.to_liquid["label"]
-      end
-
-      should "have a docs attribute" do
-        assert_equal [], @collection.to_liquid["docs"]
       end
 
       should "have a files attribute" do
@@ -102,8 +98,8 @@ class TestCollections < BridgetownUnitTest
       @collection = @site.collections["methods"]
     end
 
-    should "have custom URL template" do
-      assert_equal "/awesome/:path/", @collection.url_template
+    should "have a custom permalink" do
+      assert_equal "/awesome/:path/", @collection.default_permalink
     end
   end
 
@@ -122,10 +118,10 @@ class TestCollections < BridgetownUnitTest
       assert @site.collections["methods"].is_a? Bridgetown::Collection
     end
 
-    should "collects docs in an array on the Collection object" do
-      assert @site.collections["methods"].docs.is_a? Array
-      @site.collections["methods"].docs.each do |doc|
-        assert doc.is_a? Bridgetown::Document
+    should "collects resources in an array on the Collection object" do
+      assert @site.collections["methods"].resources.is_a? Array
+      @site.collections["methods"].resources.each do |doc|
+        assert doc.is_a? Bridgetown::Resource::Base
         assert_includes %w(
           _methods/configuration.md
           _methods/sanitized_path.md
@@ -137,21 +133,13 @@ class TestCollections < BridgetownUnitTest
           _methods/yaml_with_dots.md
           _methods/3940394-21-9393050-fifif1323-test.md
           _methods/trailing-dots...md
-        ), doc.relative_path
+        ), doc.relative_path.to_s
       end
     end
 
-    should "not include files from base dir which start with an underscore" do
-      refute_includes @collection.filtered_entries, "_do_not_read_me.md"
-    end
-
-    should "not include files which start with an underscore in a subdirectory" do
-      refute_includes @collection.filtered_entries, "site/_dont_include_me_either.md"
-    end
-
     should "not include the underscored files in the list of docs" do
-      refute_includes @collection.docs.map(&:relative_path), "_methods/_do_not_read_me.md"
-      refute_includes @collection.docs.map(&:relative_path),
+      refute_includes @collection.resources.map(&:relative_path).map(&:to_s), "_methods/_do_not_read_me.md"
+      refute_includes @collection.resources.map(&:relative_path).map(&:to_s),
                       "_methods/site/_dont_include_me_either.md"
     end
   end
@@ -192,7 +180,7 @@ class TestCollections < BridgetownUnitTest
       @site.process
       @tutorials_collection = @site.collections["tutorials"]
 
-      @actual_array = @tutorials_collection.docs.map(&:relative_path)
+      @actual_array = @tutorials_collection.resources.map(&:relative_path).map(&:to_s)
     end
 
     should "sort documents in a collection with 'sort_by' metadata set to a " \
@@ -232,7 +220,7 @@ class TestCollections < BridgetownUnitTest
     end
 
     should "contain one document" do
-      assert_equal 4, @collection.docs.size
+      assert_equal 4, @collection.resources.size
     end
 
     should "allow dots in the filename" do
@@ -241,7 +229,7 @@ class TestCollections < BridgetownUnitTest
 
     should "read document in subfolders with dots" do
       assert(
-        @collection.docs.any? { |d| d.path.include?("all.dots") }
+        @collection.resources.any? { |d| d.path.include?("all.dots") }
       )
     end
   end

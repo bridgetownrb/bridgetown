@@ -1,35 +1,38 @@
----
-layout: default
-title: Jazz Up Your Site with Themes & Plugins
-plugins: !ruby/string:Rb |
-  endpoint = "https://api.github.com/search/repositories?q=topic:bridgetown-plugin"
+---ruby
+{
+  layout: :default,
+  title: "Jazz Up Your Site with Themes & Plugins",
+  plugins: -> do
+    endpoint = "https://api.github.com/search/repositories?q=topic:bridgetown-plugin"
 
-  conn = Faraday.new(
-    url: endpoint,
-    headers: {"Accept" => "application/vnd.github.v3+json"}
-  )
-  if ENV["BRIDGETOWN_GITHUB_TOKEN"]
-    username, token = ENV["BRIDGETOWN_GITHUB_TOKEN"].split(":")
-    conn.basic_auth(username, token)
-  end
-  items = JSON.parse(conn.get.body)["items"].sort_by {|item| item["name"]}
+    conn = Faraday.new(
+      url: endpoint,
+      headers: {"Accept" => "application/vnd.github.v3+json"}
+    )
+    if ENV["BRIDGETOWN_GITHUB_TOKEN"]
+      username, token = ENV["BRIDGETOWN_GITHUB_TOKEN"].split(":")
+      conn.basic_auth(username, token)
+    end
+    items = JSON.parse(conn.get.body)["items"].sort_by {|item| item["name"]}
 
-  items.each do |item|
-    begin
-      gem_url = "https://raw.githubusercontent.com/#{item["full_name"]}/master/lib/#{item["name"]}/version.rb"
-      result = Faraday.get(gem_url).body
-      item["gem_version"] = result.match(/VERSION = "(.*?)"/)[1]
-    rescue
+    items.each do |item|
       begin
-        gem_url = "https://raw.githubusercontent.com/#{item["full_name"]}/main/lib/#{item["name"]}/version.rb"
+        gem_url = "https://raw.githubusercontent.com/#{item["full_name"]}/master/lib/#{item["name"]}/version.rb"
         result = Faraday.get(gem_url).body
         item["gem_version"] = result.match(/VERSION = "(.*?)"/)[1]
       rescue
+        begin
+          gem_url = "https://raw.githubusercontent.com/#{item["full_name"]}/main/lib/#{item["name"]}/version.rb"
+          result = Faraday.get(gem_url).body
+          item["gem_version"] = result.match(/VERSION = "(.*?)"/)[1]
+        rescue
+        end
       end
     end
-  end
 
-  items
+    items
+  end
+}
 ---
 
 {% rendercontent "shared/page_layout" %}

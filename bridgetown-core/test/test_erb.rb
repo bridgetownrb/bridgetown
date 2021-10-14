@@ -6,7 +6,7 @@ class TestERB < BridgetownUnitTest
   def setup
     @site = fixture_site
     @site.process
-    @erb_page = @site.pages.find { |p| p[:title] == "I'm an ERB Page" }
+    @erb_page = @site.resources.find { |p| p.data[:title] == "I'm an ERB Page" }
   end
 
   context "ERB page" do

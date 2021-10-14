@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# See bottom of file for specific origin requires...
+
 module Bridgetown
   module Model
     # Abstract Superclass
@@ -36,3 +38,4 @@ end
 
 require "bridgetown-core/model/builder_origin"
 require "bridgetown-core/model/repo_origin"
+require "bridgetown-core/model/plugin_origin"

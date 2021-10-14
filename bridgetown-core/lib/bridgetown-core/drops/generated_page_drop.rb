@@ -2,12 +2,12 @@
 
 module Bridgetown
   module Drops
-    class PageDrop < Drop
+    class GeneratedPageDrop < Drop
       extend Forwardable
 
       mutable false
 
-      def_delegators :@obj, :content, :dir, :name, :path, :url, :pager
+      def_delegators :@obj, :content, :dir, :name, :path, :url
       private def_delegator :@obj, :data, :fallback_data
 
       def relative_url

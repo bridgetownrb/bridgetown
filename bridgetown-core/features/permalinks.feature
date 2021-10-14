@@ -12,7 +12,7 @@ Feature: Fancy permalinks
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Totally nothing." in "output/none-permalink-schema.html"
+    And I should see "Totally nothing." in "output/none"
 
   Scenario: Use pretty permalink schema
     Given I have a _posts directory
@@ -59,30 +59,16 @@ Feature: Fancy permalinks
     And the output directory should exist
     And I should see "Totally custom." in "output/stuff/custom-permalink-schema.html"
 
-  Scenario: Use custom permalink schema with squished date
+  Scenario: Use custom permalink schema with date
     Given I have a _posts directory
     And I have the following post:
       | title                   | category | date       | content         |
       | Custom Permalink Schema | stuff    | 2009-03-27 | Totally custom. |
-    And I have a configuration file with "permalink" set to "/:month-:day-:year/:title.html"
+    And I have a configuration file with "permalink" set to "/:month/:day/:year/:title.html"
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Totally custom." in "output/03-27-2009/custom-permalink-schema.html"
-
-  Scenario: Use custom permalink schema with date and time
-    Given I have a configuration file with:
-    | key         | value              |
-    | permalink   | "/:year:month:day:hour:minute:second.html" |
-    | timezone    | UTC                |
-    And I have a _posts directory
-    And I have the following post:
-      | title                   | category | date                | content         |
-      | Custom Permalink Schema | stuff    | 2009-03-27 22:31:07 | Totally custom. |
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "Totally custom." in "output/20090327223107.html"
+    And I should see "Totally custom." in "output/03/27/2009/custom-permalink-schema.html"
 
   Scenario: Use per-post permalink
     Given I have a _posts directory
@@ -113,7 +99,7 @@ Feature: Fancy permalinks
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Totally wordpress." in "output/2009/03/27/Pretty-Permalink-Schema/index.html"
+    And I should see "Totally wordpress." in "output/2009/03/27/pretty-permalink-schema/index.html"
 
   Scenario: Use custom permalink schema with lowercase file name
     Given I have a _posts directory
@@ -262,7 +248,7 @@ Feature: Fancy permalinks
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Totally awesome" in "output/2009/03/27/Custom_Schema/index.html"
+    And I should see "Totally awesome" in "output/2009/03/27/custom_schema/index.html"
 
   Scenario: Use a non-HTML file extension in the permalink
     Given I have a _posts directory
@@ -277,9 +263,9 @@ Feature: Fancy permalinks
   Scenario: Ensure putting pages in _pages doesn't add _pages to permalink
     Given I have a _pages/test directory
     And I have a "_pages/test/mypage.md" page that contains "I am a page!"
-    And I have a "_pages/anotherpage.md" page with permalink "/some/other/page" that contains "I am another page!"
+    And I have a "_pages/anotherpage.md" page with permalink "/some/other/page.*" that contains "I am another page!"
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "I am a page!" in "output/test/mypage.html"
+    And I should see "I am a page!" in "output/test/mypage/index.html"
     And I should see "I am another page!" in "output/some/other/page.html"

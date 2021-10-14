@@ -35,13 +35,11 @@ module Bridgetown
       @relative_path = File.join(*[@dir, @name].compact)
       @extname = File.extname(@name)
       @data = @site.frontmatter_defaults.all(relative_path, type).with_dot_access
-      if site.uses_resource? && !data.permalink
-        data.permalink = if collection && !collection.builtin?
+      data.permalink ||= if collection && !collection.builtin?
                            collection.default_permalink.chomp("/").chomp(".*") + ".*"
                          else
                            "/:path.*"
                          end
-      end
     end
 
     # Returns source file path.
@@ -59,7 +57,7 @@ module Bridgetown
     def destination(dest)
       dest = site.in_dest_dir(dest)
       dest_url = url
-      if site.uses_resource? && site.base_path.present? && collection
+      if site.base_path.present? && collection
         dest_url = dest_url.delete_prefix site.base_path(strip_slash_only: true)
       end
       site.in_dest_dir(dest, Bridgetown::URL.unescape_path(dest_url))
@@ -179,14 +177,9 @@ module Bridgetown
           site.config.content_engine != "resource"
         base = if @collection.nil? || special_posts_case
                  cleaned_relative_path
-               elsif site.uses_resource?
+               else
                  newly_processed = true
                  Bridgetown::Resource::PermalinkProcessor.new(self).transform
-               else
-                 Bridgetown::URL.new(
-                   template: @collection.url_template,
-                   placeholders: placeholders
-                 )
                end.to_s.chomp("/")
         newly_processed ? base : "#{base}#{extname}"
       end

@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  class Collection # rubocop:todo Metrics/ClassLength
+  class Collection
     # @return [Bridgetown::Site]
     attr_reader :site
 
     attr_reader :label, :metadata
-    attr_writer :docs
 
     attr_writer :resources
 
@@ -24,20 +23,8 @@ module Bridgetown
       label.in? %w(posts pages data).freeze
     end
 
-    def legacy_reader?
-      label.in? %w(posts data).freeze
-    end
-
     def data?
       label == "data"
-    end
-
-    # Fetch the Documents in this collection.
-    # Defaults to an empty array if no documents have been read in.
-    #
-    # @return [Array<Bridgetown::Document>]
-    def docs
-      @docs ||= []
     end
 
     # Fetch the Resources in this collection.
@@ -62,10 +49,9 @@ module Bridgetown
       resources.group_by(&:relative_url).transform_values(&:first)
     end
 
-    # Iterate over either Resources or Documents depending on how the site is
-    # configured
+    # Iterate over Resources
     def each(&block)
-      site.uses_resource? ? resources.each(&block) : docs.each(&block)
+      resources.each(&block)
     end
 
     # Fetch the static files in this collection.
@@ -81,38 +67,32 @@ module Bridgetown
       static_files
     end
 
-    # Read the allowed documents into the collection's array of docs.
+    # Read the allowed resources into the collection's array of resources.
     #
     # @return [Bridgetown::Collection] self
-    def read # rubocop:todo Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+    def read
       filtered_entries.each do |file_path|
         full_path = collection_dir(file_path)
         next if File.directory?(full_path)
 
-        if site.uses_resource?
-          next if File.basename(file_path).starts_with?("_")
+        next if File.basename(file_path).starts_with?("_")
 
-          if label == "data" || Utils.has_yaml_header?(full_path) ||
-              Utils.has_rbfm_header?(full_path)
-            read_resource(full_path)
-          else
-            read_static_file(file_path, full_path)
-          end
-        elsif Utils.has_yaml_header? full_path
-          read_document(full_path)
+        if label == "data" || Utils.has_yaml_header?(full_path) ||
+            Utils.has_rbfm_header?(full_path)
+          read_resource(full_path)
         else
           read_static_file(file_path, full_path)
         end
       end
       site.static_files.concat(static_files)
-      sort_docs!
+      sort_resources!
 
       self
     end
 
     # All the entries in this collection.
     #
-    # @return [Array<String>] file paths to the documents in this collection
+    # @return [Array<String>] file paths to the resources in this collection
     #   relative to the collection's folder
     def entries
       return [] unless exists?
@@ -192,7 +172,7 @@ module Bridgetown
       @entry_filter ||= Bridgetown::EntryFilter.new(
         site,
         base_directory: folder_name,
-        include_underscores: site.uses_resource?
+        include_underscores: true
       )
     end
 
@@ -200,7 +180,7 @@ module Bridgetown
     #
     # @return [String]
     def inspect
-      "#<#{self.class} @label=#{label} docs=#{docs} resources=#{resources}>"
+      "#<#{self.class} @label=#{label} resources=#{resources}>"
     end
 
     # Produce a sanitized label name
@@ -216,7 +196,7 @@ module Bridgetown
     # Produce a representation of this Collection for use in Liquid.
     # Exposes two attributes:
     #   - label
-    #   - docs
+    #   - resources
     #
     # @return [Bridgetown::Drops::CollectionDrop] representation of this
     #   collection for use in Liquid
@@ -224,7 +204,7 @@ module Bridgetown
       Drops::CollectionDrop.new self
     end
 
-    # Whether the collection's documents ought to be written as individual
+    # Whether the collection's resources ought to be written as individual
     #   files in the output.
     #
     # @return [Boolean] true if the 'write' metadata is true, false otherwise.
@@ -237,15 +217,6 @@ module Bridgetown
     def default_permalink
       metadata.fetch("permalink") do
         "/:collection/:path/"
-      end
-    end
-
-    # LEGACY: The URL template to render collection's documents at.
-    #
-    # @return [String]
-    def url_template
-      @url_template ||= metadata.fetch("permalink") do
-        Utils.add_permalink_suffix("/:collection/:path", site.permalink_style)
       end
     end
 
@@ -301,9 +272,14 @@ module Bridgetown
 
     # Read in resource from repo path
     # @param full_path [String]
-    def read_resource(full_path)
-      id = "repo://#{label}.collection/" + Addressable::URI.escape(
-        Pathname(full_path).relative_path_from(Pathname(site.source)).to_s
+    def read_resource(full_path, manifest: nil) # rubocop:todo Metrics/AbcSize
+      scheme = manifest ? "plugin" : "repo"
+      id = +"#{scheme}://#{label}.collection/"
+      id += "#{manifest.origin}/" if manifest
+      id += Addressable::URI.escape(
+        Pathname(full_path).relative_path_from(
+          manifest ? Pathname(manifest.content) : Pathname(site.source)
+        ).to_s
       ).gsub("#", "%23")
       model = Bridgetown::Model::Base.find(id)
 
@@ -329,50 +305,24 @@ module Bridgetown
       @container ||= site.config["collections_dir"]
     end
 
-    def read_document(full_path)
-      doc = Document.new(full_path, site: site, collection: self).tap(&:read)
-      docs << doc if site.config.unpublished || doc.published?
-    end
-
-    def sort_docs!
+    def sort_resources!
       if metadata["sort_by"].is_a?(String)
-        sort_docs_by_key!
         sort_resources_by_key!
       else
-        docs.sort!
         resources.sort!
       end
-      docs.reverse! if metadata.sort_direction == "descending"
       resources.reverse! if metadata.sort_direction == "descending"
     end
 
     # A custom sort function based on Schwartzian transform
     # Refer https://byparker.com/blog/2017/schwartzian-transform-faster-sorting/ for details
-    def sort_docs_by_key!
-      meta_key = metadata["sort_by"]
-      # Modify `docs` array to cache document's property along with the Document instance
-      docs.map! { |doc| [doc.data[meta_key], doc] }.sort! do |apples, olives|
-        order = determine_sort_order(meta_key, apples, olives)
-
-        # Fall back to `Document#<=>` if the properties were equal or were non-sortable
-        # Otherwise continue with current sort-order
-        if order.nil? || order.zero?
-          apples[-1] <=> olives[-1]
-        else
-          order
-        end
-
-        # Finally restore the `docs` array with just the Document objects themselves
-      end.map!(&:last)
-    end
-
     def sort_resources_by_key!
       meta_key = metadata["sort_by"]
-      # Modify `docs` array to cache document's property along with the Document instance
-      resources.map! { |doc| [doc.data[meta_key], doc] }.sort! do |apples, olives|
+      # Modify array to cache property along with the Resource instance
+      resources.map! { |r| [r.data[meta_key], r] }.sort! do |apples, olives|
         order = determine_sort_order(meta_key, apples, olives)
 
-        # Fall back to `Document#<=>` if the properties were equal or were non-sortable
+        # Fall back to `Resource::Base#<=>` if the properties were equal or were non-sortable
         # Otherwise continue with current sort-order
         if order.nil? || order.zero?
           apples[-1] <=> olives[-1]
@@ -380,7 +330,7 @@ module Bridgetown
           order
         end
 
-        # Finally restore the `docs` array with just the Document objects themselves
+        # Finally restore the `resources` array with just the objects themselves
       end.map!(&:last)
     end
 
@@ -397,9 +347,9 @@ module Bridgetown
       end
     end
 
-    def order_with_warning(sort_key, document, order)
+    def order_with_warning(sort_key, resource, order)
       Bridgetown.logger.warn "Sort warning:", "'#{sort_key}' not defined in" \
-                              " #{document.relative_path}"
+                              " #{resource.relative_path}"
       order
     end
 

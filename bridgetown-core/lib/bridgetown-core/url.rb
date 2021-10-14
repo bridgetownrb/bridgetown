@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Public: Methods that generate a URL for a resource such as a Post or a Page.
+# Public: Methods that generate a URL for GeneratedPage.
 #
 # Examples
 #
@@ -10,6 +10,7 @@
 #   }).to_s
 #
 module Bridgetown
+  # TODO: remove this class in favor of the new Resource permalink processor
   class URL
     # options - One of :permalink or :template must be supplied.
     #           :template     - The String used as template for URL generation,

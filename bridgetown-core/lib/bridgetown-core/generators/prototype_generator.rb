@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Handles Generated Pages
-Bridgetown::Hooks.register :pages, :post_init, reloadable: false do |page|
+Bridgetown::Hooks.register :generated_pages, :post_init, reloadable: false do |page|
   if page.class != Bridgetown::PrototypePage && page.data["prototype"].is_a?(Hash)
     Bridgetown::PrototypeGenerator.add_matching_template(page)
   end
@@ -38,8 +38,7 @@ module Bridgetown
     # @param site [Bridgetown::Site]
     def generate(site)
       @site = site
-      @configured_collection = "posts" unless site.uses_resource?
-      page_list = site.uses_resource? ? site.collections.pages.resources : site.pages
+      page_list = site.collections.pages.resources
 
       prototype_pages = self.class.matching_templates.select do |page|
         page_list.include?(page)
@@ -74,7 +73,7 @@ module Bridgetown
 
     # Check incoming prototype configuration and normalize options.
     #
-    # @param prototype_page [Bridgetown::Page, Bridgetown::Resource::Base]
+    # @param prototype_page [Bridgetown::GeneratedPage, Bridgetown::Resource::Base]
     #
     # @return [String, nil]
     def validate_search_term(prototype_page)
@@ -110,11 +109,7 @@ module Bridgetown
     #
     # @return [Array<String>]
     def terms_matching_pages(search_term)
-      pages_list = if site.uses_resource?
-                     site.collections[@configured_collection].resources
-                   else
-                     site.collections[@configured_collection].docs
-                   end
+      pages_list = site.collections[@configured_collection].resources
 
       Bridgetown::Paginate::PaginationIndexer.index_documents_by(
         pages_list, search_term
@@ -123,7 +118,7 @@ module Bridgetown
   end
 
   class PrototypePage < GeneratedPage
-    # @return [Bridgetown::Page, Bridgetown::Resource::Base]
+    # @return [Bridgetown::GeneratedPage, Bridgetown::Resource::Base]
     attr_reader :prototyped_page
 
     # @param prototyped_page [Bridgetown::Page, Bridgetown::Resource::Base]
@@ -135,23 +130,17 @@ module Bridgetown
       @site = prototyped_page.site
       @url = ""
       @name = "index.html"
-      @path = prototyped_page.path
-
-      process(@name)
+      @ext = ".html"
+      @basename = "index"
+      @dir = Pathname.new(prototyped_page.relative_path).dirname.to_s.sub(%r{^_pages}, "")
+      @path = site.in_source_dir(@dir, @name)
 
       self.data = Bridgetown::Utils.deep_merge_hashes prototyped_page.data, {}
       self.content = prototyped_page.content
 
-      # Perform some validation that is also performed in Bridgetown::Page
-      validate_data! prototyped_page.path
-      validate_permalink! prototyped_page.path
-
-      @dir = Pathname.new(prototyped_page.relative_path).dirname.to_s.sub(%r{^_pages}, "")
-      @path = site.in_source_dir(@dir, @name)
-
       process_prototype_page_data(collection, search_term, term)
 
-      Bridgetown::Hooks.trigger :pages, :post_init, self
+      Bridgetown::Hooks.trigger :generated_pages, :post_init, self
     end
 
     def process_prototype_page_data(collection, search_term, term)
