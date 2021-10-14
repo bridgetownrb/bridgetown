@@ -3,7 +3,7 @@
 require "helper"
 
 class TestDataReader < BridgetownUnitTest
-  # TODO: test resource data reading instead
+  # TODO: test resource data reading instead...some of that is already in the test_resource.rb file
 
   # def setup
   #   @reader = DataReader.new(fixture_site)
