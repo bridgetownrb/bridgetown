@@ -34,16 +34,15 @@ module Bridgetown
       "encoding"             => "utf-8",
       "markdown_ext"         => "markdown,mkdown,mkdn,mkd,md",
       "strict_front_matter"  => false,
-      "slugify_categories"   => true,
       "slugify_mode"         => "pretty",
 
       # Filtering Content
-      "limit_posts"          => 0,
       "future"               => false,
       "unpublished"          => false,
       "ruby_in_front_matter" => true,
 
       # Conversion
+      "content_engine"       => "resource",
       "markdown"             => "kramdown",
       "highlighter"          => "rouge",
       "excerpt_separator"    => "\n\n",
@@ -267,23 +266,16 @@ module Bridgetown
       self[:collections][:posts][:output] = true
       self[:collections][:posts][:sort_direction] ||= "descending"
 
-      if self[:content_engine] == "resource"
-        self[:permalink] = "pretty" if self[:permalink].blank?
-        self[:collections][:pages] = {} unless self[:collections][:pages]
-        self[:collections][:pages][:output] = true
-        self[:collections][:pages][:permalink] ||= "/:locale/:path/"
+      self[:permalink] = "pretty" if self[:permalink].blank?
+      self[:collections][:pages] = {} unless self[:collections][:pages]
+      self[:collections][:pages][:output] = true
+      self[:collections][:pages][:permalink] ||= "/:locale/:path/"
 
-        self[:collections][:data] = {} unless self[:collections][:data]
-        self[:collections][:data][:output] = false
+      self[:collections][:data] = {} unless self[:collections][:data]
+      self[:collections][:data][:output] = false
 
-        unless self[:collections][:posts][:permalink]
-          self[:collections][:posts][:permalink] = self[:permalink]
-        end
-      else
-        self[:permalink] = "date" if self[:permalink].blank?
-        unless self[:collections][:posts][:permalink]
-          self[:collections][:posts][:permalink] = style_to_permalink(self[:permalink])
-        end
+      unless self[:collections][:posts][:permalink]
+        self[:collections][:posts][:permalink] = self[:permalink]
       end
 
       self
@@ -308,26 +300,6 @@ module Bridgetown
         self["ruby_in_front_matter"]
     end
 
-    # Deprecated, to be removed when Bridgetown goes Resource-only
-    def style_to_permalink(permalink_style) # rubocop:todo Metrics/CyclomaticComplexity
-      case permalink_style.to_s.to_sym
-      when :pretty
-        "/:categories/:year/:month/:day/:title/"
-      when :simple
-        "/:categories/:title/"
-      when :none
-        "/:categories/:title:output_ext"
-      when :date
-        "/:categories/:year/:month/:day/:title:output_ext"
-      when :ordinal
-        "/:categories/:year/:y_day/:title:output_ext"
-      when :weekdate
-        "/:categories/:year/W:week/:short_day/:title:output_ext"
-      else
-        permalink_style.to_s
-      end
-    end
-
     def check_include_exclude
       %w(include exclude).each do |option|
         next unless key?(option)
@@ -335,11 +307,6 @@ module Bridgetown
 
         raise Bridgetown::Errors::InvalidConfigurationError,
               "'#{option}' should be set as an array, but was: #{self[option].inspect}."
-      end
-
-      unless self[:include].include?("_pages") || self[:content_engine] == "resource"
-        # add _pages to includes set
-        self[:include] << "_pages"
       end
 
       self

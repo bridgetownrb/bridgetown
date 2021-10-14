@@ -36,11 +36,10 @@ module Bridgetown
         new_url = url_segments.map do |segment|
           segment.starts_with?(":") ? process_segment(segment.sub(%r{^:}, "")) : segment
         end.select(&:present?).join("/")
-
         # No relative URLs should ever end in /index.html
         new_url.sub!(%r{/index$}, "") if final_ext == ".html"
 
-        add_base_path finalize_permalink(new_url, permalink)
+        ensure_base_path finalize_permalink(new_url, permalink)
       end
 
       def process_segment(segment)
@@ -96,7 +95,7 @@ module Bridgetown
         end
       end
 
-      def add_base_path(permalink)
+      def ensure_base_path(permalink)
         if resource.site.base_path.present?
           return "#{resource.site.base_path(strip_slash_only: true)}#{permalink}"
         end
@@ -110,6 +109,9 @@ module Bridgetown
       register_placeholder :path, ->(resource) do
         {
           raw_value: resource.relative_path_basename_without_prefix.tap do |path|
+            if resource.site.config["collections_dir"].present?
+              path.delete_prefix! "#{resource.site.config["collections_dir"]}/"
+            end
             if resource.data.locale && path.ends_with?(".#{resource.data.locale}")
               path.chomp!(".#{resource.data.locale}")
             end

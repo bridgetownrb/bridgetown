@@ -17,7 +17,7 @@ class TestSiteDrop < BridgetownUnitTest
     end
 
     should "find a key if it's in the collection of the drop" do
-      assert @drop.key?("thanksgiving")
+      assert @drop["collections"].key?("thanksgiving")
     end
   end
 end

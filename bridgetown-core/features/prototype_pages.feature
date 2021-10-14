@@ -9,7 +9,7 @@ Feature: Prototype Pages
       | pagination | { enabled: true, per_page: <num> } |
     And I have a _layouts directory
     And I have a categories directory
-    And I have an "categories/category.html" page with prototype "{term: category}" that contains "{{ paginator.documents.size }} {{ paginator.documents[0].title }}"
+    And I have an "categories/category.html" page with prototype "{collection: posts, term: category}" that contains "{{ paginator.resources.size }} {{ paginator.resources[0].title }}"
     And I have a _posts directory
     And I have the following posts:
       | title     | date       | category         | content |
@@ -38,7 +38,7 @@ Feature: Prototype Pages
       | pagination | { enabled: true, per_page: <num> } |
     And I have a _layouts directory
     And I have a tags directory
-    And I have an "tags/tag.html" page with prototype "{term: tag}" that contains "#{{ page.tag }} {{ paginator.documents.size }} {{ paginator.documents[0].title }}"
+    And I have an "tags/tag.html" page with prototype "{collection: posts, term: tag}" that contains "#{{ page.tag }} {{ paginator.resources.size }} {{ paginator.resources[0].title }}"
     And I have a _posts directory
     And I have the following posts:
       | title     | date       | tags                    | content |
@@ -65,7 +65,7 @@ Feature: Prototype Pages
       | pagination | { enabled: true, per_page: <num> } |
     And I have a _layouts directory
     And I have a authors directory
-    And I have an "authors/author.html" page with prototype "{term: author}" that contains "{{ paginator.documents.size }} {{ paginator.documents[0].title }}"
+    And I have an "authors/author.html" page with prototype "{collection: posts, term: author}" that contains "{{ paginator.resources.size }} {{ paginator.resources[0].title }}"
     And I have a _posts directory
     And I have the following posts:
       | title     | date       | author                | content |

@@ -33,11 +33,10 @@ class Bridgetown::Site
         )
       end
       self.layouts = HashWithDotAccess::Hash.new
-      self.pages = []
+      self.generated_pages = []
       self.static_files = []
       self.data = HashWithDotAccess::Hash.new unless soft
       @frontend_manifest = nil
-      @post_attr_hash = {}
       @collections = nil
       @documents = nil
       @docs_to_write = nil
@@ -53,22 +52,10 @@ class Bridgetown::Site
     def read
       Bridgetown::Hooks.trigger :site, :pre_read, self
       reader.read
-      limit_posts!
       Bridgetown::Hooks.trigger :site, :post_read, self
     end
 
     private
-
-    # Limits the current posts; removes the posts which exceed the limit_posts
-    def limit_posts!
-      if config.limit_posts.positive?
-        Bridgetown::Deprecator.deprecation_message(
-          "The limit_posts config option will be removed prior to Bridgetown 1.0"
-        )
-        limit = posts.docs.length < config.limit_posts ? posts.docs.length : config.limit_posts
-        posts.docs = posts.docs[-limit, limit]
-      end
-    end
 
     def print_stats
       Bridgetown.logger.info @liquid_renderer.stats_table

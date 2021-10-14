@@ -271,9 +271,9 @@
   examples:
     - input: "{{ page.tags | sort }}"
       output:
-    - input: '{{ site.posts | sort: "author" }}'
+    - input: '{{ site.collections.posts.resources | sort: "author" }}'
       output:
-    - input: '{{ site.pages | sort: "title", "last" }}'
+    - input: '{{ site.collections.pages.resources | sort: "title", "last" }}'
       output:
 
 #
@@ -281,9 +281,9 @@
 - name: Sample
   description: "Pick a random value from an array. Optionally, pick multiple values."
   examples:
-    - input: "{{ site.pages | sample }}"
+    - input: "{{ site.collections.pages.resources | sample }}"
       output:
-    - input: "{{ site.pages | sample: 2 }}"
+    - input: "{{ site.collections.pages.resources | sample: 2 }}"
       output:
 
 #

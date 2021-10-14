@@ -41,7 +41,7 @@ module Bridgetown
       def execute_inline_ruby!
         return unless site.config.should_execute_inline_ruby?
 
-        Bridgetown::Utils::RubyExec.search_data_for_ruby_code(resource, self)
+        Bridgetown::Utils::RubyExec.search_data_for_ruby_code(resource)
       end
 
       def inspect

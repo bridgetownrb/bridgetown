@@ -145,8 +145,7 @@ module Bridgetown
         name = folder_name.dasherize
         module_name = folder_name.camelize
 
-        # TODO: upon 0.21 release, remove the explicit branch name!
-        run "git clone -b switch-to-minitest https://github.com/bridgetownrb/bridgetown-sample-plugin #{name}"
+        run "git clone https://github.com/bridgetownrb/bridgetown-sample-plugin #{name}"
         new_gemspec = "#{name}.gemspec"
 
         inside name do # rubocop:todo Metrics/BlockLength

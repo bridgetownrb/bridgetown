@@ -2,7 +2,6 @@
 
 module Bridgetown
   class Layout
-    include DataAccessible
     include FrontMatterImporter
     include LiquidRenderable
 
@@ -44,9 +43,7 @@ module Bridgetown
     # @param file [String]
     # @return [String]
     def self.label_for_file(file)
-      # TODO: refactor this so multi-extension layout filenames don't leak
-      # middle extensions into layout label
-      file.split(".")[0..-2].join(".")
+      file.split(".").first
     end
 
     # Initialize a new Layout.
@@ -91,6 +88,20 @@ module Bridgetown
           error.is_a?(Bridgetown::Errors::FatalException)
         raise error
       end
+    end
+
+    # Returns the contents as a String.
+    def to_s
+      output || content || ""
+    end
+
+    # Accessor for data properties by Liquid.
+    #
+    # property - The String name of the property to retrieve.
+    #
+    # Returns the String value or nil if the property isn't included.
+    def [](property)
+      data[property]
     end
 
     # The label of the layout (should match what would used in front matter

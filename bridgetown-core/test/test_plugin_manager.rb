@@ -186,7 +186,7 @@ class TestPluginManager < BridgetownUnitTest
 
     context "extra component file" do
       setup do
-        @result = File.read(dest_dir("plugin_content", "components.html"))
+        @result = File.read(dest_dir("plugin_content", "components", "index.html"))
       end
 
       should "correctly render plugin component" do
@@ -200,7 +200,7 @@ class TestPluginManager < BridgetownUnitTest
 
     context "extra page and static file" do
       setup do
-        @result = File.read(dest_dir("page_from_a_plugin.html"))
+        @result = File.read(dest_dir("page_from_a_plugin", "index.html"))
         @static_result = File.read(dest_dir("assets", "static.txt"))
       end
 
@@ -216,8 +216,8 @@ class TestPluginManager < BridgetownUnitTest
 
     context "extra layout file" do
       setup do
-        @result = File.read(dest_dir("plugin_content", "layouts.html"))
-        @override_result = File.read(dest_dir("plugin_content", "layouts_override.html"))
+        @result = File.read(dest_dir("plugin_content", "layouts", "index.html"))
+        @override_result = File.read(dest_dir("plugin_content", "layouts_override", "index.html"))
       end
 
       should "correctly render plugin layout" do

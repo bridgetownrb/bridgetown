@@ -179,6 +179,7 @@ class TestStaticFile < BridgetownUnitTest
         "modified_time" => @static_file.modified_time,
         "path"          => "/static_file.txt",
         "collection"    => nil,
+        "permalink"     => "/:path.*",
       }
       assert_equal expected, @static_file.to_liquid.to_h
     end

@@ -11,7 +11,6 @@ module Bridgetown
 
       mutable false
 
-      def_delegator :@obj, :relative_path, :path
       def_delegators :@obj,
                      :id,
                      :data,
@@ -20,6 +19,7 @@ module Bridgetown
                      :summary,
                      :to_s,
                      :absolute_url,
+                     :path,
                      :relative_path,
                      :relative_url,
                      :date,
@@ -32,8 +32,8 @@ module Bridgetown
         @collection ||= @obj.collection.to_liquid
       end
 
-      def excerpt
-        fallback_data["excerpt"].to_s
+      def relative_path
+        @relative_path ||= @obj.relative_path.to_s
       end
 
       def <=>(other)

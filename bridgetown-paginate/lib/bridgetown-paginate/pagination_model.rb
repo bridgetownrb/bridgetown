@@ -12,7 +12,7 @@ module Bridgetown
       @logging_lambda = nil
       # The lambda used to create pages and add them to the site
       @page_add_lambda = nil
-      # Lambda to remove a page from the site.pages collection
+      # Lambda to remove a page
       @page_remove_lambda = nil
       # Lambda to get all documents/posts in a particular collection (by name)
       @collection_by_name_lambda = nil
@@ -352,8 +352,7 @@ module Bridgetown
 
           # 3. Create the paginator logic for this page, pass in the prev and next
           # page numbers, assign paginator to in-memory page
-          # TODO: remove .pager by v1.0, deprecated
-          newpage.paginator = newpage.pager = Paginator.new(
+          newpage.paginator = Paginator.new(
             config["per_page"],
             first_index_page_url,
             paginated_page_url,

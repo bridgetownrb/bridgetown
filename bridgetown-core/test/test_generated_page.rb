@@ -12,6 +12,11 @@ class TestGeneratedPage < BridgetownUnitTest
     klass.new(@site, base, dir, file)
   end
 
+  def do_render(page)
+    renderer = Bridgetown::Renderer.new(@site, page)
+    renderer.render_document
+  end
+
   def render_and_write
     @site.render
     @site.cleanup
@@ -39,39 +44,9 @@ class TestGeneratedPage < BridgetownUnitTest
       end
 
       should "not have page-content and page-data defined within it" do
-        assert_equal "pages", @page.type.to_s
+        assert_equal "generated_pages", @page.type.to_s
         assert_nil @page.content
         assert_empty @page.data
-      end
-
-      should "have basic attributes defined in it" do
-        regular_page = setup_page("properties.html", klass: Page)
-        # assert a couple of attributes accessible in a regular Bridgetown::Page instance
-        assert_equal "All the properties.\n", regular_page.content
-        assert_equal "properties.html", regular_page.name
-
-        basic_attrs = %w(dir name path url)
-        attrs = {
-          "content"   => "All the properties.\n",
-          "excerpt"   => nil,
-          "foo"       => "bar",
-          "layout"    => "default",
-          "permalink" => "/properties/",
-          "published" => nil,
-          "title"     => "Properties Page",
-        }
-        attrs.each do |prop, value|
-          # assert that all attributes (of a Bridgetown::GeneratedPage instance) other than
-          # "dir", "name", "path", "url" are `nil`.
-          # For example, @page[dir] should be "/" but @page[content] or @page[layout], should
-          # simply be nil.
-          #
-          if basic_attrs.include?(prop)
-            assert_equal value, @page[prop], "For Bridgetown::GeneratedPage attribute '#{prop}':"
-          else
-            assert_nil @page[prop]
-          end
-        end
       end
     end
 
@@ -83,31 +58,6 @@ class TestGeneratedPage < BridgetownUnitTest
       should "generate page url accordingly" do
         page = setup_page("properties.html")
         assert_equal "/properties", page.url
-      end
-    end
-
-    context "with default front matter configuration" do
-      setup do
-        @site.config["defaults"] = [
-          {
-            "scope"  => {
-              "path" => "",
-              "type" => "pages",
-            },
-            "values" => {
-              "layout" => "default",
-              "author" => "John Doe",
-            },
-          },
-        ]
-
-        @page = setup_page("info.md")
-      end
-
-      should "respect front matter defaults" do
-        assert_nil @page.data["title"]
-        assert_equal "John Doe", @page.data["author"]
-        assert_equal "default", @page.data["layout"]
       end
     end
 
@@ -147,17 +97,317 @@ class TestGeneratedPage < BridgetownUnitTest
       end
 
       should "be processed and written to destination when passed as "\
-        "an entry in 'site.pages' array" do
+        "an entry in 'site.generated_pages' array" do
         @page.content = "{{ site.title }}"
         @page.data["permalink"] = "/virtual-about/"
 
-        @site.pages << @page
+        @site.generated_pages << @page
         render_and_write
 
         refute_exist dest_dir("physical")
         assert_exist dest_dir("virtual-about")
         assert File.exist?(dest_dir("virtual-about", "index.html"))
         assert_equal "Test Site", File.read(dest_dir("virtual-about", "index.html"))
+      end
+    end
+  end
+
+  context "A GeneratedPage (legacy)" do
+    setup do
+      clear_dest
+      @site = Site.new(Bridgetown.configuration(
+                         "source"            => source_dir,
+                         "destination"       => dest_dir,
+                         "skip_config_files" => true
+                       ))
+    end
+
+    context "processing pages" do
+      should "create URL based on filename" do
+        @page = setup_page("contacts.html")
+        assert_equal "/contacts/", @page.url
+      end
+
+      should "create proper URL from filename" do
+        @page = setup_page("trailing-dots...md")
+        assert_equal "/trailing-dots/", @page.url
+      end
+
+      should "create URL with non-alphabetic characters" do
+        @page = setup_page("+", "%# +.md")
+        assert_equal "/+/%25%23%20+/", @page.url
+      end
+
+      should "be exposed to Liquid as a Liquid::Drop subclass" do
+        page = setup_page("properties.html")
+        liquid_rep = page.to_liquid
+        refute_equal Hash, liquid_rep.class
+        assert_equal true, liquid_rep.is_a?(Liquid::Drop)
+        assert_equal Bridgetown::Drops::GeneratedPageDrop, liquid_rep.class
+      end
+
+      should "make attributes accessible for use in Liquid templates" do
+        page = setup_page("/contacts", "index.html")
+        template = Liquid::Template.parse(<<~TEXT)
+          Name: {{ page.name }}
+          Path: {{ page.path }}
+          URL:  {{ page.url }}
+        TEXT
+        expected = <<~TEXT
+          Name: index.html
+          Path: contacts/index.html
+          URL:  /contacts/
+        TEXT
+        assert_equal(expected, template.render!("page" => page.to_liquid))
+      end
+
+      context "in a directory hierarchy" do
+        should "create URL based on filename" do
+          @page = setup_page("/contacts", "bar.html")
+          assert_equal "/contacts/bar/", @page.url
+        end
+
+        should "create index URL based on filename" do
+          @page = setup_page("/contacts", "index.html")
+          assert_equal "/contacts/", @page.url
+        end
+      end
+
+      should "deal properly with extensions" do
+        @page = setup_page("deal.with.dots.html")
+        assert_equal ".html", @page.ext
+      end
+
+      should "deal properly with non-html extensions" do
+        @page = setup_page("dynamic_page.php")
+        @dest_file = dest_dir("dynamic_page.php")
+        assert_equal ".php", @page.ext
+        assert_equal "dynamic_page", @page.basename
+        assert_equal "/dynamic_page.php", @page.url
+        assert_equal @dest_file, @page.destination(dest_dir)
+      end
+
+      should "deal properly with dots" do
+        @page = setup_page("deal.with.dots.html")
+        @dest_file = dest_dir("deal.with.dots/index.html")
+
+        assert_equal "deal.with.dots", @page.basename
+        assert_equal @dest_file, @page.destination(dest_dir)
+      end
+
+      context "with pretty permalink style" do
+        setup do
+          @site.permalink_style = :pretty
+        end
+
+        should "return dir, URL, and destination correctly" do
+          @page = setup_page("contacts.html")
+          @dest_file = dest_dir("contacts/index.html")
+
+          assert_equal "/contacts/", @page.dir
+          assert_equal "/contacts/", @page.url
+          assert_equal @dest_file, @page.destination(dest_dir)
+        end
+
+        should "return dir correctly for index page" do
+          @page = setup_page("index.html")
+          assert_equal "/", @page.dir
+        end
+
+        context "in a directory hierarchy" do
+          should "create url based on filename" do
+            @page = setup_page("/contacts", "bar.html")
+            assert_equal "/contacts/bar/", @page.url
+          end
+
+          should "create index URL based on filename" do
+            @page = setup_page("/contacts", "index.html")
+            assert_equal "/contacts/", @page.url
+          end
+
+          should "return dir correctly" do
+            @page = setup_page("/contacts", "bar.html")
+            assert_equal "/contacts/bar/", @page.dir
+          end
+
+          should "return dir correctly for index page" do
+            @page = setup_page("/contacts", "index.html")
+            assert_equal "/contacts/", @page.dir
+          end
+        end
+      end
+
+      context "with date permalink style" do
+        setup do
+          @site.permalink_style = :date
+        end
+
+        should "return url and destination correctly" do
+          @page = setup_page("contacts.html")
+          @dest_file = dest_dir("contacts.html")
+          assert_equal "/contacts.html", @page.url
+          assert_equal @dest_file, @page.destination(dest_dir)
+        end
+
+        should "return dir correctly" do
+          assert_equal "/", setup_page("contacts.html").dir
+          assert_equal "/", setup_page("contacts/bar.html").dir
+          assert_equal "/", setup_page("contacts/index.html").dir
+        end
+      end
+
+      context "with custom permalink style with trailing slash" do
+        setup do
+          @site.permalink_style = "/:title/"
+        end
+
+        should "return URL and destination correctly" do
+          @page = setup_page("contacts.html")
+          @dest_file = dest_dir("contacts/index.html")
+          assert_equal "/contacts/", @page.url
+          assert_equal @dest_file, @page.destination(dest_dir)
+        end
+      end
+
+      context "with custom permalink style with file extension" do
+        setup do
+          @site.permalink_style = "/:title:output_ext"
+        end
+
+        should "return URL and destination correctly" do
+          @page = setup_page("contacts.html")
+          @dest_file = dest_dir("contacts.html")
+          assert_equal "/contacts.html", @page.url
+          assert_equal @dest_file, @page.destination(dest_dir)
+        end
+      end
+
+      context "with custom permalink style with no extension" do
+        setup do
+          @site.permalink_style = "/:title"
+        end
+
+        should "return URL and destination correctly" do
+          @page = setup_page("contacts.html")
+          @dest_file = dest_dir("contacts.html")
+          assert_equal "/contacts", @page.url
+          assert_equal @dest_file, @page.destination(dest_dir)
+        end
+      end
+
+      context "with any other permalink style" do
+        should "return dir correctly" do
+          @site.permalink_style = nil
+          assert_equal "/", setup_page("contacts.html").dir
+          assert_equal "/", setup_page("contacts/index.html").dir
+          assert_equal "/", setup_page("contacts/bar.html").dir
+        end
+      end
+
+      should "not be writable outside of destination" do
+        unexpected = File.expand_path("../../../baddie.html", dest_dir)
+        File.delete unexpected if File.exist?(unexpected)
+        page = setup_page("exploit.md")
+        do_render(page)
+        page.write(dest_dir)
+
+        refute_exist unexpected
+      end
+    end
+
+    context "rendering" do
+      setup do
+        clear_dest
+      end
+
+      should "write even when permalink has '%# +'" do
+        page = setup_page("+", "%# +.md")
+        do_render(page)
+        page.write(dest_dir)
+
+        assert File.directory?(dest_dir)
+        assert_exist dest_dir("+", "%# +", "index.html")
+      end
+
+      should "write properly without html extension" do
+        page = setup_page("contacts.html")
+        page.site.permalink_style = :pretty
+        do_render(page)
+        page.write(dest_dir)
+
+        assert File.directory?(dest_dir)
+        assert_exist dest_dir("contacts", "index.html")
+      end
+
+      should "support .htm extension and respects that" do
+        page = setup_page("contacts.htm")
+        page.site.permalink_style = :pretty
+        do_render(page)
+        page.write(dest_dir)
+
+        assert File.directory?(dest_dir)
+        assert_exist dest_dir("contacts", "index.htm")
+      end
+
+      should "support .xhtml extension and respects that" do
+        page = setup_page("contacts.xhtml")
+        page.site.permalink_style = :pretty
+        do_render(page)
+        page.write(dest_dir)
+
+        assert File.directory?(dest_dir)
+        assert_exist dest_dir("contacts", "index.xhtml")
+      end
+
+      should "write properly with extension different from html" do
+        page = setup_page("sitemap.xml")
+        page.site.permalink_style = :pretty
+        do_render(page)
+        page.write(dest_dir)
+
+        assert_equal "/sitemap.xml", page.url
+        assert_nil page.url[%r!\.html$!]
+        assert File.directory?(dest_dir)
+        assert_exist dest_dir("sitemap.xml")
+      end
+
+      should "write dotfiles properly" do
+        page = setup_page(".htaccess")
+        do_render(page)
+        page.write(dest_dir)
+
+        assert File.directory?(dest_dir)
+        assert_exist dest_dir(".htaccess")
+      end
+
+      context "in a directory hierarchy" do
+        should "write properly the index" do
+          page = setup_page("/contacts", "index.html")
+          do_render(page)
+          page.write(dest_dir)
+
+          assert File.directory?(dest_dir)
+          assert_exist dest_dir("contacts", "index.html")
+        end
+
+        should "write properly" do
+          page = setup_page("/contacts", "bar.html")
+          do_render(page)
+          page.write(dest_dir)
+
+          assert File.directory?(dest_dir)
+          assert_exist dest_dir("contacts", "bar", "index.html")
+        end
+
+        should "write properly without html extension" do
+          page = setup_page("/contacts", "bar.html")
+          page.site.permalink_style = :pretty
+          do_render(page)
+          page.write(dest_dir)
+
+          assert File.directory?(dest_dir)
+          assert_exist dest_dir("contacts", "bar", "index.html")
+        end
       end
     end
   end

@@ -21,10 +21,10 @@ class TestDrop < BridgetownUnitTest
         "collections" => ["methods"]
       )
       @site.process
-      @document = @site.collections["methods"].docs.detect do |d|
-        d.relative_path == "_methods/configuration.md"
+      @resource = @site.collections["methods"].resources.detect do |d|
+        d.relative_path.to_s == "_methods/configuration.md"
       end
-      @document_drop = @document.to_liquid
+      @resource_drop = @resource.to_liquid
       @drop = DropFixture.new({})
     end
 
@@ -52,32 +52,32 @@ class TestDrop < BridgetownUnitTest
       end
     end
 
-    context "a document drop" do
+    context "a resource drop" do
       context "fetch" do
         should "raise KeyError if key is not found and no default provided" do
           assert_raises KeyError do
-            @document_drop.fetch("not_existing_key")
+            @resource_drop.fetch("not_existing_key")
           end
         end
 
         should "fetch value without default" do
-          assert_equal "Bridgetown.configuration", @document_drop.fetch("title")
+          assert_equal "Bridgetown.configuration", @resource_drop.fetch("title")
         end
 
         should "fetch default if key is not found" do
-          assert_equal "default", @document_drop.fetch("not_existing_key", "default")
+          assert_equal "default", @resource_drop.fetch("not_existing_key", "default")
         end
 
         should "fetch default boolean value correctly" do
-          assert_equal false, @document_drop.fetch("bar", false)
+          assert_equal false, @resource_drop.fetch("bar", false)
         end
 
         should "fetch default value from block if key is not found" do
-          assert_equal "default bar", @document_drop.fetch("bar") { |el| "default #{el}" }
+          assert_equal "default bar", @resource_drop.fetch("bar") { |el| "default #{el}" }
         end
 
         should "fetch default value from block first if both argument and block given" do
-          assert_equal "baz", @document_drop.fetch("bar", "default") { "baz" }
+          assert_equal "baz", @resource_drop.fetch("bar", "default") { "baz" }
         end
 
         should "not change mutability when fetching" do
@@ -85,16 +85,6 @@ class TestDrop < BridgetownUnitTest
           @drop["foo"] = "baz"
           assert_equal "baz", @drop.fetch("foo")
           assert @drop.class.mutable?
-        end
-      end
-
-      context "related_posts" do
-        should "return the document array" do
-          last_post = @site.posts.docs.last
-          last_post_drop = @site.posts.docs.last.to_liquid
-          last_ten_recent_posts = (@site.posts.docs.reverse - [last_post]).first(10)
-
-          assert_equal last_ten_recent_posts, last_post_drop.related_posts
         end
       end
     end
@@ -115,13 +105,13 @@ class TestDrop < BridgetownUnitTest
         end
       end
 
-      context "a document drop" do
+      context "a resource drop" do
         should "respond true for native methods" do
-          assert @document_drop.key? "collection"
+          assert @resource_drop.key? "collection"
         end
 
         should "return true for fallback data" do
-          assert @document_drop.key? "title"
+          assert @resource_drop.key? "title"
         end
       end
     end

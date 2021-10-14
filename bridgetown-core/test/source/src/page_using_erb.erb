@@ -4,7 +4,7 @@ title: I'm an ERB Page
 page_var: 123
 ---
 
-One two three: <%= page[:page_var] * 10 %>
+One two three: <%= page.data[:page_var] * 10 %>
 
 <%= liquid_render "test_component", param: "Liquid FTW!" %>
 

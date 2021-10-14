@@ -73,7 +73,8 @@ module Bridgetown
       # @raise [ArgumentError] if the file cannot be found
       def find_relative_url_for_path(relative_path)
         site.each_site_file do |item|
-          if item.relative_path == relative_path || item.relative_path == "/#{relative_path}"
+          if item.relative_path.to_s == relative_path ||
+              item.relative_path.to_s == "/#{relative_path}"
             return safe(item.respond_to?(:relative_url) ? item.relative_url : relative_url(item))
           end
         end

@@ -15,7 +15,7 @@ Feature: Collections Directory
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Random Content." in "output/2009/03/27/gathered-post.html"
+    And I should see "Random Content." in "output/2009/03/27/gathered-post/index.html"
 
   Scenario: Rendered collection in custom collections_dir also containing posts
     Given I have a collections/_puppies directory
@@ -37,8 +37,8 @@ Feature: Collections Directory
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And the "output/puppies/rover.html" file should exist
-    And I should see "Random Content." in "output/2009/03/27/gathered-post.html"
+    And the "output/puppies/rover/index.html" file should exist
+    And I should see "Random Content." in "output/2009/03/27/gathered-post/index.html"
 
   Scenario: Rendered collection in custom collections_dir with posts at the site root
     Given I have a collections/_puppies directory
@@ -60,8 +60,8 @@ Feature: Collections Directory
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And the "output/puppies/rover.html" file should exist
-    And the "output/2009/03/27/post-at-root.html" file should not exist
+    And the "output/puppies/rover/index.html" file should exist
+    And the "output/2009/03/27/post-at-root/index.html" file should not exist
     And the output/_posts directory should not exist
 
   Scenario: A complex site with collections and posts at various locations
@@ -95,61 +95,13 @@ Feature: Collections Directory
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And the "output/puppies/rover-in-gathering.html" file should exist
-    And the "output/2009/03/27/post-in-gathering.html" file should exist
-    And the "output/puppies/rover-at-root.html" file should not exist
+    And the "output/puppies/rover-in-gathering/index.html" file should exist
+    And the "output/2009/03/27/post-in-gathering/index.html" file should exist
+    And the "output/puppies/rover-at-root/index.html" file should not exist
     And I should see exactly "Static content." in "output/puppies/static_file.txt"
     And I should see exactly "Nested Static content." in "output/puppies/nested/static_file.txt"
     And the output/gathering directory should not exist
     And the output/_posts directory should not exist
-
-  Scenario: Rendered collection with a document that includes a relative document
-    Given I have a _puppies directory
-    And I have the following documents under the puppies collection:
-      | title  | date       | content                         |
-      | INTRO  | 2007-12-31 | excerpt for all docs.           |
-      | Rover  | 2007-12-31 | {% include_relative intro.md %} |
-    And I have a _posts directory
-    And I have the following post:
-      | title         | date       | content         |
-      | Gathered Post | 2009-03-27 | Random Content. |
-    And I have a "bridgetown.config.yml" file with content:
-    """
-    collections:
-      puppies:
-        output: true
-    """
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And the "output/puppies/rover.html" file should exist
-    And I should see "excerpt for all docs." in "output/puppies/rover.html"
-    And I should see "Random Content." in "output/2009/03/27/gathered-post.html"
-
-  Scenario: Rendered collection in custom collections_dir with a document that includes a relative document
-    Given I have a collections/_puppies directory
-    And I have the following documents under the "puppies" collection within the "collections" directory:
-      | title  | date       | content                         |
-      | INTRO  | 2007-12-31 | excerpt for all docs.           |
-      | Rover  | 2007-12-31 | {% include_relative intro.md %} |
-    And I have a collections/_posts directory
-    And I have the following post within the "collections" directory:
-      | title         | date       | content         |
-      | Gathered Post | 2009-03-27 | Random Content. |
-    And I have a "bridgetown.config.yml" file with content:
-    """
-    collections:
-      puppies:
-        output: true
-
-    collections_dir: collections
-    """
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And the "output/puppies/rover.html" file should exist
-    And I should see "excerpt for all docs." in "output/puppies/rover.html"
-    And I should see "Random Content." in "output/2009/03/27/gathered-post.html"
 
   Scenario: Front matter defaults and custom collections directory
     Given I have a gathering/_players/managers directory
@@ -199,7 +151,7 @@ Feature: Collections Directory
     """
     ---
     ---
-    {% for player in site.players %}
+    {% for player in collections.players.resources %}
       <p>{{ player.title }}: Manager: {{ player.manager }}</p>
       <p>{{ player.title }}: Recruit: {{ player.recruit }}</p>
       <p>{{ player.title }}: Villain: {{ player.villain }}</p>
@@ -228,7 +180,7 @@ Feature: Collections Directory
     And I should see "<p>Loki: Villain: false</p>" in "output/index.html"
 
   Scenario: Sort all entries by a Front Matter key defined in all entries
-    Given I have an "index.html" page that contains "Collections: {{ site.tutorials | map: 'title' | join: ', ' }}"
+    Given I have an "index.html" page that contains "Collections: {{ collections.tutorials.resources | map: 'title' | join: ', ' }}"
     And I have fixture collections in "gathering" directory
     And I have a _layouts directory
     And I have a "_layouts/tutorial.html" file with content:
@@ -257,13 +209,13 @@ Feature: Collections Directory
     Then I should get a zero exit status
     Then the output directory should exist
     And I should see "Collections: Getting Started, Let's Roll!, Dive-In and Publish Already!, Tip of the Iceberg, Extending with Plugins, Graduation Day" in "output/index.html"
-    And I should not see "Previous: Graduation Day" in "output/tutorials/lets-roll.html"
-    And I should not see "Next: Tip of the Iceberg" in "output/tutorials/lets-roll.html"
-    But I should see "Previous: Getting Started" in "output/tutorials/lets-roll.html"
-    And I should see "Next: Dive-In and Publish Already!" in "output/tutorials/lets-roll.html"
+    And I should not see "Previous: Graduation Day" in "output/tutorials/lets-roll/index.html"
+    And I should not see "Next: Tip of the Iceberg" in "output/tutorials/lets-roll/index.html"
+    But I should see "Previous: Getting Started" in "output/tutorials/lets-roll/index.html"
+    And I should see "Next: Dive-In and Publish Already!" in "output/tutorials/lets-roll/index.html"
 
   Scenario: Sort all entries by a Front Matter key defined in only some entries
-    Given I have an "index.html" page that contains "Collections: {{ site.tutorials | map: 'title' | join: ', ' }}"
+    Given I have an "index.html" page that contains "Collections: {{ collections.tutorials.resources | map: 'title' | join: ', ' }}"
     And I have fixture collections in "gathering" directory
     And I have a _layouts directory
     And I have a "_layouts/tutorial.html" file with content:
@@ -293,5 +245,5 @@ Feature: Collections Directory
     Then the output directory should exist
     And I should see "'approx_time' not defined" in the build output
     And I should see "Collections: Extending with Plugins, Let's Roll!, Getting Started, Graduation Day, Dive-In and Publish Already!, Tip of the Iceberg" in "output/index.html"
-    And I should see "Previous: Getting Started" in "output/tutorials/graduation-day.html"
-    And I should see "Next: Dive-In and Publish Already!" in "output/tutorials/graduation-day.html"
+    And I should see "Previous: Getting Started" in "output/tutorials/graduation-day/index.html"
+    And I should see "Next: Dive-In and Publish Already!" in "output/tutorials/graduation-day/index.html"

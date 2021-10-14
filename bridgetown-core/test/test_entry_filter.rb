@@ -13,7 +13,7 @@ class TestEntryFilter < BridgetownUnitTest
                 .baz.markdow foo.markdown~ .htaccess _posts _pages ~$benbalter.docx)
 
       entries = EntryFilter.new(@site).filter(ent1)
-      assert_equal %w(foo.markdown bar.markdown baz.markdown .htaccess _pages), entries
+      assert_equal %w(foo.markdown bar.markdown baz.markdown .htaccess), entries
     end
 
     should "allow regexp filtering" do

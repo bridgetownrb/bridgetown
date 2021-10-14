@@ -128,21 +128,6 @@ class BridgetownUnitTest < Minitest::Test
     RSpec::Mocks.teardown
   end
 
-  def fixture_document(relative_path)
-    site = fixture_site(
-      "collections" => {
-        "methods" => {
-          "output" => true,
-        },
-      }
-    )
-    site.read
-    matching_doc = site.collections["methods"].docs.find do |doc|
-      doc.relative_path == relative_path
-    end
-    [site, matching_doc]
-  end
-
   def fixture_site(overrides = {})
     Bridgetown::Site.new(site_configuration(overrides))
   end
@@ -160,7 +145,7 @@ class BridgetownUnitTest < Minitest::Test
   def load_plugin_content
     unless @plugin_loaded
       Bridgetown::PluginManager.new_source_manifest(
-        origin: self,
+        origin: self.class,
         components: test_dir("plugin_content", "components"),
         content: test_dir("plugin_content", "content"),
         layouts: test_dir("plugin_content", "layouts")
