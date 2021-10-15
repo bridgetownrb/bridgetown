@@ -34,12 +34,11 @@ The basic installation process is as follows:
 3. Install **Bridgetown** and related gems:
 {%- if site.data.edge_version %}
 ```
-$ gem install bundler -N
 $ gem install bridgetown -N -v {{ bridgetown.version }}
 ```
 {%- else %}
 ```
-$ gem install bundler bridgetown -N
+$ gem install bridgetown -N
 ```
 {%- endif %}
 
