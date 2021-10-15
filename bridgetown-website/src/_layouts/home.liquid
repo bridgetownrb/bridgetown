@@ -3,9 +3,9 @@ layout: default
 ---
 
 {% rendercontent "shared/page_layout" %}
-  {% if bridgetown.version contains "beta" %}
+  {% if site.data.edge_version %}
     <layout-notice class="mb-12 has-text-centered">
-      <em>You’re looking at the beta site for the latest pre-release of Bridgetown.</em> <a href="https://www.bridgetownrb.com" class="has-text-weight-bold">Switch to the current production site.</a>
+      <em>You’re looking at the edge site for the latest pre-release of Bridgetown.</em> <a href="https://www.bridgetownrb.com" class="has-text-weight-bold">Switch to the current production site.</a>
     </layout-notice>
   {% endif %}
   {% rendercontent "shared/box" %}

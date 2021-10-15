@@ -430,7 +430,7 @@ module Bridgetown
         checkForReload()
       JAVASCRIPT
 
-      %(<script type="module">#{code}</script>)
+      %(<script type="module">#{code}</script>).html_safe
     end
 
     private

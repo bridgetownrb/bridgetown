@@ -1,18 +1,3 @@
----
-name: Pagination
-description: Display previous page and/or next page buttons to navigate through paginated pages.
-variables:
-  paginator:
-    - object
-    - The Bridgetown Paginator object ([see documentation here](https://www.bridgetownrb.com/docs/content/pagination/))
-mocks:
-  paginator:
-    total_pages: 3
-    previous_page: true
-    previous_page_path: "#previous"
-    next_page: true
-    next_page_path: "#next"
----
 {% if paginator.total_pages > 1 %}
   <ul class="pagination px-2 mt-12">
     {% if paginator.previous_page %}

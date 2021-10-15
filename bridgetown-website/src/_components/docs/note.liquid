@@ -1,12 +1,3 @@
----
-name: Documentation Note
-description: This is used to highlight certain tips or warnings within the documentation pages.
-variables:
-  title?: [string, Title for the note]
-  type?: [string, Specify `warning` for a red note]
-  extra_margin?: boolean
-  content: markdown
----
 {%- if extra_margin -%}
 {%- assign extra_margin_class = "my-10" -%}
 {%- endif -%}

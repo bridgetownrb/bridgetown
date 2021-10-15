@@ -1,5 +1,4 @@
 ---
-template_engine: erb
 ---
 <!doctype html>
 <html lang="en">
@@ -9,7 +8,7 @@ template_engine: erb
   <body class="<%= resource.data.layout %> <%= resource.data.page_class %>">
     <%=
       render Shared::Navbar.new(
-        metadata: site.metadata, resource: resource, version: Bridgetown::VERSION
+        metadata: site.metadata, resource: resource, edge_version: site.data.edge_version
       )
     %>
 
