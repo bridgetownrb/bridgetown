@@ -7,12 +7,17 @@ module Bridgetown
 
       mutable false
 
-      def_delegators :@obj, :content, :dir, :name, :path, :url
-      private def_delegator :@obj, :data, :fallback_data
+      def_delegators :@obj,
+                     :data,
+                     :content,
+                     :dir,
+                     :name,
+                     :path,
+                     :url,
+                     :relative_url,
+                     :relative_path
 
-      def relative_url
-        @obj.relative_url
-      end
+      private def_delegator :@obj, :data, :fallback_data
     end
   end
 end

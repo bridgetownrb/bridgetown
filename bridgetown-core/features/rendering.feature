@@ -5,6 +5,18 @@ Feature: Rendering
   But I want to make it as simply as possible
   So render with Liquid and place in Layouts
 
+  Scenario: Rendering a site with page/resource data
+    Given I have an "index.html" file with content:
+    """
+    ---
+    layout: simple
+    author: John Doe
+    ---
+    """
+    And I have a simple layout that contains "{{ page.author }}:{{ resource.author }}:{{ resource.data.author }}"
+    When I run bridgetown build
+    Then I should see "John Doe:John Doe:John Doe" in "output/index.html"
+
   Scenario: Rendering a site with parentheses in its path name
     Given I have a blank site in "src/omega(beta)"
     And   I have an "omega(beta)/test.md" page with layout "simple" that contains "Hello World"
