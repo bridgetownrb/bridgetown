@@ -14,12 +14,12 @@ module Bridgetown
         @scope = scope
       end
 
-      def method_missing(key, value = nil, &block) # rubocop:disable Metrics/CyclomaticComplexity, Style/MissingRespondToMissing
-        return super if respond_to?(key) || (value.nil? && block.nil? && !@data.key?(key))
+      def method_missing(key, *value, &block) # rubocop:disable Metrics/CyclomaticComplexity, Style/MissingRespondToMissing
+        return super if respond_to?(key) || (value.length.zero? && block.nil? && !@data.key?(key))
 
-        return get(key) if value.nil? && block.nil? && @data.key?(key)
+        return get(key) if value.length.zero? && block.nil? && @data.key?(key)
 
-        set(key, value, &block)
+        set(key, value[0], &block)
       end
 
       def each(&block)
