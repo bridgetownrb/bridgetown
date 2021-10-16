@@ -7,13 +7,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+...
+
+## 1.0.0.alpha1 - 2021-10-15
+
+**NOTE:** this is still considered experimental and largely undocumented.
+It's fine to use...just not recommended for production. =)
+
+### General
+
+- Strip out all of the legacy content engine [#415](https://github.com/bridgetownrb/bridgetown/pull/415) ([jaredcwhite](https://github.com/jaredcwhite))
+  - Transition Page to GeneratedPage
+  - Resource content from plugins now supported
+
+- SSR & file-based dynamic routes in src/_routes [#383](https://github.com/bridgetownrb/bridgetown/pull/383) ([jaredcwhite](https://github.com/jaredcwhite))
+  - includes adding Puma, Rack, Roda, and Rake!
+  - the previous WEBrick-based dev server is deprecated
+  - nearly all past Yarn commands are now available through `bin/bridgetown`
+
+### Added
+
+- `add_resource` DSL now available for builders [#419](https://github.com/bridgetownrb/bridgetown/pull/419) ([jaredcwhite](https://github.com/jaredcwhite))
+- Improve locale routing based on filenames or special front matter [#414](https://github.com/bridgetownrb/bridgetown/pull/414) ([jaredcwhite](https://github.com/jaredcwhite))
+- Enhance front matter DSL with nesting and lambda value eval [#398](https://github.com/bridgetownrb/bridgetown/pull/398) ([jaredcwhite](https://github.com/jaredcwhite))
+- Add debug message when saving static files
+
 ### Fixed
 
+- Improve resource engine compatibility in link tag and url_for helper [#389](https://github.com/bridgetownrb/bridgetown/pull/389) ([jaredcwhite](https://github.com/jaredcwhite))
 - Prevent `.js` matches with any file like `foo.js.txt.bat.png` [#399](https://github.com/bridgetownrb/bridgetown/issues/399) ([nachoal](https://github.com/nachoal/))
 
 ### Changed
 
+- Change single quotes in script folder [#406](https://github.com/bridgetownrb/bridgetown/pull/406) ([JuanVqz](https://github.com/JuanVqz))
+- Return ordered results for belongs_to array [#390](https://github.com/bridgetownrb/bridgetown/pull/390) ([jaredcwhite](https://github.com/jaredcwhite))
 - Bumped minimum recommended Node requirement to v12 and updated the docs for Homebrew installation on macOS.
+
+### Removed
+
+- Remove pry and use binding.irb in dev console script
+- Remove incremental generation [#388](https://github.com/bridgetownrb/bridgetown/pull/388) ([jaredcwhite](https://github.com/jaredcwhite))
 
 ## 0.21.4 - 2021-09-10
 
