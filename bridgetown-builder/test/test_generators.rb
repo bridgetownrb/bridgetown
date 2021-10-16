@@ -15,7 +15,7 @@ class TestGenerators < BridgetownUnitTest
     setup do
       Bridgetown.sites.clear
       @site = Site.new(site_configuration)
-      @builder = GeneratorBuilder.new("Generator Test", @site)
+      @builder = GeneratorBuilder.new("Generator Test", @site).build_with_callbacks
     end
 
     should "be loaded on site setup" do

@@ -18,9 +18,9 @@ module Bridgetown
 
       attr_accessor :functions, :name, :site, :config
 
-      def initialize(name, current_site = nil)
+      def initialize(name = nil, current_site = nil)
         self.functions = Set.new
-        self.name = name
+        self.name = name || self.class.name
         self.site = current_site || Bridgetown.sites.first
 
         self.config = if defined?(self.class::CONFIG_DEFAULTS)

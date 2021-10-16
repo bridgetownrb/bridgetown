@@ -38,9 +38,9 @@ module Bridgetown
 
       def read_data_from_builder
         builder = Kernel.const_get(url.host.gsub(".", "::"))
-        raise NameError unless builder.respond_to?(:resource_data_for_id)
+        raise NameError unless builder.instance_methods.include?(:resource_data_for_id)
 
-        builder.resource_data_for_id(id)
+        builder.new.resource_data_for_id(id)
       rescue NameError
         raise(
           Bridgetown::Errors::FatalException,

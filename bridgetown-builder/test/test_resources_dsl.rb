@@ -5,14 +5,8 @@ require "helper"
 class TestResources < BridgetownUnitTest
   include Bridgetown::Builders::DSL::Resources
 
-  class Inner
-    include Bridgetown::Builders::DSL::Resources
-
-    def initialize
-      @site = Bridgetown::Current.site
-    end
-
-    def self.resource_data_for_id(id)
+  class Inner < Builder
+    def resource_data_for_id(id)
       { title: "After a while, crocodile!" } if id == "builder://TestResources.Inner/later.html"
     end
   end
@@ -71,7 +65,8 @@ class TestResources < BridgetownUnitTest
 
       assert_equal 1, @site.collections.pages.resources.length
       assert_equal [1, 2, 3], @site.collections.pages.resources.first.data[:external][:data]
-      assert_includes @site.collections.pages.resources.first.destination.output_path, "/dest/generated/doc/index.html"
+      assert_includes @site.collections.pages.resources.first.destination.output_path,
+                      "/dest/generated/doc/index.html"
     end
 
     should "place it in a new collection" do
@@ -82,7 +77,8 @@ class TestResources < BridgetownUnitTest
       assert_includes build_output, "TestResources: Creating `tutorials' collection on the fly..."
       assert_equal 1, @site.collections[:tutorials].resources.length
       assert @site.collections[:tutorials].resources.first.write?
-      assert_includes @site.collections[:tutorials].resources.first.destination.output_path, "/dest/tutorials/learn-stuff/index.html"
+      assert_includes @site.collections[:tutorials].resources.first.destination.output_path,
+                      "/dest/tutorials/learn-stuff/index.html"
     end
 
     should "support standard filenames" do
@@ -92,7 +88,8 @@ class TestResources < BridgetownUnitTest
         date "2019-05-01"
       end
 
-      assert_includes @site.collections.posts.resources.first.destination.output_path, "/dest/2019/im-a-post/index.html"
+      assert_includes @site.collections.posts.resources.first.destination.output_path,
+                      "/dest/2019/im-a-post/index.html"
     end
 
     should "support date-based filenames" do
@@ -101,7 +98,8 @@ class TestResources < BridgetownUnitTest
         title "I'm a post!"
       end
 
-      assert_includes @site.collections.posts.resources.first.destination.output_path, "/dest/2018/im-an-old-post/index.html"
+      assert_includes @site.collections.posts.resources.first.destination.output_path,
+                      "/dest/2018/im-an-old-post/index.html"
     end
   end
 end
