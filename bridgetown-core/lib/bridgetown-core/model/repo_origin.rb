@@ -47,7 +47,7 @@ module Bridgetown
       end
 
       def url
-        @url = URI.parse(id)
+        @url ||= URI.parse(id)
       end
 
       def relative_path

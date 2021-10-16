@@ -46,8 +46,10 @@ module Bridgetown
       end
 
       class << self
-        def build(collection_name, path, data)
-          data = Bridgetown::Model::BuilderOrigin.new("builder://#{path}").read do
+        def build(builder, collection_name, path, data)
+          data = Bridgetown::Model::BuilderOrigin.new(
+            Bridgetown::Model::BuilderOrigin.id_for_builder_path(builder, path)
+          ).read do
             data[:_collection_] = Bridgetown::Current.site.collections[collection_name]
             data
           end
