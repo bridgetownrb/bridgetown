@@ -54,8 +54,11 @@ class TestResources < BridgetownUnitTest
 
       assert_equal "builder://TestResources.Inner/later.html", resource.id
       new_model = Bridgetown::Model::Base.find(resource.id)
-
       assert_equal "After a while, crocodile!", new_model.title
+
+      assert_raises Bridgetown::Errors::FatalException do
+        Bridgetown::Model::Base.find("builder://TestResources.Inner/nope.html")
+      end
     end
 
     should "support front matter hashes" do

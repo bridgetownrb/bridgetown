@@ -40,7 +40,7 @@ module Bridgetown
         builder = Kernel.const_get(url.host.gsub(".", "::"))
         raise NameError unless builder.instance_methods.include?(:resource_data_for_id)
 
-        builder.new.resource_data_for_id(id)
+        builder.new.resource_data_for_id(id) || raise(NameError)
       rescue NameError
         raise(
           Bridgetown::Errors::FatalException,
