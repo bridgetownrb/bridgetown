@@ -4,7 +4,7 @@ require "helper"
 
 class TestNewCommand < BridgetownUnitTest
   def argumentize(str)
-    str.split(" ")
+    str.split
   end
 
   def dir_contents(path)
@@ -52,7 +52,7 @@ class TestNewCommand < BridgetownUnitTest
       end
       assert_exist gemfile
       assert_exist packagejson
-      assert_match(%r!gem "bridgetown", "~> #{Bridgetown::VERSION}"!, File.read(gemfile))
+      assert_match(%r!gem "bridgetown", "~> #{Bridgetown::VERSION}"!o, File.read(gemfile))
       assert_match(%r!"esbuild":!, File.read(packagejson))
     end
 

@@ -29,7 +29,7 @@ module Bridgetown
 
         if @page > @total_pages
           raise "page number can't be greater than total pages:" \
-            " #{@page} > #{@total_pages}"
+                " #{@page} > #{@total_pages}"
         end
 
         init = (@page - 1) * @per_page
@@ -63,7 +63,7 @@ module Bridgetown
         @documents = documents[init..offset]
         @page_path = Utils.format_page_number(this_page_url, cur_page_nr, @total_pages)
 
-        @previous_page = @page != 1 ? @page - 1 : nil
+        @previous_page = @page == 1 ? nil : @page - 1
         @previous_page_path = unless @page == 1
                                 if @page == 2
                                   Utils.format_page_number(
@@ -77,7 +77,7 @@ module Bridgetown
                                   )
                                 end
                               end
-        @next_page = @page != @total_pages ? @page + 1 : nil
+        @next_page = @page == @total_pages ? nil : @page + 1
         @next_page_path = if @page != @total_pages
                             Utils.format_page_number(
                               paginated_page_url, @next_page, @total_pages

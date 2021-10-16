@@ -25,6 +25,7 @@ module Bridgetown
       priority :low
 
       def initialize(config)
+        super
         unless defined?(Kramdown)
           Bridgetown::Utils::RequireGems.require_with_graceful_fail "kramdown"
         end

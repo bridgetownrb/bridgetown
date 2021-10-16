@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## 1.0.0.alpha2 - 2021-10-15
+
+* Upgrade the codebase to Rubocop 1.22 and use config from `rubocop-bridgetown` gem
+
 ## 1.0.0.alpha1 - 2021-10-15
 
 **NOTE:** this is still considered experimental and largely undocumented.

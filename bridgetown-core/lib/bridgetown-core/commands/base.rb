@@ -17,9 +17,10 @@ module Bridgetown
       class << self
         # Override single character commands if necessary
         def find_command_possibilities(subcommand)
-          if subcommand == "c"
+          case subcommand
+          when "c"
             ["console"]
-          elsif subcommand == "s"
+          when "s"
             ["start"]
           else
             super
@@ -53,7 +54,7 @@ module Bridgetown
             cmd = cmd.split("[")
             args = []
             if cmd[1]
-              args = cmd[1].gsub('\,', "__COMMA__").delete_suffix!("]").split(",").map do |item|
+              args = cmd[1].gsub("\\,", "__COMMA__").delete_suffix!("]").split(",").map do |item|
                 item.gsub("__COMMA__", ",")
               end
             end

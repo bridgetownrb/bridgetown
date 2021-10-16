@@ -32,8 +32,8 @@ module Bridgetown
         require "amazing_print" unless options[:"bypass-ap"]
 
         Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
-                                    " (codename \"#{Bridgetown::CODE_NAME.yellow}\")" \
-                                    " console…"
+                                            " (codename \"#{Bridgetown::CODE_NAME.yellow}\")" \
+                                            " console…"
         Bridgetown.logger.info "Environment:", Bridgetown.environment.cyan
         site = Bridgetown::Site.new(configuration_with_overrides(options))
 
@@ -54,7 +54,7 @@ module Bridgetown
         IRB.conf[:IRB_RC]&.call(irb.context)
         IRB.conf[:MAIN_CONTEXT] = irb.context
         eval("site = $BRIDGETOWN_SITE", workspace.binding, __FILE__, __LINE__)
-        Bridgetown.logger.info "Console:", "Now loaded as " + "site".cyan + " variable."
+        Bridgetown.logger.info "Console:", "Now loaded as #{"site".cyan} variable."
 
         trap("SIGINT") do
           irb.signal_handle

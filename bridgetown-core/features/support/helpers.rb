@@ -54,13 +54,13 @@ def file_content_from_hash(input_hash)
               input_hash["content"]
             end
 
-  <<~EOF
+  <<~YAML
     ---
     #{matter}
     ---
 
     #{content}
-  EOF
+  YAML
 end
 
 #
@@ -100,19 +100,19 @@ end
 #
 
 def run_bundle(args)
-  run_in_shell("bundle", *args.strip.split(" "))
+  run_in_shell("bundle", *args.strip.split)
 end
 
 #
 
 def run_rubygem(args)
-  run_in_shell("gem", *args.strip.split(" "))
+  run_in_shell("gem", *args.strip.split)
 end
 
 #
 
 def run_bridgetown(args)
-  args = args.strip.split(" ") # Shellwords?
+  args = args.strip.split # Shellwords?
   process = run_in_shell("ruby", Paths.bridgetown_bin.to_s, *args, "--trace")
   process.exitstatus.zero?
 end
@@ -173,7 +173,7 @@ end
 #
 
 def seconds_agnostic_datetime(datetime = Time.now)
-  date, time, zone = datetime.to_s.split(" ")
+  date, time, zone = datetime.to_s.split
   time = seconds_agnostic_time(time)
 
   [

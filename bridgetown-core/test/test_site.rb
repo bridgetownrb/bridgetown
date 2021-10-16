@@ -142,8 +142,8 @@ class TestSite < BridgetownUnitTest
         method.call(*args, &block).reverse
       end
       @site.process
-      # exclude files in symlinked directories here and insert them in the
-      # following step when not on Windows.
+
+      # rubocop:disable Style/WordArray
       sorted_pages = %w(
         %#\ +.md
         .htaccess
@@ -172,6 +172,7 @@ class TestSite < BridgetownUnitTest
         symlinked-file
         trailing-dots...md
       )
+      # rubocop:enable Style/WordArray
 
       assert_equal sorted_pages, @site.collections.pages.resources.map { |page| page.relative_path.basename.to_s }.sort!.uniq!
     end

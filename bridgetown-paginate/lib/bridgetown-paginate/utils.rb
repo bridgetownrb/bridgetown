@@ -74,14 +74,10 @@ module Bridgetown
       # Sorting routine used for ordering posts by custom fields.
       # Handles Strings separately as we want a case-insenstive sorting
       #
-      # rubocop:disable Naming/MethodParameterName, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      # rubocop:disable Naming/MethodParameterName, Metrics/CyclomaticComplexity
       def self.sort_values(a, b)
-        if a.nil? && !b.nil?
-          return -1
-        elsif !a.nil? && b.nil?
-          return 1
-        end
-
+        return -1 if a.nil? && !b.nil?
+        return 1 if !a.nil? && b.nil?
         return a.downcase <=> b.downcase if a.is_a?(String)
 
         if a.respond_to?("to_datetime") && b.respond_to?("to_datetime")
@@ -91,7 +87,7 @@ module Bridgetown
         # By default use the built in sorting for the data type
         a <=> b
       end
-      # rubocop:enable Naming/MethodParameterName, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      # rubocop:enable Naming/MethodParameterName, Metrics/CyclomaticComplexity
 
       # Retrieves the given sort field from the given post
       # the sort_field variable can be a hierarchical value on the form

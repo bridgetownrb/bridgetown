@@ -23,7 +23,7 @@ end
 
 desc "Prerequisite task which loads site and provides automation"
 task :environment do
-  class HammerActions < Thor
+  class HammerActions < Thor # rubocop:disable Lint/ConstantDefinitionInBlock
     include Thor::Actions
     include Bridgetown::Commands::Actions
 

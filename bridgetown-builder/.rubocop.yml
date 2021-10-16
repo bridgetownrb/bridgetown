@@ -2,8 +2,9 @@
 inherit_from: ../.rubocop.yml
 
 AllCops:
-  Include:
-    - lib/**/*.rb
+  Exclude:
+    - "*.gemspec"
+    - test/**/*.rb
 
 Metrics/AbcSize:
   Exclude:

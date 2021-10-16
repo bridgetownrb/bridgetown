@@ -15,7 +15,7 @@ class TestTags < BridgetownUnitTest
     site.read if override["read_all"]
 
     info = { filters: [Bridgetown::Filters], registers: { site: site } }
-    @converter = site.converters.find { |c| c.class == converter_class }
+    @converter = site.converters.find { |c| c.instance_of?(converter_class) }
     payload = {}
     if site.collections.posts.resources
       payload["collections"] = { "posts" => { "resources" => site.collections.posts.resources.map(&:to_liquid) } }
@@ -148,14 +148,11 @@ class TestTags < BridgetownUnitTest
       end
 
       should "render markdown with rouge with line numbers" do
-        assert_match(
-          %(<table class="rouge-table"><tbody>) +
-            %(<tr><td class="gutter gl">) +
-            %(<pre class="lineno">1\n</pre></td>) +
-            %(<td class="code"><pre>test\n</pre></td></tr>) +
-            %(</tbody></table>),
-          @result
-        )
+        assert_match <<~HTML.chomp, @result
+          <table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+          </pre></td><td class="code"><pre>test
+          </pre></td></tr></tbody></table>
+        HTML
       end
     end
 
@@ -360,7 +357,7 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'complex' post from 2008-11-21" do
@@ -385,7 +382,7 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'special-chars' post from 2016-11-26" do
@@ -413,7 +410,7 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'complex' post from 2008-11-21" do
@@ -444,7 +441,7 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the url to the 'nested' post from 2008-11-21" do
@@ -453,9 +450,9 @@ class TestTags < BridgetownUnitTest
 
     should "throw a deprecation warning" do
       deprecation_warning = "       Deprecation: A call to "\
-        "'{% post_url 2008-11-21-nested %}' did not match a post using the new matching "\
-        "method of checking name (path-date-slug) equality. Please make sure that you "\
-        "change this tag to match the post's name exactly."
+                            "'{% post_url 2008-11-21-nested %}' did not match a post using the new matching "\
+                            "method of checking name (path-date-slug) equality. Please make sure that you "\
+                            "change this tag to match the post's name exactly."
       assert_includes Bridgetown.logger.messages, deprecation_warning
     end
   end
@@ -516,7 +513,7 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'contacts' item" do
@@ -554,7 +551,7 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'contacts' item" do
@@ -587,7 +584,7 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'yaml_with_dots' item" do
@@ -613,7 +610,7 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'yaml_with_dots' item" do
@@ -639,7 +636,7 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'sanitized_path' item" do

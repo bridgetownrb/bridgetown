@@ -11,7 +11,7 @@ module Bridgetown
     # not read from disk
     #
     class PaginationPage < Bridgetown::GeneratedPage
-      def initialize(page_to_copy, cur_page_nr, total_pages, index_pageandext, template_ext)
+      def initialize(page_to_copy, cur_page_nr, total_pages, index_pageandext, template_ext) # rubocop:disable Lint/MissingSuper
         @site = page_to_copy.site
         @base = ""
         @url = ""

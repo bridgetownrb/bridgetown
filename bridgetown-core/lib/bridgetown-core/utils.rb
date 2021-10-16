@@ -12,7 +12,7 @@ module Bridgetown
 
     # Constants for use in #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
-    SLUGIFY_RAW_REGEXP = Regexp.new('\\s+').freeze
+    SLUGIFY_RAW_REGEXP = Regexp.new("\\s+").freeze
     SLUGIFY_DEFAULT_REGEXP = Regexp.new("[^\\p{M}\\p{L}\\p{Nd}]+").freeze
     SLUGIFY_PRETTY_REGEXP = Regexp.new("[^\\p{M}\\p{L}\\p{Nd}._~!$&'()+,;=@]+").freeze
     SLUGIFY_ASCII_REGEXP = Regexp.new("[^[A-Za-z0-9]]+").freeze
@@ -203,7 +203,7 @@ module Bridgetown
       slug = replace_character_sequence_with_hyphen(string, mode: mode)
 
       # Remove leading/trailing hyphen
-      slug.gsub!(%r!^\-|\-$!i, "")
+      slug.gsub!(%r!^-|-$!i, "")
 
       slug.downcase! unless cased
 
@@ -316,9 +316,7 @@ module Bridgetown
       lines.map do |line|
         continue_processing = !skip_pre_lines
 
-        if skip_pre_lines
-          skip_pre_lines = false if line.include?("</pre>")
-        end
+        skip_pre_lines = false if skip_pre_lines && line.include?("</pre>")
         if line.include?("<pre")
           skip_pre_lines = true
           continue_processing = false
@@ -340,7 +338,7 @@ module Bridgetown
         else
           line
         end
-      end.join("")
+      end.join
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
 
@@ -448,9 +446,9 @@ module Bridgetown
     end
 
     def merge_default_proc(target, overwrite)
-      if target.is_a?(Hash) && overwrite.is_a?(Hash) && target.default_proc.nil?
-        target.default_proc = overwrite.default_proc
-      end
+      return unless target.is_a?(Hash) && overwrite.is_a?(Hash) && target.default_proc.nil?
+
+      target.default_proc = overwrite.default_proc
     end
 
     def duplicate_frozen_values(target)

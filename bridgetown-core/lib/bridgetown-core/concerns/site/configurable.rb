@@ -165,7 +165,7 @@ class Bridgetown::Site
         dir.is_a?(Array) ? dir : [dir]
       end
       local_components_load_paths.map! do |dir|
-        if !!(dir =~ %r!^\.\.?\/!)
+        if !!(dir =~ %r!^\.\.?/!)
           # allow ./dir or ../../dir type options
           File.expand_path(dir.to_s, root_dir)
         else

@@ -25,7 +25,7 @@ class Bridgetown::Site
     # @return [void]
     def each_site_file
       %w(generated_pages static_files_to_write resources_to_write).each do |type|
-        send(type).each do |item|
+        send(type).each do |item| # rubocop:disable Style/ExplicitBlockArgument
           yield item
         end
       end

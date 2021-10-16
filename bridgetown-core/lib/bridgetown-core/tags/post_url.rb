@@ -74,19 +74,19 @@ module Bridgetown
 
         site.collections.posts.resources.each do |document|
           return relative_url(document) if @post == document
-        end
 
-        # New matching method did not match, fall back to old method
-        # with deprecation warning if this matches
-
-        site.collections.posts.resources.each do |document|
+          # New matching method did not match, fall back to old method
+          # with deprecation warning if this matches
           next unless @post.deprecated_equality document
 
-          Bridgetown::Deprecator.deprecation_message "A call to "\
+          Bridgetown::Deprecator.deprecation_message(
+            "A call to "\
             "'{% post_url #{@post.name} %}' did not match " \
             "a post using the new matching method of checking name " \
             "(path-date-slug) equality. Please make sure that you " \
             "change this tag to match the post's name exactly."
+          )
+
           return relative_url(document)
         end
 

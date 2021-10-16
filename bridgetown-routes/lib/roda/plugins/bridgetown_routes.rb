@@ -13,9 +13,10 @@ class Roda
       end
 
       def self.configure(app, _opts = {})
-        if app.opts[:bridgetown_site].nil?
-          raise "Roda app failure: the bridgetown_ssr plugin must be registered before bridgetown_routes"
-        end
+        return unless app.opts[:bridgetown_site].nil?
+
+        raise "Roda app failure: the bridgetown_ssr plugin must be registered before" \
+              " bridgetown_routes"
       end
 
       module InstanceMethods
@@ -48,7 +49,9 @@ class Roda
         end
 
         def view(view_class: Bridgetown::ERBView)
-          response._fake_resource_view(view_class: view_class, request: request, bridgetown_site: bridgetown_site)
+          response._fake_resource_view(
+            view_class: view_class, request: request, bridgetown_site: bridgetown_site
+          )
         end
       end
 

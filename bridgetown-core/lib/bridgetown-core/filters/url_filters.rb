@@ -49,7 +49,7 @@ module Bridgetown
 
       private
 
-      def compute_absolute_url(input) # rubocop:todo Metrics/CyclomaticComplexity
+      def compute_absolute_url(input)
         return if input.nil?
         return input.absolute_url if input.respond_to?(:absolute_url)
 

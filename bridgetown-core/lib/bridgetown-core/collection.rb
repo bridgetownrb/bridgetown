@@ -190,7 +190,7 @@ module Bridgetown
     # @param label [String] the possibly-unsafe label
     # @return [String] sanitized version of the label.
     def sanitize_label(label)
-      label.gsub(%r![^a-z0-9_\-\.]!i, "")
+      label.gsub(%r![^a-z0-9_\-.]!i, "")
     end
 
     # Produce a representation of this Collection for use in Liquid.
@@ -215,9 +215,7 @@ module Bridgetown
     # Used by Resource's permalink processor
     # @return [String]
     def default_permalink
-      metadata.fetch("permalink") do
-        "/:collection/:path/"
-      end
+      metadata.fetch("permalink", "/:collection/:path/")
     end
 
     # Extract options for this collection from the site configuration.
@@ -227,7 +225,7 @@ module Bridgetown
       site.config.collections[label] || HashWithDotAccess::Hash.new
     end
 
-    def merge_data_resources # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+    def merge_data_resources # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
       data_contents = {}
 
       sanitize_filename = ->(name) do
@@ -349,7 +347,7 @@ module Bridgetown
 
     def order_with_warning(sort_key, resource, order)
       Bridgetown.logger.warn "Sort warning:", "'#{sort_key}' not defined in" \
-                              " #{resource.relative_path}"
+                                              " #{resource.relative_path}"
       order
     end
 

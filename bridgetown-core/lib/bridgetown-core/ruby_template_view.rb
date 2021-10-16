@@ -61,7 +61,6 @@ module Bridgetown
       @helpers ||= Helpers.new(self, site)
     end
 
-    # rubocop:disable Style/MissingRespondToMissing
     ruby2_keywords def method_missing(method_name, *args, &block)
       if helpers.respond_to?(method_name.to_sym)
         helpers.send method_name.to_sym, *args, &block
@@ -73,7 +72,6 @@ module Bridgetown
     def respond_to_missing?(method_name, include_private = false)
       helpers.respond_to?(method_name.to_sym, include_private) || super
     end
-    # rubocop:enable Style/MissingRespondToMissing
 
     private
 
@@ -84,7 +82,7 @@ module Bridgetown
                            ["{% render \"#{component}\""]
                          end
       unless options.empty?
-        render_statement << ", " + options.keys.map { |k| "#{k}: #{k}" }.join(", ")
+        render_statement << ", #{options.keys.map { |k| "#{k}: #{k}" }.join(", ")}"
       end
       render_statement << " %}"
       if options[:_block_content]

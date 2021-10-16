@@ -24,7 +24,8 @@ module Bridgetown
     end
 
     def self.descendants
-      super.reject { |klass| ["SiteBuilder"].include?(klass.name) }
+      site_builder_name = "SiteBuilder"
+      super.reject { |klass| [site_builder_name].include?(klass.name) }
     end
   end
 end

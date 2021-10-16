@@ -2,9 +2,8 @@
 inherit_from: ../.rubocop.yml
 
 AllCops:
-  Include:
-    - lib/**/*.rb
-    - spec/**/*.rb
+  Exclude:
+    - "*.gemspec"
 
 Bridgetown/NoPutsAllowed:
   Exclude:

@@ -166,10 +166,8 @@ module Bridgetown
     def matching_sets(path, collection)
       @matched_set_cache ||= {}
       @matched_set_cache[path] ||= {}
-      @matched_set_cache[path][collection] ||= begin
-        valid_sets.select do |set|
-          !set.key?("scope") || applies?(set["scope"], path, collection)
-        end
+      @matched_set_cache[path][collection] ||= valid_sets.select do |set|
+        !set.key?("scope") || applies?(set["scope"], path, collection)
       end
     end
 
@@ -200,9 +198,9 @@ module Bridgetown
     def massage_scope!(set)
       set["scope"] ||= {}
       set["scope"]["path"] ||= ""
-      if set["scope"]["type"] && !set["scope"]["collection"]
-        set["scope"]["collection"] = set["scope"]["type"]
-      end
+      return unless set["scope"]["type"] && !set["scope"]["collection"]
+
+      set["scope"]["collection"] = set["scope"]["type"]
     end
 
     SANITIZATION_REGEX = %r!\A/|(?<=[^/])\z!.freeze

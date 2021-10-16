@@ -8,7 +8,7 @@ module Bridgetown
           %w(rb md serb erb liquid)
         end
 
-        def generate_manifest # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+        def generate_manifest # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
           return @route_manifest if @route_manifest && Bridgetown.env.production?
 
           routes_dir = File.expand_path("src/_routes", Dir.pwd)
@@ -20,7 +20,7 @@ module Bridgetown
             end
 
             # @type [String]
-            file_slug = file.delete_prefix(routes_dir + "/").then do |f|
+            file_slug = file.delete_prefix("#{routes_dir}/").then do |f|
               [File.dirname(f), File.basename(f, ".*")].join("/").delete_prefix("./")
             end.delete_suffix("/index")
             segment_keys = []

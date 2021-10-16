@@ -40,10 +40,9 @@ class Bridgetown::Site
     #   instance implementing the given `Converter` class.
     def find_converter_instance(klass)
       @find_converter_instance ||= {}
-      @find_converter_instance[klass] ||= begin
-        converters.find { |converter| converter.instance_of?(klass) } || \
-          raise("No Converters found for #{klass}")
-      end
+      @find_converter_instance[klass] ||= converters.find do |converter|
+        converter.instance_of?(klass)
+      end || raise("No Converters found for #{klass}")
     end
 
     # Create an array of instances of the subclasses of the class

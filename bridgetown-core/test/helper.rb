@@ -23,8 +23,8 @@ require "minitest/autorun"
 require "minitest/reporters"
 require "minitest/profile"
 require "rspec/mocks"
-require_relative "../lib/bridgetown-core.rb"
-require_relative "../lib/bridgetown-core/commands/base.rb"
+require_relative "../lib/bridgetown-core"
+require_relative "../lib/bridgetown-core/commands/base"
 
 Bridgetown.logger = Logger.new(StringIO.new, :error)
 

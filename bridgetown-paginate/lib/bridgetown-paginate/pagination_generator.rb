@@ -36,7 +36,7 @@ module Bridgetown
         # If disabled then simply quit
         unless default_config["enabled"]
           Bridgetown.logger.info "Pagination:", "disabled. Enable in site config" \
-            " with pagination:\\n  enabled: true"
+                                                " with pagination:\\n  enabled: true"
           return
         end
 
@@ -102,11 +102,12 @@ module Bridgetown
         # Create a proc that will delegate logging
         # Decoupling Bridgetown specific logging
         logging_lambda = ->(message, type = "info") do
-          if type == "debug"
+          case type
+          when "debug"
             Bridgetown.logger.debug "Pagination:", message.to_s
-          elsif type == "error"
+          when "error"
             Bridgetown.logger.error "Pagination:", message.to_s
-          elsif type == "warn"
+          when "warn"
             Bridgetown.logger.warn "Pagination:", message.to_s
           else
             Bridgetown.logger.info "Pagination:", message.to_s

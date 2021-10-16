@@ -3,7 +3,7 @@
 module Bridgetown
   module Routes
     module RodaRouter
-      def self.start!(app)
+      def self.start!(app) # rubocop:disable Metrics/MethodLength
         r = app.request
         response = app.response
 
@@ -12,7 +12,8 @@ module Bridgetown
 
           r.on file_slug do |*segment_values|
             response["X-Bridgetown-SSR"] = "1"
-            unless Bridgetown.env.production? && Bridgetown::Routes::CodeBlocks.route_defined?(file_slug)
+            unless Bridgetown.env.production? &&
+                Bridgetown::Routes::CodeBlocks.route_defined?(file_slug)
               eval_route_file file, file_slug, app
             end
 

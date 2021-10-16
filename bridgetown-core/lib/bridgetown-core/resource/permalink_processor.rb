@@ -46,9 +46,10 @@ module Bridgetown
         segment = segment.to_sym
         if self.class.placeholder_processors[segment]
           segment_value = self.class.placeholder_processors[segment].(resource)
-          if segment_value.is_a?(Hash)
+          case segment_value
+          when Hash
             segment_value[:raw_value]
-          elsif segment_value.is_a?(Array)
+          when Array
             segment_value.map do |subsegment|
               Utils.slugify(subsegment, mode: slugify_mode)
             end.join("/")

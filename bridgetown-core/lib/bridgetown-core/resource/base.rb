@@ -53,7 +53,7 @@ module Bridgetown
         @layout = site.layouts[data.layout].tap do |layout|
           unless layout
             Bridgetown.logger.warn "Resource:", "Layout '#{data.layout}' " \
-            "requested via #{relative_path} does not exist."
+                                                "requested via #{relative_path} does not exist."
           end
         end
       end
@@ -267,7 +267,7 @@ module Bridgetown
       # Comparison is a comparison between the 2 dates or paths of the resources.
       #
       # @return [Integer] -1, 0, or +1
-      def <=>(other) # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity
+      def <=>(other) # rubocop:todo Metrics/AbcSize
         return nil unless other.respond_to?(:data)
 
         cmp = if data.date.respond_to?(:to_datetime) && other.data.date.respond_to?(:to_datetime)
@@ -293,7 +293,7 @@ module Bridgetown
 
       private
 
-      def ensure_default_data
+      def ensure_default_data # rubocop:todo Metrics/AbcSize
         determine_locale
 
         slug = if matches = relative_path.to_s.match(DATE_FILENAME_MATCHER) # rubocop:disable Lint/AssignmentInCondition
@@ -337,14 +337,14 @@ module Bridgetown
         end
       end
 
-      def determine_locale
+      def determine_locale # rubocop:todo Metrics/AbcSize
         unless data.locale
           data.locale = locale_from_alt_data_or_filename.presence || site.config.default_locale
         end
 
-        if data.locale_overrides&.is_a?(Hash) && data.locale_overrides&.key?(data.locale)
-          data.merge!(data.locale_overrides[data.locale])
-        end
+        return unless data.locale_overrides.is_a?(Hash) && data.locale_overrides&.key?(data.locale)
+
+        data.merge!(data.locale_overrides[data.locale])
       end
 
       # Look for alternative front matter or look at the filename pattern: slug.locale.ext

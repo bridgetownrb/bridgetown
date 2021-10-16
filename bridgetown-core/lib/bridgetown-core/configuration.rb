@@ -203,7 +203,7 @@ module Bridgetown
         end
       rescue ArgumentError => e
         Bridgetown.logger.warn "WARNING:", "Error reading configuration. Using defaults" \
-                                " (and options)."
+                                           " (and options)."
         warn e
       end
 

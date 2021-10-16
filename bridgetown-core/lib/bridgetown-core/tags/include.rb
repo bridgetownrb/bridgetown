@@ -9,15 +9,18 @@ module Bridgetown
 
       VALID_SYNTAX = %r!
         ([\w-]+)\s*=\s*
-        (?:"([^"\\]*(?:\\.[^"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)'|([\w\.-]+))
+        (?:"([^"\\]*(?:\\.[^"\\]*)*)"|'([^'\\]*(?:\\.[^'\\]*)*)'|([\w.-]+))
       !x.freeze
+
+      # rubocop:disable Lint/MixedRegexpCaptureTypes
       VARIABLE_SYNTAX = %r!
-        (?<variable>[^{]*(\{\{\s*[\w\-\.]+\s*(\|.*)?\}\}[^\s{}]*)+)
+        (?<variable>[^{]*(\{\{\s*[\w\-.]+\s*(\|.*)?\}\}[^\s{}]*)+)
         (?<params>.*)
       !mx.freeze
+      # rubocop:enable Lint/MixedRegexpCaptureTypes
 
       FULL_VALID_SYNTAX = %r!\A\s*(?:#{VALID_SYNTAX}(?=\s|\z)\s*)*\z!.freeze
-      VALID_FILENAME_CHARS = %r!^[\w/\.-]+$!.freeze
+      VALID_FILENAME_CHARS = %r!^[\w/.-]+$!.freeze
       INVALID_SEQUENCES = %r![./]{2,}!.freeze
 
       def initialize(tag_name, markup, tokens)
@@ -66,33 +69,33 @@ module Bridgetown
       end
 
       def validate_file_name(file)
-        if INVALID_SEQUENCES.match?(file) || !VALID_FILENAME_CHARS.match?(file)
-          raise ArgumentError, <<~MSG
-            Invalid syntax for include tag. File contains invalid characters or sequences:
+        return unless INVALID_SEQUENCES.match?(file) || !VALID_FILENAME_CHARS.match?(file)
 
-              #{file}
+        raise ArgumentError, <<~MSG
+          Invalid syntax for include tag. File contains invalid characters or sequences:
 
-            Valid syntax:
+            #{file}
 
-              #{syntax_example}
-
-          MSG
-        end
-      end
-
-      def validate_params
-        unless FULL_VALID_SYNTAX.match?(@params)
-          raise ArgumentError, <<~MSG
-            Invalid syntax for include tag:
-
-            #{@params}
-
-            Valid syntax:
+          Valid syntax:
 
             #{syntax_example}
 
-          MSG
-        end
+        MSG
+      end
+
+      def validate_params
+        return if FULL_VALID_SYNTAX.match?(@params)
+
+        raise ArgumentError, <<~MSG
+          Invalid syntax for include tag:
+
+          #{@params}
+
+          Valid syntax:
+
+          #{syntax_example}
+
+        MSG
       end
 
       # Grab file read opts in the context

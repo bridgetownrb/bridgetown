@@ -68,9 +68,7 @@ module Bridgetown
     private
 
     def filename_regex
-      @filename_regex ||= begin
-        %r!\A(#{Regexp.escape(source_dir)}/|/*)(.*)!i
-      end
+      @filename_regex ||= %r!\A(#{Regexp.escape(source_dir)}/|/*)(.*)!i
     end
 
     def new_profile_hash

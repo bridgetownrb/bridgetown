@@ -15,7 +15,7 @@ module Bridgetown
       return false unless thing.respond_to?(:date)
 
       future_allowed =
-        thing.respond_to?(:collection) && thing.collection.metadata.future || @site.config.future
+        (thing.respond_to?(:collection) && thing.collection.metadata.future) || @site.config.future
       thing_time = thing.date.is_a?(Date) ? thing.date.to_time.to_i : thing.date.to_i
       !future_allowed && thing_time > @site.time.to_i
     end

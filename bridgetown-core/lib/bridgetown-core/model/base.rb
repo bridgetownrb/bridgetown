@@ -122,7 +122,7 @@ module Bridgetown
         attributes.key?(method_name) || method_name.to_s.end_with?("=") || super
       end
 
-      def method_missing(method_name, *args) # rubocop:disable Style/MethodMissingSuper
+      def method_missing(method_name, *args)
         return attributes[method_name] if attributes.key?(method_name)
 
         key = method_name.to_s
@@ -134,7 +134,7 @@ module Bridgetown
         end
 
         Bridgetown.logger.warn "key `#{method_name}' not found in attributes for" \
-                               " #{attributes[:id].presence || ("new " + self.class.to_s)}"
+                               " #{attributes[:id].presence || "new #{self.class}"}"
         nil
       end
 

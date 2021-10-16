@@ -72,14 +72,14 @@ module Bridgetown
       @registry[owner].delete_if { |item| item.block == block }
     end
 
-    def self.trigger(owner, event, *args)
+    def self.trigger(owner, event, *args) # rubocop:disable Metrics/CyclomaticComplexity
       # proceed only if there are hooks to call
       hooks = @registry[owner]&.select { |item| item.event == event }
       return if hooks.nil? || hooks.empty?
 
       prioritized_hooks(hooks).each do |hook|
         if ENV["BRIDGETOWN_LOG_LEVEL"] == "debug"
-          hook_info = args[0]&.respond_to?(:url) ? args[0].relative_path : hook.block
+          hook_info = args[0].respond_to?(:url) ? args[0].relative_path : hook.block
           Bridgetown.logger.debug("Triggering hook:", "#{owner}:#{event} for #{hook_info}")
         end
         hook.block.call(*args)

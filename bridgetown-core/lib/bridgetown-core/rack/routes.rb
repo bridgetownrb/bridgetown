@@ -4,7 +4,7 @@ module Bridgetown
   module Rack
     class Routes
       class << self
-        attr_accessor :tracked_subclasses
+        attr_accessor :tracked_subclasses, :router_block
 
         def inherited(base)
           Bridgetown::Rack::Routes.track_subclass base
@@ -23,8 +23,6 @@ module Bridgetown
             Bridgetown::Rack::Routes.tracked_subclasses.delete klassname
           end
         end
-
-        attr_accessor :router_block
 
         def route(&block)
           self.router_block = block
@@ -74,7 +72,6 @@ module Bridgetown
         instance_exec(@_roda_app.request, &self.class.router_block)
       end
 
-      # rubocop:disable Style/MissingRespondToMissing
       ruby2_keywords def method_missing(method_name, *args, &block)
         if @_roda_app.respond_to?(method_name.to_sym)
           @_roda_app.send method_name.to_sym, *args, &block
@@ -86,7 +83,6 @@ module Bridgetown
       def respond_to_missing?(method_name, include_private = false)
         @_roda_app.respond_to?(method_name.to_sym, include_private) || super
       end
-      # rubocop:enable Style/MissingRespondToMissing
     end
   end
 end

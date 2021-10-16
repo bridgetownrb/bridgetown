@@ -59,8 +59,10 @@ module Bridgetown
 
         if preserve_source_location?(new_site_path, options)
           say_status :conflict, "#{new_site_path} exists and is not empty.", :red
-          Bridgetown.logger.abort_with "Ensure #{new_site_path} is empty or else " \
-                    "try again with `--force` to proceed and overwrite any files."
+          Bridgetown.logger.abort_with(
+            "Ensure #{new_site_path} is empty or else try again with `--force` to proceed and" \
+            " overwrite any files."
+          )
         end
 
         self.destination_root = self.class.created_site_dir = new_site_path
@@ -122,7 +124,7 @@ module Bridgetown
         bt_start = "bin/bridgetown start"
         logger.info ""
         logger.info "Success!".green, "🎉 Your new Bridgetown site was" \
-                    " generated in #{cli_path.cyan}."
+                                      " generated in #{cli_path.cyan}."
         if options["skip-yarn"]
           logger.info "You can now #{"cd".cyan} #{cli_path.cyan} to get started."
           logger.info "You'll probably also want to #{"yarn install".cyan}" \

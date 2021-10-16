@@ -122,6 +122,7 @@ class TestCollections < BridgetownUnitTest
       assert @site.collections["methods"].resources.is_a? Array
       @site.collections["methods"].resources.each do |doc|
         assert doc.is_a? Bridgetown::Resource::Base
+        # rubocop:disable Style/WordArray
         assert_includes %w(
           _methods/configuration.md
           _methods/sanitized_path.md
@@ -134,6 +135,7 @@ class TestCollections < BridgetownUnitTest
           _methods/3940394-21-9393050-fifif1323-test.md
           _methods/trailing-dots...md
         ), doc.relative_path.to_s
+        # rubocop:enable Style/WordArray
       end
     end
 

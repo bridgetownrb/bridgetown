@@ -528,7 +528,7 @@ class TestFilters < BridgetownUnitTest
           @site = fixture_site(
             "url"         => "http://example.com",
             "base_path"   => "/base",
-            "collections" => { "methods": { "output": true } }
+            "collections" => { methods: { output: true } }
           )
           @site.process
           @document = @site.collections["methods"].resources.detect do |d|
@@ -760,6 +760,7 @@ class TestFilters < BridgetownUnitTest
           [message]
         end
       end
+
       class T < Struct.new(:name)
         def to_liquid
           {

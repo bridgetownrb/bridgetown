@@ -7,7 +7,7 @@ class Bridgetown::Site
     def locale
       @locale ||= begin
         locale = ENV.fetch("BRIDGETOWN_LOCALE", config[:default_locale]).to_sym
-        Dir[in_source_dir("_locales") + "/*.yml"].each do |locale_path|
+        Dir["#{in_source_dir("_locales")}/*.yml"].each do |locale_path|
           I18n.load_path << locale_path
         end
         I18n.available_locales = config[:available_locales]

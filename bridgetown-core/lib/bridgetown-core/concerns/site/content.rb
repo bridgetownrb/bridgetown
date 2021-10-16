@@ -5,8 +5,8 @@ class Bridgetown::Site
   module Content
     def resources_grouped_by_taxonomy(taxonomy)
       data.site_taxonomies_hash ||= {}
-      data.site_taxonomies_hash[taxonomy.label] ||= begin
-        taxonomy.terms.transform_values { |terms| terms.map(&:resource).sort.reverse }
+      data.site_taxonomies_hash[taxonomy.label] ||= taxonomy.terms.transform_values do |terms|
+        terms.map(&:resource).sort.reverse
       end
     end
 

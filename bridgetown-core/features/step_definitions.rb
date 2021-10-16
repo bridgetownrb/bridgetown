@@ -105,7 +105,7 @@ end
 
 #
 
-Given(%r!^I have an? \"?(.*?)\"? directory$!) do |dir|
+Given(%r!^I have an? "?(.*?)"? directory$!) do |dir|
   if Paths.root_files.include?(dir)
     FileUtils.mkdir_p(dir)
   else
@@ -120,7 +120,7 @@ Given(%r!^I have the following (page|post)s?(?: (in|under) "([^"]+)")?:$!) do |s
   table.hashes.each do |input_hash|
     title = slug(input_hash["title"])
     ext = input_hash["type"] || "markdown"
-    filename = "#{title}.#{ext}" if %w(page).include?(status)
+    filename = "#{title}.#{ext}" if status == "page"
     before, after = location(folder, direction)
     dest_folder = "_posts" if status == "post"
     dest_folder = "" if status == "page"
@@ -207,7 +207,7 @@ end
 
 #
 
-Given(%r!^I have a configuration file with "([^\"]*)" set to:$!) do |key, table|
+Given(%r!^I have a configuration file with "([^"]*)" set to:$!) do |key, table|
   File.open("bridgetown.config.yml", "w") do |f|
     f.write("#{key}:\n")
     table.hashes.each do |row|
@@ -363,12 +363,12 @@ end
 
 #
 
-Then(%r!^I should get a zero exit(?:\-| )status$!) do
+Then(%r!^I should get a zero exit(?:-| )status$!) do
   step %(I should see "EXIT STATUS: 0" in the build output)
 end
 
 #
 
-Then(%r!^I should get a non-zero exit(?:\-| )status$!) do
+Then(%r!^I should get a non-zero exit(?:-| )status$!) do
   step %(I should not see "EXIT STATUS: 0" in the build output)
 end

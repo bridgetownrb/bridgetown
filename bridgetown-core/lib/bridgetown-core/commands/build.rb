@@ -23,7 +23,7 @@ module Bridgetown
 
       def self.print_startup_message
         Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
-                               " (codename \"#{Bridgetown::CODE_NAME.yellow}\")"
+                                            " (codename \"#{Bridgetown::CODE_NAME.yellow}\")"
       end
 
       # Build your bridgetown site
@@ -46,7 +46,7 @@ module Bridgetown
 
         if config_options.fetch("skip_initial_build", false)
           Bridgetown.logger.warn "Build Warning:", "Skipping the initial build." \
-                                 " This may result in an out-of-date site."
+                                                   " This may result in an out-of-date site."
         else
           build_site(config_options)
         end
@@ -78,19 +78,20 @@ module Bridgetown
         Bridgetown.logger.info "Generating…"
         @site.process
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
-                                " #{(Time.now - t).ceil(2)} seconds."
-        if config_options[:using_puma]
-          require "socket"
-          external_ip = Socket.ip_address_list.find do |ai|
-            ai.ipv4? && !ai.ipv4_loopback?
-          end&.ip_address
-          scheme = config_options.bind&.split("://")&.first == "ssl" ? "https" : "http"
-          port = config_options.bind&.split(":")&.last || ENV["BRIDGETOWN_PORT"] || 4000
-          Bridgetown.logger.info ""
-          Bridgetown.logger.info "Now serving at:", "#{scheme}://localhost:#{port}".magenta
-          Bridgetown.logger.info "", "#{scheme}://#{external_ip}:#{port}".magenta if external_ip
-          Bridgetown.logger.info ""
-        end
+                                          " #{(Time.now - t).ceil(2)} seconds."
+
+        return unless config_options[:using_puma]
+
+        require "socket"
+        external_ip = Socket.ip_address_list.find do |ai|
+          ai.ipv4? && !ai.ipv4_loopback?
+        end&.ip_address
+        scheme = config_options.bind&.split("://")&.first == "ssl" ? "https" : "http"
+        port = config_options.bind&.split(":")&.last || ENV["BRIDGETOWN_PORT"] || 4000
+        Bridgetown.logger.info ""
+        Bridgetown.logger.info "Now serving at:", "#{scheme}://localhost:#{port}".magenta
+        Bridgetown.logger.info "", "#{scheme}://#{external_ip}:#{port}".magenta if external_ip
+        Bridgetown.logger.info ""
       end
 
       # Watch for file changes and rebuild the site.
@@ -114,10 +115,10 @@ module Bridgetown
         Bridgetown.logger.info "Source:", source
         Bridgetown.logger.info "Destination:", destination
         # TODO: work with arrays
-        if config_options["plugins_dir"].is_a?(String)
-          plugins_dir = File.expand_path(config_options["plugins_dir"])
-          Bridgetown.logger.info "Custom Plugins:", plugins_dir if Dir.exist?(plugins_dir)
-        end
+        return unless config_options["plugins_dir"].is_a?(String)
+
+        plugins_dir = File.expand_path(config_options["plugins_dir"])
+        Bridgetown.logger.info "Custom Plugins:", plugins_dir if Dir.exist?(plugins_dir)
       end
     end
   end

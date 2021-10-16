@@ -44,31 +44,31 @@ module Bridgetown
         page_list.include?(page)
       end
 
-      if prototype_pages.length.positive?
-        ensure_pagination_enabled
+      return unless prototype_pages.length.positive?
 
-        page_list.reject! do |page|
-          prototype_pages.include? page
-        end
+      ensure_pagination_enabled
 
-        prototype_pages.each do |prototype_page|
-          search_term = validate_search_term(prototype_page)
-          next if search_term.nil?
+      page_list.reject! do |page|
+        prototype_pages.include? page
+      end
 
-          terms_matching_pages(search_term).each do |term|
-            generate_new_page_from_prototype(prototype_page, search_term, term)
-          end
+      prototype_pages.each do |prototype_page|
+        search_term = validate_search_term(prototype_page)
+        next if search_term.nil?
+
+        terms_matching_pages(search_term).each do |term|
+          generate_new_page_from_prototype(prototype_page, search_term, term)
         end
       end
     end
 
     def ensure_pagination_enabled
-      unless @site.config.dig(:pagination, :enabled)
-        Bridgetown.logger.warn(
-          "Pagination:",
-          "Must be enabled for prototype pages to contain matches"
-        )
-      end
+      return if @site.config.dig(:pagination, :enabled)
+
+      Bridgetown.logger.warn(
+        "Pagination:",
+        "Must be enabled for prototype pages to contain matches"
+      )
     end
 
     # Check incoming prototype configuration and normalize options.
@@ -125,7 +125,7 @@ module Bridgetown
     # @param collection [Bridgetown::Collection]
     # @param search_term [String]
     # @param term [String]
-    def initialize(prototyped_page, collection, search_term, term)
+    def initialize(prototyped_page, collection, search_term, term) # rubocop:disable Lint/MissingSuper
       @prototyped_page = prototyped_page
       @site = prototyped_page.site
       @url = ""
@@ -160,22 +160,21 @@ module Bridgetown
       slugify_term(term)
     end
 
-    # rubocop:todo Metrics/AbcSize
-    def process_title_data_placeholder(search_term, term)
-      if prototyped_page.data["prototype"]["data"]
-        if data["title"]&.include?(":prototype-data-label")
-          related_data = site.data[prototyped_page.data["prototype"]["data"]].dig(term)
-          if related_data
-            data["#{search_term}_data"] = related_data
-            data_label = related_data[prototyped_page.data["prototype"]["data_label"]]
-            data["title"] = data["title"].gsub(
-              ":prototype-data-label", data_label
-            )
-          end
-        end
+    def process_title_data_placeholder(search_term, term) # rubocop:todo Metrics/AbcSize
+      unless prototyped_page.data["prototype"]["data"] &&
+          data["title"]&.include?(":prototype-data-label")
+        return
       end
+
+      related_data = site.data[prototyped_page.data["prototype"]["data"]][term]
+      return unless related_data
+
+      data["#{search_term}_data"] = related_data
+      data_label = related_data[prototyped_page.data["prototype"]["data_label"]]
+      data["title"] = data["title"].gsub(
+        ":prototype-data-label", data_label
+      )
     end
-    # rubocop:enable Metrics/AbcSize
 
     def process_title_simple_placeholders(term)
       if data["title"]&.include?(":prototype-term-titleize")
@@ -184,11 +183,11 @@ module Bridgetown
         )
       end
 
-      if data["title"]&.include?(":prototype-term")
-        data["title"] = data["title"].gsub(
-          ":prototype-term", term
-        )
-      end
+      return unless data["title"]&.include?(":prototype-term")
+
+      data["title"] = data["title"].gsub(
+        ":prototype-term", term
+      )
     end
 
     def slugify_term(term)

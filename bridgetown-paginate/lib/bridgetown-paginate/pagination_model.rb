@@ -32,8 +32,11 @@ module Bridgetown
       # rubocop:disable Metrics/BlockLength
       def run(default_config, templates, site_title) # rubocop:todo Metrics/AbcSize
         if templates.size.to_i <= 0
-          @logging_lambda.call "is enabled in the config, but no paginated pages found." \
-            " Add 'pagination:\\n  collection: <label>' to the front-matter of a page.", "warn"
+          @logging_lambda.call(
+            "is enabled in the config, but no paginated pages found." \
+            " Add 'pagination:\\n  collection: <label>' to the front-matter of a page.",
+            "warn"
+          )
           return
         end
 
@@ -63,7 +66,7 @@ module Bridgetown
 
           next unless template_config["enabled"]
 
-          @logging_lambda.call "found page: " + template.path, "debug" unless @debug
+          @logging_lambda.call "found page: #{template.path}", "debug" unless @debug
 
           # Request all documents in all collections that the user has requested
           all_posts = get_docs_in_collections(template_config["collection"], template)
@@ -154,34 +157,34 @@ module Bridgetown
         r = 20
         f = "Pagination: ".rjust(20)
         # Debug print the config
-        if @debug
-          puts f + "----------------------------"
-          puts f + "Page: " + page_path.to_s
-          puts f + " Active configuration"
-          puts f + "  Enabled: ".ljust(r) + config["enabled"].to_s
-          puts f + "  Items per page: ".ljust(r) + config["per_page"].to_s
-          puts f + "  Permalink: ".ljust(r) + config["permalink"].to_s
-          puts f + "  Title: ".ljust(r) + config["title"].to_s
-          puts f + "  Limit: ".ljust(r) + config["limit"].to_s
-          puts f + "  Sort by: ".ljust(r) + config["sort_field"].to_s
-          puts f + "  Sort reverse: ".ljust(r) + config["sort_reverse"].to_s
+        return unless @debug
 
-          puts f + " Active Filters"
-          puts f + "  Collection: ".ljust(r) + config["collection"].to_s
-          puts f + "  Offset: ".ljust(r) + config["offset"].to_s
-          puts f + "  Category: ".ljust(r) + (config["category"].nil? || config["category"] == "posts" ? "[Not set]" : config["category"].to_s)
-          puts f + "  Tag: ".ljust(r) + (config["tag"].nil? ? "[Not set]" : config["tag"].to_s)
-          puts f + "  Locale: ".ljust(r) + (config["locale"].nil? ? "[Not set]" : config["locale"].to_s)
-        end
+        puts "#{f}----------------------------"
+        puts "#{f}Page: #{page_path}"
+        puts "#{f} Active configuration"
+        puts f + "  Enabled: ".ljust(r) + config["enabled"].to_s
+        puts f + "  Items per page: ".ljust(r) + config["per_page"].to_s
+        puts f + "  Permalink: ".ljust(r) + config["permalink"].to_s
+        puts f + "  Title: ".ljust(r) + config["title"].to_s
+        puts f + "  Limit: ".ljust(r) + config["limit"].to_s
+        puts f + "  Sort by: ".ljust(r) + config["sort_field"].to_s
+        puts f + "  Sort reverse: ".ljust(r) + config["sort_reverse"].to_s
+
+        puts "#{f} Active Filters"
+        puts f + "  Collection: ".ljust(r) + config["collection"].to_s
+        puts f + "  Offset: ".ljust(r) + config["offset"].to_s
+        puts f + "  Category: ".ljust(r) + (config["category"].nil? || config["category"] == "posts" ? "[Not set]" : config["category"].to_s)
+        puts f + "  Tag: ".ljust(r) + (config["tag"].nil? ? "[Not set]" : config["tag"].to_s)
+        puts f + "  Locale: ".ljust(r) + (config["locale"].nil? ? "[Not set]" : config["locale"].to_s)
       end
       # rubocop:enable Layout/LineLength
 
       # rubocop:disable Layout/LineLength
       def _debug_print_filtering_info(filter_name, before_count, after_count)
         # Debug print the config
-        if @debug
-          puts "Pagination: ".rjust(20) + " Filtering by: " + filter_name.to_s.ljust(9) + " " + before_count.to_s.rjust(3) + " => " + after_count.to_s
-        end
+        return unless @debug
+
+        puts "#{"Pagination: ".rjust(20)} Filtering by: #{filter_name.to_s.ljust(9)} #{before_count.to_s.rjust(3)} => #{after_count}"
       end
       # rubocop:enable Layout/LineLength
 
@@ -263,7 +266,7 @@ module Bridgetown
           # So to unblock this common issue for the date field I simply iterate
           # once over every document and initialize the .date field explicitly
           if @debug
-            puts "Pagination: ".rjust(20) + "Rolling through the date fields for all documents"
+            puts "#{"Pagination: ".rjust(20)}Rolling through the date fields for all documents"
           end
           using_posts.each do |u_post|
             next unless u_post.respond_to?("date")
@@ -378,11 +381,7 @@ module Bridgetown
           newpage.data["permalink"] = newpage.paginator.page_path if template.data["permalink"]
 
           # Transfer the title across to the new page
-          tmp_title = if !template.data["title"]
-                        site_title
-                      else
-                        template.data["title"]
-                      end
+          tmp_title = template.data["title"] || site_title
 
           # If the user specified a title suffix to be added then let's add that
           # to all the pages except the first
@@ -419,40 +418,40 @@ module Bridgetown
         # simplest is to include all of the links to the pages preceeding the
         # current one (e.g for page 1 you get the list 2, 3, 4.... and for
         # page 2 you get the list 3,4,5...)
-        if config["trail"] && !config["trail"].nil? && newpages.size.to_i.positive?
-          trail_before = [config["trail"]["before"].to_i, 0].max
-          trail_after = [config["trail"]["after"].to_i, 0].max
-          trail_length = trail_before + trail_after + 1
+        return unless config["trail"] && !config["trail"].nil? && newpages.size.to_i.positive?
 
-          if trail_before.positive? || trail_after.positive?
-            newpages.select do |npage|
-              # Selecting the beginning of the trail
-              idx_start = [npage.paginator.page - trail_before - 1, 0].max
-              # Selecting the end of the trail
-              idx_end = [idx_start + trail_length, newpages.size.to_i].min
+        trail_before = [config["trail"]["before"].to_i, 0].max
+        trail_after = [config["trail"]["after"].to_i, 0].max
+        trail_length = trail_before + trail_after + 1
 
-              # Always attempt to maintain the max total of <trail_length> pages
-              # in the trail (it will look better if the trail doesn't shrink)
-              if idx_end - idx_start < trail_length
-                # Attempt to pad the beginning if we have enough pages
-                # Never go beyond the zero index
-                idx_start = [
-                  idx_start - (trail_length - (idx_end - idx_start)),
-                  0,
-                ].max
-              end
+        return unless trail_before.positive? || trail_after.positive?
 
-              # Convert the newpages array into a two dimensional array that has
-              # [index, page_url] as items
-              npage.paginator.page_trail = newpages[idx_start...idx_end] \
-                .each_with_index.map do |ipage, idx|
-                PageTrail.new(
-                  idx_start + idx + 1,
-                  ipage.paginator.page_path,
-                  ipage.data["title"]
-                )
-              end
-            end
+        newpages.select do |npage|
+          # Selecting the beginning of the trail
+          idx_start = [npage.paginator.page - trail_before - 1, 0].max
+          # Selecting the end of the trail
+          idx_end = [idx_start + trail_length, newpages.size.to_i].min
+
+          # Always attempt to maintain the max total of <trail_length> pages
+          # in the trail (it will look better if the trail doesn't shrink)
+          if idx_end - idx_start < trail_length
+            # Attempt to pad the beginning if we have enough pages
+            # Never go beyond the zero index
+            idx_start = [
+              idx_start - (trail_length - (idx_end - idx_start)),
+              0,
+            ].max
+          end
+
+          # Convert the newpages array into a two dimensional array that has
+          # [index, page_url] as items
+          npage.paginator.page_trail = newpages[idx_start...idx_end] \
+            .each_with_index.map do |ipage, idx|
+            PageTrail.new(
+              idx_start + idx + 1,
+              ipage.paginator.page_path,
+              ipage.data["title"]
+            )
           end
         end
       end

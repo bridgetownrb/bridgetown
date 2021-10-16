@@ -3,8 +3,8 @@
 require "roda/plugins/public"
 
 Roda::RodaPlugins::Public::RequestMethods.module_eval do
-  SPLIT = Regexp.union(*[File::SEPARATOR, File::ALT_SEPARATOR].compact)
-  def public_path_segments(path) # rubocop:disable Metrics/CyclomaticComplexity
+  SPLIT = Regexp.union(*[File::SEPARATOR, File::ALT_SEPARATOR].compact) # rubocop:disable Lint/ConstantDefinitionInBlock
+  def public_path_segments(path) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     segments = []
 
     path.split(SPLIT).each do |seg|

@@ -120,7 +120,7 @@ module Bridgetown
     # colon -
     #
     # Returns the formatted topic statement
-    def formatted_topic(topic, colon = false)
+    def formatted_topic(topic, colon = false) # rubocop:disable Style/OptionalBooleanParameter
       "#{topic}#{colon ? ": " : " "}".rjust(20)
     end
 

@@ -2,7 +2,7 @@
 
 module Bridgetown
   class LogWriter < ::Logger
-    def initialize
+    def initialize # rubocop:disable Lint/MissingSuper
       @progname = nil
       @level = DEBUG
       @default_formatter = Formatter.new

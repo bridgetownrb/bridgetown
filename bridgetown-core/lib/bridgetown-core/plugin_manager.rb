@@ -104,7 +104,7 @@ module Bridgetown
 
       # check matching version number is see if it's already installed
       if package_json["dependencies"]
-        current_version = package_json["dependencies"].dig(yarn_dependency.first)
+        current_version = package_json["dependencies"][yarn_dependency.first]
         package_requires_updating?(current_version, yarn_dependency.last)
       else
         true
@@ -112,7 +112,7 @@ module Bridgetown
     end
 
     def self.package_requires_updating?(current_version, dep_version)
-      current_version.nil? || current_version != dep_version && !current_version.include?("/")
+      current_version.nil? || (current_version != dep_version && !current_version.include?("/"))
     end
 
     # Require all .rb files

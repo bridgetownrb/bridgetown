@@ -34,8 +34,8 @@ class TestDoctorCommand < BridgetownUnitTest
         assert_equal true, ret
       end
       assert_includes output, "Warning: The following URLs only differ by case. "\
-      "On a case-insensitive file system one of the URLs will be overwritten by the "\
-      "other: #{dest_dir}/about/index.html, #{dest_dir}/About/index.html"
+                              "On a case-insensitive file system one of the URLs will be overwritten by the "\
+                              "other: #{dest_dir}/about/index.html, #{dest_dir}/About/index.html"
     end
   end
 end

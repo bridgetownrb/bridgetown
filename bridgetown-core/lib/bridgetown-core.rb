@@ -249,12 +249,13 @@ end
 
 module Bridgetown
   module Model; end
+
   module Resource
     def self.register_extension(mod)
       if mod.const_defined?(:LiquidResource)
         Bridgetown::Drops::ResourceDrop.include mod.const_get(:LiquidResource)
       end
-      if mod.const_defined?(:RubyResource)
+      if mod.const_defined?(:RubyResource) # rubocop:disable Style/GuardClause
         Bridgetown::Resource::Base.include mod.const_get(:RubyResource)
       end
     end

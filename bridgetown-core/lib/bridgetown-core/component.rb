@@ -97,9 +97,7 @@ module Bridgetown
     #
     # @return [String] or nil
     def content
-      @_content ||= begin
-        view_context.capture(self, &@_content_block) if @_content_block
-      end
+      @_content ||= (view_context.capture(self, &@_content_block) if @_content_block)
     end
 
     # Provide a render helper for evaluation within the component context.
@@ -166,7 +164,6 @@ module Bridgetown
       end
     end
 
-    # rubocop:disable Style/MissingRespondToMissing
     ruby2_keywords def method_missing(method, *args, &block)
       if helpers.respond_to?(method.to_sym)
         helpers.send method.to_sym, *args, &block
@@ -178,6 +175,5 @@ module Bridgetown
     def respond_to_missing?(method, include_private = false)
       helpers.respond_to?(method.to_sym, include_private) || super
     end
-    # rubocop:enable Style/MissingRespondToMissing
   end
 end

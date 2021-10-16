@@ -56,7 +56,7 @@ module Bridgetown
       #   `url` or `relative_url`
       # @return [String] the permalink URL for the file
       def url_for(relative_path)
-        if relative_path.respond_to?(:relative_url)
+        if relative_path.respond_to?(:relative_url) # rubocop:disable Style/GuardClause
           return safe(relative_path.relative_url) # new resource engine
         elsif relative_path.respond_to?(:url)
           return safe(relative_url(relative_path.url)) # old legacy engine

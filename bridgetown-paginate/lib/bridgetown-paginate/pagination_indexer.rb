@@ -7,7 +7,7 @@ module Bridgetown
     # filtering said collections when requested by the defined filters.
     #
     class PaginationIndexer
-      @cached_index = {}
+      @cached_index = {}.compare_by_identity
 
       class << self
         attr_accessor :cached_index
@@ -53,10 +53,8 @@ module Bridgetown
           end
         end
 
-        unless cached_index[all_documents.object_id].is_a?(Hash)
-          cached_index[all_documents.object_id] = {}
-        end
-        cached_index[all_documents.object_id][index_key] = index
+        cached_index[all_documents] = {} unless cached_index[all_documents].is_a?(Hash)
+        cached_index[all_documents][index_key] = index
         index
       end
 

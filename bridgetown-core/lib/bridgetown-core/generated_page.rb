@@ -7,9 +7,7 @@ module Bridgetown
     include Publishable
 
     attr_writer :dir
-    attr_accessor :site, :paginator
-    attr_accessor :name, :ext, :basename
-    attr_accessor :data, :content, :output
+    attr_accessor :site, :paginator, :name, :ext, :basename, :data, :content, :output
 
     alias_method :extname, :ext
 

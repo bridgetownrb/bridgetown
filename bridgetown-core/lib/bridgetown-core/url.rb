@@ -28,9 +28,9 @@ module Bridgetown
       @placeholders = options[:placeholders] || {}
       @permalink    = options[:permalink]
 
-      if (@template || @permalink).nil?
-        raise ArgumentError, "One of :template or :permalink must be supplied."
-      end
+      return unless (@template || @permalink).nil?
+
+      raise ArgumentError, "One of :template or :permalink must be supplied."
     end
 
     # The generated relative URL of the resource

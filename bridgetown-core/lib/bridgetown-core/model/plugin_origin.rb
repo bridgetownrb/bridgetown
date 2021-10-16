@@ -14,7 +14,7 @@ module Bridgetown
           manifest_origin = Addressable::URI.unescape(url.path.delete_prefix("/")).split("/").first
           Bridgetown::PluginManager.source_manifests.find do |manifest|
             manifest.origin.to_s == manifest_origin
-          end.tap do |manifest| # rubocop:disable Style/MultilineBlockChain
+          end.tap do |manifest|
             raise "Unable to locate a source manifest for #{manifest_origin}" unless manifest
           end
         end

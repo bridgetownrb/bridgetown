@@ -4,7 +4,7 @@ module Bridgetown
   module Builders
     module DSL
       module Resources
-        def add_resource(collection_name, path, &block)
+        def add_resource(collection_name, path, &block) # rubocop:todo Metrics/AbcSize
           data = Bridgetown::Utils::RubyFrontMatter.new(scope: self).tap do |fm|
             fm.define_singleton_method(:___) do |hsh|
               hsh.each do |k, v|

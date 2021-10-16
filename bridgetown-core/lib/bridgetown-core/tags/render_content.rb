@@ -3,7 +3,7 @@
 module Bridgetown
   module Tags
     class BlockRenderTag < Liquid::Block
-      # rubocop:disable Metrics/MethodLength
+      # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       def render(context)
         context.stack({}) do
           # unindent the incoming text
@@ -37,7 +37,7 @@ module Bridgetown
             .render_tag(context, +"")
         end
       end
-      # rubocop:enable Metrics/MethodLength
+      # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
       private
 

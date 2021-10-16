@@ -48,8 +48,9 @@ module Bridgetown
       ).freeze
 
       def serve
-        Bridgetown::Deprecator.deprecation_message "The serve command will be " \
-          "removed in favor of using Puma in the next major release of Bridgetown"
+        Bridgetown::Deprecator.deprecation_message(
+          "WEBrick (serve) will be removed in favor of Puma (start) in the next Bridgetown release"
+        )
 
         @mutex = Mutex.new
         @run_cond = ConditionVariable.new
@@ -58,7 +59,6 @@ module Bridgetown
         no_watch = options["watch"] == false
 
         options = Thor::CoreExt::HashWithIndifferentAccess.new(self.options)
-
         options["serving"] = true
         options["watch"] = true unless no_watch
 
@@ -88,12 +88,12 @@ module Bridgetown
         require_relative "serve/servlet"
 
         FileUtils.mkdir_p(destination)
-        if File.exist?(File.join(destination, "404.html"))
-          WEBrick::HTTPResponse.class_eval do
-            def create_error_page
-              @header["Content-Type"] = "text/html; charset=UTF-8"
-              @body = IO.read(File.join(@config[:DocumentRoot], "404.html"))
-            end
+        return unless File.exist?(File.join(destination, "404.html"))
+
+        WEBrick::HTTPResponse.class_eval do
+          def create_error_page
+            @header["Content-Type"] = "text/html; charset=UTF-8"
+            @body = File.read(File.join(@config[:DocumentRoot], "404.html"))
           end
         end
       end
@@ -211,34 +211,32 @@ module Bridgetown
         begin
           opts[:SSLPrivateKey] = OpenSSL::PKey::RSA.new(read_file(src, key))
         rescue StandardError
-          if defined?(OpenSSL::PKey::EC)
-            opts[:SSLPrivateKey] = OpenSSL::PKey::EC.new(read_file(src, key))
-          else
-            raise
-          end
+          raise unless defined?(OpenSSL::PKey::EC)
+
+          opts[:SSLPrivateKey] = OpenSSL::PKey::EC.new(read_file(src, key))
         end
         opts[:SSLEnable] = true
       end
 
       def start_callback(detached)
-        unless detached
-          proc do
-            @mutex.synchronize do
-              @running = true
-              Bridgetown.logger.info("Server running…", "press ctrl-c to stop.")
-              @run_cond.broadcast
-            end
+        return if detached
+
+        proc do
+          @mutex.synchronize do
+            @running = true
+            Bridgetown.logger.info("Server running…", "press ctrl-c to stop.")
+            @run_cond.broadcast
           end
         end
       end
 
       def stop_callback(detached)
-        unless detached
-          proc do
-            @mutex.synchronize do
-              @running = false
-              @run_cond.broadcast
-            end
+        return if detached
+
+        proc do
+          @mutex.synchronize do
+            @running = false
+            @run_cond.broadcast
           end
         end
       end

@@ -119,7 +119,7 @@ module Bridgetown
         !(document.is_a? Bridgetown::Excerpt)
 
       Bridgetown.logger.warn "Build Warning:", "Layout '#{document.data["layout"]}' requested " \
-        "in #{document.relative_path} does not exist."
+                                               "in #{document.relative_path} does not exist."
     end
 
     # Render layout content into document.output

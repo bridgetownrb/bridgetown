@@ -36,7 +36,7 @@ module Bridgetown
       @extname = File.extname(@name)
       @data = @site.frontmatter_defaults.all(relative_path, type).with_dot_access
       data.permalink ||= if collection && !collection.builtin?
-                           collection.default_permalink.chomp("/").chomp(".*") + ".*"
+                           "#{collection.default_permalink.chomp("/").chomp(".*")}.*"
                          else
                            "/:path.*"
                          end
@@ -44,9 +44,7 @@ module Bridgetown
 
     # Returns source file path.
     def path
-      @path ||= begin
-        File.join(*[@base, @dir, @name].compact)
-      end
+      @path ||= File.join(*[@base, @dir, @name].compact)
     end
 
     # Obtain destination path.
@@ -207,9 +205,9 @@ module Bridgetown
     def copy_file(dest_path)
       FileUtils.copy_entry(path, dest_path)
 
-      unless File.symlink?(dest_path)
-        File.utime(self.class.mtimes[path], self.class.mtimes[path], dest_path)
-      end
+      return if File.symlink?(dest_path)
+
+      File.utime(self.class.mtimes[path], self.class.mtimes[path], dest_path)
     end
   end
 end

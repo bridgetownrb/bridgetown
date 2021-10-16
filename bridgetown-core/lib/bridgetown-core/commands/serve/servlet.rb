@@ -8,7 +8,7 @@ module Bridgetown
       class Servlet < WEBrick::HTTPServlet::FileHandler
         DEFAULTS = {
           "Cache-Control" => "private, max-age=0, proxy-revalidate, " \
-            "no-store, no-cache, must-revalidate",
+                             "no-store, no-cache, must-revalidate",
         }.freeze
 
         def initialize(server, root, callbacks)
@@ -51,9 +51,9 @@ module Bridgetown
           key = res.header.keys.grep(%r!content-type!i).first
           typ = res.header[key]
 
-          unless %r!;\s*charset=!.match?(typ)
-            res.header[key] = "#{typ}; charset=#{@bridgetown_opts["encoding"]}"
-          end
+          return if %r!;\s*charset=!.match?(typ)
+
+          res.header[key] = "#{typ}; charset=#{@bridgetown_opts["encoding"]}"
         end
 
         def set_defaults
