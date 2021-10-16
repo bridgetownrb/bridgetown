@@ -12,12 +12,12 @@ The default configuration is defined in `config/webpack.defaults.js`. You can ad
 The default configuration can be updated to the latest version provided by Bridgetown using the `webpack` CLI tool:
 
 ```shell
-bundle exec bridgetown webpack update
+bin/bridgetown webpack update
 ```
 
 All options provided by the `webpack` CLI tool can be viewed by running:
 ```shell
-bundle exec bridgetown webpack
+bin/bridgetown webpack
 ```
 
 Files to be processed by Webpack are placed in the top-level `frontend` folder within your site root. This folder is entirely separate from the Bridgetown source folder where your content, templates, plugins, etc. live. However, using relative paths you can reference files from Webpack that live in the source folder (so you could keep CSS partials alongside Liquid templates, for example).

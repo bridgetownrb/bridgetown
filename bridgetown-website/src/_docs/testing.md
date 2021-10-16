@@ -21,7 +21,7 @@ One of the benefits of this testing approach is it's _very_ fast, due to the fac
 To install, run the following command:
 
 ```sh
-bundle exec bridgetown configure minitesting
+bin/bridgetown configure minitesting
 ```
 
 This will set up the plugin, test gems, and an example test suite in the `test` folder.
