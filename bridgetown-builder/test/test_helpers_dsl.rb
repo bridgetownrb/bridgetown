@@ -25,7 +25,7 @@ class TestHelpers < BridgetownUnitTest
     setup do
       Bridgetown.sites.clear
       @site = Site.new(site_configuration)
-      @builder = HelpersBuilder.new("HelpersBuilder", @site)
+      @builder = HelpersBuilder.new("HelpersBuilder", @site).build_with_callbacks
       @resource = Bridgetown::Model::Base.build(self, :posts, "im-a-post.md", {
         title: "I'm a post!",
         date: "2019-05-01",
@@ -49,8 +49,8 @@ class TestHelpers < BridgetownUnitTest
       ) { content }
       result = tmpl.render(@erb_view)
       assert_equal "This is the Within Helpers Scope Based I'm a post! " \
-        "Bridgetown::RubyTemplateView::Helpers i-am-groot Bridgetown::ERBView " \
-        "Bridgetown::Site helper", result
+                   "Bridgetown::RubyTemplateView::Helpers i-am-groot Bridgetown::ERBView " \
+                   "Bridgetown::Site helper", result
     end
 
     should "work with methods" do

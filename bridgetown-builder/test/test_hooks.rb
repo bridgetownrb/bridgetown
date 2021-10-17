@@ -37,7 +37,7 @@ class TestHooks < BridgetownUnitTest
     setup do
       Bridgetown.sites.clear
       @site = Site.new(site_configuration)
-      @builder = HooksBuilder.new("Hooks Test", @site)
+      @builder = HooksBuilder.new("Hooks Test", @site).build_with_callbacks
     end
 
     should "be triggered" do

@@ -16,7 +16,7 @@ Bridgetown::Hooks.register_one :site, :pre_read, priority: :low, reloadable: fal
   # builders, but if the site hasn't defined it explicitly, this is a no-op
   if defined?(SiteBuilder)
     SiteBuilder.descendants.map do |c|
-      c.new(c.name, site)
+      c.new(c.name, site).build_with_callbacks
     end
   end
 end
