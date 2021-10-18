@@ -2,6 +2,15 @@
 
 require "roda/plugins/flash"
 
+Roda::RodaPlugins::Flash::FlashHash.include Bridgetown::Routes::FlashHashAdditions
+Roda::RodaPlugins::Flash::FlashHash.class_eval do
+  def initialize(hash = {})
+    super(hash || {})
+    now.singleton_class.include Bridgetown::Routes::FlashHashAdditions
+    @next = {}
+  end
+end
+
 class Roda
   module RodaPlugins
     module BridgetownRoutes
