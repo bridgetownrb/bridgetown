@@ -30,7 +30,7 @@ module Bridgetown
       #
       # @param ext [String] erb, slim, etc.
       def renderer_for_ext(ext, &block)
-        @_tmpl ||= case ext
+        @_tmpl ||= case ext.to_s
                    when "erb"
                      include ERBCapture
                      Tilt::ErubiTemplate.new(component_template_path,

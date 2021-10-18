@@ -110,7 +110,7 @@ module Bridgetown
       #
       # @return [String] The converted content.
       def convert(content, convertible)
-        return content if convertible.data[:template_engine] != "erb"
+        return content if convertible.data[:template_engine].to_s != "erb"
 
         erb_view = Bridgetown::ERBView.new(convertible)
 
@@ -132,9 +132,9 @@ module Bridgetown
       end
 
       def matches(ext, convertible)
-        if convertible.data[:template_engine] == "erb" ||
+        if convertible.data[:template_engine].to_s == "erb" ||
             (convertible.data[:template_engine].nil? &&
-              @config[:template_engine] == "erb")
+             @config[:template_engine].to_s == "erb")
           convertible.data[:template_engine] = "erb"
           return true
         end
