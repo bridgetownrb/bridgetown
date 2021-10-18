@@ -12,7 +12,8 @@ module Bridgetown
 
           r.on file_slug do |*segment_values|
             response["X-Bridgetown-SSR"] = "1"
-            Bridgetown::Routes::CodeBlocks.eval_route_file file, file_slug, app # this is cached when Bridgetown.env.production?
+            # eval_route_file caches when Bridgetown.env.production?
+            Bridgetown::Routes::CodeBlocks.eval_route_file file, file_slug, app
 
             segment_values.each_with_index do |value, index|
               r.params[segment_keys[index]] ||= value

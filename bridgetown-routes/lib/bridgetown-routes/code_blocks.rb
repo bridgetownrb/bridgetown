@@ -24,7 +24,8 @@ module Bridgetown
 
         def eval_route_file(file, file_slug, app) # rubocop:disable Lint/UnusedMethodArgument
           if Bridgetown.env.production? && Bridgetown::Routes::CodeBlocks.route_defined?(file_slug)
-            return # we don't need to re-eval the file in production because it won't be changing underfoot
+            # we don't need to re-eval the file in production because it won't be changing underfoot
+            return
           end
 
           code = File.read(file)
