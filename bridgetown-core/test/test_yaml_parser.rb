@@ -34,13 +34,6 @@ class TestYAMLParser < BridgetownUnitTest
       assert_equal Rb, parsed_yaml["rb"].class
     end
 
-    should "successfully parse a Symbol object" do
-      yaml = "template_engine: :erb"
-
-      parsed_yaml = Bridgetown::YAMLParser.load(yaml)
-      assert_equal Symbol, parsed_yaml["template_engine"].class
-    end
-
     should "error when trying to parse types not on the allowlist" do
       assert_raises(Psych::DisallowedClass) do
         Bridgetown::YAMLParser.load(CustomYAMLSerializable.new.to_yaml)
@@ -56,7 +49,6 @@ class TestYAMLParser < BridgetownUnitTest
       assert_equal Date, parsed_yaml["date"].class
       assert_equal Time, parsed_yaml["time"].class
       assert_equal Rb, parsed_yaml["rb"].class
-      assert_equal Symbol, parsed_yaml["template_engine"].class
     end
 
     should "error when trying to parse types not on the allowlist" do

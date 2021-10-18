@@ -2,7 +2,7 @@
 
 module Bridgetown
   class YAMLParser
-    PERMITTED_CLASSES = [Date, Time, Rb, Symbol].freeze
+    PERMITTED_CLASSES = [Date, Time, Rb].freeze
 
     class << self
       def load_file(filename, **kwargs)
