@@ -56,6 +56,8 @@ module Bridgetown
       # rubocop: enable Metrics/MethodLength
       # rubocop: enable Metrics/AbcSize
 
+      # @param ext [String]
+      # @param convertible [Bridgetown::Resource::Base, Bridgetown::GeneratedPage]
       def matches(ext, convertible)
         if convertible.render_with_liquid?
           convertible.data[:template_engine] = "liquid"

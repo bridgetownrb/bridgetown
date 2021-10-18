@@ -131,6 +131,8 @@ module Bridgetown
         end
       end
 
+      # @param ext [String]
+      # @param convertible [Bridgetown::Resource::Base, Bridgetown::GeneratedPage]
       def matches(ext, convertible)
         if convertible.data[:template_engine].to_s == "erb" ||
             (convertible.data[:template_engine].nil? &&
