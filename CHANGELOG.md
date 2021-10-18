@@ -9,9 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## 1.0.0.alpha3 - 2021-10-17
+
+- Allow template engines to accept symbols via Ruby front matter [#396](https://github.com/bridgetownrb/bridgetown/pull/396) ([JuanVqz](https://github.com/JuanVqz))
+- Add build callbacks to Builder plugins and allow arbitrary instantiation [#422](https://github.com/bridgetownrb/bridgetown/pull/422) ([jaredcwhite](https://github.com/jaredcwhite))
+
 ## 1.0.0.alpha2 - 2021-10-15
 
-* Upgrade the codebase to Rubocop 1.22 and use config from `rubocop-bridgetown` gem
+- Upgrade the codebase to Rubocop 1.22 and use config from `rubocop-bridgetown` gem
 
 ## 1.0.0.alpha1 - 2021-10-15
 
