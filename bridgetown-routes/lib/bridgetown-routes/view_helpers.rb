@@ -4,16 +4,16 @@ module Bridgetown
   module Routes
     module ViewHelpers
       def request
-        view.resource&.roda_data&.request
+        view.resource&.roda_app&.request
       end
       alias_method :r, :request
 
       def response
-        view.resource&.roda_data&.response
+        view.resource&.roda_app&.response
       end
 
       def flash
-        view.resource&.roda_data&.flash
+        view.resource&.roda_app&.flash
       end
 
       # def csrf_tag(...)

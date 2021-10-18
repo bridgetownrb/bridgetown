@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+desc "Generate a secret key for use in sessions, token generation, and beyond"
+task :secret do
+  require "securerandom"
+  puts SecureRandom.hex(64) # rubocop:disable Bridgetown/NoPutsAllowed
+end
+
 namespace :frontend do
   desc "Run frontend bundler independently"
   task :watcher, :sidecar do |_task, args|
