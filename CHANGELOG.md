@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## 1.0.0.alpha4 - 2021-10-18
+
+- Refactor and cleanup of routing gem for better maintainability [#424](https://github.com/bridgetownrb/bridgetown/pull/424) ([jaredcwhite](https://github.com/jaredcwhite))
+  - Also adds `bin/bridgetown secret` which functions much like the `bin/rails secret` to generate a long randomized hex token.
+
 ## 1.0.0.alpha3 - 2021-10-17
 
 - Allow template engines to accept symbols via Ruby front matter [#396](https://github.com/bridgetownrb/bridgetown/pull/396) ([JuanVqz](https://github.com/JuanVqz))
