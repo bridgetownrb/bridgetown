@@ -4,6 +4,7 @@ module Bridgetown
   module Routes
     module Manifest
       class << self
+        # TODO: make this extensible
         def routable_extensions
           %w(rb md serb erb liquid)
         end
@@ -11,7 +12,7 @@ module Bridgetown
         def generate_manifest # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
           return @route_manifest if @route_manifest && Bridgetown.env.production?
 
-          routes_dir = File.expand_path("src/_routes", Dir.pwd)
+          routes_dir = Bridgetown::Current.site.in_source_dir("_routes")
           # @type [Array]
           routes = Dir.glob(routes_dir + "/**/*.{#{routable_extensions.join(",")}}").map do |file|
             if File.basename(file).start_with?("_", ".") ||

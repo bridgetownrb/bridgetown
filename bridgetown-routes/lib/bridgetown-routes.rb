@@ -3,9 +3,10 @@
 require "bridgetown-core"
 require "bridgetown-core/version"
 
-require_relative "roda/plugins/bridgetown_routes"
+require_relative "bridgetown-routes/view_helpers"
 
-require_relative "bridgetown-routes/helpers"
+# Roda isn't defined for Bridgetown build-only
+require_relative "roda/plugins/bridgetown_routes" if defined?(Roda)
 
 module Bridgetown
   module Routes
@@ -35,3 +36,21 @@ module Bridgetown
     # rubocop:enable Bridgetown/NoPutsAllowed
   end
 end
+
+module RodaResourceExtension
+  module RubyResource
+    def roda_app=(app)
+      unless app.is_a?(Bridgetown::Rack::Roda)
+        raise Bridgetown::Errors::FatalException,
+              "Resource's assigned Roda app must be of type `Bridgetown::Rack::Roda'"
+      end
+
+      @roda_app = app
+    end
+
+    def roda_app
+      @roda_app
+    end
+  end
+end
+Bridgetown::Resource.register_extension RodaResourceExtension

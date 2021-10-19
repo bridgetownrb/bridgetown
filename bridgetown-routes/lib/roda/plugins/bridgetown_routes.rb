@@ -2,6 +2,17 @@
 
 require "roda/plugins/flash"
 
+Roda::RodaPlugins::Flash::FlashHash.include Bridgetown::Routes::FlashHashAdditions,
+                                            Bridgetown::Routes::FlashHashIndifferent
+Roda::RodaPlugins::Flash::FlashHash.class_eval do
+  def initialize(hash = {})
+    super(hash || {})
+    now.singleton_class.include Bridgetown::Routes::FlashHashAdditions,
+                                Bridgetown::Routes::FlashNowHashIndifferent
+    @next = {}
+  end
+end
+
 class Roda
   module RodaPlugins
     module BridgetownRoutes
@@ -20,27 +31,31 @@ class Roda
       end
 
       module InstanceMethods
-        def render_with(data: {}) # rubocop:todo Metrics/AbcSize
+        def render_with(data: {}) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
           path = Kernel.caller_locations(1, 1).first.absolute_path
-          source_path = Pathname.new(path).relative_path_from(Bridgetown::Current.site.source)
-          code = @_route_file_code
+          source_path = Pathname.new(path).relative_path_from(
+            Bridgetown::Current.site.in_source_dir("_routes")
+          )
+          code = response._route_file_code
 
           unless code.present?
             raise Bridgetown::Errors::FatalException,
                   "`render_with' method must be called from a template-based file in `src/_routes'"
           end
 
-          data = Bridgetown::Model::BuilderOrigin.new("builder://#{source_path}").read do
+          data = Bridgetown::Model::BuilderOrigin.new(
+            Bridgetown::Model::BuilderOrigin.id_for_builder_path(
+              self, Addressable::URI.encode(source_path.to_s)
+            )
+          ).read do
             data[:_collection_] = Bridgetown::Current.site.collections.pages
+            data[:_relative_path_] = source_path
             data[:_content_] = code
             data
           end
 
           Bridgetown::Model::Base.new(data).to_resource.tap do |resource|
-            resource.roda_data[:request] = request
-            resource.roda_data[:response] = response
-            resource.roda_data[:flash] = nil
-            #            resource.roda_data[:flash] = flash
+            resource.roda_app = self
           end.read!.transform!.output
         end
 
@@ -50,23 +65,24 @@ class Roda
 
         def view(view_class: Bridgetown::ERBView)
           response._fake_resource_view(
-            view_class: view_class, request: request, bridgetown_site: bridgetown_site
+            view_class: view_class, roda_app: self, bridgetown_site: bridgetown_site
           )
         end
       end
 
       module ResponseMethods
-        def _fake_resource_view(view_class:, request:, bridgetown_site:)
+        # template string provided, if available, by the saved code block
+        def _route_file_code
+          @_route_file_code
+        end
+
+        def _fake_resource_view(view_class:, roda_app:, bridgetown_site:)
           @_fake_resource_views ||= {}
           @_fake_resource_views[view_class] ||= view_class.new(
             # TODO: use a Stuct for better performance...?
             HashWithDotAccess::Hash.new({
               data: {},
-              roda_data: {
-                request: request,
-                response: self,
-                flash: nil, # flash,
-              },
+              roda_app: roda_app,
               site: bridgetown_site,
             })
           )
@@ -75,32 +91,5 @@ class Roda
     end
 
     register_plugin :bridgetown_routes, BridgetownRoutes
-  end
-end
-
-module RodaResourceExtension
-  module RubyResource
-    def roda_data
-      @roda_data ||= HashWithDotAccess::Hash.new
-    end
-  end
-end
-Bridgetown::Resource.register_extension RodaResourceExtension
-
-Roda::RodaPlugins::Flash::FlashHash.class_eval do
-  def info
-    self["info"]
-  end
-
-  def info=(val)
-    self["info"] = val
-  end
-
-  def alert
-    self["alert"]
-  end
-
-  def alert=(val)
-    self["alert"] = val
   end
 end
