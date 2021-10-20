@@ -173,13 +173,15 @@ module Bridgetown
       # source components _before_ we load any from plugins
       site.components_load_paths.reverse_each do |load_path|
         next unless Dir.exist? load_path
-        next if Zeitwerk::Registry.loaders.find { |loader| loader.manages?(load_path) }
 
-        @component_loaders[load_path] = Zeitwerk::Loader.new
-        @component_loaders[load_path].push_dir(load_path)
-        @component_loaders[load_path].enable_reloading if load_path.start_with?(site.root_dir)
-        @component_loaders[load_path].ignore(File.join(load_path, "**", "*.js.rb"))
-        @component_loaders[load_path].setup
+        begin
+          @component_loaders[load_path] = Zeitwerk::Loader.new
+          @component_loaders[load_path].push_dir(load_path)
+          @component_loaders[load_path].enable_reloading if load_path.start_with?(site.root_dir)
+          @component_loaders[load_path].ignore(File.join(load_path, "**", "*.js.rb"))
+          @component_loaders[load_path].setup
+        rescue Zeitwerk::Error # rubocop:disable Lint/SuppressedException
+        end
       end
     end
     # rubocop:enable Metrics/AbcSize
