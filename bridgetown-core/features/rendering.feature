@@ -20,18 +20,18 @@ Feature: Rendering
   Scenario: Rendering a site with parentheses in its path name
     Given I have a blank site in "src/omega(beta)"
     And   I have an "omega(beta)/test.md" page with layout "simple" that contains "Hello World"
-    And   I have an omega(beta)/_includes directory
-    And   I have an "omega(beta)/_includes/head.html" file that contains "Snippet"
+    And   I have an omega(beta)/_components directory
+    And   I have an "omega(beta)/_components/head.html" file that contains "Snippet"
     And   I have a configuration file with "source" set to "src/omega(beta)"
     And   I have an omega(beta)/_layouts directory
-    And   I have an "omega(beta)/_layouts/simple.html" file that contains "{% include head.html %}: {{ content }}"
+    And   I have an "omega(beta)/_layouts/simple.html" file that contains "{% render 'head' %}: {{ content }}"
     When  I run bridgetown build --profile
     Then  I should get a zero exit status
     And   I should see "Snippet: <p>Hello World</p>" in "output/test/index.html"
     And   I should see "_layouts/simple.html" in the build output
 
   Scenario: When receiving bad Liquid
-    Given I have a "index.html" page with layout "simple" that contains "{% include invalid.html %}"
+    Given I have a "index.html" page with layout "simple" that contains "{% BLAH %}"
     And   I have a simple layout that contains "{{ content }}"
     When  I run bridgetown build
     Then  I should get a non-zero exit-status

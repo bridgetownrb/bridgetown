@@ -13,7 +13,7 @@
     {% unless doc_page.hide_in_toc %}
       <li><a href="{{ doc_page.relative_url }}" class="{{ active }}">
         {{ doc_page.title }}
-        {% if doc_page.title == "Resources" %}
+        {% if doc_page.title == "Collections" %}
           <ui-label class="tag is-rounded is-warning" style="vertical-align: 2px;"><ui-icon class="icon"><i class="fa fa-exclamation-triangle"></i></ui-icon></ui-label>
         {% endif %}
       </a></li>

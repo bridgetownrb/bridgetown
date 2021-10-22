@@ -4,6 +4,7 @@ order: 10.5
 next_page_order: 11
 top_section: Content
 category: pages
+hide_in_toc: true
 ---
 
 {% rendercontent "docs/note", type: "warning" %}

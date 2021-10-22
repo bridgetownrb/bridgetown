@@ -31,8 +31,7 @@ Registered Plugins: 5
                     Bridgetown::Converters::Markdown
                     Bridgetown::Converters::SmartyPants
                     Bridgetown::Converters::Identity
-        Generators: 5
-                    Bridgetown::Builders::DocumentsGenerator
+        Generators: 4
                     NewsletterDigest
                     Bridgetown::PrototypeGenerator
                     Bridgetown::Paginate::PaginationGenerator
