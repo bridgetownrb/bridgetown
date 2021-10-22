@@ -9,7 +9,7 @@ In addition to [built-in variables](/docs/variables) and [front matter](/docs/fr
 
 Bridgetown supports loading data from [YAML](http://yaml.org/), [JSON](http://www.json.org/), [CSV](https://en.wikipedia.org/wiki/Comma-separated_values), and [TSV](https://en.wikipedia.org/wiki/Tab-separated_values) files located in the `src/_data` folder. Note that CSV and TSV files *must* contain a header row.
 
-And starting in Bridgetown v0.21, you can save standard Ruby files (`.rb`) to `_data` which get automatically evaluated. The return value at the end of the file can either be an array or any object which responds to `to_h` (and thus returns a `Hash`).  (Requires you to be using the [Resource content engine](/docs/resources).)
+You can also save standard Ruby files (`.rb`) to `_data` which get automatically evaluated. The return value at the end of the file can either be an array or any object which responds to `to_h` (and thus returns a `Hash`).
 
 This powerful feature allows you to avoid repetition in your templates and set site-specific options without changing `bridgetown.config.yml`—and in the case of Ruby data files, perform powerful processing tasks to populate your site content.
 
@@ -150,7 +150,7 @@ title: sample post
 author: dave
 ---
 
-{% assign author = site.data.people[page.author] %}
+{% assign author = site.data.people[resource.data.author] %}
 <a rel="author noopener"
   href="https://twitter.com/{{ author.twitter }}"
   title="{{ author.name }}">

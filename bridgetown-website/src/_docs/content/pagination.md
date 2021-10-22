@@ -18,35 +18,27 @@ to your config file.
 
 ## Page Configuration
 
-To facilitate pagination on a page (like `index.html`, `blog.md`, etc.) then simply include configuration in the page's front matter:
+To facilitate pagination on any given page (like `index.html`, `blog.md`, etc.) then simply include configuration in the resource's front matter to specify which collection you'd like to paginate through:
 
 ``` yml
 ---
 layout: page
 pagination:
-  enabled: true
+  collection: posts
 ---
 ```
 
-Then you can use the `paginator.documents` logic to iterate through the documents.
+Then you can use the `paginator.resources` logic to iterate through the collection's resources.
 
 {% raw %}
 ``` html
-{% for post in paginator.documents %}
-  <h1>{{ post.title }}</h1>
+{% for post in paginator.resources %}
+  <h1>{{ post.data.title }}</h1>
 {% endfor %}
 ```
 {% endraw %}
 
-Normally the paginated documents are of a [Post](/docs/posts/) type, but to load a specific [Collection](/docs/collections/) type, just add a collection key like so:
-
-```yml
-pagination:
-  enabled: true
-  collection: tigers
-```
-
-By default, paginated documents will have 10 items per page. You can change this in your config by modifying the `per_page` key like so:
+By default, paginated pages will have 10 items per page. You can change this in your config by modifying the `per_page` key like so:
 
 ```yml
 pagination:
@@ -54,9 +46,9 @@ pagination:
   per_page: 4
 ```
 
-## Excluding a Page from the Paginator
+## Excluding a Resource from the Paginator
 
-You can exclude a page from being included in the paginated items list.
+You can exclude a resource from being included in the paginated items list.
 
 ```yml
 exclude_from_pagination: true

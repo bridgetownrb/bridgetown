@@ -35,7 +35,7 @@ Here is a more complex example using a block and variables:
 ```liquid
 Really interesting content…
 
-{% rendercontent "sections/aside", heading: "Some Additional Context", type: "important", authors: page.additional_authors %}
+{% rendercontent "sections/aside", heading: "Some Additional Context", type: "important", authors: resource.data.additional_authors %}
   Read what some of our panelists have to say about the matter.
 
   And **that's all folks**.
@@ -63,21 +63,21 @@ This would load the component in `src/_components/sections/aside.liquid`, which 
 ```
 {% endraw %}
 
-You can use components [provided by others via plugins](/docs/plugins/source-manifests), or you can write your own components. You can also nest components within components. Here's an example layout from this website used for our component previewing tool (more on that later):
+You can use components [provided by others via plugins](/docs/plugins/source-manifests), or you can write your own components. You can also nest components within components. Here's an example layout:
 
 {% raw %}
 ```liquid
 {% rendercontent "shared/page_layout" %}
   {% rendercontent "shared/box" %}
     {% render "shared/back_to_button", label: "Components List", url: "/components/" %}
-    {% render "shared/header_subpage", title: page.title %}
+    {% render "shared/header_subpage", title: resource.data.title %}
 
     <div class="content">
-      {% render "component_preview/metadata", component: page.component %}
-      {% render "component_preview/variables", component: page.component %}
+      {% render "component_preview/metadata", component: resource.data.component %}
+      {% render "component_preview/variables", component: resource.data.component %}
     </div>
   {% endrendercontent %}
-  {% render "component_preview/preview_area", page: page %}
+  {% render "component_preview/preview_area", resource: resource.data %}
 {% endrendercontent %}
 ```
 {% endraw %}
@@ -160,9 +160,9 @@ You can use the `liquid_render` helper from Ruby-based templates to render Liqui
 
 If you pass a block to `liquid_render`, it will utilize the `rendercontent` Liquid tag and the block contents will be captured and made available via the `content` variable.
 
-## The Include Tag (Deprecated)
+## History of the Include Tag
 
-As part of Bridgetown's past Jekyll heritage, you may be familiar with the `include` tag as a means of loading partials into templates and passing variables/parameters. This tag is now deprecated and will be removed once Bridgetown 1.0 is released later in 2021. The `render` tag offers greater room for performance optimizations and requires explicit declaration of available variables rather than relying on global variables—in other words, within a component file, you can't access `page` or `site`, etc., unless you specifically pass `page` or `site` in as a variable. Example:
+As part of Bridgetown's past Jekyll heritage, you may be familiar with the `include` tag as a means of loading partials into templates and passing variables/parameters. This tag was removed in Bridgetown 1.0. The `render` tag offers greater room for performance optimizations and requires explicit declaration of available variables rather than relying on global variables—in other words, within a component file, you can't access `page` or `site`, etc., unless you specifically pass `page` or `site` in as a variable. Example:
 
 {% raw %}
 ```liquid
@@ -170,15 +170,13 @@ As part of Bridgetown's past Jekyll heritage, you may be familiar with the `incl
 ```
 {% endraw %}
 
-In many cases, you may not need to pass such large objects and can be more choosy in how you use variables. For example, maybe you can use `site.metadata` or `page.url`:
+In many cases, you may not need to pass such large objects and can be more choosy in how you use variables. For example, maybe you can use `site.metadata` or `resource.relative_url`:
 
 {% raw %}
 ```liquid
-{% render "navbar", metadata: site.metadata, current_url: page.url %}
+{% render "navbar", metadata: site.metadata, current_url: resource.relative_url %}
 ```
 {% endraw %}
-
-This will make testing and previewing this component easier in the future, because you'll be able to define "mock" data for these variables.
 
 **Tips for migrating to `render`:**
 
@@ -186,5 +184,3 @@ This will make testing and previewing this component easier in the future, becau
 * You don't include extensions in the path. It automatically defaults to either `.html` or `.liquid` (preferred). So `my_widget`, not `my_widget.html`
 * As mentioned, any variables you use will have to be passed in explictly. No variables in the scope of a page or layout are available by default in a component.
 * The `rendercontent` block tag automatically converts anything you put inside of it from Markdown to HTML. So even in an HTML layout/page, if you have Markdown text inside the block, it will be converted.
-
-**Looking for [previous documentation regarding the include tag](/docs/structure/includes)?**

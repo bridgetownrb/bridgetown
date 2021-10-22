@@ -107,7 +107,7 @@ You can use the `where` filter to detect documents and pages with properties tha
 ```liquid
 // Using `nil` to select posts that either do not have `my_prop`
 // defined or `my_prop` has been set to `nil` explicitly.
-{% assign filtered_posts = site.posts | where: 'my_prop', nil %}
+{% assign filtered_posts = collections.posts.resources | where: 'my_prop', nil %}
 ```
 {% endraw %}
 
@@ -115,7 +115,7 @@ You can use the `where` filter to detect documents and pages with properties tha
 ```liquid
 // Using Liquid's special literal `empty` or `blank` to select
 // posts that have `my_prop` set to an empty value.
-{% assign filtered_posts = site.posts | where: 'my_prop', empty %}
+{% assign filtered_posts = collections.posts.resources | where: 'my_prop', empty %}
 ```
 {% endraw %}
 
@@ -128,7 +128,7 @@ For example, to get a list of documents on English horror flicks, one could use 
 
 {% raw %}
 ```liquid
-{{ site.movies | where_exp: "item", "item.genre == 'horror' and item.language == 'English'" }}
+{{ collections.movies.resources | where_exp: "item", "item.genre == 'horror' and item.language == 'English'" }}
 ```
 {% endraw %}
 
@@ -136,14 +136,14 @@ Or to get a list of comic-book based movies, one may use the following:
 
 {% raw %}
 ```liquid
-{{ site.movies | where_exp: "item", "item.sub_genre == 'MCU' or item.sub_genre == 'DCEU'" }}
+{{ collections.movies.resources | where_exp: "item", "item.sub_genre == 'MCU' or item.sub_genre == 'DCEU'" }}
 ```
 {% endraw %}
 
 ### Standard Liquid Filters
 
-For your convenience, here is the list of all [Liquid filters]({{ page.shopify_filter_url }}) with links to examples in the official Liquid documentation.
+For your convenience, here is the list of all [Liquid filters]({{ resource.data.shopify_filter_url }}) with links to examples in the official Liquid documentation.
 
-{% for filter in page.shopify_filters %}
-- [{{ filter }}]({{ filter | prepend: page.shopify_filter_url | append: '/' }})
+{% for filter in resource.data.shopify_filters %}
+- [{{ filter }}]({{ filter | prepend: resource.data.shopify_filter_url | append: '/' }})
 {% endfor %}

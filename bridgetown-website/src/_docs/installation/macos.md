@@ -2,7 +2,7 @@
 title: Bridgetown on macOS
 hide_in_toc: true
 category: installation
-ruby_version: 3.0.1
+ruby_version: 3.0.2
 order: 0
 ---
 
@@ -26,14 +26,14 @@ rbenv init
 
 Restart your terminal for changes to take effect.
 
-Now you can install a new Ruby version. At the time of this writing, Ruby {{ page.ruby_version }} is the latest stable version. (Note: the installation may take a few minutes to complete.)
+Now you can install a new Ruby version. At the time of this writing, Ruby {{ resource.data.ruby_version }} is the latest stable version. (Note: the installation may take a few minutes to complete.)
 
 ```sh
-rbenv install {{ page.ruby_version }}
-rbenv global {{ page.ruby_version }}
+rbenv install {{ resource.data.ruby_version }}
+rbenv global {{ resource.data.ruby_version }}
 
 ruby -v
-> ruby 3.0.1p64 (2021-04-05 revision 0fb782ee38) [arm64-darwin20]
+> ruby 3.0.2p107 (2021-07-07 revision 0db68f0233) [arm64-darwin20]
 ```
 
 (If for some reason `bundler` isn't installed automatically, just run `gem install bundler -N`)

@@ -21,7 +21,6 @@ class Bridgetown::Site
 
       configure_cache
       configure_component_paths
-      configure_include_paths
       configure_file_read_opts
 
       self.permalink_style = (config["permalink"] || "pretty").to_sym
@@ -174,10 +173,6 @@ class Bridgetown::Site
       end
 
       @components_load_paths = plugin_components_load_paths + local_components_load_paths
-    end
-
-    def configure_include_paths
-      @includes_load_paths = Array(in_source_dir(config["includes_dir"].to_s))
     end
 
     def configure_file_read_opts

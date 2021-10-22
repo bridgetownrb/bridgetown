@@ -442,8 +442,8 @@ Note that if you change `plugins_dir`, the option is relative to the current wor
 plugins_dir         : plugins
 collections_dir     : .
 layouts_dir         : _layouts
+components_dir      : _components
 data_dir            : _data
-includes_dir        : _includes
 collections:
   posts:
     output          : true
@@ -456,15 +456,12 @@ markdown_ext        : "markdown,mkdown,mkdn,mkd,md"
 strict_front_matter : false
 
 # Filtering Content
-limit_posts         : 0
 future              : false
 unpublished         : false
 
 # Conversion
 markdown            : kramdown
 highlighter         : rouge
-lsi                 : false
-excerpt_separator   : "\n\n"
 
 # Serving
 detach              : false

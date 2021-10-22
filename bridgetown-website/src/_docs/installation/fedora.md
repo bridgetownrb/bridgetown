@@ -2,7 +2,7 @@
 title: Bridgetown on Fedora
 hide_in_toc: true
 category: installation
-ruby_version: 2.6.6
+ruby_version: 3.0.2
 order: 0
 ---
 
@@ -34,11 +34,11 @@ source ~/.bashrc
 ```
 Then install Ruby and check the version
 ```sh
-rbenv install {{ page.ruby_version }}
-rbenv global {{ page.ruby_version }}
+rbenv install {{ resource.data.ruby_version }}
+rbenv global {{ resource.data.ruby_version }}
 
 ruby -v
-> ruby 2.6.6p146 (2020-03-31 revision 67876) [x86_64-linux]
+> ruby 3.0.2p107 (2021-07-07 revision 0db68f0233) [x86_64-linux]
 
 gem install bundler -N
 ````

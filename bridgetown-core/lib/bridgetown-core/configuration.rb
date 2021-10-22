@@ -20,7 +20,6 @@ module Bridgetown
       "layouts_dir"          => "_layouts",
       "data_dir"             => "_data",
       "components_dir"       => "_components",
-      "includes_dir"         => "_includes",
       "partials_dir"         => "_partials",
       "collections"          => {},
       "taxonomies"           => {
