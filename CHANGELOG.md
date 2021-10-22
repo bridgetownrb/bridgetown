@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## 1.0.0.alpha5 - 2021-10-22
+
+- The deprecated `include` and `include_relative` tags have been removed.
+
 ## 1.0.0.alpha4 - 2021-10-18
 
 - Refactor and cleanup of routing gem for better maintainability [#424](https://github.com/bridgetownrb/bridgetown/pull/424) ([jaredcwhite](https://github.com/jaredcwhite))
