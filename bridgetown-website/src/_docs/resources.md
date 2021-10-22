@@ -10,6 +10,7 @@ The majority of your text-based content and view templates in Bridgetown are pro
 
 Resource files contain [front matter](/docs/front-matter), metadata about the resource which can be used in other layouts and templates. For example, your about page (`src/_pages/about.md`) might be written like this:
 
+{% raw %}
 ```md
 ---
 layout: page
@@ -23,10 +24,11 @@ Here's what I look like:
 
 ![Me, Myself, and I](/images/{{ resource.data.headshot }})
 ```
+{% endraw %}
 
 In this example, the [layout](/docs/layouts) of the resource is specified as `page`, the title is "About Me" (which will be used by the layout and related templates), and a headshot filename is given which can then inform the final URL of the image in the body of the content.
 
-You can save resources as files within your source tree, and you can also [generate resources programatically](/docs/external-apis) via a builder plugin—perhaps based on data from a headless CMS or other third-party APIs.
+You can save resources as files within your source tree, and you can also [generate resources programatically](/docs/plugins/external-apis) via a builder plugin—perhaps based on data from a headless CMS or other third-party APIs.
 
 {% toc %}
 
