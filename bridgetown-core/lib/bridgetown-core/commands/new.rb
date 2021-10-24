@@ -138,7 +138,7 @@ module Bridgetown
 
         if @skipped_bundle
           logger.info "Bundle install skipped.".yellow
-          logger.info "You will need to run #{"bundle binstub bridgetown-core".cyan} manually."
+          logger.info "You will need to run #{"bundle binstubs bridgetown-core".cyan} manually."
         end
 
         logger.info "Yarn install skipped.".yellow if @skipped_yarn
@@ -152,7 +152,7 @@ module Bridgetown
           Bridgetown.with_unbundled_env do
             inside(path) do
               run "bundle install", abort_on_failure: true
-              run "bundle binstub bridgetown-core"
+              run "bundle binstubs bridgetown-core"
             end
           end
         end
