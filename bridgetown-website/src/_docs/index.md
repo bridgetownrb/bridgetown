@@ -23,6 +23,10 @@ For a succinct overview of how the Bridgetown build process works and what goes 
   {% endrendercontent %}
 {% endif %}
 
+{% rendercontent "docs/note" %}
+  Upgrading from v0.x? [Read our 1.0 upgrade notes here.](/release/era-of-bridgetown-v1/#upgrading-from-v02x){:data-no-swup="true"}
+{% endrendercontent %}
+
 Read [requirements]({{ '/docs/installation' | relative_url }}) for more information on what you'll need to have set up in advance.
 
 The basic installation process is as follows:
