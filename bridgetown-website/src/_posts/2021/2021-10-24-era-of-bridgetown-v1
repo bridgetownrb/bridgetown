@@ -14,7 +14,7 @@ As you may know, Bridgetown is entirely funded by “viewers like you,” and we
 
 Therefore, **[we’ve launched a dedicated fundraising site for Bridgetown](https://fundraising.bridgetownrb.com).** We hope you join the campaign to get v1 over the finish line, and please help us spread the word so other interested Rubyists and web developers may contribute as well.
 
-Now without further ado, onto the latest version of Bridgetown, codenamed “Pearl”. I’ve talked about some of the changes therein previously, but let’s recap what’s new in this release!
+Now without further ado, onto the latest version of Bridgetown codenamed “Pearl”. I’ve talked about some of the changes therein previously, but let’s recap what’s new in this release!
 
 ### Ruby-Centric Tooling (Rake, Rack, Puma, & Roda)
 
