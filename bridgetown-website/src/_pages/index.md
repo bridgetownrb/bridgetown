@@ -10,6 +10,10 @@ layout: home
   <a href="/docs/jamstack/" class="button is-warning is-large has-mixed-case">Er, Jamwhat?</a>
 </button-group>
 
+{% rendercontent "docs/note", title: "Try our latest edge release!" %}
+Interested in checking out the latest and greatest Bridgetown 1.0 features before its final release? [Head on over to our edge documentation](https://edge.bridgetownrb.com) for installation instructions and guides.
+{% endrendercontent %}
+
 Built upon proven open source technology, **Bridgetown** is a _fast_, _scalable_, _modular_, and _thoroughly forward-looking_ framework for building websites and frontend applications.
 
 * <ui-icon class="icon is-medium"><i class="fa fa-file-text-o is-size-4 has-text-primary"></i></ui-icon>**Craft Clever Content.**{:.is-size-5.has-text-brown} Content in Bridgetown is simply text files and assets in your repository. Write flexible **Markdown** and use sophisticated **Liquid** tags to enhance your presentation and functionality. Using a headless CMS or third-party APIs? That works too!
