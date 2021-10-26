@@ -13,4 +13,3 @@ Try reading [these excellent instructions by GoRails](https://gorails.com/setup/
 
 {% render "docs/install/node_on_linux" %}
 {% render "docs/install/bridgetown" %}
-{% render "docs/install/concurrently" %}
