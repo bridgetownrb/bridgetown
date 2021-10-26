@@ -30,8 +30,10 @@ module Bridgetown
         Bridgetown::Commands::Build.print_startup_message
         sleep 0.25
 
-        unless Bundler.definition.specs.find { |s| s.name == "puma" }
-          raise "** No Rack-compatible server found **"
+        begin
+          require("puma/detect")
+        rescue LoadError
+          raise "** Puma server gem not found. Check your Gemfile and Bundler env? **"
         end
 
         options = Thor::CoreExt::HashWithIndifferentAccess.new(self.options)
