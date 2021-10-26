@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## 1.0.0.alpha6 - 2021-10-26
+
+- Detect the presence of Puma a different way [#430](https://github.com/bridgetownrb/bridgetown/pull/430) ([jaredcwhite](https://github.com/jaredcwhite))
+- Fix netlify config to use native deploy command [#429](https://github.com/bridgetownrb/bridgetown/pull/429) ([ayushn21](https://github.com/ayushn21))
+
 ## 1.0.0.alpha5 - 2021-10-22
 
 - The deprecated `include` and `include_relative` tags have been removed.
