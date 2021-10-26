@@ -2,9 +2,15 @@
 
 Now all that is left is to install Bridgetown!
 
-```sh
+{%- if edge_version %}
+```
+gem install bridgetown -N -v {{ version }}
+```
+{%- else %}
+```
 gem install bridgetown -N
 ```
+{%- endif %}
 
 Create a new Bridgetown site at `./mysite`, as well as run `bundle install` and
 `yarn install` automatically:

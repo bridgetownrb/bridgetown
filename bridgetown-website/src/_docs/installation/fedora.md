@@ -101,4 +101,4 @@ yarn -v
 ```
 
 
-{% render "docs/install/bridgetown" %}
+{% render "docs/install/bridgetown", version: bridgetown.version, edge_version: site.data.edge_version %}

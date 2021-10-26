@@ -82,5 +82,4 @@ ruby -v
 And that's it! Check out [rbenv command references](https://github.com/rbenv/rbenv#command-reference) to learn how to use different versions of Ruby in your projects.
 
 {% render "docs/install/node_on_linux" %}
-{% render "docs/install/bridgetown" %}
-{% render "docs/install/concurrently" %}
+{% render "docs/install/bridgetown", version: bridgetown.version, edge_version: site.data.edge_version %}
