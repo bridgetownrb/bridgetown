@@ -2,7 +2,7 @@ services:
   - type: web
     name: <%= @render_service_name %>
     env: static
-    buildCommand: bin/bt deploy
+    buildCommand: bin/bridgetown deploy
     staticPublishPath: ./output
     pullRequestPreviewsEnabled: true
     headers:
