@@ -67,7 +67,6 @@ The above command will add a `cypress/` directory to your project. Within this d
 
 The test suite can be run using:
 
-<<<<<<< HEAD
 ```sh
 bin/bridgetown cy:test:ci
 ```
@@ -82,5 +81,5 @@ bin/bridgetown cy:open
 bin/bridgetown cy:test
 
 # Runs the Cypress tests headlessly in the Electron browser.
-yarn cy:run
+bin/bridgetown cy:run
 ```
