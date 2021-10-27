@@ -9,9 +9,9 @@ describe("Testing that links exist in the navbar", () => {
     cy.url().should("eq", baseUrl + "/");
 
     cy.get('[href="/posts"]').click();
-    cy.url().should("eq", baseUrl + "/posts/");
+    cy.url().should("eq", baseUrl + "/posts");
 
     cy.get('[href="/about"]').click();
-    cy.url().should("eq", baseUrl + "/about/");
+    cy.url().should("eq", baseUrl + "/about");
   });
 });

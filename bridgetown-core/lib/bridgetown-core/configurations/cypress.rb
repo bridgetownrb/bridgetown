@@ -4,18 +4,14 @@
 
 # Install packages
 
-packages = %w(cypress start-server-and-test)
-say "Adding the following yarn packages: #{packages.join(" | ")}", :green
-run "yarn add -D #{packages.join(" ")}"
+say "Installing Cypress...", :green
+run "yarn add -D cypress"
 
-# Copy cypress files and scripts into place
+# Copy cypress files and tasks into place
+cypress_tasks = File.read(in_templates_dir("cypress_tasks.rake"))
 
 copy_file in_templates_dir("cypress.json"), "cypress.json"
-
-cypress_scripts = File.read(in_templates_dir("cypress_scripts"))
-script_regex = /"scripts": {(\s+".*,?)*/
-inject_into_file("package.json", ",\n" + cypress_scripts, after: script_regex)
-
+inject_into_file("Rakefile", "\n" + cypress_tasks)
 directory in_templates_dir("cypress_dir"), "cypress"
 
 # rubocop:enable Style/RegexpLiteral

@@ -1,4 +1,0 @@
-    "cy:open": "cypress open",
-    "cy:test": "start-server-and-test 'yarn start' http-get://localhost:4001 'yarn cy:open'",
-    "cy:run": "cypress run",
-    "cy:test:ci": "start-server-and-test 'yarn start' http-get://localhost:4001 'yarn cy:run'"
