@@ -11,7 +11,7 @@ class TestRubyHelpers < BridgetownUnitTest
 
   context "link_to" do
     should "return post's relative URL" do
-      assert_equal "<a href=\"/publish-test/2008/02/02/published.html\">Label</a>", @helpers.link_to("Label", "_posts/2008-02-02-published.markdown")
+      assert_equal "<a href=\"/publish_test/2008/02/02/published/\">Label</a>", @helpers.link_to("Label", "_posts/2008-02-02-published.markdown")
     end
 
     should "throw error if post doesn't exist" do
@@ -21,7 +21,7 @@ class TestRubyHelpers < BridgetownUnitTest
     end
 
     should "return accept objects which respond to url" do
-      assert_equal "<a href=\"/2020/09/10/further-nested.html\">Label</a>", @helpers.link_to("Label", @site.posts.docs.last)
+      assert_equal "<a href=\"/2020/09/10/further-nested/\">Label</a>", @helpers.link_to("Label", @site.collections.posts.resources.first)
     end
 
     should "pass through relative/absolute URLs" do

@@ -6,21 +6,33 @@ top_section: Content
 category: resources
 ---
 
-<p><ui-label class="tag is-rounded is-warning" style="vertical-align: 2px;"><ui-icon class="icon"><i class="fa fa-exclamation-triangle"></i></ui-icon></ui-label> Marked experimental and currently opt-in, the resource content engine was built with a singular purpose in mind: to replace the myriad of confusing options and edge cases around pages, posts, collection documents, and data files (along with related concepts such as categories, tags, permalinks, etc.) with a single unifying concept: the <strong>resource</strong>.</p>
+The majority of your text-based content and view templates in Bridgetown are processed as **resources**. A resource might be an informational page about you or your company, a blog post, an event, a podcast episode. Every resource you create is part of a [collection](/docs/collections). Bridgetown comes with two collections: **posts** and **pages**. If you add a resource file to `src/_posts`, it automatically lives in the posts collection. Similarly, if you add a resource file to `src/_pages`, or even just `src`, it automatically lives in the pages collection.
 
-To switch your Bridgetown site to use resource engine instead of the legacy engine, add the following to your `bridgetown.config.yml` config file:
+Resource files contain [front matter](/docs/front-matter), metadata about the resource which can be used in other layouts and templates. For example, your about page (`src/_pages/about.md`) might be written like this:
 
-```yaml
-content_engine: resource
+{% raw %}
+```md
+---
+layout: page
+title: About Me
+headshot: looking-good.jpg
+---
+
+Here's a page all about myself.
+
+Here's what I look like:
+
+![Me, Myself, and I](/images/{{ resource.data.headshot }})
 ```
+{% endraw %}
 
-{% rendercontent "docs/note", type: "warning" %}
-The legacy content engine will be deprecated and eventually removed prior to the release of Bridgetown 1.0. Until that time (when our overall documentation will be completely refreshed), consider this doc page to supersede other docs regarding various configurations and behaviors (aka how custom collections are defined, permalinks, taxonomies, template syntax, and more).
-{% endrendercontent %}
+In this example, the [layout](/docs/layouts) of the resource is specified as `page`, the title is "About Me" (which will be used by the layout and related templates), and a headshot filename is given which can then inform the final URL of the image in the body of the content.
+
+You can save resources as files within your source tree, and you can also [generate resources programatically](/docs/plugins/external-apis) via a builder plugin—perhaps based on data from a headless CMS or other third-party APIs.
 
 {% toc %}
 
-## Architecture
+## Technical Architecture
 
 The resource is a 1:1 mapping between a unit of content and a URL (remember the acronym Uniform **Resource** Locator?). A "unit of content" is typically a Markdown or HTML file along with [YAML front matter](/docs/front-matter) saved somewhere in the `src` folder.
 
@@ -279,33 +291,9 @@ Bridgetown uses permalink "templates" to determine the default permalink to use 
 * For pages, the permalink matches the path of the file. So `src/_pages/i/am/a/page.md` will output to "/i/am/a/page/".
 * For posts, the permalink is derived from the categories, date, and slug (aka filename, but you can change that with a `slug` front matter key).
 * For all other collections, the permalink matches the path of the file along with a collection prefix. So `src/_movies/horror/alien.md` will output to `/movies/horror/alien/`
+* In addition, if multiple site locales are configured, any content not in the "default" locale will be prefixed by the locale key. So a page offering both English and French variations would be output to `/page-information` and `/fr/page-information`.
 
-Bridgetown ships a few permalink "styles". The posts permalink style is configured by the `permalink` key in the config file. If the key isn't present, the default is `pretty`. Permalink styles can also be used for your custom collections.
-
-The available styles are:
-
-* `pretty`: `/[collection]/:categories/:year/:month/:day/:slug/`
-* `pretty_ext`: `/[collection]/:categories/:year/:month/:day/:slug.*`
-* `simple`: `/[collection]/:categories/:slug/`
-* `simple_ext`: `collection_prefix}/:categories/:slug.*`
-
-(Including `.*` at the end simply means it will output the resource with its own slug and extension. Alternatively, `/` at the end will put the resource in a folder of that slug with `index.html` inside.)
-
-To set a permalink style or template for a collection, add it to your collection metadata in `bridgetown.config.yml`. For example:
-
-```yaml
-collections:
-  articles:
-    permalink: pretty
-```
-
-would make your articles collection behave the same as posts. Or you can create your own template:
-
-```yaml
-collections:
-  articles:
-    permalink: /lots-of/:collection/:year/:title/
-```
+Refer to our [permalinks documentation](/docs/structure/permalinks] for further details on how to configure and custom generate permalinks.
 
 ## Ruby Front Matter and All-Ruby Templates
 
@@ -347,7 +335,7 @@ end
 
 ## Resource Extensions
 
-Starting in 0.21.1, a new plugin API allows you or a third-party gem to augment resources with new methods (both via the Resource Liquid drop as well as the standard Ruby base class). Here's an example:
+This API allows you or a third-party gem to augment resources with new methods (both via the Resource Liquid drop as well as the standard Ruby base class). Here's an example:
 
 ```ruby
 module TestResourceExtension
@@ -401,21 +389,24 @@ Bridgetown::Resource.register_extension TestSummaryService
 
 Your extension might provide detailed semantic analysis using AI, or call out to a 3rd-party API (and ideally cache the results for better performance)…anything you can imagine.
 
-## Differences Between Resource and Legacy Engines
+## Upgrading Legacy Content to Use Resources
+
+Prior to Bridgetown 1.0, a different content engine based on Jekyll was used which you may be familiar with if you have older Bridgetown sites in production or in progress. A more detailed step-by-step upgrade guide is in the works, but in the meantime, here are some pointers.
 
 * The most obvious differences are what you use in templates (Liquid or ERB). For example, instead of `site.posts` in Liquid or `site.posts.docs` in ERB, you'd use `collections.posts.resources` (in both Liquid and ERB). (`site.collection_name_here` syntax is no longer available.) Pages are just another collection now so you can iterate through them as well via `collections.pages.resources`.
 * Front matter data is now accessed in Liquid through the `data` variable just like in ERB and skipping `data` is deprecated. Use `{{ post.data.description }}` instead of just `{{ post.description }}`.
 * In addition, instead of referencing the current "page" through `page` (aka `page.data.title`), you can use `resource` instead: `resource.data.title`.
 * Resources don't have a `url` variable. Your templates/plugins will need to reference either `relative_url` or `absolute_url`. Also, the site's `base_path` (if configured) is built into both values, so you won't need to prepend it manually.
-* Whereas the `id` of a document is the relative destination URL, the `id` of a resource is its origin id. You can define an id in front matter separately however.
+* Permalink formats have changed somewhat, so please refer to the new [permalink](/docs/structure/permalinks) for how to use the new permalink styles and placeholders.
+* Whereas the `id` of a document is the relative destination URL, the `id` of a resource is its origin id. You can define an id in front matter separately however, which would be available as `resource.data.id`.
 * The paginator items are now accessed via `paginator.resources` instead of `paginator.documents`.
 * Instead of `pagination:\n  enabled: true` in your front matter for a paginated page, you'll put the collection name instead. Also you can use the term `paginate` instead of `pagination`. So to paginate through posts, just add `paginate:\n  collection: posts` to your front matter.
 * Prototype pages no longer assume the `posts` collection by default. Make sure you add a `collection` key to the `prototype` front matter.
 * Categories and tags are collated from all collections (even pages!), so if you used category/tag front matter manually before outside of posts, you may get a lot more site-wide category/tag data than expected.
-* Since user-authored pages are no longer loaded as `Page` objects and everything formerly loaded as `Document` will now be a `Resource::Base`, plugins will need to be adapted accordingly. The `Page` class will eventually be renamed to `GeneratedPage` to indicate it is only used for content generated by plugins.
+* Since user-authored pages are no longer loaded as `Page` objects and everything formerly loaded as `Document` will now be a `Resource::Base`, plugins will need to be adapted accordingly. The `Page` class has been renamed to `GeneratedPage` to indicate it is only used for specialized content generated by plugins.
 * With the legacy engine, any folder starting with an underscore within a collection would be skipped. With the resource engine, folders can start with underscores but they aren't included in the final permalink. (Files starting with an underscore are always skipped however.)
 * The `YYYY-MM-DD-slug.ext` filename format will now work for any collection, not just posts.
-* The [Document Builder API](/docs/plugins/external-apis) no longer works when the resource content engine is configured. We'll be restoring this functionality in a future point release of Bridgetown.
+* The `doc` method in builder plugins has been replaced with `add_resource`. See the [Resource Builder API](/docs/plugins/external-apis) docs for further details.
 * The resource content engine doesn't provide a related/similar result set using LSI classification. So there's no direct replacement for the `related_posts` feature of the legacy engine. However, anyone can create a gem-based plugin using the new resource extension API which could restore this type of functionality.
 
 {% endraw %}

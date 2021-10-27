@@ -25,7 +25,7 @@ module Bridgetown
         create_file("plugins/builders/#{filename}", data, verbose: false)
       end
 
-      def javascript_import(data = nil, filename: "index.js")
+      def javascript_import(data = nil, filename: "index.js") # rubocop:todo Metrics/PerceivedComplexity
         data ||= yield if block_given?
         data += "\n" unless data.chars.last == "\n"
 
@@ -97,7 +97,7 @@ module Bridgetown
         github_match = GITHUB_REGEX.match(arg)
 
         arg = if arg.start_with?("https://gist.github.com")
-                arg.sub(
+                arg.sub( # rubocop:disable Style/StringConcatenation
                   "https://gist.github.com", "https://gist.githubusercontent.com"
                 ) + "/raw"
               elsif github_match

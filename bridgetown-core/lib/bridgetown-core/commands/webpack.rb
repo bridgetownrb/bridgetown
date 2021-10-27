@@ -66,7 +66,7 @@ module Bridgetown
 
         longest_action = supported_actions.keys.max_by(&:size).size
         supported_actions.each do |action, description|
-          say action.ljust(longest_action).to_s.bold.blue + "\t" + "# #{description}"
+          say "#{action.ljust(longest_action).to_s.bold.blue}\t# #{description}"
         end
       end
 

@@ -7,23 +7,23 @@ class TestTags < BridgetownUnitTest
     FileUtils.mkdir_p("tmp")
   end
 
-  # rubocop:disable Metrics/AbcSize
-  def create_post(content, override = {}, converter_class = Bridgetown::Converters::Markdown)
+  def create_post(content, override = {}, converter_class = Bridgetown::Converters::Markdown) # rubocop:disable Metrics/AbcSize
     site = fixture_site({ "highlighter" => "rouge" }.merge(override))
 
-    site.posts.docs.concat(PostReader.new(site).read_posts("")) if override["read_posts"]
+    site.collections.posts.read if override["read_posts"]
     Reader.new(site).read_collections if override["read_collections"]
     site.read if override["read_all"]
 
     info = { filters: [Bridgetown::Filters], registers: { site: site } }
-    @converter = site.converters.find { |c| c.class == converter_class }
+    @converter = site.converters.find { |c| c.instance_of?(converter_class) }
     payload = {}
-    payload["posts"] = site.posts.docs.map(&:to_liquid) if site.posts.docs
+    if site.collections.posts.resources
+      payload["collections"] = { "posts" => { "resources" => site.collections.posts.resources.map(&:to_liquid) } }
+    end
 
     @result = Liquid::Template.parse(content).render!(payload, info)
     @result = @converter.convert(@result)
   end
-  # rubocop:enable Metrics/AbcSize
 
   def fill_post(code, override = {})
     content = <<~CONTENT
@@ -148,14 +148,11 @@ class TestTags < BridgetownUnitTest
       end
 
       should "render markdown with rouge with line numbers" do
-        assert_match(
-          %(<table class="rouge-table"><tbody>) +
-            %(<tr><td class="gutter gl">) +
-            %(<pre class="lineno">1\n</pre></td>) +
-            %(<td class="code"><pre>test\n</pre></td></tr>) +
-            %(</tbody></table>),
-          @result
-        )
+        assert_match <<~HTML.chomp, @result
+          <table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+          </pre></td><td class="code"><pre>test
+          </pre></td></tr></tbody></table>
+        HTML
       end
     end
 
@@ -360,7 +357,7 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'complex' post from 2008-11-21" do
@@ -378,18 +375,18 @@ class TestTags < BridgetownUnitTest
         {% post_url 2016-11-26-special-chars-(+) %}
       CONTENT
       create_post(content,
-                  "permalink"   => "/foo/:title:output_ext",
+                  "permalink"   => "/foo/:slug.*",
                   "source"      => source_dir,
                   "destination" => dest_dir,
                   "read_posts"  => true)
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'special-chars' post from 2016-11-26" do
-      assert_match %r!/foo/special-chars-\(\+\).html!, @result
+      assert_match %r!/foo/special-chars-\(\+\)!, @result
     end
   end
 
@@ -413,7 +410,7 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'complex' post from 2008-11-21" do
@@ -444,7 +441,7 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the url to the 'nested' post from 2008-11-21" do
@@ -453,9 +450,9 @@ class TestTags < BridgetownUnitTest
 
     should "throw a deprecation warning" do
       deprecation_warning = "       Deprecation: A call to "\
-        "'{% post_url 2008-11-21-nested %}' did not match a post using the new matching "\
-        "method of checking name (path-date-slug) equality. Please make sure that you "\
-        "change this tag to match the post's name exactly."
+                            "'{% post_url 2008-11-21-nested %}' did not match a post using the new matching "\
+                            "method of checking name (path-date-slug) equality. Please make sure that you "\
+                            "change this tag to match the post's name exactly."
       assert_includes Bridgetown.logger.messages, deprecation_warning
     end
   end
@@ -516,15 +513,15 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'contacts' item" do
-      assert_match(%r!/contacts\.html!, @result)
+      assert_match(%r!/contacts/!, @result)
     end
 
     should "have the URL to the 'info' item" do
-      assert_match(%r!/info\.html!, @result)
+      assert_match(%r!/info/!, @result)
     end
 
     should "have the URL to the 'screen.css' item" do
@@ -554,15 +551,15 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'contacts' item" do
-      assert_match(%r!/contacts\.html!, @result)
+      assert_match(%r!/contacts/!, @result)
     end
 
     should "have the URL to the 'info' item" do
-      assert_match(%r!/info\.html!, @result)
+      assert_match(%r!/info/!, @result)
     end
 
     should "have the URL to the 'screen.css' item" do
@@ -587,11 +584,11 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'yaml_with_dots' item" do
-      assert_match(%r!/methods/yaml_with_dots\.html!, @result)
+      assert_match(%r!/methods/yaml_with_dots/!, @result)
     end
   end
 
@@ -613,11 +610,11 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'yaml_with_dots' item" do
-      assert_match(%r!/methods/yaml_with_dots\.html!, @result)
+      assert_match(%r!/methods/yaml_with_dots/!, @result)
     end
   end
 
@@ -639,15 +636,15 @@ class TestTags < BridgetownUnitTest
     end
 
     should "not cause an error" do
-      refute_match(%r!markdown\-html\-error!, @result)
+      refute_match(%r!markdown-html-error!, @result)
     end
 
     should "have the URL to the 'sanitized_path' item" do
-      assert_match %r!1\s/methods/sanitized_path\.html!, @result
+      assert_match %r!1\s/methods/sanitized_path/!, @result
     end
 
     should "have the URL to the 'site/generate' item" do
-      assert_match %r!2\s/methods/site/generate\.html!, @result
+      assert_match %r!2\s/methods/site/generate/!, @result
     end
   end
 
@@ -782,7 +779,7 @@ class TestTags < BridgetownUnitTest
           title: This is a test
           ---
 
-          {% find post in posts, title == "Category in YAML" %}
+          {% find post in collections.posts.resources, title == "Category in YAML" %}
 
           POST: {{ post.content }}
         EOS
@@ -806,7 +803,7 @@ class TestTags < BridgetownUnitTest
           title: This is a test
           ---
 
-          {% find found where posts, title != "Categories", layout contains "efaul" %}
+          {% find found where collections.posts.resources, title != "Categories", layout contains "efaul" %}
 
           POST: {{ found[1].title }}
         EOS
@@ -818,7 +815,7 @@ class TestTags < BridgetownUnitTest
       end
 
       should "return the post" do
-        expected = "POST: Foo Bar"
+        expected = "POST: Special Characters"
         assert_match(expected, @result)
       end
     end

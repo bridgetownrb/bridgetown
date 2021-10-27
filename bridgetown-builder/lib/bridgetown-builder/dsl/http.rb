@@ -10,14 +10,14 @@ module Bridgetown
       module HTTP
         def get(url, headers: {}, parse_json: true)
           body = begin
-                   connection(parse_json: parse_json).get(url, headers: headers).body
-                 rescue Faraday::ParsingError
-                   Bridgetown.logger.error(
-                     "Faraday::ParsingError",
-                     "The response from #{url} did not contain valid JSON"
-                   )
-                   nil
-                 end
+            connection(parse_json: parse_json).get(url, headers: headers).body
+          rescue Faraday::ParsingError
+            Bridgetown.logger.error(
+              "Faraday::ParsingError",
+              "The response from #{url} did not contain valid JSON"
+            )
+            nil
+          end
           yield body
         end
 

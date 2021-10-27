@@ -50,7 +50,7 @@ module Bridgetown
                                "Detected '_posts' directory outside custom `collections_dir`!"
         Bridgetown.logger.warn "",
                                "Please move '#{posts_at_root}' into the custom directory at " \
-              "'#{site.in_source_dir(site.config["collections_dir"])}'"
+                               "'#{site.in_source_dir(site.config["collections_dir"])}'"
         false
       end
 
@@ -64,21 +64,23 @@ module Bridgetown
 
           conflicting_urls = true
           Bridgetown.logger.warn "Conflict:", "The URL '#{url}' is the destination" \
-            " for the following pages: #{paths.join(", ")}"
+                                              " for the following pages: #{paths.join(", ")}"
         end
         conflicting_urls
       end
 
       def urls_only_differ_by_case(site)
         urls_only_differ_by_case = false
-        urls = case_insensitive_urls(site.pages + site.docs_to_write, site.dest)
+        urls = case_insensitive_urls(site.resources, site.dest)
         urls.each_value do |real_urls|
           next unless real_urls.uniq.size > 1
 
           urls_only_differ_by_case = true
-          Bridgetown.logger.warn "Warning:", "The following URLs only differ" \
-            " by case. On a case-insensitive file system one of the URLs" \
-            " will be overwritten by the other: #{real_urls.join(", ")}"
+          Bridgetown.logger.warn(
+            "Warning:",
+            "The following URLs only differ by case. On a case-insensitive file system one of the" \
+            " URLs will be overwritten by the other: #{real_urls.join(", ")}"
+          )
         end
         urls_only_differ_by_case
       end
@@ -106,9 +108,9 @@ module Bridgetown
         urls
       end
 
-      def case_insensitive_urls(things, destination)
+      def case_insensitive_urls(things, _destination)
         things.each_with_object({}) do |thing, memo|
-          dest = thing.destination(destination)
+          dest = thing.destination.output_path
           (memo[dest.downcase] ||= []) << dest
         end
       end
@@ -117,7 +119,7 @@ module Bridgetown
         return true unless url.nil? || url.empty?
 
         Bridgetown.logger.warn "Warning:", "You didn't set an URL in the config file, "\
-            "you may encounter problems with some plugins."
+                                           "you may encounter problems with some plugins."
         false
       end
 
@@ -128,7 +130,7 @@ module Bridgetown
       # https://git.io/vFfbx
       rescue TypeError
         Bridgetown.logger.warn "Warning:", "The site URL does not seem to be valid, "\
-            "check the value of `url` in your config file."
+                                           "check the value of `url` in your config file."
         false
       end
 
@@ -136,7 +138,7 @@ module Bridgetown
         return true if url.is_a?(String) && Addressable::URI.parse(url).absolute?
 
         Bridgetown.logger.warn "Warning:", "Your site URL does not seem to be absolute, "\
-            "check the value of `url` in your config file."
+                                           "check the value of `url` in your config file."
         false
       end
     end

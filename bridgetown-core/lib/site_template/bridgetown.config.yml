@@ -4,11 +4,10 @@
 # which you are expected to set up once and rarely edit after that.
 #
 # For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec bridgetown serve'. If you change this file, please restart the
-# server process.
+# `bin/bridgetown start`. If you change this file, please restart the server process.
 #
 # For reloadable site metadata like title, SEO description, social media
-# handles, etc., take a look at src/_data/site_metadata.yml
+# handles, etc., take a look at `src/_data/site_metadata.yml`
 #
 # If you need help with YAML syntax, here are some quick references for you:
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml

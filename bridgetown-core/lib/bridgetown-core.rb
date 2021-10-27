@@ -47,6 +47,7 @@ require "hash_with_dot_access"
 require "addressable/uri"
 require "liquid"
 require "liquid-component"
+require "listen"
 require "kramdown"
 require "colorator"
 require "i18n"
@@ -66,53 +67,39 @@ end
 class Rb < String; end
 
 module Bridgetown
+  autoload :Cache,               "bridgetown-core/cache"
+  autoload :Current,             "bridgetown-core/current"
   autoload :Cleaner,             "bridgetown-core/cleaner"
   autoload :Collection,          "bridgetown-core/collection"
   autoload :Component,           "bridgetown-core/component"
   autoload :Configuration,       "bridgetown-core/configuration"
-  autoload :DataAccessible,      "bridgetown-core/concerns/data_accessible"
+  autoload :DefaultsReader,      "bridgetown-core/readers/defaults_reader"
   autoload :Deprecator,          "bridgetown-core/deprecator"
-  autoload :Document,            "bridgetown-core/document"
   autoload :EntryFilter,         "bridgetown-core/entry_filter"
   # TODO: we have too many errors! This is silly
   autoload :Errors,              "bridgetown-core/errors"
-  autoload :Excerpt,             "bridgetown-core/excerpt"
   autoload :FrontmatterDefaults, "bridgetown-core/frontmatter_defaults"
   autoload :FrontMatterImporter, "bridgetown-core/concerns/front_matter_importer"
+  autoload :GeneratedPage,       "bridgetown-core/generated_page"
   autoload :Hooks,               "bridgetown-core/hooks"
   autoload :Layout,              "bridgetown-core/layout"
   autoload :LayoutPlaceable,     "bridgetown-core/concerns/layout_placeable"
-  autoload :Cache,               "bridgetown-core/cache"
-  autoload :Current,             "bridgetown-core/current"
-  # TODO: remove this when legacy content engine is gone:
-  autoload :DataReader,          "bridgetown-core/readers/data_reader"
-  autoload :DefaultsReader,      "bridgetown-core/readers/defaults_reader"
   autoload :LayoutReader,        "bridgetown-core/readers/layout_reader"
-  # TODO: remove this when legacy content engine is gone:
-  autoload :PostReader,          "bridgetown-core/readers/post_reader"
-  # TODO: remove this when legacy content engine is gone:
-  autoload :PageReader,          "bridgetown-core/readers/page_reader"
-  autoload :PluginContentReader, "bridgetown-core/readers/plugin_content_reader"
+  autoload :LiquidRenderable,    "bridgetown-core/concerns/liquid_renderable"
+  autoload :LiquidRenderer,      "bridgetown-core/liquid_renderer"
   autoload :LogAdapter,          "bridgetown-core/log_adapter"
-  autoload :Page,                "bridgetown-core/page"
-  autoload :GeneratedPage,       "bridgetown-core/page"
+  autoload :PluginContentReader, "bridgetown-core/readers/plugin_content_reader"
   autoload :PluginManager,       "bridgetown-core/plugin_manager"
   autoload :Publishable,         "bridgetown-core/concerns/publishable"
   autoload :Publisher,           "bridgetown-core/publisher"
   autoload :Reader,              "bridgetown-core/reader"
-  # TODO: remove this when the incremental regenerator is gone:
-  autoload :Regenerator,         "bridgetown-core/regenerator"
-  autoload :RelatedPosts,        "bridgetown-core/related_posts"
   autoload :Renderer,            "bridgetown-core/renderer"
-  autoload :LiquidRenderable,    "bridgetown-core/concerns/liquid_renderable"
-  autoload :LiquidRenderer,      "bridgetown-core/liquid_renderer"
   autoload :RubyTemplateView,    "bridgetown-core/ruby_template_view"
   autoload :LogWriter,           "bridgetown-core/log_writer"
   autoload :Site,                "bridgetown-core/site"
   autoload :StaticFile,          "bridgetown-core/static_file"
   autoload :URL,                 "bridgetown-core/url"
   autoload :Utils,               "bridgetown-core/utils"
-  autoload :Validatable,         "bridgetown-core/concerns/validatable"
   autoload :VERSION,             "bridgetown-core/version"
   autoload :Watcher,             "bridgetown-core/watcher"
   autoload :YAMLParser,          "bridgetown-core/yaml_parser"
@@ -126,7 +113,6 @@ module Bridgetown
   require "bridgetown-core/filters"
 
   require "bridgetown-core/drops/drop"
-  require "bridgetown-core/drops/document_drop"
   require "bridgetown-core/drops/resource_drop"
   require_all "bridgetown-core/converters"
   require_all "bridgetown-core/converters/markdown"
@@ -171,6 +157,12 @@ module Bridgetown
     # @see Bridgetown::Commands::Registrations.register
     def register_command(&block)
       Bridgetown::Commands::Registrations.register(&block)
+    end
+
+    def load_tasks
+      require "bridgetown-core/commands/base"
+      Bridgetown::PluginManager.require_from_bundler
+      load File.expand_path("bridgetown-core/tasks/bridgetown_tasks.rake", __dir__)
     end
 
     # Determines the correct Bundler environment block method to use and passes
@@ -257,12 +249,13 @@ end
 
 module Bridgetown
   module Model; end
+
   module Resource
     def self.register_extension(mod)
       if mod.const_defined?(:LiquidResource)
         Bridgetown::Drops::ResourceDrop.include mod.const_get(:LiquidResource)
       end
-      if mod.const_defined?(:RubyResource)
+      if mod.const_defined?(:RubyResource) # rubocop:disable Style/GuardClause
         Bridgetown::Resource::Base.include mod.const_get(:RubyResource)
       end
     end

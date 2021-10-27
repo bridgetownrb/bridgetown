@@ -1,0 +1,21 @@
+---
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <%= render Shared::Head.new(metadata: site.metadata, title: resource.data.title) %>
+  </head>
+  <body class="<%= resource.data.layout %> <%= resource.data.page_class %>">
+    <%=
+      render Shared::Navbar.new(
+        metadata: site.metadata, resource: resource, edge_version: site.data.edge_version
+      )
+    %>
+
+    <main>
+      <%= yield %>
+    </main>
+
+    <%= liquid_render "shared/footer", metadata: site.metadata, bridgetown: Bridgetown::Drops::BridgetownDrop.global %>
+  </body>
+</html>

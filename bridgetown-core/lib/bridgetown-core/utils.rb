@@ -1,16 +1,18 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  module Utils
+  module Utils # rubocop:todo Metrics/ModuleLength
     extend self
     autoload :Ansi, "bridgetown-core/utils/ansi"
+    autoload :Aux, "bridgetown-core/utils/aux"
     autoload :RequireGems, "bridgetown-core/utils/require_gems"
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
+    autoload :RubyFrontMatter, "bridgetown-core/utils/ruby_front_matter"
     autoload :RubyFrontMatterDSL, "bridgetown-core/utils/ruby_front_matter"
 
     # Constants for use in #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
-    SLUGIFY_RAW_REGEXP = Regexp.new('\\s+').freeze
+    SLUGIFY_RAW_REGEXP = Regexp.new("\\s+").freeze
     SLUGIFY_DEFAULT_REGEXP = Regexp.new("[^\\p{M}\\p{L}\\p{Nd}]+").freeze
     SLUGIFY_PRETTY_REGEXP = Regexp.new("[^\\p{M}\\p{L}\\p{Nd}._~!$&'()+,;=@]+").freeze
     SLUGIFY_ASCII_REGEXP = Regexp.new("[^[A-Za-z0-9]]+").freeze
@@ -201,7 +203,7 @@ module Bridgetown
       slug = replace_character_sequence_with_hyphen(string, mode: mode)
 
       # Remove leading/trailing hyphen
-      slug.gsub!(%r!^\-|\-$!i, "")
+      slug.gsub!(%r!^-|-$!i, "")
 
       slug.downcase! unless cased
 
@@ -314,9 +316,7 @@ module Bridgetown
       lines.map do |line|
         continue_processing = !skip_pre_lines
 
-        if skip_pre_lines
-          skip_pre_lines = false if line.include?("</pre>")
-        end
+        skip_pre_lines = false if skip_pre_lines && line.include?("</pre>")
         if line.include?("<pre")
           skip_pre_lines = true
           continue_processing = false
@@ -338,7 +338,7 @@ module Bridgetown
         else
           line
         end
-      end.join("")
+      end.join
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
 
@@ -354,28 +354,19 @@ module Bridgetown
     # @raise [WebpackAssetError] if unable to find css or js in the manifest
     # file
     def parse_webpack_manifest_file(site, asset_type)
-      manifest_file = site.in_root_dir(".bridgetown-webpack", "manifest.json")
-      return "MISSING_WEBPACK_MANIFEST" unless File.exist?(manifest_file)
+      return log_webpack_asset_error("Webpack manifest") if site.frontend_manifest.nil?
 
-      manifest = JSON.parse(File.read(manifest_file))
+      asset_path = if %w(js css).include?(asset_type)
+                     site.frontend_manifest["main.#{asset_type}"]
+                   else
+                     site.frontend_manifest.find do |item, _|
+                       item.sub(%r{^../(frontend/|src/)?}, "") == asset_type
+                     end&.last
+                   end
 
-      known_assets = %w(js css)
-      asset_path = nil
-      if known_assets.include?(asset_type)
-        asset_path = manifest["main.#{asset_type}"]
-        log_webpack_asset_error(asset_type) && return if asset_path.nil?
-      else
-        asset_path = manifest.find do |item, _|
-          item.sub(%r{^../(frontend/|src/)?}, "") == asset_type
-        end&.last
-      end
+      return log_webpack_asset_error(asset_type) if asset_path.nil?
 
-      if asset_path
-        static_frontend_path(site, ["js", asset_path])
-      else
-        Bridgetown.logger.error("Unknown Webpack asset type", asset_type)
-        nil
-      end
+      static_frontend_path site, ["js", asset_path]
     end
 
     def static_frontend_path(site, additional_parts = [])
@@ -389,10 +380,13 @@ module Bridgetown
     end
 
     def log_webpack_asset_error(asset_type)
-      error_message = "There was an error parsing your #{asset_type} files. \
-        Please check your #{asset_type} for any errors."
+      Bridgetown.logger.warn(
+        "Webpack:",
+        "There was an error parsing your #{asset_type} file. \
+        Please check your #{asset_type} file for any errors."
+      )
 
-      Bridgetown.logger.warn(Errors::WebpackAssetError, error_message)
+      "MISSING_WEBPACK_MANIFEST_FILE"
     end
 
     def default_github_branch_name(repo_url)
@@ -402,6 +396,39 @@ module Bridgetown
     rescue StandardError => e
       Bridgetown.logger.warn("Unable to connect to GitHub API: #{e.message}")
       "master"
+    end
+
+    def live_reload_js(site) # rubocop:disable Metrics/MethodLength
+      return "" unless Bridgetown.env.development? && !site.config.skip_live_reload
+
+      code = <<~JAVASCRIPT
+        let first_mod = 0
+        let connection_errors = 0
+        const checkForReload = () => {
+          fetch("/_bridgetown/live_reload").then(response => {
+            if (response.ok) {
+              response.json().then(data => {
+                const last_mod = data.last_mod
+                if (first_mod === 0) {
+                  first_mod = last_mod
+                } else if (last_mod > first_mod) {
+                  location.reload()
+                }
+                setTimeout(() => checkForReload(), 700)
+              })
+            } else {
+              if (connection_errors < 20) setTimeout(() => checkForReload(), 6000)
+              connection_errors++
+            }
+          }).catch((err) => {
+            if (connection_errors < 20) setTimeout(() => checkForReload(), 6000)
+            connection_errors++
+          })
+        }
+        checkForReload()
+      JAVASCRIPT
+
+      %(<script type="module">#{code}</script>).html_safe
     end
 
     private
@@ -419,9 +446,9 @@ module Bridgetown
     end
 
     def merge_default_proc(target, overwrite)
-      if target.is_a?(Hash) && overwrite.is_a?(Hash) && target.default_proc.nil?
-        target.default_proc = overwrite.default_proc
-      end
+      return unless target.is_a?(Hash) && overwrite.is_a?(Hash) && target.default_proc.nil?
+
+      target.default_proc = overwrite.default_proc
     end
 
     def duplicate_frozen_values(target)
@@ -453,7 +480,7 @@ module Bridgetown
         end
 
       # Strip according to the mode
-      string.gsub(replaceable_char, "-")
+      string.to_s.gsub(replaceable_char, "-")
     end
   end
 end

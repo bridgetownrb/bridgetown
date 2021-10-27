@@ -2,7 +2,7 @@
 title: Bridgetown on Ubuntu
 hide_in_toc: true
 category: installation
-ruby_version: 3.0.1
+ruby_version: 3.0.2
 order: 0
 ---
 
@@ -67,14 +67,14 @@ Next, install the `ruby-build` plugin. This plugin adds the `rbenv install` comm
 git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 ```
 
-Now you can install a new Ruby version. At the time of this writing, Ruby {{ page.ruby_version }} is the latest stable version. (Note: the installation may take a few minutes to complete.)
+Now you can install a new Ruby version. At the time of this writing, Ruby {{ resource.data.ruby_version }} is the latest stable version. (Note: the installation may take a few minutes to complete.)
 
 ```sh
-rbenv install {{ page.ruby_version }}
-rbenv global {{ page.ruby_version }}
+rbenv install {{ resource.data.ruby_version }}
+rbenv global {{ resource.data.ruby_version }}
 
 ruby -v
-> ruby 3.0.1p64 (2021-04-05 revision 0fb782ee38) [aarch64-linux]
+> ruby 3.0.2p107 (2021-07-07 revision 0db68f0233) [aarch64-linux]
 ```
 
 (If for some reason `bundler` isn't installed automatically, just run `gem install bundler -N`)
@@ -82,5 +82,4 @@ ruby -v
 And that's it! Check out [rbenv command references](https://github.com/rbenv/rbenv#command-reference) to learn how to use different versions of Ruby in your projects.
 
 {% render "docs/install/node_on_linux" %}
-{% render "docs/install/bridgetown" %}
-{% render "docs/install/concurrently" %}
+{% render "docs/install/bridgetown", version: bridgetown.version, edge_version: site.data.edge_version %}

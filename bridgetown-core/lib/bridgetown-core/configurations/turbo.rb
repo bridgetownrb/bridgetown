@@ -13,4 +13,4 @@ javascript_import do
 end
 
 say "Turbo successfully added", :green
-say 'For further reading, check out "https://turbo.hotwire.dev/"', :blue
+say 'For further reading, check out "https://turbo.hotwired.dev/"', :blue

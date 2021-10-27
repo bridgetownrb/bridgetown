@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: <%= @render_service_name %>
+    env: static
+    buildCommand: bin/bridgetown deploy
+    staticPublishPath: ./output
+    pullRequestPreviewsEnabled: true
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-XSS-Protection
+        value: "1; mode=block"
+      - path: /*
+        name: X-Content-Type-Options
+        value: "nosniff"
+      - path: /*
+        name: Strict-Transport-Security
+        value: "max-age=15552000; includeSubDomains"
+      - path: /*
+        name: Referrer-Policy
+        value: "no-referrer-when-downgrade"
+      - path: /*
+        name: Cache-Control
+        value: "public, max-age=86400, s-max-age=86400"

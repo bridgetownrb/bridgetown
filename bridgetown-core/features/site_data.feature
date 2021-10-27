@@ -8,28 +8,7 @@ Feature: Site data
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Contact: email@example.com" in "output/contact.html"
-
-  Scenario Outline: Use page.path variable in a page
-    Given I have a <dir> directory
-    And I have a "<path>" page that contains "Source path: {{ page.path }}"
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "Source path: <path>" in "output/<path>"
-
-    Examples:
-      | dir        | path                 |
-      | .          | index.html           |
-      | dir        | dir/about.html       |
-      | dir/nested | dir/nested/page.html |
-
-  Scenario: Override page.path
-    Given I have an "override.html" page with path "custom-override.html" that contains "Custom path: {{ page.path }}"
-    When I run bridgetown build
-    Then I should get a zero exit status
-    And the output directory should exist
-    And I should see "Custom path: custom-override.html" in "output/override.html"
+    And I should see "Contact: email@example.com" in "output/contact/index.html"
 
   Scenario: Use site.time variable
     Given I have an "index.html" page that contains "{{ site.time }}"
@@ -40,7 +19,7 @@ Feature: Site data
 
   Scenario: Use site.posts variable for latest post
     Given I have a _posts directory
-    And I have an "index.html" page that contains "{{ site.posts.first.title }}: {{ site.posts.first.url }}"
+    And I have an "index.html" page that contains "{{ collections.posts.resources.first.title }}: {{ collections.posts.resources.first.relative_url }}"
     And I have the following posts:
       | title       | date       | content        |
       | First Post  | 2009-03-25 | My First Post  |
@@ -49,11 +28,11 @@ Feature: Site data
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Third Post: /2009/03/27/third-post.html" in "output/index.html"
+    And I should see "Third Post: /2009/03/27/third-post/" in "output/index.html"
 
   Scenario: Use site.posts variable in a loop
     Given I have a _posts directory
-    And I have an "index.html" page that contains "{% for post in site.posts %} {{ post.title }} {% endfor %}"
+    And I have an "index.html" page that contains "{% for post in collections.posts.resources %} {{ post.title }} {% endfor %}"
     And I have the following posts:
       | title       | date       | content        |
       | First Post  | 2009-03-25 | My First Post  |
@@ -89,7 +68,7 @@ Feature: Site data
 
   Scenario: Order Posts by name when on the same date
   Given I have a _posts directory
-  And I have an "index.html" page that contains "{% for post in site.posts %}{{ post.title }}:{{ post.previous.title}},{{ post.next.title}} {% endfor %}"
+  And I have an "index.html" page that contains "{% for post in collections.posts.resources %}{{ post.title }}:{{ post.previous.title}},{{ post.next.title}} {% endfor %}"
   And I have the following posts:
     | title | date       | content |
     | first | 2009-02-26 | first   |
@@ -100,7 +79,7 @@ Feature: Site data
   When I run bridgetown build
   Then I should get a zero exit status
     And the output directory should exist
-  And I should see "last:C, C:B,last B:A,C A:first,B first:,A" in "output/index.html"
+  And I should see "last:,C C:last,B B:C,A A:B,first first:A," in "output/index.html"
 
   Scenario: Use configuration date in site payload
     Given I have an "index.html" page that contains "{{ site.url }}"

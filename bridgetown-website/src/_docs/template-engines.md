@@ -14,7 +14,7 @@ However, starting in v0.18, you can configure Bridgetown to use [ERB](/docs/erb-
 
 Liquid is a great way to start out if you're not that familiar with Ruby, because it feels more akin to template engines like Mustache, Jinja, Nunjucks, Twig, and so forth. Simple tags and filters, along with loops and conditional statements, let you construct templates quickly and easily.
 
-But if you need more power (especially when writing [components](/docs/components)) or you're already familiar with Ruby and engines such as ERB, then the cognitive overhead to learn and stick with Liquid can actually become a hinderance. In addition, it's an important goal for Bridgetown to integrate well with a development workflow which already incorporates the [Ruby on Rails framework](https://rubyonrails.org){:rel="noopener"}. Or perhaps you're looking to switch from [Middleman](https://middlemanapp.com){:rel="noopener"} which uses ERB by default.
+But if you need more power (especially when writing [components](/docs/components)) or you're already familiar with Ruby and engines such as ERB, then the cognitive overhead to learn and stick with Liquid can actually become a hindrance. In addition, it's an important goal for Bridgetown to integrate well with a development workflow which already incorporates the [Ruby on Rails framework](https://rubyonrails.org){:rel="noopener"}. Or perhaps you're looking to switch from [Middleman](https://middlemanapp.com){:rel="noopener"} which uses ERB by default.
 
 In any case, the ability to "pick your flavor" of template engines on a site-by-site or file-by-file basis is now one of Bridgetown's core strengths as a web framework.
 

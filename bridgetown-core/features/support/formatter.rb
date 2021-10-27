@@ -9,16 +9,17 @@ module Bridgetown
   module Cucumber
     class Formatter
       attr_accessor :indent, :runtime
+
       include ::Cucumber::Formatter::Console
       include ::Cucumber::Formatter::Io
       include FileUtils
 
       CHARS = {
-        :failed    => "\u2718".red,
-        :pending   => "\u203D".yellow,
-        :undefined => "\u2718".red,
-        :passed    => "\u2714".green,
-        :skipped   => "\u203D".blue,
+        failed: "\u2718".red,
+        pending: "\u203D".yellow,
+        undefined: "\u2718".red,
+        passed: "\u2714".green,
+        skipped: "\u203D".blue,
       }.freeze
 
       #
@@ -125,7 +126,7 @@ module Bridgetown
 
       # rubocop:disable Metrics/ParameterLists
       def before_step_result(_keyword, _step_match, _multiline_arg, status, exception, \
-              _source_indent, background, _file_colon_line)
+                             _source_indent, background, _file_colon_line)
 
         @hide_this_step = false
         if exception
@@ -137,7 +138,7 @@ module Bridgetown
           @exceptions << exception
         end
 
-        if status != :failed && @in_background ^ background
+        if status != :failed && (@in_background ^ background)
           @hide_this_step = true
           return
         end

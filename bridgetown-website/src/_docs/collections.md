@@ -5,6 +5,10 @@ top_section: Content
 category: collections
 ---
 
+{% rendercontent "docs/note", type: "warning" %}
+  This documentation is still being revised for Bridgetown 1.0. Read about the new [resource content engine](/docs/resources) to learn more about how to use collections in templates.
+{% endrendercontent %}
+
 Collections are a great way to group related content like members of a team or
 talks at a conference. Bridgetown comes with one built-in collection, [posts](/docs/posts/), and you can add new collections to support all sorts of content structures and hierarchies. All of the pages on this very website, for example, are contained within a "docs" collection.
 

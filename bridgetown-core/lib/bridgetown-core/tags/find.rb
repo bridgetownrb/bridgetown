@@ -11,12 +11,7 @@ module Bridgetown
 
       def initialize(tag_name, markup, tokens)
         super
-        if markup.strip =~ SYNTAX
-          @new_var_name = Regexp.last_match(1).strip
-          @single_or_group = Regexp.last_match(2)
-          @arr_name = Regexp.last_match(3).strip
-          @conditions = process_conditions(Regexp.last_match(4).strip)
-        else
+        unless markup.strip =~ SYNTAX
           raise SyntaxError, <<~MSG
             Syntax Error in tag 'find' while parsing the following markup:
 
@@ -25,6 +20,11 @@ module Bridgetown
             Valid syntax: find <varname> where|in <array>, <condition(s)>
           MSG
         end
+
+        @new_var_name = Regexp.last_match(1).strip
+        @single_or_group = Regexp.last_match(2)
+        @arr_name = Regexp.last_match(3).strip
+        @conditions = process_conditions(Regexp.last_match(4).strip)
       end
 
       def render(context)

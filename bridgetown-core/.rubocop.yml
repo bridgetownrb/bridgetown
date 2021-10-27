@@ -1,0 +1,35 @@
+---
+inherit_from: ../.rubocop.yml
+
+AllCops:
+  Exclude:
+    - "*.gemspec"
+    - bin/**/*
+    - exe/**/*
+    - benchmark/**/*
+    - script/**/*
+    - vendor/**/*
+    - tmp/**/*
+    - test/source/**/*
+    - lib/site_template/Rakefile
+    - lib/site_template/config.ru
+    - lib/site_template/config/**/*
+    - lib/site_template/plugins/site_builder.rb
+
+Lint/ConstantDefinitionInBlock:
+  Exclude:
+    - test/test_filters.rb
+    - test/test_liquid_extensions.rb
+    - test/test_site.rb
+
+Lint/MissingSuper:
+  Exclude:
+    - test/test_liquid_extensions.rb
+
+Performance/CollectionLiteralInLoop:
+  Exclude:
+    - test/test_filters.rb
+
+Style/StringConcatenation:
+  Exclude:
+    - test/test_apply_command.rb

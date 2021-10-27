@@ -41,7 +41,7 @@ module Bridgetown
       def execute_inline_ruby!
         return unless site.config.should_execute_inline_ruby?
 
-        Bridgetown::Utils::RubyExec.search_data_for_ruby_code(resource, self)
+        Bridgetown::Utils::RubyExec.search_data_for_ruby_code(resource)
       end
 
       def inspect
@@ -103,10 +103,12 @@ module Bridgetown
       end
 
       def warn_on_missing_layout(layout, layout_name)
-        if layout.nil? && layout_name
-          Bridgetown.logger.warn "Build Warning:", "Layout '#{layout_name}' " \
-          "requested via #{resource.relative_path} does not exist."
-        end
+        return unless layout.nil? && layout_name
+
+        Bridgetown.logger.warn(
+          "Build Warning:",
+          "Layout '#{layout_name}' requested via #{resource.relative_path} does not exist."
+        )
       end
 
       ### Transformation Actions
@@ -152,7 +154,7 @@ module Bridgetown
         layout_input = layout.content.dup
 
         layout_converters.inject(layout_input) do |content, converter|
-          next(content) unless [2, -2].include?(converter.method(:convert).arity)
+          next(content) unless [2, -2].include?(converter.method(:convert).arity) # rubocop:disable Performance/CollectionLiteralInLoop
 
           layout.current_document = resource
           layout.current_document_output = output

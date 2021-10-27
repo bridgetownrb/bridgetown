@@ -23,8 +23,8 @@ require "minitest/autorun"
 require "minitest/reporters"
 require "minitest/profile"
 require "rspec/mocks"
-require_relative "../lib/bridgetown-core.rb"
-require_relative "../lib/bridgetown-core/commands/base.rb"
+require_relative "../lib/bridgetown-core"
+require_relative "../lib/bridgetown-core/commands/base"
 
 Bridgetown.logger = Logger.new(StringIO.new, :error)
 
@@ -128,27 +128,13 @@ class BridgetownUnitTest < Minitest::Test
     RSpec::Mocks.teardown
   end
 
-  def fixture_document(relative_path)
-    site = fixture_site(
-      "collections" => {
-        "methods" => {
-          "output" => true,
-        },
-      }
-    )
-    site.read
-    matching_doc = site.collections["methods"].docs.find do |doc|
-      doc.relative_path == relative_path
-    end
-    [site, matching_doc]
-  end
-
   def fixture_site(overrides = {})
     Bridgetown::Site.new(site_configuration(overrides))
   end
 
   def resources_site(overrides = {})
     overrides["content_engine"] = "resource"
+    overrides["available_locales"] ||= %w[en fr]
     new_config = site_configuration(overrides)
     new_config.root_dir = resources_root_dir
     new_config.source = resources_root_dir("src")
@@ -159,7 +145,7 @@ class BridgetownUnitTest < Minitest::Test
   def load_plugin_content
     unless @plugin_loaded
       Bridgetown::PluginManager.new_source_manifest(
-        origin: self,
+        origin: self.class,
         components: test_dir("plugin_content", "components"),
         content: test_dir("plugin_content", "content"),
         layouts: test_dir("plugin_content", "layouts")
@@ -172,8 +158,7 @@ class BridgetownUnitTest < Minitest::Test
     load_plugin_content
 
     full_overrides = Utils.deep_merge_hashes({ "destination" => dest_dir,
-                                               "plugins_dir" => site_root_dir("plugins"),
-                                               "incremental" => false, }, overrides)
+                                               "plugins_dir" => site_root_dir("plugins"), }, overrides)
     Configuration.from(full_overrides.merge(
                          "root_dir" => site_root_dir,
                          "source"   => source_dir
@@ -230,6 +215,21 @@ end
 
 class FakeLogger
   def <<(str); end
+end
+
+# stub
+module Bridgetown
+  module Paginate
+    class PaginationIndexer
+      def self.index_documents_by(pages_list, search_term)
+        # site.collections[@configured_collection].resources
+
+        pages_list.map do |resource|
+          [resource.data[search_term], nil]
+        end.to_h
+      end
+    end
+  end
 end
 
 module TestWEBrick

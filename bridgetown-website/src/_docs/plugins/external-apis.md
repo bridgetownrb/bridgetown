@@ -1,11 +1,11 @@
 ---
-title: HTTP Requests and the Document Builder
+title: HTTP Requests and the Resource Builder
 hide_in_toc: true
 order: 0
 category: plugins
 ---
 
-New in Bridgetown 0.14 as part of the Builder API is the ability to make web requests and easily parse the response to save site data or construct new documents like blog posts or collection entries.
+In this section, you'll learn how to make web requests and easily parse the response to save site data or construct new resources like blog posts or collection entries.
 
 Here's an example of making an HTTP GET request to a remote API, looping through an array parsed from the JSON response, and saving new posts based on each item:
 
@@ -14,8 +14,9 @@ class LoadPostsFromAPI < SiteBuilder
   def build
     get "https://domain.com/posts.json" do |data|
       data.each do |post|
-        doc "#{post[:slug]}.md" do
-          front_matter post
+        add_resource :posts, "#{post[:slug]}.md" do
+          ___ post
+          layout :post
           categories post[:taxonomy][:category].map { |category| category[:slug] }
           date Bridgetown::Utils.parse_date(post[:date])
           content post[:body]
@@ -87,15 +88,16 @@ Bridgetown comes with the [Faraday Middleware gem](https://github.com/lostisland
 Why is only the HTTP GET method supported? What about POST, PUT, etc.? Well the idea behind making requests as part of the site build process is that it's a one-way data flow: you get data from the API to add to your site, and you don't attempt any remote alterations to that data. If your API requires you to make a request using a method such as POST, please let them know you'd like a GET method as well. As a last resort, you can also use the provided Faraday `connection` object to construct a custom request. See the Faraday documentation for further details.
 {% endrendercontent %}
 
-## The Document Builder
+## The Resource Builder
 
-Adding content from an API to the `site.data` object is certainly useful, but an even more powerful feature recently added to Bridgetown is the Document Builder. All you need to do is call the `doc` method to generate Post and Collection documents which function in exactly the same way as if those files were already stored in your repository.
+Adding content from an API to the `site.data` object is certainly useful, but an even more powerful feature is the Resource Builder. All you need to do is call the `add_resource` method to generate resources which function in exactly the same way as if those files were already stored in your repository. It uses a special DSL, similar to [Ruby Front Matter](/docs/front-matter), to make assigning front matter and content very simple.
 
 Here's a simple example of creating a new blog post:
 
 ```ruby
 def build
-  doc "2020-05-17-way-to-go-bridgetown.md" do
+  add_resource :posts, "2020-05-17-way-to-go-bridgetown.md" do
+    layout :post
     title "Way to Go, Bridgetown!"
     author "rlstevenson"
     content "It's pretty _nifty_ that you can add **new blog posts** this way."
@@ -116,11 +118,10 @@ It's pretty _nifty_ that you can add **new blog posts** this way.
 
 ### Collections
 
-By default, documents are saved in the posts collection, but you can save a document in any collection:
+You can save a resource in any collection:
 
 ```ruby
-doc "rlstevenson.md" do
-  collection "authors"
+add_resource :authors, "rlstevenson.md" do
   name "Robert Louis Stevenson"
   born 1850
   nationality "Scottish"
@@ -130,36 +131,36 @@ end
 You don't even need to use a collection that's previously been configured in `bridgetown.config.yml`. You can make up new collections and use existing layouts to place your content within the appropriate templates, assuming the expected front matter is compatible.
 
 ```ruby
-doc "fake-blog-post.html" do
-  collection "blogish"
-  layout "post"
+add_resource :blogish, "fake-blog-post.html" do
+  layout :post
   title "I'm a blog post…sort of"
   date "2020-05-17"
   content "<p>I might look like a blog post, but I'm <em>not!</em></p>"
 end
 ```
 
-That document would then get written out to the `/blogish/fake-blog-post` URL.
+That resource would then get written out to the `/blogish/fake-blog-post/` URL.
 
-Another aspect of the Document Builder to keep in mind is that `content` is a "special" variable. Everything except `content` is considered [front matter](/docs/front-matter), and `content` is everything you'd add to a file after the front matter.
+Another aspect of the Resource Builder to keep in mind is that `content` is a "special" variable. Everything except `content` is considered [front matter](/docs/front-matter), and `content` is everything you'd add to a file after the front matter.
 
 ### Customizing Permalinks
 
-If you'd like to customize the [permalink](/structure/permalinks) of a new document, you can specifically set the `permalink` front matter variable…but an even easier way to do it is just start your filename with a path. For example:
+If you'd like to customize the [permalink](/structure/permalinks) of a new resource, you can specifically set the `permalink` front matter variable:
 
 ```ruby
-doc "/path/to/the/blog-post.md" do
+add_resource :posts, "blog-post.md" do
   title "Strange Paths"
   date "2019-07-23"
+  permalink "/path/to/the/:slug/"
   content "…"
 end
 ```
 
-The post would then be accessible via `/path/to/the/blog-post`.
+The post would then be accessible via `/path/to/the/blog-post/`.
 
 ### Merging Hashes Directly into Front Matter
 
-If you have a hash of variables you'd like to merge into a document's front matter, you can use the `front_matter` method.
+If you have a hash of variables you'd like to merge into a resource's front matter, you can use the `___` method.
 
 ```ruby
 vars = {
@@ -168,35 +169,70 @@ vars = {
   published: false
 }
 
-doc "post.html" do
-  front_matter vars
+add_resource :posts, "post.html" do
+  ___ vars
 end
 ```
 
 This is great when you have data coming in from external APIs and you'd just like to inject all of that data into the front matter with a single method call.
 
-Bear in mind that this doesn't include your `content` variable. So you'll still need to set that separately when using the `front_matter` method, for example:
+Bear in mind that this doesn't include your `content` variable. So you'll still need to set that separately when using the `___` method, for example:
 
 ```ruby
 get article_url do |data|
-  doc "new-article.html" do
-    front_matter data
+  add_resource :pages, "articles/#{data[:slug]}.html" do
+    ___ data
     content data[:body]
   end
 end
 ```
 
+## DSL Scope
+
+If you're not familar with Ruby DSLs, you may run into an issue where you need to call a method from your builder plugin within `add_resource` and it's not in scope. For example, this won't work:
+
+```ruby
+def string_value
+  "I'm a string!"
+end
+
+def build
+  add_resource :pages, "page.html" do
+    title string_value
+    content "Page content."
+  end
+end
+```
+
+The reason it won't work is because in this example, `title` is actually interpreted as a method call within the DSL block, which means `string_value` is a similar call. That would be fine if you'd already added `string_value` as a front matter key, in which case `string_value` would return that front matter variable. But in this case, you want to use the `string_value` method of your plugin.
+
+To accomplish that, simply provide a lambda using the `from: -> { }` syntax. Let's rewrite the above example to work as expected:
+
+```ruby
+def string_value
+  "I'm a string!"
+end
+
+def build
+  add_resource :pages, "page.html" do
+    title from: -> { string_value }
+    content "Page content."
+  end
+end
+```
+
+Now the `title` front matter variable will be set to "I'm a string".
+
 ## Builder Lifecycle and Data Files
 
-Something to bear in mind is that that code in your `build` method is run as part of the site's `pre_read` [hook](/docs/plugins/hooks), which means that no data or content in your site repository has yet been loaded at that point. So you can't, say, build documents based on existing [data files](/docs/datafiles) as you might assume:
+Something to bear in mind is that that code in your `build` method is run as part of the site's `pre_read` [hook](/docs/plugins/hooks), which means that no data or content in your site repository has yet been loaded at that point. So you can't, say, build resources based on existing [data files](/docs/datafiles) as you might assume:
 
 ```ruby
 def build
   # THIS WON'T WORK!!!
   site.data[:stuff_from_the_repo].each do |k, v|
-    doc "#{k}.md" do
-      collection "stuff"
-      front_matter v
+    add_resource :stuff, "#{k}.md" do
+      ___ v
       content v[:content]
     end
   end
@@ -209,29 +245,14 @@ Instead, what you can do is define a `post_read` custom hook and _then_ read in 
 def build
   hook :site, :post_read do
     site.data[:stuff_from_the_repo].each do |k, v|
-      doc "#{k}.md" do
-        collection "stuff"
-        front_matter v
+      add_resource :stuff, "#{k}.md" do
+        ___ v
         content v[:content]
       end
     end
   end
 end
 ```
-
-You also can't use the `doc` method inside of a [generator](/docs/plugins/generators) block/method or a [Liquid](/docs/plugins/tags) tag/filter, because by the time your code executes, the build process has already run the internal generator which handles `doc`-based documents.
-
-```ruby
-def build
-  generator do
-    doc "this-wont-work.html" do
-      title "Oops…"
-    end
-  end
-end
-```
-
-So basically you'll want to contain usage of the Document Builder to either directly in the `build` method or inside of a `post_read` hook.
 
 ## What About GraphQL?
 
@@ -271,4 +292,4 @@ from a CMS, check out the project on Github.
 
 ## Conclusion
 
-As you've seen from these examples, using data from external APIs to create new content for your Bridgetown website is easy and straightforward with the `get` and `doc` methods provided by the Builder API. While there are numerous benefits to storing content directly in your site repository, Bridgetown gives you the best of both worlds—leaving you simply to decide where you want your content to live and how you'll put it to good use as you build your site.
+As you've seen from these examples, using data from external APIs to create new content for your Bridgetown website is easy and straightforward with the `get` and `add_resource` methods provided by the Builder API. While there are numerous benefits to storing content directly in your site repository, Bridgetown gives you the best of both worlds—leaving you simply to decide where you want your content to live and how you'll put it to good use as you build your site.

@@ -65,7 +65,7 @@ module Bridgetown
     def execute_inline_ruby!
       return unless site.config.should_execute_inline_ruby?
 
-      Bridgetown::Utils::RubyExec.search_data_for_ruby_code(document, self)
+      Bridgetown::Utils::RubyExec.search_data_for_ruby_code(document)
     end
 
     # Convert the document using the converters which match this renderer's document.
@@ -98,7 +98,6 @@ module Bridgetown
 
       while layout
         output = render_layout(output, layout)
-        add_regenerator_dependencies(layout)
 
         next unless (layout = site.layouts[layout.data["layout"]])
         break if used.include?(layout)
@@ -120,7 +119,7 @@ module Bridgetown
         !(document.is_a? Bridgetown::Excerpt)
 
       Bridgetown.logger.warn "Build Warning:", "Layout '#{document.data["layout"]}' requested " \
-        "in #{document.relative_path} does not exist."
+                                               "in #{document.relative_path} does not exist."
     end
 
     # Render layout content into document.output
@@ -142,15 +141,6 @@ module Bridgetown
                                 "converting `#{document.relative_path}'"
         raise e
       end
-    end
-
-    def add_regenerator_dependencies(layout)
-      return unless document.write?
-
-      site.regenerator.add_dependency(
-        site.in_source_dir(document.path),
-        layout.path
-      )
     end
 
     def permalink_ext

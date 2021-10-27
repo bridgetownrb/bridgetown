@@ -3,22 +3,6 @@
 require "helper"
 
 class TestSite < BridgetownUnitTest
-  def with_image_as_post
-    tmp_image_path = File.join(source_dir, "_posts", "2017-09-01-bridgetown-sticker.jpg")
-    FileUtils.cp File.join(Dir.pwd, "test", "fixtures", "bridgetown-image.jpg"), tmp_image_path
-    yield
-  ensure
-    FileUtils.rm tmp_image_path
-  end
-
-  def read_posts
-    PostReader.new(@site).read_posts("")
-    posts = Dir[source_dir("_posts", "**", "*")]
-    posts.delete_if do |post|
-      File.directory?(post) && post !~ Document::DATE_FILENAME_MATCHER
-    end
-  end
-
   context "configuring sites" do
     should "default base_path to `/`" do
       site = Site.new(Bridgetown::Configuration::DEFAULTS.deep_dup)
@@ -50,7 +34,7 @@ class TestSite < BridgetownUnitTest
   context "creating sites" do
     setup do
       @site = Site.new(site_configuration)
-      @num_invalid_posts = 7
+      @num_invalid_posts = 8
     end
 
     teardown do
@@ -61,55 +45,30 @@ class TestSite < BridgetownUnitTest
       assert_equal({}, @site.tags)
     end
 
-    should "give site with parsed pages and posts to generators" do
-      class MyGenerator < Generator
-        def generate(site)
-          site.pages.dup.each do |page|
-            raise "#{page} isn't a page" unless page.is_a?(Page)
-            raise "#{page} doesn't respond to :name" unless page.respond_to?(:name)
-          end
-          site.file_read_opts[:secret_message] = "hi"
-        end
-      end
-      @site = Site.new(site_configuration)
-      @site.read
-      @site.generate
-      refute_equal 0, @site.pages.size
-      assert_equal "hi", @site.file_read_opts[:secret_message]
-    end
-
     should "reset data before processing" do
       clear_dest
       @site.process
-      before_posts = @site.posts.docs.length
+      before_posts = @site.collections.posts.resources.length
       before_layouts = @site.layouts.length
       before_categories = @site.categories.length
       before_tags = @site.tags.length
-      before_pages = @site.pages.length
+      before_pages = @site.generated_pages.length
       before_static_files = @site.static_files.length
       before_time = @site.time
 
       @site.process
-      assert_equal before_posts, @site.posts.docs.length
+      assert_equal before_posts, @site.collections.posts.resources.length
       assert_equal before_layouts, @site.layouts.length
       assert_equal before_categories, @site.categories.length
       assert_equal before_tags, @site.tags.length
-      assert_equal before_pages, @site.pages.length
+      assert_equal before_pages, @site.generated_pages.length
       assert_equal before_static_files, @site.static_files.length
       assert before_time <= @site.time
-    end
-
-    should "provide access to all content" do
-      clear_dest
-      @site.process
-
-      assert_equal @site.documents.length + @site.pages.length, @site.contents.length
     end
 
     should "write only modified static files" do
       clear_dest
       StaticFile.reset_cache
-      @site.regenerator.clear
 
       @site.process
       some_static_file = @site.static_files[0].path
@@ -139,7 +98,6 @@ class TestSite < BridgetownUnitTest
     should "write static files if not modified but missing in destination" do
       clear_dest
       StaticFile.reset_cache
-      @site.regenerator.clear
 
       @site.process
       dest = File.expand_path(@site.static_files[0].destination(@site.dest))
@@ -178,13 +136,14 @@ class TestSite < BridgetownUnitTest
     end
 
     should "sort pages alphabetically" do
+      clear_dest
       method = Dir.method(:entries)
       allow(Dir).to receive(:entries) do |*args, &block|
         method.call(*args, &block).reverse
       end
       @site.process
-      # exclude files in symlinked directories here and insert them in the
-      # following step when not on Windows.
+
+      # rubocop:disable Style/WordArray
       sorted_pages = %w(
         %#\ +.md
         .htaccess
@@ -201,7 +160,6 @@ class TestSite < BridgetownUnitTest
         foo.md
         humans.txt
         index.html
-        index.html
         info.md
         layouts.html
         layouts_override.html
@@ -211,24 +169,12 @@ class TestSite < BridgetownUnitTest
         properties.html
         sitemap.xml
         static_files.html
+        symlinked-file
         trailing-dots...md
       )
-      # files in symlinked directories may appear twice
-      sorted_pages.push("main.scss", "symlinked-file").sort!
-      assert_equal sorted_pages, @site.pages.map(&:name).sort!
-    end
+      # rubocop:enable Style/WordArray
 
-    should "read posts" do
-      posts = read_posts
-      assert_equal posts.size - @num_invalid_posts, @site.posts.docs.size
-    end
-
-    should "skip posts with invalid encoding" do
-      with_image_as_post do
-        posts = read_posts
-        num_invalid_posts = @num_invalid_posts + 1
-        assert_equal posts.size - num_invalid_posts, @site.posts.docs.size
-      end
+      assert_equal sorted_pages, @site.collections.pages.resources.map { |page| page.relative_path.basename.to_s }.sort!.uniq!
     end
 
     should "read pages with YAML front matter" do
@@ -253,16 +199,16 @@ class TestSite < BridgetownUnitTest
       clear_dest
       @site.process
 
-      posts = Dir[source_dir("**", "_posts", "**", "*")]
+      posts = Dir[source_dir("_posts", "**", "*")]
       posts.delete_if do |post|
-        File.directory?(post) && post !~ Document::DATE_FILENAME_MATCHER
+        File.directory?(post) && post !~ Bridgetown::Resource::Base::DATE_FILENAME_MATCHER
       end
       categories = %w(
-        2013 bar baz foo z_category MixedCase Mixedcase publish_test
+        2013 bar baz foo z_category MixedCase Mixedcase test_post_reader publish_test
       ).sort
 
-      assert_equal posts.size - @num_invalid_posts, @site.posts.docs.size
-      assert_equal categories, @site.categories.keys.sort
+      assert_equal posts.size - @num_invalid_posts, @site.collections.posts.resources.size
+      assert_equal categories, @site.categories.keys.map(&:to_s).sort
       assert_equal 4, @site.categories["foo"].size
     end
 
@@ -301,7 +247,6 @@ class TestSite < BridgetownUnitTest
     context "with orphaned files in destination" do
       setup do
         clear_dest
-        @site.regenerator.clear
         @site.process
         # generate some orphaned files:
         # single file
@@ -388,8 +333,7 @@ class TestSite < BridgetownUnitTest
 
         bad_processor = "Custom::Markdown"
         s = Site.new(site_configuration(
-                       "markdown"    => bad_processor,
-                       "incremental" => false
+                       "markdown"    => bad_processor
                      ))
         assert_raises Bridgetown::Errors::FatalException do
           s.process
@@ -409,8 +353,7 @@ class TestSite < BridgetownUnitTest
       should "throw FatalException at process time" do
         bad_processor = "not a processor name"
         s = Site.new(site_configuration(
-                       "markdown"    => bad_processor,
-                       "incremental" => false
+                       "markdown"    => bad_processor
                      ))
         assert_raises Bridgetown::Errors::FatalException do
           s.process
@@ -424,17 +367,6 @@ class TestSite < BridgetownUnitTest
         site.process
 
         file_content = Bridgetown::YAMLParser.load_file(File.join(source_dir, "_data", "members.yaml"))
-
-        assert_equal site.data["members"], file_content
-        assert_equal site.site_payload["site"]["data"]["members"], file_content
-      end
-
-      should "load yaml files from extracted method" do
-        site = Site.new(site_configuration)
-        site.process
-
-        file_content = DataReader.new(site)
-          .read_data_file(source_dir("_data", "members.yaml"))
 
         assert_equal site.data["members"], file_content
         assert_equal site.site_payload["site"]["data"]["members"], file_content
@@ -475,21 +407,6 @@ class TestSite < BridgetownUnitTest
         )
       end
 
-      should "auto load yaml files in subdirectory with a period in the name" do
-        site = Site.new(site_configuration)
-        site.process
-
-        file_content = Bridgetown::YAMLParser.load_file(File.join(
-                                                          source_dir, "_data", "categories.01", "dairy.yaml"
-                                                        ))
-
-        assert_equal site.data["categories01"]["dairy"], file_content
-        assert_equal(
-          site.site_payload["site"]["data"]["categories01"]["dairy"],
-          file_content
-        )
-      end
-
       should "load symlink files" do
         site = Site.new(site_configuration)
         site.process
@@ -504,11 +421,9 @@ class TestSite < BridgetownUnitTest
     context "manipulating the Bridgetown environment" do
       setup do
         ENV.delete("BRIDGETOWN_ENV")
-        @site = Site.new(site_configuration(
-                           "incremental" => false
-                         ))
+        @site = Site.new(site_configuration)
         @site.process
-        @page = @site.pages.find { |p| p.name == "environment.html" }
+        @page = @site.collections.pages.resources.find { |p| p.relative_path.basename.to_s == "environment.html" }
       end
 
       teardown do
@@ -522,11 +437,9 @@ class TestSite < BridgetownUnitTest
       context "in production" do
         setup do
           ENV["BRIDGETOWN_ENV"] = "production"
-          @site = Site.new(site_configuration(
-                             "incremental" => false
-                           ))
+          @site = Site.new(site_configuration)
           @site.process
-          @page = @site.pages.find { |p| p.name == "environment.html" }
+          @page = @site.collections.pages.resources.find { |p| p.relative_path.basename.to_s == "environment.html" }
         end
 
         should "be overridden by BRIDGETOWN_ENV" do
@@ -551,61 +464,6 @@ class TestSite < BridgetownUnitTest
       should "print profile table" do
         expect(@site.liquid_renderer).to receive(:stats_table)
         @site.process
-      end
-    end
-
-    context "incremental build" do
-      setup do
-        @site = Site.new(site_configuration(
-                           "incremental" => true
-                         ))
-        @site.read
-      end
-
-      should "build incrementally" do
-        contacts_html = @site.pages.find { |p| p.name == "contacts.html" }
-        @site.process
-
-        source = @site.in_source_dir(contacts_html.path)
-        dest = File.expand_path(contacts_html.destination(@site.dest))
-        mtime1 = File.stat(dest).mtime.to_i # first run must generate dest file
-
-        # need to sleep because filesystem timestamps have best resolution in seconds
-        sleep 1
-        @site.process
-        mtime2 = File.stat(dest).mtime.to_i
-        assert_equal mtime1, mtime2 # no modifications, so remain the same
-
-        # simulate file modification by user
-        FileUtils.touch source
-
-        sleep 1
-        @site.process
-        mtime3 = File.stat(dest).mtime.to_i
-        refute_equal mtime2, mtime3 # must be regenerated
-
-        sleep 1
-        @site.process
-        mtime4 = File.stat(dest).mtime.to_i
-        assert_equal mtime3, mtime4 # no modifications, so remain the same
-      end
-
-      should "regenerate files that have had their destination deleted" do
-        contacts_html = @site.pages.find { |p| p.name == "contacts.html" }
-        @site.process
-
-        dest = File.expand_path(contacts_html.destination(@site.dest))
-        mtime1 = File.stat(dest).mtime.to_i # first run must generate dest file
-
-        # simulate file modification by user
-        File.unlink dest
-        refute File.file?(dest)
-
-        sleep 1 # sleep for 1 second, since mtimes have 1s resolution
-        @site.process
-        assert File.file?(dest)
-        mtime2 = File.stat(dest).mtime.to_i
-        refute_equal mtime1, mtime2 # must be regenerated
       end
     end
 

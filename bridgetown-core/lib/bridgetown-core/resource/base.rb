@@ -53,7 +53,7 @@ module Bridgetown
         @layout = site.layouts[data.layout].tap do |layout|
           unless layout
             Bridgetown.logger.warn "Resource:", "Layout '#{data.layout}' " \
-            "requested via #{relative_path} does not exist."
+                                                "requested via #{relative_path} does not exist."
           end
         end
       end
@@ -116,6 +116,8 @@ module Bridgetown
 
       def transform!
         transformer.process! unless collection.data?
+
+        self
       end
 
       def trigger_hooks(hook_name, *args)
@@ -261,19 +263,18 @@ module Bridgetown
         "#<#{self.class} #{id}>"
       end
 
-      # Compare this document against another document.
-      # Comparison is a comparison between the 2 paths of the documents.
+      # Compare this resource against another resource.
+      # Comparison is a comparison between the 2 dates or paths of the resources.
       #
-      # Returns -1, 0, +1 or nil depending on whether this doc's path is less than,
-      #   equal or greater than the other doc's path. See String#<=> for more details.
+      # @return [Integer] -1, 0, or +1
       def <=>(other) # rubocop:todo Metrics/AbcSize
         return nil unless other.respond_to?(:data)
 
-        if data.date.respond_to?(:to_datetime) && other.data.date.respond_to?(:to_datetime)
-          return data.date.to_datetime <=> other.data.date.to_datetime
-        end
+        cmp = if data.date.respond_to?(:to_datetime) && other.data.date.respond_to?(:to_datetime)
+                data.date.to_datetime <=> other.data.date.to_datetime
+              end
 
-        cmp = data["date"] <=> other.data["date"]
+        cmp = data["date"] <=> other.data["date"] if cmp.nil?
         cmp = path <=> other.path if cmp.nil? || cmp.zero?
         cmp
       end
@@ -292,13 +293,17 @@ module Bridgetown
 
       private
 
-      def ensure_default_data
+      def ensure_default_data # rubocop:todo Metrics/AbcSize
+        determine_locale
+
         slug = if matches = relative_path.to_s.match(DATE_FILENAME_MATCHER) # rubocop:disable Lint/AssignmentInCondition
                  set_date_from_string(matches[1]) unless data.date
                  matches[2]
                else
                  basename_without_ext
                end
+
+        slug.chomp!(".#{data.locale}") if data.locale && slug.ends_with?(".#{data.locale}")
 
         data.slug ||= slug
         data.title ||= Bridgetown::Utils.titleize_slug(slug)
@@ -309,7 +314,7 @@ module Bridgetown
 
         data.date = Bridgetown::Utils.parse_date(
           new_date,
-          "Document '#{relative_path}' does not have a valid date in the #{model}."
+          "Resource '#{relative_path}' does not have a valid date."
         )
       end
 
@@ -330,6 +335,24 @@ module Bridgetown
             )
           end
         end
+      end
+
+      def determine_locale # rubocop:todo Metrics/AbcSize
+        unless data.locale
+          data.locale = locale_from_alt_data_or_filename.presence || site.config.default_locale
+        end
+
+        return unless data.locale_overrides.is_a?(Hash) && data.locale_overrides&.key?(data.locale)
+
+        data.merge!(data.locale_overrides[data.locale])
+      end
+
+      # Look for alternative front matter or look at the filename pattern: slug.locale.ext
+      def locale_from_alt_data_or_filename
+        found_locale = data.language || data.lang || basename_without_ext.split(".")[1..-1].last
+        return unless found_locale && site.config.available_locales.include?(found_locale.to_sym)
+
+        found_locale
       end
 
       def format_url(url)

@@ -317,21 +317,6 @@ a staging area and copy files from there to your web server.
     </tr>
     <tr class="setting">
       <td>
-        <p class="name"><strong>Incremental build</strong></p>
-        <p class="description">
-            Enable the experimental incremental build feature. Incremental build only
-            re-builds posts and pages that have changed, resulting in significant performance
-            improvements for large sites, but may also break site generation in certain
-            cases.
-        </p>
-      </td>
-      <td class="has-text-centered">
-        <p><code class="option">incremental: BOOL</code></p>
-        <p><code class="flag">-I, --incremental</code></p>
-      </td>
-    </tr>
-    <tr class="setting">
-      <td>
         <p class="name"><strong>Liquid profiler</strong></p>
         <p class="description">
             Generate a Liquid rendering profile to help you identify performance bottlenecks.
@@ -403,21 +388,10 @@ before your site is served.
     </tr>
     <tr class="setting">
       <td>
-        <p class="name"><strong>Live Reload</strong></p>
-        <p class="description">Reload a page automatically on the browser when its content is edited.</p>
-      </td>
-      <td class="has-text-centered">
-        <p><code class="option">livereload: true</code></p>
-        <p><code class="flag">-l, --livereload</code></p>
-      </td>
-    </tr>
-    <tr class="setting">
-      <td>
         <p class="name"><strong>Detach</strong></p>
         <p class="description">Detach the server from the terminal.</p>
       </td>
       <td class="has-text-centered">
-        <p><code class="option">detach: BOOL</code></p>
         <p><code class="flag">-B, --detach</code></p>
       </td>
     </tr>
@@ -468,8 +442,8 @@ Note that if you change `plugins_dir`, the option is relative to the current wor
 plugins_dir         : plugins
 collections_dir     : .
 layouts_dir         : _layouts
+components_dir      : _components
 data_dir            : _data
-includes_dir        : _includes
 collections:
   posts:
     output          : true
@@ -482,16 +456,12 @@ markdown_ext        : "markdown,mkdown,mkdn,mkd,md"
 strict_front_matter : false
 
 # Filtering Content
-limit_posts         : 0
 future              : false
 unpublished         : false
 
 # Conversion
 markdown            : kramdown
 highlighter         : rouge
-lsi                 : false
-excerpt_separator   : "\n\n"
-incremental         : false
 
 # Serving
 detach              : false

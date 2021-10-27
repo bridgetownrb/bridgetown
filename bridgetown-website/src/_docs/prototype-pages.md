@@ -29,7 +29,7 @@ prototype:
 
 And then all the site's different categories will have archives pages at this location
 (e.g. `categories/awesome-movies`, `categories/my-cool-vacation`, etc.). And it enables
-pagination automatically, so you'd just use `paginator.documents` to loop through the
+pagination automatically, so you'd just use `paginator.resources` to loop through the
 posts like on any normal paginated page. Using `:prototype-term` in the page title will
 automatically put each archive page's term (aka the category name) in the output title.
 
@@ -51,7 +51,7 @@ prototype:
 You'd get `Posts in category Cool Vacation` as the page title.
 
 In addition, the search term used for each generated page is placed into a Liquid
-variable, so you can use that as well in your template: `page.category`, or `page.tag`,
+variable, so you can use that as well in your template: `page.data.category`, or `page.data.tag`,
 etc.
 
 ## Searching in Collections
@@ -117,14 +117,14 @@ prototype:
 ---
 
 
-<h1>{{ page.title }}</h1> <-- Articles by Jared White -->
+<h1>{{ page.data.title }}</h1> <-- Articles by Jared White -->
 
-<h2>Twitter: @{{ page.author_data.twitter }}</h2> <!-- Twitter: @jaredcwhite -->
+<h2>Twitter: @{{ page.data.author_data.twitter }}</h2> <!-- Twitter: @jaredcwhite -->
 
 <!-- posts where author == jared -->
 
-{% for post in paginator.documents %}
-  {% include post.html %}
+{% for post in paginator.resources %}
+  {% render "shared/post", post: post %}
 {% endfor %}
 ```
 {% endraw %}

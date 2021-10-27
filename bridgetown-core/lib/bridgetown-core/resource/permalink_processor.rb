@@ -36,20 +36,20 @@ module Bridgetown
         new_url = url_segments.map do |segment|
           segment.starts_with?(":") ? process_segment(segment.sub(%r{^:}, "")) : segment
         end.select(&:present?).join("/")
-
         # No relative URLs should ever end in /index.html
         new_url.sub!(%r{/index$}, "") if final_ext == ".html"
 
-        add_base_path finalize_permalink(new_url, permalink)
+        ensure_base_path finalize_permalink(new_url, permalink)
       end
 
       def process_segment(segment)
         segment = segment.to_sym
         if self.class.placeholder_processors[segment]
           segment_value = self.class.placeholder_processors[segment].(resource)
-          if segment_value.is_a?(Hash)
+          case segment_value
+          when Hash
             segment_value[:raw_value]
-          elsif segment_value.is_a?(Array)
+          when Array
             segment_value.map do |subsegment|
               Utils.slugify(subsegment, mode: slugify_mode)
             end.join("/")
@@ -66,13 +66,13 @@ module Bridgetown
 
         case permalink_style.to_sym
         when :pretty
-          "#{collection_prefix}/:categories/:year/:month/:day/:slug/"
+          "/:locale/#{collection_prefix}/:categories/:year/:month/:day/:slug/"
         when :pretty_ext, :date
-          "#{collection_prefix}/:categories/:year/:month/:day/:slug.*"
+          "/:locale/#{collection_prefix}/:categories/:year/:month/:day/:slug.*"
         when :simple
-          "#{collection_prefix}/:categories/:slug/"
+          "/:locale/#{collection_prefix}/:categories/:slug/"
         when :simple_ext
-          "#{collection_prefix}/:categories/:slug.*"
+          "/:locale/#{collection_prefix}/:categories/:slug.*"
         else
           permalink_style.to_s
         end
@@ -96,7 +96,7 @@ module Bridgetown
         end
       end
 
-      def add_base_path(permalink)
+      def ensure_base_path(permalink)
         if resource.site.base_path.present?
           return "#{resource.site.base_path(strip_slash_only: true)}#{permalink}"
         end
@@ -108,7 +108,16 @@ module Bridgetown
 
       # @param resource [Bridgetown::Resource::Base]
       register_placeholder :path, ->(resource) do
-        { raw_value: resource.relative_path_basename_without_prefix }
+        {
+          raw_value: resource.relative_path_basename_without_prefix.tap do |path|
+            if resource.site.config["collections_dir"].present?
+              path.delete_prefix! "#{resource.site.config["collections_dir"]}/"
+            end
+            if resource.data.locale && path.ends_with?(".#{resource.data.locale}")
+              path.chomp!(".#{resource.data.locale}")
+            end
+          end,
+        }
       end
 
       # @param resource [Bridgetown::Resource::Base]
@@ -128,8 +137,10 @@ module Bridgetown
 
       # @param resource [Bridgetown::Resource::Base]
       register_placeholder :locale, ->(resource) do
-        locale_data = resource.data.locale
-        resource.site.config.available_locales.include?(locale_data) ? locale_data : nil
+        next nil if resource.data.locale&.to_sym == resource.site.config.default_locale
+
+        locale_data = resource.data.locale&.to_sym
+        resource.site.config.available_locales.include?(locale_data) ? locale_data.to_s : nil
       end
       register_placeholder :lang, placeholder_processors[:locale]
 

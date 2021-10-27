@@ -7,7 +7,83 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-.
+...
+
+## 1.0.0.alpha6 - 2021-10-26
+
+- Detect the presence of Puma a different way [#430](https://github.com/bridgetownrb/bridgetown/pull/430) ([jaredcwhite](https://github.com/jaredcwhite))
+- Fix netlify config to use native deploy command [#429](https://github.com/bridgetownrb/bridgetown/pull/429) ([ayushn21](https://github.com/ayushn21))
+
+## 1.0.0.alpha5 - 2021-10-22
+
+- The deprecated `include` and `include_relative` tags have been removed.
+
+## 1.0.0.alpha4 - 2021-10-18
+
+- Refactor and cleanup of routing gem for better maintainability [#424](https://github.com/bridgetownrb/bridgetown/pull/424) ([jaredcwhite](https://github.com/jaredcwhite))
+  - Also adds `bin/bridgetown secret` which functions much like the `bin/rails secret` to generate a long randomized hex token.
+
+## 1.0.0.alpha3 - 2021-10-17
+
+- Allow template engines to accept symbols via Ruby front matter [#396](https://github.com/bridgetownrb/bridgetown/pull/396) ([JuanVqz](https://github.com/JuanVqz))
+- Add build callbacks to Builder plugins and allow arbitrary instantiation [#422](https://github.com/bridgetownrb/bridgetown/pull/422) ([jaredcwhite](https://github.com/jaredcwhite))
+
+## 1.0.0.alpha2 - 2021-10-15
+
+- Upgrade the codebase to Rubocop 1.22 and use config from `rubocop-bridgetown` gem
+
+## 1.0.0.alpha1 - 2021-10-15
+
+**NOTE:** this is still considered experimental and largely undocumented.
+It's fine to use...just not recommended for production. =)
+
+### General
+
+- Strip out all of the legacy content engine [#415](https://github.com/bridgetownrb/bridgetown/pull/415) ([jaredcwhite](https://github.com/jaredcwhite))
+  - Transition Page to GeneratedPage
+  - Resource content from plugins now supported
+
+- SSR & file-based dynamic routes in src/_routes [#383](https://github.com/bridgetownrb/bridgetown/pull/383) ([jaredcwhite](https://github.com/jaredcwhite))
+  - includes adding Puma, Rack, Roda, and Rake!
+  - the previous WEBrick-based dev server is deprecated
+  - nearly all past Yarn commands are now available through `bin/bridgetown`
+
+### Added
+
+- `add_resource` DSL now available for builders [#419](https://github.com/bridgetownrb/bridgetown/pull/419) ([jaredcwhite](https://github.com/jaredcwhite))
+- Improve locale routing based on filenames or special front matter [#414](https://github.com/bridgetownrb/bridgetown/pull/414) ([jaredcwhite](https://github.com/jaredcwhite))
+- Enhance front matter DSL with nesting and lambda value eval [#398](https://github.com/bridgetownrb/bridgetown/pull/398) ([jaredcwhite](https://github.com/jaredcwhite))
+- Add debug message when saving static files
+
+### Fixed
+
+- Improve resource engine compatibility in link tag and url_for helper [#389](https://github.com/bridgetownrb/bridgetown/pull/389) ([jaredcwhite](https://github.com/jaredcwhite))
+- Prevent `.js` matches with any file like `foo.js.txt.bat.png` [#399](https://github.com/bridgetownrb/bridgetown/issues/399) ([nachoal](https://github.com/nachoal/))
+
+### Changed
+
+- Change single quotes in script folder [#406](https://github.com/bridgetownrb/bridgetown/pull/406) ([JuanVqz](https://github.com/JuanVqz))
+- Return ordered results for belongs_to array [#390](https://github.com/bridgetownrb/bridgetown/pull/390) ([jaredcwhite](https://github.com/jaredcwhite))
+- Bumped minimum recommended Node requirement to v12 and updated the docs for Homebrew installation on macOS.
+
+### Removed
+
+- Remove pry and use binding.irb in dev console script
+- Remove incremental generation [#388](https://github.com/bridgetownrb/bridgetown/pull/388) ([jaredcwhite](https://github.com/jaredcwhite))
+
+## 0.21.4 - 2021-09-10
+
+### Fixed
+
+- Allow symbols for use in pagination/prototype front matter [#386](https://github.com/bridgetownrb/bridgetown/pull/386) ([jaredcwhite](https://github.com/jaredcwhite))
+- Ensure the data collection is read first [#373](https://github.com/bridgetownrb/bridgetown/pull/373) ([jaredcwhite](https://github.com/jaredcwhite))
+- Strip out newlines in generated package.json and index.js [#369](https://github.com/bridgetownrb/bridgetown/pull/369) ([eclectic-coding](https://github.com/eclectic-coding))
+
+### Changed
+
+- Resolve postcss-focus-within to v4 [#366](https://github.com/bridgetownrb/bridgetown/pull/366) ([ayushn21](https://github.com/ayushn21))
+- Performance refactor of the Webpack helper [#382](https://github.com/bridgetownrb/bridgetown/pull/382) ([jaredcwhite](https://github.com/jaredcwhite))
+- Several documentation improvments thanks to JuanVqz and debashis-biswal
 
 ## 0.21.3 - 2021-08-06
 

@@ -18,16 +18,16 @@ The following is a reference of the available data.
 
 {% render "docs/variables_table", scope: site.data.bridgetown_variables.site %}
 
-## Page Variables
+## Resource Variables
 
 {% render "docs/variables_table", scope: site.data.bridgetown_variables.page %}
 
 {% rendercontent "docs/note", title: "Top Tip: Use Custom Front Matter" %}
   Any custom front matter that you specify will be available under
-  `page`. For example, if you specify `custom_css: true`
-  in a page’s front matter, that value will be available as `page.custom_css`.
+  `resource`. For example, if you specify `custom_css: true`
+  in a resource’s front matter, that value will be available as `resource.data.custom_css`.
 
   If you specify front matter in a layout, access that via `layout`.
   For example, if you specify `class: full_page` in a layout’s front matter,
-  that value will be available as `layout.class` in the layout.
+  that value will be available as `layout.data.class` in the layout.
 {% endrendercontent %}

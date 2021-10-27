@@ -46,8 +46,10 @@ module Bridgetown
       end
 
       class << self
-        def build(collection_name, path, data)
-          data = Bridgetown::Model::BuilderOrigin.new("builder://#{path}").read do
+        def build(builder, collection_name, path, data)
+          data = Bridgetown::Model::BuilderOrigin.new(
+            Bridgetown::Model::BuilderOrigin.id_for_builder_path(builder, path)
+          ).read do
             data[:_collection_] = Bridgetown::Current.site.collections[collection_name]
             data
           end
@@ -79,9 +81,15 @@ module Bridgetown
         Bridgetown::Resource::Base.new(model: self)
       end
 
+      # @return [Bridgetown::Resource::Base]
       def as_resource_in_collection
         collection.resources << to_resource.read!
         collection.resources.last
+      end
+
+      # @return [Bridgetown::Resource::Base]
+      def render_as_resource
+        to_resource.read!.transform!
       end
 
       # override if need be
@@ -114,7 +122,7 @@ module Bridgetown
         attributes.key?(method_name) || method_name.to_s.end_with?("=") || super
       end
 
-      def method_missing(method_name, *args) # rubocop:disable Style/MethodMissingSuper
+      def method_missing(method_name, *args)
         return attributes[method_name] if attributes.key?(method_name)
 
         key = method_name.to_s
@@ -126,7 +134,7 @@ module Bridgetown
         end
 
         Bridgetown.logger.warn "key `#{method_name}' not found in attributes for" \
-                               " #{attributes[:id].presence || ("new " + self.class.to_s)}"
+                               " #{attributes[:id].presence || "new #{self.class}"}"
         nil
       end
 

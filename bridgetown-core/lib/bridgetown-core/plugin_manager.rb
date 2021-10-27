@@ -104,7 +104,7 @@ module Bridgetown
 
       # check matching version number is see if it's already installed
       if package_json["dependencies"]
-        current_version = package_json["dependencies"].dig(yarn_dependency.first)
+        current_version = package_json["dependencies"][yarn_dependency.first]
         package_requires_updating?(current_version, yarn_dependency.last)
       else
         true
@@ -112,7 +112,7 @@ module Bridgetown
     end
 
     def self.package_requires_updating?(current_version, dep_version)
-      current_version.nil? || current_version != dep_version && !current_version.include?("/")
+      current_version.nil? || (current_version != dep_version && !current_version.include?("/"))
     end
 
     # Require all .rb files
@@ -160,7 +160,6 @@ module Bridgetown
       end
     end
 
-    # rubocop:disable Metrics/AbcSize
     def setup_component_loaders
       unless @component_loaders.keys.empty?
         @component_loaders.each do |_path, loader|
@@ -173,16 +172,17 @@ module Bridgetown
       # source components _before_ we load any from plugins
       site.components_load_paths.reverse_each do |load_path|
         next unless Dir.exist? load_path
-        next if Zeitwerk::Registry.loaders.find { |loader| loader.manages?(load_path) }
 
-        @component_loaders[load_path] = Zeitwerk::Loader.new
-        @component_loaders[load_path].push_dir(load_path)
-        @component_loaders[load_path].enable_reloading if load_path.start_with?(site.root_dir)
-        @component_loaders[load_path].ignore(File.join(load_path, "**", "*.js.rb"))
-        @component_loaders[load_path].setup
+        begin
+          @component_loaders[load_path] = Zeitwerk::Loader.new
+          @component_loaders[load_path].push_dir(load_path)
+          @component_loaders[load_path].enable_reloading if load_path.start_with?(site.root_dir)
+          @component_loaders[load_path].ignore(File.join(load_path, "**", "*.js.rb"))
+          @component_loaders[load_path].setup
+        rescue Zeitwerk::Error # rubocop:disable Lint/SuppressedException
+        end
       end
     end
-    # rubocop:enable Metrics/AbcSize
 
     def reload_component_loaders
       @component_loaders.each do |path, loader|

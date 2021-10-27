@@ -2,69 +2,44 @@
 inherit_from: .rubocop_todo.yml
 
 require:
-  - rubocop-performance
+  - rubocop-bridgetown
   - ./rubocop/bridgetown
+
+inherit_gem:
+  rubocop-bridgetown: .rubocop.yml
 
 Bridgetown/NoPutsAllowed:
   Exclude:
     - rake/*.rake
     - bridgetown-core/lib/bridgetown-core/commands/base.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
+    - bridgetown-core/lib/bridgetown-core/rack/roda.rb
 
 AllCops:
   TargetRubyVersion: 2.5
-  Include:
-    - bridgetown-core/lib/**/*.rb
-    - bridgetown-core/test/**/*.rb
-  Exclude:
-    - bridgetown-core/bin/**/*
-    - bridgetown-core/exe/**/*
-    - bridgetown-core/benchmark/**/*
-    - bridgetown-core/script/**/*
-    - bridgetown-core/vendor/**/*
-    - bridgetown-core/tmp/**/*
-    - bridgetown-core/lib/site_template/plugins/site_builder.rb
-Layout/HashAlignment:
-  EnforcedHashRocketStyle: table
-Layout/IndentationWidth:
-  Severity: error
-Layout/FirstArrayElementIndentation:
-  EnforcedStyle: consistent
-Layout/FirstHashElementIndentation:
-  EnforcedStyle: consistent
-Layout/MultilineMethodCallIndentation:
-  EnforcedStyle: indented
-Layout/MultilineOperationIndentation:
-  EnforcedStyle: indented
+
 Lint/NestedPercentLiteral:
   Exclude:
     - bridgetown-core/test/test_site.rb
-Layout/EmptyComment:
-  Enabled: false
-Layout/EndAlignment:
-  Severity: error
-Lint/RaiseException:
-  Enabled: true
 Lint/RescueException:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/watcher.rb
-Lint/StructNewOverride:
-  Enabled: true
 Lint/SuppressedException:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/commands/new.rb
-Lint/UnreachableCode:
-  Severity: error
+Lint/UnusedBlockArgument:
+  Exclude:
+    - bridgetown-core/lib/site_template/**/*.rb
 Lint/Void:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/concerns/site/configurable.rb
 Metrics/AbcSize:
-  Max: 24
   Exclude:
     - bridgetown-core/lib/bridgetown-core/commands/build.rb
     - bridgetown-core/lib/bridgetown-core/commands/new.rb
     - bridgetown-core/lib/bridgetown-core/commands/console.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
+    - bridgetown-core/lib/bridgetown-core/commands/start.rb
     - bridgetown-core/lib/bridgetown-core/watcher.rb
 Metrics/BlockLength:
   Exclude:
@@ -75,14 +50,14 @@ Metrics/ClassLength:
   Exclude:
     - !ruby/regexp /bridgetown-core/features\/.*.rb$/
     - !ruby/regexp /bridgetown-core/test\/.*.rb$/
-    - bridgetown-core/lib/bridgetown-core/document.rb
     - bridgetown-core/lib/bridgetown-core/commands/serve.rb
     - bridgetown-core/lib/bridgetown-core/configuration.rb
-  Max: 240
 Metrics/CyclomaticComplexity:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/utils.rb
+    - bridgetown-core/lib/bridgetown-core/commands/build.rb
     - bridgetown-core/lib/bridgetown-core/commands/serve.rb
+    - bridgetown-core/lib/bridgetown-core/commands/start.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
 Layout/LineLength:
   Exclude:
@@ -91,60 +66,41 @@ Layout/LineLength:
     - bridgetown-core/Rakefile
     - bridgetown-core/rake/*.rake
     - Gemfile
-  Max: 100
-  Severity: warning
 Metrics/MethodLength:
-  CountComments: false
-  Max: 20
-  Severity: error
   Exclude:
     - bridgetown-core/lib/bridgetown-core/commands/concerns/build_options.rb
+    - bridgetown-core/lib/bridgetown-core/commands/build.rb
     - bridgetown-core/lib/bridgetown-core/commands/console.rb
     - bridgetown-core/lib/bridgetown-core/commands/new.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
+    - bridgetown-core/lib/bridgetown-core/commands/start.rb
 Metrics/ModuleLength:
-  Max: 240
   Exclude:
     - bridgetown-core/lib/bridgetown-core/filters.rb
 Metrics/ParameterLists:
-  Max: 4
   Exclude:
     - bridgetown-core/lib/bridgetown-core/hooks.rb
 Metrics/PerceivedComplexity:
-  Max: 8
   Exclude:
+    - bridgetown-core/lib/bridgetown-core/commands/build.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
-Naming/FileName:
-  Enabled: false
 Naming/HeredocDelimiterNaming:
   Exclude:
     - bridgetown-core/test/**/*.rb
-Naming/MemoizedInstanceVariableName:
-  Enabled: false
 Security/MarshalLoad:
   Exclude:
     - !ruby/regexp /bridgetown-core/test\/.*.rb$/
-    - bridgetown-core/lib/bridgetown-core/regenerator.rb
 Security/YAMLLoad:
   Exclude:
     - !ruby/regexp /bridgetown-core/features\/.*.rb/
     - !ruby/regexp /bridgetown-core/test\/.*.rb$/
-Style/AccessModifierDeclarations:
-  Enabled: false
-Style/Alias:
-  EnforcedStyle: prefer_alias_method
-Style/AndOr:
-  Severity: error
 Style/ClassAndModuleChildren:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/concerns/site/*.rb
     - bridgetown-core/test/**/*.rb
 Style/FrozenStringLiteralComment:
-  EnforcedStyle: always
-Style/Documentation:
-  Enabled: false
-Style/DoubleNegation:
-  Enabled: false
+  Exclude:
+    - bridgetown-core/lib/site_template/**/*.rb
 Style/FormatStringToken:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/utils/ansi.rb
@@ -152,58 +108,6 @@ Style/FormatStringToken:
 Style/GlobalVars:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/commands/console.rb
-Style/GuardClause:
-  Enabled: false
-Style/HashEachMethods:
-  Enabled: true
-Style/HashSyntax: # This now adheres to GitHub's newest Ruby style guide
-  EnforcedStyle: ruby19
-  SupportedStyles:
-    # checks for 1.9 syntax (e.g. {a: 1}) for all symbol keys
-    - ruby19
-    # checks for hash rocket syntax for all hashes
-    - hash_rockets
-    # forbids mixed key syntaxes (e.g. {a: 1, :b => 2})
-    - no_mixed_keys
-    # enforces both ruby19 and no_mixed_keys styles
-    - ruby19_no_mixed_keys
-  # Force hashes that have a symbol value to use hash rockets
-  UseHashRocketsWithSymbolValues: false
-  # Do not suggest { a?: 1 } over { :a? => 1 } in ruby19 style
-  PreferHashRocketsForNonAlnumEndingSymbols: false
-Style/HashTransformKeys:
-  Enabled: false
-Style/HashTransformValues:
-  Enabled: true
-Style/Lambda:
-  EnforcedStyle: literal
-Style/LambdaCall:
-  Enabled: false
 Style/MixinUsage:
   Exclude:
     - bridgetown-core/test/helper.rb
-Style/ModuleFunction:
-  Enabled: false
-Style/MultilineTernaryOperator:
-  Severity: error
-Style/PercentLiteralDelimiters:
-  Enabled: false
-Style/RegexpLiteral:
-  EnforcedStyle: percent_r
-Style/RescueModifier:
-  Enabled: false
-Style/SafeNavigation:
-  Exclude:
-    - bridgetown-core/lib/bridgetown-core/document.rb
-Style/SignalException:
-  EnforcedStyle: only_raise
-Style/StringLiterals:
-  EnforcedStyle: double_quotes
-Style/StringLiteralsInInterpolation:
-  EnforcedStyle: double_quotes
-Style/SymbolArray:
-  Enabled: false
-Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: consistent_comma
-Style/TrailingCommaInHashLiteral:
-  EnforcedStyleForMultiline: consistent_comma

@@ -5,48 +5,56 @@ order: 0
 category: structure
 ---
 
-Permalinks are the output path for your pages, posts, or collections. They
-allow you to structure the directories of your source code different from the
-directories in your output.
+A permalink is simply the determination of what the output URL of your [resource](/docs/resources) will be. Every resource uses a _permalink processer_ to figure out where to save your transformed resource in the output folder tree.
 
-## Front Matter
+Resources in the **pages** collection are the most straightforward. The filenames and folder structure of your pages will result in matching output URLs. For example, a file saved at `src/_pages/this/is/great.md` would be output to `/this/is/great/`.
 
-The simplest way to set a permalink is using front matter. You set the
-`permalink` variable in front matter to the output path you'd like.
+For resources in the **posts** collection, Bridgetown ships with few permalink "styles". The posts permalink style is configured by using the `permalink` key in the config file. If the key isn't present, the default is `pretty`.
 
-For example, you might have a page on your site located at
-`/my_pages/about-me.html` and you want the output url to be `/about/`. In
-front matter of the page you would set:
+The available styles are:
 
-```yaml
----
-permalink: /about/
----
-```
+* `pretty`: `/[locale]/:categories/:year/:month/:day/:slug/`
+* `pretty_ext`: `/[locale]/:categories/:year/:month/:day/:slug.*`
+* `simple`: `/[locale]/:categories/:slug/`
+* `simple_ext`: `[locale]/:categories/:slug.*`
 
-## Global
+(Including `.*` at the end simply means it will output the resource with its own slug and extension. Alternatively, `/` at the end will put the resource in a folder of that slug with `index.html` inside.)
 
-Setting a permalink in front matter for every page on your site is no fun.
-Luckily, Bridgetown lets you set the permalink structure globally in your `bridgetown.config.yml`.
-
-To set a global permalink, you use the `permalink` variable in `bridgetown.config.yml`.
-You can use placeholders to your desired output. For example:
+To set a permalink style or template for a **custom collection**, add it to your collection metadata in `bridgetown.config.yml`. For example:
 
 ```yaml
-permalink: /:categories/:year/:month/:day/:title:output_ext
+collections:
+  articles:
+    permalink: pretty
 ```
 
-Note that pages and collections (excluding `posts` and `drafts`) don't have time
-and categories (for pages, the above `:title` is equivalent to `:basename`), these
-aspects of the permalink style are ignored for the output.
+would make your articles collection behave the same as posts. Or you can create your own template:
 
-For example, a permalink style of
-`/:categories/:year/:month/:day/:title:output_ext` for the `posts` collection becomes
-`/:title.html` for pages and collections (excluding `posts` and `drafts`).
+```yaml
+collections:
+  articles:
+    permalink: /lots-of/:collection/:year/:title/
+```
+
+This would result in URLs such as `/lots-of/articles/2021/super-neato/`.
 
 ### Placeholders
 
-Here's the full list of placeholders available:
+All of the segments you see above starting with a colon, such as `:year` or `:slug`, are called **placeholders**. Bridgetown ships with a number of placeholders, but you can also create your own! Simply use the `register_placeholder` in a plugin, perhaps at the bottom of your `plugins/site_builder.rb` file. For example, if you wanted a placeholder to resolve a resource data, you could add:
+
+```ruby
+Bridgetown::Resource::PermalinkProcessor.register_placeholder :ymd, ->(resource) do
+  "#{resource.date.strftime("%Y")}#{resource.date.strftime("%m")}#{resource.date.strftime("%d")}"
+end
+
+Bridgetown::Resource::PermalinkProcessor.register_placeholder :y_m_d, ->(resource) do
+  "#{resource.date.strftime("%Y")}-#{resource.date.strftime("%m")}-#{resource.date.strftime("%d")}"
+end
+```
+
+Thus with a permalink key of `/blog/:ymd/:slug/`, you'd get `/blog/20211020/my-post/`, or for `/blog/:y_m_d/:slug/` you'd get `/blog/2021-10-20/my-post/`.
+
+Here's the full list of built-in placeholders available:
 
 <table class="settings bigger-output">
   <thead>
@@ -58,321 +66,85 @@ Here's the full list of placeholders available:
   <tbody>
     <tr>
       <td>
-        <p><code>year</code></p>
+        <p><code>:year</code></p>
       </td>
       <td>
         <p>
-          Year from the post’s filename with four digits.
-          May be overridden via the document’s <code>date</code> front matter.
+          Four-digit year based on the resource's date.
         </p>
       </td>
     </tr>
     <tr>
       <td>
-        <p><code>short_year</code></p>
+        <p><code>:short_year</code></p>
       </td>
       <td>
         <p>
-          Year from the post’s filename without the century. (00..99)
-          May be overridden via the document’s <code>date</code> front matter.
+          Two-digit year based on the resource's date within its century (00..99).
         </p>
       </td>
     </tr>
     <tr>
       <td>
-        <p><code>month</code></p>
+        <p><code>:month</code></p>
       </td>
       <td>
         <p>
-          Month from the post’s filename. (01..12)
-          May be overridden via the document’s <code>date</code> front matter.
+          Month based on the resource's date (01..12).
         </p>
       </td>
     </tr>
     <tr>
       <td>
-        <p><code>i_month</code></p>
+        <p><code>:i_month</code></p>
       </td>
       <td>
         <p>
-          Month without leading zeros from the post’s filename. May be
-          overridden via the document’s <code>date</code> front matter.
+          Month based on the resource's date without leading zeros (1..12).
         </p>
       </td>
     </tr>
     <tr>
       <td>
-        <p><code>short_month</code></p>
-      </td>
-      <td>
-        <p>Three-letter month abbreviation, e.g. “Jan”.</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>long_month</code></p>
-      </td>
-      <td>
-        <p>Full month name, e.g. “January”.</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>day</code></p>
+        <p><code>:day</code></p>
       </td>
       <td>
         <p>
-          Day of the month from the post’s filename. (01..31)
-          May be overridden via the document’s <code>date</code> front matter.
+          Day of the month based on the resource's date (01..31).
         </p>
       </td>
     </tr>
     <tr>
       <td>
-        <p><code>i_day</code></p>
+        <p><code>:i_day</code></p>
       </td>
       <td>
         <p>
-          Day of the month without leading zeros from the post’s filename.
-          May be overridden via the document’s <code>date</code> front matter.
+          Day of the month based on the resource's date without leading zeros (1..31).
         </p>
       </td>
     </tr>
     <tr>
       <td>
-        <p><code>y_day</code></p>
-      </td>
-      <td>
-        <p>Ordinal day of the year from the post’s filename, with leading zeros. (001..366)</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>w_year</code></p>
-      </td>
-      <td>
-        <p>Week year which may differ from the month year for up to three days at the start of January and end of December</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>week</code></p>
-      </td>
-      <td>
-        <p>Week number of the current year, starting with the first week having a majority of its days in January. (01..53)</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>w_day</code></p>
-      </td>
-      <td>
-        <p>Day of the week, starting with Monday. (1..7)</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>short_day</code></p>
-      </td>
-      <td>
-        <p>Three-letter weekday abbreviation, e.g. “Sun”.</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>long_day</code></p>
-      </td>
-      <td>
-        <p>Weekday name, e.g. “Sunday”.</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>hour</code></p>
+        <p><code>:categories</code></p>
       </td>
       <td>
         <p>
-          Hour of the day, 24-hour clock, zero-padded from the post’s
-          <code>date</code> front matter. (00..23)
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>minute</code></p>
-      </td>
-      <td>
-        <p>
-          Minute of the hour from the post’s <code>date</code> front matter. (00..59)
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>second</code></p>
-      </td>
-      <td>
-        <p>
-          Second of the minute from the post’s <code>date</code> front matter. (00..59)
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>title</code></p>
-      </td>
-      <td>
-        <p>
-            Title from the document’s filename. May be overridden via
-            the document’s <code>slug</code> front matter.
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>slug</code></p>
-      </td>
-      <td>
-        <p>
-            Slugified title from the document’s filename (any character
-            except numbers and letters is replaced as hyphen). May be
-            overridden via the document’s <code>slug</code> front matter.
-        </p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>categories</code></p>
-      </td>
-      <td>
-        <p>
-          The specified categories for this post. If a post has multiple
+          The specified categories for the resource. If a resource has multiple
           categories, Bridgetown will create a hierarchy (e.g. <code>/category1/category2</code>).
-          Also Bridgetown automatically parses out double slashes in the URLs,
+          Bridgetown automatically parses out double slashes in the URLs,
           so if no categories are present, it will ignore this.
         </p>
       </td>
     </tr>
-  </tbody>
-</table>
-
-### Built-in formats
-
-For posts, Bridgetown also provides the following built-in styles for convenience:
-
-<table class="settings bigger-output">
-  <thead>
-    <tr>
-      <th>Permalink Style</th>
-      <th>URL Template</th>
-    </tr>
-  </thead>
-  <tbody>
     <tr>
       <td>
-        <p><code>date</code></p>
-      </td>
-      <td>
-        <p><code>/:categories/:year/:month/:day/:title:output_ext</code></p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>pretty</code></p>
-      </td>
-      <td>
-        <p><code>/:categories/:year/:month/:day/:title/</code></p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>simple</code></p>
-      </td>
-      <td>
-        <p><code>/:categories/:title/</code></p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>ordinal</code></p>
-      </td>
-      <td>
-        <p><code>/:categories/:year/:y_day/:title:output_ext</code></p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>weekdate</code></p>
-      </td>
-      <td>
-        <p><code>/:categories/:year/W:week/:short_day/:title:output_ext</code></p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>none</code></p>
-      </td>
-      <td>
-        <p><code>/:categories/:title:output_ext</code></p>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-Rather than typing `permalink: /:categories/:year/:month/:day/:title/`, you can just type `permalink: pretty`.
-
-{% rendercontent "docs/note", title: "Specifying permalinks through the front matter" %}
-  Built-in permalink styles are not recognized in front matter. As a result, `permalink: pretty` will not work.
-{% endrendercontent %}
-
-### Collections
-
-For collections (including `posts` and `drafts`), you have the option to override
-the global permalink in the collection configuration in `bridgetown.config.yml`:
-
-```yaml
-collections:
-  my_collection:
-    output: true
-    permalink: /:collection/:name
-```
-
-Collections have the following placeholders available:
-
-<table class="settings bigger-output">
-  <thead>
-    <tr>
-      <th>Variable</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <p><code>:collection</code></p>
-      </td>
-      <td>
-        <p>Label of the containing collection.</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>:path</code></p>
+        <p><code>:locale</code>, <code>:lang</code></p>
       </td>
       <td>
         <p>
-          Path to the document relative to the collection's directory,
-          including base filename of the document.
+          Adds the locale key of the current rendering context, if its not the default site locale.
         </p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>:name</code></p>
-      </td>
-      <td>
-        <p>The document's base filename, with every sequence of spaces
-        and non-alphanumeric characters replaced by a hyphen.</p>
       </td>
     </tr>
     <tr>
@@ -381,68 +153,48 @@ Collections have the following placeholders available:
       </td>
       <td>
         <p>
-          The <code>:title</code> template variable will take the
-          <code>slug</code> <a href="/docs/front-matter/">front matter</a>
-          variable value if any is present in the document; if none is
-          defined then <code>:title</code> will be equivalent to
-          <code>:name</code>, aka the slug generated from the filename.
+            Title from the resource's front mattter (aka `title: My Resource Title`), slugified (aka any character
+            except numbers and letters is replaced as hyphen).
         </p>
       </td>
     </tr>
     <tr>
       <td>
-        <p><code>:output_ext</code></p>
+        <p><code>:slug</code></p>
       </td>
       <td>
-        <p>Extension of the output file. (Included by default and usually unnecessary.)</p>
+        <p>
+            Extracted from the resources’s filename. May be overridden via the resources’s <code>slug</code> front matter.
+        </p>
       </td>
     </tr>
-  </tbody>
-</table>
-
-### Pages
-
-For pages, you have to use front matter to override the global permalink,
-and if you set a permalink via front matter defaults in `bridgetown.config.yml`,
-it will be ignored.
-
-Pages have the following placeholders available:
-
-<table class="settings bigger-output">
-  <thead>
     <tr>
-      <th>Variable</th>
-      <th>Description</th>
+      <td>
+        <p><code>:name</code></p>
+      </td>
+      <td>
+        <p>
+            Extracted from the resources’s filename and cannot be overridden.
+        </p>
+      </td>
     </tr>
-  </thead>
-  <tbody>
     <tr>
       <td>
         <p><code>:path</code></p>
       </td>
       <td>
         <p>
-          Path to the page relative to the site's source directory, excluding
-          base filename of the page.
+          Constructs URL segments out of the relative path of the resource within its collection folder. Used by the **pages** collection as well as custom collections if no specific permalink config is provided.
         </p>
       </td>
     </tr>
     <tr>
       <td>
-        <p><code>:basename</code></p>
-      </td>
-      <td>
-        <p>The page's base filename</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>:output_ext</code></p>
+        <p><code>:collection</code></p>
       </td>
       <td>
         <p>
-          Extension of the output file. (Included by default and usually
-          unnecessary.)
+          Outputs the label of the resource's custom collection (will be blank for the built-in pages and posts collections).
         </p>
       </td>
     </tr>

@@ -38,7 +38,7 @@ module Bridgetown
       return if text.empty?
 
       src << bufvar << ".safe_append='"
-      src << text.gsub(%r{['\\]}, '\\\\\&')
+      src << text.gsub(%r{['\\]}, '\\\\\&') # rubocop:disable Style/StringLiterals
       src << "'.freeze;"
     end
 
@@ -104,12 +104,13 @@ module Bridgetown
       # Logic to do the ERB content conversion.
       #
       # @param content [String] Content of the file (without front matter).
-      # @param convertible [Bridgetown::Page, Bridgetown::Document, Bridgetown::Layout]
+      # @param convertible [
+      #   Bridgetown::GeneratedPage, Bridgetown::Resource::Base, Bridgetown::Layout]
       #   The instantiated object which is processing the file.
       #
       # @return [String] The converted content.
       def convert(content, convertible)
-        return content if convertible.data[:template_engine] != "erb"
+        return content if convertible.data[:template_engine].to_s != "erb"
 
         erb_view = Bridgetown::ERBView.new(convertible)
 
@@ -130,10 +131,12 @@ module Bridgetown
         end
       end
 
+      # @param ext [String]
+      # @param convertible [Bridgetown::Resource::Base, Bridgetown::GeneratedPage]
       def matches(ext, convertible)
-        if convertible.data[:template_engine] == "erb" ||
+        if convertible.data[:template_engine].to_s == "erb" ||
             (convertible.data[:template_engine].nil? &&
-              @config[:template_engine] == "erb")
+             @config[:template_engine].to_s == "erb")
           convertible.data[:template_engine] = "erb"
           return true
         end

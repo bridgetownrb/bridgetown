@@ -21,10 +21,11 @@ module Bridgetown
 
     # Initialize a new StaticFile.
     #
-    # site - The Site.
-    # base - The String path to the <source>.
-    # dir  - The String path between <source> and the file.
-    # name - The String filename of the file.
+    # @param site [Bridgetown::Site]
+    # @param base [String] path to the <source>.
+    # @param dir [String] path between <source> and the file.
+    # @param name [String] filename of the file.
+    # @param collection [Bridgetown::Collection] optional collection the file is attached to
     def initialize(site, base, dir, name, collection = nil) # rubocop:disable Metrics/ParameterLists
       @site = site
       @base = base
@@ -34,20 +35,16 @@ module Bridgetown
       @relative_path = File.join(*[@dir, @name].compact)
       @extname = File.extname(@name)
       @data = @site.frontmatter_defaults.all(relative_path, type).with_dot_access
-      if site.uses_resource? && !data.permalink
-        data.permalink = if collection && !collection.builtin?
-                           "/:collection/:path.*"
+      data.permalink ||= if collection && !collection.builtin?
+                           "#{collection.default_permalink.chomp("/").chomp(".*")}.*"
                          else
                            "/:path.*"
                          end
-      end
     end
 
     # Returns source file path.
     def path
-      @path ||= begin
-        File.join(*[@base, @dir, @name].compact)
-      end
+      @path ||= File.join(*[@base, @dir, @name].compact)
     end
 
     # Obtain destination path.
@@ -58,7 +55,7 @@ module Bridgetown
     def destination(dest)
       dest = site.in_dest_dir(dest)
       dest_url = url
-      if site.uses_resource? && site.base_path.present? && collection
+      if site.base_path.present? && collection
         dest_url = dest_url.delete_prefix site.base_path(strip_slash_only: true)
       end
       site.in_dest_dir(dest, Bridgetown::URL.unescape_path(dest_url))
@@ -112,6 +109,7 @@ module Bridgetown
 
       FileUtils.mkdir_p(File.dirname(dest_path))
       FileUtils.rm(dest_path) if File.exist?(dest_path)
+      Bridgetown.logger.debug "Saving file:", dest_path
       copy_file(dest_path)
 
       true
@@ -177,14 +175,9 @@ module Bridgetown
           site.config.content_engine != "resource"
         base = if @collection.nil? || special_posts_case
                  cleaned_relative_path
-               elsif site.uses_resource?
+               else
                  newly_processed = true
                  Bridgetown::Resource::PermalinkProcessor.new(self).transform
-               else
-                 Bridgetown::URL.new(
-                   template: @collection.url_template,
-                   placeholders: placeholders
-                 )
                end.to_s.chomp("/")
         newly_processed ? base : "#{base}#{extname}"
       end
@@ -212,9 +205,9 @@ module Bridgetown
     def copy_file(dest_path)
       FileUtils.copy_entry(path, dest_path)
 
-      unless File.symlink?(dest_path)
-        File.utime(self.class.mtimes[path], self.class.mtimes[path], dest_path)
-      end
+      return if File.symlink?(dest_path)
+
+      File.utime(self.class.mtimes[path], self.class.mtimes[path], dest_path)
     end
   end
 end

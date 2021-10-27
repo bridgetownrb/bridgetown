@@ -2,7 +2,7 @@
 title: Bridgetown on Fedora
 hide_in_toc: true
 category: installation
-ruby_version: 2.6.6
+ruby_version: 3.0.2
 order: 0
 ---
 
@@ -34,11 +34,11 @@ source ~/.bashrc
 ```
 Then install Ruby and check the version
 ```sh
-rbenv install {{ page.ruby_version }}
-rbenv global {{ page.ruby_version }}
+rbenv install {{ resource.data.ruby_version }}
+rbenv global {{ resource.data.ruby_version }}
 
 ruby -v
-> ruby 2.6.6p146 (2020-03-31 revision 67876) [x86_64-linux]
+> ruby 3.0.2p107 (2021-07-07 revision 0db68f0233) [x86_64-linux]
 
 gem install bundler -N
 ````
@@ -81,9 +81,7 @@ And that's it!
 
 Node is a JavaScript runtime that can execute on a server or development machine. Yarn
 is a package manager for Node packages. You'll need Node and Yarn in order to install
-and use Webpack, the frontend asset compiler that runs alongside Bridgetown. Yarn is
-also used along with Concurrently and Browsersync to spin up a live-reload development
-server.
+and use Webpack, the frontend asset compiler that runs alongside Bridgetown.
 
 The easiest way to install Node and Yarn is via the package manager dnf.
 
@@ -103,5 +101,4 @@ yarn -v
 ```
 
 
-{% render "docs/install/bridgetown" %}
-{% render "docs/install/concurrently" %}
+{% render "docs/install/bridgetown", version: bridgetown.version, edge_version: site.data.edge_version %}

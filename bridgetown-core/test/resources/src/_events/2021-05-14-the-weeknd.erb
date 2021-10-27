@@ -1,7 +1,12 @@
 ---<%
-front_matter do
+special_config = Struct.new(:should_output).new
+special_config.should_output = false
+
+front_matter scope: special_config do
   title "The Weeknd"
-  config({ output: false })
+  config do
+    output from: -> { should_output }
+  end
 end
 %>---
 

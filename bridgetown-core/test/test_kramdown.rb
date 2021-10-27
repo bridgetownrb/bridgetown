@@ -79,7 +79,7 @@ class TestKramdown < BridgetownUnitTest
       should "convert" do
         converter = fixture_converter(@config)
         assert_match(
-          %r!<p>(&#8220;|“)Pit(&#8217;|’)hy(&#8221;|”)<\/p>!,
+          %r!<p>(&#8220;|“)Pit(&#8217;|’)hy(&#8221;|”)</p>!,
           converter.convert(%("Pit'hy")).strip
         )
       end
@@ -92,7 +92,7 @@ class TestKramdown < BridgetownUnitTest
           },
         }
         converter = fixture_converter(Utils.deep_merge_hashes(@config, override))
-        assert_match %r!<p>(&#171;|«)Pit(&#8250;|›)hy(&#187;|»)<\/p>!, \
+        assert_match %r!<p>(&#171;|«)Pit(&#8250;|›)hy(&#187;|»)</p>!, \
                      converter.convert(%("Pit'hy")).strip
       end
     end

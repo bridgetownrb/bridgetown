@@ -13,16 +13,16 @@ Rake::TestTask.new(:test) do |test|
   test.verbose = true
 end
 
-require 'yard'
+require "yard"
 YARD::Rake::YardocTask.new(:yard) do |t|
- t.files   = ['lib/**/*.rb']
- t.options = ['--no-output']
- t.stats_options = ['--list-undoc']
+  t.files = ["lib/**/*.rb"]
+  t.options = ["--no-output"]
+  t.stats_options = ["--list-undoc"]
 end
 
 namespace :yard do
   task :serve do
-    port = ENV['YARD_PORT'] || "8808"
+    port = ENV["YARD_PORT"] || "8808"
     sh("yard server --reload -p #{port}")
   end
 end

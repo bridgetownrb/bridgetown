@@ -82,11 +82,9 @@ module Bridgetown
       return @cache[key] if @cache.key?(key)
 
       path = path_to(hash(key))
-      if disk_cache_enabled? && File.file?(path) && File.readable?(path)
-        @cache[key] = load(path)
-      else
-        raise
-      end
+      raise unless disk_cache_enabled? && File.file?(path) && File.readable?(path)
+
+      @cache[key] = load(path)
     end
 
     # Add an item to cache

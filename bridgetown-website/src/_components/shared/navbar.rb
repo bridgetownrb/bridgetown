@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Shared
   class Navbar < Bridgetown::Component
-    def initialize(metadata:, resource:, version:)
+    def initialize(metadata:, resource:, edge_version: false)
       @metadata = metadata
       @resource = resource
-      @version = version
+      @edge_version = edge_version
     end
 
     def docs_active
@@ -18,8 +20,8 @@ module Shared
       "is-active" if @resource.relative_url.include?("/blog/") || @resource.data.layout == "post"
     end
 
-    def beta_class
-      "beta" if @version.include?("beta")
+    def edge_class
+      "edge-version" if @edge_version
     end
   end
 end

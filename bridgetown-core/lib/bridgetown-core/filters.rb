@@ -104,7 +104,7 @@ module Bridgetown
     def obfuscate_link(input, prefix = "mailto")
       link = "<a href=\"#{prefix}:#{input}\">#{input}</a>"
       script = "<script type=\"text/javascript\">document.currentScript.insertAdjacentHTML('"
-      script += "beforebegin', '#{rot47(link).gsub(%r!\\!, '\\\\\\')}'.replace(/[!-~]/g,"
+      script += "beforebegin', '#{rot47(link).gsub(%r!\\!, '\\\\\\')}'.replace(/[!-~]/g," # rubocop:disable Style/StringLiteralsInInterpolation
       script += "function(c){{var j=c.charCodeAt(0);if((j>=33)&&(j<=126)){"
       script += "return String.fromCharCode(33+((j+ 14)%94));}"
       script += "else{return String.fromCharCode(j);}}}));</script>"
@@ -180,7 +180,7 @@ module Bridgetown
     #            their `#inspect` string object.
     #
     # Returns the filtered array of objects
-    def where(input, property, value)
+    def where(input, property, value) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       return input if !property || value.is_a?(Array) || value.is_a?(Hash)
       return input unless input.respond_to?(:select)
 
@@ -194,11 +194,9 @@ module Bridgetown
       @where_filter_cache[input_id][property] ||= {}
 
       # stash or retrive results to return
-      @where_filter_cache[input_id][property][value] ||= begin
-        input.select do |object|
-          compare_property_vs_target(item_property(object, property), value)
-        end.to_a
-      end
+      @where_filter_cache[input_id][property][value] ||= input.select do |object|
+        compare_property_vs_target(item_property(object, property), value)
+      end.to_a
     end
 
     # Filters an array of objects against an expression
@@ -247,13 +245,14 @@ module Bridgetown
       if property.nil?
         input.sort
       else
-        if nils == "first"
+        case nils
+        when "first"
           order = - 1
-        elsif nils == "last"
+        when "last"
           order = + 1
         else
           raise ArgumentError, "Invalid nils order: " \
-            "'#{nils}' is not a valid nils order. It must be 'first' or 'last'."
+                               "'#{nils}' is not a valid nils order. It must be 'first' or 'last'."
         end
 
         sort_input(input, property, order)
@@ -327,7 +326,7 @@ module Bridgetown
     # If the property doesn't exist, return the sort order respective of
     # which item doesn't have the property.
     # We also utilize the Schwartzian transform to make this more efficient.
-    def sort_input(input, property, order)
+    def sort_input(input, property, order) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       input.map { |item| [item_property(item, property), item] }
         .sort! do |a_info, b_info|
           a_property = a_info.first
@@ -413,7 +412,7 @@ module Bridgetown
       case item
       when Hash
         pairs = item.map { |k, v| as_liquid([k, v]) }
-        Hash[pairs]
+        Hash[pairs] # rubocop:todo Style/HashConversion
       when Array
         item.map { |i| as_liquid(i) }
       else

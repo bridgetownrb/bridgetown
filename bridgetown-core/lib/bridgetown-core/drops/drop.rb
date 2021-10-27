@@ -28,7 +28,7 @@ module Bridgetown
       # drop.
       #
       # Returns nothing
-      def initialize(obj)
+      def initialize(obj) # rubocop:disable Lint/MissingSuper
         @obj = obj
       end
 
@@ -69,11 +69,11 @@ module Bridgetown
         if respond_to?(setter)
           public_send(setter, val)
         elsif respond_to?(key.to_s)
-          if self.class.mutable?
-            mutations[key] = val
-          else
+          unless self.class.mutable?
             raise Errors::DropMutationException, "Key #{key} cannot be set in the drop."
           end
+
+          mutations[key] = val
         else
           fallback_data[key] = val
         end

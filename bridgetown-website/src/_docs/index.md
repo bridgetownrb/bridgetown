@@ -15,7 +15,17 @@ For more background on this development approach, [read up on our Jamstack prime
 
 For a succinct overview of how the Bridgetown build process works and what goes into creating a site, [read our Core Concepts guide](/docs/core-concepts/).
 
-## Quick Instructions {% if bridgetown.version contains "beta" %}(BETA RELEASE){% endif %}
+## Quick Instructions {% if site.data.edge_version %}(EDGE RELEASE){% endif %}
+
+{% if site.data.edge_version %}
+  {% rendercontent "docs/note", type: "warning" %}
+    If you don't want to use the latest edge version of Bridgetown, [switch to the stable release documentation](https://www.bridgetownrb.com/docs/).
+  {% endrendercontent %}
+{% endif %}
+
+{% rendercontent "docs/note" %}
+  Upgrading from v0.x? [Read our 1.0 upgrade notes here.](/release/era-of-bridgetown-v1/#upgrading-from-v02x){:data-no-swup="true"}
+{% endrendercontent %}
 
 Read [requirements]({{ '/docs/installation' | relative_url }}) for more information on what you'll need to have set up in advance.
 
@@ -26,14 +36,13 @@ The basic installation process is as follows:
 2. Install **Node** and **Yarn** to handle frontend assets and spin up a live-reload development server.
 
 3. Install **Bridgetown** and related gems:
-{%- if bridgetown.version contains "beta" %}
+{%- if site.data.edge_version %}
 ```
-$ gem install bundler -N
 $ gem install bridgetown -N -v {{ bridgetown.version }}
 ```
 {%- else %}
 ```
-$ gem install bundler bridgetown -N
+$ gem install bridgetown -N
 ```
 {%- endif %}
 
@@ -49,7 +58,7 @@ $ cd mysite
 
 6. Build the site and run a live-reload development server:
 ```
-$ yarn start
+$ bin/bridgetown start
 ```
 
 7. Browse to [http://localhost:4000](http://localhost:4000){:target="_blank"}

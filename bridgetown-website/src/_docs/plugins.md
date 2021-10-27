@@ -42,7 +42,7 @@ bundle add bridgetown-feed -g bridgetown_plugins
 3. Running an [automation](/docs/automations) which will install one or more
 plugins along with other set up and configuration:
   ```sh
-bundle exec bridgetown apply https://github.com/bridgetownrb/bridgetown-cloudinary
+bin/bridgetown apply https://github.com/bridgetownrb/bridgetown-cloudinary
   ```
    
 ## Introduction to the Builder API
@@ -150,7 +150,7 @@ Bridgetown::MyNiftyPlugin::Builder.register
 ## Internal Ruby API
 
 When writing a plugin for Bridgetown, you may sometimes be interacting with
-the internal Ruby API. Objects like `Bridgetown::Site`, `Bridgetown::Document`, `Bridgetown::Page`, etc. Other times you may be interacting with Liquid Drops, which are "safe" representations of the internal Ruby API for use in Liquid templates.
+the internal Ruby API. Objects like `Bridgetown::Site`, `Bridgetown::Resource::Base`, `Bridgetown::GeneratedPage`, etc. Other times you may be interacting with Liquid Drops, which are "safe" representations of the internal Ruby API for use in Liquid templates.
 
 Documentation on the internal Ruby API for Bridgetown is forthcoming, but meanwhile, the simplest way to debug the code you write is to run `bridgetown console` and interact with the API there. Then you can copy working code into your plugin.
 
@@ -170,9 +170,9 @@ Create custom Liquid filters to help transform data and content.
 
 For Tilt-based templates such as [ERB, Slim, etc.](/docs/erb-and-beyond), you can provide custom helpers which can be called from your templates.
 
-### [HTTP Requests and the Document Builder](/docs/plugins/external-apis)
+### [HTTP Requests and the Resource Builder](/docs/plugins/external-apis)
 
-Easily pull data in from external APIs, and use a special DSL (Domain-Specific Language) to build documents out of that data.
+Easily pull data in from external APIs, and use a special DSL (Domain-Specific Language) to build resources out of that data.
 
 ### [Hooks](/docs/plugins/hooks)
 

@@ -25,11 +25,11 @@ Simply define a page/document with an `.erb` extension, rather than `.html`. You
 title: I'm a page!
 ---
 
-<h1><%%= page.data[:title] %></h1>
+<h1><%%= resource.data.title %></h1>
 
 <p>Welcome to <%%= Bridgetown.name.to_s %>!</p>
 
-<footer>Authored by <%%= site.data[:authors].first[:name] %></footer>
+<footer>Authored by <%%= site.data.authors.first.name %></footer>
 ```
 
 Front matter is accessible via the `data` method on pages, posts, layouts, and other documents. Site config values are accessible via the `site.config` method, and loaded data files via `site.data` as you would expect.
@@ -46,20 +46,36 @@ And my <%%%= "ERB code sample" %>
 ```
 ~~~
 
-## Dot Access Hashes
-
-Instead of traditional Ruby hash key access, you can use "dot access" instead for a more familar look (coming from Liquid templates, or perhaps ActiveRecord objects in Rails). For example:
+You can easily loop through resources in a collection:
 
 ```eruby
-<%%= post.data.title %>
+<%% collections.posts.resources.each do |post| %>
+  <li><a href="<%%= post.relative_url %>"><%%= post.data.title %></a></li>
+<%% end %>
+```
 
-<%%= page.data.author %>
+Or using the [paginator](/docs/content/pagination):
+
+```eruby
+<%% paginator.resources.each do |post| %>
+  <li><a href="<%%= post.relative_url %>"><%%= post.data.title %></a></li>
+<%% end %>
+```
+
+## Dot Access Hashes
+
+Data hashes support standard hash key access, but most of the time you can use "dot access" instead for a more familar look. For example:
+
+```eruby
+<%%= post.data.title %> (but <%%= post.data[:title] %> or <%%= post.data["title"] %> also work)
+
+<%%= resource.data.author %>
 
 <%%= site.data.authors.lakshmi.twitter.handle %>
 
 <%% # You can freely mix hash access and dot access: %>
 
-<%%= site.data.authors[page.data.author].github %>
+<%%= site.data.authors[resource.data.author].github %>
 ```
 
 ## Partials
@@ -76,7 +92,7 @@ To include a partial in your ERB template, add a `_partials` folder to your sour
 title: I'm a page!
 ---
 
-<h1><%%= page.data[:title] %></h1>
+<h1><%%= resource.data.title %></h1>
 
 <p>Welcome to <%%= Bridgetown.name %>!</p>
 
@@ -134,9 +150,9 @@ layout: default
 somevalue: 123
 ---
 
-<h1><%%= page.data[:title] %></h1>
+<h1><%%= resource.data.title %></h1>
 
-<main>An ERB layout! <%%= layout.name %> / somevalue: <%%= layout.data[:somevalue] %></main>
+<main>An ERB layout! <%%= layout.name %> / somevalue: <%%= layout.data.somevalue %></main>
 
 <%%= yield %>
 ```
@@ -147,7 +163,7 @@ somevalue: 123
 layout: testing
 ---
 
-A standard Liquid page. {{ page.layout }}
+A standard Liquid page. {{ resource.data.layout }}
 ```
 
 If in your layout or a layout partial you need to output the paths to your Webpack assets, you can do so with a `webpack_path` helper just like with Liquid layouts:
@@ -190,11 +206,11 @@ permalink: /posts.json
 ---
 [
   <%%
-    site.posts.docs.each_with_index do |post, index|
-      last_item = index == site.posts.docs.length - 1
+    collections.posts.resources.each_with_index do |post, index|
+      last_item = index == collections.posts.resources.length - 1
   %>
     {
-      "title": <%%= jsonify post.data[:title].strip %>,
+      "title": <%%= jsonify post.data.title.strip %>,
       "url": "<%%= absolute_url post.url %>"<%%= "," unless last_item %>
     }
   <%% end %>
@@ -244,7 +260,7 @@ You can also pass relative or aboslute URLs to `link_to` and they'll just pass-t
 Finally, if you pass a Ruby object (i.e., it responds to `url`), it will work as you'd expect:
 
 ```eruby
-<%%= link_to "My last page", @site.pages.last %>
+<%%= link_to "My last page", collections.pages.resources.last %>
 
 <!-- output: -->
 <a href="/this/is/my-last-page">My last page</a>

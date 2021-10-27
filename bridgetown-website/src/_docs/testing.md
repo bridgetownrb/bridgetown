@@ -21,7 +21,7 @@ One of the benefits of this testing approach is it's _very_ fast, due to the fac
 To install, run the following command:
 
 ```sh
-bundle exec bridgetown configure minitesting
+bin/bridgetown configure minitesting
 ```
 
 This will set up the plugin, test gems, and an example test suite in the `test` folder.
@@ -34,7 +34,7 @@ require_relative "./helper"
 class TestBlog < Minitest::Test
   context "blog page" do
     setup do
-      page = site.pages.find { |doc| doc.url == "/blog/index.html" }
+      page = site.collections.pages.resources.find { |page| page.relative_url == "/blog/index.html" }
       document_root page
     end
 
@@ -60,25 +60,26 @@ As part of the automation setup mentioned above, you should now have new scripts
 You can install Cypress using a [bundled configuration](/docs/bundled-configurations). Just run:
 
 ```sh
-bundle exec bridgetown configure cypress
+bin/bridgetown configure cypress
 ```
 
 The above command will add a `cypress/` directory to your project. Within this directory you can see the `integration/navbar.spec.js` file as an example of how to write your tests.
 
 The test suite can be run using:
 
+<<<<<<< HEAD
 ```sh
-yarn cy:test:ci
+bin/bridgetown cy:test:ci
 ```
 
 A number of other useful commands are also installed along with Cypress:
 
 ```sh
 # Opens the Cypress test runner.
-yarn cy:open
+bin/bridgetown cy:open
 
 # Starts the Bridgetown server and opens the Cypress test runner.
-yarn cy:test
+bin/bridgetown cy:test
 
 # Runs the Cypress tests headlessly in the Electron browser.
 yarn cy:run

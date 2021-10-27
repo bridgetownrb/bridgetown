@@ -9,23 +9,20 @@ class Bridgetown::Site
     def render
       Bridgetown::Hooks.trigger :site, :pre_render, self
       execute_inline_ruby_for_layouts!
-      render_docs
-      render_pages
+      render_resources
+      render_generated_pages
       Bridgetown::Hooks.trigger :site, :post_render, self
     end
 
-    # Executes inline Ruby frontmatter
+    # Executes procs in Ruby frontmatter
     #
-    # @example
-    #   calculation: !ruby/string:Rb |
-    #     [2 * 4, 5 + 2].min
     # @return [void]
     # @see https://www.bridgetownrb.com/docs/front-matter#ruby-front-matter
     def execute_inline_ruby_for_layouts!
       return unless config.should_execute_inline_ruby?
 
       layouts.each_value do |layout|
-        Bridgetown::Utils::RubyExec.search_data_for_ruby_code(layout, self)
+        Bridgetown::Utils::RubyExec.search_data_for_ruby_code(layout)
       end
     end
 
@@ -49,16 +46,10 @@ class Bridgetown::Site
       matches
     end
 
-    # Renders all documents
+    # Renders all resources
     # @return [void]
-    def render_docs
+    def render_resources
       collections.each_value do |collection|
-        collection.docs.each do |document|
-          render_with_locale(document) do
-            render_regenerated document
-          end
-        end
-
         collection.resources.each do |resource|
           render_with_locale(resource) do
             resource.transform!
@@ -67,22 +58,22 @@ class Bridgetown::Site
       end
     end
 
-    # Renders all pages
+    # Renders all generated pages
     # @return [void]
-    def render_pages
-      pages.each do |page|
-        render_regenerated page
+    def render_generated_pages
+      generated_pages.each do |page|
+        render_page page
       end
     end
 
-    # Renders a document while ensuring site locale is set if the data is available.
-    # @param document [Document] The document to render
+    # Renders a content item while ensuring site locale is set if the data is available.
+    # @param item [Document, Page, Bridgetown::Resource::Base] The item to render
     # @yield Runs the block in between locale setting and resetting
     # @return [void]
-    def render_with_locale(document)
-      if document.data["locale"]
+    def render_with_locale(item)
+      if item.data["locale"]
         previous_locale = locale
-        self.locale = document.data["locale"]
+        self.locale = item.data["locale"]
         yield
         self.locale = previous_locale
       else
@@ -90,13 +81,11 @@ class Bridgetown::Site
       end
     end
 
-    # Regenerates a site using {Renderer}
-    # @param document [Document] The document to regenerate.
+    # Regenerates a content item using {Renderer}
+    # @param item [Page] The page to render
     # @return [void]
-    def render_regenerated(document)
-      return unless regenerator.regenerate?(document)
-
-      Bridgetown::Renderer.new(self, document).run
+    def render_page(page)
+      Bridgetown::Renderer.new(self, page).run
     end
   end
 end

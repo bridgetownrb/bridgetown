@@ -29,7 +29,7 @@ module Bridgetown
       end
 
       def ==(other)
-        other.relative_path.match(@name_regex)
+        other.relative_path.to_s.match(@name_regex)
       end
 
       def deprecated_equality(other)
@@ -47,12 +47,7 @@ module Bridgetown
       #
       # Returns the post slug with the subdirectory (relative to _posts)
       def post_slug(other)
-        path = other.basename.split("/")[0...-1].join("/")
-        if path.nil? || path == ""
-          other.data["slug"]
-        else
-          path + "/" + other.data["slug"]
-        end
+        other.data.slug
       end
     end
 
@@ -77,21 +72,21 @@ module Bridgetown
         @context = context
         site = context.registers[:site]
 
-        site.collections.posts.docs.each do |document|
+        site.collections.posts.resources.each do |document|
           return relative_url(document) if @post == document
-        end
 
-        # New matching method did not match, fall back to old method
-        # with deprecation warning if this matches
-
-        site.collections.posts.docs.each do |document|
+          # New matching method did not match, fall back to old method
+          # with deprecation warning if this matches
           next unless @post.deprecated_equality document
 
-          Bridgetown::Deprecator.deprecation_message "A call to "\
+          Bridgetown::Deprecator.deprecation_message(
+            "A call to "\
             "'{% post_url #{@post.name} %}' did not match " \
             "a post using the new matching method of checking name " \
             "(path-date-slug) equality. Please make sure that you " \
             "change this tag to match the post's name exactly."
+          )
+
           return relative_url(document)
         end
 

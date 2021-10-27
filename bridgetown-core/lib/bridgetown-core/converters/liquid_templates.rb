@@ -18,7 +18,8 @@ module Bridgetown
       # Logic to do the Liquid content conversion.
       #
       # @param content [String] Content of the file (without front matter).
-      # @param convertible [Bridgetown::Page, Bridgetown::Document, Bridgetown::Layout]
+      # @param convertible [
+      #   Bridgetown::GeneratedPage, Bridgetown::Resource::Base, Bridgetown::Layout]
       #   The instantiated object which is processing the file.
       #
       # @return [String] The converted content.
@@ -55,6 +56,8 @@ module Bridgetown
       # rubocop: enable Metrics/MethodLength
       # rubocop: enable Metrics/AbcSize
 
+      # @param ext [String]
+      # @param convertible [Bridgetown::Resource::Base, Bridgetown::GeneratedPage]
       def matches(ext, convertible)
         if convertible.render_with_liquid?
           convertible.data[:template_engine] = "liquid"
@@ -84,7 +87,7 @@ module Bridgetown
       def configure_payload(content = nil)
         payload["page"] = document.to_liquid
         payload["paginator"] = document.respond_to?(:paginator) ? document.paginator.to_liquid : nil
-        payload["layout"] = @layout ? @layout.data : {}
+        payload["layout"] = @layout ? @layout.to_liquid.merge({ data: @layout.data }) : {}
         payload["content"] = content
       end
 

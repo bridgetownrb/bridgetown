@@ -26,6 +26,10 @@ module Bridgetown
         Bridgetown::Utils.parse_webpack_manifest_file(site, asset_type.to_s)
       end
 
+      def live_reload_dev_js
+        Bridgetown::Utils.live_reload_js(site)
+      end
+
       # @param pairs [Hash] A hash of key/value pairs.
       #
       # @return [String] Space-separated keys where the values are truthy.
@@ -52,11 +56,11 @@ module Bridgetown
       #   `url` or `relative_url`
       # @return [String] the permalink URL for the file
       def url_for(relative_path)
-        if relative_path.respond_to?(:relative_url)
+        if relative_path.respond_to?(:relative_url) # rubocop:disable Style/GuardClause
           return safe(relative_path.relative_url) # new resource engine
         elsif relative_path.respond_to?(:url)
           return safe(relative_url(relative_path.url)) # old legacy engine
-        elsif relative_path.start_with?("/", "http")
+        elsif relative_path.to_s.start_with?("/", "http")
           return safe(relative_path)
         end
 
@@ -69,7 +73,8 @@ module Bridgetown
       # @raise [ArgumentError] if the file cannot be found
       def find_relative_url_for_path(relative_path)
         site.each_site_file do |item|
-          if item.relative_path == relative_path || item.relative_path == "/#{relative_path}"
+          if item.relative_path.to_s == relative_path ||
+              item.relative_path.to_s == "/#{relative_path}"
             return safe(item.respond_to?(:relative_url) ? item.relative_url : relative_url(item))
           end
         end

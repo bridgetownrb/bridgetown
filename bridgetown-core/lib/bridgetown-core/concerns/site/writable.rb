@@ -13,22 +13,19 @@ class Bridgetown::Site
     #
     # @return [void]
     def write
-      each_site_file do |item|
-        item.write(dest) if regenerator.regenerate?(item)
-      end
-      regenerator.write_metadata
+      each_site_file { |item| item.write(dest) }
       Bridgetown::Hooks.trigger :site, :post_write, self
     end
 
-    # Yields all content objects while looping through {#pages},
-    #   {#static_files_to_write}, {#docs_to_write}, {#resources_to_write}.
+    # Yields all content objects while looping through {#generated_pages},
+    #   {#static_files_to_write}, {#resources_to_write}.
     #
-    # @yieldparam item [Document, Page, StaticFile]
+    # @yieldparam item [Bridgetown::Resource::Base, GeneratedPage, StaticFile]
     #
     # @return [void]
     def each_site_file
-      %w(pages static_files_to_write docs_to_write resources_to_write).each do |type|
-        send(type).each do |item|
+      %w(generated_pages static_files_to_write resources_to_write).each do |type|
+        send(type).each do |item| # rubocop:disable Style/ExplicitBlockArgument
           yield item
         end
       end

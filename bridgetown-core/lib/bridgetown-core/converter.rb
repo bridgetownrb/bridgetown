@@ -20,6 +20,7 @@ module Bridgetown
     #
     # Returns an initialized Converter.
     def initialize(config = {})
+      super
       @config = config
     end
 

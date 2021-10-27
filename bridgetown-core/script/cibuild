@@ -9,8 +9,6 @@ then
   script/fmt
   script/test
   script/cucumber
-#  NOTE: Failing in CI due to Liquid gem version issues...
-#  script/default-site
 elif [[ -x "script/$TEST_SUITE" ]]
 then
   script/$TEST_SUITE

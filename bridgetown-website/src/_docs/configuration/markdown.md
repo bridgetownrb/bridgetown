@@ -7,7 +7,7 @@ category: configuration
 
 ### Kramdown
 
-Kramdown is the default Markdown renderer for Bridgetown. Below is a list of the
+Kramdown is the Markdown renderer for Bridgetown. Below is a list of the
 currently supported options:
 
 * **auto_id_prefix** - Prefix used for automatically generated header IDs

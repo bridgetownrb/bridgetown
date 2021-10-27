@@ -6,8 +6,6 @@ gem "rake", "~> 13.0"
 
 group :development do
   gem "launchy", "~> 2.3"
-  gem "pry"
-  gem "pry-byebug"
   gem "solargraph"
 end
 
@@ -24,8 +22,7 @@ group :test do
   gem "nokogiri", "~> 1.7"
   gem "rspec"
   gem "rspec-mocks"
-  gem "rubocop", "~> 0.81.0"
-  gem "rubocop-performance"
+  gem "rubocop-bridgetown", "~> 0.3.0", require: false
   gem "shoulda"
   gem "simplecov"
 end
@@ -42,7 +39,7 @@ group :bridgetown_optional_dependencies do
 end
 
 # Bridgetown
+gem "bridgetown", path: "bridgetown"
 gem "bridgetown-builder", path: "bridgetown-builder"
 gem "bridgetown-core", path: "bridgetown-core"
 gem "bridgetown-paginate", path: "bridgetown-paginate"
-gem "bridgetown", path: "bridgetown"

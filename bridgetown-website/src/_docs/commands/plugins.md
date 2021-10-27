@@ -5,7 +5,7 @@ order: 0
 category: command-line-usage
 ---
 
-New in Bridgetown 0.14, the `plugins` command allows you to display all custom or gem-based plugins you have loaded in the site along with other related infrastructure such as source manifests, generators, and builders.
+The `plugins` command allows you to display all custom or gem-based plugins you have loaded in the site along with other related infrastructure such as source manifests, generators, and builders.
 
 Simply run `bridgetown plugins list` and you'll get a printout in your terminal that looks something like this:
 
@@ -31,8 +31,7 @@ Registered Plugins: 5
                     Bridgetown::Converters::Markdown
                     Bridgetown::Converters::SmartyPants
                     Bridgetown::Converters::Identity
-        Generators: 5
-                    Bridgetown::Builders::DocumentsGenerator
+        Generators: 4
                     NewsletterDigest
                     Bridgetown::PrototypeGenerator
                     Bridgetown::Paginate::PaginationGenerator
@@ -43,9 +42,7 @@ You can read more about builders, generators, etc. in the [Plugins documentation
 
 ### Copying Files out of Plugin Source Folders
 
-Bridgetown gem-based plugins/themes which provide [source manifests](/docs/plugins/source-manifests)
-may add content to your site such as layouts, pages, static files, and Liquid
-components from folders in the gem.
+Bridgetown gem-based plugins/themes which provide [source manifests](/docs/plugins/source-manifests) may add content to your site such as layouts, resources, static files, and components from folders in the gem.
 
 If you ever need to _override_ some of that content, you can use the `plugins cd` command. The syntax is as follows:
 

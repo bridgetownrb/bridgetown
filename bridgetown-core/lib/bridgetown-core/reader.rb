@@ -2,6 +2,7 @@
 
 module Bridgetown
   class Reader
+    # @return [Bridgetown::Site]
     attr_reader :site
 
     def initialize(site)
@@ -11,34 +12,34 @@ module Bridgetown
     # Read Site data from disk and load it into internal data structures.
     #
     # Returns nothing.
-    def read # rubocop:todo Metrics/AbcSize
+    def read
       site.defaults_reader.read
-      site.layouts = LayoutReader.new(site).read
+      read_layouts
       read_directories
-      read_included_excludes
+      read_includes
       sort_files!
+      site.data = site.collections.data.read.merge_data_resources
       read_collections
-      site.data = if site.uses_resource?
-                    site.collections.data.merge_data_resources
-                  else
-                    DataReader.new(site).read
-                  end
-      Bridgetown::PluginManager.source_manifests.map(&:content).compact.each do |plugin_content_dir|
-        PluginContentReader.new(site, plugin_content_dir).read
+      Bridgetown::PluginManager.source_manifests.select(&:content).each do |manifest|
+        PluginContentReader.new(site, manifest).read
       end
+    end
+
+    def read_layouts
+      site.layouts = LayoutReader.new(site).read
     end
 
     def read_collections
       site.collections.each_value do |collection|
-        collection.read unless !site.uses_resource? &&
-          collection.legacy_reader?
+        next if collection.data?
+
+        collection.read
       end
     end
 
-    # Sorts posts, pages, and static files.
+    # Sorts generated pages and static files.
     def sort_files!
-      site.collections.each_value { |c| c.docs.sort! }
-      site.pages.sort_by!(&:name)
+      site.generated_pages.sort_by!(&:name)
       site.static_files.sort_by!(&:relative_path)
     end
 
@@ -70,22 +71,9 @@ module Bridgetown
         end
       end
 
-      retrieve_posts(dir) unless site.uses_resource?
       retrieve_dirs(base, dir, dot_dirs)
       retrieve_pages(dir, dot_pages)
       retrieve_static_files(dir, dot_static_files)
-    end
-
-    # Retrieves all the posts(posts) from the given directory
-    # and add them to the site and sort them.
-    #
-    # dir - The String representing the directory to retrieve the posts from.
-    #
-    # Returns nothing.
-    def retrieve_posts(dir)
-      return if outside_configured_directory?(dir)
-
-      post_reader.read_posts(dir)
     end
 
     # Recursively traverse directories with the read_directories function.
@@ -111,14 +99,9 @@ module Bridgetown
     #
     # Returns nothing.
     def retrieve_pages(dir, dot_pages)
-      if site.uses_resource?
-        dot_pages.each do |page_path|
-          site.collections.pages.read_resource(site.in_source_dir(dir, page_path))
-        end
-        return
+      dot_pages.each do |page_path|
+        site.collections.pages.read_resource(site.in_source_dir(dir, page_path))
       end
-
-      site.pages.concat(PageReader.new(site, dir).read(dot_pages))
     end
 
     # Retrieve all the static files from the current directory,
@@ -176,13 +159,7 @@ module Bridgetown
       !collections_dir.empty? && !dir.start_with?("/#{collections_dir}")
     end
 
-    # Create a single PostReader instance to retrieve posts from all valid
-    # directories in current site.
-    def post_reader
-      @post_reader ||= PostReader.new(site)
-    end
-
-    def read_included_excludes
+    def read_includes
       site.config.include.each do |entry|
         next if entry == ".htaccess"
 
@@ -196,11 +173,7 @@ module Bridgetown
     def read_included_file(entry_path)
       dir  = File.dirname(entry_path).sub(site.source, "")
       file = Array(File.basename(entry_path))
-      if Utils.has_yaml_header?(entry_path)
-        site.pages.concat(PageReader.new(site, dir).read(file))
-      else
-        retrieve_static_files(dir, file)
-      end
+      retrieve_static_files(dir, file)
     end
   end
 end

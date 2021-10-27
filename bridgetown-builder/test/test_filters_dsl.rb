@@ -33,7 +33,7 @@ class TestFilterDSL < BridgetownUnitTest
     setup do
       Bridgetown.sites.clear
       @site = Site.new(site_configuration)
-      @builder = FiltersBuilder.new("FiltersDSL", @site)
+      @builder = FiltersBuilder.new("FiltersDSL", @site).build_with_callbacks
     end
 
     should "output the filter result" do
@@ -66,7 +66,7 @@ class TestFilterDSL < BridgetownUnitTest
 
     should "allow access to filters scope" do
       content = "Scope? {{ 'howdy howdy' | within_filters_scope }}"
-      result = Liquid::Template.parse(content).render({}, registers: {site: @site})
+      result = Liquid::Template.parse(content).render({}, registers: { site: @site })
       assert_equal "Scope? Within Filters Scope: howdy-howdy #{@site.root_dir} 1", result
     end
   end

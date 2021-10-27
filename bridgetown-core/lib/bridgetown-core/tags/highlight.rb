@@ -14,10 +14,7 @@ module Bridgetown
 
       def initialize(tag_name, markup, tokens)
         super
-        if markup.strip =~ SYNTAX
-          @lang = Regexp.last_match(1).downcase
-          @highlight_options = parse_options(Regexp.last_match(2))
-        else
+        unless markup.strip =~ SYNTAX
           raise SyntaxError, <<~MSG
             Syntax Error in tag 'highlight' while parsing the following markup:
 
@@ -26,6 +23,9 @@ module Bridgetown
             Valid syntax: highlight <lang> [linenos]
           MSG
         end
+
+        @lang = Regexp.last_match(1).downcase
+        @highlight_options = parse_options(Regexp.last_match(2))
       end
 
       LEADING_OR_TRAILING_LINE_TERMINATORS = %r!\A(\n|\r)+|(\n|\r)+\z!.freeze
@@ -89,7 +89,7 @@ module Bridgetown
           "data-lang=\"#{@lang}\"",
         ].join(" ")
         "<figure class=\"highlight\"><pre><code #{code_attributes}>"\
-        "#{code.chomp}</code></pre></figure>"
+          "#{code.chomp}</code></pre></figure>"
       end
     end
   end

@@ -1,10 +1,9 @@
 #!/usr/bin/env ruby
 
-require 'bundler'
+require "bundler"
 Bundler.setup
 
-require 'pry'
-require 'bridgetown'
+require "bridgetown"
 
 TEST_DIR = File.expand_path("../test", __dir__)
 
@@ -20,20 +19,20 @@ def site_configuration(overrides = {})
   build_configs({
     "root_dir"    => site_root_dir,
     "source"      => source_dir,
-    "destination" => dest_dir
+    "destination" => dest_dir,
   }, build_configs(overrides))
 end
 
 def dest_dir(*subdirs)
-  test_dir('dest', *subdirs)
+  test_dir("dest", *subdirs)
 end
 
 def site_root_dir(*subdirs)
-  test_dir('source', *subdirs)
+  test_dir("source", *subdirs)
 end
 
 def source_dir(*subdirs)
-  test_dir('source/src', *subdirs)
+  test_dir("source/src", *subdirs)
 end
 
 def test_dir(*subdirs)
@@ -41,5 +40,5 @@ def test_dir(*subdirs)
 end
 
 module Bridgetown
-  binding.pry
+  binding.irb
 end

@@ -12,5 +12,4 @@ The easiest way to use Bridgetown on Windows is to install the _Windows Subsyste
 Try reading [these excellent instructions by GoRails](https://gorails.com/setup/windows/10) to install Ubuntu Linux on Windows, and then once you've reached the "**Installing Rails**" portion, you can come back and continue:
 
 {% render "docs/install/node_on_linux" %}
-{% render "docs/install/bridgetown" %}
-{% render "docs/install/concurrently" %}
+{% render "docs/install/bridgetown", version: bridgetown.version, edge_version: site.data.edge_version %}

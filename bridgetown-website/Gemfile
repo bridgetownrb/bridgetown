@@ -8,10 +8,10 @@ gem "bridgetown-core", path: "../bridgetown-core"
 gem "bridgetown-paginate", path: "../bridgetown-paginate"
 
 group :bridgetown_plugins do
-  gem "bridgetown-feed", "2.0.1"
-  gem "bridgetown-inline-svg", "~> 1.1"
-  gem "bridgetown-quick-search", "1.1.1"
-  gem "bridgetown-seo-tag", "4.0.1"
+  gem "bridgetown-feed", "~> 2.1"
+  gem "bridgetown-quick-search", "~> 1.1"
+  gem "bridgetown-seo-tag", "~> 5.0"
+  gem "bridgetown-svg-inliner", "~> 1.0"
 end
 
 group :test, optional: true do
@@ -23,5 +23,6 @@ group :test, optional: true do
   gem "shoulda"
 end
 
+gem "puma", "~> 5.2"
 gem "regexp_parser", "2.0.3"
 gem "ruby2js", "~> 4.0"

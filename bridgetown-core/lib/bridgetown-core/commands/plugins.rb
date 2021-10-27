@@ -112,12 +112,12 @@ module Bridgetown
           source_manifest.origin.to_s == directive[0]
         end
 
-        if manifest&.respond_to?(directive[1].downcase)
+        if manifest.respond_to?(directive[1].downcase)
           dir = manifest.send(directive[1].downcase)
           Bridgetown.logger.info("Opening the #{dir.green} folder for" \
-                                  " #{manifest.origin.to_s.cyan}…")
+                                 " #{manifest.origin.to_s.cyan}…")
           Bridgetown.logger.info("Type #{"exit".yellow} when you're done to" \
-                                  " return to your site root.")
+                                 " return to your site root.")
           puts
 
           Dir.chdir dir do
@@ -133,20 +133,18 @@ module Bridgetown
           Bridgetown.logger.info("Done!", "You're back in #{Dir.pwd.green}")
         else
           Bridgetown.logger.warn("Oops!", "I wasn't able to find the" \
-                                  " #{directive[1]} folder for #{directive[0]}")
+                                          " #{directive[1]} folder for #{directive[0]}")
         end
       end
 
       desc "new NAME", "Create a new plugin NAME (please-use-dashes) by" \
                        " cloning the sample plugin repo"
-      # rubocop:disable Layout/LineLength
       def new(plugin_name)
         folder_name = plugin_name.underscore
         name = folder_name.dasherize
         module_name = folder_name.camelize
 
-        # TODO: upon 0.21 release, remove the explicit branch name!
-        run "git clone -b switch-to-minitest https://github.com/bridgetownrb/bridgetown-sample-plugin #{name}"
+        run "git clone https://github.com/bridgetownrb/bridgetown-sample-plugin #{name}"
         new_gemspec = "#{name}.gemspec"
 
         inside name do # rubocop:todo Metrics/BlockLength
@@ -188,11 +186,10 @@ module Bridgetown
         say ""
         say_status "Done!", "Have fun writing your new #{name} plugin :)"
         say_status "Remember:", "Don't forget to rename the SamplePlugin" \
-                               " code identifiers and paths to your own" \
-                               " indentifer, as well as update your README " \
-                               " and CHANGELOG files as necessary."
+                                " code identifiers and paths to your own" \
+                                " indentifer, as well as update your README " \
+                                " and CHANGELOG files as necessary."
       end
-      # rubocop:enable Layout/LineLength
 
       protected
 

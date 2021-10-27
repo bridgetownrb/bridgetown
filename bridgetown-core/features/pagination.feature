@@ -8,7 +8,7 @@ Feature: Site pagination
       | key        | value                              |
       | pagination | { enabled: true, per_page: <num> } |
     And I have a _layouts directory
-    And I have an "index.html" page with pagination "{enabled: true}" that contains "{{ paginator.documents.size }} {{ paginator.documents[0].title }}"
+    And I have an "index.html" page with pagination "{collection: posts}" that contains "{{ paginator.resources.size }} {{ paginator.resources[0].title }}"
     And I have a _posts directory
     And I have the following posts:
       | title     | date       | layout  | content                                |
@@ -34,7 +34,7 @@ Feature: Site pagination
       | pagination    | { enabled: true, per_page: 1, permalink: "/page-:num/" } |
       | permalink     | /blog/:year/:month/:day/:title |
     And I have a blog directory
-    And I have an "blog/index.html" page with pagination "{enabled: true}" that contains "{{ paginator.documents.size }}"
+    And I have an "blog/index.html" page with pagination "{collection: posts}" that contains "{{ paginator.resources.size }}"
     And I have a _posts directory
     And I have the following posts:
       | title     | date       | layout  | content                                |
@@ -59,7 +59,7 @@ Feature: Site pagination
       | key        | value                              |
       | pagination | { enabled: true, per_page: <num> } |
     And I have a _layouts directory
-    And I have an "index.html" page with pagination "{enabled: true, tag: scary}" that contains "{{ paginator.documents.size }} {{ paginator.documents[0].title }}"
+    And I have an "index.html" page with pagination "{collection: posts, tag: scary}" that contains "{{ paginator.resources.size }} {{ paginator.resources[0].title }}"
     And I have a _posts directory
     And I have the following posts:
       | title     | date       | layout  | tags                     | content  |

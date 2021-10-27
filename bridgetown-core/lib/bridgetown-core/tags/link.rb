@@ -23,6 +23,10 @@ module Bridgetown
         relative_path = Liquid::Template.parse(@relative_path).render(context)
 
         site.each_site_file do |item|
+          # Resource engine:
+          if item.respond_to?(:relative_url) && item.relative_path.to_s == relative_path
+            return item.relative_url
+          end
           return relative_url(item) if item.relative_path == relative_path
           # This takes care of the case for static files that have a leading /
           return relative_url(item) if item.relative_path == "/#{relative_path}"

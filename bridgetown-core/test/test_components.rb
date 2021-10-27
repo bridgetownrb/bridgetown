@@ -6,7 +6,7 @@ class TestComponents < BridgetownUnitTest
   def setup
     @site = fixture_site({ level: "Level" })
     @site.process
-    @erb_page = @site.pages.find { |p| p[:title] == "I'm an ERB Page" }
+    @erb_page = @site.collections.pages.resources.find { |page| page.data.title == "I'm an ERB Page" }
   end
 
   context "basic Ruby components" do

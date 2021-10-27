@@ -351,20 +351,20 @@ class TestUtils < BridgetownUnitTest
   context "The \`Utils.safe_glob\` method" do
     should "not apply pattern to the dir" do
       dir = "test/safe_glob_test["
-      assert_equal [], Dir.glob(dir + "/*")
+      assert_equal [], Dir.glob("#{dir}/*")
       assert_equal ["test/safe_glob_test[/find_me.txt"], Utils.safe_glob(dir, "*")
     end
 
     should "return the same data to #glob" do
       dir = "test"
-      assert_equal Dir.glob(dir + "/*"), Utils.safe_glob(dir, "*")
-      assert_equal Dir.glob(dir + "/**/*"), Utils.safe_glob(dir, "**/*")
+      assert_equal Dir.glob("#{dir}/*"), Utils.safe_glob(dir, "*")
+      assert_equal Dir.glob("#{dir}/**/*"), Utils.safe_glob(dir, "**/*")
     end
 
     should "return the same data to #glob if dir is not found" do
       dir = "dir_not_exist"
       assert_equal [], Utils.safe_glob(dir, "*")
-      assert_equal Dir.glob(dir + "/*"), Utils.safe_glob(dir, "*")
+      assert_equal Dir.glob("#{dir}/*"), Utils.safe_glob(dir, "*")
     end
 
     should "return the same data to #glob if pattern is blank" do
@@ -376,13 +376,13 @@ class TestUtils < BridgetownUnitTest
 
     should "return the same data to #glob if flag is given" do
       dir = "test"
-      assert_equal Dir.glob(dir + "/*", File::FNM_DOTMATCH),
+      assert_equal Dir.glob("#{dir}/*", File::FNM_DOTMATCH),
                    Utils.safe_glob(dir, "*", File::FNM_DOTMATCH)
     end
 
     should "support pattern as an array to support windows" do
       dir = "test"
-      assert_equal Dir.glob(dir + "/**/*"), Utils.safe_glob(dir, ["**", "*"])
+      assert_equal Dir.glob("#{dir}/**/*"), Utils.safe_glob(dir, ["**", "*"])
     end
   end
 

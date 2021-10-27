@@ -37,7 +37,7 @@ class TestMethodSymbols < BridgetownUnitTest
     setup do
       Bridgetown.sites.clear
       @site = Site.new(site_configuration)
-      @builder = MethodSymbolsBuilder.new("MethodSymbols", @site)
+      @builder = MethodSymbolsBuilder.new("MethodSymbols", @site).build_with_callbacks
     end
 
     should "load generator on site generate" do

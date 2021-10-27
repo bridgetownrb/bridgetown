@@ -3,11 +3,7 @@
 module Bridgetown
   module Resource
     class TaxonomyTerm
-      attr_reader :resource
-
-      attr_reader :label
-
-      attr_reader :type
+      attr_reader :resource, :label, :type
 
       def initialize(resource:, label:, type:)
         @resource = resource

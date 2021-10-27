@@ -21,7 +21,6 @@ class Bridgetown::Site
 
       configure_cache
       configure_component_paths
-      configure_include_paths
       configure_file_read_opts
 
       self.permalink_style = (config["permalink"] || "pretty").to_sym
@@ -60,18 +59,6 @@ class Bridgetown::Site
     #   Returns an instance of {FrontmatterDefaults}
     def frontmatter_defaults
       @frontmatter_defaults ||= Bridgetown::FrontmatterDefaults.new(self)
-    end
-
-    # Whether to perform a full rebuild without incremental regeneration.
-    #   If either `override["incremental"]` or `config["incremental"]` are true,
-    #   fully rebuild the site. If not, incrementally build the site.
-    #
-    # @param [Hash] override
-    #   An override hash to override the current config value
-    # @option override [Boolean] "incremental" Whether to incrementally build
-    # @return [Boolean] true for full rebuild, false for normal build
-    def incremental?(override = {})
-      override["incremental"] || config["incremental"]
     end
 
     # Returns the current instance of {Publisher} or creates a new instance of
@@ -177,7 +164,7 @@ class Bridgetown::Site
         dir.is_a?(Array) ? dir : [dir]
       end
       local_components_load_paths.map! do |dir|
-        if !!(dir =~ %r!^\.\.?\/!)
+        if !!(dir =~ %r!^\.\.?/!)
           # allow ./dir or ../../dir type options
           File.expand_path(dir.to_s, root_dir)
         else
@@ -186,10 +173,6 @@ class Bridgetown::Site
       end
 
       @components_load_paths = plugin_components_load_paths + local_components_load_paths
-    end
-
-    def configure_include_paths
-      @includes_load_paths = Array(in_source_dir(config["includes_dir"].to_s))
     end
 
     def configure_file_read_opts

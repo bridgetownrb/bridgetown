@@ -4,19 +4,33 @@ module Bridgetown
   # Superclass for a website's SiteBuilder abstract class
   class Builder < Bridgetown::Builders::PluginBuilder
     extend ActiveSupport::DescendantsTracker
+    include ActiveSupport::Callbacks
+
+    define_callbacks :build
 
     class << self
       def register
         Bridgetown::Hooks.register_one :site, :pre_read, reloadable: false do |site|
-          new(name, site)
+          new(name, site).build_with_callbacks
         end
+      end
+
+      ruby2_keywords def before_build(*args, &block)
+        set_callback :build, :before, *args, &block
+      end
+
+      ruby2_keywords def after_build(*args, &block)
+        set_callback :build, :after, *args, &block
+      end
+
+      ruby2_keywords def around_build(*args, &block)
+        set_callback :build, :around, *args, &block
       end
     end
 
-    # Subclass is expected to implement #build
-    def initialize(name, current_site = nil)
-      super(name, current_site)
-      build
+    def build_with_callbacks
+      run_callbacks(:build) { build }
+      self
     end
 
     def inspect
@@ -24,7 +38,8 @@ module Bridgetown
     end
 
     def self.descendants
-      super.reject { |klass| ["SiteBuilder"].include?(klass.name) }
+      site_builder_name = "SiteBuilder"
+      super.reject { |klass| [site_builder_name].include?(klass.name) }
     end
   end
 end

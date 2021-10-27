@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "listen"
-
 module Bridgetown
   module Watcher
     extend self
@@ -19,9 +17,9 @@ module Bridgetown
       listener = build_listener(site, options)
       listener.start
 
-      Bridgetown.logger.info "Auto-regeneration:", "enabled."
+      Bridgetown.logger.info "Auto-regeneration:", "enabled." unless options[:using_puma]
 
-      unless options["serving"]
+      unless options[:serving]
         trap("INT") do
           listener.stop
           Bridgetown.logger.info "", "Halting auto-regeneration."
@@ -118,7 +116,7 @@ module Bridgetown
         rescue ArgumentError
           # Could not find a relative path
         end
-      end.compact + [%r!^\.bridgetown\-metadata!]
+      end.compact + [%r!^\.bridgetown-metadata!]
     end
 
     def sleep_forever
@@ -134,7 +132,7 @@ module Bridgetown
         site.plugin_manager.reload_component_loaders
         site.process
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
-                               " #{(Time.now - time).ceil(2)} seconds."
+                                          " #{(Time.now - time).ceil(2)} seconds."
       rescue Exception => e
         Bridgetown.logger.error "Error:", e.message
 

@@ -32,19 +32,18 @@ module Bridgetown
           DEFAULT,
           site.config["pagination"] || {}
         )
-        default_config["collection"] = "posts" unless site.uses_resource?
 
         # If disabled then simply quit
         unless default_config["enabled"]
           Bridgetown.logger.info "Pagination:", "disabled. Enable in site config" \
-            " with pagination:\\n  enabled: true"
+                                                " with pagination:\\n  enabled: true"
           return
         end
 
         Bridgetown.logger.debug "Pagination:", "Starting"
 
         # Get all matching pages in the site found by the init hooks, and ensure they're
-        # still in the site.pages array
+        # still in the site.generated_pages array
         templates = self.class.matching_templates.select do |page|
           site.generated_pages.include?(page) || site.resources.include?(page)
         end
@@ -96,18 +95,19 @@ module Bridgetown
           if page_to_remove.is_a?(Bridgetown::Resource::Base)
             page_to_remove.collection.resources.delete(page_to_remove)
           else
-            site.pages.delete(page_to_remove)
+            site.generated_pages.delete(page_to_remove)
           end
         end
 
         # Create a proc that will delegate logging
         # Decoupling Bridgetown specific logging
         logging_lambda = ->(message, type = "info") do
-          if type == "debug"
+          case type
+          when "debug"
             Bridgetown.logger.debug "Pagination:", message.to_s
-          elsif type == "error"
+          when "error"
             Bridgetown.logger.error "Pagination:", message.to_s
-          elsif type == "warn"
+          when "warn"
             Bridgetown.logger.warn "Pagination:", message.to_s
           else
             Bridgetown.logger.info "Pagination:", message.to_s

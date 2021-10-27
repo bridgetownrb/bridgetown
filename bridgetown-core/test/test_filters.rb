@@ -526,16 +526,18 @@ class TestFilters < BridgetownUnitTest
       context "with a document" do
         setup do
           @site = fixture_site(
-            "collections" => ["methods"]
+            "url"         => "http://example.com",
+            "base_path"   => "/base",
+            "collections" => { methods: { output: true } }
           )
           @site.process
-          @document = @site.collections["methods"].docs.detect do |d|
-            d.relative_path == "_methods/configuration.md"
+          @document = @site.collections["methods"].resources.detect do |d|
+            d.relative_path.to_s == "_methods/configuration.md"
           end
         end
 
         should "make a url" do
-          expected = "http://example.com/base/methods/configuration.html"
+          expected = "http://example.com/base/methods/configuration/"
           assert_equal expected, @filter.absolute_url(@document)
         end
       end
@@ -610,11 +612,11 @@ class TestFilters < BridgetownUnitTest
 
       should "not return the url by reference" do
         filter = make_filter_mock(base_path: nil)
-        page = Page.new(filter.site, test_dir("fixtures"), "", "front_matter.erb")
-        assert_equal "/front_matter.html", page.url
+        page = GeneratedPage.new(filter.site, test_dir("fixtures"), "", "front_matter.erb")
+        assert_equal "/front_matter/", page.url
         url = filter.relative_url(page.url)
         url << "foo"
-        assert_equal "/front_matter.html", page.url
+        assert_equal "/front_matter/", page.url
       end
 
       should "transform protocol-relative url" do
@@ -671,36 +673,73 @@ class TestFilters < BridgetownUnitTest
       should "convert drop to json" do
         @filter.site.read
         expected = {
-          "path"          => "_posts/2008-02-02-published.markdown",
-          "previous"      => nil,
           "output"        => nil,
-          "content"       => "This should be published.\n",
-          "id"            => "/publish-test/2008/02/02/published",
-          "url"           => "/publish-test/2008/02/02/published.html",
+          "id"            => "repo://posts.collection/_posts/2008-02-02-published.markdown",
+          "relative_url"  => "/base/publish_test/2008/02/02/published/",
+          "taxonomies"    => {
+            "category" => {
+              "type"  => {
+                "label"    => "category",
+                "key"      => "categories",
+                "metadata" => {
+                  "title" => "Category",
+                },
+              },
+              "terms" => [{
+                "label" => "publish_test",
+              }],
+            },
+            "tag"      => {
+              "type"  => {
+                "label"    => "tag",
+                "key"      => "tags",
+                "metadata" => {
+                  "title" => "Tag",
+                },
+              },
+              "terms" => [],
+            },
+          },
           "relative_path" => "_posts/2008-02-02-published.markdown",
+          "next"          => nil,
+          "date"          => "2008-02-02 00:00:00 +0000",
+          "summary"       => "This should be published.",
+          "data"          => {
+            "ruby3"      => "groovy",
+            "layout"     => "default",
+            "title"      => "Publish",
+            "category"   => "publish_test",
+            "categories" => [
+              "publish_test",
+            ],
+            "tags"       => [],
+            "locale"     => "en",
+            "date"       => "2008-02-02 00:00:00 +0000",
+            "slug"       => "published",
+          },
+          "absolute_url"  => "http://example.com/base/publish_test/2008/02/02/published/",
           "collection"    => "posts",
-          "excerpt"       => "<p>This should be published.</p>\n",
-          "categories"    => [
-            "publish_test",
-          ],
+          "content"       => "This should be published.\n",
           "ruby3"         => "groovy",
           "layout"        => "default",
           "title"         => "Publish",
           "category"      => "publish_test",
-          "date"          => "2008-02-02 00:00:00 +0000",
-          "slug"          => "published",
-          "ext"           => ".markdown",
+          "categories"    => ["publish_test"],
           "tags"          => [],
+          "locale"        => "en",
+          "slug"          => "published",
         }
-        actual = JSON.parse(@filter.jsonify(@filter.site.docs_to_write.first.to_liquid))
+        actual = JSON.parse(@filter.jsonify(@filter.site.resources_to_write.find do |post|
+          post.data.title == "Publish" && post.data.slug == "published"
+        end.to_liquid))
 
-        related_posts = actual.delete("related_posts")
-        assert related_posts.is_a?(Array), "doc.related_posts should be an array"
-
-        next_doc = actual.delete("next")
-        refute_nil next_doc
-        assert next_doc.is_a?(Hash), "doc.next should be an object"
-
+        actual.delete("path")
+        actual.delete("heres_a_liquid_method") # could be added in by accident through a plugin
+        prev = actual.delete("previous")
+        refute_nil prev
+        assert prev.is_a?(Hash), "doc.next should be an object"
+        relations = actual.delete("relations")
+        refute_nil relations
         assert_equal expected, actual
       end
 
@@ -721,6 +760,7 @@ class TestFilters < BridgetownUnitTest
           [message]
         end
       end
+
       class T < Struct.new(:name)
         def to_liquid
           {
@@ -802,9 +842,9 @@ class TestFilters < BridgetownUnitTest
     end
 
     context "group_by filter" do
-      should "successfully group array of Bridgetown::Page's" do
+      should "successfully group array of pages" do
         @filter.site.process
-        grouping = @filter.group_by(@filter.site.pages, "layout")
+        grouping = @filter.group_by(@filter.site.collections.pages.resources, "layout")
         grouping.each do |g|
           assert(
             ["default",
@@ -839,7 +879,7 @@ class TestFilters < BridgetownUnitTest
       end
 
       should "include the size of each grouping" do
-        grouping = @filter.group_by(@filter.site.pages, "layout")
+        grouping = @filter.group_by(@filter.site.collections.pages.resources, "layout")
         grouping.each do |g|
           assert_equal(
             g["items"].size,
@@ -1075,10 +1115,10 @@ class TestFilters < BridgetownUnitTest
 
       should "filter posts" do
         site = fixture_site.tap(&:read)
-        posts = site.site_payload["site"]["posts"]
-        results = @filter.where_exp(posts, "obj", "obj.title == 'Foo Bar'")
+        posts = site.site_payload["collections"]["posts"].resources
+        results = @filter.where_exp(posts, "obj", "obj.data.title == 'Foo Bar'")
         assert_equal 1, results.length
-        assert_equal site.posts.docs.find { |p| p.title == "Foo Bar" }, results.first
+        assert_equal site.collections.posts.resources.find { |p| p.data.title == "Foo Bar" }, results.first
       end
 
       should "always return an array if the object responds to 'select'" do
@@ -1088,7 +1128,7 @@ class TestFilters < BridgetownUnitTest
 
       should "filter by variable values" do
         @filter.site.tap(&:read)
-        posts = @filter.site.site_payload["site"]["posts"]
+        posts = @filter.site.site_payload["collections"]["posts"].resources
         results = @filter.where_exp(posts, "post",
                                     "post.date > site.dont_show_posts_before")
         assert_equal posts.count { |p| p.date > @sample_time }, results.length
@@ -1098,7 +1138,7 @@ class TestFilters < BridgetownUnitTest
     context "group_by_exp filter" do
       should "successfully group array of Bridgetown::Page's" do
         @filter.site.process
-        groups = @filter.group_by_exp(@filter.site.pages, "page", "page.layout | upcase")
+        groups = @filter.group_by_exp(@filter.site.collections.pages.resources, "page", "page.layout | upcase")
         groups.each do |g|
           assert(
             ["DEFAULT",
@@ -1133,7 +1173,7 @@ class TestFilters < BridgetownUnitTest
       end
 
       should "include the size of each grouping" do
-        groups = @filter.group_by_exp(@filter.site.pages, "page", "page.layout")
+        groups = @filter.group_by_exp(@filter.site.collections.pages.resources, "page", "page.layout")
         groups.each do |g|
           assert_equal(
             g["items"].size,
@@ -1155,8 +1195,8 @@ class TestFilters < BridgetownUnitTest
       end
 
       should "be equivalent of group_by" do
-        actual = @filter.group_by_exp(@filter.site.pages, "page", "page.layout")
-        expected = @filter.group_by(@filter.site.pages, "layout")
+        actual = @filter.group_by_exp(@filter.site.collections.pages.resources, "page", "page.layout")
+        expected = @filter.group_by(@filter.site.collections.pages.resources, "layout")
 
         assert_equal expected, actual
       end

@@ -47,14 +47,14 @@ class TestHTTPDSL < BridgetownUnitTest
     setup do
       Bridgetown.sites.clear
       @site = Site.new(site_configuration)
-      @builder = HTTPBuilder.new("Hooks Test", @site)
+      @builder = HTTPBuilder.new("Hooks Test", @site).build_with_callbacks
     end
 
     should "add data from external API" do
       @builder.stubs.get("/test.json") do |_env|
         [
           200,
-          { 'Content-Type': "application/javascript" },
+          { "Content-Type": "application/javascript" },
           '{"data": {"was": ["received"]}}',
         ]
       end
@@ -68,7 +68,7 @@ class TestHTTPDSL < BridgetownUnitTest
       @builder.stubs.get("/test_bad.json") do |_env|
         [
           200,
-          { 'Content-Type': "application/javascript" },
+          { "Content-Type": "application/javascript" },
           '{something is very #@$!^& wrong}',
         ]
       end
@@ -78,14 +78,15 @@ class TestHTTPDSL < BridgetownUnitTest
       end
 
       refute @site.config[:received_data]
-      assert_includes error, "Faraday::ParsingError The response from /test_bad.json did not contain valid JSON"
+      assert_includes error,
+                      "Faraday::ParsingError The response from /test_bad.json did not contain valid JSON"
     end
 
     should "not parse JSON if parse_json is false" do
       @builder.stubs.get("/test_not_parsing.html") do |_env|
         [
           200,
-          { 'Content-Type': "application/javascript" },
+          { "Content-Type": "application/javascript" },
           '[1, 2, ["three"]]',
         ]
       end
@@ -99,14 +100,14 @@ class TestHTTPDSL < BridgetownUnitTest
       @builder.stubs.get("/test.json") do |_env|
         [
           200,
-          { 'Content-Type': "application/javascript" },
+          { "Content-Type": "application/javascript" },
           '{"data": {"was": ["received"]}}',
         ]
       end
       @builder.stubs.get("/test_redirect.json") do |_env|
         [
           301,
-          { "Location": "/test.json" },
+          { Location: "/test.json" },
         ]
       end
 
