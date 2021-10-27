@@ -16,6 +16,7 @@ The configurations we include are:
 - [Stimulus](#stimulus) (`stimulus`)
 - [Turbo](#turbo) (`turbo`)
 - [Bridgetown recommended PostCSS plugins](#bridgetown-recommended-postcss-plugins) (`bt-postcss`)
+- [Render YAML Configuration](#render-yaml-configuration) (`render`)
 - [Netlify TOML Configuration](#netlify-toml-configuration) (`netlify`)
 - [Swup.js Page Transitions](#swupjs-page-transitions) (`swup`)
 - [Automated Test Suite using Minitest](#automated-test-suite-using-minitest) (`minitesting`)
@@ -92,6 +93,16 @@ This configuration will overwrite your `postcss.config.js` file.
 bin/bridgetown configure bt-postcss
 ```
 If you'd like to customize your setup further you can find more plugins [here](https://www.postcss.parts).
+
+### Render YAML Configuration
+
+⚙️ Adds a static site service defined in YAML to your site for use in [Render](https://render.com) deployments.
+
+🛠 **Configure using:**
+
+```
+bin/bridgetown configure render
+```
 
 ### Netlify TOML Configuration
 
