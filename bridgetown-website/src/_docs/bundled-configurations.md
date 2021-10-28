@@ -143,5 +143,5 @@ bin/bridgetown configure minitesting
 🛠 **Configure using:**
 
 ```
-bundle exec bridgetown configure cypress
+bin/bridgetown configure cypress
 ```
