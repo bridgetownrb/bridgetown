@@ -44,8 +44,7 @@ module Bridgetown
       if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] && File.file?("Gemfile")
         require "bundler"
 
-        required_gems = Bundler.require PLUGINS_GROUP
-        required_gems.select! do |dep|
+        required_gems = Bundler.require(PLUGINS_GROUP).select do |dep|
           (dep.groups & [PLUGINS_GROUP]).any? && dep.should_include?
         end
 
