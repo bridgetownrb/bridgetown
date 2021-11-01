@@ -25,6 +25,8 @@ module Bridgetown
       "taxonomies"           => {
         category: { key: "categories", title: "Category" }, tag: { key: "tags", title: "Tag" },
       },
+      "autoload_paths"       => [],
+      "plugins_use_zeitwerk" => true,
 
       # Handling Reading
       "include"              => [".htaccess", "_redirects", ".well-known"],
@@ -109,21 +111,21 @@ module Bridgetown
       override[config_key] || self[config_key] || DEFAULTS[config_key]
     end
 
-    # Public: Directory of the top-level root where config files are located
+    # Directory of the top-level root where config files are located
     #
-    # override - the command-line options hash
+    # @param override [Hash] options hash which will override value if key is present
     #
-    # Returns the path to the Bridgetown root directory
-    def root_dir(override = "")
+    # @return [String] path to the Bridgetown root directory
+    def root_dir(override = {})
       get_config_value_with_override("root_dir", override)
     end
 
     # Public: Directory of the Bridgetown source folder
     #
-    # override - the command-line options hash
+    # @param override [Hash] options hash which will override value if key is present
     #
-    # Returns the path to the Bridgetown source directory
-    def source(override = "")
+    # @return [String]  path to the Bridgetown source directory
+    def source(override = {})
       get_config_value_with_override("source", override)
     end
 

@@ -155,7 +155,7 @@ class Bridgetown::Site
       Bridgetown::Cache.disable_disk_cache! if config["disable_disk_cache"]
     end
 
-    def configure_component_paths
+    def configure_component_paths # rubocop:todo Metrics/AbcSize
       # Loop through plugins paths first
       plugin_components_load_paths = Bridgetown::PluginManager.source_manifests
         .map(&:components).compact
@@ -172,7 +172,10 @@ class Bridgetown::Site
         end
       end
 
-      @components_load_paths = plugin_components_load_paths + local_components_load_paths
+      config.components_load_paths = plugin_components_load_paths + local_components_load_paths
+      # Because "first constant wins" in Zeitwerk, we need to load the local
+      # source components _before_ we load any from plugins
+      config.autoload_paths += config.components_load_paths.reverse
     end
 
     def configure_file_read_opts

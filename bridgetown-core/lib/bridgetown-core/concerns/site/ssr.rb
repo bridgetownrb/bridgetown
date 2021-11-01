@@ -8,14 +8,14 @@ class Bridgetown::Site
 
     module ClassMethods
       # Establish an SSR pipeline for a persistent backend process
-      def start_ssr! # rubocop:todo Metrics/AbcSize
+      def start_ssr!(loaders_manager: nil) # rubocop:todo Metrics/AbcSize
         if Bridgetown::Current.site
           raise Bridgetown::Errors::FatalException, "Bridgetown SSR already started! " \
                                                     "Check your Rack app for threading issues"
         end
 
         Bridgetown::PluginManager.require_from_bundler
-        site = new(Bridgetown::Current.preloaded_configuration)
+        site = new(Bridgetown::Current.preloaded_configuration, loaders_manager: loaders_manager)
         site.enable_ssr
 
         Bridgetown::Hooks.trigger :site, :pre_read, site

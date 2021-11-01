@@ -123,13 +123,14 @@ module Bridgetown
       loop { sleep 1000 }
     end
 
+    # @param site [Bridgetown::Site]
     def process(site, time, options)
       begin
         I18n.reload! # make sure any locale files get read again
         Bridgetown::Hooks.trigger :site, :pre_reload, site
         Bridgetown::Hooks.clear_reloadable_hooks
         site.plugin_manager.reload_plugin_files
-        site.plugin_manager.reload_component_loaders
+        site.loaders_manager.reload_loaders
         site.process
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
                                           " #{(Time.now - time).ceil(2)} seconds."

@@ -13,9 +13,10 @@ module Bridgetown
     include SSR
     include Writable
 
-    attr_reader   :root_dir, :source, :dest, :cache_dir, :config,
-                  :liquid_renderer, :components_load_paths,
-                  :includes_load_paths
+    attr_reader :root_dir, :source, :dest, :cache_dir, :config, :liquid_renderer
+
+    # @return [Bridgetown::Utils::LoadersManager]
+    attr_reader :loaders_manager
 
     # All files not pages/documents or structured data in the source folder
     # @return [Array<StaticFile>]
@@ -33,10 +34,19 @@ module Bridgetown
 
     # Initialize a new Site.
     #
-    # config - A Hash containing site configuration details.
-    def initialize(config)
+    # @param config [Bridgetown::Configuration]
+    # @param loaders_manager [Bridgetown::Utils::LoadersManager] initialized if none provided
+    def initialize(config, loaders_manager: nil)
       self.config = config
       locale
+
+      loaders_manager = if loaders_manager
+                          loaders_manager.config = self.config
+                          loaders_manager
+                        else
+                          Bridgetown::Utils::LoadersManager.new(self.config)
+                        end
+      @loaders_manager = loaders_manager
 
       @plugin_manager  = PluginManager.new(self)
       @cleaner         = Cleaner.new(self)
