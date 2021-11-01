@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-...
+- Don't mutate bundler dependencies in place (#433)
+- Add bundled configuration for Render  (#431)
 
 ## 1.0.0.alpha6 - 2021-10-26
 
