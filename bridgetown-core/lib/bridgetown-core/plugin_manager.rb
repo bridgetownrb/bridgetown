@@ -132,12 +132,16 @@ module Bridgetown
         sorted_plugin_files.each do |plugin_file|
           self.class.add_registered_plugin plugin_file
         end
+        next if site.config[:plugins_use_zeitwerk]
+
         Bridgetown::Utils::RequireGems.require_with_graceful_fail(sorted_plugin_files)
       end
     end
 
     # Reload .rb plugin files via the watcher
     def reload_plugin_files
+      return if site.config[:plugins_use_zeitwerk]
+
       plugins_path.each do |plugin_search_path|
         plugin_files = Utils.safe_glob(plugin_search_path, File.join("**", "*.rb"))
         Array(plugin_files).each do |name|

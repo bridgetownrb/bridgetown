@@ -74,12 +74,5 @@ module Bridgetown
 
       loaders_manager.setup_loaders([server_folder])
     end
-
-    # loader = Zeitwerk::Loader.new
-    # loader.push_dir server_folder
-    # loader.enable_reloading unless ENV["BRIDGETOWN_ENV"] == "production"
-    # loader.setup
-    # loader.eager_load
-    # loader.do_not_eager_load(File.join(server_folder, "roda_app.rb"))
   end
 end

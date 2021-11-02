@@ -26,6 +26,7 @@ module Bridgetown
         category: { key: "categories", title: "Category" }, tag: { key: "tags", title: "Tag" },
       },
       "autoload_paths"       => [],
+      "eager_load_paths"     => [],
       "plugins_use_zeitwerk" => true,
 
       # Handling Reading
@@ -100,6 +101,7 @@ module Bridgetown
       def from(user_config, starting_defaults = DEFAULTS)
         Utils.deep_merge_hashes(starting_defaults.deep_dup, Configuration[user_config])
           .merge_environment_specific_options!
+          .setup_load_paths!
           .setup_locales
           .add_default_collections
           .add_default_excludes
@@ -242,7 +244,28 @@ module Bridgetown
         self[k] = self[Bridgetown.environment][k]
       end
       delete(Bridgetown.environment)
-      autoload_paths.map! { |load_path| File.expand_path(load_path, root_dir) }
+
+      self
+    end
+
+    def setup_load_paths!
+      if self[:plugins_use_zeitwerk]
+        autoload_paths.unshift({
+          path: self[:plugins_dir],
+          eager: true,
+        })
+      end
+
+      autoload_paths.map! do |load_path|
+        if load_path.is_a?(Hash)
+          expanded = File.expand_path(load_path[:path], root_dir)
+          self[:eager_load_paths] << expanded if load_path[:eager]
+          next expanded
+        end
+
+        File.expand_path(load_path, root_dir)
+      end
+
       self
     end
 

@@ -46,6 +46,7 @@ module Bridgetown
           loader.ignore(File.join(load_path, "**", "*.js.rb"))
           Bridgetown::Hooks.trigger :loader, :pre_setup, loader, load_path
           loader.setup
+          loader.eager_load if config.eager_load_paths.include?(load_path)
           Bridgetown::Hooks.trigger :loader, :post_setup, loader, load_path
           @loaders[load_path] = loader
         end
@@ -53,8 +54,11 @@ module Bridgetown
 
       def reload_loaders
         @loaders.each do |load_path, loader|
+          next unless reloading_enabled?(load_path)
+
           Bridgetown::Hooks.trigger :loader, :pre_reload, loader, load_path
-          loader.reload if reloading_enabled?(load_path)
+          loader.reload
+          loader.eager_load if config.eager_load_paths.include?(load_path)
           Bridgetown::Hooks.trigger :loader, :post_reload, loader, load_path
         end
       end
