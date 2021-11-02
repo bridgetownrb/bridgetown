@@ -242,6 +242,7 @@ module Bridgetown
         self[k] = self[Bridgetown.environment][k]
       end
       delete(Bridgetown.environment)
+      autoload_paths.map! { |load_path| File.expand_path(load_path, root_dir) }
       self
     end
 
