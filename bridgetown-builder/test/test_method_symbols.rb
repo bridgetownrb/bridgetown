@@ -43,6 +43,7 @@ class TestMethodSymbols < BridgetownUnitTest
     should "load generator on site generate" do
       @site.reset
       @site.data[:site_metadata] = { title: "Initial Value in Method Symbols" }
+      @site.loaders_manager.unload_loaders
       @site.setup
 
       assert_equal "Initial Value in Method Symbols", @site.metadata[:title]
