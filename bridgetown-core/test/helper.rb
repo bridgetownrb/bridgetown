@@ -135,10 +135,10 @@ class BridgetownUnitTest < Minitest::Test
   def resources_site(overrides = {})
     overrides["content_engine"] = "resource"
     overrides["available_locales"] ||= %w[en fr]
+    overrides["plugins_dir"] = resources_root_dir("plugins")
     new_config = site_configuration(overrides)
     new_config.root_dir = resources_root_dir
     new_config.source = resources_root_dir("src")
-    new_config.plugins_dir = resources_root_dir("plugins")
     Bridgetown::Site.new new_config
   end
 
@@ -159,6 +159,8 @@ class BridgetownUnitTest < Minitest::Test
 
     full_overrides = Utils.deep_merge_hashes({ "destination" => dest_dir,
                                                "plugins_dir" => site_root_dir("plugins"), }, overrides)
+    full_overrides["plugins_use_zeitwerk"] = false if overrides["plugins_use_zeitwerk"].nil?
+
     Configuration.from(full_overrides.merge(
                          "root_dir" => site_root_dir,
                          "source"   => source_dir

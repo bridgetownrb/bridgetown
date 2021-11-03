@@ -28,7 +28,7 @@ module Bridgetown
         load_path.start_with?(root_dir) && ENV["BRIDGETOWN_ENV"] != "production"
       end
 
-      def setup_loaders(autoload_paths = [])
+      def setup_loaders(autoload_paths = []) # rubocop:todo Metrics/CyclomaticComplexity
         (autoload_paths.presence || config.autoload_paths).each do |load_path|
           if @loaders.key?(load_path)
             raise "Zeitwerk loader already added for `#{load_path}'. Please check your config"

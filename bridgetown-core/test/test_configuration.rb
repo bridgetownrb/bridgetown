@@ -4,12 +4,21 @@ require "helper"
 require "colorator"
 
 class TestConfiguration < BridgetownUnitTest
-  test_config = {
-    "root_dir"    => site_root_dir,
-    "plugins_dir" => site_root_dir("plugins"),
-    "source"      => source_dir,
-    "destination" => dest_dir,
-  }
+  def test_config
+    @test_config ||= {
+      "root_dir"    => site_root_dir,
+      "plugins_dir" => site_root_dir("plugins"),
+      "source"      => source_dir,
+      "destination" => dest_dir,
+    }
+  end
+
+  def default_config_fixture(overrides = {})
+    Bridgetown.configuration(test_config.merge(overrides)).tap do |config|
+      config.autoload_paths = config.eager_load_paths = []
+      config.plugins_use_zeitwerk = false
+    end
+  end
 
   context ".from" do
     should "create a Configuration object" do
@@ -284,13 +293,13 @@ class TestConfiguration < BridgetownUnitTest
       allow($stderr).to receive(:puts).with(
         Colorator.yellow("Configuration file: none")
       )
-      assert_equal site_configuration, Bridgetown.configuration(test_config)
+      assert_equal site_configuration, default_config_fixture
     end
 
     should "load configuration as hash" do
       allow(Bridgetown::YAMLParser).to receive(:load_file).with(@path).and_return({})
       allow($stdout).to receive(:puts).with("Configuration file: #{@path}")
-      assert_equal site_configuration, Bridgetown.configuration(test_config)
+      assert_equal site_configuration, default_config_fixture
     end
 
     should "fire warning with bad config" do
@@ -304,7 +313,7 @@ class TestConfiguration < BridgetownUnitTest
       allow($stderr)
         .to receive(:puts)
         .and_return(Colorator.yellow("Configuration file: (INVALID) #{@path}"))
-      assert_equal site_configuration, Bridgetown.configuration(test_config)
+      assert_equal site_configuration, default_config_fixture
     end
 
     should "fire warning when user-specified config file isn't there" do
@@ -336,7 +345,7 @@ class TestConfiguration < BridgetownUnitTest
     should "load default plus posts config if no config_file is set" do
       allow(Bridgetown::YAMLParser).to receive(:load_file).with(@paths[:default]).and_return({})
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:default]}")
-      assert_equal site_configuration, Bridgetown.configuration(test_config)
+      assert_equal site_configuration, default_config_fixture
     end
 
     should "load different config if specified" do
@@ -350,7 +359,7 @@ class TestConfiguration < BridgetownUnitTest
           "baseurl" => "http://example.com",
           "config"  => @paths[:other]
         ),
-        Bridgetown.configuration(test_config.merge("config" => @paths[:other]))
+        default_config_fixture({ "config" => @paths[:other] })
     end
 
     should "load different config if specified with symbol key" do
@@ -365,7 +374,7 @@ class TestConfiguration < BridgetownUnitTest
           "baseurl" => "http://example.com",
           "config"  => @paths[:other]
         ),
-        Bridgetown.configuration(test_config.merge(config: @paths[:other]))
+        default_config_fixture({ config: @paths[:other] })
     end
 
     should "load default config if path passed is empty" do
@@ -373,7 +382,7 @@ class TestConfiguration < BridgetownUnitTest
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:default]}")
       assert_equal \
         site_configuration("config" => [@paths[:empty]]),
-        Bridgetown.configuration(test_config.merge("config" => [@paths[:empty]]))
+        default_config_fixture({ "config" => [@paths[:empty]] })
     end
 
     should "successfully load a TOML file" do
@@ -384,7 +393,7 @@ class TestConfiguration < BridgetownUnitTest
           "title"   => "My magnificent site, wut",
           "config"  => [@paths[:toml]]
         ),
-        Bridgetown.configuration(test_config.merge("config" => [@paths[:toml]]))
+        default_config_fixture({ "config" => [@paths[:toml]] })
       Bridgetown.logger.log_level = :info
     end
 
@@ -401,11 +410,7 @@ class TestConfiguration < BridgetownUnitTest
         site_configuration(
           "config" => [@paths[:default], @paths[:other], @paths[:toml]]
         ),
-        Bridgetown.configuration(
-          test_config.merge(
-            "config" => [@paths[:default], @paths[:other], @paths[:toml]]
-          )
-        )
+        default_config_fixture({ "config" => [@paths[:default], @paths[:other], @paths[:toml]] })
       )
     end
 
@@ -429,9 +434,7 @@ class TestConfiguration < BridgetownUnitTest
           "baseurl" => "http://example.com",
           "config"  => [@paths[:default], @paths[:other]]
         ),
-        Bridgetown.configuration(
-          test_config.merge("config" => [@paths[:default], @paths[:other]])
-        )
+        default_config_fixture({ "config" => [@paths[:default], @paths[:other]] })
     end
   end
 

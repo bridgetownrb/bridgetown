@@ -6,11 +6,13 @@ Feature: Hooks
     Given I have a plugins directory
     And I have a "plugins/ext.rb" file with content:
     """
-    Bridgetown::Hooks.register :site, :after_reset do |site|
-      pg = Bridgetown::GeneratedPage.new(site, site.source, "/", "foo.html")
-      pg.content = "mytinypage"
+    module Ext
+      Bridgetown::Hooks.register :site, :after_reset do |site|
+        pg = Bridgetown::GeneratedPage.new(site, site.source, "/", "foo.html")
+        pg.content = "mytinypage"
 
-      site.generated_pages << pg
+        site.generated_pages << pg
+      end
     end
     """
     When I run bridgetown build
@@ -24,8 +26,10 @@ Feature: Hooks
     And I have a "page2.html" page that contains "page2"
     And I have a "plugins/ext.rb" file with content:
     """
-    Bridgetown::Hooks.register :site, :post_read do |site|
-      site.collections.pages.resources.delete_if { |p| p.relative_path.basename.to_s == 'page1.html' }
+    module Ext
+      Bridgetown::Hooks.register :site, :post_read do |site|
+        site.collections.pages.resources.delete_if { |p| p.relative_path.basename.to_s == 'page1.html' }
+      end
     end
     """
     When I run bridgetown build
@@ -38,10 +42,12 @@ Feature: Hooks
     Given I have a plugins directory
     And I have a "plugins/ext.rb" file with content:
     """
-    Bridgetown::Hooks.register :site, :post_write do |site|
-      firstpage = site.collections.pages.resources.first
-      content = File.read firstpage.destination.output_path
-      File.write(File.join(site.dest, 'firstpage.html'), content)
+    module Ext
+      Bridgetown::Hooks.register :site, :post_write do |site|
+        firstpage = site.collections.pages.resources.first
+        content = File.read firstpage.destination.output_path
+        File.write(File.join(site.dest, 'firstpage.html'), content)
+      end
     end
     """
     And I have a "page1.html" page that contains "page1"
@@ -55,8 +61,10 @@ Feature: Hooks
     And I have a "index.html" page that contains "WRAP ME"
     And I have a "plugins/ext.rb" file with content:
     """
-    Bridgetown::Hooks.register :pages, :post_render do |page|
-      page.output = "{{{{{ #{page.output.chomp} }}}}}"
+    module Ext
+      Bridgetown::Hooks.register :pages, :post_render do |page|
+        page.output = "{{{{{ #{page.output.chomp} }}}}}"
+      end
     end
     """
     When I run bridgetown build
@@ -67,10 +75,12 @@ Feature: Hooks
     And I have a "index.html" page that contains "HELLO FROM A PAGE"
     And I have a "plugins/ext.rb" file with content:
     """
-    Bridgetown::Hooks.register :pages, :post_write do |page|
-      require 'fileutils'
-      filename = page.destination.output_path
-      FileUtils.mv(filename, "#{filename}.moved")
+    module Ext
+      Bridgetown::Hooks.register :pages, :post_write do |page|
+        require 'fileutils'
+        filename = page.destination.output_path
+        FileUtils.mv(filename, "#{filename}.moved")
+      end
     end
     """
     When I run bridgetown build
@@ -80,9 +90,11 @@ Feature: Hooks
     Given I have a plugins directory
     And I have a "plugins/ext.rb" file with content:
     """
-    Bridgetown::Hooks.register :posts, :post_init do |post|
-      post.data['harold'] = "content for entry1.".tr!('abcdefghijklmnopqrstuvwxyz',
-            'nopqrstuvwxyzabcdefghijklm')
+    module Ext
+      Bridgetown::Hooks.register :posts, :post_init do |post|
+        post.data['harold'] = "content for entry1.".tr!('abcdefghijklmnopqrstuvwxyz',
+              'nopqrstuvwxyzabcdefghijklm')
+      end
     end
     """
     And I have a _posts directory
@@ -100,11 +112,13 @@ Feature: Hooks
     """
     # Add myvar = 'old' to posts before 2015-03-15, and myvar = 'new' for
     # others
-    Bridgetown::Hooks.register :posts, :pre_render do |post|
-      if post.date < Time.new(2015, 3, 15)
-        post.data.myvar = 'old'
-      else
-        post.data.myvar = 'new'
+    module Ext
+      Bridgetown::Hooks.register :posts, :pre_render do |post|
+        if post.date < Time.new(2015, 3, 15)
+          post.data.myvar = 'old'
+        else
+          post.data.myvar = 'new'
+        end
       end
     end
     """
@@ -122,8 +136,10 @@ Feature: Hooks
     And I have a "plugins/ext.rb" file with content:
     """
     # Replace content after rendering
-    Bridgetown::Hooks.register :posts, :post_render do |post|
-      post.output.gsub! /42/, 'the answer to life, the universe and everything'
+    module Ext
+      Bridgetown::Hooks.register :posts, :post_render do |post|
+        post.output.gsub! /42/, 'the answer to life, the universe and everything'
+      end
     end
     """
     And I have a _posts directory
@@ -140,10 +156,12 @@ Feature: Hooks
     And I have a "plugins/ext.rb" file with content:
     """
     # Log all post filesystem writes
-    Bridgetown::Hooks.register :posts, :post_write do |post|
-      filename = post.destination.output_path
-      open('output/post-build.log', 'a') do |f|
-        f.puts "Wrote #{filename} at #{Time.now}"
+    module Ext
+      Bridgetown::Hooks.register :posts, :post_write do |post|
+        filename = post.destination.output_path
+        open('output/post-build.log', 'a') do |f|
+          f.puts "Wrote #{filename} at #{Time.now}"
+        end
       end
     end
     """
@@ -160,8 +178,10 @@ Feature: Hooks
     Given I have a plugins directory
     And I have a "plugins/ext.rb" file with content:
     """
-    Bridgetown::Hooks.register [:pages, :posts], :post_render do |owner|
-      owner.output = "{{{{{ #{owner.output.chomp} }}}}}"
+    module Ext
+      Bridgetown::Hooks.register [:pages, :posts], :post_render do |owner|
+        owner.output = "{{{{{ #{owner.output.chomp} }}}}}"
+      end
     end
     """
     And I have a "index.html" page that contains "WRAP ME"
@@ -177,21 +197,23 @@ Feature: Hooks
     Given I have a plugins directory
     And I have a "plugins/ext.rb" file with content:
     """
-    Bridgetown::Hooks.register :pages, :post_render, priority: :normal do |owner|
-      # first normal runs second
-      owner.output = "1 #{owner.output.chomp}"
-    end
-    Bridgetown::Hooks.register :pages, :post_render, priority: :high do |owner|
-      # high runs first
-      owner.output = "2 #{owner.output.chomp}"
-    end
-    Bridgetown::Hooks.register :pages, :post_render do |owner|
-      # second normal runs third (normal is default)
-      owner.output = "3 #{owner.output.chomp}"
-    end
-    Bridgetown::Hooks.register :pages, :post_render, priority: :low do |owner|
-      # low runs last 
-      owner.output = "4 #{owner.output.chomp}"
+    module Ext
+      Bridgetown::Hooks.register :pages, :post_render, priority: :normal do |owner|
+        # first normal runs second
+        owner.output = "1 #{owner.output.chomp}"
+      end
+      Bridgetown::Hooks.register :pages, :post_render, priority: :high do |owner|
+        # high runs first
+        owner.output = "2 #{owner.output.chomp}"
+      end
+      Bridgetown::Hooks.register :pages, :post_render do |owner|
+        # second normal runs third (normal is default)
+        owner.output = "3 #{owner.output.chomp}"
+      end
+      Bridgetown::Hooks.register :pages, :post_render, priority: :low do |owner|
+        # low runs last 
+        owner.output = "4 #{owner.output.chomp}"
+      end
     end
     """
     And I have a "index.html" page that contains "WRAP ME"
@@ -202,8 +224,10 @@ Feature: Hooks
     Given I have a plugins directory
     And I have a "plugins/ext.rb" file with content:
     """
-    Bridgetown::Hooks.register :resources, :pre_render do |doc, payload|
-      doc.data['text'] = doc.data['text'] << ' are belong to us' if doc.data['text']
+    module Ext
+      Bridgetown::Hooks.register :resources, :pre_render do |doc, payload|
+        doc.data['text'] = doc.data['text'] << ' are belong to us' if doc.data['text']
+      end
     end
     """
     And I have a "bridgetown.config.yml" file that contains "collections: [ memes ]"
@@ -229,8 +253,10 @@ Feature: Hooks
     Given I have a plugins directory
     And I have a "plugins/ext.rb" file with content:
     """
-    Bridgetown::Hooks.register :resources, :post_render do |doc|
-      doc.output.gsub! /<p>/, '<p class="meme">'
+    module Ext
+      Bridgetown::Hooks.register :resources, :post_render do |doc|
+        doc.output.gsub! /<p>/, '<p class="meme">'
+      end
     end
     """
     And I have a "bridgetown.config.yml" file with content:
@@ -256,9 +282,11 @@ Feature: Hooks
     Given I have a plugins directory
     And I have a "plugins/ext.rb" file with content:
     """
-    Bridgetown::Hooks.register :resources, :post_write do |doc|
-      open('output/document-build.log', 'a') do |f|
-        f.puts "Wrote document #{doc.collection.resources.index doc} at #{Time.now}"
+    module Ext
+      Bridgetown::Hooks.register :resources, :post_write do |doc|
+        open('output/document-build.log', 'a') do |f|
+          f.puts "Wrote document #{doc.collection.resources.index doc} at #{Time.now}"
+        end
       end
     end
     """

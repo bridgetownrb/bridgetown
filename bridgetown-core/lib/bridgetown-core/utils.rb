@@ -121,15 +121,11 @@ module Bridgetown
     # @return [Boolean] if the YAML front matter is present.
     # rubocop: disable Naming/PredicateName
     def has_yaml_header?(file)
-      File.open(file, "rb", &:readline).match? Bridgetown::FrontMatterImporter::YAML_HEADER
-    rescue EOFError
-      false
+      File.open(file, "rb", &:gets)&.match?(Bridgetown::FrontMatterImporter::YAML_HEADER) || false
     end
 
     def has_rbfm_header?(file)
-      File.open(file, "rb", &:readline).match? Bridgetown::FrontMatterImporter::RUBY_HEADER
-    rescue EOFError
-      false
+      File.open(file, "rb", &:gets)&.match?(Bridgetown::FrontMatterImporter::RUBY_HEADER) || false
     end
 
     # Determine whether the given content string contains Liquid Tags or Vaiables
