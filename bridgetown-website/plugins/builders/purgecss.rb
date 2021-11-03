@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class PurgeCSS < SiteBuilder
+class Builders::Purgecss < SiteBuilder
   def build
     unless config[:watch] # don't run in "watch mode"
       hook :site, :post_write do
@@ -24,9 +24,11 @@ class PurgeCSS < SiteBuilder
           system "./node_modules/.bin/purgecss -c purgecss.config.js -css #{css_path}"
           newsize = File.stat(css_path).size / 1000
           if newsize < oldsize
-            Bridgetown.logger.info "PurgeCSS", "Done! File size reduced from #{oldsize}kB to #{newsize}kB"
+            Bridgetown.logger.info "PurgeCSS",
+                                   "Done! File size reduced from #{oldsize}kB to #{newsize}kB"
           else
-            Bridgetown.logger.info "PurgeCSS", "Done. No apparent change in file size (#{newsize}kB)."
+            Bridgetown.logger.info "PurgeCSS",
+                                   "Done. No apparent change in file size (#{newsize}kB)."
           end
         end
       end

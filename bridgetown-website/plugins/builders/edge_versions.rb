@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class EdgeVersions < SiteBuilder
+class Builders::EdgeVersions < SiteBuilder
   def build
     hook :site, :post_read do
       if Bridgetown::VERSION.include?("alpha") || Bridgetown::VERSION.include?("beta")
