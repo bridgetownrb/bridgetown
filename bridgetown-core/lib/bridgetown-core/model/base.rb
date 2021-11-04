@@ -9,40 +9,37 @@ module Bridgetown
       extend ActiveModel::Callbacks # also extends with DescendantsTracker
       define_model_callbacks :load, :save, :destroy
 
-      def self.loads_id?(id)
-        name == ActiveSupport::Inflector.classify(
-          URI.parse(id).host.chomp(".collection")
-        )
-      end
+      class << self
+        def find(id)
+          unless Bridgetown::Current.site
+            raise "A Bridgetown site must be initialized and added to Current"
+          end
 
-      def self.find(id)
-        unless Bridgetown::Current.site
-          raise "A Bridgetown site must be initialized and added to Current"
+          origin = origin_for_id(id)
+          klass_for_id(id, origin: origin).new(origin.read)
         end
 
-        model_klass = klass_for_id(id)
-        model_klass.new(read_data_for_id(id))
-      end
+        def origin_for_id(id)
+          scheme = URI.parse(id).scheme
+          origin_klass = Origin.descendants.find do |klass|
+            klass.handle_scheme?(scheme)
+          end
 
-      def self.klass_for_id(id)
-        descendants.find do |klass|
-          klass.loads_id?(id)
-        end || self
-      end
+          raise "No origin could be found for #{id}" unless origin_klass
 
-      def self.read_data_for_id(id)
-        origin_for_id(id).read
-      end
-
-      def self.origin_for_id(id)
-        scheme = URI.parse(id).scheme
-        origin_klass = Origin.descendants.find do |klass|
-          klass.handle_scheme?(scheme)
+          origin_klass.new(id)
         end
 
-        raise "No origin could be found for #{id}" unless origin_klass
+        def klass_for_id(id, origin: nil)
+          Bridgetown::Model::Base.descendants.find do |klass|
+            klass.will_load_id?(id, origin: origin)
+          end || Bridgetown::Model::Base
+        end
 
-        origin_klass.new(id)
+        def will_load_id?(id, origin: nil)
+          origin ||= origin_for_id(id)
+          origin.verify_model?(self)
+        end
       end
 
       class << self

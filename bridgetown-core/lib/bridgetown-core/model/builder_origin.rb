@@ -6,12 +6,14 @@ module Bridgetown
       # @return [Pathname]
       attr_reader :relative_path
 
-      def self.handle_scheme?(scheme)
-        scheme == "builder"
-      end
+      class << self
+        def handle_scheme?(scheme)
+          scheme == "builder"
+        end
 
-      def self.id_for_builder_path(builder, path)
-        "builder://#{builder.class.name.gsub("::", ".")}/#{path}"
+        def id_for_builder_path(builder, path)
+          "builder://#{builder.class.name.gsub("::", ".")}/#{path}"
+        end
       end
 
       def initialize(id)
