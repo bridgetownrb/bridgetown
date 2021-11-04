@@ -4,6 +4,7 @@ namespace :cy do
   end
 
   task :test do
+    ENV["BRIDGETOWN_ENV"] = "test"
     server_pid = fork { Bridgetown::Commands::Start.start }
     system "yarn run cypress open"
     Process.kill "SIGTERM", server_pid
@@ -15,6 +16,7 @@ namespace :cy do
 
   namespace :test do
     task :ci do
+      ENV["BRIDGETOWN_ENV"] = "test"
       server_pid = fork { Bridgetown::Commands::Start.start }
       system "yarn run cypress run"
       Process.kill "SIGTERM", server_pid
