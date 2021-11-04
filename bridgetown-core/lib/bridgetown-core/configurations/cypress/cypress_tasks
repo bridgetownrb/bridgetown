@@ -6,7 +6,7 @@ namespace :cy do
   task :test do
     ENV["BRIDGETOWN_ENV"] = "test"
     server_pid = fork { Bridgetown::Commands::Start.start }
-    system "yarn run cypress open"
+    Rake::Task["cy:open"].execute
     Process.kill "SIGTERM", server_pid
   end
 
@@ -18,7 +18,7 @@ namespace :cy do
     task :ci do
       ENV["BRIDGETOWN_ENV"] = "test"
       server_pid = fork { Bridgetown::Commands::Start.start }
-      system "yarn run cypress run"
+      Rake::Task["cy:run"].execute
       Process.kill "SIGTERM", server_pid
     end
   end
