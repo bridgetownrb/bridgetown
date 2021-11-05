@@ -4,7 +4,7 @@ require "helper"
 
 class FiltersBuilder < Builder
   def build
-    liquid_filter "multiply_by_2" do |input|
+    liquid_filter :multiply_by_2 do |input|
       input * 2
     end
 

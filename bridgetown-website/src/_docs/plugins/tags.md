@@ -14,7 +14,7 @@ will output the time the page was rendered:
 ```ruby
 class RenderTime < SiteBuilder
   def build
-    liquid_tag "render_time" do |attributes|
+    liquid_tag :render_time do |attributes|
       "#{attributes} #{Time.now}"
     end
   end
@@ -43,7 +43,7 @@ The `render_time` tag seen above can also be rewritten as a _tag block_. Look at
 ```ruby
 class RenderTime < SiteBuilder
   def build
-    liquid_tag "render_time", as_block: true do |attributes, tag|
+    liquid_tag :render_time, as_block: true do |attributes, tag|
       "#{tag.content} #{Time.now}"
     end
   end
@@ -78,7 +78,7 @@ As with other parts of the Builder API, you can also use an instance method to r
 ```ruby
 class Upcase < SiteBuilder
   def build
-    liquid_tag "upcase", :upcase_tag, as_block: true
+    liquid_tag :upcase, :upcase_tag, as_block: true
   end
 
   def upcase_tag(attributes, tag)
@@ -86,6 +86,8 @@ class Upcase < SiteBuilder
   end
 end
 ```
+
+If your tag name and method name are the same, you can omit the second argument.
 
 {% raw %}
 ```liquid

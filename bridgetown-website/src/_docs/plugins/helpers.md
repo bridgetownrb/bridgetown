@@ -12,7 +12,7 @@ Example:
 ```ruby
 class Helpers < SiteBuilder
   def build
-    helper "cache_busting_url" do |url|
+    helper :cache_busting_url do |url|
       "http://www.example.com/#{url}?#{Time.now.to_i}"
     end
   end
@@ -36,7 +36,7 @@ You can accept multiple arguments to your helper by simply adding them to your b
 ```ruby
 class Helpers < SiteBuilder
   def build
-    helper "multiply_and_optionally_add" do |input, multiply_by, add_by = nil|
+    helper :multiply_and_optionally_add do |input, multiply_by, add_by = nil|
       value = input * multiply_by
       add_by ? value + add_by : value
     end
@@ -63,7 +63,7 @@ As with other parts of the Builder API, you can also use an instance method to r
 ```ruby
 class Helpers < SiteBuilder
   def build
-    helper "cache_busting_url", :bust_it
+    helper :cache_busting_url, :bust_it
   end
 
   def bust_it(url)
@@ -71,6 +71,8 @@ class Helpers < SiteBuilder
   end
 end
 ```
+
+If your helper name and method name are the same, you can omit the second argument.
 
 ## Helper Execution Scope
 
@@ -81,7 +83,7 @@ To remedy this, simply pass the `helpers_scope: true` argument when defining a h
 ```ruby
 class Helpers < SiteBuilder
   def build
-    helper "slugify_and_upcase", helpers_scope: true do |url|
+    helper :slugify_and_upcase, helpers_scope: true do |url|
       slugify(url).upcase
     end
   end
@@ -97,7 +99,7 @@ Within the helpers scope, you can "capture" the contents of a block and use that
 ```ruby
 class Helpers < SiteBuilder
   def build
-    helper "capture_and_upcase", helpers_scope: true do |&block|
+    helper :capture_and_upcase, helpers_scope: true do |&block|
       label = "upcased"
       view.capture(label, &block).upcase
     end

@@ -8,13 +8,19 @@ module Bridgetown
           builder_self = self
           m = Module.new
 
-          if block && !helpers_scope
-            m.define_method helper_name do |*args|
-              builder_self.instance_exec(*args, &block)
-            end
-          else
-            block = method(method_name) if method_name
+          if block && helpers_scope
             m.define_method helper_name, &block
+          else
+            method_name ||= helper_name unless block
+            unless method_name
+              method_name = :"__helper_#{helper_name}"
+              builder_self.define_singleton_method(method_name) do |*args, **kwargs, &block2|
+                block.(*args, **kwargs, &block2)
+              end
+            end
+            m.define_method helper_name do |*args, **kwargs, &block2|
+              builder_self.send(method_name, *args, **kwargs, &block2)
+            end
           end
 
           Bridgetown::RubyTemplateView::Helpers.include(m)

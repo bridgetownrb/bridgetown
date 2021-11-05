@@ -4,7 +4,7 @@ require "helper"
 
 class HelpersBuilder < Builder
   def build
-    helper "block_based" do |something|
+    helper :block_based do |something|
       "Block Based #{something} #{self.class}"
     end
 
@@ -12,7 +12,7 @@ class HelpersBuilder < Builder
       "Within Helpers Scope Based #{something} #{self.class} #{slugify("I Am Groot")} #{view.class} #{site.class}"
     end
 
-    helper "method_based", :method_based
+    helper :method_based
   end
 
   def method_based(something)

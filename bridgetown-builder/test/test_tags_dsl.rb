@@ -9,7 +9,7 @@ class TagsBuilder < Builder
       "output of the tag #{attr}"
     end
 
-    liquid_tag "upcase_tag", as_block: true do |_attributes, tag|
+    liquid_tag :upcase_tag, as_block: true do |_attributes, tag|
       tag.content.upcase
     end
 

@@ -15,7 +15,7 @@ Example:
 ```ruby
 class Filters < SiteBuilder
   def build
-    liquid_filter "cache_busting_url" do |url|
+    liquid_filter :cache_busting_url do |url|
       "http://www.example.com/#{url}?#{Time.now.to_i}"
     end
   end
@@ -39,7 +39,7 @@ You can accept multiple arguments to your filter by simply adding them to your b
 ```ruby
 class Filters < SiteBuilder
   def build
-    liquid_filter "multiply_and_optionally_add" do |input, multiply_by, add_by = nil|
+    liquid_filter :multiply_and_optionally_add do |input, multiply_by, add_by = nil|
       value = input * multiply_by
       add_by ? value + add_by : value
     end
@@ -78,7 +78,7 @@ As with other parts of the Builder API, you can also use an instance method to r
 ```ruby
 class Filters < SiteBuilder
   def build
-    liquid_filter "cache_busting_url", :bust_it
+    liquid_filter :cache_busting_url, :bust_it
   end
 
   def bust_it(url)
@@ -86,6 +86,8 @@ class Filters < SiteBuilder
   end
 end
 ```
+
+If your filter name and method name are the same, you can omit the second argument.
 
 ## Filter Execution Scope
 
@@ -96,7 +98,7 @@ To remedy this, simply pass the `filters_scope: true` argument when defining a f
 ```ruby
 class Filters < SiteBuilder
   def build
-    liquid_filter "slugify_and_upcase", filters_scope: true do |url|
+    liquid_filter :slugify_and_upcase, filters_scope: true do |url|
       slugify(url).upcase
     end
   end

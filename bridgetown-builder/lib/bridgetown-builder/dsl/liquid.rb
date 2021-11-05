@@ -8,13 +8,19 @@ module Bridgetown
           builder_self = self
           m = Module.new
 
-          if block && !filters_scope
-            m.define_method filter_name do |*args|
-              builder_self.instance_exec(*args, &block)
-            end
-          else
-            block = method(method_name) if method_name
+          if block && filters_scope
             m.define_method filter_name, &block
+          else
+            method_name ||= filter_name unless block
+            unless method_name
+              method_name = :"__filter_#{filter_name}"
+              builder_self.define_singleton_method(method_name) do |*args, **kwargs|
+                block.(*args, **kwargs) # rubocop:disable Performance/RedundantBlockCall
+              end
+            end
+            m.define_method filter_name do |*args, **kwargs|
+              builder_self.send(method_name, *args, **kwargs)
+            end
           end
 
           ::Liquid::Template.register_filter(m)
@@ -23,7 +29,8 @@ module Bridgetown
         end
 
         def liquid_tag(tag_name, method_name = nil, as_block: false, &block)
-          block = method(method_name) if method_name.is_a?(Symbol)
+          method_name ||= tag_name unless block
+          block = method(method_name) if method_name
           local_name = name # pull the name method into a local variable
 
           tag_class = as_block ? ::Liquid::Block : ::Liquid::Tag

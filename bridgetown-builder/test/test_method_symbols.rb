@@ -5,7 +5,7 @@ require "helper"
 class MethodSymbolsBuilder < Builder
   def build
     generator :set_title
-    liquid_tag "upcase_tag", :upcase_tag, as_block: true
+    liquid_tag :upcase_tag, as_block: true
     liquid_filter "multiply_by_anything", :multiply_filter
     hook :site, :after_reset, :reset_hook
   end
