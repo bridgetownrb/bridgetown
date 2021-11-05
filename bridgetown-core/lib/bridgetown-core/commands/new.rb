@@ -153,6 +153,7 @@ module Bridgetown
             inside(path) do
               run "bundle install", abort_on_failure: true
               run "bundle binstubs bridgetown-core"
+              run "cp bin/bridgetown bin/bt"
             end
           end
         end
