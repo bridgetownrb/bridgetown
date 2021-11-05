@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## 1.0.0.alpha8 - 2021-11-05
+
+- Refactor builder DSL for Ruby 2.7 & 3.0 compatibility
+
 ## 1.0.0.alpha7 - 2021-11-05
 
 - Update minimum Ruby requirement to 2.7
