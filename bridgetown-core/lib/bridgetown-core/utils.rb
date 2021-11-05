@@ -351,7 +351,7 @@ module Bridgetown
     # @raise [WebpackAssetError] if unable to find css or js in the manifest
     # file
     def parse_webpack_manifest_file(site, asset_type)
-      return log_webpack_asset_error("Webpack manifest") if site.frontend_manifest.nil?
+      return log_webpack_asset_error(site, "Webpack manifest") if site.frontend_manifest.nil?
 
       asset_path = if %w(js css).include?(asset_type)
                      site.frontend_manifest["main.#{asset_type}"]
@@ -361,7 +361,7 @@ module Bridgetown
                      end&.last
                    end
 
-      return log_webpack_asset_error(asset_type) if asset_path.nil?
+      return log_webpack_asset_error(site, asset_type) if asset_path.nil?
 
       static_frontend_path site, ["js", asset_path]
     end
@@ -376,12 +376,14 @@ module Bridgetown
       Addressable::URI.parse(path_parts.join("/")).normalize.to_s
     end
 
-    def log_webpack_asset_error(asset_type)
-      Bridgetown.logger.warn(
-        "Webpack:",
-        "There was an error parsing your #{asset_type} file. \
-        Please check your #{asset_type} file for any errors."
-      )
+    def log_webpack_asset_error(site, asset_type)
+      site.data[:__webpack_asset_errors] ||= {}
+      site.data[:__webpack_asset_errors][asset_type] ||=
+        Bridgetown.logger.warn(
+          "Webpack:",
+          "There was an error parsing your #{asset_type} file. \
+          Please check your #{asset_type} file for any errors."
+        )
 
       "MISSING_WEBPACK_MANIFEST_FILE"
     end
