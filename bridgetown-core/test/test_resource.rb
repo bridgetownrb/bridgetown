@@ -387,13 +387,13 @@ class TestResource < BridgetownUnitTest
       should "work in a Ruby template" do
         assert_equal "That's **great**!", @resource.summary
 
-        @resource.singleton_class.include TestSummaryService::RubyResource
+        @resource.singleton_class.include TestingSummaryService::RubyResource
 
         assert_equal "SUMMARY! That's **gr DONE", @resource.summary
       end
 
       should "work in a Liquid template" do
-        @resource.singleton_class.include TestSummaryService::RubyResource
+        @resource.singleton_class.include TestingSummaryService::RubyResource
         @site.render
 
         assert_includes @resource.output, "Summary: :SUMMARY! That’s **gr DONE:"

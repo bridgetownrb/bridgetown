@@ -21,6 +21,7 @@ class TestGenerators < BridgetownUnitTest
     should "be loaded on site setup" do
       @site.reset
       @site.data[:site_metadata] = { title: "Initial Value" }
+      @site.loaders_manager.unload_loaders
       @site.setup
       @site.generate
 

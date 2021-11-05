@@ -5,6 +5,7 @@ module Bridgetown
     extend self
     autoload :Ansi, "bridgetown-core/utils/ansi"
     autoload :Aux, "bridgetown-core/utils/aux"
+    autoload :LoadersManager, "bridgetown-core/utils/loaders_manager"
     autoload :RequireGems, "bridgetown-core/utils/require_gems"
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
     autoload :RubyFrontMatter, "bridgetown-core/utils/ruby_front_matter"
@@ -120,15 +121,11 @@ module Bridgetown
     # @return [Boolean] if the YAML front matter is present.
     # rubocop: disable Naming/PredicateName
     def has_yaml_header?(file)
-      File.open(file, "rb", &:readline).match? Bridgetown::FrontMatterImporter::YAML_HEADER
-    rescue EOFError
-      false
+      File.open(file, "rb", &:gets)&.match?(Bridgetown::FrontMatterImporter::YAML_HEADER) || false
     end
 
     def has_rbfm_header?(file)
-      File.open(file, "rb", &:readline).match? Bridgetown::FrontMatterImporter::RUBY_HEADER
-    rescue EOFError
-      false
+      File.open(file, "rb", &:gets)&.match?(Bridgetown::FrontMatterImporter::RUBY_HEADER) || false
     end
 
     # Determine whether the given content string contains Liquid Tags or Vaiables

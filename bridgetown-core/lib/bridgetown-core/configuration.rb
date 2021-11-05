@@ -11,64 +11,68 @@ module Bridgetown
     # Strings rather than symbols are used for compatibility with YAML.
     DEFAULTS = {
       # Where things are
-      "root_dir"             => Dir.pwd,
-      "plugins_dir"          => "plugins",
-      "source"               => File.join(Dir.pwd, "src"),
-      "destination"          => File.join(Dir.pwd, "output"),
-      "collections_dir"      => "",
-      "cache_dir"            => ".bridgetown-cache",
-      "layouts_dir"          => "_layouts",
-      "data_dir"             => "_data",
-      "components_dir"       => "_components",
-      "partials_dir"         => "_partials",
-      "collections"          => {},
-      "taxonomies"           => {
+      "root_dir"                   => Dir.pwd,
+      "plugins_dir"                => "plugins",
+      "source"                     => File.join(Dir.pwd, "src"),
+      "destination"                => File.join(Dir.pwd, "output"),
+      "collections_dir"            => "",
+      "cache_dir"                  => ".bridgetown-cache",
+      "layouts_dir"                => "_layouts",
+      "data_dir"                   => "_data",
+      "components_dir"             => "_components",
+      "partials_dir"               => "_partials",
+      "collections"                => {},
+      "taxonomies"                 => {
         category: { key: "categories", title: "Category" }, tag: { key: "tags", title: "Tag" },
       },
+      "autoload_paths"             => [],
+      "eager_load_paths"           => [],
+      "autoloader_collapsed_paths" => [],
+      "plugins_use_zeitwerk"       => true,
 
       # Handling Reading
-      "include"              => [".htaccess", "_redirects", ".well-known"],
-      "exclude"              => [],
-      "keep_files"           => [".git", ".svn", "_bridgetown"],
-      "encoding"             => "utf-8",
-      "markdown_ext"         => "markdown,mkdown,mkdn,mkd,md",
-      "strict_front_matter"  => false,
-      "slugify_mode"         => "pretty",
+      "include"                    => [".htaccess", "_redirects", ".well-known"],
+      "exclude"                    => [],
+      "keep_files"                 => [".git", ".svn", "_bridgetown"],
+      "encoding"                   => "utf-8",
+      "markdown_ext"               => "markdown,mkdown,mkdn,mkd,md",
+      "strict_front_matter"        => false,
+      "slugify_mode"               => "pretty",
 
       # Filtering Content
-      "future"               => false,
-      "unpublished"          => false,
-      "ruby_in_front_matter" => true,
+      "future"                     => false,
+      "unpublished"                => false,
+      "ruby_in_front_matter"       => true,
 
       # Conversion
-      "content_engine"       => "resource",
-      "markdown"             => "kramdown",
-      "highlighter"          => "rouge",
-      "excerpt_separator"    => "\n\n",
+      "content_engine"             => "resource",
+      "markdown"                   => "kramdown",
+      "highlighter"                => "rouge",
+      "excerpt_separator"          => "\n\n",
 
       # Serving
-      "port"                 => "4000",
-      "host"                 => "127.0.0.1",
-      "base_path"            => "/",
-      "show_dir_listing"     => false,
+      "port"                       => "4000",
+      "host"                       => "127.0.0.1",
+      "base_path"                  => "/",
+      "show_dir_listing"           => false,
 
       # Output Configuration
-      "available_locales"    => [:en],
-      "default_locale"       => :en,
-      "permalink"            => nil, # default is set according to content engine
-      "timezone"             => nil, # use the local timezone
+      "available_locales"          => [:en],
+      "default_locale"             => :en,
+      "permalink"                  => nil, # default is set according to content engine
+      "timezone"                   => nil, # use the local timezone
 
-      "quiet"                => false,
-      "verbose"              => false,
-      "defaults"             => [],
+      "quiet"                      => false,
+      "verbose"                    => false,
+      "defaults"                   => [],
 
-      "liquid"               => {
+      "liquid"                     => {
         "error_mode"       => "warn",
         "strict_filters"   => false,
         "strict_variables" => false,
       },
 
-      "kramdown"             => {
+      "kramdown"                   => {
         "auto_ids"                => true,
         "toc_levels"              => (1..6).to_a,
         "entity_output"           => "as_char",
@@ -98,6 +102,7 @@ module Bridgetown
       def from(user_config, starting_defaults = DEFAULTS)
         Utils.deep_merge_hashes(starting_defaults.deep_dup, Configuration[user_config])
           .merge_environment_specific_options!
+          .setup_load_paths!
           .setup_locales
           .add_default_collections
           .add_default_excludes
@@ -109,21 +114,21 @@ module Bridgetown
       override[config_key] || self[config_key] || DEFAULTS[config_key]
     end
 
-    # Public: Directory of the top-level root where config files are located
+    # Directory of the top-level root where config files are located
     #
-    # override - the command-line options hash
+    # @param override [Hash] options hash which will override value if key is present
     #
-    # Returns the path to the Bridgetown root directory
-    def root_dir(override = "")
+    # @return [String] path to the Bridgetown root directory
+    def root_dir(override = {})
       get_config_value_with_override("root_dir", override)
     end
 
     # Public: Directory of the Bridgetown source folder
     #
-    # override - the command-line options hash
+    # @param override [Hash] options hash which will override value if key is present
     #
-    # Returns the path to the Bridgetown source directory
-    def source(override = "")
+    # @return [String]  path to the Bridgetown source directory
+    def source(override = {})
       get_config_value_with_override("source", override)
     end
 
@@ -240,6 +245,32 @@ module Bridgetown
         self[k] = self[Bridgetown.environment][k]
       end
       delete(Bridgetown.environment)
+
+      self
+    end
+
+    def setup_load_paths!
+      if self[:plugins_use_zeitwerk]
+        autoload_paths.unshift({
+          path: self[:plugins_dir],
+          eager: true,
+        })
+      end
+
+      autoload_paths.map! do |load_path|
+        if load_path.is_a?(Hash)
+          expanded = File.expand_path(load_path[:path], root_dir)
+          self[:eager_load_paths] << expanded if load_path[:eager]
+          next expanded
+        end
+
+        File.expand_path(load_path, root_dir)
+      end
+
+      autoloader_collapsed_paths.map! do |collapsed_path|
+        File.expand_path(collapsed_path, root_dir)
+      end
+
       self
     end
 

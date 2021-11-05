@@ -44,7 +44,6 @@ class TestKramdown < BridgetownUnitTest
       @syntax_highlighter_opts_config_keys = \
         @config["kramdown"]["syntax_highlighter_opts"].keys
 
-      @config = Bridgetown.configuration(@config)
       @converter = fixture_converter(@config)
     end
 

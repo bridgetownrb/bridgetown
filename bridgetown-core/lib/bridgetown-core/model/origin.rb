@@ -11,13 +11,22 @@ module Bridgetown
       # @return [String]
       attr_accessor :id
 
-      # Override in subclass
+      # You must implement in subclasses
       def self.handle_scheme?(_scheme)
         false
       end
 
       def initialize(id)
         self.id = id
+      end
+
+      # You can override in subclass
+      def verify_model?(klass)
+        collection_name = URI.parse(id).host.chomp(".collection")
+
+        return klass.collection_name.to_s == collection_name if klass.respond_to?(:collection_name)
+
+        klass.name == ActiveSupport::Inflector.classify(collection_name)
       end
 
       def read

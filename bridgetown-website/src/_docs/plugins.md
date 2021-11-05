@@ -40,30 +40,22 @@ bundle add bridgetown-feed -g bridgetown_plugins
   ```
 
 3. Running an [automation](/docs/automations) which will install one or more
-plugins along with other set up and configuration:
+gems along with other set up and configuration:
   ```sh
 bin/bridgetown apply https://github.com/bridgetownrb/bridgetown-cloudinary
   ```
-   
+
 ## Introduction to the Builder API
 
-**_New_** in Bridgetown 0.14 is the Builder API (also sometimes referred to as the Unified Plugins API). This is a brand-new way of writing plugins for both  custom plugins as well as gem-based plugins. Most previous techniques of writing plugins (registering Liquid tags and filters, generators, etc.) have been rebranded as the Legacy API. This API isn't going away any time soon as it provides the underlying functionality for the Builder API. However, we recommend all new plugin development center around the Builder API going forward.
+The Builder API (also sometimes referred to as the Unified Plugins API) is our preferred method of writing plugins for both custom plugins as well as gem-based plugins. Previous techniques of writing plugins (registering Liquid tags and filters, generators, etc.) are known as the Legacy API. This API isn't going away any time soon as it provides the underlying functionality for the Builder API. However, we recommend all new plugin development center around the Builder API going forward.
 
 ### Local Custom Plugins
 
-For local plugins, simply create a new `SiteBuilder` class in your `plugins` folder:
-
-```ruby
-# plugins/site_builder.rb
-class SiteBuilder < Bridgetown::Builder
-end
-```
-
-Then in `plugins/builders`, you can create one or more subclasses of `SiteBuilder` and write your plugin code within the `build` method which is called automatically by Bridgetown early on in the build process (specifically during the `pre_read` event before content has been loaded from the file system).
+The `SiteBuilder` class in your `plugins` folder provides the a superclass you can inherit from to create a new builder. In `plugins/builders`, you can create one or more subclasses of `SiteBuilder` and write your plugin code within the `build` method which is called automatically by Bridgetown early on in the build process (specifically during the `pre_read` event before content has been loaded from the file system).
 
 ```ruby
 # plugins/builders/add_some_tags.rb
-class AddSomeTags < SiteBuilder
+class Builders::AddSomeTags < SiteBuilder
   def build
     liquid_tag "cool_stuff", :cool_tag
   end
@@ -79,7 +71,7 @@ Builders provide a couple of instance methods you can use to reference important
 So for example you could add data with a generator:
 
 ```ruby
-class AddNewData < SiteBuilder
+class Builders::AddNewData < SiteBuilder
   def build
     generator do
       site.data[:new_data] = {new: "New stuff"}
@@ -101,7 +93,7 @@ And then reference that data in any Liquid template:
 The `config` instance method is available to access the Bridgetown site configuration object, and along with that you can optionally define a default configuration that will be included in the config object—and can be overridden by config settings directly in `bridgetown.config.yml`. For example:
 
 ```ruby
-class BuilderWithConfiguration < SiteBuilder
+class Builders::BuilderWithConfiguration < SiteBuilder
   CONFIG_DEFAULTS = {
     custom_config: {
       my_setting: 123
@@ -122,7 +114,7 @@ end
 
 ### Gem-based Plugins
 
-For a gem-based plugin, all you have to do is subclass directly from `Bridgetown::Builder` and then use the `register` class method to register the builder with Bridgetown when the gem loads. Example:
+For a gem-based plugin, all you have to do is subclass directly from `Bridgetown::Builder` and then use the `register` class method to register the builder with Bridgetown when the plugin loads. Example:
 
 ```ruby
 module Bridgetown
@@ -210,10 +202,65 @@ module MySite
 end
 ```
 
+## Zeitwerk and Autoloading
+
+Bridgetown 1.0 brings with it a new autoloading mechanism using [Zeitwerk](https://github.com/fxn/zeitwerk), the same code loader used by Rails and many other Ruby-based projects. Zeitwerk uses a specific naming convension so the paths of your Ruby files and the namespaces/modules/classes of your Ruby code are aligned. For example:
+
+```
+plugins/my_plugin.rb         -> MyPlugin
+plugins/my_plugin/foo.rb     -> MyPlugin::Foo
+plugins/my_plugin/bar_baz.rb -> MyPlugin::BarBaz
+plugins/my_plugin/woo/zoo.rb -> MyPlugin::Woo::Zoo
+```
+
+You can read more about [Zeitwerk's file conventions here](https://github.com/fxn/zeitwerk#file-structure).
+
+{% rendercontent "docs/note", title: "Take Me Back" %}
+  If you run into any problems with Zeitwerk after upgrading your Bridgetown project from pre-1.0, you can switch to the previous plugin loading method by adding `plugins_use_zeitwerk: false` to your `bridgetown.config.yml`. Or you can try using the `autoloader_collapsed_paths` setting as described below.
+{% endrendercontent %}
+
+In addition to the `plugins` folder provided by default, **you can add your own folders** with autoloading support! Simply add to the `autoload_paths` setting in your config YAML:
+
+```yaml
+autoload_paths:
+  - loadme
+```
+
+Now any Ruby file in your project's `./loadme` folder will be autoloaded. By default, files in your custom folders not "eager loaded", meaning that the Ruby code isn't actually processed unless/until you access the class or module name of the file somewhere in your code elsewhere. This can improve performance in certain cases. However, if you need to rely on the fact that your Ruby code is always loaded when the site is instantiated, simply set `eager` to true in your config:
+
+```yaml
+autoload_paths:
+  - path: loadme
+    eager: true
+```
+
+There may be times when you want to bypass Zeitwerk's default folder-based namespacing. For example, if you wanted something like this:
+
+```
+plugins/builders/tags.rb   -> Builders::Tags
+plugins/helpers/hashify.rb -> Hashify
+```
+
+where the files in `builders` use a `Builders` namespace, but the files in `helpers` don't use a `Helpers` namespace, you can use the `autoloader_collapsed_paths` setting:
+
+```yaml
+autoloader_collapsed_paths:
+  - plugins/helpers
+```
+
+And if you don't want namespacing for _any_ subfolders, you can use a glob pattern:
+
+```yaml
+autoloader_collapsed_paths:
+  - top_level/*
+```
+
+Thus no files directly in `top_level` as well as any of its immediate subfolders will be namespaced (that is, no `TopLevel` module will be implied).
+
 ## Creating a Gem
 
 The `bridgetown plugins new NAME` command will create an entire gem scaffold
-for you to customize and publish to the [RubyGems.org](https://rubygems.org)
+for you to customize and publish to the [RubyGems.org](https://rubyplugins.org)
 and [NPM](https://www.npmjs.com) registries. This is a great way to provide
 [themes](/docs/themes), builders, and other sorts of add-on functionality to
 Bridgetown websites. You'll want to make sure you update the `gemspec`,
@@ -221,18 +268,18 @@ Bridgetown websites. You'll want to make sure you update the `gemspec`,
 plugin to ensure all the necessary metadata and user documentation is present
 and accounted for.
 
-Make sure you [follow these instructions](/docs/plugins/gems-and-webpack/) to
+Make sure you [follow these instructions](/docs/plugins/plugins-and-webpack/) to
 integrate your plugin's frontend code with the users' Webpack setup. Also read
 up on [Source Manifests](/docs/plugins/source-manifests/) if you have layouts,
-components, pages, static files, and other content you would like your gem to
+components, pages, static files, and other content you would like your plugin to
 provide.
 
-You can also provide an automation via your gem's GitHub repository by adding
+You can also provide an automation via your plugin's GitHub repository by adding
 `bridgetown.automation.rb` to the root of your repo. This is a great way to
 provide advanced and interactive setup for your plugin. [More information on
 automations here.](/docs/automations)
 
-When you're ready, publish your plugin to the [RubyGems.org](https://rubygems.org)
+When you're ready, publish your plugin gem to the [RubyGems.org](https://rubyplugins.org)
 and [NPM](https://www.npmjs.com) registries. There are instructions on how to
 do so in the sample README that is present in your new plugin folder under the
 heading **Releasing**. Of course you will also need to make sure you've uploaded
@@ -241,11 +288,11 @@ your plugin to [GitHub](https://github.com) so it can be included in our
 wide. Plus it's a great way to solicit feedback and improvements in the form
 of open source code collaboration and discussion.
 
-As always, if you have any questions or need support in creating your gem,
+As always, if you have any questions or need support in creating your plugin,
 [check out our community resources](/docs/community).
 
 {% rendercontent "docs/note", title: "Testing Your Plugin" %}
-As you author your plugin, you'll need a way to _use_ the plugin within a live
+As you author your plugin, you'll need a way to _use_ the gem within a live
 Bridgetown site. The easiest way to do that is to use a relative local path in
 the test site's `Gemfile`.
 
@@ -263,10 +310,10 @@ You would do something similar in your test site's `package.json` as well (be su
 ```
 
 You may need to restart your server at times to pick up changes you make
-to your gem (unfortunately hot-reload doesn't always work with gem-based plugins).
+to your plugin (unfortunately hot-reload doesn't always work with gem-based plugins).
 
-Finally, you should try writing some [RSpec tests](https://relishapp.com/rspec)
-in the `spec` folder of your gem. These tests could ensure your tags, filters,
+Finally, you should try writing some [tests](http://docs.seattlerb.org/minitest/)
+in the `test` folder of your plugin. These tests could ensure your tags, filters,
 and other content are working as expected and won't break in the future as code
 gets updated.
 {% endrendercontent %}

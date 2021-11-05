@@ -42,6 +42,7 @@ class TestHooks < BridgetownUnitTest
 
     should "be triggered" do
       @site.reset
+      @site.loaders_manager.unload_loaders
       @site.setup
       Bridgetown::Hooks.trigger :site, :pre_read, @site
 
@@ -69,6 +70,7 @@ class TestHooks < BridgetownUnitTest
 
     should "be loaded" do
       @site.reset
+      @site.loaders_manager.unload_loaders
       @site.setup
       Bridgetown::Hooks.trigger :site, :pre_read, @site
 

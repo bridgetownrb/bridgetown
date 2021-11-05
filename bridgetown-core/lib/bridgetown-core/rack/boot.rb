@@ -14,9 +14,17 @@ require_relative "static_indexes"
 
 module Bridgetown
   module Rack
-    def self.boot
-      autoload_server_folder(root: Dir.pwd)
-      RodaApp.opts[:bridgetown_preloaded_config] = Bridgetown::Current.preloaded_configuration
+    class << self
+      # @return [Bridgetown::Utils::LoadersManager]
+      attr_accessor :loaders_manager
+    end
+
+    def self.boot(roda_app = nil)
+      self.loaders_manager =
+        Bridgetown::Utils::LoadersManager.new(Bridgetown::Current.preloaded_configuration)
+      autoload_server_folder
+      (roda_app || RodaApp).opts[:bridgetown_preloaded_config] =
+        Bridgetown::Current.preloaded_configuration
     rescue Roda::RodaError => e
       if e.message.include?("sessions plugin :secret option")
         raise Bridgetown::Errors::InvalidConfigurationError,
@@ -27,29 +35,44 @@ module Bridgetown
       raise e
     end
 
-    def self.autoload_server_folder(root:)
+    # @param root [String] root of Bridgetown site, defaults to config value
+    def self.autoload_server_folder( # rubocop:todo Metrics/MethodLength
+      root: Bridgetown::Current.preloaded_configuration.root_dir
+    )
       server_folder = File.join(root, "server")
-      loader = Zeitwerk::Loader.new
-      loader.push_dir server_folder
-      loader.enable_reloading unless ENV["BRIDGETOWN_ENV"] == "production"
-      loader.setup
-      loader.eager_load
-      loader.do_not_eager_load(File.join(server_folder, "roda_app.rb"))
+      #      Bridgetown::Current.preloaded_configuration.autoload_paths << server_folder
 
-      unless ENV["BRIDGETOWN_ENV"] == "production"
-        begin
-          Listen.to(server_folder) do |_modified, _added, _removed|
-            loader.reload
-            loader.eager_load
-            Bridgetown::Rack::Routes.reload_subclasses
-          end.start
-        # interrupt isn't handled well by the listener
-        rescue ThreadError # rubocop:disable Lint/SuppressedException
+      Bridgetown::Hooks.register_one(
+        :loader, :post_setup, reloadable: false
+      ) do |loader, load_path|
+        next unless load_path == server_folder
+
+        loader.eager_load
+        loader.do_not_eager_load(File.join(server_folder, "roda_app.rb"))
+
+        unless ENV["BRIDGETOWN_ENV"] == "production"
+          begin
+            Listen.to(server_folder) do |_modified, _added, _removed|
+              loader.reload
+              loader.eager_load
+              Bridgetown::Rack::Routes.reload_subclasses
+            end.start
+          # interrupt isn't handled well by the listener
+          rescue ThreadError # rubocop:disable Lint/SuppressedException
+          end
         end
       end
-    rescue Zeitwerk::Error
-      # We assume if there's an error it's because Zeitwerk already registered this folder,
-      # so it's fine to swallow the error
+
+      Bridgetown::Hooks.register_one(
+        :loader, :post_reload, reloadable: false
+      ) do |loader, load_path|
+        next unless load_path == server_folder
+
+        loader.eager_load
+        Bridgetown::Rack::Routes.reload_subclasses
+      end
+
+      loaders_manager.setup_loaders([server_folder])
     end
   end
 end

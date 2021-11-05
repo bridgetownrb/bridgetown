@@ -6,9 +6,9 @@ say_status :purgecss, "Installing PurgeCSS"
 
 run "yarn add -D purgecss"
 
-create_builder "purgecss_builder.rb" do
+create_builder "purgecss.rb" do
   <<~RUBY
-    class PurgeCSS < SiteBuilder
+    class Builders::Purgecss < SiteBuilder
       def build
         unless config[:watch] # don't run in "watch mode"
           hook :site, :post_write do

@@ -3,13 +3,14 @@
 class Bridgetown::Site
   module Extensible
     # Load necessary libraries, plugins, converters, and generators.
+    # This is only ever run once for the lifecycle of the site object.
     # @see Converter
     # @see Generator
     # @see PluginManager
     # @return [void]
     def setup
       plugin_manager.require_plugin_files
-      plugin_manager.setup_component_loaders
+      loaders_manager.setup_loaders
       self.converters = instantiate_subclasses(Bridgetown::Converter)
       self.generators = instantiate_subclasses(Bridgetown::Generator)
     end

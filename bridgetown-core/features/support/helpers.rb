@@ -37,6 +37,8 @@ class Paths
       ".bridgetown-webpack/manifest.json",
       "bridgetown.config.yml",
       "plugins",
+      "plugins/nested",
+      "plugins/nested/subnested",
       "frontend",
     ]
   end
