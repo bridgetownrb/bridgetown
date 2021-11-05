@@ -270,7 +270,7 @@ Feature: Site configuration
     """
     And I have a "bridgetown.config.yml" file with content:
     """
-    loader_collapsed_paths:
+    autoloader_collapsed_paths:
     - plugins/nested
     """
     When I run bridgetown build
@@ -305,7 +305,7 @@ Feature: Site configuration
     """
     And I have a "bridgetown.config.yml" file with content:
     """
-    loader_collapsed_paths:
+    autoloader_collapsed_paths:
     - plugins/*
     """
     When I run bridgetown build

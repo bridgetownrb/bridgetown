@@ -11,68 +11,68 @@ module Bridgetown
     # Strings rather than symbols are used for compatibility with YAML.
     DEFAULTS = {
       # Where things are
-      "root_dir"               => Dir.pwd,
-      "plugins_dir"            => "plugins",
-      "source"                 => File.join(Dir.pwd, "src"),
-      "destination"            => File.join(Dir.pwd, "output"),
-      "collections_dir"        => "",
-      "cache_dir"              => ".bridgetown-cache",
-      "layouts_dir"            => "_layouts",
-      "data_dir"               => "_data",
-      "components_dir"         => "_components",
-      "partials_dir"           => "_partials",
-      "collections"            => {},
-      "taxonomies"             => {
+      "root_dir"                   => Dir.pwd,
+      "plugins_dir"                => "plugins",
+      "source"                     => File.join(Dir.pwd, "src"),
+      "destination"                => File.join(Dir.pwd, "output"),
+      "collections_dir"            => "",
+      "cache_dir"                  => ".bridgetown-cache",
+      "layouts_dir"                => "_layouts",
+      "data_dir"                   => "_data",
+      "components_dir"             => "_components",
+      "partials_dir"               => "_partials",
+      "collections"                => {},
+      "taxonomies"                 => {
         category: { key: "categories", title: "Category" }, tag: { key: "tags", title: "Tag" },
       },
-      "autoload_paths"         => [],
-      "eager_load_paths"       => [],
-      "loader_collapsed_paths" => [],
-      "plugins_use_zeitwerk"   => true,
+      "autoload_paths"             => [],
+      "eager_load_paths"           => [],
+      "autoloader_collapsed_paths" => [],
+      "plugins_use_zeitwerk"       => true,
 
       # Handling Reading
-      "include"                => [".htaccess", "_redirects", ".well-known"],
-      "exclude"                => [],
-      "keep_files"             => [".git", ".svn", "_bridgetown"],
-      "encoding"               => "utf-8",
-      "markdown_ext"           => "markdown,mkdown,mkdn,mkd,md",
-      "strict_front_matter"    => false,
-      "slugify_mode"           => "pretty",
+      "include"                    => [".htaccess", "_redirects", ".well-known"],
+      "exclude"                    => [],
+      "keep_files"                 => [".git", ".svn", "_bridgetown"],
+      "encoding"                   => "utf-8",
+      "markdown_ext"               => "markdown,mkdown,mkdn,mkd,md",
+      "strict_front_matter"        => false,
+      "slugify_mode"               => "pretty",
 
       # Filtering Content
-      "future"                 => false,
-      "unpublished"            => false,
-      "ruby_in_front_matter"   => true,
+      "future"                     => false,
+      "unpublished"                => false,
+      "ruby_in_front_matter"       => true,
 
       # Conversion
-      "content_engine"         => "resource",
-      "markdown"               => "kramdown",
-      "highlighter"            => "rouge",
-      "excerpt_separator"      => "\n\n",
+      "content_engine"             => "resource",
+      "markdown"                   => "kramdown",
+      "highlighter"                => "rouge",
+      "excerpt_separator"          => "\n\n",
 
       # Serving
-      "port"                   => "4000",
-      "host"                   => "127.0.0.1",
-      "base_path"              => "/",
-      "show_dir_listing"       => false,
+      "port"                       => "4000",
+      "host"                       => "127.0.0.1",
+      "base_path"                  => "/",
+      "show_dir_listing"           => false,
 
       # Output Configuration
-      "available_locales"      => [:en],
-      "default_locale"         => :en,
-      "permalink"              => nil, # default is set according to content engine
-      "timezone"               => nil, # use the local timezone
+      "available_locales"          => [:en],
+      "default_locale"             => :en,
+      "permalink"                  => nil, # default is set according to content engine
+      "timezone"                   => nil, # use the local timezone
 
-      "quiet"                  => false,
-      "verbose"                => false,
-      "defaults"               => [],
+      "quiet"                      => false,
+      "verbose"                    => false,
+      "defaults"                   => [],
 
-      "liquid"                 => {
+      "liquid"                     => {
         "error_mode"       => "warn",
         "strict_filters"   => false,
         "strict_variables" => false,
       },
 
-      "kramdown"               => {
+      "kramdown"                   => {
         "auto_ids"                => true,
         "toc_levels"              => (1..6).to_a,
         "entity_output"           => "as_char",
@@ -267,7 +267,7 @@ module Bridgetown
         File.expand_path(load_path, root_dir)
       end
 
-      loader_collapsed_paths.map! do |collapsed_path|
+      autoloader_collapsed_paths.map! do |collapsed_path|
         File.expand_path(collapsed_path, root_dir)
       end
 

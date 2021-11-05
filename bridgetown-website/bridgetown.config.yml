@@ -2,7 +2,7 @@ url: "https://www.bridgetownrb.com"
 permalink: simple
 timezone: America/Los_Angeles
 
-loader_collapsed_paths:
+autoloader_collapsed_paths:
   - plugins/testing
 
 collections:
