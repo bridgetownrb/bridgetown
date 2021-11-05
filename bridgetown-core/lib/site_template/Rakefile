@@ -2,6 +2,9 @@ require "bridgetown"
 
 Bridgetown.load_tasks
 
+# Run rake without specifying any command to execute a deploy build by default.
+task default: :deploy
+
 #
 # Standard set of tasks, which you can customize if you wish:
 #
@@ -44,6 +47,3 @@ end
 #     say_status :rake, "I'm a Rake tast =) #{site.config.url}"
 #   end
 # end
-
-# Run rake without specifying any command to execute a deploy build by default.
-task default: :deploy

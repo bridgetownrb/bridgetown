@@ -41,6 +41,7 @@ module Bridgetown
         configuration_file = find_in_source_paths("#{configuration}.rb")
 
         inside(New.created_site_dir || Dir.pwd) do
+          @templates_dir = File.expand_path("../configurations/#{configuration}", __dir__)
           apply configuration_file, verbose: false
         end
       end
@@ -60,6 +61,12 @@ module Bridgetown
       def configurations
         inside self.class.source_root do
           return Dir.glob("*.rb").map { |file| file.sub(".rb", "") }
+        end
+      end
+
+      def in_templates_dir(*paths)
+        paths.reduce(@templates_dir) do |base, path|
+          Bridgetown.sanitized_path(base, path.to_s)
         end
       end
     end
