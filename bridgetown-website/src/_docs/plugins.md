@@ -255,7 +255,7 @@ loader_collapsed_paths:
   - top_level/*
 ```
 
-Thus no files directly in `top_level` as well as any of its subfolders will be namespaced (that is, no `TopLevel` module will be implied).
+Thus no files directly in `top_level` as well as any of its immediate subfolders will be namespaced (that is, no `TopLevel` module will be implied).
 
 ## Creating a Gem
 

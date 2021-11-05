@@ -280,12 +280,24 @@ Feature: Site configuration
 
   Scenario: Allow collapsed Zeitwerk dirs using globs
     Given I have a "plugins/nested" directory
+    And I have a "plugins/nested/subnested" directory
     And I have a "plugins/nested/top_level.rb" file with content:
     """
     module TopLevel
       Bridgetown::Hooks.register :site, :after_reset do |site|
         pg = Bridgetown::GeneratedPage.new(site, site.source, "/", "foo.html")
         pg.content = "Zeitwerk glob dir"
+
+        site.generated_pages << pg
+      end
+    end
+    """
+    And I have a "plugins/nested/subnested/lower_level.rb" file with content:
+    """
+    module Subnested::LowerLevel
+      Bridgetown::Hooks.register :site, :after_reset do |site|
+        pg = Bridgetown::GeneratedPage.new(site, site.source, "/", "bar.html")
+        pg.content = "Zeitwerk glob subnested dir"
 
         site.generated_pages << pg
       end
@@ -300,3 +312,5 @@ Feature: Site configuration
     Then I should get a zero exit status
     And the output directory should exist
     And I should see "Zeitwerk glob dir" in "output/foo/index.html"
+    And I should see "Zeitwerk glob subnested dir" in "output/bar/index.html"
+

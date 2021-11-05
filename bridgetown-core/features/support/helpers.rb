@@ -38,6 +38,7 @@ class Paths
       "bridgetown.config.yml",
       "plugins",
       "plugins/nested",
+      "plugins/nested/subnested",
       "frontend",
     ]
   end
