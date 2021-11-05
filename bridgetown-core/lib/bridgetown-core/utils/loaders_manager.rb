@@ -28,7 +28,7 @@ module Bridgetown
         load_path.start_with?(root_dir) && ENV["BRIDGETOWN_ENV"] != "production"
       end
 
-      def setup_loaders(autoload_paths = []) # rubocop:todo Metrics/CyclomaticComplexity
+      def setup_loaders(autoload_paths = []) # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
         (autoload_paths.presence || config.autoload_paths).each do |load_path|
           if @loaders.key?(load_path)
             raise "Zeitwerk loader already added for `#{load_path}'. Please check your config"
@@ -44,6 +44,11 @@ module Bridgetown
           end
           loader.enable_reloading if reloading_enabled?(load_path)
           loader.ignore(File.join(load_path, "**", "*.js.rb"))
+          config.loader_collapsed_paths.each do |collapsed_path|
+            next unless collapsed_path.starts_with?(load_path)
+
+            loader.collapse(collapsed_path)
+          end
           Bridgetown::Hooks.trigger :loader, :pre_setup, loader, load_path
           loader.setup
           loader.eager_load if config.eager_load_paths.include?(load_path)

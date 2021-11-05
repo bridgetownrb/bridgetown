@@ -216,10 +216,10 @@ plugins/my_plugin/woo/zoo.rb -> MyPlugin::Woo::Zoo
 You can read more about [Zeitwerk's file conventions here](https://github.com/fxn/zeitwerk#file-structure).
 
 {% rendercontent "docs/note", title: "Take Me Back" %}
-  If you run into any problems with Zeitwerk after upgrading your Bridgetown project from pre-1.0, you can switch to the previous plugin loading method by adding `plugins_use_zeitwerk: false` to your `bridgetown.config.yml`.
+  If you run into any problems with Zeitwerk after upgrading your Bridgetown project from pre-1.0, you can switch to the previous plugin loading method by adding `plugins_use_zeitwerk: false` to your `bridgetown.config.yml`. Or you can try using the `loader_collapsed_paths` setting as described below.
 {% endrendercontent %}
 
-In addition to the `plugins` folder provided by default, **you can add your own folders** with autoloading support! Simply add to the `autoload_paths` key in your config YAML:
+In addition to the `plugins` folder provided by default, **you can add your own folders** with autoloading support! Simply add to the `autoload_paths` setting in your config YAML:
 
 ```yaml
 autoload_paths:
@@ -233,6 +233,29 @@ autoload_paths:
   - path: loadme
     eager: true
 ```
+
+There may be times when you want to bypass Zeitwerk's default folder-based namespacing. For example, if you wanted something like this:
+
+```
+plugins/builders/tags.rb   -> Builders::Tags
+plugins/helpers/hashify.rb -> Hashify
+```
+
+where the files in `builders` use a `Builders` namespace, but the files in `helpers` don't use a `Helpers` namespace, you can use the `loader_collapsed_paths` setting:
+
+```yaml
+loader_collapsed_paths:
+  - plugins/helpers
+```
+
+And if you don't want namespacing for _any_ subfolders, you can use a glob pattern:
+
+```yaml
+loader_collapsed_paths:
+  - top_level/*
+```
+
+Thus no files directly in `top_level` as well as any of its subfolders will be namespaced (that is, no `TopLevel` module will be implied).
 
 ## Creating a Gem
 

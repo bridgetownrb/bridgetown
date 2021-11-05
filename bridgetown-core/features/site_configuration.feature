@@ -254,3 +254,49 @@ Feature: Site configuration
     And the output directory should exist
     And I should see "FOO" in "output/index.html"
     And I should not see " " in "output/index.html"
+
+  Scenario: Allow collapsed Zeitwerk dirs with specific dir name
+    Given I have a "plugins/nested" directory
+    And I have a "plugins/nested/top_level.rb" file with content:
+    """
+    module TopLevel
+      Bridgetown::Hooks.register :site, :after_reset do |site|
+        pg = Bridgetown::GeneratedPage.new(site, site.source, "/", "foo.html")
+        pg.content = "Zeitwerk specific dir"
+
+        site.generated_pages << pg
+      end
+    end
+    """
+    And I have a "bridgetown.config.yml" file with content:
+    """
+    loader_collapsed_paths:
+    - plugins/nested
+    """
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And the output directory should exist
+    And I should see "Zeitwerk specific dir" in "output/foo/index.html"
+
+  Scenario: Allow collapsed Zeitwerk dirs using globs
+    Given I have a "plugins/nested" directory
+    And I have a "plugins/nested/top_level.rb" file with content:
+    """
+    module TopLevel
+      Bridgetown::Hooks.register :site, :after_reset do |site|
+        pg = Bridgetown::GeneratedPage.new(site, site.source, "/", "foo.html")
+        pg.content = "Zeitwerk glob dir"
+
+        site.generated_pages << pg
+      end
+    end
+    """
+    And I have a "bridgetown.config.yml" file with content:
+    """
+    loader_collapsed_paths:
+    - plugins/*
+    """
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And the output directory should exist
+    And I should see "Zeitwerk glob dir" in "output/foo/index.html"
