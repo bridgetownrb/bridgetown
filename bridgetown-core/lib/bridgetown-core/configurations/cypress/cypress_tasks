@@ -4,6 +4,11 @@ namespace :cy do
     system "yarn run cypress open"
   end
 
+  desc "Run Cypress tests headless"
+  task :run do
+    system "yarn run cypress run"
+  end
+
   desc "Start server and open Cypress test runner"
   task :test do
     ENV["BRIDGETOWN_ENV"] = "test"
@@ -14,13 +19,8 @@ namespace :cy do
     puts
   end
 
-  desc "Run Cypress tests headless"
-  task :run do
-    system "yarn run cypress run"
-  end
-
   namespace :test do
-    desc "Start server and run cypress tests headless"
+    desc "Start server and run Cypress tests headless"
     task :ci do
       ENV["BRIDGETOWN_ENV"] = "test"
       server_pid = fork { Bridgetown::Commands::Start.start }
