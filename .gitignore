@@ -8,7 +8,6 @@ output/
 .bundle/
 .byebug_history
 .ruby-gemset
-.ruby-version
 *.gem
 Gemfile.lock
 
