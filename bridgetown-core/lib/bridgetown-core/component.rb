@@ -164,9 +164,9 @@ module Bridgetown
       end
     end
 
-    ruby2_keywords def method_missing(method, *args, &block)
+    def method_missing(method, *args, **kwargs, &block)
       if helpers.respond_to?(method.to_sym)
-        helpers.send method.to_sym, *args, &block
+        helpers.send method.to_sym, *args, **kwargs, &block
       else
         super
       end

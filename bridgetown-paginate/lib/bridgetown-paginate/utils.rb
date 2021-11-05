@@ -57,7 +57,7 @@ module Bridgetown
       # @param path [String]
       # @return [String] the input without the leading slash
       def self.remove_double_slash(path)
-        path[0..1] == "//" ? path[1..-1] : path
+        path[0..1] == "//" ? path[1..] : path
       end
 
       # Static: Return a String version of the input which has a trailing slash.

@@ -23,7 +23,7 @@ module Kramdown
         @options ||= Options.merge(options).freeze
         @parser  ||= begin
           parser_name = (@options[:input] || "kramdown").to_s
-          parser_name = parser_name[0..0].upcase + parser_name[1..-1]
+          parser_name = parser_name[0..0].upcase + parser_name[1..]
           try_require("parser", parser_name)
 
           if Parser.const_defined?(parser_name)

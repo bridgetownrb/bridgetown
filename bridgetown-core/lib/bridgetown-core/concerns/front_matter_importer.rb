@@ -32,7 +32,7 @@ module Bridgetown
         self.front_matter_line_count = ruby_content[1].lines.size
         process_ruby_data(ruby_content[1], file_path, 2)
       elsif Bridgetown::Utils.has_rbfm_header?(file_path)
-        process_ruby_data(File.read(file_path).lines[1..-1].join("\n"), file_path, 2)
+        process_ruby_data(File.read(file_path).lines[1..].join("\n"), file_path, 2)
       elsif is_a?(Layout)
         self.content = file_contents
         {}

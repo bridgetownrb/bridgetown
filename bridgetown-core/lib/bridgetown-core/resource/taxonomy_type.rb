@@ -48,8 +48,8 @@ module Bridgetown
         to_h
       end
 
-      ruby2_keywords def to_json(*options)
-        as_json(*options).to_json(*options)
+      def to_json(...)
+        as_json(...).to_json(...)
       end
     end
   end

@@ -95,7 +95,7 @@ module Bridgetown
       def belongs_to_relation_for_type(type)
         if resource.data[type].is_a?(Array)
           other_slugs = other_collection_for_type(type).resources_by_slug
-          resource.data[type].map { |slug| other_slugs[slug] }.compact
+          resource.data[type].filter_map { |slug| other_slugs[slug] }
         else
           other_collection_for_type(type).resources.find do |other_resource|
             other_resource.data.slug == resource.data[type]

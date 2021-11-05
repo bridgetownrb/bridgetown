@@ -144,7 +144,7 @@ module Bridgetown
       @base_dir ||= File.join(Bridgetown::Cache.cache_dir, @name)
       return @base_dir if hash.nil?
 
-      File.join(@base_dir, hash[0..1], hash[2..-1]).freeze
+      File.join(@base_dir, hash[0..1], hash[2..]).freeze
     end
 
     # Given a key, return a SHA2 hash that can be used for caching this item to disk.

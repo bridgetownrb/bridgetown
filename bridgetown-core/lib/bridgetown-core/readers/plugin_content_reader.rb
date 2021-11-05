@@ -40,7 +40,7 @@ module Bridgetown
     end
 
     def add_to(content_type, klass)
-      existing_paths = content_type.map(&:relative_path).compact
+      existing_paths = content_type.filter_map(&:relative_path)
       @content_files.select { |item| item.is_a?(klass) }.each do |item|
         content_type << item unless existing_paths.include?(item.relative_path)
       end

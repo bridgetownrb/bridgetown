@@ -59,8 +59,8 @@ class Roda
           end.read!.transform!.output
         end
 
-        ruby2_keywords def render(*args, &block)
-          view.render(*args, &block)
+        def render(...)
+          view.render(...)
         end
 
         def view(view_class: Bridgetown::ERBView)

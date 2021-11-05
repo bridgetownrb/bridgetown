@@ -62,7 +62,7 @@ module Bridgetown
         unless site.ssr?
           Bridgetown.logger.info "Regenerating…"
           Bridgetown.logger.info "", "#{n} file(s) changed at #{t.strftime("%Y-%m-%d %H:%M:%S")}"
-          c.each { |path| Bridgetown.logger.info "", path["#{site.root_dir}/".length..-1] }
+          c.each { |path| Bridgetown.logger.info "", path["#{site.root_dir}/".length..] }
         end
 
         process(site, t, options)
@@ -105,7 +105,7 @@ module Bridgetown
       source = Pathname.new(options["source"]).expand_path
       paths  = to_exclude(options)
 
-      paths.map do |p|
+      paths.filter_map do |p|
         absolute_path = Pathname.new(normalize_encoding(p, options["source"].encoding)).expand_path
         next unless absolute_path.exist?
 
@@ -120,7 +120,7 @@ module Bridgetown
         rescue ArgumentError
           # Could not find a relative path
         end
-      end.compact + [%r!^\.bridgetown-metadata!]
+      end + [%r!^\.bridgetown-metadata!]
     end
 
     def sleep_forever

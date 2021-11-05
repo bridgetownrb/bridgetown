@@ -7,8 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-- Don't mutate bundler dependencies in place (#433)
-- Add bundled configuration for Render  (#431)
+...
+
+## 1.0.0.alpha7 - 2021-11-05
+
+- Update minimum Ruby requirement to 2.7
+- Copy `bin/bridgetown` to `bin/bt` after binstubs generation
+- Ensure Webpack error messages only display once
+- Add bundled configuration for Cypress [#339](https://github.com/bridgetownrb/bridgetown/pull/339) ([ayushn21](https://github.com/ayushn21))
+- Use Zeitwerk for autoload/eager load paths (including plugins) [#434](https://github.com/bridgetownrb/bridgetown/pull/434) ([jaredcwhite](https://github.com/jaredcwhite) & [ayushn21](https://github.com/ayushn21))
+- Don't mutate bundler dependencies in place [#433](https://github.com/bridgetownrb/bridgetown/pull/433) ([deivid-rodriguez](https://github.com/deivid-rodriguez))
+- Add bundled configuration for Render [#431](https://github.com/bridgetownrb/bridgetown/pull/431) ([ayushn21](https://github.com/ayushn21))
 
 ## 1.0.0.alpha6 - 2021-10-26
 

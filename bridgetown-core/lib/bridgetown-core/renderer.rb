@@ -161,9 +161,9 @@ module Bridgetown
     end
 
     def output_exts
-      @output_exts ||= converters.map do |c|
+      @output_exts ||= converters.filter_map do |c|
         c.output_ext(document.extname)
-      end.compact
+      end
     end
   end
 end

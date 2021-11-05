@@ -14,7 +14,9 @@ module Bridgetown
 
           routes_dir = Bridgetown::Current.site.in_source_dir("_routes")
           # @type [Array]
-          routes = Dir.glob(routes_dir + "/**/*.{#{routable_extensions.join(",")}}").map do |file|
+          routes = Dir.glob(
+            routes_dir + "/**/*.{#{routable_extensions.join(",")}}"
+          ).filter_map do |file|
             if File.basename(file).start_with?("_", ".") ||
                 File.basename(file, ".*").end_with?(".test")
               next
@@ -31,7 +33,7 @@ module Bridgetown
             end
 
             [file, file_slug, segment_keys]
-          end.compact
+          end
 
           routes.sort! do |route_a, route_b|
             # @type [String]

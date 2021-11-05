@@ -15,16 +15,16 @@ module Bridgetown
         end
       end
 
-      ruby2_keywords def before_build(*args, &block)
-        set_callback :build, :before, *args, &block
+      def before_build(*args, **kwargs, &block)
+        set_callback :build, :before, *args, **kwargs, &block
       end
 
-      ruby2_keywords def after_build(*args, &block)
-        set_callback :build, :after, *args, &block
+      def after_build(*args, **kwargs, &block)
+        set_callback :build, :after, *args, **kwargs, &block
       end
 
-      ruby2_keywords def around_build(*args, &block)
-        set_callback :build, :around, *args, &block
+      def around_build(*args, **kwargs, &block)
+        set_callback :build, :around, *args, **kwargs, &block
       end
     end
 

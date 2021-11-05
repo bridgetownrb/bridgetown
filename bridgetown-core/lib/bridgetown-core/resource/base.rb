@@ -255,8 +255,8 @@ module Bridgetown
         to_h
       end
 
-      ruby2_keywords def to_json(*options)
-        as_json(*options).to_json(*options)
+      def to_json(...)
+        as_json(...).to_json(...)
       end
 
       def inspect
@@ -349,7 +349,7 @@ module Bridgetown
 
       # Look for alternative front matter or look at the filename pattern: slug.locale.ext
       def locale_from_alt_data_or_filename
-        found_locale = data.language || data.lang || basename_without_ext.split(".")[1..-1].last
+        found_locale = data.language || data.lang || basename_without_ext.split(".")[1..].last
         return unless found_locale && site.config.available_locales.include?(found_locale.to_sym)
 
         found_locale

@@ -72,9 +72,9 @@ module Bridgetown
         instance_exec(@_roda_app.request, &self.class.router_block)
       end
 
-      ruby2_keywords def method_missing(method_name, *args, &block)
+      def method_missing(method_name, *args, **kwargs, &block)
         if @_roda_app.respond_to?(method_name.to_sym)
-          @_roda_app.send method_name.to_sym, *args, &block
+          @_roda_app.send method_name.to_sym, *args, **kwargs, &block
         else
           super
         end

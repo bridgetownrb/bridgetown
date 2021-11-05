@@ -16,7 +16,7 @@ Bridgetown/NoPutsAllowed:
     - bridgetown-core/lib/bridgetown-core/rack/roda.rb
 
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.7
 
 Lint/NestedPercentLiteral:
   Exclude:

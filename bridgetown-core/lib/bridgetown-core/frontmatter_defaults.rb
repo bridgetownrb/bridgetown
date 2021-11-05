@@ -181,7 +181,7 @@ module Bridgetown
       sets = site.config["defaults"]
       return [] unless sets.is_a?(Array)
 
-      sets.map do |set|
+      sets.filter_map do |set|
         if valid?(set)
           massage_scope!(set)
           # TODO: is this trip really necessary?
@@ -191,7 +191,7 @@ module Bridgetown
           Bridgetown.logger.warn set.to_s
           nil
         end
-      end.compact
+      end
     end
 
     # Set path to blank if not specified and alias older type to collection

@@ -113,7 +113,7 @@ class BridgetownUnitTest < Minitest::Test
 
   def mocks_expect(*args)
     RSpec::Mocks::ExampleMethods::ExpectHost.instance_method(:expect)\
-      .bind(self).call(*args)
+      .bind_call(self, *args)
   end
 
   def before_setup

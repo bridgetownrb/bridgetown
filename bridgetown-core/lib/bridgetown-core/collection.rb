@@ -234,7 +234,7 @@ module Bridgetown
       end
 
       resources.each do |data_resource|
-        segments = data_resource.relative_path.each_filename.to_a[1..-1]
+        segments = data_resource.relative_path.each_filename.to_a[1..]
         nested = []
         segments.each_with_index do |segment, index|
           sanitized_segment = sanitize_filename.(File.basename(segment, ".*"))
