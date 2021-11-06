@@ -142,14 +142,14 @@ I’ve been using resources exclusively on all Bridgetown site projects for a wh
 
 Bridgetown 1.0 “Pearl” is already the most action-packed release since the initial launch of the framework, but in many ways we’re just getting started. From full internationalization (I18n) features to blazing-fast frontend bundling via esbuild, from new supercharged starter kits to numerous SSR and Roda API improvements, we expect subsequent releases past 1.0 to continue the trend of making rapid progress for maximum DX (Developer Experience).
 
-We encourage you to [try Bridgetown 1.0.0.alpha5 today](https://edge.bridgetownrb.com), and then jump into our [Discord chat](https://discord.gg/4E6hktQGz4) to let us know what you think. Your feedback and ideas are invaluable in shaping the future of Bridgetown and helping make it the best site generator for Rubyists everywhere.
+We encourage you to [try Bridgetown 1.0 alpha today](https://edge.bridgetownrb.com), and then jump into our [Discord chat](https://discord.gg/4E6hktQGz4) to let us know what you think. Your feedback and ideas are invaluable in shaping the future of Bridgetown and helping make it the best site generator for Rubyists everywhere.
 
 ### Upgrading from v0.2x
 
 First, you’ll need to specify the new version in your Gemfile:
 
 ```ruby
-gem "bridgetown", "~> 1.0.0.alpha5"
+gem "bridgetown", "~> 1.0.0.alpha8"
 ```
 
 You’ll also need to add Puma to your Gemfile:
@@ -172,6 +172,8 @@ You will need to add a few additional files to your project, so we suggest using
 Finally, you can remove `start.js` and `sync.js` and well as any scripts in `package.json` besides `webpack-build` and `webpack-dev` (and you can also remove the `browser-sync` and `concurrently` dev dependencies in `package.json`).
 
 Going forward, if you need to customize any aspect of Bridgetown’s build scripts or add your own, you can alter your `Rakefile` and utilize Bridgetown’s automatic Rake task support.
+
+**Note:** starting with alpha8, your plugins folder will be loaded via Zeitwerk by default. This means you'll need to namespace your Ruby files using certain conventions or reconfigure the loader settings. [Read the documentation here](https://edge.bridgetownrb.com/docs/plugins#zeitwerk-and-autoloading).
 
 The other major change you’ll need to work on in your project is switching your plugins/templates to use resources. There’s a fair degree of [documentation on our edge site regarding resources](https://edge.bridgetownrb.com/docs/resources). In addition, if you used the Document Builder API in the past, you’ll need to upgrade to the [Resource Builder API](https://edge.bridgetownrb.com/docs/plugins/external-apis).
 
