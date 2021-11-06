@@ -173,7 +173,7 @@ Finally, you can remove `start.js` and `sync.js` and well as any scripts in `pac
 
 Going forward, if you need to customize any aspect of Bridgetown’s build scripts or add your own, you can alter your `Rakefile` and utilize Bridgetown’s automatic Rake task support.
 
-**Note:** starting with alpha8, your plugins folder will be loaded via Zeitwerk by default. This means you'll need to namespace your Ruby files using certain conventions or reconfigure the loader settings. [Read the documentation here](https://edge.bridgetownrb.com/docs/plugins#zeitwerk-and-autoloading).
+**Note:** starting with alpha8, your plugins folder will be loaded via Zeitwerk by default. This means you'll need to namespace your Ruby files using certain conventions or reconfigure the loader settings. [Read the documentation here](https://edge.bridgetownrb.com/docs/plugins#zeitwerk-and-autoloading){:data-no-swup="true"}.
 
 The other major change you’ll need to work on in your project is switching your plugins/templates to use resources. There’s a fair degree of [documentation on our edge site regarding resources](https://edge.bridgetownrb.com/docs/resources). In addition, if you used the Document Builder API in the past, you’ll need to upgrade to the [Resource Builder API](https://edge.bridgetownrb.com/docs/plugins/external-apis).
 
