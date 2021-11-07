@@ -311,6 +311,22 @@ class TestResource < BridgetownUnitTest
       end
     end
 
+    context "a PORT (Plain Ol' Ruby Template)" do
+      should "render out as HTML" do
+        @site = resources_site
+        @site.process
+        @dest_file = File.read(dest_dir("i-am-ruby/index.html"))
+
+        assert_includes @dest_file, <<~HTML
+          <body>
+          <blockquote>
+            <p>Well, <em>this</em> is quite interesting! =)</p>
+          </blockquote>
+          </body>
+        HTML
+      end
+    end
+
     context "dotfile permalink" do
       should "get saved to destination" do
         @site = resources_site

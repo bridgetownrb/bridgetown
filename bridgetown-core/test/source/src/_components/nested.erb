@@ -1,5 +1,5 @@
 <%= @level %>: <%= content %>
 <%= render (Nested.new(level: @level + 1)) do %>Level <%= @level + 1 %><% end %>
 <% if @level == 4 %>
-  <%= markdownify("**#{site.config.level} 4!!**") %>
+  <%= markdownify("**#{site.config.level} 4!!**\n") %>
 <% end %>

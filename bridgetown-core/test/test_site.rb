@@ -166,6 +166,7 @@ class TestSite < BridgetownUnitTest
         main.scss
         page_from_a_plugin.html
         page_using_erb.erb
+        page_using_serb.serb
         properties.html
         sitemap.xml
         static_files.html

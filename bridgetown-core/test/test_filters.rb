@@ -849,6 +849,7 @@ class TestFilters < BridgetownUnitTest
           assert(
             ["default",
              "erblayout",
+             "serblayout",
              "example/test_layout",
              "example/overridden_layout",
              "nil",
@@ -1143,6 +1144,7 @@ class TestFilters < BridgetownUnitTest
           assert(
             ["DEFAULT",
              "ERBLAYOUT",
+             "SERBLAYOUT",
              "EXAMPLE/TEST_LAYOUT",
              "EXAMPLE/OVERRIDDEN_LAYOUT",
              "NIL",
