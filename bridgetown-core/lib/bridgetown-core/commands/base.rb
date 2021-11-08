@@ -91,6 +91,8 @@ module Bridgetown
           puts "Usage:"
           puts "  bridgetown <command> [options]"
           puts ""
+          return if subcommand == "--version"
+
           super
 
           require "rake"
