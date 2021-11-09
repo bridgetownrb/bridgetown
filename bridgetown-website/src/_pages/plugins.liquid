@@ -3,7 +3,7 @@
   layout: :default,
   title: "Jazz Up Your Site with Themes & Plugins",
   plugins: -> do
-    endpoint = "https://api.github.com/search/repositories?q=topic:bridgetown-plugin"
+    endpoint = "https://api.github.com/search/repositories?q=topic:bridgetown-plugin%20archived:false"
 
     conn = Faraday.new(
       url: endpoint,
