@@ -98,7 +98,7 @@ For Serbea code samples in Markdown, use the `serb` tag. And like ERB, you can e
 Here's·my·**Markdown**·file.
 
 ```serb
-And·my·{%%=·"ERB·code·sample"·%}
+And·my·{%%= "ERB·code·sample" %}
 ```
 ~~~
 
@@ -427,7 +427,7 @@ If you find a particular use case where escaping occurs (or doesn't occur) in an
 
 Serbea only escapes values by default when using the double-braces syntax `{{ }}`. When using `{%= %}`, escaping does _not_ occur by default.
 
-```
+```serb
 str = "<p>Escape me!</p>"
 
 {{ str }} <!-- output: &lt;p&gt;Escape me!&lt;/p&gt; -->
@@ -436,7 +436,7 @@ str = "<p>Escape me!</p>"
 
 To explicitly escape a value when using percent signs, use the `escape` or `h` helper. To explicitly mark a value as safe when using double-braces, use the `safe` or `raw` filter:
 
-```
+```serb
 str = "<p>Escape me!</p>"
 
 {{ str | safe }} <!-- output: <p>Escape me!</p> -->
