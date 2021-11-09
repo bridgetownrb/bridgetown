@@ -23,6 +23,6 @@ group :test, optional: true do
   gem "shoulda"
 end
 
-gem "puma", "~> 5.2"
-gem "regexp_parser", "2.0.3"
-gem "ruby2js", "~> 4.0"
+gem "puma", "~> 5.5"
+# required by @ruby2js/webpack-loader
+gem "ruby2js", "~> 4.2"
