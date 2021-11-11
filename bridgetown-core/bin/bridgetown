@@ -19,7 +19,7 @@ Bridgetown::PluginManager.require_from_bundler
 # TODO: need to change behavior of Colorator gem
 ENV["THOR_SHELL"] = "Basic" if ENV["NO_COLOR"]
 
-output_version = if ARGV[0] == "-v"
+output_version = if ARGV[0] == "-v" || ARGV[0] == "--version"
                    puts "bridgetown #{Bridgetown::VERSION} \"#{Bridgetown::CODE_NAME}\""
                    true
                  end
