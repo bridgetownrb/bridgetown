@@ -1,0 +1,15 @@
+---
+layout_var:
+  - test
+---
+
+<div>Test? {%= layout[:layout_var].first %}</div>
+
+<h1>{{ page.data.title }}</h1>
+
+{%= yield %}
+
+{%= partial "testing/partials", locals: { yes: "yes." } %}
+{%= render "testing/partials", yes: "YES!!" %}
+
+<footer>{%= site.time %} / {%= Bridgetown::VERSION %}</footer>

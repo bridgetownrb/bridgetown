@@ -1,0 +1,49 @@
+---
+layout: serblayout
+title: I'm an Serbea Page
+page_var: 123
+---
+
+One two three: {%= page.data[:page_var] * 10 %}
+
+{%= liquid_render "test_component", param: "Liquid FTW!" %}
+
+Oats, {{ ["peas", "beans", "barley"] | array_to_sentence_string }} grow.
+
+  {%= markdownify do %}
+      ## I'm a header!
+
+      * Yay!
+      {%= "* Nifty!" %}
+  {% end %}
+
+{% test_capturing = capture do %}
+  This is how {%= "#{"cap"}turing" %} works!
+{% end %}
+
+{{ test_capturing | reverse }}
+
+<p class="{%= class_map blank: !''.empty?, truthy: true, 'more-truthy' => 'yes' == 'yes', falsy: nil, 'more-falsy' => 'no' == 'yes' %}">classes!</p>
+
+{%@ RubyComponent %}
+
+{%= render(Card.new(title: "I'm a card", footer: "I'm a footer")) do |c| %}
+  {% c.image do %}
+    <img src="test.jpg" />
+  {% end %}
+  <p>I'm the body of the {%= c.kind %}</p>
+{% end %}
+
+{%@ Card title: "Nope", footer: "CANCEL!" do %}
+  Canceled!
+{% end %}
+
+{%= render (NestedSerb.new(level: 1)) do %}Level 1{% end %}
+
+{%= render Example::OverrideComponent.new %}
+
+===
+{%= test_block_helpers do |item| %}
+{%= item[:value] %}
+{% end %}
+---

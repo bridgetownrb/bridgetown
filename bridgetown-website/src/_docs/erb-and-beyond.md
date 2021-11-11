@@ -10,15 +10,15 @@ Bridgetown's primary template language is [**Liquid**](/docs/liquid), due to his
 
 However, Bridgetown's implementation language, Ruby, has a rich history of providing [ERB (Embedded RuBy)](https://docs.ruby-lang.org/en/2.7.0/ERB.html) for templates and view layers across a wide variety of tools and frameworks. Other Ruby-based template languages such as [Haml](https://haml.info), [Slim](http://slim-lang.com), and [Serbea](https://www.serbea.dev) garner enthusiastic usage as well.
 
-Bridgetown makes it easy to add ERB-based templates and components to any site. In additional, there are plugins you can easily install for Haml, Slim, and Serbea support. Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process these Ruby templates.
+Bridgetown makes it easy to add both ERB-based and Serbea-based templates and components to any site. In additional, there are plugins you can easily install for Haml and Slim support. Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process these Ruby templates.
 
-Interested in switching your entire site to use ERB by default? [It's possible to do that too!](/docs/template-engines)
+Interested in switching your entire site to use ERB or Serbea by default? [It's possible to do that too!](/docs/template-engines)
 
 <%= toc %>
 
 ## Usage
 
-Simply define a page/document with an `.erb` extension, rather than `.html`. You'll still need to add front matter to the top of the file (or at the very least two lines of triple dashes `---`) for the file to get processed. In the Ruby code you embed, you'll be interacting with the underlying Ruby API for Bridgetown objects (aka `Bridgetown::Page`, `Bridgetown::Site`, etc.). Here's an example:
+For ERB, simply define a page/document with an `.erb` extension, rather than `.html`. You'll still need to add front matter to the top of the file (or at the very least two lines of triple dashes `---`) for the file to get processed. In the Ruby code you embed, you'll be interacting with the underlying Ruby API for Bridgetown objects (aka `Bridgetown::Page`, `Bridgetown::Site`, etc.). Here's an example:
 
 ```eruby
 ---
@@ -54,13 +54,66 @@ You can easily loop through resources in a collection:
 <%% end %>
 ```
 
-Or using the [paginator](/docs/content/pagination):
+Or using the [paginator](/docs/content/pagination), along with the `link_to` helper:
 
 ```eruby
 <%% paginator.resources.each do |post| %>
-  <li><a href="<%%= post.relative_url %>"><%%= post.data.title %></a></li>
+  <li><%%= link_to post.data.title, post %></li>
 <%% end %>
 ```
+
+### Serbea
+
+Serbea is a "superset" of ERB which provides the same benefits as ERB but uses curly braces like Liquid `{% %}` or `{{ }}` and adds support for filters and render directives. Use the file extension `.serb`. Here's an example of the above ERB code rewritten in Serbea:
+
+```serb
+{% collections.posts.resources.each do |post| %}
+  <li><a href="{{ post.relative_url }}">{{ post.data.title }}</a></li>
+{% end %}
+
+----
+
+{% paginator.resources.each do |post| %}
+  <li>{{ post.data.title | link_to: post }}</li>
+{% end %}
+```
+
+Notice this is using the Liquid-like filter syntax for `link_to`. You can use this kind of syntax with _any_ helpers available in all Ruby templates, as well as methods on objects themselves. Examples:
+
+```serb
+{{ resource.data.description | markdownify }}
+
+{{ resource.data.title | titleize }}
+
+{{ resource.data.tags | array_to_sentence_string: "or" }}
+
+{{ resource.data.upcase_me | upcase }} <!-- in this case upcase is a method on the String object itself! -->
+```
+
+(Under the hood, a Ruby method's first argument will be supplied with the value of the left-side of the pipe `|` operator, and subsequent arguments continue after that as you write the filter syntax.)
+
+For Serbea code samples in Markdown, use the `serb` tag. And like ERB, you can escape using two percent signs:
+
+~~~md
+Here's·my·**Markdown**·file.
+
+```serb
+And·my·{%%= "ERB·code·sample" %}
+```
+~~~
+
+Serbea also provides a `raw` helper just like Liquid for escaping Serbea code:
+
+```serb
+
+Process me! {% do_something %}
+
+Don't process me! {% raw %}{% do_something %}{% endraw %}
+```
+
+There's a [VS Code extension available for Serbea](https://marketplace.visualstudio.com/items?itemName=whitefusion.serbea) which includes syntax highlighting as well as commands to convert selected ERB syntax to Serbea, and even a Serbea + Markdown highlighter.
+
+For details on HTML output safety, see below (Serbea and ERB differ slightly on how escaping is accomplished).
 
 ## Dot Access Hashes
 
@@ -350,7 +403,7 @@ Usage is pretty straightforward:
 
 ## Escaping and HTML Safety
 
-Starting in Bridgetown v0.21, the ERB template engine has switched to using a safe output buffer—[the same one used in Rails](https://guides.rubyonrails.org/active_support_core_extensions.html#output-safety).
+The ERB template engine uses a safe output buffer—[the same one used in Rails](https://guides.rubyonrails.org/active_support_core_extensions.html#output-safety).
 
 That means that you'll sometimes find that if you simply output a front matter variable or some other string value that contains HTML tags and entities, the string will be "escaped" so that the actual angle brackets and so forth are displayed in the website content (rather than being interpreted as valid HTML tags).
 
@@ -369,6 +422,26 @@ Often that's the right call for [security purposes to avoid XSS attacks](https:/
 Note that using `html_safe` directly _requires_ the value to be a string already. If you use the `raw`/`safe` helpers, it will first perform `to_s` automatically. Also bear in mind that `<%%= yield %>` or `<%%= content %>` or rendering components/partials won't perform escaping on the rendered template output. (This is for obvious reasons—otherwise you'd get a visual mess of escaped HTML tags.)
 
 If you find a particular use case where escaping occurs (or doesn't occur) in an unexpected manner, [please file a bug report in the Bridgetown GitHub repo](https://github.com/bridgetownrb/bridgetown/issues/new?assignees=&labels=bug&template=bug_report.md&title=).
+
+### When Using Serbea
+
+Serbea only escapes values by default when using the double-braces syntax `{{ }}`. When using `{%= %}`, escaping does _not_ occur by default.
+
+```serb
+str = "<p>Escape me!</p>"
+
+{{ str }} <!-- output: &lt;p&gt;Escape me!&lt;/p&gt; -->
+{%= str %} <!-- output: <p>Escape me!</p> -->
+```
+
+To explicitly escape a value when using percent signs, use the `escape` or `h` helper. To explicitly mark a value as safe when using double-braces, use the `safe` or `raw` filter:
+
+```serb
+str = "<p>Escape me!</p>"
+
+{{ str | safe }} <!-- output: <p>Escape me!</p> -->
+{%= escape(str) %} <!-- output: &lt;p&gt;Escape me!&lt;/p&gt; -->
+```
 
 ## Haml and Slim
 

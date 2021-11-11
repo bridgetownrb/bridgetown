@@ -15,7 +15,7 @@ $base-code-text-color: #403030;
 .highlight .x { color: $base-code-text-color } /* Other */
 .highlight .p { color: $base-code-text-color; font-weight: 500 } /* Punctuation */
 .highlight .cm { color: #8f5902; font-style: italic } /* Comment.Multiline */
-.highlight .cp { color: #8f5902; font-style: italic } /* Comment.Preproc */
+.highlight .cp { color: #8f5902; } /* Comment.Preproc */
 .highlight .c1 { color: #8f5902; font-style: italic } /* Comment.Single */
 .highlight .cs { color: #8f5902; font-style: italic } /* Comment.Special */
 .highlight .gd { color: #a40000 } /* Generic.Deleted */

@@ -1,4 +1,4 @@
----ruby
+~~~{%
 {
   layout: :default,
   title: "Jazz Up Your Site with Themes & Plugins",
@@ -33,23 +33,23 @@
     items
   end
 }
----
+%}~~~
 
-{% rendercontent "shared/page_layout" %}
-  <h1 class="mt-3 mb-10 title is-1 has-text-centered has-text-brown">{{ page.title }}</h1>
+{%= liquid_render "shared/page_layout" do %}
+  <h1 class="mt-3 mb-10 title is-1 has-text-centered has-text-brown">{{ page.data.title }}</h1>
 
   <p class="mb-10 has-text-centered">
     Peruse our growing collection of official and third-party plugins which provide new capabilities to your Bridgetown site. If you've authored a <a href="/docs/plugins/#creating-a-gem" class="wavy-underline" data-no-swup>plugin gem</a>, add the <code class="has-background-white">bridgetown-plugin</code> topic to your GitHub repo to include it here.
   </p>
 
-  {% for plugin in page.plugins %}
+  {% page.data.plugins.each do |plugin| %}
     <article class="box px-8 py-8 mb-10">
       <a href="{{ plugin.html_url }}" rel="noopener">
         <h2 class="mb-8 title is-3 has-text-info">
           {{ plugin.name }}
           {% if plugin.gem_version %}
             <ui-label class="tag is-warning">v{{ plugin.gem_version }}</ui-label>
-          {% endif %}
+          {% end %}
         </h2>
       </a>
 
@@ -62,5 +62,5 @@
         <a href="{{ plugin.owner.html_url }}" class="has-text-weight-bold" rel="noopener">{{ plugin.owner.login }}</a>
       </article-author>
     </article>
-  {% endfor %}
-{% endrendercontent %}
+  {% end %}
+{% end %}

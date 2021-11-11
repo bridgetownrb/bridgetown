@@ -11,6 +11,7 @@ AllCops:
     - vendor/**/*
     - tmp/**/*
     - test/source/**/*
+    - test/resources/src/_pages/*.rb
     - lib/site_template/Rakefile
     - lib/site_template/config.ru
     - lib/site_template/config/**/*
