@@ -6,9 +6,7 @@ hide_in_toc: true
 order: 0
 ---
 
-Starting in Bridgetown 0.18 and greatly enhanced in 0.21, you can render Ruby objects directly in your Ruby-based templates! This provides the basis for a fully-featured view component architecture for ERB and beyond.
-
-A component is a reusable piece of template logic that can be included in any part of the site, and a full suite of components can comprise what is often called a "design system".
+A component is a reusable piece of template logic that can be included in any part of the site, and a full suite of components can comprise what is often called a "design system". You can render Ruby component objects directly in your Ruby-based templates, and you can render components from within other components. This provides the basis for a fully-featured view component architecture for ERB and beyond.
 
 Ruby components can be combined with front-end component strategies using **web components** or other JavaScript libraries/frameworks for a [hybrid static/dynamic approach](/docs/components#hybrid-components){:data-no-swup="true"}.
 

@@ -70,14 +70,6 @@ Here's an example of a component which shows a product price and an Add to Cart 
 
 {% raw %}
 ```html
----
-name: Product Price
-description: Displays the price of a product along with an Add to Cart button.
-variables:
-  sku: [string, Product SKU]
-  price: [number, The price of the product]
-  class: [string, Additional CSS class names]
----
 <product-price class="{{ class }}" sku="{{ sku }}">
   <strong slot="price">${{ price }}</strong>
   <button class="button is-primary" slot="add-to-cart">Add to Cart</button>
