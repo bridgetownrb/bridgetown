@@ -9,6 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## 1.0.0.alpha9 - 2021-11-11
+
+- Remove the Liquid Component gem dependency
+- Add support for environment CLI flags (`-e production` or `--environment=production`)
+- Integrate Serbea 1.0 into Bridgetown [#440](https://github.com/bridgetownrb/bridgetown/pull/440) ([jaredcwhite](https://github.com/jaredcwhite)
+- Add new console commands via ConsoleMethods mixin [#439](https://github.com/bridgetownrb/bridgetown/pull/439) ([jaredcwhite](https://github.com/jaredcwhite)
+- Support long version form in CLI (`--version`) [#445](https://github.com/bridgetownrb/bridgetown/pull/445) ([Eric-Guo](https://github.com/Eric-Guo))
+
+### Documentation
+
+- Skip the archived state in plugins. [#443](https://github.com/bridgetownrb/bridgetown/pull/443) ([Eric-Guo](https://github.com/Eric-Guo))
+- Update ruby2js as required by webpack loader [#442](https://github.com/bridgetownrb/bridgetown/pull/442) ([Eric-Guo](https://github.com/Eric-Guo))
+
 ## 1.0.0.alpha8 - 2021-11-05
 
 - Refactor builder DSL for Ruby 2.7 & 3.0 compatibility
