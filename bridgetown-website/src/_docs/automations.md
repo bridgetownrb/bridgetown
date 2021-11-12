@@ -19,7 +19,7 @@ apply that to a brand-new site to set everything up just how you want it in a
 repeatable and automatic fashion.
 
 Automations can be loaded from a local path, or they can be loaded from remote
-URLs including GitHub repositories and gists.
+URLs including GitHub repositories and gists. You can also run automation scripts [from within Rake tasks](/docs/command-line-usage#rakefile-and-rake-tasks).
 
 ## Running Automations
 
