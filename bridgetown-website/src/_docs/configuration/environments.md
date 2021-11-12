@@ -30,7 +30,9 @@ a control panel of some kind. Or at the command line, look for a `.bashrc` or
 export BRIDGETOWN_ENV="production"
 ```
 
-For example, suppose you set this conditional statement in your code:
+## Conditional Content
+
+Suppose you set this conditional statement in your code:
 
 {% raw %}
 ```liquid
@@ -53,7 +55,7 @@ The default value for `BRIDGETOWN_ENV` is `development`. Thus if you omit
 {% raw %}`{% if bridgetown.environment == "development" %}`{% endraw %} tags will
 automatically appear in the build.
 
-Your environment values can be anything you want (not just `development` or `production`). Some elements you might want to hide in development environments include comment forms or analytics. Conversely, you might want to expose an "Edit me in GitHub" button in a development environment but not include it in production environments.
+Some elements you might want to hide in development environments include comment forms or analytics. Conversely, you might want to expose an "Edit me in GitHub" button in a development or staging environment but not include it in production environments.
 
 ## Environment-specific Configurations
 
