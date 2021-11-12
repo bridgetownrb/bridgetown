@@ -149,7 +149,7 @@ We encourage you to [try Bridgetown 1.0 alpha today](https://edge.bridgetownrb.c
 First, you’ll need to specify the new version in your Gemfile:
 
 ```ruby
-gem "bridgetown", "~> 1.0.0.alpha8"
+gem "bridgetown", "~> 1.0.0.alpha9"
 ```
 
 You’ll also need to add Puma to your Gemfile:
