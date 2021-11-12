@@ -6,6 +6,10 @@
     <%= render Shared::Head.new(metadata: site.metadata, title: resource.data.title) %>
   </head>
   <body class="<%= resource.data.layout %> <%= resource.data.page_class %>">
+    <layout-notice style="background: rgb(24,24,27);color: white;font-size: 0.85em;padding: 8px 10px;text-align: center;">
+      <strong style="color: white;">Rubyists Assemble!</strong> We're currently raising funds to help drive the launch of 1.0! <a href="#" style="color: #f47c3c;font-weight: bold;">Join the effort today ▸</a>
+    </layout-notice>
+
     <%=
       render Shared::Navbar.new(
         metadata: site.metadata, resource: resource, edge_version: site.data.edge_version
