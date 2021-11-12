@@ -24,6 +24,13 @@ output_version = if ARGV[0] == "-v" || ARGV[0] == "--version"
                    true
                  end
 
+if env_index = ARGV.index { |arg| arg == "-e" } # rubocop:disable Lint/AssignmentInCondition
+  env = ARGV[env_index + 1]
+  ENV["BRIDGETOWN_ENV"] = env if env
+elsif env_flag = ARGV.find { |arg| arg.start_with?("--environment=") } # rubocop:disable Lint/AssignmentInCondition
+  ENV["BRIDGETOWN_ENV"] = env_flag.split("=").last
+end
+
 ENV["RACK_ENV"] = ENV["BRIDGETOWN_ENV"]
 
 require "bridgetown-core/commands/base"

@@ -5,13 +5,20 @@ order: 0
 category: configuration
 ---
 
-When running the `build` or `serve` commands, you can specify a Bridgetown
-environment variable: `BRIDGETOWN_ENV`. The build will then apply this value in
-any conditional statements in your content. You specify the environment by
+The "environment" of a Bridgetown site can affect the way certain processes work. Typically your site is run in the `development` environment. When running automated tests it should be run in the `test` environment, and upon deployment it should be run in the `production` environment.
+
+When running CLI commands, you can specify the Bridgetown environment by
 prepending it to your command:
 
 ```sh
-BRIDGETOWN_ENV=production bridgetown build
+BRIDGETOWN_ENV=production bin/bridgetown build
+```
+
+or by using the `-e` or `--environment` flag:
+
+```sh
+bin/bridgetown build -e production
+bin/bridgetown console --environment=test
 ```
 
 Alternatively, you can set the environment value using your computer or server

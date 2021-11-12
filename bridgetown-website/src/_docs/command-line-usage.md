@@ -29,7 +29,7 @@ Available commands are:
 * `bin/bridgetown webpack ACTION` - Allows you to perform actions such as `update` on your project's Webpack configuration. Invoke without arguments to see all available actions.
 {% endraw %}
 
-To change Bridgetown's default build behavior have a look through the [configuration options](/docs/configuration).
+To change Bridgetown's default build behavior have a look through the [configuration options](/docs/configuration). You'll also want to read up on [how to set your Bridgetown environment](/docs/configuration/environments) for different use cases.
 
 For deployment, if you need to add an extra step to copy `output` to a web server or run some script post-build, putting that in the `deploy` task in your `Rakefile` is a good way to go.
 

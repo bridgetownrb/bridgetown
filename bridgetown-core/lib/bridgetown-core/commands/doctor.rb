@@ -57,8 +57,7 @@ module Bridgetown
       def conflicting_urls(site)
         conflicting_urls = false
         urls = {}
-        urls = collect_urls(urls, site.pages, site.dest)
-        urls = collect_urls(urls, site.collections.posts.docs, site.dest)
+        urls = collect_urls(urls, site.contents, site.dest)
         urls.each do |url, paths|
           next unless paths.size > 1
 
@@ -98,7 +97,11 @@ module Bridgetown
 
       def collect_urls(urls, things, destination)
         things.each do |thing|
-          dest = thing.destination(destination)
+          dest = if thing.method(:destination).arity == 1
+                   thing.destination(destination)
+                 else
+                   thing.destination
+                 end
           if urls[dest]
             urls[dest] << thing.path
           else
@@ -110,8 +113,8 @@ module Bridgetown
 
       def case_insensitive_urls(things, _destination)
         things.each_with_object({}) do |thing, memo|
-          dest = thing.destination.output_path
-          (memo[dest.downcase] ||= []) << dest
+          dest = thing.destination&.output_path
+          (memo[dest.downcase] ||= []) << dest if dest
         end
       end
 
