@@ -8,9 +8,9 @@ category: news
 
 I recently hosted a live news update and AMA on Twitter Spaces, and it was a great success! A bunch of people joined in and I got to answer a few questions.
 
-Topics included a progress report on the [Bridgetown fundraising campaign](https://fundraising.bridgetownrb.com), the upcoming Prismic CMS plugin, the state of web frameworks and how Bridgetown relates to developments in the Jamstack as well as interop with Rail, and the importance of a polyglot web.
+Topics included a progress report on the [Bridgetown fundraising campaign](https://fundraising.bridgetownrb.com), the upcoming Prismic CMS plugin, the state of web frameworks and how Bridgetown relates to developments in the Jamstack as well as interop with Rails, and the importance of a "polyglot web."
 
-Enjoy! (And stay tuned for another Twitter Spaces discussion in December…)
+**Enjoy!** (And stay tuned for another Twitter Spaces discussion in December…)
 
 <p style="text-align:center; margin-top:2rem"><audio controls src="https://jaredwhiteshow.s3-us-west-1.amazonaws.com/Bridgetown%20Twitter%20Spaces%20Recording%20-%202021-11-12.mp3" style="width:100%; max-width:350px; display: inline-block; border-radius: 14px; margin:0; background: #f47c3c"></audio></p>
 
