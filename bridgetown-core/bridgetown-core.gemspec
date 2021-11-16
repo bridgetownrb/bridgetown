@@ -53,4 +53,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("thor",                  "~> 1.1")
   s.add_runtime_dependency("tilt",                  "~> 2.0")
   s.add_runtime_dependency("webrick",               "~> 1.7")
+  s.add_runtime_dependency("zeitwerk",              "~> 2.5")
 end

@@ -31,6 +31,10 @@ Performance/CollectionLiteralInLoop:
   Exclude:
     - test/test_filters.rb
 
+Style/OpenStructUse:
+  Exclude:
+    - test/**/*.rb
+
 Style/StringConcatenation:
   Exclude:
     - test/test_apply_command.rb

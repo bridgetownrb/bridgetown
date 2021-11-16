@@ -38,7 +38,7 @@ module Bridgetown
       return if text.empty?
 
       src << bufvar << ".safe_append='"
-      src << text.gsub(%r{['\\]}, '\\\\\&') # rubocop:disable Style/StringLiterals
+      src << text.gsub(%r{['\\]}, '\\\\\&')
       src << "'.freeze;"
     end
 
