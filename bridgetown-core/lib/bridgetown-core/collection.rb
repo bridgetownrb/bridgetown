@@ -297,12 +297,6 @@ module Bridgetown
       resources << resource if site.config.unpublished || resource.published?
     end
 
-    private
-
-    def container
-      @container ||= site.config["collections_dir"]
-    end
-
     def sort_resources!
       if metadata["sort_by"].is_a?(String)
         sort_resources_by_key!
@@ -310,6 +304,12 @@ module Bridgetown
         resources.sort!
       end
       resources.reverse! if metadata.sort_direction == "descending"
+    end
+
+    private
+
+    def container
+      @container ||= site.config["collections_dir"]
     end
 
     # A custom sort function based on Schwartzian transform
