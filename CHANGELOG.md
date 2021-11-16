@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+
+## 1.0.0.alpha10 - 2021-11-15
+
+- Fix class duplication bug with reloads and `ActiveSupport::DescendantsTracker` [#450](https://github.com/bridgetownrb/bridgetown/pull/450) ([jaredcwhite](https://github.com/jaredcwhite)
+- Remove extra space from plugins command output [#449](https://github.com/bridgetownrb/bridgetown/pull/449) ([jacobherrington](https://github.com/jacobherrington)
+
 ## 1.0.0.alpha9 - 2021-11-11
 
 - Remove the Liquid Component gem dependency
