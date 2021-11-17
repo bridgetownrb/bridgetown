@@ -25,6 +25,12 @@ module Bridgetown
         def data_file_extensions
           %w(.yaml .yml .json .csv .tsv .rb).freeze
         end
+
+        def new_with_collection_path(collection, relative_path)
+          collection = collection.label if collection.is_a?(Bridgetown::Collection)
+
+          new("repo://#{collection}.collection/#{relative_path}")
+        end
       end
 
       def read
@@ -44,6 +50,18 @@ module Bridgetown
         @data[:_content_] = content if content
 
         @data
+      end
+
+      def write(model)
+        contents = "#{front_matter(model)}---\n\n#{model.content}"
+
+        # Create folders if necessary
+        dir = File.dirname(original_path)
+        FileUtils.mkdir_p(dir) unless File.directory?(dir)
+
+        File.write(original_path, contents)
+
+        true
       end
 
       def url
@@ -120,6 +138,25 @@ module Bridgetown
             error.is_a?(Bridgetown::Errors::FatalException)
           raise error
         end
+      end
+
+      def front_matter(model)
+        data = model.data_attributes.to_h
+        data = data.deep_merge(data) do |_, _, v|
+          case v
+          when DateTime
+            v.to_time
+          when Symbol
+            v.to_s
+          else
+            v
+          end
+        end
+        data.each do |k, v|
+          data.delete(k) if v.nil?
+        end
+
+        data.to_yaml
       end
     end
   end
