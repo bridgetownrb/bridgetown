@@ -53,7 +53,7 @@ module Bridgetown
       end
 
       def write(model)
-        contents = "#{front_matter(model)}---\n\n#{model.content}"
+        contents = "#{front_matter_to_yaml(model)}---\n\n#{model.content}"
 
         # Create folders if necessary
         dir = File.dirname(original_path)
@@ -140,7 +140,7 @@ module Bridgetown
         end
       end
 
-      def front_matter(model)
+      def front_matter_to_yaml(model)
         data = model.data_attributes.to_h
         data = data.deep_merge(data) do |_, _, v|
           case v
