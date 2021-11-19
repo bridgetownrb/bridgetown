@@ -2,6 +2,8 @@
 
 require "roda/plugins/public"
 
+# NOTE: once this upstreamed PR is merged in we can remove this file.
+# https://github.com/jeremyevans/roda/pull/215
 Roda::RodaPlugins::Public::RequestMethods.module_eval do
   SPLIT = Regexp.union(*[File::SEPARATOR, File::ALT_SEPARATOR].compact) # rubocop:disable Lint/ConstantDefinitionInBlock
   def public_path_segments(path) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
