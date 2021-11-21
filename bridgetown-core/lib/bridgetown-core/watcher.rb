@@ -76,10 +76,12 @@ module Bridgetown
         Bridgetown::Hooks.clear_reloadable_hooks
         site.plugin_manager.reload_plugin_files
         site.loaders_manager.reload_loaders
-
-        site.ssr_reload if site.ssr?
         Bridgetown::Hooks.trigger :site, :post_reload, site
-        return if site.ssr?
+
+        if site.ssr?
+          site.reset(soft: true)
+          return
+        end
 
         site.process
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \

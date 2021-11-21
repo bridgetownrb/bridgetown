@@ -52,19 +52,6 @@ class Bridgetown::Site
       Bridgetown::Watcher.watch(self, config)
     end
 
-    def ssr_reload
-      reset soft: true
-      reader.read_layouts
-
-      collections.data.tap do |coll|
-        coll.resources.clear
-        coll.read
-        coll.merge_data_resources.each do |k, v|
-          data[k] = v
-        end
-      end
-    end
-
     def disable_ssr
       Bridgetown.logger.info "SSR:", "now disabled."
       @ssr_enabled = false

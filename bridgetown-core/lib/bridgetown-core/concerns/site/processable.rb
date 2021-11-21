@@ -41,10 +41,27 @@ class Bridgetown::Site
       @documents = nil
       @docs_to_write = nil
       @liquid_renderer.reset
-      frontmatter_defaults.reset unless soft
 
-      Bridgetown::Cache.clear_if_config_changed config unless soft
+      if soft
+        refresh_layouts_and_data
+      else
+        frontmatter_defaults.reset
+        Bridgetown::Cache.clear_if_config_changed config
+      end
+
       Bridgetown::Hooks.trigger :site, (soft ? :after_soft_reset : :after_reset), self
+    end
+
+    def refresh_layouts_and_data
+      reader.read_layouts
+
+      collections.data.tap do |coll|
+        coll.resources.clear
+        coll.read
+        coll.merge_data_resources.each do |k, v|
+          data[k] = v # refresh site data
+        end
+      end
     end
 
     # Read data from disk and load it into internal memory.

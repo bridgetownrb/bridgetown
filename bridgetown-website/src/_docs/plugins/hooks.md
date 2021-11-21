@@ -9,33 +9,29 @@ Using hooks, your plugin can exercise fine-grained control over various aspects
 of the build process. If your plugin defines any hooks, Bridgetown will call them
 at pre-defined points.
 
-Hooks are registered to a container and an event name. To register one, you
-call Bridgetown::Hooks.register, and pass the container, event name, and code to
-call whenever the hook is triggered. For example, if you want to execute some
+Hooks are registered to an owner and an event name. For example, if you want to execute some
 custom functionality every time Bridgetown renders a post, you could register a
 hook like this:
 
 ```ruby
-# Builder API
+# Builder API:
 def build
   hook :posts, :post_render do |post|
     # code to call after Bridgetown renders a post
   end
 end
-```
 
-```ruby
-# Legacy API
-Bridgetown::Hooks.register :posts, :post_render do |post|
+# or using the hooks API directly:
+Bridgetown::Hooks.register_one :posts, :post_render do |post|
   # code to call after Bridgetown renders a post
 end
 ```
 
-Be aware that the `build` method of the Builder API is called during the `pre_read` site event, so you won't be able to write a hook for any earlier events (`after_init` for example). In those cases, you will still need to use the Legacy API.
+Be aware that the `build` method of the Builder API is called during the `pre_read` site event, so you won't be able to write a hook for any earlier events (`after_init` for example). In those cases, you will still need to use the hooks API directly.
 
-Bridgetown provides hooks for `:site`, `:pages`, `:documents`, `:clean`, and `:[collection_label]` (aka every collection gets a unique hook, such as `posts` or `countries` or `episodes`, etc.).
+Bridgetown provides hooks for `:site`, `:resources`, `:loader`, `:clean`, and `:[collection_label]` (aka every collection gets a unique hook, such as `posts` or `countries` or `episodes`, etc.).
 
-In all cases, Bridgetown calls your hooks with the container object as the first callback
+In all cases, Bridgetown calls your hooks with the owner object as the first callback
 parameter.
 
 ## Post-Write Hook for Performing Special Operations
@@ -59,18 +55,15 @@ def build
     # High priority code to call after Bridgetown renders a post
   end
 end
-```
 
-```ruby
-# Legacy API
-Bridgetown::Hooks.register :posts, :post_render, priority: :low do |post|
+Bridgetown::Hooks.register_one :posts, :post_render, priority: :low do |post|
   # Low priority code to call after Bridgetown renders a post
 end
 ```
 
 ## Reloadable vs. Non-Reloadable Hooks
 
-Starting with Bridgetown 0.14, all hooks are cleared during **watch** mode (aka `bridgetown build -w` or `bridgetown serve`) whenever plugin or content files are updated. This makes sense for plugins that are part of the site repository and are therefore reloaded automatically.
+All hooks are cleared during **watch** mode (aka `bridgetown build -w` or `bridgetown start`) whenever plugin or content files are updated. This makes sense for plugins that are part of the site repository and are therefore reloaded automatically.
 
 However, for gem-based plugins, you will want to make sure you define your hooks as _non-reloadable_, otherwise your hooks will vanish any time the site is updated during watch mode.
 
@@ -87,7 +80,7 @@ end
 <table class="settings biggest-output">
   <thead>
     <tr>
-      <th>Container</th>
+      <th>Owner</th>
       <th>Event</th>
       <th>Called</th>
     </tr>
@@ -113,7 +106,18 @@ end
         <p><code>:after_reset</code></p>
       </td>
       <td>
-        <p>Just after site reset (all internal data structures are in a pristine state)</p>
+        <p>Just after site reset and all internal data structures are in a pristine state. Not run during SSR (see below).</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>:site</code></p>
+      </td>
+      <td>
+        <p><code>:after_soft_reset</code></p>
+      </td>
+      <td>
+        <p>When a site is in SSR mode, any file changes result in a "soft" reset for performance reasons. Some state is persisted across resets. You can register a hook to perform additional cleanup/setup after a soft reset.</p>
       </td>
     </tr>
     <tr>
@@ -173,7 +177,84 @@ end
     </tr>
     <tr>
       <td>
-        <p><code>:pages</code></p>
+        <p><code>:site</code></p>
+      </td>
+      <td>
+        <p><code>:pre_reload</code></p>
+      </td>
+      <td>
+        <p>Just before reloading site plugins and Zeitwerk autoloaders during the watch process or in the console</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>:site</code></p>
+      </td>
+      <td>
+        <p><code>:post_reload</code></p>
+      </td>
+      <td>
+        <p>After reloading site plugins and Zeitwerk autoloaders during the watch process or in the console</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>:resources</code><br/><code>:[collection_label]</code></p>
+      </td>
+      <td>
+        <p><code>:post_init</code></p>
+      </td>
+      <td>
+        <p>Whenever a resource is initialized</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>:resources</code><br/><code>:[collection_label]</code></p>
+      </td>
+      <td>
+        <p><code>:post_read</code></p>
+      </td>
+      <td>
+        <p>Whenever a resource has read all of its data from the origin model, but before rendering/transformation</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>:resources</code><br/><code>:[collection_label]</code></p>
+      </td>
+      <td>
+        <p><code>:pre_render</code></p>
+      </td>
+      <td>
+        <p>Just before rendering a resource</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>:resources</code><br/><code>:[collection_label]</code></p>
+      </td>
+      <td>
+        <p><code>:post_render</code></p>
+      </td>
+      <td>
+        <p>After rendering a resource, but before writing it to disk</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>:resources</code><br/><code>:[collection_label]</code></p>
+      </td>
+      <td>
+        <p><code>:post_write</code></p>
+      </td>
+      <td>
+        <p>After writing a resource to disk</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <p><code>:generated_pages</code></p>
       </td>
       <td>
         <p><code>:post_init</code></p>
@@ -184,7 +265,7 @@ end
     </tr>
     <tr>
       <td>
-        <p><code>:pages</code></p>
+        <p><code>:generated_pages</code></p>
       </td>
       <td>
         <p><code>:pre_render</code></p>
@@ -195,7 +276,7 @@ end
     </tr>
     <tr>
       <td>
-        <p><code>:pages</code></p>
+        <p><code>:generated_pages</code></p>
       </td>
       <td>
         <p><code>:post_render</code></p>
@@ -206,7 +287,7 @@ end
     </tr>
     <tr>
       <td>
-        <p><code>:pages</code></p>
+        <p><code>:generated_pages</code></p>
       </td>
       <td>
         <p><code>:post_write</code></p>
@@ -217,90 +298,46 @@ end
     </tr>
     <tr>
       <td>
-        <p><code>:posts</code><br/><code>:[collection_label]</code></p>
+        <p><code>:loader</code></p>
       </td>
       <td>
-        <p><code>:post_init</code></p>
+        <p><code>:pre_setup</code></p>
       </td>
       <td>
-        <p>Whenever a post is initialized</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>:posts</code><br/><code>:[collection_label]</code></p>
-      </td>
-      <td>
-        <p><code>:pre_render</code></p>
-      </td>
-      <td>
-        <p>Just before rendering a post</p>
+        <p>Before initial setup of a Zeitwerk autoloader. The `loader` object and `load_path` are provided as arguments.</p>
       </td>
     </tr>
     <tr>
       <td>
-        <p><code>:posts</code><br/><code>:[collection_label]</code></p>
+        <p><code>:loader</code></p>
       </td>
       <td>
-        <p><code>:post_render</code></p>
+        <p><code>:post_setup</code></p>
       </td>
       <td>
-        <p>After rendering a post, but before writing it to disk</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>:posts</code><br/><code>:[collection_label]</code></p>
-      </td>
-      <td>
-        <p><code>:post_write</code></p>
-      </td>
-      <td>
-        <p>After writing a post to disk</p>
+        <p>After initial setup of a Zeitwerk autoloader. The `loader` object and `load_path` are provided as arguments.</p>
       </td>
     </tr>
     <tr>
       <td>
-        <p><code>:documents</code></p>
+        <p><code>:loader</code></p>
       </td>
       <td>
-        <p><code>:post_init</code></p>
+        <p><code>:pre_reload</code></p>
       </td>
       <td>
-        <p>Whenever a document (in any collection) is initialized</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>:documents</code></p>
-      </td>
-      <td>
-        <p><code>:pre_render</code></p>
-      </td>
-      <td>
-        <p>Just before rendering a document</p>
+        <p>Before a Zeitwerk autoloader reloads all code under its supervision. The `loader` object and `load_path` are provided as arguments.</p>
       </td>
     </tr>
     <tr>
       <td>
-        <p><code>:documents</code></p>
+        <p><code>:loader</code></p>
       </td>
       <td>
-        <p><code>:post_render</code></p>
+        <p><code>:post_reload</code></p>
       </td>
       <td>
-        <p>After rendering a document, but before writing it to disk</p>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <p><code>:documents</code></p>
-      </td>
-      <td>
-        <p><code>:post_write</code></p>
-      </td>
-      <td>
-        <p>After writing a document to disk</p>
+        <p>After a Zeitwerk autoloader reloads all code under its supervision. The `loader` object and `load_path` are provided as arguments.</p>
       </td>
     </tr>
     <tr>
