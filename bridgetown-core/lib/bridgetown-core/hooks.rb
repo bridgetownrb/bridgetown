@@ -52,7 +52,7 @@ module Bridgetown
     #   Default is true.
     # @yield the block will be called when the event is triggered. Typically it receives at
     #   least one argument.
-    # @yieldparam the object which triggered the event hook
+    # @yieldparam obj the object which triggered the event hook
     def self.register(owners, event, priority: DEFAULT_PRIORITY, reloadable: true, &block)
       Array(owners).each do |owner|
         register_one(owner, event, priority: priority, reloadable: reloadable, &block)
@@ -69,7 +69,7 @@ module Bridgetown
     #   Default is true.
     # @yield the block will be called when the event is triggered. Typically it receives at
     #   least one argument.
-    # @yieldparam the object which triggered the event hook
+    # @yieldparam obj the object which triggered the event hook
     def self.register_one(owner, event, priority: DEFAULT_PRIORITY, reloadable: true, &block)
       @registry[owner] ||= []
 
