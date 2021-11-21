@@ -1,21 +1,21 @@
 # frozen_string_literal: true
 
 # Handles Generated Pages
-Bridgetown::Hooks.register :generated_pages, :post_init, reloadable: false do |page|
+Bridgetown::Hooks.register_one :generated_pages, :post_init, reloadable: false do |page|
   if page.class != Bridgetown::PrototypePage && page.data["prototype"].is_a?(Hash)
     Bridgetown::PrototypeGenerator.add_matching_template(page)
   end
 end
 
 # Handles Resources
-Bridgetown::Hooks.register :resources, :post_read, reloadable: false do |resource|
+Bridgetown::Hooks.register_one :resources, :post_read, reloadable: false do |resource|
   if resource.data["prototype"].is_a?(Hash)
     Bridgetown::PrototypeGenerator.add_matching_template(resource)
   end
 end
 
 # Ensure sites clear out templates before rebuild
-Bridgetown::Hooks.register :site, :after_reset, reloadable: false do |_site|
+Bridgetown::Hooks.register_one :site, :after_reset, reloadable: false do |_site|
   Bridgetown::PrototypeGenerator.matching_templates.clear
 end
 

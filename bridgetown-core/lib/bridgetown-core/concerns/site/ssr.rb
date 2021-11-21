@@ -32,7 +32,7 @@ class Bridgetown::Site
       @ssr_enabled = true
     end
 
-    def ssr_setup(&block) # rubocop:disable Metrics/AbcSize
+    def ssr_setup
       config.serving = true
       Bridgetown::Hooks.trigger :site, :pre_read, self
       defaults_reader.tap do |d|
@@ -46,10 +46,9 @@ class Bridgetown::Site
       end
       Bridgetown::Hooks.trigger :site, :post_read, self
 
-      hook = block&.(self) # provide additional setup hook
+      yield self if block_given? # provide additional setup hook
       return if Bridgetown.env.production?
 
-      @ssr_reload_hook = hook if hook.is_a?(Proc) && hook.lambda?
       Bridgetown::Watcher.watch(self, config)
     end
 
@@ -64,7 +63,6 @@ class Bridgetown::Site
           data[k] = v
         end
       end
-      @ssr_reload_hook.() if @ssr_reload_hook.is_a?(Proc)
     end
 
     def disable_ssr

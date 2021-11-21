@@ -137,7 +137,9 @@ module Bridgetown
         site.plugin_manager.reload_plugin_files
         site.loaders_manager.reload_loaders
 
-        return site.ssr_reload if site.ssr?
+        site.ssr_reload if site.ssr?
+        Bridgetown::Hooks.trigger :site, :post_reload, site
+        return if site.ssr?
 
         site.process
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
