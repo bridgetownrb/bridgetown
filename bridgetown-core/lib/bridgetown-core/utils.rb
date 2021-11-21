@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  module Utils # rubocop:todo Metrics/ModuleLength
+  module Utils
     extend self
     autoload :Ansi, "bridgetown-core/utils/ansi"
     autoload :Aux, "bridgetown-core/utils/aux"
@@ -397,34 +397,38 @@ module Bridgetown
       "master"
     end
 
-    def live_reload_js(site) # rubocop:disable Metrics/MethodLength
+    def live_reload_js(site)
       return "" unless Bridgetown.env.development? && !site.config.skip_live_reload
 
       code = <<~JAVASCRIPT
-        let first_mod = 0
-        let connection_errors = 0
-        const checkForReload = () => {
-          fetch("/_bridgetown/live_reload").then(response => {
-            if (response.ok) {
-              response.json().then(data => {
-                const last_mod = data.last_mod
-                if (first_mod === 0) {
-                  first_mod = last_mod
-                } else if (last_mod > first_mod) {
-                  location.reload()
-                }
-                setTimeout(() => checkForReload(), 700)
-              })
+        let lastmod = 0
+        function startReloadConnection() {
+          const evtSource = new EventSource("/_bridgetown/live_reload")
+          evtSource.onmessage = event => {
+            if (event.data == "reloaded!") {
+              location.reload()
             } else {
-              if (connection_errors < 20) setTimeout(() => checkForReload(), 6000)
-              connection_errors++
+              const newmod = Number(event.data)
+              if (lastmod > 0 && newmod > 0 && lastmod < newmod) {
+                location.reload()
+              } else {
+                lastmod = newmod
+              }
             }
-          }).catch((err) => {
-            if (connection_errors < 20) setTimeout(() => checkForReload(), 6000)
-            connection_errors++
-          })
+          }
+          evtSource.onerror = event => {
+            if (evtSource.readyState === 2) {
+              // reconnect with new object
+              evtSource.close()
+              console.warn("Live reload: attempting to reconnect in 3 seconds...")
+
+              setTimeout(() => startReloadConnection(), 3000)
+            }
+          }
         }
-        checkForReload()
+        setTimeout(() => {
+          startReloadConnection()
+        }, 500)
       JAVASCRIPT
 
       %(<script type="module">#{code}</script>).html_safe

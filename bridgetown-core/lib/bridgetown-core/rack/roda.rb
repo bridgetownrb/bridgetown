@@ -23,6 +23,7 @@ module Bridgetown
       plugin :json
       plugin :json_parser
       plugin :cookies
+      plugin :streaming
       plugin :public, root: Bridgetown::Current.preloaded_configuration.destination
       plugin :not_found do
         output_folder = Bridgetown::Current.preloaded_configuration.destination

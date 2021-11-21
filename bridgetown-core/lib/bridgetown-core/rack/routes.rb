@@ -2,6 +2,12 @@
 
 module Bridgetown
   module Rack
+    @interrupted = false
+
+    class << self
+      attr_accessor :interrupted
+    end
+
     class Routes
       class << self
         attr_accessor :tracked_subclasses, :router_block
@@ -37,7 +43,7 @@ module Bridgetown
         def start!(roda_app)
           if Bridgetown.env.development? &&
               !Bridgetown::Current.preloaded_configuration.skip_live_reload
-            setup_live_reload roda_app.request
+            setup_live_reload roda_app
           end
 
           Bridgetown::Rack::Routes.tracked_subclasses&.each_value do |klass|
@@ -51,15 +57,31 @@ module Bridgetown
           nil
         end
 
-        def setup_live_reload(request)
-          request.get "_bridgetown/live_reload" do
-            {
-              last_mod: File.stat(
-                File.join(Bridgetown::Current.preloaded_configuration.destination, "index.html")
-              ).mtime.to_i,
-            }
-          rescue StandardError => e
-            { last_mod: 0, error: e.message }
+        def setup_live_reload(app)
+          sleep_interval = 0.2
+          file_to_check = File.join(app.class.opts[:bridgetown_preloaded_config].destination,
+                                    "index.html")
+
+          app.request.get "_bridgetown/live_reload" do
+            app.response["Content-Type"] = "text/event-stream"
+
+            @_mod = File.exist?(file_to_check) ? File.stat(file_to_check).mtime.to_i : 0
+            app.stream async: true do |out|
+              # 5 second intervals so Puma's threads aren't all exausted
+              (5 / sleep_interval).to_i.times do
+                break if Bridgetown::Rack.interrupted
+
+                new_mod = File.exist?(file_to_check) ? File.stat(file_to_check).mtime.to_i : 0
+                if @_mod < new_mod
+                  out << "data: reloaded!\n\n"
+                  break
+                else
+                  out << "data: #{new_mod}\n\n"
+                end
+
+                sleep sleep_interval
+              end
+            end
           end
         end
       end
@@ -83,6 +105,18 @@ module Bridgetown
       def respond_to_missing?(method_name, include_private = false)
         @_roda_app.respond_to?(method_name.to_sym, include_private) || super
       end
+    end
+  end
+end
+
+if Bridgetown.env.development? &&
+    !Bridgetown::Current.preloaded_configuration.skip_live_reload
+  Puma::Launcher.class_eval do
+    alias_method :_old_stop, :stop
+    def stop
+      Bridgetown::Rack.interrupted = true
+
+      _old_stop
     end
   end
 end
