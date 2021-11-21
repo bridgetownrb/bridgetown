@@ -23,7 +23,7 @@ To facilitate pagination on any given page (like `index.html`, `blog.md`, etc.) 
 ``` yml
 ---
 layout: page
-pagination:
+paginate:
   collection: posts
 ---
 ```
@@ -41,9 +41,18 @@ Then you can use the `paginator.resources` logic to iterate through the collecti
 By default, paginated pages will have 10 items per page. You can change this in your config by modifying the `per_page` key like so:
 
 ```yml
-pagination:
-  enabled: true
+paginate:
+  collection: posts
   per_page: 4
+```
+
+You can also control the sort field and order of the paginated result set separately from the default sort of the collection:
+
+```yml
+paginate:
+  collection: movies
+  sort_field: rating
+  sort_reverse: true
 ```
 
 ## Excluding a Resource from the Paginator

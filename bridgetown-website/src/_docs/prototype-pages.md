@@ -24,12 +24,13 @@ All you need to do is create a page, say `categories/category.html`, and add a
 layout: default
 title: Posts in category :prototype-term
 prototype:
+  collection: posts
   term: category
 ```
 
 And then all the site's different categories will have archives pages at this location
-(e.g. `categories/awesome-movies`, `categories/my-cool-vacation`, etc.). And it enables
-pagination automatically, so you'd just use `paginator.resources` to loop through the
+(e.g. `categories/awesome-movies`, `categories/my-cool-vacation`, etc.). It will enable
+pagination automatically, so you can use `paginator.resources` to loop through the
 posts like on any normal paginated page. Using `:prototype-term` in the page title will
 automatically put each archive page's term (aka the category name) in the output title.
 
@@ -45,6 +46,7 @@ If you want to "titleize" the search term in the processed `title` variable, use
 ---
 title: Posts in category :prototype-term-titleize
 prototype:
+  collection: posts
   term: category
 ```
 
@@ -56,8 +58,7 @@ etc.
 
 ## Searching in Collections
 
-You can also search in collections other than the default (posts) by including that in
-the prototype configuration:
+You can search in any custom collection by including that in the prototype configuration:
 
 `tigers/countries/country.html`
 ```yaml
@@ -81,9 +82,7 @@ all the tigers in `India`.
 
 # Pulling in Site Data
 
-Prototype pages can be configured to load in extra data from [data files](/docs/datafiles/)
-that are matched with the search term. This is great for common uses like listing out
-every post by each of the authors in the site.
+Prototype pages can be configured to load in extra data from [data files](/docs/datafiles/) which get matched with the search term for each item in the collection. This is great for common uses like listing out every post by each of the authors in the site.
 
 Here's an example of how that works:
 
@@ -111,6 +110,7 @@ jared:
 layout: default
 title: Articles by :prototype-data-label
 prototype:
+  collection: posts
   term: author
   data: authors
   data_label: name
