@@ -23,9 +23,9 @@ class Bridgetown::Site
 
     # Reset all in-memory data and content.
     #
-
+    # @param soft [Boolean] if true, persist some state and do a light refresh of layouts and data
     # @return [void]
-    def reset(soft: false)
+    def reset(soft: false) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       self.time = Time.now
       if config["time"]
         self.time = Bridgetown::Utils.parse_date(
@@ -52,6 +52,7 @@ class Bridgetown::Site
       Bridgetown::Hooks.trigger :site, (soft ? :after_soft_reset : :after_reset), self
     end
 
+    # Read layouts and merge any new data collection contents into the site data
     def refresh_layouts_and_data
       reader.read_layouts
 
