@@ -37,8 +37,7 @@ module Bridgetown
           end
 
           code = <<~RUBY
-            r = app.request
-            add_route(#{file_slug.inspect}, #{code_postmatch.inspect}) do
+            add_route(#{file_slug.inspect}, #{code_postmatch.inspect}) do |r|
               #{code}
             end
           RUBY

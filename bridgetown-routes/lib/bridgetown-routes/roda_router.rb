@@ -23,7 +23,7 @@ module Bridgetown
             response.instance_variable_set(
               :@_route_file_code, route_block.instance_variable_get(:@_route_file_code)
             ) # could be nil
-            app.instance_exec(&route_block)
+            app.instance_exec(r, &route_block)
           end
         end
 
