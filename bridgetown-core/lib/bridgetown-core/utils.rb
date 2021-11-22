@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  module Utils
+  module Utils # rubocop:todo Metrics/ModuleLength
     extend self
     autoload :Ansi, "bridgetown-core/utils/ansi"
     autoload :Aux, "bridgetown-core/utils/aux"
@@ -397,7 +397,7 @@ module Bridgetown
       "master"
     end
 
-    def live_reload_js(site)
+    def live_reload_js(site) # rubocop:disable Metrics/MethodLength
       return "" unless Bridgetown.env.development? && !site.config.skip_live_reload
 
       code = <<~JAVASCRIPT
