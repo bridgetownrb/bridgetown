@@ -5,6 +5,9 @@ services:
     buildCommand: bin/bridgetown deploy
     staticPublishPath: ./output
     pullRequestPreviewsEnabled: true
+    envVars:
+      - key: BRIDGETOWN_ENV
+        value: production
     headers:
       - path: /*
         name: X-Frame-Options
