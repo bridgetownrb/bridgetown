@@ -39,7 +39,7 @@ module Bridgetown
         "500 Internal Server Error"
       end
 
-      def _roda_run_main_route(r) # rubocop:disable Naming/MethodParameterName
+      before do
         if self.class.opts[:bridgetown_site]
           # The site had previously been initialized via the bridgetown_ssr plugin
           Bridgetown::Current.site ||= self.class.opts[:bridgetown_site]
@@ -47,14 +47,12 @@ module Bridgetown
         Bridgetown::Current.preloaded_configuration ||=
           self.class.opts[:bridgetown_preloaded_config]
 
-        r.public
+        request.public
 
-        r.root do
+        request.root do
           output_folder = Bridgetown::Current.preloaded_configuration.destination
           File.read(File.join(output_folder, "index.html"))
         end
-
-        super
       end
 
       # Helper shorthand for Bridgetown::Current.site

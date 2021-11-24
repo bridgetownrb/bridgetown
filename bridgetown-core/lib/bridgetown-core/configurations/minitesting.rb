@@ -82,7 +82,7 @@ create_file "plugins/test_output.rb" do
   <<~RUBY
     module TestOutput
       unless Bridgetown.env.development?
-        Bridgetown::Hooks.register :site, :post_write do
+        Bridgetown::Hooks.register_one :site, :post_write do
           # Load test suite to run on exit
           require "nokogiri"
           Dir["test/**/*.rb"].each { |file| require_relative("../\#{file}") }

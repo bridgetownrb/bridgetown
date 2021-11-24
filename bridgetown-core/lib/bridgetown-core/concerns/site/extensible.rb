@@ -56,5 +56,13 @@ class Bridgetown::Site
         c.new(config)
       end
     end
+
+    # Shorthand for registering a site hook via {Bridgetown::Hooks}
+    # @param event [Symbol] name of the event (`:pre_read`, `:post_render`, etc.)
+    # @yield the block will be called when the event is triggered
+    # @yieldparam site the site which triggered the event hook
+    def on(event, reloadable: false, &block)
+      Bridgetown::Hooks.register_one :site, event, reloadable: reloadable, &block
+    end
   end
 end

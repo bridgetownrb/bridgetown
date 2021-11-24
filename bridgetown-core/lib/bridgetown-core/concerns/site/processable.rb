@@ -23,9 +23,9 @@ class Bridgetown::Site
 
     # Reset all in-memory data and content.
     #
-
+    # @param soft [Boolean] if true, persist some state and do a light refresh of layouts and data
     # @return [void]
-    def reset(soft: false)
+    def reset(soft: false) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
       self.time = Time.now
       if config["time"]
         self.time = Bridgetown::Utils.parse_date(
@@ -41,10 +41,28 @@ class Bridgetown::Site
       @documents = nil
       @docs_to_write = nil
       @liquid_renderer.reset
-      frontmatter_defaults.reset unless soft
 
-      Bridgetown::Cache.clear_if_config_changed config unless soft
+      if soft
+        refresh_layouts_and_data
+      else
+        frontmatter_defaults.reset
+        Bridgetown::Cache.clear_if_config_changed config
+      end
+
       Bridgetown::Hooks.trigger :site, (soft ? :after_soft_reset : :after_reset), self
+    end
+
+    # Read layouts and merge any new data collection contents into the site data
+    def refresh_layouts_and_data
+      reader.read_layouts
+
+      collections.data.tap do |coll|
+        coll.resources.clear
+        coll.read
+        coll.merge_data_resources.each do |k, v|
+          data[k] = v # refresh site data
+        end
+      end
     end
 
     # Read data from disk and load it into internal memory.

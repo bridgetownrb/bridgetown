@@ -18,6 +18,7 @@ module Bridgetown
       Bridgetown::Hooks.clear_reloadable_hooks
       site.plugin_manager.reload_plugin_files
       site.loaders_manager.reload_loaders
+      Bridgetown::Hooks.trigger :site, :post_reload, site
 
       ConsoleMethods.site_reset(site)
     end
