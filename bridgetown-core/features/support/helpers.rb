@@ -33,8 +33,9 @@ class Paths
 
   def self.root_files
     [
-      ".bridgetown-webpack",
-      ".bridgetown-webpack/manifest.json",
+      ".bridgetown-cache",
+      ".bridgetown-cache/frontend-bundling"
+      ".bridgetown-cache/frontend-bundling/manifest.json",
       "bridgetown.config.yml",
       "plugins",
       "plugins/nested",

@@ -40,11 +40,11 @@ module Bridgetown
     #
     # @param (see #watch)
     def listen(site, options)
-      webpack_path = site.in_root_dir(".bridgetown-webpack")
-      FileUtils.mkdir(webpack_path) unless Dir.exist?(webpack_path)
+      bundling_path = site.frontend_bundling_path
+      FileUtils.mkdir_p(bundling_path)
       Listen.to(
         options["source"],
-        webpack_path,
+        bundling_path,
         *load_paths_to_watch(site, options),
         ignore: listen_ignore_paths(options),
         force_polling: options["force_polling"]

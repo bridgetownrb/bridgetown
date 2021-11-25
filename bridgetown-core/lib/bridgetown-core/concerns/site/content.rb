@@ -110,11 +110,11 @@ class Bridgetown::Site
       generated_pages << generated_page
     end
 
-    # Loads and memoizes the parsed Webpack manifest file (if available)
+    # Loads and memoizes the parsed frontend bundler manifest file (if available)
     # @return [Hash]
     def frontend_manifest
       @frontend_manifest ||= begin
-        manifest_file = in_root_dir(".bridgetown-webpack", "manifest.json")
+        manifest_file = File.join(frontend_bundling_path, "manifest.json")
 
         JSON.parse(File.read(manifest_file)) if File.exist?(manifest_file)
       end

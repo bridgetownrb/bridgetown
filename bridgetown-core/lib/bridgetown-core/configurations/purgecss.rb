@@ -22,9 +22,10 @@ create_builder "purgecss.rb" do
               PURGE
               File.write(purgecss_file, config_js.strip)
             end
-            manifest_file = site.in_root_dir(".bridgetown-webpack", "manifest.json")
+            manifest_file = File.join(site.frontend_bundling_path, "manifest.json")
             if File.exist?(manifest_file)
               manifest = JSON.parse(File.read(manifest_file))
+              # TODO: make this work with esbuild too
               css_file = manifest["main.css"].split("/").last
               css_path = ["output", "_bridgetown", "static", "css", css_file].join("/")
               Bridgetown.logger.info "PurgeCSS", "Purging \#{css_file}"
