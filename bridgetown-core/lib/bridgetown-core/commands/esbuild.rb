@@ -74,7 +74,8 @@ module Bridgetown
         {
           setup: "Sets up an esbuild integration with Bridgetown in your project",
           update: "Updates the Bridgetown esbuild defaults to the latest available version",
-          "migrate-from-webpack": "Removes Webpack from your project and installs/configures esbuild",
+          "migrate-from-webpack":
+            "Removes Webpack from your project and installs/configures esbuild",
         }.with_indifferent_access
       end
     end

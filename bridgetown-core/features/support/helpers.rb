@@ -34,7 +34,7 @@ class Paths
   def self.root_files
     [
       ".bridgetown-cache",
-      ".bridgetown-cache/frontend-bundling"
+      ".bridgetown-cache/frontend-bundling",
       ".bridgetown-cache/frontend-bundling/manifest.json",
       "bridgetown.config.yml",
       "plugins",
