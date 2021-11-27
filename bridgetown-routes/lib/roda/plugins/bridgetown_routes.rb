@@ -31,16 +31,23 @@ class Roda
       end
 
       module InstanceMethods
-        def render_with(data: {}) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-          path = Kernel.caller_locations(1, 1).first.absolute_path
-          source_path = Pathname.new(path).relative_path_from(
-            Bridgetown::Current.site.in_source_dir("_routes")
-          )
-          code = response._route_file_code
+        def render_with(data: {}, will_morph: false, morph_wrapper: "morph-contents") # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+          code = nil
+          path = Kernel.caller_locations(1).find do |loc|
+            loc.absolute_path.match?(%r!/_?routes/!)
+          end.absolute_path
+          if path
+            source_path = Pathname.new(path).relative_path_from(
+              Bridgetown::Current.site.in_source_dir("_routes")
+            )
+            code = response._route_file_code
+          end
 
-          unless code.present?
+          if !code.present?
             raise Bridgetown::Errors::FatalException,
                   "`render_with' method must be called from a template-based file in `src/_routes'"
+          elsif will_morph
+            code = "<#{morph_wrapper}>#{code}</#{morph_wrapper}>"
           end
 
           data = Bridgetown::Model::BuilderOrigin.new(

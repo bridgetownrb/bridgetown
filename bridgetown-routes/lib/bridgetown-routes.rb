@@ -7,6 +7,7 @@ require_relative "bridgetown-routes/view_helpers"
 
 # Roda isn't defined for Bridgetown build-only
 require_relative "roda/plugins/bridgetown_routes" if defined?(Roda)
+require_relative "roda/plugins/bridgetown_cable_car" if defined?(Roda)
 
 module Bridgetown
   module Routes
