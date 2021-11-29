@@ -44,13 +44,15 @@ module Bridgetown
         cmp
       end
 
-      def previous
-        @previous ||= @obj.previous_resource.to_liquid
-      end
-
-      def next
+      def next_resource
         @next ||= @obj.next_resource.to_liquid
       end
+      alias_method :next, :next_resource
+
+      def previous_resource
+        @previous ||= @obj.previous_resource.to_liquid
+      end
+      alias_method :previous, :previous_resource
 
       # Generate a Hash for use in generating JSON.
       # This is useful if fields need to be cleared before the JSON can generate.
@@ -78,6 +80,12 @@ module Bridgetown
         doc.keys.each_with_object({}) do |(key, _), result|
           result[key] = doc[key] unless NESTED_OBJECT_FIELD_BLACKLIST.include?(key)
         end
+      end
+
+      # Inspect the drop's keys and values through a JSON representation
+      # of its keys and values.
+      def inspect
+        JSON.pretty_generate hash_for_json
       end
     end
   end
