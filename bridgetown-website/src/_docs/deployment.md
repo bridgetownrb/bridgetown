@@ -180,7 +180,7 @@ $ git push dokku
 ### nginx
 
 
-Just put and upload the `output` folder to somewhere in a nginx sometimes enough to work and below is an example of `conf` file.
+Just upload the `output` folder to somewhere accessible by nginx and configure your server. Below is an example of `conf` file:
 
 ```nginx
 server {
