@@ -110,7 +110,7 @@ module Bridgetown
       # underlying data hashes and performs a set union to ensure a list
       # of unique keys for the Drop.
       #
-      # Returns an Array of unique keys for content for the Drop.
+      # @return [Array<String>]
       def keys
         (content_methods |
           mutations.keys |

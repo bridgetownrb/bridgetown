@@ -6,7 +6,7 @@ module Bridgetown
       extend Forwardable
 
       NESTED_OBJECT_FIELD_BLACKLIST = %w(
-        content output excerpt next previous
+        content output excerpt next previous next_resource previous_resource
       ).freeze
 
       mutable false
@@ -79,6 +79,21 @@ module Bridgetown
       def collapse_document(doc)
         doc.keys.each_with_object({}) do |(key, _), result|
           result[key] = doc[key] unless NESTED_OBJECT_FIELD_BLACKLIST.include?(key)
+        end
+      end
+
+      # Generates a list of keys with user content as their values.
+      # This gathers up the Drop methods and keys of the mutations and
+      # underlying data hashes and performs a set union to ensure a list
+      # of unique keys for the Drop.
+      #
+      # @return [Array<String>]
+      def keys
+        keys_to_remove = %w[next_resource previous_resource]
+        (content_methods |
+          mutations.keys |
+          fallback_data.keys).flatten.reject do |key|
+          keys_to_remove.include?(key)
         end
       end
 
