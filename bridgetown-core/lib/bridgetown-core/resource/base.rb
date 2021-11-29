@@ -284,12 +284,14 @@ module Bridgetown
         collection.resources[pos + 1] if pos && pos < collection.resources.length - 1
       end
       alias_method :next_doc, :next_resource
+      alias_method :next, :next_resource
 
       def previous_resource
         pos = collection.resources.index { |item| item.equal?(self) }
         collection.resources[pos - 1] if pos&.positive?
       end
       alias_method :previous_doc, :previous_resource
+      alias_method :previous, :previous_resource
 
       private
 
