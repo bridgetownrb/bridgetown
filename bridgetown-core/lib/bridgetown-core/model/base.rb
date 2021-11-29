@@ -69,8 +69,23 @@ module Bridgetown
         attributes[:_origin_]
       end
 
+      def origin=(new_origin)
+        attributes[:_id_] = new_origin.id
+        attributes[:_origin_] = new_origin
+      end
+
       def persisted?
-        id && origin.exists?
+        (id && origin&.exists?) == true
+      end
+
+      def save
+        unless origin.respond_to?(:write)
+          raise "`#{origin.class}' doesn't allow writing of model objects"
+        end
+
+        run_callbacks :save do
+          origin.write(self)
+        end
       end
 
       # @return [Bridgetown::Resource::Base]
@@ -100,9 +115,17 @@ module Bridgetown
         attributes[:_collection_]
       end
 
+      def collection=(new_collection)
+        attributes[:_collection_] = new_collection
+      end
+
       # @return [String]
       def content
         attributes[:_content_]
+      end
+
+      def content=(new_content)
+        attributes[:_content_] = new_content
       end
 
       def attributes
