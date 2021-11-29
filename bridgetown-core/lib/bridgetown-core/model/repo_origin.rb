@@ -26,6 +26,12 @@ module Bridgetown
           %w(.yaml .yml .json .csv .tsv .rb).freeze
         end
 
+        # Initializes a new repo object using a collection and a relative source path.
+        # You'll need to use this when you want to create and save a model to the source.
+        #
+        # @param collection [Bridgetown::Collection, String, Symbol] either a collection
+        #   label or Collection object
+        # @param relative_path [Pathname, String] the source path of the file to save
         def new_with_collection_path(collection, relative_path)
           collection = collection.label if collection.is_a?(Bridgetown::Collection)
 
@@ -53,6 +59,11 @@ module Bridgetown
       end
 
       def write(model)
+        if File.exist?(original_path) && !Bridgetown::Utils.has_yaml_header?(original_path)
+          raise Bridgetown::Errors::InvalidYAMLFrontMatterError,
+                "Only existing files containing YAML front matter can be overwritten by the model"
+        end
+
         contents = "#{front_matter_to_yaml(model)}---\n\n#{model.content}"
 
         # Create folders if necessary
