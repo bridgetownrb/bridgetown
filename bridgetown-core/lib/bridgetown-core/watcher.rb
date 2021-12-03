@@ -4,6 +4,10 @@ module Bridgetown
   module Watcher
     extend self
 
+    class << self
+      attr_accessor :shutdown
+    end
+
     # Continuously watch for file changes and rebuild the site whenever a change is detected.
     #
     # @param site [Bridgetown::Site] the current site instance
@@ -15,15 +19,13 @@ module Bridgetown
 
       Bridgetown.logger.info "Watcher:", "enabled." unless options[:using_puma]
 
-      unless options[:serving]
-        trap("INT") do
-          exit 0
-        end
+      return if options[:serving]
 
-        sleep_forever
+      trap("INT") do
+        self.shutdown = true
       end
-    rescue ThreadError
-      # NOTE: not sure if this is needed any longer
+
+      sleep_forever
     end
 
     # Return a list of load paths which should be watched for changes
@@ -155,7 +157,7 @@ module Bridgetown
     end
 
     def sleep_forever
-      loop { sleep 1000 }
+      sleep 0.5 until shutdown
     end
   end
 end
