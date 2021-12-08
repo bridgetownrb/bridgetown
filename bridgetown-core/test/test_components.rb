@@ -18,7 +18,10 @@ class TestComponents < BridgetownUnitTest
   end
 
   def setup
-    refresh_zeitwork { @site = fixture_site({ level: "Level" }) }
+    refresh_zeitwork do
+      Example.send(:remove_const, "OverrideComponent") if defined?(Example)
+      @site = fixture_site({ level: "Level" })
+    end
 
     @site.process
     @erb_page = @site.collections.pages.resources.find { |page| page.data.title == "I'm an ERB Page" }
