@@ -4,17 +4,17 @@ require "helper"
 
 class TestComponents < BridgetownUnitTest
   def refresh_zeitwork
-    loader = Zeitwerk::Registry.loaders.find do |loader|
+    components_loader = Zeitwerk::Registry.loaders.find do |loader|
       loader.dirs.any? do |path|
         path.include?("_components")
       end
     end
 
-    loader&.unload
+    components_loader&.unload
 
     yield
 
-    loader&.reload
+    components_loader&.reload
   end
 
   def setup
