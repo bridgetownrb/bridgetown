@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## 1.0.0.alpha11 - 2021-11-29
+
+- Allow saving of models with repo origin [#452](https://github.com/bridgetownrb/bridgetown/pull/452) ([jaredcwhite](https://github.com/jaredcwhite)
+- Normalize previous/next resource API between Ruby and Liquid [#466](https://github.com/bridgetownrb/bridgetown/pull/466) ([jaredcwhite](https://github.com/jaredcwhite)
+- Docs: Add a nginx section in deployment [#447](https://github.com/bridgetownrb/bridgetown/pull/447) ([Eric-Guo](https://github.com/Eric-Guo))
+- Switch to streaming/event source mechanism for live reload [#458](https://github.com/bridgetownrb/bridgetown/pull/458) ([jaredcwhite](https://github.com/jaredcwhite)
+- Hooks refactor & cleaning up SSR reload hook [#457](https://github.com/bridgetownrb/bridgetown/pull/457) ([jaredcwhite](https://github.com/jaredcwhite)
+- Add `BRIDGETOWN_ENV` to render config [#460](https://github.com/bridgetownrb/bridgetown/pull/460) ([ayushn21](https://github.com/ayushn21))
+- Fix production ENV issue with Roda file-based routes
+- Move `Collection#sort_resources!` to a public method
 
 ## 1.0.0.alpha10 - 2021-11-15
 

@@ -6,7 +6,7 @@ module Bridgetown
       extend Forwardable
 
       NESTED_OBJECT_FIELD_BLACKLIST = %w(
-        content output excerpt next previous
+        content output excerpt next previous next_resource previous_resource
       ).freeze
 
       mutable false
@@ -44,13 +44,15 @@ module Bridgetown
         cmp
       end
 
-      def previous
-        @previous ||= @obj.previous_resource.to_liquid
-      end
-
-      def next
+      def next_resource
         @next ||= @obj.next_resource.to_liquid
       end
+      alias_method :next, :next_resource
+
+      def previous_resource
+        @previous ||= @obj.previous_resource.to_liquid
+      end
+      alias_method :previous, :previous_resource
 
       # Generate a Hash for use in generating JSON.
       # This is useful if fields need to be cleared before the JSON can generate.
@@ -78,6 +80,27 @@ module Bridgetown
         doc.keys.each_with_object({}) do |(key, _), result|
           result[key] = doc[key] unless NESTED_OBJECT_FIELD_BLACKLIST.include?(key)
         end
+      end
+
+      # Generates a list of keys with user content as their values.
+      # This gathers up the Drop methods and keys of the mutations and
+      # underlying data hashes and performs a set union to ensure a list
+      # of unique keys for the Drop.
+      #
+      # @return [Array<String>]
+      def keys
+        keys_to_remove = %w[next_resource previous_resource]
+        (content_methods |
+          mutations.keys |
+          fallback_data.keys).flatten.reject do |key|
+          keys_to_remove.include?(key)
+        end
+      end
+
+      # Inspect the drop's keys and values through a JSON representation
+      # of its keys and values.
+      def inspect
+        JSON.pretty_generate hash_for_json
       end
     end
   end

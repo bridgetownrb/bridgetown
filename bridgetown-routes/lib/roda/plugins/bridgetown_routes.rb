@@ -32,7 +32,7 @@ class Roda
 
       module InstanceMethods
         def render_with(data: {}) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
-          path = Kernel.caller_locations(1, 1).first.absolute_path
+          path = Kernel.caller_locations(1, 1).first.path
           source_path = Pathname.new(path).relative_path_from(
             Bridgetown::Current.site.in_source_dir("_routes")
           )

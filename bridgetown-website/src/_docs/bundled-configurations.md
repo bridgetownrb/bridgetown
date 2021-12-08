@@ -58,7 +58,7 @@ bin/bridgetown configure purgecss
 
 ### Stimulus
 
-⚙️ Sets up [Stimulus](https://stimulus.hotwire.dev) and adds an example controller.
+⚙️ Sets up [Stimulus](https://stimulus.hotwired.dev) and adds an example controller.
 
 🛠 **Configure using:**
 

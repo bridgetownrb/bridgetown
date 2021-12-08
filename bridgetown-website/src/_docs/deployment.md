@@ -176,3 +176,44 @@ $ git push dokku
 ```
 
 ... and watch your site being built on the server.
+
+### nginx
+
+
+Just upload the `output` folder to somewhere accessible by nginx and configure your server. Below is an example of `conf` file:
+
+```nginx
+server {
+  server_name bridgetown.example.com;
+  index index.html;
+  root /var/www/bridgetown/output;
+
+  location / {
+    rewrite ^(.+)/+$ $1 permanent;
+    try_files $uri $uri/index.html $uri.html /index.html;
+    access_log /var/www/bridgetown/shared/log/nginx.access.log;
+    error_log /var/www/bridgetown/shared/log/nginx.error.log;
+  }
+
+  location ^~ /_bridgetown/ {
+    gzip_static on;
+    expires max;
+    add_header Cache-Control public;
+  }
+
+  listen 443 ssl;
+  # You can get a free SSL in https://freessl.cn or using let's encrypt certbot
+  ssl_certificate /etc/ssl/certs/bridgetown.example.com.pem;
+  ssl_certificate_key /etc/ssl/private/bridgetown.example.com.key;
+}
+
+server {
+  if ($host = bridgetown.example.com) {
+      return 301 https://$host$request_uri;
+  }
+
+  listen 80;
+  server_name bridgetown.example.com;
+  return 404;
+}
+```

@@ -8,7 +8,7 @@ say 'Adding Turbo to "frontend/javascript/index.js"...', :magenta
 
 javascript_import do
   <<~JS
-    import Turbo from "@hotwired/turbo"
+    import * as Turbo from "@hotwired/turbo"
   JS
 end
 
