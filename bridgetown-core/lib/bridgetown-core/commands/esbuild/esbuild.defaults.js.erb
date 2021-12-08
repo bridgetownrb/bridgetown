@@ -9,7 +9,8 @@
 // Shipped with Bridgetown v<%= Bridgetown::VERSION %>
 
 const path = require("path")
-const fs = require("fs").promises
+const fsLib = require("fs")
+const fs = fsLib.promises
 const postcss = require("postcss")
 const postCssImport = require("postcss-import")
 const readCache = require("read-cache")
@@ -91,6 +92,13 @@ const bridgetownPreset = (outputFolder) => ({
       // We don't need `frontend/` cluttering up everything
       const stripPrefix = (str) => str.replace(/^frontend\//, "")
 
+      // For calculating the file size of bundle output
+      const fileSize = (path) => {
+        const { size } = fsLib.statSync(path)
+        const i = Math.floor(Math.log(size) / Math.log(1024))
+        return (size / Math.pow(1024, i)).toFixed(2) * 1 + ['B', 'KB', 'MB', 'GB', 'TB'][i]
+      }
+
       // Let's loop through all the various outputs
       for (const key in result.metafile.outputs) {
         const value = result.metafile.outputs[key]
@@ -101,11 +109,11 @@ const bridgetownPreset = (outputFolder) => ({
         if (value.entryPoint) {
           // We have an entrypoint!
           manifest[stripPrefix(value.entryPoint)] = outputPath
-          entrypoints.push(outputPath)
+          entrypoints.push([outputPath, fileSize(key)])
         } else if (key.match(/index\.[^-.]*\.css/) && inputs.find(item => item.endsWith("index.css"))) {
           // Special treatment for index.css
           manifest[stripPrefix(inputs.find(item => item.endsWith("index.css")))] = outputPath
-          entrypoints.push(outputPath)
+          entrypoints.push([outputPath, fileSize(key)])
         } else if (inputs.length > 0) {
           // Naive implementation, we'll just grab the first input and hope it's accurate
           manifest[stripPrefix(inputs[0])] = outputPath
@@ -119,7 +127,8 @@ const bridgetownPreset = (outputFolder) => ({
       console.log("esbuild: frontend bundling complete!")
       console.log("esbuild: entrypoints processed:")
       entrypoints.forEach(entrypoint => {
-        console.log(`         - ${entrypoint}`)
+        const [entrypointName, entrypointSize] = entrypoint
+        console.log(`         - ${entrypointName}: ${entrypointSize}`)
       })
     })
   }
