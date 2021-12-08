@@ -22,7 +22,11 @@ class TestNewCommand < BridgetownUnitTest
   end
 
   def template_config_files
-    ["/Gemfile", "/package.json", "/webpack.config.js", "/frontend/javascript/index.js", "/config/webpack.defaults.js"]
+    ["/Gemfile", "/Rakefile", "/package.json", "/esbuild.config.js", "/frontend/javascript/index.js", "/config/esbuild.defaults.js"]
+  end
+
+  def webpack_template_config_files
+    ["/Gemfile", "/Rakefile", "/package.json", "/webpack.config.js", "/frontend/javascript/index.js", "/config/webpack.defaults.js"]
   end
 
   def static_template_files
@@ -71,7 +75,7 @@ class TestNewCommand < BridgetownUnitTest
       postcss_template_files = static_template_files + postcss_config_files + template_config_files
 
       capture_output do
-        Bridgetown::Commands::Base.start(argumentize("#{@args} --use-postcss"))
+        Bridgetown::Commands::Base.start(argumentize(@args))
       end
 
       new_site_files = dir_contents(@full_path).reject do |f|
@@ -83,10 +87,10 @@ class TestNewCommand < BridgetownUnitTest
 
     should "copy the static files for sass configuration in site template to the new directory" do
       sass_config_files = ["/frontend/styles/index.scss"]
-      sass_template_files = static_template_files + sass_config_files + template_config_files
+      sass_template_files = static_template_files + sass_config_files + webpack_template_config_files
 
       capture_output do
-        Bridgetown::Commands::Base.start(argumentize(@args))
+        Bridgetown::Commands::Base.start(argumentize("#{@args} -e webpack --use-sass"))
       end
 
       new_site_files = dir_contents(@full_path).reject do |f|

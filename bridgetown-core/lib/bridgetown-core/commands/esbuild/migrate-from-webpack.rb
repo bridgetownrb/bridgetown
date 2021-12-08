@@ -12,23 +12,23 @@ remove_file "config/webpack.defaults.js"
 
 apply find_in_source_paths("setup.rb"), verbose: false
 
-return if Bridgetown.environment.test?
-
 default_postcss_config = File.expand_path("../../../site_template/postcss.config.js.erb", __dir__)
 template default_postcss_config, "postcss.config.js"
 
-required_packages = %w(esbuild postcss@8.3.0 postcss-flexbugs-fixes postcss-preset-env postcss-import postcss-load-config)
-redundant_packages = %w(esbuild-loader webpack webpack-cli webpack-manifest-plugin webpack-merge css-loader file-loader mini-css-extract-plugin postcss-loader)
+unless Bridgetown.environment.test?
+  required_packages = %w(esbuild postcss@8.3.0 postcss-flexbugs-fixes postcss-preset-env postcss-import postcss-load-config)
+  redundant_packages = %w(esbuild-loader webpack webpack-cli webpack-manifest-plugin webpack-merge css-loader file-loader mini-css-extract-plugin postcss-loader)
 
-say "Installing required packages"
-run "yarn add -D #{required_packages.join(" ")}"
+  say "Installing required packages"
+  run "yarn add -D #{required_packages.join(" ")}"
 
-packages_to_remove = package_json["devDependencies"].slice(*redundant_packages).keys
-unless packages_to_remove.empty?
-  confirm = ask "\nThe following packages will be removed: \n\n#{packages_to_remove.join("\n")}\n\nWould you like to continue? [Yn]"
-  return unless confirm.casecmp?("Y")
+  packages_to_remove = package_json["devDependencies"].slice(*redundant_packages).keys
+  unless packages_to_remove.empty?
+    confirm = ask "\nThe following packages will be removed: \n\n#{packages_to_remove.join("\n")}\n\nWould you like to continue? [Yn]"
+    return unless confirm.casecmp?("Y")
 
-  run "yarn remove #{packages_to_remove.join(" ")}"
+    run "yarn remove #{packages_to_remove.join(" ")}"
+  end
 end
 
 gsub_file "Rakefile", %(desc "Build the frontend with Webpack for deployment"), %(desc "Build the frontend with esbuild for deployment")
