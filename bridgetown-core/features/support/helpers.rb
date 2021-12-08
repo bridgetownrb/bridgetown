@@ -37,6 +37,8 @@ class Paths
       ".bridgetown-cache/frontend-bundling",
       ".bridgetown-cache/frontend-bundling/manifest.json",
       "bridgetown.config.yml",
+      "webpack.config.js",
+      "esbuild.config.js",
       "plugins",
       "plugins/nested",
       "plugins/nested/subnested",
