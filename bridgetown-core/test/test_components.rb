@@ -3,8 +3,23 @@
 require "helper"
 
 class TestComponents < BridgetownUnitTest
+  def refresh_zeitwork
+    loader = Zeitwerk::Registry.loaders.find do |loader|
+      loader.dirs.any? do |path|
+        path.include?("_components")
+      end
+    end
+
+    loader&.unload
+
+    yield
+
+    loader&.reload
+  end
+
   def setup
-    @site = fixture_site({ level: "Level" })
+    refresh_zeitwork { @site = fixture_site({ level: "Level" }) }
+
     @site.process
     @erb_page = @site.collections.pages.resources.find { |page| page.data.title == "I'm an ERB Page" }
   end

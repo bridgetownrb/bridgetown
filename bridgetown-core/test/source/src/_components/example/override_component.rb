@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../../../../plugin_content/components/example/override_component"
+load File.expand_path("../../../../plugin_content/components/example/override_component.rb", __dir__)
 
 module Example
   class OverrideComponent
