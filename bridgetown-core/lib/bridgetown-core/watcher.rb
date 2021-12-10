@@ -62,23 +62,23 @@ module Bridgetown
           c.each { |path| Bridgetown.logger.info "", "- #{path["#{site.root_dir}/".length..]}" }
         end
 
-        reload_site(site, options)
+        reload_site(site, options, paths: c)
       end.start
     end
 
     # Reload the site including plugins and Zeitwerk autoloaders and process it (unless SSR)
     #
     # @param (see #watch)
-    def reload_site(site, options) # rubocop:todo Metrics/MethodLength
+    def reload_site(site, options, paths: []) # rubocop:todo Metrics/MethodLength
       begin
         time = Time.now
         I18n.reload! # make sure any locale files get read again
         Bridgetown::Current.site = site # needed in SSR mode apparently
-        Bridgetown::Hooks.trigger :site, :pre_reload, site
+        Bridgetown::Hooks.trigger :site, :pre_reload, site, paths
         Bridgetown::Hooks.clear_reloadable_hooks
         site.plugin_manager.reload_plugin_files
         site.loaders_manager.reload_loaders
-        Bridgetown::Hooks.trigger :site, :post_reload, site
+        Bridgetown::Hooks.trigger :site, :post_reload, site, paths
 
         if site.ssr?
           site.reset(soft: true)

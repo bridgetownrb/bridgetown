@@ -19,8 +19,8 @@ return unless confirm.casecmp?("Y")
 run "yarn add -D tailwindcss"
 run "npx tailwindcss init"
 
-gsub_file "tailwind.config.js", "purge: [],", <<~JS.strip
-  purge: [
+gsub_file "tailwind.config.js", "content: [],", <<~JS.strip
+  content: [
       './src/**/*.{html,md,liquid,erb,serb}',
       './frontend/javascript/**/*.js',
     ],
@@ -36,7 +36,29 @@ else
   say File.read(in_templates_dir("/css_imports.css"))
 end
 
+create_file "frontend/styles/jit-refresh.css", "/* #{Time.now.to_i} */"
+
+create_builder "tailwind_jit.rb" do
+  <<~RUBY
+    class Builders::TailwindJit < SiteBuilder
+      # Change this value if the reloader isn't waiting long enough
+      WAIT_SECONDS = 1
+    
+      def build
+        hook :site, :pre_reload do |_, paths|
+          # Don't trigger refresh if it's a frontend-only change
+          next if paths.length == 1 && paths.first.ends_with?("manifest.json")
+    
+          # Save out a comment file to trigger Tailwind's JIT
+          refresh_file = site.in_root_dir("frontend", "styles", "jit-refresh.css")
+          File.write refresh_file, "/* \#{Time.now.to_i} */"
+          sleep WAIT_SECONDS # give Tailwind time to do its thing
+        end
+      end
+    end
+  RUBY
+end
+
 say_status :tailwind, "Tailwind CSS is now configured."
-say_status :tailwind, "When you deploy, ensure NODE_ENV is set to `production` so unused classes are purged from the output CSS bundle."
 
 # rubocop:enable all
