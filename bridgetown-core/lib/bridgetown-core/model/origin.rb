@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-# See bottom of file for specific origin requires...
-
 module Bridgetown
   module Model
     # Abstract Superclass
     class Origin
       extend ActiveSupport::DescendantsTracker
+
+      EAGER_LOAD_DESCENDANTS = %i(BuilderOrigin RepoOrigin PluginOrigin).freeze
 
       # @return [String]
       attr_accessor :id
@@ -42,9 +42,7 @@ module Bridgetown
         raise "Implement #exists? in a subclass of Bridgetown::Model::Origin"
       end
     end
+
+    Origin::EAGER_LOAD_DESCENDANTS.each { const_get _1 }
   end
 end
-
-require "bridgetown-core/model/builder_origin"
-require "bridgetown-core/model/repo_origin"
-require "bridgetown-core/model/plugin_origin"

@@ -268,3 +268,4 @@ loader = Zeitwerk::Loader.new
 loader.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model
 loader.push_dir File.join(__dir__, "bridgetown-core/resource"), namespace: Bridgetown::Resource
 loader.setup # ready!
+Bridgetown::Model::Origin # this needs to load first

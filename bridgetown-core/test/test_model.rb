@@ -7,8 +7,6 @@ class TestModel < BridgetownUnitTest
     setup do
       # @type [Bridgetown::Site]
       @site = resources_site
-      # not sure why this is needed to autoload:
-      Bridgetown::Model::Origin # rubocop:disable Lint/Void
       @origin = Bridgetown::Model::RepoOrigin.new_with_collection_path(:pages, "_pages/_test_file.md")
       @filepath = @site.in_source_dir("_pages/_test_file.md")
     end
