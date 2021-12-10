@@ -74,20 +74,22 @@ module Bridgetown
         time = Time.now
         I18n.reload! # make sure any locale files get read again
         Bridgetown::Current.site = site # needed in SSR mode apparently
-        Bridgetown::Hooks.trigger :site, :pre_reload, site, paths
-        Bridgetown::Hooks.clear_reloadable_hooks
-        site.plugin_manager.reload_plugin_files
-        site.loaders_manager.reload_loaders
-        Bridgetown::Hooks.trigger :site, :post_reload, site, paths
+        catch :halt do
+          Bridgetown::Hooks.trigger :site, :pre_reload, site, paths
+          Bridgetown::Hooks.clear_reloadable_hooks
+          site.plugin_manager.reload_plugin_files
+          site.loaders_manager.reload_loaders
+          Bridgetown::Hooks.trigger :site, :post_reload, site, paths
 
-        if site.ssr?
-          site.reset(soft: true)
-          return
+          if site.ssr?
+            site.reset(soft: true)
+            return
+          end
+
+          site.process
+          Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
+                                            " #{(Time.now - time).ceil(2)} seconds."
         end
-
-        site.process
-        Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
-                                          " #{(Time.now - time).ceil(2)} seconds."
       rescue Exception => e
         Bridgetown.logger.error "Error:", e.message
 
