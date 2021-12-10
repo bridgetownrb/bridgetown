@@ -11,7 +11,7 @@ group :bridgetown_plugins do
   gem "bridgetown-feed", "2.0.1"
   gem "bridgetown-svg-inliner", "~> 1.0"
   gem "bridgetown-quick-search", "1.1.1"
-  gem "bridgetown-seo-tag", "4.0.1"
+  gem "bridgetown-seo-tag", "~> 5.0"
 end
 
 group :test, optional: true do
