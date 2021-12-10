@@ -11,9 +11,55 @@
 const path = require("path")
 const fsLib = require("fs")
 const fs = fsLib.promises
+const glob = require("glob")
 const postcss = require("postcss")
 const postCssImport = require("postcss-import")
 const readCache = require("read-cache")
+
+// Glob plugin derived from:
+// https://github.com/thomaschaaf/esbuild-plugin-import-glob
+// https://github.com/xiaohui-zhangxh/jsbundling-rails/commit/b15025dcc20f664b2b0eb238915991afdbc7cb58
+const importGlobPlugin = () => ({
+  name: "import-glob",
+  setup: (build) => {
+    build.onResolve({ filter: /\*/ }, async (args) => {
+      if (args.resolveDir === "") {
+        return; // Ignore unresolvable paths
+      }
+
+      const adjustedPath = args.path.replace(/^bridgetownComponents\//, "../../src/_components/")
+
+      return {
+        path: path.resolve(args.resolveDir, adjustedPath),
+        namespace: "import-glob",
+        pluginData: {
+          path: adjustedPath,
+          resolveDir: args.resolveDir,
+        },
+      }
+    })
+
+    build.onLoad({ filter: /.*/, namespace: "import-glob" }, async (args) => {
+      const files = glob.sync(args.pluginData.path, {
+        cwd: args.pluginData.resolveDir,
+      }).sort()
+
+      const importerCode = `
+        ${files
+          .map((module, index) => `import * as module${index} from '${module}'`)
+          .join(';')}
+        const modules = {${files
+          .map((module, index) => `
+            "${module.replace("../../src/_components/", "")}": module${index},`)
+          .join("")}
+        };
+        export default modules;
+      `
+
+      return { contents: importerCode, resolveDir: args.pluginData.resolveDir }
+    })
+  },
+})
 
 const postCssPlugin = (options) => ({
   name: "postcss",
@@ -140,8 +186,9 @@ const postCssConfig = postcssrc.sync()
 
 module.exports = (outputFolder, esbuildOptions) => {
   esbuildOptions.plugins = esbuildOptions.plugins || []
-  // Add the PostCSS plugin to the top of the plugin stack
+  // Add the PostCSS & glob plugins to the top of the plugin stack
   esbuildOptions.plugins.unshift(postCssPlugin(postCssConfig))
+  esbuildOptions.plugins.unshift(importGlobPlugin())
   // Add the Bridgetown preset to the bottom of the plugin stack
   esbuildOptions.plugins.push(bridgetownPreset(outputFolder))
 
