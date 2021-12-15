@@ -156,7 +156,7 @@ const bridgetownPreset = (outputFolder) => ({
           // We have an entrypoint!
           manifest[stripPrefix(value.entryPoint)] = outputPath
           entrypoints.push([outputPath, fileSize(key)])
-        } else if (key.match(/index\.[^-.]*\.css/) && inputs.find(item => item.endsWith("index.css"))) {
+        } else if (key.match(/index(\.js)?\.[^-.]*\.css/) && inputs.find(item => item.endsWith("index.css"))) {
           // Special treatment for index.css
           manifest[stripPrefix(inputs.find(item => item.endsWith("index.css")))] = outputPath
           entrypoints.push([outputPath, fileSize(key)])
