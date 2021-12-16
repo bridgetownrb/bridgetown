@@ -392,12 +392,14 @@ module Bridgetown
     #
     # @raise [WebpackAssetError] if unable to find css or js in the manifest
     #   file
-    def parse_esbuild_manifest_file(site, asset_type)
+    def parse_esbuild_manifest_file(site, asset_type) # rubocop:disable Metrics/PerceivedComplexity
       return log_frontend_asset_error(site, "esbuild manifest") if site.frontend_manifest.nil?
 
       asset_path = if %w(js css).include?(asset_type)
                      folder = asset_type == "js" ? "javascript" : "styles"
                      site.frontend_manifest["#{folder}/index.#{asset_type}"]
+                   elsif asset_type == "js.rb"
+                     site.frontend_manifest["javascript/index.js.rb"]
                    else
                      site.frontend_manifest.find do |item, _|
                        item.sub(%r{^../(frontend/|src/)?}, "") == asset_type
