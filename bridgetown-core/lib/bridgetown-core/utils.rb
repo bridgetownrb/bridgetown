@@ -397,9 +397,8 @@ module Bridgetown
 
       asset_path = if %w(js css).include?(asset_type)
                      folder = asset_type == "js" ? "javascript" : "styles"
-                     site.frontend_manifest["#{folder}/index.#{asset_type}"]
-                   elsif asset_type == "js.rb"
-                     site.frontend_manifest["javascript/index.js.rb"]
+                     site.frontend_manifest["#{folder}/index.#{asset_type}"] ||
+                       site.frontend_manifest["#{folder}/index.#{asset_type}.rb"]
                    else
                      site.frontend_manifest.find do |item, _|
                        item.sub(%r{^../(frontend/|src/)?}, "") == asset_type
