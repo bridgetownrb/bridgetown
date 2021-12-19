@@ -24,6 +24,10 @@ module Bridgetown
                    aliases: "-c",
                    banner: "CONFIGURATION(S)",
                    desc: "Comma separated list of bundled configurations to perform"
+      class_option :templates,
+                   aliases: "-t",
+                   banner: "liquid|erb|serbea",
+                   desc: "Preferred template engine (defaults to Liquid)"
       class_option :force,
                    type: :boolean,
                    desc: "Force creation even if PATH already exists"
@@ -79,7 +83,7 @@ module Bridgetown
       end
 
       def create_site(new_site_path)
-        directory ".", ".", exclude_pattern: %r!\.erb|DS_Store$|\.(s[ac]|c)ss$!
+        directory ".", ".", exclude_pattern: %r!\.erb|TEMPLATES|DS_Store$|\.(s[ac]|c)ss$!
         FileUtils.chmod_R "u+w", new_site_path
 
         template(
@@ -89,13 +93,52 @@ module Bridgetown
         template("Gemfile.erb", "Gemfile")
         template("package.json.erb", "package.json")
         template("frontend/javascript/index.js.erb", "frontend/javascript/index.js")
+        template("src/posts.md.erb", "src/posts.md")
+
+        case options["templates"]
+        when "erb"
+          setup_erb_templates
+        when "serbea"
+          setup_serbea_templates
+        else
+          setup_liquid_templates
+        end
 
         options["use-postcss"] ? configure_postcss : configure_sass
         invoke(Webpack, ["setup"], {})
       end
 
+      def setup_erb_templates
+        directory "TEMPLATES/erb/_layouts", "src/_layouts"
+        directory "TEMPLATES/erb/_components", "src/_components"
+        directory "TEMPLATES/erb/_partials", "src/_partials"
+        gsub_file "bridgetown.config.yml", %r!permalink: pretty\n!, <<~YML
+          permalink: pretty
+          template_engine: erb
+        YML
+      end
+
+      def setup_serbea_templates
+        directory "TEMPLATES/serbea/_layouts", "src/_layouts"
+        directory "TEMPLATES/serbea/_components", "src/_components"
+        directory "TEMPLATES/serbea/_partials", "src/_partials"
+        gsub_file "bridgetown.config.yml", %r!permalink: pretty\n!, <<~YML
+          permalink: pretty
+          template_engine: serbea
+        YML
+      end
+
+      def setup_liquid_templates
+        directory "TEMPLATES/liquid/_layouts", "src/_layouts"
+        directory "TEMPLATES/liquid/_components", "src/_components"
+        gsub_file "bridgetown.config.yml", %r!permalink: pretty\n!, <<~YML
+          permalink: pretty
+          template_engine: liquid
+        YML
+      end
+
       def configure_sass
-        copy_file("frontend/styles/index.scss")
+        copy_file("frontend/styles/index.css", "frontend/styles/index.scss")
       end
 
       def configure_postcss

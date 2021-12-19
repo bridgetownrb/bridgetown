@@ -1,19 +1,60 @@
 :root {
-  --body-background: #fafafa;
-  --body-color: #444;  
+  --body-background: #f2f2f2;
+  --body-color: #444;
+  --heading-color: black;
+  --action-color: #204a87;
 }
 
 body {
   background: var(--body-background);
   color: var(--body-color);
-  font-family: sans-serif;
+  font-family: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    "Helvetica", "Arial", sans-serif;
+  margin: 0 8px;
+  font-size: 17px;
 }
 
-h1, nav, footer {
+a {
+  color: var(--action-color);
+  text-decoration: underline;
+  text-decoration-color: #90add3;
+}
+
+h1 {
+  font-weight: 900;
+  font-size: 2.5rem;
+  color: var(--heading-color);
+}
+
+body > nav {
   text-align: center;
+  display: flex;
+  font-weight: bold;
 }
 
 main {
-  margin: 4rem auto;
-  max-width: 60rem;
+  margin: 2rem auto 4rem;
+  max-width: 65rem;
+  min-height: calc(100vh - 200px);
+  padding: 25px 25px 50px;
+  background: white;
+  box-shadow: 2px 3px 3px #ddd;
+  border-radius: 3px;
+
+  @media (max-width: 500px) {
+    padding: 16px 16px 50px;
+  }
+}
+
+footer {
+  text-align: center;
+  margin-bottom: 4rem;
+  font-size: 1em;
+}
+
+hr {
+  border: none;
+  border-top: 2px dotted #bbb;
+  margin: 3rem 0;
 }
