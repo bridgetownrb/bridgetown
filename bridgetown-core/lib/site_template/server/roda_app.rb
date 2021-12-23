@@ -4,7 +4,8 @@
 #
 # Learn more at: http://roda.jeremyevans.net
 
-# Uncomment to use the file-based routing for Bridgetown SSR:
+# Uncomment to use file-based dynamic routing in your project (make sure you
+# uncomment the gem dependency in your Gemfile as well):
 # require "bridgetown-routes"
 
 class RodaApp < Bridgetown::Rack::Roda
@@ -12,11 +13,12 @@ class RodaApp < Bridgetown::Rack::Roda
 
   # Uncomment to use Bridgetown SSR:
   # plugin :bridgetown_ssr
+
+  # And optionally file-based routing:
   # plugin :bridgetown_routes
 
   route do |r|
-    # Load all files in server/routes and src/_routes if "bridgetown-routes" is loaded
-    # (see server/routes/hello.rb.sample)
+    # Load Roda routes in server/routes (and src/_routes via `bridgetown-routes`)
     Bridgetown::Rack::Routes.start! self
   end
 end
