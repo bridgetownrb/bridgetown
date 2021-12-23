@@ -67,7 +67,7 @@ class Bridgetown::Site
 
     # @return [Array<Bridgetown::Resource::TaxonomyType>]
     def taxonomy_types
-      @taxonomy_types ||= config.taxonomies.map do |label, key_or_metadata|
+      @taxonomy_types ||= config.taxonomies.to_h do |label, key_or_metadata|
         key = key_or_metadata
         tax_metadata = if key_or_metadata.is_a? Hash
                          key = key_or_metadata["key"]
@@ -79,7 +79,7 @@ class Bridgetown::Site
         [label, Bridgetown::Resource::TaxonomyType.new(
           site: self, label: label, key: key, metadata: tax_metadata
         ),]
-      end.to_h.with_dot_access
+      end.with_dot_access
     end
 
     # Get all loaded resources.
