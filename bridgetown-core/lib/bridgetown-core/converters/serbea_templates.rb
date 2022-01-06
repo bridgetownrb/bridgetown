@@ -39,7 +39,7 @@ module Bridgetown
 
         serb_view = Bridgetown::SerbeaView.new(convertible)
 
-        serb_renderer = Tilt::SerbeaTemplate.new(convertible.relative_path) { content }
+        serb_renderer = Tilt::SerbeaTemplate.new(convertible.path) { content }
 
         if convertible.is_a?(Bridgetown::Layout)
           serb_renderer.render(serb_view) do

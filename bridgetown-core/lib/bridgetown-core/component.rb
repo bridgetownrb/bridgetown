@@ -91,6 +91,12 @@ module Bridgetown
       def supported_template_extensions
         %w(erb serb slim haml)
       end
+
+      def path_for_errors
+        component_template_path
+      rescue RuntimeError
+        source_location
+      end
     end
 
     # If a content block was originally passed into via `render`, capture its output.
@@ -133,7 +139,7 @@ module Bridgetown
     rescue StandardError => e
       Bridgetown.logger.error "Component error:",
                               "#{self.class} encountered an error while "\
-                              "rendering `#{self.class.component_template_path}'"
+                              "rendering `#{self.class.path_for_errors}'"
       raise e
     end
 
