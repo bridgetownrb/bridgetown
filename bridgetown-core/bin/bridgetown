@@ -38,4 +38,5 @@ begin
   Bridgetown::Commands::Base.start unless output_version
 rescue StandardError => e
   Bridgetown::Errors.print_build_error(e)
+  exit(false)
 end
