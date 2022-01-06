@@ -28,7 +28,7 @@ module Bridgetown
                  exc.backtrace[0..4]
                end
       traces.each_with_index do |backtrace_line, index|
-        Bridgetown.logger.warn "#{index + 1}:", backtrace_line.reset_ansi
+        Bridgetown.logger.error "#{index + 1}:", backtrace_line.reset_ansi
       end
 
       return unless print_trace_msg
