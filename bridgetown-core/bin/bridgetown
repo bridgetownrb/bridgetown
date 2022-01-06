@@ -34,4 +34,8 @@ end
 ENV["RACK_ENV"] = ENV["BRIDGETOWN_ENV"]
 
 require "bridgetown-core/commands/base"
-Bridgetown::Commands::Base.start unless output_version
+begin
+  Bridgetown::Commands::Base.start unless output_version
+rescue StandardError => e
+  Bridgetown::Errors.print_build_error(e)
+end

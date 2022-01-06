@@ -32,10 +32,6 @@ module Bridgetown
                       end
       end
 
-      def inspect
-        "#{name} (Hook)"
-      end
-
       def doc(*)
         raise Bridgetown::Errors::FatalException,
               "The `doc' method has been removed. Please use the `new_resource' builder DSL instead"

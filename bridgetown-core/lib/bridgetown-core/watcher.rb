@@ -69,7 +69,7 @@ module Bridgetown
     # Reload the site including plugins and Zeitwerk autoloaders and process it (unless SSR)
     #
     # @param (see #watch)
-    def reload_site(site, options) # rubocop:todo Metrics/MethodLength
+    def reload_site(site, options)
       begin
         time = Time.now
         I18n.reload! # make sure any locale files get read again
@@ -88,14 +88,8 @@ module Bridgetown
         site.process
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
                                           " #{(Time.now - time).ceil(2)} seconds."
-      rescue Exception => e
-        Bridgetown.logger.error "Error:", e.message
-
-        if options[:trace]
-          Bridgetown.logger.info e.backtrace.join("\n")
-        else
-          Bridgetown.logger.warn "Backtrace:", "Use the --trace option for more information."
-        end
+      rescue StandardError => e
+        Bridgetown::Errors.print_build_error(e, trace: options[:trace])
       end
       Bridgetown.logger.info ""
     end

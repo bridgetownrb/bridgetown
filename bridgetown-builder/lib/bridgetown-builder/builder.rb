@@ -34,7 +34,7 @@ module Bridgetown
     end
 
     def inspect
-      name
+      "#<#{name}>"
     end
 
     def self.descendants

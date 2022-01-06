@@ -165,7 +165,7 @@ module Bridgetown
     end
 
     def method_missing(method, *args, **kwargs, &block)
-      if helpers.respond_to?(method.to_sym)
+      if view_context && helpers.respond_to?(method.to_sym)
         helpers.send method.to_sym, *args, **kwargs, &block
       else
         super
@@ -173,7 +173,7 @@ module Bridgetown
     end
 
     def respond_to_missing?(method, include_private = false)
-      helpers.respond_to?(method.to_sym, include_private) || super
+      (view_context && helpers.respond_to?(method.to_sym, include_private)) || super
     end
   end
 end
