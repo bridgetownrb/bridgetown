@@ -2,13 +2,13 @@
 
 # rubocop:disable Layout/LineLength
 
-required_packages = %w(esbuild esbuild-loader webpack@5.39.1 webpack-cli@4.7.2 webpack-manifest-plugin@3.1.1)
-redundant_packages = %w(@babel/core @babel/plugin-proposal-class-properties @babel/plugin-proposal-decorators @babel/plugin-transform-runtime @babel/preset-env babel-loader)
-
 template "webpack.defaults.js.erb", "config/webpack.defaults.js", force: true
 say "🎉 Webpack configuration updated successfully!"
 
 return if Bridgetown.environment.test?
+
+required_packages = %w(esbuild esbuild-loader webpack@5.39.1 webpack-cli@4.7.2 webpack-manifest-plugin@3.1.1)
+redundant_packages = %w(@babel/core @babel/plugin-proposal-class-properties @babel/plugin-proposal-decorators @babel/plugin-transform-runtime @babel/preset-env babel-loader)
 
 say "Installing required packages"
 run "yarn add -D #{required_packages.join(" ")}"

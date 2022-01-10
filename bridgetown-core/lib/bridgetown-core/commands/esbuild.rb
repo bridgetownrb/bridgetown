@@ -2,24 +2,24 @@
 
 module Bridgetown
   module Commands
-    class Webpack < Thor::Group
+    class Esbuild < Thor::Group
       include Thor::Actions
       extend Summarizable
 
       Registrations.register do
-        register(Webpack, "webpack", "webpack ACTION", Webpack.summary)
+        register(Esbuild, "esbuild", "esbuild ACTION", Esbuild.summary)
       end
 
       def self.banner
-        "bridgetown webpack ACTION"
+        "bridgetown esbuild ACTION"
       end
-      summary "Perform actions on the Bridgetown Webpack configuration"
+      summary "Perform actions on the Bridgetown esbuild configuration"
 
       def self.exit_on_failure?
         true
       end
 
-      def webpack
+      def esbuild
         @logger = Bridgetown.logger
         return show_actions if args.empty?
 
@@ -34,7 +34,7 @@ module Bridgetown
       end
 
       def self.source_root
-        File.expand_path("./webpack", __dir__)
+        File.expand_path("./esbuild", __dir__)
       end
 
       def self.destination_root
@@ -72,9 +72,10 @@ module Bridgetown
 
       def supported_actions
         {
-          setup: "Sets up a Webpack integration with Bridgetown in your project",
-          update: "Updates the Bridgetown Webpack defaults to the latest available version",
-          "enable-postcss": "Configures PostCSS in your project",
+          setup: "Sets up an esbuild integration with Bridgetown in your project",
+          update: "Updates the Bridgetown esbuild defaults to the latest available version",
+          "migrate-from-webpack":
+            "Removes Webpack from your project and installs/configures esbuild",
         }.with_indifferent_access
       end
     end

@@ -24,6 +24,20 @@ task :clean do
   Bridgetown::Commands::Clean.start
 end
 
+<%- if frontend_bundling_option == "esbuild" -%>
+namespace :frontend do
+  desc "Build the frontend with esbuild for deployment"
+  task :build do
+    sh "yarn run esbuild"
+  end
+
+  desc "Watch the frontend with esbuild during development"
+  task :dev do
+    sh "yarn run esbuild-dev"
+  rescue Interrupt
+  end
+end
+<%- else -%>
 namespace :frontend do
   desc "Build the frontend with Webpack for deployment"
   task :build do
@@ -36,6 +50,7 @@ namespace :frontend do
   rescue Interrupt
   end
 end
+<%- end -%>
 
 #
 # Add your own Rake tasks here! You can use `environment` as a prerequisite

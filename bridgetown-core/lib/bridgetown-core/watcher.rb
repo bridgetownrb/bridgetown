@@ -42,11 +42,11 @@ module Bridgetown
     #
     # @param (see #watch)
     def listen(site, options)
-      webpack_path = site.in_root_dir(".bridgetown-webpack")
-      FileUtils.mkdir(webpack_path) unless Dir.exist?(webpack_path)
+      bundling_path = site.frontend_bundling_path
+      FileUtils.mkdir_p(bundling_path)
       Listen.to(
         options["source"],
-        webpack_path,
+        bundling_path,
         *load_paths_to_watch(site, options),
         ignore: listen_ignore_paths(options),
         force_polling: options["force_polling"]
@@ -62,32 +62,34 @@ module Bridgetown
           c.each { |path| Bridgetown.logger.info "", "- #{path["#{site.root_dir}/".length..]}" }
         end
 
-        reload_site(site, options)
+        reload_site(site, options, paths: c)
       end.start
     end
 
     # Reload the site including plugins and Zeitwerk autoloaders and process it (unless SSR)
     #
     # @param (see #watch)
-    def reload_site(site, options) # rubocop:todo Metrics/MethodLength
+    def reload_site(site, options, paths: []) # rubocop:todo Metrics/MethodLength
       begin
         time = Time.now
         I18n.reload! # make sure any locale files get read again
         Bridgetown::Current.site = site # needed in SSR mode apparently
-        Bridgetown::Hooks.trigger :site, :pre_reload, site
-        Bridgetown::Hooks.clear_reloadable_hooks
-        site.plugin_manager.reload_plugin_files
-        site.loaders_manager.reload_loaders
-        Bridgetown::Hooks.trigger :site, :post_reload, site
+        catch :halt do
+          Bridgetown::Hooks.trigger :site, :pre_reload, site, paths
+          Bridgetown::Hooks.clear_reloadable_hooks
+          site.plugin_manager.reload_plugin_files
+          site.loaders_manager.reload_loaders
+          Bridgetown::Hooks.trigger :site, :post_reload, site, paths
 
-        if site.ssr?
-          site.reset(soft: true)
-          return
+          if site.ssr?
+            site.reset(soft: true)
+            return
+          end
+
+          site.process
+          Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
+                                            " #{(Time.now - time).ceil(2)} seconds."
         end
-
-        site.process
-        Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
-                                          " #{(Time.now - time).ceil(2)} seconds."
       rescue Exception => e
         Bridgetown.logger.error "Error:", e.message
 
