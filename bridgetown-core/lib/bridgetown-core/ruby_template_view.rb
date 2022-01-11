@@ -73,6 +73,10 @@ module Bridgetown
       helpers.respond_to?(method_name.to_sym, include_private) || super
     end
 
+    def inspect
+      "#<#{self.class} layout=#{layout&.label} resource=#{resource.relative_path}>"
+    end
+
     private
 
     def _render_statement(component, options)

@@ -175,7 +175,7 @@ class BridgetownUnitTest < Minitest::Test
   def directory_with_contents(path)
     FileUtils.rm_rf(path)
     FileUtils.mkdir(path)
-    File.open("#{path}/index.html", "w") { |f| f.write("I was previously generated.") }
+    File.write("#{path}/index.html", "I was previously generated.")
   end
 
   def with_env(key, value)
@@ -226,9 +226,9 @@ module Bridgetown
       def self.index_documents_by(pages_list, search_term)
         # site.collections[@configured_collection].resources
 
-        pages_list.map do |resource|
+        pages_list.to_h do |resource|
           [resource.data[search_term], nil]
-        end.to_h
+        end
       end
     end
   end

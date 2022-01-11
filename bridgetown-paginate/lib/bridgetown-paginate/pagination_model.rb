@@ -269,7 +269,7 @@ module Bridgetown
             puts "#{"Pagination: ".rjust(20)}Rolling through the date fields for all documents"
           end
           using_posts.each do |u_post|
-            next unless u_post.respond_to?("date")
+            next unless u_post.respond_to?(:date)
 
             tmp_date = u_post.date
             next unless !tmp_date || tmp_date.nil?

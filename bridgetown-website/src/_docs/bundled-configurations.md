@@ -11,14 +11,13 @@ configurations. You can run these scripts using `bin/bridgetown
 configure [CONFIGURATION]`
 
 The configurations we include are:
+- [Turbo](#turbo) (`turbo`)
+- [Stimulus](#stimulus) (`stimulus`)
 - [TailwindCSS](#tailwindcss) (`tailwindcss`)
 - [PurgeCSS Post-Build Hook](#purgecss-post-build-hook) (`purgecss`)
-- [Stimulus](#stimulus) (`stimulus`)
-- [Turbo](#turbo) (`turbo`)
 - [Bridgetown recommended PostCSS plugins](#bridgetown-recommended-postcss-plugins) (`bt-postcss`)
 - [Render YAML Configuration](#render-yaml-configuration) (`render`)
 - [Netlify TOML Configuration](#netlify-toml-configuration) (`netlify`)
-- [Swup.js Page Transitions](#swupjs-page-transitions) (`swup`)
 - [Automated Test Suite using Minitest](#automated-test-suite-using-minitest) (`minitesting`)
 - [Cypress](#cypress) (`cypress`)
 
@@ -30,7 +29,29 @@ Bundled configurations can also be run while creating a new Bridgetown project u
 bridgetown new my_project -c swup,purgecss
 ```
 
-## A bit about the configurations
+## Configuration Setup Details
+
+### Turbo
+
+⚙️ Adds and configures [Turbo](https://turbo.hotwired.dev).
+
+🛠 **Configure using:**
+
+```
+bin/bridgetown configure turbo
+```
+
+An optional script (`turbo_transitions.js`) is provided to add transition animation to Turbo navigation. If you don't wish to use any transition animations, you're welcome to delete the file. You can also edit the script to adjust the animation style or change the element being animated from `<main>` to whatever you prefer. 
+
+### Stimulus
+
+⚙️ Sets up [Stimulus](https://stimulus.hotwired.dev) and adds an example controller.
+
+🛠 **Configure using:**
+
+```
+bin/bridgetown configure stimulus
+```
 
 ### TailwindCSS
 
@@ -54,26 +75,6 @@ bin/bridgetown configure tailwindcss
 
 ```
 bin/bridgetown configure purgecss
-```
-
-### Stimulus
-
-⚙️ Sets up [Stimulus](https://stimulus.hotwired.dev) and adds an example controller.
-
-🛠 **Configure using:**
-
-```
-bin/bridgetown configure stimulus
-```
-
-### Turbo
-
-⚙️ Adds and configures [Turbo](https://turbo.hotwired.dev).
-
-🛠 **Configure using:**
-
-```
-bin/bridgetown configure turbo
 ```
 
 ### Bridgetown recommended PostCSS plugins
@@ -114,17 +115,6 @@ bin/bridgetown configure render
 ```
 bin/bridgetown configure netlify
 ```
-
-### Swup.js Page Transitions
-
-⚡️ Adds [Swup](https://swup.js.org) for fast animated page transitions that make your site feel modern and cool. (If you've used Turbo or Turbolinks, you'll love Swup!)
-
-🛠 **Configure using:**
-
-```
-bin/bridgetown configure swup
-```
-
 
 ### Automated Test Suite using Minitest
 

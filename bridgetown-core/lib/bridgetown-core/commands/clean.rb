@@ -21,12 +21,12 @@ module Bridgetown
         destination = config["destination"]
         metadata_file = File.join(config["root_dir"], ".bridgetown-metadata")
         cache_dir = File.join(config["root_dir"], config["cache_dir"])
-        webpack_dir = File.join(config["root_dir"], ".bridgetown-webpack")
+        bundling_dir = File.join(config["root_dir"], ".bridgetown-cache", "frontend-bundling")
 
         remove(destination, checker_func: :directory?)
         remove(metadata_file, checker_func: :file?)
         remove(cache_dir, checker_func: :directory?)
-        remove(webpack_dir, checker_func: :directory?)
+        remove(bundling_dir, checker_func: :directory?)
       end
 
       protected

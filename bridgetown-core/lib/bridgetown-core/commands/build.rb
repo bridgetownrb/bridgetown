@@ -77,7 +77,7 @@ module Bridgetown
         end
         Bridgetown.logger.info "Generating…"
         @site.process
-        Bridgetown.logger.info "Done! 🎉", "#{"Completed".green} in less than" \
+        Bridgetown.logger.info "Done! 🎉", "#{"Completed".bold.green} in less than" \
                                           " #{(Time.now - t).ceil(2)} seconds."
 
         return unless config_options[:using_puma]

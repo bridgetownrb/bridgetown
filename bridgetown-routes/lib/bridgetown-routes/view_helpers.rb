@@ -66,13 +66,13 @@ module Bridgetown
         @_basic_flash ||= BlankFlash.new
       end
 
-      # def csrf_tag(...)
-      #   request.scope.csrf_tag(...)
-      # end
+      def csrf_tag(...)
+        request.scope.csrf_tag(...)
+      end
 
-      # def csrf_token(...)
-      #   request.scope.csrf_token(...)
-      # end
+      def csrf_token(...)
+        request.scope.csrf_token(...)
+      end
     end
   end
 end

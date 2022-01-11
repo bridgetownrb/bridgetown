@@ -1,4 +1,4 @@
-# Rename this file to hello.rb to try out
+# Rename this file to hello.rb to try it out
 
 class Routes::Hello < Bridgetown::Rack::Routes
   route do |r|

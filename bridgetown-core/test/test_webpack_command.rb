@@ -14,9 +14,10 @@ class TestWebpackCommand < BridgetownUnitTest
   context "the webpack command" do
     setup do
       @path = SecureRandom.alphanumeric
-      @full_path = File.expand_path(@path, Dir.pwd)
+      FileUtils.mkdir_p(File.expand_path("../tmp", __dir__))
+      @full_path = File.join(File.expand_path("../tmp", __dir__), @path)
 
-      capture_stdout { Bridgetown::Commands::Base.start(["new", @path]) }
+      capture_stdout { Bridgetown::Commands::Base.start(["new", @full_path, "-e", "webpack", "--use-sass"]) }
       @cmd = Bridgetown::Commands::Webpack.new
     end
 

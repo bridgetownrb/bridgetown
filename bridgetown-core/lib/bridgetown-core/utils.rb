@@ -339,19 +339,34 @@ module Bridgetown
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
 
+    def parse_frontend_manifest_file(site, asset_type)
+      case frontend_bundler_type(site.root_dir)
+      when :webpack
+        parse_webpack_manifest_file(site, asset_type)
+      when :esbuild
+        parse_esbuild_manifest_file(site, asset_type)
+      else
+        Bridgetown.logger.warn(
+          "Frontend:",
+          "No frontend bundling configuration was found."
+        )
+        "MISSING_FRONTEND_BUNDLING_CONFIG"
+      end
+    end
+
     # Return an asset path based on the Webpack manifest file
     # @param site [Bridgetown::Site] The current site object
     # @param asset_type [String] js or css, or filename in manifest
     #
     # @return [String] Returns "MISSING_WEBPACK_MANIFEST" if the manifest
-    # file isnt found
+    #   file isnt found
     # @return [nil] Returns nil if the asset isnt found
     # @return [String] Returns the path to the asset if no issues parsing
     #
     # @raise [WebpackAssetError] if unable to find css or js in the manifest
-    # file
+    #   file
     def parse_webpack_manifest_file(site, asset_type)
-      return log_webpack_asset_error(site, "Webpack manifest") if site.frontend_manifest.nil?
+      return log_frontend_asset_error(site, "Webpack manifest") if site.frontend_manifest.nil?
 
       asset_path = if %w(js css).include?(asset_type)
                      site.frontend_manifest["main.#{asset_type}"]
@@ -361,9 +376,38 @@ module Bridgetown
                      end&.last
                    end
 
-      return log_webpack_asset_error(site, asset_type) if asset_path.nil?
+      return log_frontend_asset_error(site, asset_type) if asset_path.nil?
 
       static_frontend_path site, ["js", asset_path]
+    end
+
+    # Return an asset path based on the esbuild manifest file
+    # @param site [Bridgetown::Site] The current site object
+    # @param asset_type [String] js or css, or filename in manifest
+    #
+    # @return [String] Returns "MISSING_WEBPACK_MANIFEST" if the manifest
+    #   file isnt found
+    # @return [nil] Returns nil if the asset isnt found
+    # @return [String] Returns the path to the asset if no issues parsing
+    #
+    # @raise [WebpackAssetError] if unable to find css or js in the manifest
+    #   file
+    def parse_esbuild_manifest_file(site, asset_type) # rubocop:disable Metrics/PerceivedComplexity
+      return log_frontend_asset_error(site, "esbuild manifest") if site.frontend_manifest.nil?
+
+      asset_path = if %w(js css).include?(asset_type)
+                     folder = asset_type == "js" ? "javascript" : "styles"
+                     site.frontend_manifest["#{folder}/index.#{asset_type}"] ||
+                       site.frontend_manifest["#{folder}/index.#{asset_type}.rb"]
+                   else
+                     site.frontend_manifest.find do |item, _|
+                       item.sub(%r{^../(frontend/|src/)?}, "") == asset_type
+                     end&.last
+                   end
+
+      return log_frontend_asset_error(site, asset_type) if asset_path.nil?
+
+      static_frontend_path site, [asset_path]
     end
 
     def static_frontend_path(site, additional_parts = [])
@@ -376,16 +420,26 @@ module Bridgetown
       Addressable::URI.parse(path_parts.join("/")).normalize.to_s
     end
 
-    def log_webpack_asset_error(site, asset_type)
-      site.data[:__webpack_asset_errors] ||= {}
-      site.data[:__webpack_asset_errors][asset_type] ||=
+    def log_frontend_asset_error(site, asset_type)
+      site.data[:__frontend_asset_errors] ||= {}
+      site.data[:__frontend_asset_errors][asset_type] ||=
         Bridgetown.logger.warn(
-          "Webpack:",
+          "#{frontend_bundler_type}:",
           "There was an error parsing your #{asset_type} file. \
           Please check your #{asset_type} file for any errors."
         )
 
-      "MISSING_WEBPACK_MANIFEST_FILE"
+      "MISSING_#{frontend_bundler_type.upcase}_MANIFEST_FILE"
+    end
+
+    def frontend_bundler_type(cwd = Dir.pwd)
+      if File.exist?(File.join(cwd, "webpack.config.js"))
+        :webpack
+      elsif File.exist?(File.join(cwd, "esbuild.config.js"))
+        :esbuild
+      else
+        :unknown
+      end
     end
 
     def default_github_branch_name(repo_url)

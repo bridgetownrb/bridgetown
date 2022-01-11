@@ -3,8 +3,26 @@
 require "helper"
 
 class TestComponents < BridgetownUnitTest
+  def refresh_zeitwork
+    components_loader = Zeitwerk::Registry.loaders.find do |loader|
+      loader.dirs.any? do |path|
+        path.include?("_components")
+      end
+    end
+
+    components_loader&.unload
+
+    yield
+
+    components_loader&.reload
+  end
+
   def setup
-    @site = fixture_site({ level: "Level" })
+    refresh_zeitwork do
+      Example.send(:remove_const, "OverrideComponent") if defined?(Example::OverrideComponent)
+      @site = fixture_site({ level: "Level" })
+    end
+
     @site.process
     @erb_page = @site.collections.pages.resources.find { |page| page.data.title == "I'm an ERB Page" }
   end

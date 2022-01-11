@@ -28,6 +28,10 @@ module Bridgetown
                    aliases: "-t",
                    banner: "liquid|erb|serbea",
                    desc: "Preferred template engine (defaults to Liquid)"
+      class_option :"frontend-bundling",
+                   aliases: "-e",
+                   banner: "esbuild|webpack",
+                   desc: "Choose your frontend bundling stack (defaults to esbuild)"
       class_option :force,
                    type: :boolean,
                    desc: "Force creation even if PATH already exists"
@@ -37,9 +41,9 @@ module Bridgetown
       class_option :"skip-yarn",
                    type: :boolean,
                    desc: "Skip 'yarn install'"
-      class_option :"use-postcss",
+      class_option :"use-sass",
                    type: :boolean,
-                   desc: "Create an empty PostCSS configuration instead of using Sass"
+                   desc: "(Webpack only) Create a Sass configuration instead of using PostCSS"
 
       DOCSURL = "https://bridgetownrb.com/docs"
 
@@ -82,6 +86,14 @@ module Bridgetown
         !options["force"] && Dir.exist?(path)
       end
 
+      def frontend_bundling_option
+        options["frontend-bundling"] == "webpack" ? "webpack" : "esbuild"
+      end
+
+      def postcss_option
+        !(frontend_bundling_option == "webpack" && options["use-sass"])
+      end
+
       def create_site(new_site_path)
         directory ".", ".", exclude_pattern: %r!\.erb|TEMPLATES|DS_Store$|\.(s[ac]|c)ss$!
         FileUtils.chmod_R "u+w", new_site_path
@@ -91,6 +103,7 @@ module Bridgetown
           "src/_posts/#{Time.now.strftime("%Y-%m-%d")}-welcome-to-bridgetown.md"
         )
         template("Gemfile.erb", "Gemfile")
+        template("Rakefile.erb", "Rakefile")
         template("package.json.erb", "package.json")
         template("frontend/javascript/index.js.erb", "frontend/javascript/index.js")
         template("src/posts.md.erb", "src/posts.md")
@@ -104,8 +117,13 @@ module Bridgetown
           setup_liquid_templates
         end
 
-        options["use-postcss"] ? configure_postcss : configure_sass
-        invoke(Webpack, ["setup"], {})
+        if frontend_bundling_option == "esbuild"
+          configure_postcss
+          invoke(Esbuild, ["setup"], {})
+        else
+          postcss_option ? configure_postcss : configure_sass
+          invoke(Webpack, ["setup"], {})
+        end
       end
 
       def setup_erb_templates
