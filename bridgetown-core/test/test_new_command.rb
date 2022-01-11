@@ -22,16 +22,54 @@ class TestNewCommand < BridgetownUnitTest
   end
 
   def template_config_files
-    ["/Gemfile", "/Rakefile", "/package.json", "/esbuild.config.js", "/frontend/javascript/index.js", "/config/esbuild.defaults.js"]
+    [
+      "/Gemfile",
+      "/Rakefile",
+      "/package.json",
+      "/frontend/javascript/index.js",
+      "/src/_layouts",
+      "/src/_components",
+      "/src/index.md",
+      "/src/posts.md",
+    ]
   end
 
-  def webpack_template_config_files
-    ["/Gemfile", "/Rakefile", "/package.json", "/webpack.config.js", "/frontend/javascript/index.js", "/config/webpack.defaults.js"]
+  def liquid_config_files
+    [
+      "/src/_layouts/page.liquid",
+      "/src/_layouts/post.liquid",
+      "/src/_layouts/default.liquid",
+      "/src/_components/navbar.liquid",
+      "/src/_components/head.liquid",
+      "/src/_components/footer.liquid",
+    ]
+  end
+
+  def erb_config_files
+    [
+      "/src/_layouts/page.erb",
+      "/src/_layouts/post.erb",
+      "/src/_layouts/default.erb",
+      "/src/_components/shared",
+      "/src/_components/shared/navbar.rb",
+      "/src/_components/shared/navbar.erb",
+      "/src/_partials",
+      "/src/_partials/_head.erb",
+      "/src/_partials/_footer.erb",
+    ]
+  end
+
+  def esbuild_config_files
+    ["/esbuild.config.js", "/config/esbuild.defaults.js"]
+  end
+
+  def webpack_config_files
+    ["/webpack.config.js", "/config/webpack.defaults.js"]
   end
 
   def static_template_files
     dir_contents(site_template).reject do |f|
-      File.extname(f) =~ %r!\.erb|\.(s[ac]|c)ss!
+      f.include?("TEMPLATE") || File.extname(f) =~ %r!\.erb|\.(s[ac]|c)ss!
     end
   end
 
@@ -72,7 +110,7 @@ class TestNewCommand < BridgetownUnitTest
 
     should "copy the static files for postcss configuration in site template to the new directory" do
       postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
-      postcss_template_files = static_template_files + postcss_config_files + template_config_files
+      postcss_template_files = static_template_files + postcss_config_files + template_config_files + liquid_config_files + esbuild_config_files
 
       capture_output do
         Bridgetown::Commands::Base.start(argumentize(@args))
@@ -85,9 +123,24 @@ class TestNewCommand < BridgetownUnitTest
       assert_same_elements postcss_template_files, new_site_files
     end
 
+    should "copy the static files for erb templates config to the new directory" do
+      postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
+      postcss_template_files = static_template_files + postcss_config_files + template_config_files + erb_config_files + esbuild_config_files
+
+      capture_output do
+        Bridgetown::Commands::Base.start(argumentize("#{@args} -t erb"))
+      end
+
+      new_site_files = dir_contents(@full_path).reject do |f|
+        f.end_with?("welcome-to-bridgetown.md")
+      end
+
+      assert_same_elements postcss_template_files, new_site_files
+    end
+
     should "copy the static files for sass configuration in site template to the new directory" do
       sass_config_files = ["/frontend/styles/index.scss"]
-      sass_template_files = static_template_files + sass_config_files + webpack_template_config_files
+      sass_template_files = static_template_files + sass_config_files + template_config_files + liquid_config_files + webpack_config_files
 
       capture_output do
         Bridgetown::Commands::Base.start(argumentize("#{@args} -e webpack --use-sass"))
@@ -165,11 +218,12 @@ class TestNewCommand < BridgetownUnitTest
       @empty_args = []
     end
 
-    should "raise an ArgumentError" do
-      exception = assert_raises ArgumentError do
+    should "display an error message" do
+      output = capture_output do
         Bridgetown::Commands::Base.start(["new"])
       end
-      assert_equal "You must specify a path.", exception.message
+
+      assert_includes output, "You must specify a path."
     end
   end
 end
