@@ -1,11 +1,15 @@
-<%- if options["use-postcss"] -%>
+<%- if postcss_option -%>
 import "index.css"
 <%- else -%>
 import "index.scss"
 <%- end -%>
 
-// Import all javascript files from src/_components
-const componentsContext = require.context("bridgetownComponents", true, /.js$/)
+// Import all JavaScript & CSS files from src/_components
+<%- if frontend_bundling_option == "esbuild" -%>
+import components from "bridgetownComponents/**/*.{js,jsx,js.rb,css}"
+<%- else -%>
+const componentsContext = require.context("bridgetownComponents", true, /\.(js|css)$/)
 componentsContext.keys().forEach(componentsContext)
+<%- end -%>
 
 console.info("Bridgetown is loaded!")

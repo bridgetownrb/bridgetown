@@ -146,6 +146,10 @@ class Bridgetown::Site
       @collections_path ||= dir_str.empty? ? source : in_source_dir(dir_str)
     end
 
+    def frontend_bundling_path
+      in_root_dir(".bridgetown-cache", "frontend-bundling")
+    end
+
     private
 
     # Disable Marshaling cache to disk in Safe Mode

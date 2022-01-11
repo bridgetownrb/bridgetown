@@ -15,7 +15,8 @@ namespace :frontend do
       run_process "Frontend", :yellow, "bundle exec bridgetown frontend:dev"
     end
     if sidecar
-      sleep 4 # give Webpack time to boot before returning control to the start command
+      # give FE bundler time to boot before returning control to the start command
+      sleep Bridgetown::Utils.frontend_bundler_type == :esbuild ? 3 : 4
     else
       trap("INT") do
         Bridgetown::Utils::Aux.kill_processes
