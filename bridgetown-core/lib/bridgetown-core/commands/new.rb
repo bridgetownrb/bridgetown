@@ -109,6 +109,7 @@ module Bridgetown
           "src/_posts/0000-00-00-welcome-to-bridgetown.md.erb",
           "src/_posts/#{Time.now.strftime("%Y-%m-%d")}-welcome-to-bridgetown.md"
         )
+        template("ruby-version.erb", ".ruby-version")
         template("Gemfile.erb", "Gemfile")
         template("Rakefile.erb", "Rakefile")
         template("package.json.erb", "package.json")
