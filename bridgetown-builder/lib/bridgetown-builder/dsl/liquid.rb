@@ -39,7 +39,7 @@ module Bridgetown
             define_singleton_method(:custom_name) { local_name }
 
             def inspect
-              "#{self.class.custom_name} (Liquid Tag)"
+              "#<#{self.class.custom_name} (Liquid Tag)>"
             end
 
             attr_reader :content, :context

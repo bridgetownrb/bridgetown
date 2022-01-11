@@ -115,7 +115,7 @@ module Bridgetown
         erb_view = Bridgetown::ERBView.new(convertible)
 
         erb_renderer = Tilt::ErubiTemplate.new(
-          convertible.relative_path,
+          convertible.path,
           line_start(convertible),
           outvar: "@_erbout",
           bufval: "Bridgetown::OutputBuffer.new",

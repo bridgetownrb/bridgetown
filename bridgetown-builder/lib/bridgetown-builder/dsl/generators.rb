@@ -15,7 +15,7 @@ module Bridgetown
             attr_reader :site
 
             def inspect
-              "#{self.class.custom_name} (Generator)"
+              "#<#{self.class.custom_name} (Generator)>"
             end
 
             def generate(_site)

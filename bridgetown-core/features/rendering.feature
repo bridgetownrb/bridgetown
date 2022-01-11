@@ -44,7 +44,7 @@ Feature: Rendering
     And   I have a simple layout that contains "{{ content }}"
     When  I run bridgetown build
     Then  I should get a non-zero exit-status
-    And   I should see "Liquid syntax error \(line 1\): Unknown tag 'INVALID' \(Liquid::SyntaxError\)" in the build output
+    And   I should see "Liquid syntax error \(line 1\): Unknown tag 'INVALID'" in the build output
 
   Scenario: When receiving a generic liquid error in included file
     Given I have a _components directory
