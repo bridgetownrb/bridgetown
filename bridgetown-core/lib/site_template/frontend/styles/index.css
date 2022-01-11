@@ -2,7 +2,7 @@
   --body-background: #f2f2f2;
   --body-color: #444;
   --heading-color: black;
-  --action-color: #204a87;
+  --action-color: #d64045;
 }
 
 body {
@@ -12,25 +12,49 @@ body {
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     "Helvetica", "Arial", sans-serif;
   margin: 0 8px;
-  font-size: 17px;
+  font-size: 108%;
+  line-height: 1.5;
 }
 
 a {
   color: var(--action-color);
   text-decoration: underline;
-  text-decoration-color: #90add3;
+  text-decoration-color: #ffb088;
 }
 
 h1 {
+  margin: 1rem 0 3rem;
+  text-align: center;
   font-weight: 900;
   font-size: 2.5rem;
   color: var(--heading-color);
+  line-height: 1.2;
 }
 
-body > nav {
+body > header {
+  margin: 1rem;
   text-align: center;
+}
+
+body > header img {
+  display: inline-block;
+  width: 400px;
+  max-width: 100%;
+}
+
+body > nav ul {
+  margin: 2rem 0;
+  padding: 0;
+  list-style-type: none;
   display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  font-size: 1.3rem;
   font-weight: bold;
+}
+
+body > nav a {
+  text-decoration: none;
 }
 
 main {

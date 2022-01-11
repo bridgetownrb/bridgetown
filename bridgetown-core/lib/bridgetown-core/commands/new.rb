@@ -62,6 +62,11 @@ module Bridgetown
       def new_site
         raise ArgumentError, "You must specify a path." if args.empty?
 
+        if frontend_bundling_option != "webpack" && options["use-sass"]
+          raise ArgumentError,
+                "To install Sass, you must choose Webpack (-e webpack) as your frontend bundler"
+        end
+
         new_site_path = File.expand_path(args.join(" "), Dir.pwd)
         @site_name = new_site_path.split(File::SEPARATOR).last
 
@@ -78,6 +83,8 @@ module Bridgetown
         say_status :create, new_site_path
         create_site new_site_path
         after_install new_site_path, args.join(" "), options
+      rescue ArgumentError => e
+        say_status :alert, e.message, :red
       end
 
       protected
@@ -106,6 +113,7 @@ module Bridgetown
         template("Rakefile.erb", "Rakefile")
         template("package.json.erb", "package.json")
         template("frontend/javascript/index.js.erb", "frontend/javascript/index.js")
+        template("src/index.md.erb", "src/index.md")
         template("src/posts.md.erb", "src/posts.md")
 
         case options["templates"]
@@ -220,9 +228,9 @@ module Bridgetown
         end
         @skipped_bundle = false
       rescue LoadError
-        say_status :run, "Could not load Bundler. Bundle install skipped.", :red
+        say_status :alert, "Could not load Bundler. Bundle install skipped.", :red
       rescue SystemExit
-        say_status :run, "Problem occured while running bundle install.", :red
+        say_status :alert, "Problem occured while running bundle install.", :red
       end
 
       def git_init(path)
@@ -232,7 +240,7 @@ module Bridgetown
           end
         end
       rescue SystemExit
-        say_status :run, "Could not load git. git init skipped.", :red
+        say_status :alert, "Could not load git. git init skipped.", :red
       end
 
       def yarn_install(path)
@@ -243,7 +251,7 @@ module Bridgetown
         end
         @skipped_yarn = false
       rescue SystemExit
-        say_status :run, "Could not load yarn. yarn install skipped.", :red
+        say_status :alert, "Could not load yarn. yarn install skipped.", :red
       end
     end
   end
