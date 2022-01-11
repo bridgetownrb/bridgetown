@@ -3,8 +3,8 @@
   <head>
     {% render "head", metadata: site.metadata, title: page.title %}
   </head>
-  <body class="{{ page.layout }} {{ page.page_class }}">
-    {% render "navbar", metadata: site.metadata, page: page %}
+  <body class="{{ resource.data.layout }} {{ resource.data.page_class }}">
+    {% render "navbar", metadata: site.metadata, resource: resource %}
 
     <main>
       {{ content }}
