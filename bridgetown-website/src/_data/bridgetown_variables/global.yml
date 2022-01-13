@@ -1,0 +1,16 @@
+- name: site
+  description: >-
+    Site wide information + configuration settings from <code>bridgetown.config.yml</code>.
+    See below for details.
+- name: resource
+  description: >-
+    Resource <a href="/docs/front-matter/">front matter</a> and other content.
+    Custom variables set via the front matter will be available here. See below for details.
+- name: layout
+  description: >-
+    Layout specific information + the <a href="/docs/front-matter/">front matter</a>.
+    Custom variables set via front matter in layouts will be available here.
+- name: content
+  description: >-
+    In layout files, the rendered content of the resource being wrapped.
+    Not defined in resource files themselves.

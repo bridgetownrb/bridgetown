@@ -1,0 +1,43 @@
+- name: resource.content
+  description: >-
+    The content of the resource.
+- name: resource.summary
+  description: >-
+    An excerpt of the resource from the configured summary service.
+- name: resource.relative_url
+  description: >-
+    The URL of the resource without the domain, but with a leading slash, e.g.
+    <code>/2008/12/14/my-post/</code>
+- name: resource.date
+  description: >-
+    The Date assigned to the resource. This can be overridden in front matter by specifying
+    a new date/time in the format <code>YYYY-MM-DD HH:MM:SS</code> (assuming UTC), or
+    <code>YYYY-MM-DD HH:MM:SS +/-TTTT</code> (to specify a time zone using an offset from UTC.
+    e.g. <code>2008-12-14 10:30:00 +0900</code>).
+- name: resource.id
+  description: >-
+    An identifier unique to the resource and its collection (useful in RSS feeds). e.g.
+    <code>repo://posts.collection/2021-10-05-my-post.md</code>
+- name: resource.categories
+  description: >-
+    The list of categories to which this post belongs, which can be specified in the
+    <a href="/docs/front-matter/">front matter</a>.
+- name: resource.collection
+  description: >-
+    The collection to which this resource belongs. <a href="/docs/collections#liquid-attributes" data-no-swup>Information on collection variables here.</a> If not part of a
+    collection, nothing is returned.
+- name: resource.tags
+  description: >-
+    The list of tags to which this post belongs. These can be specified in the
+    <a href="/docs/front-matter/">front matter</a>.
+- name: resource.relative_path
+  description: >-
+    The path of the resource relative to the source folder.
+- name: resource.next
+  description: >-
+    The next resource relative to the position of the current resource in its collection.
+    Returns <code>nil</code> for the last entry.
+- name: resource.previous
+  description: >-
+    The previous resource relative to the position of the current resource in its collection.
+    Returns <code>nil</code> for the first entry.

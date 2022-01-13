@@ -12,15 +12,15 @@ The following is a reference of the available data.
 
 ## Global Variables
 
-{%@ Documentation::VariablesTable data: site.data, scope: :global %}
+{%@ Documentation::VariablesTable data: site.data, scope: :global, description_size: :bigger  %}
 
 ## Site Variables
 
-{%@ Documentation::VariablesTable data: site.data, scope: :site %}
+{%@ Documentation::VariablesTable data: site.data, scope: :site, description_size: :bigger %}
 
 ## Resource Variables
 
-{%@ Documentation::VariablesTable data: site.data, scope: :page %}
+{%@ Documentation::VariablesTable data: site.data, scope: :resource, description_size: :bigger %}
 
 {%@ Note do %}
   #### Top Tip: Use Custom Front Matter

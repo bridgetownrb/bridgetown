@@ -1,0 +1,47 @@
+- name: site.time
+  description: >-
+    The current time (when you run the <code>bridgetown</code> command).
+- name: site.resources
+  description: >-
+    A list of all resources (from pages, posts and other collections).
+- name: site.static_files
+  description: >-
+    A list of all <a href="/docs/static-files/">static files</a> (i.e.
+    files not processed by Bridgetown's converters or the Liquid renderer).
+    Each file has five properties: <code>path</code>, <code>modified_time</code>,
+    <code>name</code>, <code>basename</code> and <code>extname</code>.
+- name: site.collections
+  description: >-
+    A list of all the collections (including posts).
+- name: site.data
+  description: >-
+    A list containing the data loaded from the YAML files located in the <code>_data</code>
+    directory.
+- name: site.categories.CATEGORY
+  description: >-
+    The list of all resources in category <code>CATEGORY</code>.
+- name: site.tags.TAG
+  description: >-
+    The list of all resources with tag <code>TAG</code>.
+- name: site.url
+  description: >-
+    Contains the url of your site as it is configured in the <code>bridgetown.config.yml</code>.
+    For example, if you have <code>url: http://mysite.com</code> in your configuration file,
+    then it will be accessible in Liquid as <code>site.url</code>. For the <code>development</code>
+    environment there is an
+    exception: <code>site.url</code> will be set to the value of <code>host</code>, <code>port</code>,
+    and SSL-related options. This defaults to <code>url: http://localhost:4000</code>.
+- name: "site.metadata"
+  description: >-
+    You can put metadata variables in <code>_data/site_metadata.yml</code> so
+    they'll be easy to access and will regenerate pages when changed. This is a
+    good place to put <code>&lt;head&gt;</code> content like site title,
+    description, icon, social media handles, etc. Then you can reference
+    {{ site.metadata.title }}, etc. in your Liquid templates.
+- name: "site.[CONFIGURATION_DATA]"
+  description: >-
+    All the variables set via the command line and your <code>bridgetown.config.yml</code> are available
+    through the <code>site</code> variable. For example, if you have <code>foo: bar</code> in
+    your configuration file, then it will be accessible in Liquid as <code>site.foo</code>.
+    Bridgetown does not parse changes to <code>bridgetown.config.yml</code> in
+    <code>watch</code> mode, you must restart Bridgetown to see changes to variables.
