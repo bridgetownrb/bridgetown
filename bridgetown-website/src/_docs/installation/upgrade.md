@@ -29,6 +29,8 @@ You will need to add a few additional files to your project, so we suggest using
 * `config/puma.rb`
 * `server/*`
 
+Also be sure to run `bin/bridgetown webpack update` so you get the latest default Webpack configuration Bridgetown provides.
+
 Finally, you can remove `start.js` and `sync.js` and well as any scripts in `package.json` besides `webpack-build` and `webpack-dev` (and you can also remove the `browser-sync` and `concurrently` dev dependencies in `package.json`).
 
 Going forward, if you need to customize any aspect of Bridgetown’s build scripts or add your own, you can alter your `Rakefile` and utilize Bridgetown’s automatic Rake task support.
