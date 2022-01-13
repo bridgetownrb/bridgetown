@@ -1,7 +1,8 @@
 ---
 title: Bridgetown on macOS
-hide_in_toc: true
-category: installation
+top_section: Setup
+category: installation-guides
+back_to: installation
 ruby_version: 3.0.2
 order: 0
 ---
@@ -90,11 +91,11 @@ gem env
 
 And check that `SHELL PATH:` includes to a path to `~/.gem/ruby/X.X.0/bin`
 
-{% rendercontent "docs/note" %}
+{%@ Note do %}
 Every time you update Ruby to a version with a different first two digits, you will need to update your path to match.
 
 You will also need to add `--user-install` to any `gem install` statement you run.
-{% endrendercontent %}
+{% end %}
 
 ## Install Node & Yarn {#node}
 
@@ -117,4 +118,4 @@ node -v
 yarn -v
 ```
 
-{% render "docs/install/bridgetown", version: bridgetown.version, edge_version: site.data.edge_version %}
+{%@ "docs/install/bridgetown" %}

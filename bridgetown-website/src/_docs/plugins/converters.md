@@ -1,7 +1,7 @@
 ---
 title: Converters
-hide_in_toc: true
 order: 0
+top_section: Configuration
 category: plugins
 ---
 
@@ -9,10 +9,11 @@ If you have a new markup or template language you’d like to use with your site
 you can process it by implementing your own converter. The Markdown and ERB
 support in Bridgetown is implemented using this very method.
 
-{% rendercontent "docs/note" title="Remember your Front Matter" %}
-Bridgetown will only convert files that have a YAML header at the top, even for
-converters you add using a plugin.
-{% endrendercontent %}
+{%@ Note do %}
+  #### Remember your Front Matter
+
+  Bridgetown will only convert files that have a YAML or Ruby Front Matter header at the top, even for converters you add using a plugin.
+{% end %}
 
 Below is a converter which will take all posts ending in `.upcase` and process
 them using the `UpcaseConverter`:

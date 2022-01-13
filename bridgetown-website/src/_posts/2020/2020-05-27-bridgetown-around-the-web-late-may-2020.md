@@ -63,4 +63,4 @@ Finally, we [got a shoutout from Netlify](https://twitter.com/netlify/status/125
 
 So that's it for this month's installment of **Bridgetown Around the Web**. Pop back in next month for more tweets, podcasts, links, tutorials, and all that jazz. 🎷
 
-And if you're interesting in trying out Bridgetown or using it fo your next project, [read the docs to get started](https://www.bridgetownrb.com/docs).
+And if you're interesting in trying out Bridgetown or using it for your next project, [read the docs to get started](https://www.bridgetownrb.com/docs).

@@ -1,8 +1,7 @@
 ---
-order: 6.75
-next_page_order: 7
+order: 50
 title: Bundled Configurations
-top_section: Configuration
+top_section: Setup
 category: bundledconfigurations
 ---
 
@@ -25,7 +24,7 @@ The full list of configurations can also be seen by running `bridgetown configur
 
 Bundled configurations can also be run while creating a new Bridgetown project using the `--configure=` or `-c` flag and passing in a comma-separated list of configurations.
 
-```
+```sh
 bridgetown new my_project -c swup,purgecss
 ```
 
@@ -37,11 +36,15 @@ bridgetown new my_project -c swup,purgecss
 
 🛠 **Configure using:**
 
-```
+```sh
 bin/bridgetown configure turbo
 ```
 
-An optional script (`turbo_transitions.js`) is provided to add transition animation to Turbo navigation. If you don't wish to use any transition animations, you're welcome to delete the file. You can also edit the script to adjust the animation style or change the element being animated from `<main>` to whatever you prefer. 
+An optional script (`turbo_transitions.js`) is provided to add transition animation to Turbo navigation. If you don't wish to use any transition animations, you're welcome to delete the file. You can also edit the script to adjust the animation style or change the element being animated from `<main>` to whatever you prefer.
+
+{%@ Note type: :warning do %}
+It is recommended you add the `data-turbo-track="reload"` attribute to the `script` and CSS `link` tags in your HTML head. This will allow Turbo to perform a full page reload any time newly-deployed assets are available.
+{% end %}
 
 ### Stimulus
 
@@ -49,7 +52,7 @@ An optional script (`turbo_transitions.js`) is provided to add transition animat
 
 🛠 **Configure using:**
 
-```
+```sh
 bin/bridgetown configure stimulus
 ```
 
@@ -57,15 +60,15 @@ bin/bridgetown configure stimulus
 
 🍃 Adds [TailwindCSS](https://tailwindcss.com) with an empty configuration along with [PurgeCSS](https://purgecss.com).
 
-Please be aware that you need to have [PostCSS](https://postcss.org) setup to run this configuration. You can create a new Bridgetown project with PostCSS using `bridgetown new my_project --use-postcss`.
+Please be aware that you need to have [PostCSS](https://postcss.org) installed to run this configuration.
 
-This configuration will overwrite your `postcss.config.js` file.
+This configuration will overwrite any existing `postcss.config.js` file.
 
 🛠 **Configure using:**
 
-```
+```sh
 bin/bridgetown configure tailwindcss
-````
+```
 
 ### PurgeCSS Post-Build Hook
 
@@ -73,7 +76,7 @@ bin/bridgetown configure tailwindcss
 
 🛠 **Configure using:**
 
-```
+```sh
 bin/bridgetown configure purgecss
 ```
 
@@ -91,7 +94,8 @@ It will also configure [`postcss-preset-env`](http://preset-env.cssdb.org) to po
 This configuration will overwrite your `postcss.config.js` file.
 
 🛠 **Configure using:**
-```
+
+```sh
 bin/bridgetown configure bt-postcss
 ```
 If you'd like to customize your setup further you can find more plugins [here](https://www.postcss.parts).
@@ -102,7 +106,7 @@ If you'd like to customize your setup further you can find more plugins [here](h
 
 🛠 **Configure using:**
 
-```
+```sh
 bin/bridgetown configure render
 ```
 
@@ -112,7 +116,7 @@ bin/bridgetown configure render
 
 🛠 **Configure using:**
 
-```
+```sh
 bin/bridgetown configure netlify
 ```
 
@@ -122,7 +126,7 @@ bin/bridgetown configure netlify
 
 🛠 **Configure using:**
 
-```
+```sh
 bin/bridgetown configure minitesting
 ```
 
@@ -132,6 +136,6 @@ bin/bridgetown configure minitesting
 
 🛠 **Configure using:**
 
-```
+```sh
 bin/bridgetown configure cypress
 ```

@@ -1,0 +1,26 @@
+<sl-card>
+  <div slot="header">
+    <a href="{{ @post.relative_url }}" style="text-decoration:none">
+      <h3 class="serif">
+        {{ @post.data.title | smartify }}
+      </h3>
+    </a>
+  </div>
+
+  {{ @post.data.subtitle | markdownify }}
+  
+  <div slot="footer">
+    <ui-label class="tags" style="padding-right:0.5rem">
+      <sl-tag type="success" size="small" pill>{{ @post.data.category | titleize }}</sl-tag>
+
+      <sl-tag type="warning" size="small" pill>{{ @post.date | strftime: "%-m/%-d/%y" }}</sl-tag>
+    </ui-label>
+
+    <sl-button type="primary">
+      <sl-icon slot="prefix" library="remixicon" name="document/article-fill"></sl-icon>
+      <a href="{{ @post.relative_url }}">
+        Read…
+      </a>
+    </sl-button>
+  </div>
+</sl-card>

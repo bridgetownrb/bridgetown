@@ -1,0 +1,30 @@
+## Install Bridgetown
+
+Now all that is left is to install Bridgetown!
+
+{%- if site.data.edge_version %}
+```
+gem install bridgetown -N -v {{ Bridgetown::VERSION }}
+```
+{%- else %}
+```
+gem install bridgetown -N
+```
+{%- end %}
+
+Create a new Bridgetown site at `./mysite`, as well as run `bundle install` and
+`yarn install` automatically:
+
+```sh
+bridgetown new mysite
+
+cd mysite
+```
+
+Now you should be able to build the site and run a live-reload server:
+
+```sh
+$ bin/bridgetown start
+```
+
+Try opening the site up in [http://localhost:4000](http://localhost:4000){:target="_blank"}. See something? Awesome, you're ready to roll! If not, try revisiting your installation and setup steps, and if all else fails, [reach out to the Bridgetown community for support](/community/).

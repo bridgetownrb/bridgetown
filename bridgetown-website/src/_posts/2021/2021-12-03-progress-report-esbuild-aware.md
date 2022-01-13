@@ -33,7 +33,7 @@ Developer time has slightly outpaced fundraising at this point, but that's not u
 
 There's also been a flurry of effort not included in this direct report to further ecosystem enhancements (plugins, methodologies, etc.) which tie into the overall 1.0 launch, such as our [Prismic CMS plugin](https://github.com/bridgetownrb/bridgetown-prismic), [CableCar/mrujs integration](https://github.com/bridgetownrb/bridgetown/pull/465), and seamless support for ActiveRecord (yes, [that ActiveRecord!](https://guides.rubyonrails.org/active_record_basics.html)) & databases.
 
-### So, about that "esbuild" line item…
+## So, about that "esbuild" line item…
 
 First, a little history lesson…
 
@@ -65,7 +65,7 @@ In fact, we're so confident in our ability to iterate rapidly on this integratio
 
 Webpack will continue to be available _and_ supported. But with the release of Bridgetown 1.0, we're all in on esbuild—and PostCSS as well. We believe this is the right path forward for frontend bundling—not just for Bridgetown but for web frameworks across our industry.
 
-### FAQ: Vite? Import maps? Migration strategy?
+## FAQ: Vite? Import maps? Migration strategy?
 
 Three answers to likely questions before I close:
 

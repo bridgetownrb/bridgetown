@@ -1,7 +1,7 @@
 ---
 title: Layouts
-order: 9
-top_category: Structure
+order: 150
+top_section: Designing Your Site
 category: layouts
 ---
 
@@ -9,9 +9,9 @@ Layouts are templates that wrap around your [resource's content](/docs/resources
 
 Layouts live in the `_layouts` folder. The convention is to have a base template called `default.html` and have other layouts [inherit](#inheritance) from this as needed.
 
-{% rendercontent "docs/note" %}
+{%@ Note do %}
   While you can configure the folder name in which your layouts can reside by setting the `layouts_dir` key in your config file, the folder itself should be located at the root of your site's `source` folder.
-{% endrendercontent %}
+{% end %}
 
 ## Usage
 
@@ -80,11 +80,11 @@ The rendered output of this resource then is:
 </html>
 ```
 
-You can also use [front matter defaults](/docs/configuration/front-matter-defaults/) to to avoid having to set a layout explicitly for every resource. Note that if you have defaults in place and you _don't_ want a certain resource to render in a layout, you can specify `layout: none` in the resource's front matter.
+You can also use [front matter defaults](/docs/content/front-matter-defaults/) to to avoid having to set a layout explicitly for every resource. Note that if you have defaults in place and you _don't_ want a certain resource to render in a layout, you can specify `layout: none` in the resource's front matter.
 
-{% rendercontent "docs/note" %}
-  If you you're using ERB or another Ruby template language for your layout, try using the more idiomatic `yield` instead of `content`. Refer to the [ERB and Beyond](/docs/erb-and-beyond) docs for further details.
-{% endrendercontent %}
+{%@ Note do %}
+  If you you're using ERB or another Ruby template language for your layout, try using the more idiomatic `yield` instead of `content`. Refer to the [ERB and Beyond](/docs/template-engines/erb-and-beyond) docs for further details.
+{% end %}
 
 ## Inheritance
 

@@ -1,0 +1,11 @@
+/* See: https://github.com/postcss/postcss-custom-media */
+
+@custom-media --sl-breakpoint-xs (max-width: 575px);
+@custom-media --sl-breakpoint-sm (min-width: 576px) and (max-width: 767px);
+@custom-media --sl-breakpoint-md (min-width: 768px) and (max-width: 991px);
+@custom-media --sl-breakpoint-lg (min-width: 992px) and (max-width: 1199px);
+@custom-media --sl-breakpoint-xl (min-width: 1200px) and (max-width: 1399px);
+@custom-media --sl-breakpoint-xxl (min-width: 1400px);
+
+@custom-media --nav-minimal (max-width: 1023px);
+@custom-media --nav-fullsize (min-width: 1024px);

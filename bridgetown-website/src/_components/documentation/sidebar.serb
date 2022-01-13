@@ -1,0 +1,20 @@
+<nav>
+  <ul>
+  {% current_section = "" %}
+  {% @docs.each do |doc_page| %}
+    {% next if doc_page.data.hide_in_sidebar || (doc_page.relative_url.split("/").length > 3 && !doc_page.data.show_in_sidebar) %}
+
+    {% active = "" %}
+    {% if doc_page.data.top_section and current_section != doc_page.data.top_section %}
+      {% current_section = doc_page.data.top_section %}
+      <li><h3 id="sidebar-{{ current_section | slugify }}">{{ current_section }}</h3></li>
+    {% end %}
+    {% if doc_page.data.category == @resource.data.category %}
+      {% active = "font-weight:bold" %}
+    {% end %}
+    <li><a href="{{ doc_page.relative_url }}" style="{{ active }}">
+      {{ doc_page.data.title }}
+    </a></li>
+  {% end %}
+  </ul>
+</nav>

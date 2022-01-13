@@ -1,7 +1,7 @@
 ---
 title: Commands
-hide_in_toc: true
 order: 0
+top_section: Configuration
 category: plugins
 ---
 

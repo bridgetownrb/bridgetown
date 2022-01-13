@@ -1,0 +1,53 @@
+---
+layout: default
+---
+
+<main-content>
+  <section-wrapper><section>
+
+  <sl-breadcrumb style="display:block; margin-bottom:2.1em">
+    <sl-icon library="remixicon" name="system/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></sl-icon>
+
+    <sl-breadcrumb-item href="/blog">Blog</sl-breadcrumb-item>
+    <sl-breadcrumb-item href="/blog/{{ resource.data.category }}">Category: {{ resource.data.category | titleize }}</sl-breadcrumb-item>
+    <sl-breadcrumb-item></sl-breadcrumb-item>
+  </sl-breadcrumb>
+
+  <article>
+    <h1 class="serif colorful">{{ resource.data.title }}</h1>
+
+    <article-author class="mb-10 author has-text-centered p-author">
+      {% author = site.data.authors[resource.data.author] %}
+      <img src="{{ author.avatar }}" alt="{{ author.name }}" class="avatar u-photo" />
+      <a href="/authors/{{ resource.data.author }}/" class="has-text-weight-bold u-url p-name">{{ author.name }}</a>
+      on <no-br style="white-space:nowrap">{{ resource.date | strftime: "%B %-d, %Y" }}</no-br>
+    </article-author>
+
+    {%= yield %}
+
+    <p style="margin-top:2.5em; text-align:center">
+      <sl-button type="primary" size="small" pill outline onclick='
+        navigator.share({url: location.href})
+      '>
+        <sl-icon slot="suffix" library="remixicon" name="system/share-box"></sl-icon>
+        Share This Article
+      </sl-button>
+    </p>
+  </article>
+
+  <br/><br/>
+
+  <p class="heading-icon">
+    <sl-icon library="remixicon" name="document/article-fill"></sl-icon>
+  </p>
+
+  <h2 style="margin-top:0">Latest on the Blog</h2>
+
+  <ul class="info-grid highlighted-cards">
+    {% collections.posts.resources.reject { _1.data.exclude_from_pagination }[0...6].each do |post| %}
+      <li>{%@ PostCard post: post %}</li>
+    {% end %}
+  </ul>
+
+  </section></section-wrapper>
+</main-content>

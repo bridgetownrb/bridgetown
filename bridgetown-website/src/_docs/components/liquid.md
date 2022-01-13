@@ -1,15 +1,15 @@
 ---
 title: Liquid Components
 category: components
-hide_in_toc: true
+top_section: Designing Your Site
 order: 0
 ---
 
-By default, templates in Bridgetown websites are powered by the [Liquid template engine](/docs/liquid). You can use Liquid in layouts and HTML pages as well as inside of content such as Markdown text.
+By default, templates in Bridgetown websites are powered by the [Liquid template engine](/docs/templates/liquid). You can use Liquid in layouts and HTML pages as well as inside of content such as Markdown text.
 
 A component is a reusable piece of template logic (sometimes referred to as a "partial") that can be included in any part of the site, and a full suite of components can comprise what is often called a "design system".
 
-Liquid components can be combined with front-end component strategies using **web components** or other JavaScript libraries/frameworks for a [hybrid static/dynamic approach](/docs/components#hybrid-components){:data-no-swup="true"}.
+Liquid components can be combined with front-end component strategies using **web components** or other JavaScript libraries/frameworks for a [hybrid static/dynamic approach](/docs/components#hybrid-components).
 
 {% toc %}
 

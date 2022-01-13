@@ -1,18 +1,18 @@
 ---
 title: Collections
-order: 13
-top_section: Content
+order: 100
+top_section: Writing Content
 category: collections
 ---
 
-{% rendercontent "docs/note", type: "warning" %}
+{%@ Note type: "warning" do %}
   This documentation is still being revised for Bridgetown 1.0. Read about the new [resource content engine](/docs/resources) to learn more about how to use collections in templates.
-{% endrendercontent %}
+{% end %}
 
 Collections are a great way to group related content like members of a team or
-talks at a conference. Bridgetown comes with one built-in collection, [posts](/docs/posts/), and you can add new collections to support all sorts of content structures and hierarchies. All of the pages on this very website, for example, are contained within a "docs" collection.
+talks at a conference. Bridgetown comes with one built-in collection, `posts`, and you can add new collections to support all sorts of content structures and hierarchies. All of the pages on this very website, for example, are contained within a "docs" collection.
 
-{% toc %}
+{{ toc }}
 
 ## Setup
 
@@ -34,7 +34,7 @@ requires defining the collection as a mapping. For more information, see the sec
 Create a corresponding folder (e.g. `<source>/_staff_members`) and add
 documents. Front matter is processed if the [front matter](/docs/front-matter/) exists, and everything
 after the front matter is pushed into the document's `content` attribute. If no front
-matter is provided, Bridgetown will consider it to be a [static file](/docs/static_files/)
+matter is provided, Bridgetown will consider it to be a [static file](/docs/static-files/)
 and the contents will not undergo further processing. If front matter is provided,
 Bridgetown will process the file contents into the expected output.
 
@@ -53,10 +53,12 @@ position: Developer
 Jane has worked on Bridgetown for the past *five years*.
 ```
 
-{% rendercontent "docs/note", title: "Be sure to name your folders correctly" %}
-The folder must be named identically to the collection you defined in your
-`bridgetown.config.yml` file, with the addition of the preceding `_` character.
-{% endrendercontent %}
+{%@ Note type: :warning do %}
+  #### Be sure to name your folders correctly
+
+  The folder must be named identically to the collection you defined in your
+  `bridgetown.config.yml` file, with the addition of the preceding `_` character.
+{% end %}
 
 Now you can iterate over `site.staff_members` on a page and display the content
 for each staff member. Similar to posts, the body of the document is accessed
@@ -98,14 +100,15 @@ You can link to the generated page using the `url` attribute:
 ```
 {% endraw %}
 
-{:.note}
+{%@ Note do %}
 If you have a large number of documents, it's likely you'll want to use the
-[Pagination feature](/docs/content/pagination/) to make it easy to browse through
+[Pagination feature](/docs/content/pagination) to make it easy to browse through
 a limited number of documents per page.
+{% end %}
 
 ## Permalinks
 
-There are special [permalink variables for collections](/docs/structure/permalinks/) to
+There are special [permalink variables for collections](/docs/content/permalinks) to
 help you control the output url for the entire collection.
 
 ## Custom Sorting of Documents
@@ -208,18 +211,22 @@ Collections objects are available under `site.collections` with the following in
   </tbody>
 </table>
 
-{% rendercontent "docs/note", title: "Posts: a Built-in Collection" %}
+{%@ Note do %}
+  #### Posts: a Built-in Collection
+
   In addition to any collections you create yourself, the
   `posts` collection is hard-coded into Bridgetown. It exists whether
   you have a `_posts` directory or not. This is something to note
   when iterating through `site.collections` as you may need to
   filter it out.
-  
+
   You may wish to use filters to find your collection:
   `{% raw %}{{ site.collections | where: "label", "myCollection" | first }}{% endraw %}`
-{% endrendercontent %}
+{% end %}
 
-{% rendercontent "docs/note", title: "Collections and Time" %}
+{%@ Note do %}
+  #### Collections and Time
+
   Except for documents in hard-coded default collection `posts`, all documents in collections
     you create, are accessible via Liquid irrespective of their assigned date, if any, and therefore renderable.
 
@@ -229,7 +236,7 @@ Collections objects are available under `site.collections` with the following in
 
   More fine-grained control over documents being written to disk can be exercised by setting
     `published: false` (_`true` by default_) in the document's front matter.
-{% endrendercontent %}
+{% end %}
 
 ### Documents
 
@@ -339,13 +346,17 @@ or if you're on a document page within the collection:
 ```
 {% endraw %}
 
-{% rendercontent "docs/note", title: "Top Top: You can relocate your collections", extra_margin: true %}
+{%@ Note do %}
+  #### Top Top: You can relocate your Collections
+
   It's possible to optionally specify a folder to store all your collections in a centralized folder with `collections_dir: my_collections`.
 
   Then Bridgetown will look in `my_collections/_books` for the `books` collection, and
   in `my_collections/_recipes` for the `recipes` collection.
-{% endrendercontent %}
+{% end %}
 
-{% rendercontent "docs/note", title: "Be sure to move posts into custom collections folder", type: "warning" %}
+{%@ Note type: "warning" do %}
+  #### Be sure to move posts into custom collections folder
+
   If you specify a folder to store all your collections in the same place with `collections_dir: my_collections`, then you will need to move your `_posts` folder to `my_collections/_posts`. Note that the name of your collections directory cannot start with an underscore (`_`).
-{% endrendercontent %}
+{% end %}

@@ -1,8 +1,8 @@
 ---
 title: Data Files
-order: 14
-top_section: Content
-category: datafiles
+order: 120
+top_section: Writing Content
+category: data-files
 ---
 
 In addition to [built-in variables](/docs/variables) and [front matter](/docs/front-matter), you can specify custom datasets which are accessible via Liquid and Ruby templates as well as plugins.
@@ -13,7 +13,7 @@ You can also save standard Ruby files (`.rb`) to `_data` which get automatically
 
 This powerful feature allows you to avoid repetition in your templates and set site-specific options without changing `bridgetown.config.yml`—and in the case of Ruby data files, perform powerful processing tasks to populate your site content.
 
-{% toc %}
+{{ toc }}
 
 ## The Data Folder
 

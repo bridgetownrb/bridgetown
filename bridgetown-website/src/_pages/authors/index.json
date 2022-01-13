@@ -1,0 +1,11 @@
+---
+layout: none
+template_engine: erb
+---
+
+{
+<% site.data[:authors].each_with_index do |author, index| -%>
+  "<%= author[0] %>": <%= author[1].to_json.html_safe %>
+<%= index < site.data[:authors].length - 1 ? "," : nil -%>
+<% end -%>
+}

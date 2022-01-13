@@ -1,7 +1,7 @@
 ---
 title: Source Manifests
-hide_in_toc: true
 order: 0
+top_section: Configuration
 category: plugins
 ---
 
@@ -61,7 +61,7 @@ changes from there.
 ### Using Source Manifests to Create Themes
 
 Source manifest functionality, along with the ability to publish an NPM module
-with [frontend assets for Webpack](/docs/plugins/gems-and-webpack), plus the
+with [frontend assets](/docs/plugins/gems-and-frontend), plus the
 power of [automations](/docs/automations) to simply the setup process means
 that you can easily design and distribute themes for use by Bridgetown site
 owners.

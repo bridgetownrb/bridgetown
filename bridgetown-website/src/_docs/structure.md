@@ -1,8 +1,7 @@
 ---
 title: Folder Structure
-order: 7
-next_page_order: 7.5
-top_section: Structure
+order: 70
+top_section: Writing Content
 category: structure
 ---
 
@@ -10,13 +9,15 @@ The typical folder structure for a Bridgetown site usually looks something like 
 
 ```shell
 .
-├── frontend # this is where you put your CSS and JS for Webpack
+├── config # this is where frontend and server defaults are stored
+├── frontend # this is where you put your CSS and JS for esbuild/Webpack
 │   ├── javascript
 │   │   ├── index.js
 │   │   └── widget.js
 │   ├── styles
-│   │   ├── index.scss
-│   └   └── layout.scss
+│   │   ├── index.css
+│   └   └── layout.css
+├── server # this is where you can (optionally) add API routes using Roda
 ├── src # this is where you put your resources and design templates
 │   ├── _components
 │   │   ├── footer.liquid
@@ -25,8 +26,8 @@ The typical folder structure for a Bridgetown site usually looks something like 
 │   │   ├── members.yml
 │   │   └── site_metadata.yml
 │   ├── _layouts
-│   │   ├── default.html
-│   │   └── post.html
+│   │   ├── default.erb
+│   │   └── post.serb
 │   ├── _posts
 │   │   ├── 2019-10-29-why-im-dressing-up-as-thanos-this-year.md
 │   │   └── 2020-04-12-isolation-is-really-getting-to-me.md
@@ -38,14 +39,16 @@ The typical folder structure for a Bridgetown site usually looks something like 
 ├── output # this is the generated site published via bridgetown build/serve
 ├── plugins # this is where you can write custom plugins
 ├── bridgetown.config.yml # this is your Bridgetown configuration file
+├── config.ru # Puma uses this to boot up the web server
+├── esbuild.config.js # frontend bundler config
 ├── Gemfile
-├── package.json
-└── webpack.config.js
+├── Rakefile
+└── package.json
 ```
 {:.minimal-line-height}
 
 {:.note}
-The location of pages in your source folder structure will by default be mirrored in your output folder, whereas posts are handled in a special way. You can customize these <a href="/docs/structure/permalinks/">permalinks</a> via front matter and global configuration options.
+The location of pages in your source folder structure will by default be mirrored in your output folder, whereas posts are handled in a special way. You can customize these <a href="/docs/content/permalinks">permalinks</a> via front matter and global configuration options.
 
 ## Overview of Files & Folders
 
@@ -93,7 +96,7 @@ The location of pages in your source folder structure will by default be mirrore
       </td>
       <td>
         <p>
-          This is where you add dynamic blog-style content. The naming convention of these files is important, and must follow the <nobr>format: <code>YEAR-MONTH-DAY-post-title.EXT</code></nobr> (aka <code>.md</code>, <code>.html</code>, etc.). The <a href="/docs/structure/permalinks/">permalink</a> can be customized for each post. Posts are a built-in <a href="/docs/collections">collection</a>, and you can configure other collections in addition to (or even instead of) posts.
+          This is where you add dynamic blog-style content. The naming convention of these files is important, and must follow the <nobr>format: <code>YEAR-MONTH-DAY-post-title.EXT</code></nobr> (aka <code>.md</code>, <code>.html</code>, etc.). The <a href="/docs/content/permalinks">permalink</a> can be customized for each post. Posts are a built-in <a href="/docs/collections">collection</a>, and you can configure other collections in addition to (or even instead of) posts.
         </p>
       </td>
     </tr>
@@ -124,7 +127,7 @@ The location of pages in your source folder structure will by default be mirrore
       </td>
       <td>
         <p>
-          Every other directory and file except for those listed above—such as downloadable files, <code>favicon.ico</code>, <code>robots.txt</code>, and so forth—will be copied verbatim to the generated site as <a href="/docs/static_files">Static Files</a>.
+          Every other directory and file except for those listed above—such as downloadable files, <code>favicon.ico</code>, <code>robots.txt</code>, and so forth—will be copied verbatim to the generated site as <a href="/docs/static-files">Static Files</a>.
         </p>
       </td>
     </tr>
@@ -189,17 +192,17 @@ The location of pages in your source folder structure will by default be mirrore
       </td>
       <td>
         <p>
-          Manifest used by Yarn to install frontend assets and set up commands you can run to compile your JavaScript, CSS, etc. via Webpack.
+          Manifest used by Yarn to install frontend assets and set up commands you can run to compile your JavaScript, CSS, etc. via esbuild/Webpack.
         </p>
       </td>
     </tr>
     <tr>
       <td>
-        <p class="default mt-0"><code>webpack.config.js</code></p>
+        <p class="default mt-0"><code>esbuild.config.js</code></p>
       </td>
       <td>
         <p>
-          Configuration file used by Webpack to compile frontend assets and save them to the output folder alongside your Bridgetown content.
+          Configuration file used by esbuild to compile frontend assets and save them to the output folder alongside your Bridgetown content.
         </p>
       </td>
     </tr>

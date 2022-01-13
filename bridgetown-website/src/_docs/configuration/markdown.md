@@ -1,8 +1,9 @@
 ---
 title: Markdown Options
-hide_in_toc: true
 order: 0
-category: configuration
+top_section: Configuration
+category: customize-your-site
+back_to: configuration
 ---
 
 ### Kramdown

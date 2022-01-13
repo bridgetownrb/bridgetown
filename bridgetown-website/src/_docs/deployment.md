@@ -1,8 +1,7 @@
 ---
-order: 4.5
-next_page_order: 4.7
-title: Deploying Your Site
-top_section: Setup
+order: 180
+title: Deploy to Production
+top_section: Publishing Your Site
 category: deployment
 ---
 
@@ -10,19 +9,22 @@ Bridgetown generates your site and saves it to the `output` directory by default
 transfer the contents of this directory to almost any hosting provider to make
 your site go live.
 
-Bridgetown's included site template automatically provides a Yarn script you can run to
+Bridgetown's included site template automatically provides a Rake task you can run to
 build both your Webpack bundle and your website. Simply run
 
 ```shell
 bin/bridgetown deploy
 ```
 
-as part of your deployment process, which will kick off both the `webpack` and the `bridgetown build` commands in that order.
+as part of your deployment process, which will kick off both the `frontend:build` Rake task and the `bridgetown build` commands in that order.
 
-If you wish to utilize additional logic within your site templates or plugins to
-determine what's a "development" build vs. "production" build, set the `BRIDGETOWN_ENV`
+{%@ Note type: :warning do %}
+You must set the `BRIDGETOWN_ENV`
 environment variable to `production` on the machine or service that's building the
 site for deployment. [Read more about environments here.](/docs/configuration/environments/)
+
+This will also help you if you wish to utilize additional logic within your site templates or plugins to determine what's a "development" build vs. "production" build.
+{% end %}
 
 ## Automatic Deployment
 

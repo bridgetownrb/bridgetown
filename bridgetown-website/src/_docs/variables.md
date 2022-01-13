@@ -1,28 +1,30 @@
 ---
 title: Variables
-order: 20
-top_section: Templates
+order: 240
+top_section: Configuration
 category: variables
 ---
 
 Bridgetown traverses your site looking for files to process. Any files with
 [front matter](/docs/front-matter/) are subject to processing. For each of these
-files, Bridgetown makes a variety of data available via the [Liquid](/docs/liquid/) template language.
+files, Bridgetown makes a variety of data available via the [Liquid](/docs/template-engines/liquid/) template language.
 The following is a reference of the available data.
 
 ## Global Variables
 
-{% render "docs/variables_table", scope: site.data.bridgetown_variables.global %}
+{%@ Documentation::VariablesTable data: site.data, scope: :global %}
 
 ## Site Variables
 
-{% render "docs/variables_table", scope: site.data.bridgetown_variables.site %}
+{%@ Documentation::VariablesTable data: site.data, scope: :site %}
 
 ## Resource Variables
 
-{% render "docs/variables_table", scope: site.data.bridgetown_variables.page %}
+{%@ Documentation::VariablesTable data: site.data, scope: :page %}
 
-{% rendercontent "docs/note", title: "Top Tip: Use Custom Front Matter" %}
+{%@ Note do %}
+  #### Top Tip: Use Custom Front Matter
+
   Any custom front matter that you specify will be available under
   `resource`. For example, if you specify `custom_css: true`
   in a resource’s front matter, that value will be available as `resource.data.custom_css`.
@@ -30,4 +32,4 @@ The following is a reference of the available data.
   If you specify front matter in a layout, access that via `layout`.
   For example, if you specify `class: full_page` in a layout’s front matter,
   that value will be available as `layout.data.class` in the layout.
-{% endrendercontent %}
+{% end %}

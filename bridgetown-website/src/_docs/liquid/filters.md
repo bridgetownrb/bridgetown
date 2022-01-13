@@ -1,8 +1,8 @@
 ---
 title: Liquid Filters
-hide_in_toc: true
+top_section: Designing Your Site
 order: 0
-category: liquid
+category: template-engines
 shopify_filter_url: https://shopify.github.io/liquid/filters/
 shopify_filters:
 - abs
@@ -58,7 +58,7 @@ All of the standard Liquid [filters](#standard-liquid-filters) are supported (se
 
 To make common tasks easier, Bridgetown even adds a few handy filters of its own,
 all of which you can find on this page. You can also create your own filters
-using [plugins](/docs/plugins/filters/).
+using [plugins](/docs/plugins/filters).
 
 <table class="settings bigger-output">
   <thead>
@@ -68,22 +68,22 @@ using [plugins](/docs/plugins/filters/).
     </tr>
   </thead>
   <tbody>
-    {% for filter in site.data.bridgetown_filters %}
+    {% site.data.bridgetown_variables.liquid_filters.each do |filter| %}
       <tr>
         <td>
           <p class="name"><strong>{{ filter.name }}</strong></p>
           <p>
-            {{- filter.description -}}
+            {{ filter.description | safe }}
           </p>
         </td>
         <td class="align-center">
-          {%- for example in filter.examples %}
+          {% filter.examples.each do |example| %}
             <p><code class="filter">{{ example.input }}</code></p>
-            {% if example.output %}<p><code class="output">{{ example.output }}</code></p>{% endif %}
-          {% endfor -%}
+            {% if example.output %}<p><code class="output">{{ example.output }}</code></p>{% end %}
+          {% end %}
         </td>
       </tr>
-    {% endfor %}
+    {% end %}
   </tbody>
 </table>
 
@@ -144,6 +144,6 @@ Or to get a list of comic-book based movies, one may use the following:
 
 For your convenience, here is the list of all [Liquid filters]({{ resource.data.shopify_filter_url }}) with links to examples in the official Liquid documentation.
 
-{% for filter in resource.data.shopify_filters %}
+{% resource.data.shopify_filters.each do |filter| %}
 - [{{ filter }}]({{ filter | prepend: resource.data.shopify_filter_url | append: '/' }})
-{% endfor %}
+{% end %}

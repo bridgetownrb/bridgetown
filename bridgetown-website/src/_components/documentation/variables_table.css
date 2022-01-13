@@ -1,0 +1,80 @@
+table.settings {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  & tr > td:first-child {
+    width: 65%;
+  }
+  &.bigger-output {
+    & tr > td:first-child {
+      width: 40%;
+    }
+  }
+  &.biggest-output {
+    & tr > td:first-child {
+      width: 25%;
+    }
+  }
+  & .option,
+  & .filter {
+    color: var(--color-dark-brick);
+  }
+  & .flag,
+  & .output {
+    color: var(--color-medium-green);
+  }
+  & p.default {
+    margin-top: -0.5em;
+    font-weight: bold;
+    & code {
+      font-size: 1em;
+      color: green;
+    }
+  }
+
+  & th,
+  & td {
+    border: 1px solid var(--sl-color-neutral-200);
+    border-width: 0 0 1px;
+    padding: .5em .75em;
+    vertical-align: top;
+
+    &:first-child {
+      background: var(--sl-color-neutral-50);
+    }
+
+    & p:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  & th {
+    text-align: left;
+    text-transform: uppercase;
+    border-width: 0 0 2px;
+  }
+
+  & tbody > tr:last-child > td {
+    border-bottom: none;
+  }
+
+  @media screen and (max-width: 700px) {
+    & th {
+      &:first-child:before {
+        content: "👇 ";
+      }
+      &:last-child:after {
+        content: " 👇";
+      }
+    }
+    & th,
+    & td {
+      display: block;
+      width: 100% !important;
+      &:last-child {
+        text-align: right !important;
+      }
+    }
+  }
+}

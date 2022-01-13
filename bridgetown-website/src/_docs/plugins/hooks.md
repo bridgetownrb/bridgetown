@@ -1,7 +1,7 @@
 ---
 title: Hooks
-hide_in_toc: true
 order: 0
+top_section: Configuration
 category: plugins
 ---
 
@@ -81,7 +81,7 @@ end
   <thead>
     <tr>
       <th>Owner</th>
-      <th>Event</th>
+      <th style="width:25%">Event</th>
       <th>Called</th>
     </tr>
   </thead>
@@ -199,7 +199,7 @@ end
     </tr>
     <tr>
       <td>
-        <p><code>:resources</code><br/><code>:[collection_label]</code></p>
+        <p><code>:resources</code><br/><code>[collection_label]</code></p>
       </td>
       <td>
         <p><code>:post_init</code></p>
@@ -210,7 +210,7 @@ end
     </tr>
     <tr>
       <td>
-        <p><code>:resources</code><br/><code>:[collection_label]</code></p>
+        <p><code>:resources</code><br/><code>[collection_label]</code></p>
       </td>
       <td>
         <p><code>:post_read</code></p>
@@ -221,7 +221,7 @@ end
     </tr>
     <tr>
       <td>
-        <p><code>:resources</code><br/><code>:[collection_label]</code></p>
+        <p><code>:resources</code><br/><code>[collection_label]</code></p>
       </td>
       <td>
         <p><code>:pre_render</code></p>
@@ -232,7 +232,7 @@ end
     </tr>
     <tr>
       <td>
-        <p><code>:resources</code><br/><code>:[collection_label]</code></p>
+        <p><code>:resources</code><br/><code>[collection_label]</code></p>
       </td>
       <td>
         <p><code>:post_render</code></p>
@@ -243,7 +243,7 @@ end
     </tr>
     <tr>
       <td>
-        <p><code>:resources</code><br/><code>:[collection_label]</code></p>
+        <p><code>:resources</code><br/><code>[collection_label]</code></p>
       </td>
       <td>
         <p><code>:post_write</code></p>

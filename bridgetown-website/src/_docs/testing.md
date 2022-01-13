@@ -1,8 +1,7 @@
 ---
-order: 4.7
-next_page_order: 5
+order: 190
 title: Automated Testing
-top_section: Setup
+top_section: Publishing Your Site
 category: testing
 ---
 
@@ -10,7 +9,7 @@ Running an automated test suite after your Bridgetown site has been built is a g
 
 Bridgetown doesn't come with an opinionated testing setup, so you're welcome to choose from a variety of approaches—and perhaps even use several at once!
 
-{% toc %}
+{{ toc }}
 
 ## Use Ruby and Minitest to Test HTML Directly
 

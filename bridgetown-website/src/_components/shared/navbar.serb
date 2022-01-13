@@ -1,0 +1,50 @@
+<nav aria-label="Main navigation">
+  <navbar-inner id="nav-bar" data-turbo-permanent>
+    <sl-bar align-items="center" spaced="between" expanded="false">
+      <sl-bar-item branding size="4/10 lg:3/10 xl:3/10">
+        <a href="/">
+          {{ svg "/images/bridgetown-logo-2022.svg", class: "logo", role: "img", "aria-label": "Bridgetown" }}
+        </a>
+      </sl-bar-item>
+      <sl-bar-item mobileonly>
+        <sl-button menutoggle type="text" onclick='
+          const bar = this.closest("sl-bar")
+          if (bar.getAttribute("expanded") != "true") {
+            menuShow(this)
+          } else {
+            menuHide(this)
+          }
+        '>
+           <sl-icon slot="suffix" library="remixicon" name="system/menu"></sl-icon>
+           Menu
+        </sl-button>
+      </sl-bar-item>
+      <sl-bar-item expandable style="font-size:120%; white-space:nowrap">
+        <a href="https://twitter.com/bridgetownrb" aria-label="Twitter">
+          <sl-icon library="remixicon" name="logos/twitter-fill"></sl-icon>
+        </a>
+
+        <a href="https://github.com/bridgetownrb/bridgetown" aria-label="GitHub">
+          <sl-icon library="remixicon" name="logos/github-fill"></sl-icon>
+        </a>
+      </sl-bar-item>
+      <sl-bar-item expandable>
+        <a href="/docs">Documentation</a>
+      </sl-bar-item>
+      <sl-bar-item expandable>
+        <a href="/plugins">Plugins</a>
+      </sl-bar-item>
+      <sl-bar-item expandable>
+        <a href="/community">Community</a>
+      </sl-bar-item>
+      <sl-bar-item expandable>
+        <a href="/blog">Blog</a>
+      </sl-bar-item>
+      <sl-bar-item expandable size="2/10">
+        {%= liquid_render "bridgetown_quick_search/search", placeholder: "Search" %}
+
+        <kbd>cmd/ctrl + k</kbd>
+      </sl-bar-item>
+    </sl-bar>
+  </navbar-inner>
+</nav>

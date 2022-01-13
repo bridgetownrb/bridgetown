@@ -1,0 +1,9 @@
+<sl-alert type="{{ @type }}" open>
+  <sl-icon
+    slot="icon"
+    library="remixicon"
+    name="{{ icon }}"
+    style="font-size:1.25em"
+  ></sl-icon>
+  {{ content | markdownify }}
+</sl-alert>

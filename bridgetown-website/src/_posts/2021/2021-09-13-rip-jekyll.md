@@ -3,13 +3,14 @@ title: Jekyll and the Genesis of the Jamstack
 subtitle: "Let's look at some positive developments that will provide a path forward for Jekyll users."
 author: jared
 category: future
+exclude_from_pagination: true
 ---
 
 **September 15 Update:** There's been a fair amount of internet consternation since I published this article. While I do stand by everything in the post factually-speaking, I apologize for the insensitive timing of this article—coming so soon after Frank's passing. I'm genuinely sorry this came across as a "Jared vs. Frank" debacle. Should I have waited a few more weeks or months? Probably. Perhaps it was originally a mistake for me to refrain from publicly commenting on the statements regarding Jekyll's "permanent hiatus" back in May. It's hard to say. At the very least, I hope we can all agree that Jekyll's legacy as the "first among many" of modern static site generators is meaningful to a lot of people, even if we sometimes disagree on the best way to honor that legacy and push Ruby on the Jamstack forward. If the one thing that comes out of all this is that more people step forward to share their positive experiences with Jekyll, Ruby, and building websites, that's a good thing.
 
 ----
 
-### Original Article as Published:
+## Original Article as Published:
 
 
 {:style="text-align:center"}
@@ -54,7 +55,7 @@ Lack of any one of these points isn't the end of the world, but at the present m
 
 Is Jekyll truly dead, as Frank surmised in his May 2021 comments? It all depends on how you look at it. But any honest assessment of the situation must acknowledge that Jekyll's future is in grave peril.
 
-### Bridgetown's Road to 1.0 and the Future of Ruby Static Site Generators
+## Bridgetown's Road to 1.0 and the Future of Ruby Static Site Generators
 
 Let's look at some positive developments that will provide a path forward for Jekyll users.
 

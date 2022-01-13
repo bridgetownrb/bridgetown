@@ -1,8 +1,8 @@
 ---
 title: Prototype Pages
-order: 15
-top_section: Content
-category: prototype_pages
+order: 110
+top_section: Writing Content
+category: prototype-pages
 ---
 
 This feature builds upon the [Pagination functionality](/docs/content/pagination/) and
@@ -12,9 +12,9 @@ own page, every tag has its own page, or virtually any other search term.
 
 Note that in order to use [pagination](/docs/content/pagination/), you'll need to enable it your site's `bridgetown.config.yml`.
 
-{% toc %}
+{{ toc }}
 
-# Simple Usage
+## Simple Usage
 
 All you need to do is create a page, say `categories/category.html`, and add a
 `prototype` config to the Front Matter:
@@ -80,7 +80,7 @@ This would produce a generated `tigers/countries/india` page that loops through
 all the tigers in `India`.
 
 
-# Pulling in Site Data
+## Pulling in Site Data
 
 Prototype pages can be configured to load in extra data from [data files](/docs/datafiles/) which get matched with the search term for each item in the collection. This is great for common uses like listing out every post by each of the authors in the site.
 
@@ -133,7 +133,7 @@ As you can image, the possibilities are endless!
 
 ## Permalinks
 
-You can also customize the [permalinks](/docs/structure/permalinks/) used in Prototype
+You can also customize the [permalinks](/docs/content/permalinks) used in Prototype
 pages using `:term`. For example, using the Tigers example above, you could change the
 URLs that get generated like so:
 

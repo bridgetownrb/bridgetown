@@ -1,9 +1,7 @@
 url: "https://www.bridgetownrb.com"
 permalink: simple
 timezone: America/Los_Angeles
-
-autoloader_collapsed_paths:
-  - plugins/testing
+template_engine: serbea
 
 collections:
   docs:
@@ -18,6 +16,3 @@ pagination:
 # Environment-specific settings
 development:
   unpublished: true
-
-svg:
-  optimize: true

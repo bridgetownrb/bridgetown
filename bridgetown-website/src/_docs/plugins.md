@@ -1,6 +1,5 @@
 ---
-order: 6
-next_page_order: 6.5
+order: 210
 title: Extend with Plugins
 top_section: Configuration
 category: plugins
@@ -17,16 +16,18 @@ for ways to jazz up your website.
 
 Whenever you need more information about the plugins installed on your site and what they're doing, you can use the `bridgetown plugins list` command. You can also copy content out of gem-based plugins with the `bridgetown plugins cd` command. [Read the command reference for further details.](/docs/commands/plugins)
 
-{% rendercontent "docs/note", title: "Turn Your Plugins into Gems", extra_margin: true %}
-If you'd like to maintain plugin separation from your site source code,
-share functionality across multiple projects, and manage dependencies,
-you can create a Ruby gem for private or public distribution. This is also
-how you'd create a [Bridgetown theme](/docs/themes).
+{%@ Note do %}
+  #### Turn Your Plugins into Gems
 
-[Read further instructions below on how to create and publish a gem.](#creating-a-gem){:data-no-swup="true"}
-{% endrendercontent %}
+  If you'd like to maintain plugin separation from your site source code,
+  share functionality across multiple projects, and manage dependencies,
+  you can create a Ruby gem for private or public distribution. This is also
+  how you'd create a [Bridgetown theme](/docs/themes).
 
-{% toc %}
+  [Read further instructions below on how to create and publish a gem.](#creating-a-gem)
+{% end %}
+
+{{ toc }}
 
 ## Setup
 
@@ -137,7 +138,7 @@ end
 Bridgetown::MyNiftyPlugin::Builder.register
 ```
 
-[Read further instructions below on how to create and publish a gem.](#creating-a-gem){:data-no-swup="true"}
+[Read further instructions below on how to create and publish a gem.](#creating-a-gem)
 
 ## Internal Ruby API
 
@@ -156,11 +157,11 @@ Create custom Liquid tags or "shortcodes" which you can add to your content or d
 
 ### [Filters](/docs/plugins/filters)
 
-Create custom Liquid filters to help transform data and content.
+Provide custom Liquid filters to help transform data and content.
 
 ### [Helpers](/docs/plugins/helpers)
 
-For Tilt-based templates such as [ERB, Slim, etc.](/docs/erb-and-beyond), you can provide custom helpers which can be called from your templates.
+For Ruby-based templates such as ERB, Serbea, etc., you can provide custom helpers which can be called from your templates.
 
 ### [HTTP Requests and the Resource Builder](/docs/plugins/external-apis)
 
@@ -182,7 +183,6 @@ Commands extend the `bridgetown` executable using the Thor CLI toolkit.
 
 Converters change a markup language from one format to another.
 
-{:.mt-8}
 #### Priority Flag
 
 You can configure a Legacy API plugin (mainly generators and converters) with a specific `priority` flag. This flag determines what order the plugin is loaded in.
@@ -215,9 +215,10 @@ plugins/my_plugin/woo/zoo.rb -> MyPlugin::Woo::Zoo
 
 You can read more about [Zeitwerk's file conventions here](https://github.com/fxn/zeitwerk#file-structure).
 
-{% rendercontent "docs/note", title: "Take Me Back" %}
+{%@ Note do %}
+  #### Take Me Back
   If you run into any problems with Zeitwerk after upgrading your Bridgetown project from pre-1.0, you can switch to the previous plugin loading method by adding `plugins_use_zeitwerk: false` to your `bridgetown.config.yml`. Or you can try using the `autoloader_collapsed_paths` setting as described below.
-{% endrendercontent %}
+{% end %}
 
 In addition to the `plugins` folder provided by default, **you can add your own folders** with autoloading support! Simply add to the `autoload_paths` setting in your config YAML:
 
@@ -268,11 +269,7 @@ Bridgetown websites. You'll want to make sure you update the `gemspec`,
 plugin to ensure all the necessary metadata and user documentation is present
 and accounted for.
 
-Make sure you [follow these instructions](/docs/plugins/plugins-and-webpack/) to
-integrate your plugin's frontend code with the users' Webpack setup. Also read
-up on [Source Manifests](/docs/plugins/source-manifests/) if you have layouts,
-components, pages, static files, and other content you would like your plugin to
-provide.
+Make sure you [follow these instructions](/docs/plugins/gems-and-frontend/) to integrate your plugin's frontend code with the users' esbuild or Webpack setup. Also read up on [Source Manifests](/docs/plugins/source-manifests/) if you have layouts, components, resources, static files, and other content you would like your plugin to provide.
 
 You can also provide an automation via your plugin's GitHub repository by adding
 `bridgetown.automation.rb` to the root of your repo. This is a great way to
@@ -289,34 +286,36 @@ wide. Plus it's a great way to solicit feedback and improvements in the form
 of open source code collaboration and discussion.
 
 As always, if you have any questions or need support in creating your plugin,
-[check out our community resources](/docs/community).
+[check out our community resources](/community).
 
-{% rendercontent "docs/note", title: "Testing Your Plugin" %}
-As you author your plugin, you'll need a way to _use_ the gem within a live
-Bridgetown site. The easiest way to do that is to use a relative local path in
-the test site's `Gemfile`.
+{%@ Note do %}
+  #### Testing Your Plugin
 
-```ruby
-gem "my-plugin", :path => "../my-plugin", :group => :bridgetown_plugins
-```
+  As you author your plugin, you'll need a way to _use_ the gem within a live
+  Bridgetown site. The easiest way to do that is to use a relative local path in
+  the test site's `Gemfile`.
 
-You would do something similar in your test site's `package.json` as well (be sure to run [yarn link](https://classic.yarnpkg.com/en/docs/cli/link) so Yarn knows not to install your local path into `node_modules`):
+  ```ruby
+  gem "my-plugin", :path => "../my-plugin", :group => :bridgetown_plugins
+  ```
 
-```json
-"dependencies": {
-  "random-js-package": "2.4.6",
-  "my-plugin": "../my-plugin"
-}
-```
+  You would do something similar in your test site's `package.json` as well (be sure to run [yarn link](https://classic.yarnpkg.com/en/docs/cli/link) so Yarn knows not to install your local path into `node_modules`):
 
-You may need to restart your server at times to pick up changes you make
-to your plugin (unfortunately hot-reload doesn't always work with gem-based plugins).
+  ```json
+  "dependencies": {
+    "random-js-package": "2.4.6",
+    "my-plugin": "../my-plugin"
+  }
+  ```
 
-Finally, you should try writing some [tests](http://docs.seattlerb.org/minitest/)
-in the `test` folder of your plugin. These tests could ensure your tags, filters,
-and other content are working as expected and won't break in the future as code
-gets updated.
-{% endrendercontent %}
+  You may need to restart your server at times to pick up changes you make
+  to your plugin (unfortunately hot-reload doesn't always work with gem-based plugins).
+
+  Finally, you should try writing some [tests](http://docs.seattlerb.org/minitest/)
+  in the `test` folder of your plugin. These tests could ensure your tags, filters,
+  and other content are working as expected and won't break in the future as code
+  gets updated.
+{% end %}
 
 ## Cache API
 

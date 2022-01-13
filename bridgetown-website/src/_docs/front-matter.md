@@ -1,19 +1,19 @@
 ---
 title: Front Matter
-order: 12
-top_section: Content
+order: 90
+top_section: Writing Content
 category: front-matter
 ---
 
 Front matter is a snippet of [YAML](https://yaml.org/) or Ruby data which sits at the top of a file between special line delimiters. You can think of front matter as a datastore consisting of one or more key-value pairs (aka a `Hash` in Ruby). You use front matter to add metadata, like a title or a description, to files such as pages and documents as well as site layouts. Front matter can be used in various ways to set configuration options on a per-file basis, and if you need more dynamic handling of variable data, you can write Ruby code for processing as front matter.
 
-{% rendercontent "docs/note", title: "Don't repeat yourself" %}
-If you'd like to avoid repeating your frequently used variables
-over and over, you can define [front matter defaults](/docs/configuration/front-matter-defaults) for them and only override them where necessary (or not at all). This works
-both for predefined and custom variables.
-{% endrendercontent %}
+{%@ Note do %}
+  #### Don't repeat yourself
 
-{% toc %}
+  If you'd like to avoid repeating your frequently used variables over and over, you can define [front matter defaults](/docs/content/front-matter-defaults) for them and only override them where necessary (or not at all). This works both for predefined and custom variables.
+{% end %}
+
+{{ toc }}
 
 ## Using Front Matter
 
@@ -37,12 +37,13 @@ for a reference) or add custom variables of your own. These variables will
 then be available to you to access using Liquid tags both further down in the
 file and also in any layouts or components that the file in question relies on.
 
-{% rendercontent "docs/note", title: "Front matter variables are optional" %}
+{%@ Note do %}
+  #### Front matter variables are optional
   If you want to use [Liquid tags and variables](/docs/variables/)
   but don’t need anything in your front matter, just leave it empty! The set
   of triple-dashed lines with nothing in between will still get Bridgetown to
   process your file. (This is useful for things like RSS feeds.)
-{% endrendercontent %}
+{% end %}
 
 ## Predefined Global Variables
 
@@ -73,7 +74,7 @@ front matter of a page or document.
           <li>
             Using <code>null</code> will produce a file without using a layout
             file. This is overridden if the file is a document and has a
-            layout defined in the <a href="{{ '/docs/configuration/front-matter-defaults/' | relative_url }}">
+            layout defined in the <a href="{{ '/docs/content/front-matter-defaults/' | relative_url }}">
             front matter defaults</a>.
           </li>
           <li>
@@ -120,10 +121,11 @@ front matter of a page or document.
   </tbody>
 </table>
 
-{% rendercontent "docs/note", title: "Render pages marked as unpublished" %}
+{%@ Note do %}
+  #### Render pages marked as unpublished
   To preview unpublished pages, run `bridgetown serve` or `bridgetown build` with
   the `--unpublished` switch.
-{% endrendercontent %}
+{% end %}
 
 ## Custom Variables
 
@@ -227,10 +229,11 @@ description: |
 
 For reference, [here's a side-by-side comparison](https://yaml.org/YAML_for_ruby.html) of YAML data structures and their equivalents in Ruby.
 
-{% rendercontent "docs/note", type: "warning", title: "UTF-8 Character Encoding Warning" %}
-If you use UTF-8 encoding, make sure that no `BOM` header characters exist in your files or
-you may encounter build errors.
-{% endrendercontent %}
+{%@ Note type: "warning" do %}
+  #### UTF-8 Character Encoding Warning
+
+  If you use UTF-8 encoding, make sure that no `BOM` header characters exist in your files or you may encounter build errors.
+{% end %}
 
 ## The Power of Ruby, in Front Matter
 
@@ -306,6 +309,6 @@ This will now show up for the path: /custom/permalink/about-us
 
 As you can see, literally any valid Ruby code has the potential to be transformed into front matter. The sky's the limit!
 
-{% rendercontent "docs/note", type: "warning" %}
+{%@ Note type: "warning" do %}
 For security reasons, please _do not allow_ untrusted content into your repository to be executed in an unsafe environment (aka outside of a Docker container or similar). Just like with custom plugins, a malicious content contributor could potentially introduce harmful code into your site and thus any computer system used to build that site. Enable Ruby Front Matter _only_ if you feel confident in your ability to control and monitor all on-going updates to repository files and data.
-{% endrendercontent %}
+{% end %}

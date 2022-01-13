@@ -75,6 +75,6 @@ Get started today.
 (or [find out how you can become a contributor](/docs/community/)…or perhaps join the Bridgetown core team!)
 {:.has-text-centered}
 
-{% rendercontent "docs/note", extra_margin: true %}
+{%@ Note do %}
 P. S. Let us know if you plan to build something awesome with Bridgetown! And be sure to use the hashtag [**#SpinUpBridgetown**](https://twitter.com/intent/tweet?url=https%3A%2F%2Fbridgetownrb.com&via=bridgetownrb&text=Check%20out%20this%20awesome%20new%20static%20site%20generator%20built%20in%20Ruby%21&hashtags=SpinUpBridgetown%2CJamstack) and spread the word! 😃
-{% endrendercontent %}
+{% end %}

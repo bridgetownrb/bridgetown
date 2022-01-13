@@ -1,11 +1,11 @@
 ---
 title: Filters
-hide_in_toc: true
 order: 0
+top_section: Configuration
 category: plugins
 ---
 
-Filters are simple Ruby methods you can provide to Liquid templates to transform input data in various ways. 
+Filters are simple Ruby methods you can provide to [Liquid templates](/docs/template-engines/liquid) to transform input data in various ways. 
 
 All methods take at least one argument which represents the input
 of the filter, and you can also support multiple method arguments (and even optional ones). The return value will be the output of the filter.
@@ -111,6 +111,6 @@ When using the filters scope, you have access to the Liquid context via `@contex
 
 Filters are great when you want to transform input data from one format to another and potentially allow multiple transformations to be chained together. If instead you simply want to _insert_ a customized piece of content/HTML code into a page, then it's probably better to write a [Tag](/docs/plugins/tags/).
 
-{% rendercontent "docs/note", extra_margin: true %}
-If you prefer to use the Legacy API (aka `Liquid::Template.register_filter `) to construct Liquid filters, refer to the [Liquid documentation](https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers) here.
-{% endrendercontent %}
+{%@ Note do %}
+  If you prefer to use the Legacy API (aka `Liquid::Template.register_filter `) to construct Liquid filters, refer to the [Liquid documentation](https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers) here.
+{% end %}

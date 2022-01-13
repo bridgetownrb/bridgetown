@@ -9,27 +9,54 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## 1.0.0.beta1 — 2022-01-13
+
+### General
+
+- Brand new [website](https://edge.bridgetownrb.com) and refreshed documentation. _Yowza!_ Special thanks to [@adrianvalenz](https://github.com/adrianvalenz) for contributing refreshed branding and content enhancements and to [Whitefusion](https://www.whitefusion.studio) for overall design & development of the new site.
+
+### Added
+
+- Native esbuild integration, default site template switched to use esbuild + postcss [#461](https://github.com/bridgetownrb/bridgetown/pull/461) ([jaredcwhite](https://github.com/jaredcwhite))
+  - **BREAKING CHANGE:** you will need to run `bin/bridgetown webpack update` so the build process can find the relocated assets manifest file.
+- New site template design along with ERB and Serbea support via CLI flags [#475](https://github.com/bridgetownrb/bridgetown/pull/461) ([jaredcwhite](https://github.com/jaredcwhite))
+
+### Changed
+
+- Refactor how Rake tasks are loaded or displayed ([jaredcwhite](https://github.com/jaredcwhite))
+- Clean up listener and watcher, resolves #467 ([jaredcwhite](https://github.com/jaredcwhite))
+- Update Stimulus and Turbo configurations to latest versions ([jaredcwhite](https://github.com/jaredcwhite))
+- Permit Rails 7 versions of Active Support & Active Model ([jaredcwhite](https://github.com/jaredcwhite))
+- Improve the display of build errors [#479](https://github.com/bridgetownrb/bridgetown/pull/479) ([jaredcwhite](https://github.com/jaredcwhite))
+- Remove the Swup bundled configuration and enhance Turbo instead [#471](https://github.com/bridgetownrb/bridgetown/pull/471) ([jaredcwhite](https://github.com/jaredcwhite))
+
+### Fixed
+
+- Switch routes to path from absolute_path for Ruby 3.1 compatibility ([jaredcwhite](https://github.com/jaredcwhite))
+- Fix origins autoload issue in #472 ([jaredcwhite](https://github.com/jaredcwhite))
+- Add `.ruby-version` file to new sites ([jaredcwhite](https://github.com/jaredcwhite))
+
 ## 1.0.0.alpha11 - 2021-11-29
 
-- Allow saving of models with repo origin [#452](https://github.com/bridgetownrb/bridgetown/pull/452) ([jaredcwhite](https://github.com/jaredcwhite)
-- Normalize previous/next resource API between Ruby and Liquid [#466](https://github.com/bridgetownrb/bridgetown/pull/466) ([jaredcwhite](https://github.com/jaredcwhite)
+- Allow saving of models with repo origin [#452](https://github.com/bridgetownrb/bridgetown/pull/452) ([jaredcwhite](https://github.com/jaredcwhite))
+- Normalize previous/next resource API between Ruby and Liquid [#466](https://github.com/bridgetownrb/bridgetown/pull/466) ([jaredcwhite](https://github.com/jaredcwhite))
 - Docs: Add a nginx section in deployment [#447](https://github.com/bridgetownrb/bridgetown/pull/447) ([Eric-Guo](https://github.com/Eric-Guo))
-- Switch to streaming/event source mechanism for live reload [#458](https://github.com/bridgetownrb/bridgetown/pull/458) ([jaredcwhite](https://github.com/jaredcwhite)
-- Hooks refactor & cleaning up SSR reload hook [#457](https://github.com/bridgetownrb/bridgetown/pull/457) ([jaredcwhite](https://github.com/jaredcwhite)
+- Switch to streaming/event source mechanism for live reload [#458](https://github.com/bridgetownrb/bridgetown/pull/458) ([jaredcwhite](https://github.com/jaredcwhite))
+- Hooks refactor & cleaning up SSR reload hook [#457](https://github.com/bridgetownrb/bridgetown/pull/457) ([jaredcwhite](https://github.com/jaredcwhite))
 - Add `BRIDGETOWN_ENV` to render config [#460](https://github.com/bridgetownrb/bridgetown/pull/460) ([ayushn21](https://github.com/ayushn21))
 - Fix production ENV issue with Roda file-based routes
 - Move `Collection#sort_resources!` to a public method
 
 ## 1.0.0.alpha10 - 2021-11-15
 
-- Fix class duplication bug with reloads and `ActiveSupport::DescendantsTracker` [#450](https://github.com/bridgetownrb/bridgetown/pull/450) ([jaredcwhite](https://github.com/jaredcwhite)
-- Remove extra space from plugins command output [#449](https://github.com/bridgetownrb/bridgetown/pull/449) ([jacobherrington](https://github.com/jacobherrington)
+- Fix class duplication bug with reloads and `ActiveSupport::DescendantsTracker` [#450](https://github.com/bridgetownrb/bridgetown/pull/450) ([jaredcwhite](https://github.com/jaredcwhite))
+- Remove extra space from plugins command output [#449](https://github.com/bridgetownrb/bridgetown/pull/449) ([jacobherrington](https://github.com/jacobherrington))
 
 ## 1.0.0.alpha9 - 2021-11-11
 
 - Remove the Liquid Component gem dependency
 - Add support for environment CLI flags (`-e production` or `--environment=production`)
-- Integrate Serbea 1.0 into Bridgetown [#440](https://github.com/bridgetownrb/bridgetown/pull/440) ([jaredcwhite](https://github.com/jaredcwhite)
+- Integrate Serbea 1.0 into Bridgetown [#440](https://github.com/bridgetownrb/bridgetown/pull/440) ([jaredcwhite](https://github.com/jaredcwhite))
 - Add new console commands via ConsoleMethods mixin [#439](https://github.com/bridgetownrb/bridgetown/pull/439) ([jaredcwhite](https://github.com/jaredcwhite)
 - Support long version form in CLI (`--version`) [#445](https://github.com/bridgetownrb/bridgetown/pull/445) ([Eric-Guo](https://github.com/Eric-Guo))
 

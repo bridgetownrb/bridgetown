@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    {%@ "head" %}
+  </head>
+  <body class="{{ resource.data.layout }} {{ resource.data.page_class }}">
+    {%@ Shared::Navbar metadata: site.metadata, resource: resource %}
+
+    <main>
+      {%= yield %}
+    </main>
+
+    {%@ "footer", metadata: site.metadata %}
+  </body>
+</html>

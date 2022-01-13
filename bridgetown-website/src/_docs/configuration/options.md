@@ -1,8 +1,9 @@
 ---
 title: Configuration Options
-hide_in_toc: true
 order: 0
-category: configuration
+top_section: Configuration
+category: customize-your-site
+back_to: configuration
 ---
 
 The tables below list the available settings for Bridgetown, and the various <code
@@ -50,23 +51,13 @@ class="flag">flags</code> (specified on the command-line) that control them.
         <p class="default">Default: <code class="default">liquid</code></p>
       </td>
       <td class="has-text-centered">
-        <p><code class="option">template_engine: ENGINE (erb, slim, haml, etc.)</code></p>
-      </td>
-    </tr>
-    <tr class="setting">
-      <td>
-        <p class="name"><strong>Content Engine</strong></p>
-        <p class="description">Change the <a href="/docs/resources">content engine</a> Bridgetown uses for its data pipeline. The resource-based engine will become standard for v1.0.</p>
-        <p class="default">Default: <code class="default">legacy</code></p>
-      </td>
-      <td class="has-text-centered">
-        <p><code class="option">content_engine: ENGINE (legacy, resource)</code></p>
+        <p><code class="option">template_engine: ENGINE (erb, serbea, slim, haml, etc.)</code></p>
       </td>
     </tr>
     <tr class="setting">
       <td>
         <p class="name"><strong>Permalink</strong></p>
-        <p class="description">Change the default permalink style or template used by pages & blog posts. <a href="/docs/structure/permalinks">Documentation here</a>—and if you're using the Resource-based content engine, <a href="/docs/resources#configuring-permalinks" data-no-swup="true">read this additional information</a>.</p>
+        <p class="description">Change the default permalink style or template used by pages & blog posts. <a href="/docs/content/permalinks">Documentation here</a> and <a href="/docs/resources#configuring-permalinks">read this additional information</a>.</p>
       </td>
       <td class="has-text-centered">
         <p><code class="option">permalink: STYLE or TEMPLATE</code></p>
@@ -160,11 +151,7 @@ class="flag">flags</code> (specified on the command-line) that control them.
       <td>
         <p class="name"><strong>Encoding</strong></p>
         <p class="description">
-            Set the encoding of files by name (only available for Ruby
-            1.9 or later).
-            The default value is <code>utf-8</code> starting in 2.0.0,
-            and <code>nil</code> before 2.0.0, which will yield the Ruby
-            default of <code>ASCII-8BIT</code>.
+            Set the encoding of files by name. The default value is <code>utf-8</code>.
             Available encodings can be shown by the
             command <code>ruby -e 'puts Encoding::list.join("\n")'</code>.
         </p>
@@ -182,22 +169,24 @@ class="flag">flags</code> (specified on the command-line) that control them.
         </p>
       </td>
       <td class='has-text-centered'>
-        <p><a href="{{ '/docs/configuration/front-matter-defaults/' | relative_url }}" title="details">More Information Here</a></p>
+        <p><a href="{{ '/docs/content/front-matter-defaults/' | relative_url }}" title="details">More Information Here</a></p>
       </td>
     </tr>
   </tbody>
 </table>
 
-{% rendercontent "docs/note", title: "Destination folders are cleaned upon site builds", type: "warning" %}
-The contents of `destination` are automatically cleaned when the site is built.
-Files or folders that are not created by your site will be removed. If you need to
-retain certain files/folders, specify them within the `keep_files` configuration
-directive. (For instance, Bridgetown automatically keeps compiled frontend assets
-from Webpack.)
+{%@ Note type: :warning do %}
+  #### Destination folders are cleaned upon site builds
 
-Do not use an important location for `destination` instead, use it as
-a staging area and copy files from there to your web server.
-{% endrendercontent %}
+  The contents of `destination` are automatically cleaned when the site is built.
+  Files or folders that are not created by your site will be removed. If you need to
+  retain certain files/folders, specify them within the `keep_files` configuration
+  directive. (For instance, Bridgetown automatically keeps compiled frontend assets
+  from esbuild/Webpack.)
+
+  Do not use an important location for `destination` instead, use it as
+  a staging area and copy files from there to your web server.
+{% end %}
 
 ### Build Command Options
 
@@ -259,31 +248,10 @@ a staging area and copy files from there to your web server.
     <tr class="setting">
       <td>
         <p class="name"><strong>Ruby Front Matter</strong></p>
-        <p class="description">Process <a href="/docs/front-matter/#ruby-front-matter" data-no-swup="true">Ruby front matter</a> (default true)</p>
+        <p class="description">Process <a href="/docs/front-matter/#the-power-of-ruby-in-front-matter" data-no-swup="true">Ruby front matter</a> (default true)</p>
       </td>
       <td class="has-text-centered">
         <p><code class="option">ruby_in_front_matter: BOOL</code></p>
-      </td>
-    </tr>
-    <tr class="setting">
-      <td>
-        <p class="name"><strong>LSI</strong></p>
-        <p class="description">Produce an index for related posts. Requires the
-          <a href="https://jekyll.github.io/classifier-reborn/" rel="noopener">classifier-reborn</a> plugin.</p>
-      </td>
-      <td class="has-text-centered">
-        <p><code class="option">lsi: BOOL</code></p>
-        <p><code class="flag">--lsi</code></p>
-      </td>
-    </tr>
-    <tr class="setting">
-      <td>
-        <p class="name"><strong>Limit Posts</strong></p>
-        <p class="description">Limit the number of posts to parse and publish.</p>
-      </td>
-      <td class="has-text-centered">
-        <p><code class="option">limit_posts: NUM</code></p>
-        <p><code class="flag">--limit_posts NUM</code></p>
       </td>
     </tr>
     <tr class="setting">
@@ -352,7 +320,11 @@ a staging area and copy files from there to your web server.
   </tbody>
 </table>
 
-### Serve Command Options
+### Webrick Options
+
+{%@ Note type: :warning do %}
+The Webrick server is deprecated and will be removed in a future version of Bridgetown.
+{% end %}
 
 In addition to the options below, the `serve` sub-command can accept any of the options
 for the `build` sub-command, which are then applied to the site build which occurs right
@@ -425,10 +397,12 @@ before your site is served.
   </tbody>
 </table>
 
-{% rendercontent "docs/note", title: "Do not use tabs in configuration files", type: "warning" %}
+{%@ Note type: :warning do %}
+  #### Do not use tabs in configuration files
+
   This will either lead to parsing errors, or Bridgetown will revert to the
   default settings. Use spaces instead.
-{% endrendercontent %}
+{% end %}
 
 ### Additional Configuration File Settings
 

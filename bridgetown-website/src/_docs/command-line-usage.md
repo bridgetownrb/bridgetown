@@ -1,6 +1,5 @@
 ---
-order: 4.2
-next_page_order: 4.5
+order: 60
 title: Command Line Usage
 top_section: Setup
 category: command-line-usage
@@ -10,10 +9,16 @@ The Bridgetown gem makes the `bridgetown` executable available to you in your te
 
 You can run `bin/bridgetown` to see a list of available commands as well as Rake tasks which either come with Bridgetown or are located in your `Rakefile`. See below for information on how to define your own Rake tasks.
 
+The `help <command>` command provides more information about the available options for any specific command.
+
 Available commands are:
 
 {% raw %}
-* `bridgetown new PATH` - Creates a new Bridgetown site at the specified path with a default configuration and typical site folder structure. Use the `--apply=` or `-a` option to [apply an automation](/docs/automations) to the new site.
+* `bridgetown new PATH` - Creates a new Bridgetown site at the specified path with a default configuration and typical site folder structure.
+  * Use the `--apply=` or `-a` option to [apply an automation](/docs/automations) to the new site.
+  * Use the `-t` option to choose ERB or Serbea templates instead of Liquid (aka `-t erb`).
+  * Use the `-e` option to choose Webpack instead of esbuild for your frontend bundler (aka `-e webpack`).
+  * When using Webpack, you can also choose to use Sass over PostCSS by adding the `--use-sass` option.
 * `bin/bridgetown start` or `s` - Boots the Rack-based server (using Puma) at `localhost:4000`. In development, you'll get live reload functionality as long as `{% live_reload_dev_js %}` or `<%= live_reload_dev_js %>` is in your HTML head.
 * `bin/bridgetown deploy` - Ensures that all frontend assets get built alongside the published Bridgetown output. This is the command you'll want to use for ([deployment](/docs/deployment)).
 * `bin/bridgetown build` or `b` - Performs a single build of your site to the `output` folder (by default). Add the `-w` flag to also regenerate the site whenever a source file changes.
@@ -26,6 +31,7 @@ Available commands are:
 * `bin/bridgetown help` - Shows help, optionally for a given subcommand, e.g. `bridgetown help build`.
 * `bin/bridgetown doctor` - Outputs any deprecation or configuration issues.
 * `bin/bridgetown clean` - Removes all generated files: destination folder, metadata file, and Bridgetown caches.
+* `bin/bridgetown esbuild ACTION` - Allows you to perform actions such as `update` on your project's esbuild configuration. Invoke without arguments to see all available actions.
 * `bin/bridgetown webpack ACTION` - Allows you to perform actions such as `update` on your project's Webpack configuration. Invoke without arguments to see all available actions.
 {% endraw %}
 

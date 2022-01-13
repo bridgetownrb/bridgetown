@@ -1,13 +1,13 @@
 ---
 title: Generators
-hide_in_toc: true
 order: 0
+top_section: Configuration
 category: plugins
 ---
 
-{% rendercontent "docs/note", type: "warning"  %}
+{%@ Note type: :warning do %}
 Generators are currently deprecated and will be removed in a future version of Bridgetown. If all you're doing is creating new resources, perhaps based on data from an external API, you'll likely want to use [Resource Builder API](/docs/plugins/external-apis) rather than write a generator. Otherwise, take a look at [hooks](/docs/plugins/hooks) for fine-grained access to Bridgetown's build lifecycle.
-{% endrendercontent %}
+{% end %}
 
 You can write a generator when you need Bridgetown to add data to existing content or to programmatically create new pages, posts, and the like. Generators run after Bridgetown has made an inventory of the existing content, but before the site is rendered out.
 

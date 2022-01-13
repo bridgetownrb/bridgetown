@@ -1,9 +1,10 @@
-# frozen_string_literal: true
-
 require "bridgetown"
 
 Bridgetown.load_tasks
 
+#
+# Standard set of tasks, which you can customize if you wish:
+#
 desc "Build the Bridgetown site for deployment"
 task deploy: [
   :clean,
@@ -29,16 +30,28 @@ task :clean do
 end
 
 namespace :frontend do
-  desc "Build the frontend with Webpack for deployment"
+  desc "Build the frontend with esbuild for deployment"
   task :build do
-    sh "yarn run webpack-build"
+    sh "yarn run esbuild"
   end
 
-  desc "Watch the frontend with Webpack during development"
+  desc "Watch the frontend with esbuild during development"
   task :dev do
-    sh "yarn run webpack-dev --color"
+    sh "yarn run esbuild-dev"
   rescue Interrupt
   end
 end
 
+#
+# Add your own Rake tasks here! You can use `environment` as a prerequisite
+# in order to write automations or other commands requiring a loaded site.
+#
+# task :my_task => :environment do
+#   puts site.root_dir
+#   automation do
+#     say_status :rake, "I'm a Rake tast =) #{site.config.url}"
+#   end
+# end
+
+# Run rake without specifying any command to execute a deploy build by default.
 task default: :deploy

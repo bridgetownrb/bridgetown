@@ -1,0 +1,22 @@
+- name: page
+  description: The number of the current page
+- name: per_page
+  description: Number of resources per page
+- name: resources
+  description: Resources (aka posts, etc.) available for the current page
+- name: total_resources
+  description: Total number of resources
+- name: total_pages
+  description: Total number of paginated pages
+- name: previous_page
+  description: >-
+    The number of the previous page, or <code>nil</code> if no previous page exists
+- name: previous_page_path
+  description: >-
+    The path to the previous page, or <code>nil</code> if no previous page exists
+- name: next_page
+  description: >-
+    The number of the next page, or <code>nil</code> if no subsequent page exists
+- name: next_page_path
+  description: >-
+    The path to the next page, or <code>nil</code> if no subsequent page exists

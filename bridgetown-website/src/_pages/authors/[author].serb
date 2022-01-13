@@ -1,0 +1,58 @@
+---
+title: "Articles by :prototype-data-label"
+exclude_from_search: true
+prototype:
+  collection: posts
+  term: author
+  data: authors
+  data_label: name
+---
+
+{% resource.data.breadcrumbs_for_layout = capture do %}
+  <sl-breadcrumb style="display:block; margin-bottom:2.1em">
+    <sl-icon library="remixicon" name="system/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></sl-icon>
+
+    <sl-breadcrumb-item href="/blog">Blog</sl-breadcrumb-item>
+    <sl-breadcrumb-item></sl-breadcrumb-item>
+  </sl-breadcrumb>
+{% end %}
+
+<p class="heading-icon">
+  <sl-icon library="remixicon" name="user/user-fill"></sl-icon>
+</p>
+
+{% author = page.data.author_data %}
+<p style="text-align:center">
+  Connect with
+  {{ author.name | split: " " | first }}
+  on the
+  <strong><a href="{{ author.website }}">Web</a></strong>
+  or on
+  {% if author.twitter %}
+    <strong><a href="https://twitter.com/{{ author.twitter }}">Twitter</a></strong>
+  {% elsif author.github %}
+    <strong><a href="https://github.com/{{ author.github }}">GitHub</a></strong>
+  {% end %}
+</p>
+
+<ul class="info-grid highlighted-cards">
+  {% paginator.resources.each do |post| %}
+    <li>{%@ PostCard post: post %}</li>
+  {% end %}
+</ul>
+
+<p style="text-align:right; margin-top:4rem; display:flex; gap:1em; justify-content:space-around">
+  {% if paginator.previous_page %}
+    <a href="{{ paginator.previous_page_path }}"><sl-button type="primary" size="small" outline>
+      Previous Page
+      <sl-icon slot="prefix" library="remixicon" name="system/arrow-left-s-fill"></sl-icon>
+    </sl-button></a>
+  {% end %}
+  {% if paginator.next_page %}
+    <a href="{{ paginator.next_page_path }}"><sl-button type="primary" size="small" outline>
+      Next Page
+      <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+    </sl-button></a>
+  {% end %}
+</p>
+

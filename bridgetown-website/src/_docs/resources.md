@@ -1,8 +1,7 @@
 ---
 title: Resources
-order: 10
-next_page_order: 10.5
-top_section: Content
+order: 80
+top_section: Writing Content
 category: resources
 ---
 
@@ -30,7 +29,7 @@ In this example, the [layout](/docs/layouts) of the resource is specified as `pa
 
 You can save resources as files within your source tree, and you can also [generate resources programatically](/docs/plugins/external-apis) via a builder plugin—perhaps based on data from a headless CMS or other third-party APIs.
 
-{% toc %}
+{{ toc }}
 
 ## Technical Architecture
 
@@ -41,7 +40,7 @@ While certain resources don't actually get written to URLs such as data files (a
 Resources come with a merry band of objects to help them along the way. These are called Origins, Models, Transformers, and Destinations. Here's a diagram of how it all works.
 
 ![The Resource Rendering Pipeline](/images/resource-pipeline.png)
-{: .my-8}
+{:style="margin: 2em 0"}
 
 Let's say you add a new blog post by saving `src/_posts/2021-05-10-super-cool-blog-post.md`. To make the transition from a Markdown file with Liquid or ERB template syntax to a final URL on your website, Bridgetown takes your data through several steps:
 
@@ -293,7 +292,7 @@ Bridgetown uses permalink "templates" to determine the default permalink to use 
 * For all other collections, the permalink matches the path of the file along with a collection prefix. So `src/_movies/horror/alien.md` will output to `/movies/horror/alien/`
 * In addition, if multiple site locales are configured, any content not in the "default" locale will be prefixed by the locale key. So a page offering both English and French variations would be output to `/page-information` and `/fr/page-information`.
 
-Refer to our [permalinks documentation](/docs/structure/permalinks] for further details on how to configure and custom generate permalinks.
+Refer to our [permalinks documentation](/docs/content/permalinks) for further details on how to configure and custom generate permalinks.
 
 ## Ruby Front Matter and All-Ruby Templates
 
@@ -397,7 +396,7 @@ Prior to Bridgetown 1.0, a different content engine based on Jekyll was used whi
 * Front matter data is now accessed in Liquid through the `data` variable just like in ERB and skipping `data` is deprecated. Use `{{ post.data.description }}` instead of just `{{ post.description }}`.
 * In addition, instead of referencing the current "page" through `page` (aka `page.data.title`), you can use `resource` instead: `resource.data.title`.
 * Resources don't have a `url` variable. Your templates/plugins will need to reference either `relative_url` or `absolute_url`. Also, the site's `base_path` (if configured) is built into both values, so you won't need to prepend it manually.
-* Permalink formats have changed somewhat, so please refer to the new [permalink](/docs/structure/permalinks) for how to use the new permalink styles and placeholders.
+* Permalink formats have changed somewhat, so please refer to the new [permalink](/docs/content/permalinks) for how to use the new permalink styles and placeholders.
 * Whereas the `id` of a document is the relative destination URL, the `id` of a resource is its origin id. You can define an id in front matter separately however, which would be available as `resource.data.id`.
 * The paginator items are now accessed via `paginator.resources` instead of `paginator.documents`.
 * Instead of `pagination:\n  enabled: true` in your front matter for a paginated page, you'll put the collection name instead. Also you can use the term `paginate` instead of `pagination`. So to paginate through posts, just add `paginate:\n  collection: posts` to your front matter.

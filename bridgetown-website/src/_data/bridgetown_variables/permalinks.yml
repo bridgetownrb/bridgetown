@@ -1,0 +1,30 @@
+- name: ":year"
+  description: Four-digit year based on the resource's date.
+- name: ":short_year"
+  description: Two-digit year based on the resource's date within its century (00..99).
+- name: ":month"
+  description: Month based on the resource's date (01..12).
+- name: ":i_month"
+  description: Month based on the resource's date without leading zeros (1..12).
+- name: ":day"
+  description: Day of the month based on the resource's date (01..31).
+- name: ":i_day"
+  description: Day of the month based on the resource's date without leading zeros (1..31).
+- name: ":categories"
+  description: |
+    The specified categories for the resource. If a resource has multiple
+    categories, Bridgetown will create a hierarchy (e.g. <code>/category1/category2</code>).
+    Bridgetown automatically parses out double slashes in the URLs,
+    so if no categories are present, it will ignore this.
+- name: ":locale</code>, <code>:lang"
+  description: Adds the locale key of the current rendering context, if its not the default site locale.
+- name: ":title"
+  description: "Title from the resource's front matter (aka <code>title: My Resource Title</code>), slugified (aka any character except numbers and letters is replaced as hyphen)."
+- name: ":slug"
+  description: Extracted from the resources’s filename. May be overridden via the resources’s <code>slug</code> front matter.
+- name: ":name"
+  description: Extracted from the resources’s filename and cannot be overridden.
+- name: ":path"
+  description: Constructs URL segments out of the relative path of the resource within its collection folder. Used by the <strong>pages</strong> collection as well as custom collections if no specific permalink config is provided.
+- name: ":collection"
+  description: Outputs the label of the resource's custom collection (will be blank for the built-in pages and posts collections).

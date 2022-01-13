@@ -1,7 +1,7 @@
 ---
 title: Components
-order: 8
-top_section: Structure
+order: 160
+top_section: Designing Your Site
 category: components
 ---
 
@@ -9,14 +9,24 @@ Thinking of your website design as a collection of loosely-coupled, independent 
 
 While it's tempting to think of components as applicable to frontend development only (via popular frameworks such as React), component-based design is actually something you can accomplish using SSR (server-side rendering) or static rendering as well, and there are a myriad of ways you can wire up generated component markup served to the browser with frontend dynamism using JavaScript.
 
-Bridgetown provides two mechanisms to do this today, either by using the [Liquid template engine](/docs/liquid) or a [Ruby-based template engine such as ERB](/docs/erb-and-beyond). Bridgetown even supports a [compatibility shim](https://github.com/bridgetownrb/bridgetown-view-component) for the ViewComponent library by GitHub which has taken the Rails community by storm. One Ruby component library to rule them all? Could be!
+Bridgetown provides two mechanisms to do this today, either by using the [Liquid template engine](/docs/template-engines/liquid) or a [Ruby-based template engine such as ERB](/docs/template-engines/erb-and-beyond). Bridgetown even supports a [compatibility shim](https://github.com/bridgetownrb/bridgetown-view-component) for the ViewComponent library by GitHub which has taken the Rails community by storm. One Ruby component library to rule them all? Could be!
 
 So go ahead: pick your preferred component flavor and let's dive in.
 
-<button-group class="buttons" style="justify-content: center">
-  <a href="/docs/components/liquid" class=" button is-warning is-outlined">Liquid</a>
-  <a href="/docs/components/ruby" class="button is-warning is-outlined">Ruby (ERB and Beyond)</a>
-</button-group>
+<p style="margin-top:2em; display:flex; gap:1em; justify-content:center">
+  <a href="/docs/components/liquid">
+    <sl-button type="primary" outline>
+      Liquid
+      <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+    </sl-button>
+  </a>
+  <a href="/docs/components/ruby">
+    <sl-button type="primary" outline>
+      Ruby (ERB & Beyond)
+      <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+    </sl-button>
+  </a>
+</p>
 
 ## Sidecar Frontend Assets
 
@@ -60,9 +70,9 @@ While you can author a web component without using libraries or frameworks of an
 
 By building "default" markup into your static component, and then using a "hydration-like" strategy to enhance the component in JavaScript, you get lightning-fast static markup which works even without JavaScript enabled—while at the same time taking advantage of advanced client-side user interface capabilities. You can also take advantage of APIs to render up-to-date content in real-time in the browser after possibly-stale static content has first loaded.
 
-{% rendercontent "docs/note" %}
-You don't _have_ to use web components to take advantage of this pattern. You can use any light-weight "JavaScript sprinkles" library such as [Stimulus](https://stimulusjs.org) or [Alpine](https://github.com/alpinejs/alpine/) and the concepts remain relatively the same.
-{% endrendercontent %}
+{%@ Note do %}
+  You don't _have_ to use web components to take advantage of this pattern. You can use any light-weight "JavaScript sprinkles" library such as [Stimulus](https://stimulusjs.org) or [Alpine](https://github.com/alpinejs/alpine/) and the concepts remain relatively the same.
+{% end %}
 
 Here's an example of a component which shows a product price and an Add to Cart button. We'll first define it as a Liquid component and display the price directly as statically-generated HTML. Then we'll define a LitElement-powered web component which updates the price and checks if the product is in stock before enabling the shopping cart interactivity of the button.
 

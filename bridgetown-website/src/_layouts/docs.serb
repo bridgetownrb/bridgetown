@@ -1,0 +1,55 @@
+---
+layout: default
+---
+
+{% url_sections = resource.relative_url.split "/" %}
+<main-content><article>
+  <sl-breadcrumb style="display:block; margin-bottom:2.1em">
+    <sl-icon library="remixicon" name="system/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></sl-icon>
+
+    <sl-breadcrumb-item href="/docs">Documentation</sl-breadcrumb-item>
+    <sl-breadcrumb-item href="#sidebar-{{ resource.data.top_section | slugify }}">{{ resource.data.top_section }}</sl-breadcrumb-item>
+    {% if url_sections.size > 3 %}
+      {% crumb_label = resource.data.category.gsub("-", " ").titleize %}
+      {% crumb_url = "/docs/#{resource.data.back_to || resource.data.category}" %}
+      <sl-breadcrumb-item href="{{ crumb_url }}">{{ crumb_label }}</sl-breadcrumb-item>
+    {% end %}
+    <sl-breadcrumb-item></sl-breadcrumb-item>
+  </sl-breadcrumb>
+
+  <h1 class="serif colorful">{{ resource.data.title }}</h1>
+
+  {%= yield %}
+
+  {% if url_sections.size > 3 %}
+    <p style="text-align:center; margin-top:4rem">
+      <a href="/docs/{{ resource.data.back_to || resource.data.category }}"><sl-button type="primary" size="small" outline>
+        Back to {{ resource.data.category | titleize }}
+        <sl-icon slot="prefix" library="remixicon" name="system/arrow-up-s-fill"></sl-icon>
+      </sl-button></a>
+    </p>
+  {% else %}
+    {% next_order = resource.data.next_page_order %}
+    {% unless next_order %}
+      {% next_order = page.data.order + 10 %}
+    {% end %}
+    {% alldocs = collections.docs.resources %}
+    {% next_page = collections.docs.resources.find { _1.data.order == next_order } %}
+    {% if next_page %}
+      <p style="text-align:right; margin-top:4rem">
+        <a href="{{ next_page.relative_url }}"><sl-button type="primary" size="small" outline>
+          {{ next_page.data.title }}
+          <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+        </sl-button></a>
+      </p>
+    {% end %}
+  {% end %}
+</article></main-content>
+
+<aside>
+  {%@
+    Documentation::Sidebar
+      docs: collections.docs.resources,
+      resource: resource
+  %}
+</aside>

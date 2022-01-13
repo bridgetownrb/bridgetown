@@ -1,11 +1,11 @@
 ---
 title: Pagination
-hide_in_toc: true
 order: 0
-category: posts
+top_section: Writing Content
+category: resources
 ---
 
-{% render "docs/help_needed", page: page %}
+{%@ "docs/help_needed", resource: resource %}
 
 Pagination support is built-in to Bridgetown, but it is not enabled by default. To enable it on your site, simply add:
 
@@ -90,4 +90,4 @@ To display pagination links, simply use the `paginator` Liquid object as follows
 
 The `paginator` Liquid object provides the following attributes:
 
-{% render "docs/variables_table", scope: site.data.bridgetown_variables.paginator %}
+{%@ Documentation::VariablesTable data: site.data, scope: :paginator, description_size: :bigger %}

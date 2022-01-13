@@ -16,7 +16,7 @@ Therefore, **[we’ve launched a dedicated fundraising site for Bridgetown](http
 
 Now without further ado, onto the latest version of Bridgetown codenamed “Pearl”. I’ve talked about some of the changes therein previously, but let’s recap what’s new in this release!
 
-### Ruby-Centric Tooling (Rake, Rack, Puma, & Roda)
+## Ruby-Centric Tooling (Rake, Rack, Puma, & Roda)
 
 In prior versions of Bridgetown, we had leaned on some Node-based tooling to provide features such as CLI scripts (via Yarn/package.json), executing multiple processes simultaneously (Bridgetown’s dev server + Webpack), and live-reloading.
 
@@ -26,7 +26,7 @@ Bridgetown’s new dev server is based on the battle-hardened one-two punch of [
 
 By moving to a Rack-based stack, this means _every Bridgetown site is potentially a Rails app, or Sinatra, or Roda itself, or…_. Because Rack can mount multiple “apps” within a single server process, you can run Bridgetown alongside your favorite backend/fullstack Ruby app framework. Yet with Roda on the scene, we just couldn’t help ourselves…
 
-### Bridgetown SSR, Roda API, and File-based Dynamic Routes
+## Bridgetown SSR, Roda API, and File-based Dynamic Routes
 
 Server-Side Rendering, known as SSR, has made its peace with SSG (Static Site Generation), and we are increasingly seeing an SSG/SSR “hybrid” architecture emerge in tooling throughout the web dev industry.
 
@@ -126,25 +126,29 @@ Testing is straightforward as well. Simply place `.test.rb` files alongside your
 
 Rest assured, a **full setup guide & tutorial** for all this stuff is on its way. ([Want to get it sooner?](https://fundraising.bridgetownrb.com) 😉)
 
-### The DREAMstack Has Arrived
+## The DREAMstack Has Arrived
 
 The bottom line it this: Bridgetown has evolved into more than “just” a static site generator and can now be considered a fullstack web framework, thanks to the incredible building blocks of Rack, Puma, Roda, and what’s come before in Bridgetown. You’re certainly under no obligation to use _any_ of this new dynamic routing functionality, but it’s there _if and when_ you need it. This is the final realization of what I have lovingly referred to as the “DREAMstatck” — **D**elightful **R**uby **E**xpressing **A**PIs **A**nd **M**arkup.
 
 In terms of a deployment strategy, we highly recommend [Render](https://render.com). With a simple `render.yaml` file, you can deploy both a static site and a dynamic server from a single codebase (monorepo) which are then both refreshed in tandem any time you commit and push to GitHub. We’ll post an entire article all about this deployment strategy in the coming days. And if you don’t expect a whole lot of traffic, you can even jettison the static site entirely and only deploy the server, letting Puma handle all incoming traffic. It’s not as crazy as you might think because any static-only content is _always_ pre-built and served as static assets (even if Bridgetown SSR is enabled) whenever you run `bin/bridgetown start`. The only downside would be it’s not cached on a global CDN as a fully-fledged static site on Render would be.
 
-### The Migration to Resources is Now Complete
+## The Migration to Resources is Now Complete
 
 The other major shift in Bridgetown 1.0 is the removal of the “legacy” content engine in favor of the new “resource” content engine. By consolidating all disparate types of content—datafiles, posts, pages, and custom collection entries—down to one singular and powerful concept (the resource), a vast number of limitations, confusing discrepancies, and outright bugs have been eliminated, and we’re well on our way to providing next-gen content modeling and authoring capabilities rivaling the world’s finest SSGs.
 
 I’ve been using resources exclusively on all Bridgetown site projects for a while now, and it’s been a blast. I simply can’t wait to see what Ruby web developers near and far create using this new technology. [Resource documentation is now available on our edge site](https://edge.bridgetownrb.com/docs/resources). (If you aren't in a position to migrate your codebase to use resources just yet, no worries. We'll continue to update the 0.2x version of Bridgetown with major bugfixes/security patches until well after 1.0's official release.)
 
-### More Awesomeness to Come (I18n, esbuild, ERB/Serbea starter kits, SSR enhancements…)
+## More Awesomeness to Come (I18n, esbuild, ERB/Serbea starter kits, SSR enhancements…)
 
 Bridgetown 1.0 “Pearl” is already the most action-packed release since the initial launch of the framework, but in many ways we’re just getting started. From full internationalization (I18n) features to blazing-fast frontend bundling via esbuild, from new supercharged starter kits to numerous SSR and Roda API improvements, we expect subsequent releases past 1.0 to continue the trend of making rapid progress for maximum DX (Developer Experience).
 
 We encourage you to [try Bridgetown 1.0 alpha today](https://edge.bridgetownrb.com), and then jump into our [Discord chat](https://discord.gg/4E6hktQGz4) to let us know what you think. Your feedback and ideas are invaluable in shaping the future of Bridgetown and helping make it the best site generator for Rubyists everywhere.
 
-### Upgrading from v0.2x
+## Upgrading from v0.2x
+
+{%@ Note type: :warning do %}
+There's now an official up-to-date [upgrade guide available here](/docs/installation/upgrade).
+{% end %}
 
 First, you’ll need to specify the new version in your Gemfile:
 

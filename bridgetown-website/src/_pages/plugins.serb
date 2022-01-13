@@ -1,66 +1,65 @@
 ~~~{%
 {
-  layout: :default,
   title: "Jazz Up Your Site with Themes & Plugins",
+  exclude_from_search: true,
   plugins: -> do
-    endpoint = "https://api.github.com/search/repositories?q=topic:bridgetown-plugin%20archived:false"
+    ::Builders::Versions.cache.getset("plugins") do
+      endpoint = "https://api.github.com/search/repositories?q=topic:bridgetown-plugin%20archived:false"
 
-    conn = Faraday.new(
-      url: endpoint,
-      headers: {"Accept" => "application/vnd.github.v3+json"}
-    )
-    if ENV["BRIDGETOWN_GITHUB_TOKEN"]
-      username, token = ENV["BRIDGETOWN_GITHUB_TOKEN"].split(":")
-      conn.basic_auth(username, token)
-    end
-    items = JSON.parse(conn.get.body)["items"].sort_by {|item| item["name"]}
+      conn = Faraday.new(
+        url: endpoint,
+        headers: {"Accept" => "application/vnd.github.v3+json"}
+      )
+      if ENV["BRIDGETOWN_GITHUB_TOKEN"]
+        username, token = ENV["BRIDGETOWN_GITHUB_TOKEN"].split(":")
+        conn.basic_auth(username, token)
+      end
+      items = JSON.parse(conn.get.body)["items"].sort_by {|item| item["name"]}
 
-    items.each do |item|
-      begin
-        gem_url = "https://raw.githubusercontent.com/#{item["full_name"]}/master/lib/#{item["name"]}/version.rb"
+      items.each do |item|
+        branchname = item.fetch("default_branch", "master")
+        gem_url = "https://raw.githubusercontent.com/#{item["full_name"]}/#{branchname}/lib/#{item["name"]}/version.rb"
         result = Faraday.get(gem_url).body
-        item["gem_version"] = result.match(/VERSION = "(.*?)"/)[1]
-      rescue
         begin
-          gem_url = "https://raw.githubusercontent.com/#{item["full_name"]}/main/lib/#{item["name"]}/version.rb"
-          result = Faraday.get(gem_url).body
           item["gem_version"] = result.match(/VERSION = "(.*?)"/)[1]
-        rescue
+        rescue NoMethodError
         end
       end
     end
-
-    items
   end
 }
 %}~~~
 
-{%= liquid_render "shared/page_layout" do %}
-  <h1 class="mt-3 mb-10 title is-1 has-text-centered has-text-brown">{{ page.data.title }}</h1>
+<p>
+  Peruse our growing collection of official and third-party plugins which provide new capabilities to your Bridgetown site. If you've authored a <a href="/docs/plugins/#creating-a-gem">plugin gem</a>, add the <code>bridgetown-plugin</code> topic to your GitHub repo to include it here.
+</p>
 
-  <p class="mb-10 has-text-centered">
-    Peruse our growing collection of official and third-party plugins which provide new capabilities to your Bridgetown site. If you've authored a <a href="/docs/plugins/#creating-a-gem" class="wavy-underline" data-no-swup>plugin gem</a>, add the <code class="has-background-white">bridgetown-plugin</code> topic to your GitHub repo to include it here.
-  </p>
-
+<!-- linthtml-configure tag-bans="false" -->
+<ul class="info-grid">
   {% page.data.plugins.each do |plugin| %}
-    <article class="box px-8 py-8 mb-10">
-      <a href="{{ plugin.html_url }}" rel="noopener">
-        <h2 class="mb-8 title is-3 has-text-info">
-          {{ plugin.name }}
-          {% if plugin.gem_version %}
-            <ui-label class="tag is-warning">v{{ plugin.gem_version }}</ui-label>
-          {% end %}
-        </h2>
-      </a>
+    <li><sl-card>
+      <div slot="header">
+        <a href="{{ plugin.html_url }}" style="text-decoration-thickness:1px; text-underline-offset: 0.18em">
+          <h3 style="color: var(--color-dark-brick)">
+            {{ plugin.name }}
+          </h3>
+        </a>
+      </div>
+      
+      <p>{{ plugin.description }}</p>
 
-      <article-content class="content">
-        {{ plugin.description }}
-      </article-content>
+      <div slot="footer">
+        {% if plugin.gem_version %}
+          <ui-label class="tags" style="padding-right:0.5rem">
+            <sl-tag type="success">v{{ plugin.gem_version }}</sl-tag>
+          </ui-label>
+        {% end %}
 
-      <article-author class="mt-8 author">
-        <img src="{{ plugin.owner.avatar_url }}" alt="{{ plugin.owner.login }}" class="avatar" loading="lazy" />
-        <a href="{{ plugin.owner.html_url }}" class="has-text-weight-bold" rel="noopener">{{ plugin.owner.login }}</a>
-      </article-author>
-    </article>
+        <ui-label>
+          <img src="{{ plugin.owner.avatar_url }}" alt="{{ plugin.owner.login }}" class="avatar" loading="lazy" />
+          <a href="{{ plugin.owner.html_url }}"rel="noopener">{{ plugin.owner.login }}</a>
+        </ul-layout>
+      </div>
+    </sl-card></li>
   {% end %}
-{% end %}
+</ul>

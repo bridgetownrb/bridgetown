@@ -1,6 +1,5 @@
 ---
-order: 6.5
-next_page_order: 6.75
+order: 230
 title: Automations
 top_section: Configuration
 category: automations

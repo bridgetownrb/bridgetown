@@ -12,9 +12,19 @@ Topics included a progress report on the [Bridgetown fundraising campaign](https
 
 **Enjoy!** (And stay tuned for another Twitter Spaces discussion in December…)
 
-<p style="text-align:center; margin-top:2rem"><audio controls src="https://jaredwhiteshow.s3-us-west-1.amazonaws.com/Bridgetown%20Twitter%20Spaces%20Recording%20-%202021-11-12.mp3" style="width:100%; max-width:350px; display: inline-block; border-radius: 14px; margin:0; background: #f47c3c"></audio></p>
+<p id="audio-wrapper" style="text-align:center; margin-top:2rem">
+  <audio controls src="https://jaredwhiteshow.s3-us-west-1.amazonaws.com/Bridgetown%20Twitter%20Spaces%20Recording%20-%202021-11-12.mp3" style="width:100%; max-width:350px; display: inline-block; border-radius: 14px; margin:0; background: #f47c3c"></audio>
+</p>
+<script type="module">
+  // Needed to workaround weird Turbo issue
 
-### Transcript
+  const audioTag = document.querySelector("article audio")
+  const tagHTML = audioTag.outerHTML
+  audioTag.remove()
+  setTimeout(() => document.querySelector("#audio-wrapper").innerHTML = tagHTML)
+</script>
+
+## Transcript
 
 _Automatic transcription by Happy Scribe, with light edits_
 {:style="text-align:center"}

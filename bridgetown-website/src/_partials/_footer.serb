@@ -1,0 +1,86 @@
+<svg-wrapper class="footer-wave">{{ svg "/images/waves/wave_1.svg" }}</svg-wrapper>
+<footer>
+  <layout-columns>
+    <layout-column>
+      <h4>
+        <img src="/images/bridgetown-avatar.png" loading="lazy" alt="icon" style="width:50px; vertical-align:-15px; margin-right:0.4em" /> <strong>Bridgetown</strong> is a Ruby-powered site generator.
+      </h4>
+
+      <p>
+        Version: <strong>v{{ Bridgetown::VERSION }}</strong> (codename “<strong>{{ Bridgetown::CODE_NAME }}</strong>”)<br/>
+        Follow Us: <strong><a href="https://twitter.com/{{ site.metadata.twitter }}" rel="noopener">@{{ site.metadata.twitter }}</strong></a><br/>
+        Read About Our <strong><a href="/docs/philosophy">Philosophy & Goals</a></strong>
+      </p>
+
+      <p>
+        Source code licensed <a href="https://opensource.org/licenses/mit-license.php" target="_blank">MIT</a>
+        <br>
+        Website content licensed <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>
+        <br>
+        Hosted by <a href="https://render.com" target="_blank">Render</a>
+      </p>
+
+    </layout-column>
+    <layout-column>
+      <h4>
+        <strong>Contribute</strong> on GitHub
+      </h4>
+
+      <p>
+        <strong><a href="https://github.com/sponsors/jaredcwhite">Become a Sponsor</a><br/></strong>
+        <a href="https://github.com/{{ site.metadata.github }}/issues">Browse Issues</a><br/>
+        <a href="https://github.com/{{ site.metadata.github }}/pulls">Submit a Pull Request</a><br/>
+        <a href="https://github.com/{{ site.metadata.github }}/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a>
+      </p>
+
+      <p>
+        <a href="https://github.com/{{ site.metadata.github }}/discussions">Discussions on GitHub</a><br/>
+        <a href="https://discord.gg/4E6hktQGz4">Discord Chat</a>
+      </p>
+    </layout-column>
+    <layout-column>
+      <h4>
+        <strong>Share</strong> on Social Media
+      </h4>
+
+      <p>
+        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbridgetownrb.com&via={{ site.metadata.twitter }}&text=Check%20out%20this%20awesome%20new%20static%20site%20generator%20built%20in%20Ruby%21&hashtags=SpinUpBridgetown%2CJamstack">
+          <sl-button type="primary" size="small">
+            <sl-icon slot="prefix" library="remixicon" name="logos/twitter-fill"></sl-icon>
+            Tweet
+          </sl-button>
+        </a>
+      </p>
+
+      <p>
+        Use hashtag <strong>#SpinUpBridgetown</strong> <br/>and spread the word! 😃
+      </p>
+
+      <p>
+        <a href="/feed.xml">
+          <sl-button type="warning" size="small">
+            <sl-icon slot="prefix" library="remixicon" name="device/rss-fill"></sl-icon>
+            News Feed
+          </sl-button>
+        </a>
+      </p>
+    </layout-column>
+  </layout-columns>
+
+  <p style="width:500px; max-width:100%; margin: 0 auto"><svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 2261 589" version="1.1" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-169.817,-343.833)">
+      <g transform="matrix(1,0,0,1,0,2.05086)">
+        <path d="M199.989,700.467C231.712,701.802 266.106,718.293 299.955,741.362C358.615,781.34 415.512,841.048 453.954,876.223C474.926,895.413 491.582,906.876 500.172,906.793C506.773,906.728 524.299,892.16 549.222,865.93C619.598,791.862 763.563,626.953 940.949,511.512C1050.61,440.149 1173.02,387.225 1299.78,389.661C1421.5,390.494 1543.52,446.408 1654.7,519.499C1830.26,634.91 1978.54,794.702 2050.43,866.793C2075.98,892.407 2093.64,906.67 2099.68,906.847C2108.72,907.112 2125.32,895.473 2145.98,875.864C2183.84,839.935 2239.57,778.858 2298.84,738.933C2332.29,716.398 2366.84,700.61 2400,700C2366.55,699.286 2331.06,713.811 2296.46,735.251C2235.43,773.068 2177.28,832.411 2137.97,867.111C2120.42,882.6 2107.74,893.636 2100.32,893.153C2099.01,893.067 2097.32,891.075 2094.41,888.622C2086.83,882.218 2075.89,870.854 2061.81,855.804C1991.54,780.665 1846.99,613.94 1671.94,493.83C1556.68,414.741 1428.08,356.648 1300.22,354.339C1166.91,353.581 1038.08,409.173 924.336,486.546C747.351,606.939 606.825,778.496 537.873,855.459C524.096,870.837 513.32,882.397 505.726,888.826C502.913,891.208 501.222,893.15 499.828,893.207C492.708,893.499 479.809,882.583 461.897,867.249C422.147,833.222 362.881,775.378 302.603,737.327C267.54,715.193 232.151,699.748 200.011,699.533C199.754,699.527 199.54,699.731 199.533,699.989C199.527,700.246 199.731,700.46 199.989,700.467Z" fill="var(--color-dark-green)"></path>
+      </g>
+      <g transform="matrix(1,0,0,1,0,-25.0032)">
+        <path d="M200.036,700.354C200.036,700.354 423.691,681.946 749.837,671.44C835.238,668.689 927.645,666.441 1024.92,664.985C1113.16,663.665 1205.38,662.786 1299.98,663.443C1374.99,663.276 1448.62,664.16 1520.02,665.092C1637.33,666.625 1748.6,669.177 1850.12,672.41C2175.26,682.764 2400,700 2400,700C2400,700 2175.91,673.569 1850.94,654.28C1749.39,648.251 1638,642.92 1520.54,639.693C1448.99,637.727 1375.19,636.876 1300.02,636.529C1205.19,636.963 1112.77,638.44 1024.37,641.252C926.966,644.35 834.475,648.801 749.036,653.817C423.033,672.957 199.964,699.646 199.964,699.646C199.769,699.666 199.626,699.84 199.646,700.036C199.666,700.231 199.84,700.374 200.036,700.354Z" fill="var(--color-dark-brick)"></path>
+      </g>
+    </g>
+  </svg></p>
+
+  <p style="color:var(--color-light-gray)"><small>
+    Website Design by <a href="https://whitefusion.studio" target="_blank">Whitefusion</a>
+    <br />
+    Logo & Branding by <a href="https://adrianvalenz.com" target="_blank">Adrian Valenzuela</a>
+  </small></p>
+</footer>

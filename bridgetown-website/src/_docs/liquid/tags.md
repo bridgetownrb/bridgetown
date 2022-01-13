@@ -1,14 +1,14 @@
 ---
 title: Liquid Tags
-hide_in_toc: true
+top_section: Designing Your Site
 order: 0
-category: liquid
+category: template-engines
 ---
 
 All of the standard Liquid
 [tags](https://shopify.github.io/liquid/tags/control-flow/) are supported.
 Bridgetown has a few built in tags to help you build your site. You can also create
-your own tags using [plugins]({{ '/docs/plugins/tags/' | relative_url }}).
+your own tags using [plugins](/docs/plugins/tags).
 
 ## Component rendering
 
@@ -16,7 +16,7 @@ You can use the `render` and `rendercontent` tags to embed content and template 
 
 ## Find tag
 
-New in Bridgetown 0.17, you can now use the `find` tag to loop through a data object or collection and pull out one or more items to use in your Liquid template. Whereas before you could use the [`where_exp` filter](/docs/liquid/filters/#binary-operators-in-where_exp-filter){:data-no-swup="true"} to accomplish a similar purpose, this tag is more succinct and has support for single item variables.
+You can use the `find` tag to loop through a data object or collection and pull out one or more items to use in your Liquid template. Whereas before you could use the [`where_exp` filter](/docs/liquid/filters/#binary-operators-in-where_exp-filter) to accomplish a similar purpose, this tag is more succinct and has support for single item variables.
 
 The syntax of the tag is as follows:
 
@@ -48,7 +48,7 @@ Or to find multiple items and assign that array to the variable `albums`:
 ```
 {% endraw %}
 
-Each expression (separated by a comma) adds an "AND" clause to the conditional logic. If you need OR logic instead, you can still use the `where_exp` filter, or you can write additional `find` tags and [concat](https://shopify.github.io/liquid/filters/concat/){:rel="noopener"} the arrays together (you'll probably also want to use the `uniq` filter to ensure you don't end up with duplicates).
+Each expression (separated by a comma) adds an "AND" clause to the conditional logic. If you need OR logic instead, you can still use the `where_exp` filter, or you can write additional `find` tags and [concat](https://shopify.github.io/liquid/filters/concat/) the arrays together (you'll probably also want to use the `uniq` filter to ensure you don't end up with duplicates).
 
 {% raw %}
 ```liquid
@@ -108,22 +108,20 @@ language identifier. To find the appropriate identifier to use for the language
 you want to highlight, look for the “short name” on the [Rouge
 wiki](https://github.com/jayferd/rouge/wiki/List-of-supported-languages-and-lexers).
 
-{% rendercontent "docs/note",
-      type: "warning",
-      extra_margin: true,
-      title: "Bridgetown processes all Liquid filters in code blocks" %}
+{%@ Note type: :warning do %}
+  #### Bridgetown processes all Liquid filters in code blocks
 
   If you are using a language that contains curly braces, you will likely need to
   place <code>{&#37; raw &#37;}</code> and <code>{&#37; endraw &#37;}</code> tags
   around your code. If needed, you can add `render_with_liquid: false` in your
   front matter to disable Liquid entirely for a particular document.
-{% endrendercontent %}
+{% end %}
 
-{% rendercontent "docs/note" %}
+{%@ Note do %}
   You can also use fenced code blocks in Markdown (starting and ending with three
   backticks <code>```</code>) instead of using the `highlight` tag. However, the
   `highlight` tag includes additional features like line numbers (see below).
-{% endrendercontent %}
+{% end %}
 
 
 ### Line numbers

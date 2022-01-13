@@ -1,7 +1,8 @@
 ---
 title: Bridgetown on Ubuntu
-hide_in_toc: true
-category: installation
+top_section: Setup
+category: installation-guides
+back_to: installation
 ruby_version: 3.0.2
 order: 0
 ---
@@ -81,5 +82,5 @@ ruby -v
 
 And that's it! Check out [rbenv command references](https://github.com/rbenv/rbenv#command-reference) to learn how to use different versions of Ruby in your projects.
 
-{% render "docs/install/node_on_linux" %}
-{% render "docs/install/bridgetown", version: bridgetown.version, edge_version: site.data.edge_version %}
+{%@ "docs/install/node_on_linux" %}
+{%@ "docs/install/bridgetown" %}

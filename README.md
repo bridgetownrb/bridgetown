@@ -1,14 +1,14 @@
 <p align="center">
-  <a href="https://www.bridgetownrb.com">
-    <img src="https://www.bridgetownrb.com/images/bridgetown-logo-twitter-card.jpg" alt="Bridgetown" width="750" />
+  <a href="https://edge.bridgetownrb.com">
+    <img src="https://edge.bridgetownrb.com/images/bridgetown-logo-twitter-card.jpg" alt="Bridgetown" width="750" />
   </a>
 </p>
 
 <h1 align="center">
-  <a href="https://www.bridgetownrb.com">Bridgetown</a>
+  <a href="https://edge.bridgetownrb.com">Bridgetown</a>
 </h1>
 
-Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern [Jamstack](https://bridgetownrb.com/docs/jamstack/) era. Bridgetown takes your content, API data, and frontend assets; renders templates in Markdown, Liquid, ERB, and many other formats; and exports a complete website ready to be served by fast Jamstack services like Vercel or Render or traditional web servers like Caddy or Nginx.
+Bridgetown is a next-generation, progressive site generator & fullstack framework, powered by Ruby. Bridgetown takes your content, API data, and frontend assets; renders templates in Markdown, Liquid, ERB, and many other formats; and exports a complete website ready to be served by fast CDNs like Render or traditional web servers like Caddy or Nginx.
 
 [![Build Status](https://github.com/bridgetownrb/bridgetown/workflows/build/badge.svg)](https://github.com/bridgetownrb/bridgetown/actions?query=workflow%3Abuild+branch%3Amain)
 [![Gem Version](https://img.shields.io/gem/v/bridgetown.svg)](https://rubygems.org/gems/bridgetown)

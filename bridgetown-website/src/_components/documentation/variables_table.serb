@@ -1,0 +1,16 @@
+<table class="settings {{ @size }}-output">
+  <thead>
+    <tr>
+      <th>Variable</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+  {%- @vars&.each do |var| -%}
+    <tr>
+      <td><p><code>{{ var.name | safe }}</code></p></td>
+      <td><p>{{ var.description | safe }}</p></td>
+    </tr>
+  {%- end -%}
+  </tbody>
+</table>

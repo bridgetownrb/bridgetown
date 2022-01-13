@@ -2,13 +2,13 @@
 title: Ruby Components
 template_engine: erb
 category: components
-hide_in_toc: true
+top_section: Designing Your Site
 order: 0
 ---
 
 A component is a reusable piece of template logic that can be included in any part of the site, and a full suite of components can comprise what is often called a "design system". You can render Ruby component objects directly in your Ruby-based templates, and you can render components from within other components. This provides the basis for a fully-featured view component architecture for ERB and beyond.
 
-Ruby components can be combined with front-end component strategies using **web components** or other JavaScript libraries/frameworks for a [hybrid static/dynamic approach](/docs/components#hybrid-components){:data-no-swup="true"}.
+Ruby components can be combined with front-end component strategies using **web components** or other JavaScript libraries/frameworks for a [hybrid static/dynamic approach](/docs/components#hybrid-components).
 
 <%= toc %>
 
@@ -61,13 +61,13 @@ end
   </field-component>
 ```
 
-<%= liquid_render "docs/note", type: "warning", extra_margin: true do %>
+<%= render Note.new type: "warning" do %>
 Bear in mind that Ruby components aren't accessible from Liquid templates. So if you need a component which can be used in either templating system, consider writing a Liquid component. [Read more information here.](/docs/components/liquid)
 <% end %>
 
 ## Use Bridgetown::Component for Advanced Component Templates
 
-While squggly heredocs are nice, what most people probably want to [the ability to write a template](/docs/erb-and-beyond) in ERB, Haml, Slim, or Serbea.
+While squggly heredocs are nice, what most people probably want to [the ability to write a template](/docs/templates/erb-and-beyond) in ERB, Haml, Slim, or Serbea.
 
 Starting in Bridgetown 0.21, you can subclass your components from `Bridgetown::Component` and then add a template file right next to the component's `.rb` file. The template will automatically get rendered by the component and you won't need to define a `render_in` method yourself. For example, if we were to translate the previous heredoc to a template-based component:
 
@@ -257,7 +257,7 @@ Now run `yarn start`, load your website at localhost:4000, and you should see th
 
 So far, pretty standard fare for ViewComponent, but you'll notice we had to add `include Bridgetown::ViewComponentHelpers` to the definition of our `Shared::Header` class. That's because, out of the box, ViewComponent doesn't know about any of Bridgetown's helpers. We could have injected helpers directly into the base class, but that might adversely affect components written with Rails in mind, so at least in this early phase we're including the module manually.
 
-<%= liquid_render "docs/note", extra_margin: true do %>
+<%= render Note.new do %>
 As a shortcut, you could create your own base class, say `SiteViewComponent`, which inherits from `ViewComponent::Base`, include the `Bridgetown::ViewComponentHelpers` module, and then subclass all your site components from `SiteViewComponent`.
 <% end %>
 

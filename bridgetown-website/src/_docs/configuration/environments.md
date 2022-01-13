@@ -1,8 +1,9 @@
 ---
 title: Environments
-hide_in_toc: true
 order: 0
-category: configuration
+top_section: Configuration
+category: customize-your-site
+back_to: configuration
 ---
 
 The "environment" of a Bridgetown site can affect the way certain processes work. Typically your site is run in the `development` environment. When running automated tests it should be run in the `test` environment, and upon deployment it should be run in the `production` environment.
@@ -45,9 +46,9 @@ Suppose you set this conditional statement in your code:
 When you build your Bridgetown site, the content inside the `if` statement won't be
 rendered unless you also specify a `production` environment.
 
-{% rendercontent "docs/note" %}
-  If you you're using ERB or another Ruby template language, you can write `Bridgetown.env.development?`, `Bridgetown.env.production?`, and so forth. Refer to the [ERB and Beyond](/docs/erb-and-beyond) docs for further details.
-{% endrendercontent %}
+{%@ Note do %}
+  If you you're using ERB or another Ruby template language, you can write `Bridgetown.env.development?`, `Bridgetown.env.production?`, and so forth. Refer to the [ERB and Beyond](/docs/template-engines/erb-and-beyond) docs for further details.
+{% end %}
 
 The default value for `BRIDGETOWN_ENV` is `development`. Thus if you omit
 `BRIDGETOWN_ENV` from the build/serve commands, the default value will be
@@ -91,6 +92,8 @@ The `development` environment will build documents that are marked as unpublishe
 well as having a future date, whereas the `staging` environment will only
 build unpublished. And the `production` environment would exclude both sets.
 
-{% rendercontent "docs/note", title: "Top Tip: Accessing the Environment in Your Ruby Code and Plugins", extra_margin: true %}
+{%@ Note do %}
+  #### Top Tip: Accessing the Environment in Your Ruby Code and Plugins
+
   Anywhere in Ruby code you write, you can check the current environment via `Bridgetown.environment`. You might decide to perform certain tests or verify data or perform some kind of operation in a `development` or `test` environment that you'd leave out in a `production` environment (or visa-versa).
-{% endrendercontent %}
+{% end %}

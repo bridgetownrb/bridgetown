@@ -1,11 +1,11 @@
 ---
 title: Helpers
-hide_in_toc: true
 order: 0
+top_section: Configuration
 category: plugins
 ---
 
-Helpers are Ruby methods you can provide to Tilt-based templates ([ERB, Slim, etc.](/docs/erb-and-beyond)) to transform data or output new content in various ways.
+Helpers are Ruby methods you can provide to Tilt-based templates ([ERB, Slim, etc.](/docs/template-engines/erb-and-beyond)) to transform data or output new content in various ways.
 
 Example:
 
@@ -120,4 +120,4 @@ Now just call that helper in your template and use the `label` argument:
 
 ## Helpers vs. Filters vs. Tags
 
-Filters and tags are aspects of the [Liquid](/docs/liquid) template engine which comes installed by default. The behavior of both filters and tags are roughly analogous to helpers in [Tilt-based templates](/docs/erb-and-beyond). Specialized Bridgetown filters are also made available as helpers, as are a few tags such as `webpack_path`.
+Filters and tags are aspects of the [Liquid](/docs/template-engines/liquid) template engine which comes installed by default. The behavior of both filters and tags are roughly analogous to helpers in [Tilt-based templates](/docs/template-engines/erb-and-beyond). Specialized Bridgetown filters are also made available as helpers, as are a few tags such as `webpack_path`.

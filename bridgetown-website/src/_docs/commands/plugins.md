@@ -1,7 +1,7 @@
 ---
 title: Plugins Command
-hide_in_toc: true
 order: 0
+top_section: Setup
 category: command-line-usage
 ---
 
