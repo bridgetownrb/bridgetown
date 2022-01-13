@@ -21,6 +21,8 @@ class Builders::Versions < SiteBuilder
     hook :site, :post_read do
       if Bridgetown::VERSION.include?("alpha") || Bridgetown::VERSION.include?("beta")
         site.data.edge_version = true
+
+        site.config.url = site.config.url.sub("www.", "edge.")
       end
     end
   end

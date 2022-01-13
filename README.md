@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://edge.bridgetownrb.com">
-    <img src="https://edge.bridgetownrb.com/images/bridgetown-logo-twitter-card.jpg" alt="Bridgetown" width="750" />
+    <img src="https://edge.bridgetownrb.com/images/bridgetown-logo-twitter-card.jpg?v=1" alt="Bridgetown" width="750" />
   </a>
 </p>
 
