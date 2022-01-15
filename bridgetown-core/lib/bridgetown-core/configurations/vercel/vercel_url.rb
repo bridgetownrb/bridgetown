@@ -1,4 +1,4 @@
-class VercelUrl < SiteBuilder
+class Builders::VercelUrl < SiteBuilder
   def build
     hook :site, :pre_render do |s|
       next unless ENV["VERCEL_URL"] && ENV["VERCEL_ENV"] != "production"
