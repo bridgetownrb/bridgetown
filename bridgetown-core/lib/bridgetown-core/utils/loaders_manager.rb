@@ -33,6 +33,12 @@ module Bridgetown
           return
         end
 
+        if defined?(ActiveSupport::RubyFeatures) && ActiveSupport::RubyFeatures::CLASS_SUBCLASSES
+          ActiveSupport::DescendantsTracker.clear([value.superclass])
+          return
+        end
+
+        # TODO: this could probably be refactored to work like the above
         ActiveSupport::DescendantsTracker.class_variable_get(
           :@@direct_descendants
         )[value.superclass]&.reject! { _1 == value }
