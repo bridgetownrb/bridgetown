@@ -30,7 +30,7 @@ module Bridgetown
       def initialize(model:)
         @model = model
         @site = model.site
-        @data = front_matter_defaults
+        @data = collection.data? ? HashWithDotAccess::Hash.new : front_matter_defaults
 
         trigger_hooks :post_init
       end
