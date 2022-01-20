@@ -17,6 +17,7 @@ The configurations we include are:
 - [Bridgetown recommended PostCSS plugins](#bridgetown-recommended-postcss-plugins) (`bt-postcss`)
 - [Render YAML Configuration](#render-yaml-configuration) (`render`)
 - [Netlify TOML Configuration](#netlify-toml-configuration) (`netlify`)
+- [Vercel JSON Configuration](#vercel-json-configuration) (`vercel`)
 - [Automated Test Suite using Minitest](#automated-test-suite-using-minitest) (`minitesting`)
 - [Cypress](#cypress) (`cypress`)
 
@@ -118,6 +119,16 @@ bin/bridgetown configure render
 
 ```sh
 bin/bridgetown configure netlify
+```
+
+### Vercel JSON Configuration
+
+⚙️ Adds a basic configuration to your site for use in [Vercel](https://vercel.com) deployments along with a builder to ensure Bridgetown uses the correct `absolute_url` on preview deployments.
+
+🛠 **Configure using:**
+
+```sh
+bin/bridgetown configure vercel
 ```
 
 ### Automated Test Suite using Minitest
