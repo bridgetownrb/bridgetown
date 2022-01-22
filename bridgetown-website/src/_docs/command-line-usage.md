@@ -16,6 +16,7 @@ Available commands are:
 {% raw %}
 * `bridgetown new PATH` - Creates a new Bridgetown site at the specified path with a default configuration and typical site folder structure.
   * Use the `--apply=` or `-a` option to [apply an automation](/docs/automations) to the new site.
+  * Use the `--configure=` or `-c` option to [apply one or more bundled configurations](/docs/bundled-configurations) to the new site.
   * Use the `-t` option to choose ERB or Serbea templates instead of Liquid (aka `-t erb`).
   * Use the `-e` option to choose Webpack instead of esbuild for your frontend bundler (aka `-e webpack`).
   * When using Webpack, you can also choose to use Sass over PostCSS by adding the `--use-sass` option.
