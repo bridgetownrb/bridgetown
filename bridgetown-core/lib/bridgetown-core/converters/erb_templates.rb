@@ -79,10 +79,6 @@ module Bridgetown
       Erubi.h(input)
     end
 
-    def self.site_cache
-      @cache ||= {}
-    end
-
     def partial(partial_name, options = {})
       options.merge!(options[:locals]) if options[:locals]
       options[:content] = yield if block_given?
@@ -91,17 +87,15 @@ module Bridgetown
       partial_segments.last.sub!(%r!^!, "_")
       partial_name = partial_segments.join("/")
 
+      # TODO: see if there's a workaround for this to speed up performance
       partial_path = site.in_source_dir(site.config[:partials_dir], "#{partial_name}.erb")
-      cache_key = "#{partial_path}-#{File.stat(partial_path).mtime.to_i}"
 
-      tmpl = begin
-        self.class.site_cache[cache_key] ||= Tilt::ErubiTemplate.new(
-          partial_path,
-          outvar: "@_erbout",
-          bufval: "Bridgetown::OutputBuffer.new",
-          engine_class: ERBEngine
-        )
-      end
+      tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"] ||= Tilt::ErubiTemplate.new(
+        partial_path,
+        outvar: "@_erbout",
+        bufval: "Bridgetown::OutputBuffer.new",
+        engine_class: ERBEngine
+      )
 
       tmpl.render(self, options)
     end
