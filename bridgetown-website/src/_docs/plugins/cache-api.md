@@ -5,7 +5,7 @@ top_section: Configuration
 category: plugins
 ---
 
-Bridgetown includes a Caching API which is used both internally as well as exposed for plugins. It can be used to cache the output of deterministic functions to speed up site generation. This cache will be persistent across builds, but
+Bridgetown includes a Caching API which is used both internally as well as exposed for plugins and components. It can be used to cache the output of deterministic functions to speed up site generation. This cache will be persistent across builds (saved to [byte streams](https://ruby-doc.org/core-3.1.0/Marshal.html) inside `.bridgetown-cache`), but
 cleared when Bridgetown detects any changes to `bridgetown.config.yml`.
 
 There's also a per-build, temporary, in-memory cache hash you can use to save any expensive operations or objects within a single build process.

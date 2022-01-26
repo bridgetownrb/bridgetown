@@ -202,6 +202,10 @@ module MySite
 end
 ```
 
+## Cache API
+
+Bridgetown features a [Caching API](/docs/plugins/cache-api) which is used both internally as well as exposed for plugins and components. It can be used to cache the output of deterministic functions to speed up site generation.
+
 ## Zeitwerk and Autoloading
 
 Bridgetown 1.0 brings with it a new autoloading mechanism using [Zeitwerk](https://github.com/fxn/zeitwerk), the same code loader used by Rails and many other Ruby-based projects. Zeitwerk uses a specific naming convension so the paths of your Ruby files and the namespaces/modules/classes of your Ruby code are aligned. For example:
@@ -316,7 +320,3 @@ As always, if you have any questions or need support in creating your plugin,
   and other content are working as expected and won't break in the future as code
   gets updated.
 {% end %}
-
-## Cache API
-
-Bridgetown includes a [Caching API](/docs/plugins/cache-api/) which is used both internally as well as exposed for plugins. It can be used to cache the output of deterministic functions to speed up site generation.
