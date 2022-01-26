@@ -48,10 +48,10 @@ Say howdy 👋 to our growing list of the first ~~twenty~~ twenty-five and count
 |<a href="https://github.com/MikeRogers0">@MikeRogers0</a>|<a href="https://github.com/jespr">@jespr</a>|<a href="https://github.com/jc00ke">@jc00ke</a>|<a href="https://github.com/matoni109">@matoni109</a>|<a href="https://github.com/rootnoob">@rootnoob</a>|
 |<a href="https://mikerogers.io">Website</a>||<a href="https://relativepath.io/">Website</a>|||
 
-|<img src="https://avatars.githubusercontent.com/collindonnell?s=256" alt="collindonnell" width="128" />|<img src="https://avatars.githubusercontent.com/AbuMareBear?s=256" alt="AbuMareBear" width="128" />|<img src="https://avatars.githubusercontent.com/luctus?s=256" alt="luctus" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/collindonnell">@collindonnell</a>|<a href="https://github.com/AbuMareBear">@AbuMareBear</a>|<a href="https://github.com/luctus">@luctus</a>|You Next?|
-|<a href="https://keyandnib.com">Website</a>||<a href="https://dailytics.com">Website</a>||
+|<img src="https://avatars.githubusercontent.com/collindonnell?s=256" alt="collindonnell" width="128" />|<img src="https://avatars.githubusercontent.com/AbuMareBear?s=256" alt="AbuMareBear" width="128" />|<img src="https://avatars.githubusercontent.com/luctus?s=256" alt="luctus" width="128" />|<img src="https://avatars.githubusercontent.com/pascallaliberte?s=256" alt="pascallaliberte" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/collindonnell">@collindonnell</a>|<a href="https://github.com/AbuMareBear">@AbuMareBear</a>|<a href="https://github.com/luctus">@luctus</a>|<a href="https://github.com/pascallaliberte">@pascallaliberte</a>|You Next?|
+|<a href="https://keyandnib.com">Website</a>||<a href="https://dailytics.com">Website</a>|<a href="https://pascal.works">Website</a>||
 
 ## Commercial Support
 
@@ -148,10 +148,15 @@ Bridgetown is built by:
 |<a href="https://github.com/erikyuzwa">@erikyuzwa</a>|<a href="https://github.com/eclectic-coding">@eclectic-coding</a>|<a href="https://github.com/collindonnell">@collindonnell</a>|<a href="https://github.com/juhat">@juhat</a>|<a href="https://github.com/debashis-biswal">@debashis-biswal</a>|
 |Calgary, AB|North Carolina, US|Portland, OR|Budapest, Hungary||
 
-|<img src="https://avatars.githubusercontent.com/nachoal?s=256" alt="nachoal" width="128" />|<img src="https://avatars.githubusercontent.com/deivid-rodriguez?s=256" alt="deivid-rodriguez" width="128" />|<img src="https://avatars.githubusercontent.com/Eric-Guo?s=256" alt="Eric-Guo" width="128" />|<img src="https://avatars.githubusercontent.com/jacobherrington?s=256" alt="jacobherrington" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|<img src="https://avatars.githubusercontent.com/nachoal?s=256" alt="nachoal" width="128" />|<img src="https://avatars.githubusercontent.com/deivid-rodriguez?s=256" alt="deivid-rodriguez" width="128" />|<img src="https://avatars.githubusercontent.com/Eric-Guo?s=256" alt="Eric-Guo" width="128" />|<img src="https://avatars.githubusercontent.com/jacobherrington?s=256" alt="jacobherrington" width="128" />|<img src="https://avatars.githubusercontent.com/fpsvogel?s=256" alt="" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/nachoal">@nachoal</a>|<a href="https://github.com/deivid-rodriguez">@deivid-rodriguez</a>|<a href="https://github.com/Eric-Guo">@Eric-Guo</a>|<a href="https://github.com/jacobherrington">@jacobherrington</a>|You Next?|
-|CDMX, México|Madrid, Spain|Shanghai, China|Fayetteville, AR|Anywhere|
+|<a href="https://github.com/nachoal">@nachoal</a>|<a href="https://github.com/deivid-rodriguez">@deivid-rodriguez</a>|<a href="https://github.com/Eric-Guo">@Eric-Guo</a>|<a href="https://github.com/jacobherrington">@jacobherrington</a>|<a href="https://github.com/fpsvogel">@fpsvogel</a>|
+|CDMX, México|Madrid, Spain|Shanghai, China|Fayetteville, AR|Lexington, KY|
+
+|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|
+|You Next?|
+|Anywhere|
 
 Interested in joining the Bridgetown Core Team? Send a DM to Jared in [Discord](https://discord.gg/4E6hktQGz4) and let's chat!
 

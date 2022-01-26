@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## 1.0.0.beta2 — 2022-01-26
+
+- Partials rendering speedup by nearly 8x (!) [#489](https://github.com/bridgetownrb/bridgetown/pull/489) ([jaredcwhite](https://github.com/jaredcwhite))
+- Map Stimulus controller filenames to identifiers as in the Stimulus docs [#486](https://github.com/bridgetownrb/bridgetown/pull/486) ([fpsvogel](https://github.com/fpsvogel))
+- Fix for issue #482: don't load front matter defaults for data collection ([jaredcwhite](https://github.com/jaredcwhite))
+- Add bundled configuration for Vercel [#483](https://github.com/bridgetownrb/bridgetown/pull/483) ([andrewmcodes](https://github.com/andrewmcodes))
+- Descendants tracker fix for issue #484 ([jaredcwhite](https://github.com/jaredcwhite))
+
 ## 1.0.0.beta1 — 2022-01-13
 
 ### General
