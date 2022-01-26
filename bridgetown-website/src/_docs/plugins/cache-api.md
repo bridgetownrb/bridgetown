@@ -8,6 +8,10 @@ category: plugins
 Bridgetown includes a Caching API which is used both internally as well as exposed for plugins. It can be used to cache the output of deterministic functions to speed up site generation. This cache will be persistent across builds, but
 cleared when Bridgetown detects any changes to `bridgetown.config.yml`.
 
+There's also a per-build, temporary, in-memory cache hash you can use to save any expensive operations or objects within a single build process.
+
+{{ toc }}
+
 ## Usage
 
 ### Bridgetown::Cache.new(name) → new_cache
@@ -65,23 +69,35 @@ is built.
 This will clear all cached objects from a particular Cache. The Cache will be
 empty, both in memory and on disk.
 
-### The following methods should probably only be used in special circumstances:
+## Additional Methods
 
-#### cache[key] → value
+The following methods should probably only be used in special circumstances:
+
+### cache[key] → value
 
 Fetches `key` from Cache and returns its `value`. Raises if `key` does not exist
 in Cache.
 
-#### cache[key] = value
+### cache[key] = value
 
 Adds `value` to Cache under `key`.
 Returns nothing.
 
-#### key?(key) → true or false
+### key?(key) → true or false
 
 Returns `true` if `key` already exists in Cache. False otherwise.
 
-#### delete(key)
+### delete(key)
 
 Removes `key` from Cache.
 Returns nothing.
+
+## Temporary In-Memory Cache
+
+The `site` object (available from within most code paths, or you can use `Bridgetown::Current.site`) exposes a `tmp_cache` hash (of type `HashWithDotAccess::Hash`). You can use this to save and recall data. Using memoization makes this quite easy:
+
+```ruby
+temporary_value = site.tmp_cache[:temporary_value] ||= do_expensive_stuff
+```
+
+Thus the `do_expensive_stuff` operation will run only once for the lifetime of a single build, even if you need to instantiate the `temporary_value` variable a myriad of times.
