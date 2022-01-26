@@ -53,6 +53,7 @@ module Bridgetown
       @reader          = Reader.new(self)
       @liquid_renderer = LiquidRenderer.new(self)
 
+      Bridgetown::Cache.base_cache["site_tmp"] = {}.with_dot_access
       ensure_not_in_dest
 
       Bridgetown::Current.site = self
@@ -72,6 +73,10 @@ module Bridgetown
                 "Destination directory cannot be or contain the Source directory."
         end
       end
+    end
+
+    def tmp_cache
+      Bridgetown::Cache.base_cache["site_tmp"]
     end
 
     def inspect

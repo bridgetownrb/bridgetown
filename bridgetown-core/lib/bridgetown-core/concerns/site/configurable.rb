@@ -91,6 +91,8 @@ class Bridgetown::Site
     #   {Bridgetown.sanitized_path} method.
     # @return [Array<String>] Return an array of updated paths if multiple paths given.
     def in_source_dir(*paths)
+      # TODO: this operation is expensive across thousands of iterations. Look for ways
+      # to workaround use of this wherever possible...
       paths.reduce(source) do |base, path|
         Bridgetown.sanitized_path(base, path.to_s)
       end

@@ -41,6 +41,7 @@ class Bridgetown::Site
       @documents = nil
       @docs_to_write = nil
       @liquid_renderer.reset
+      tmp_cache.clear
 
       if soft
         refresh_layouts_and_data

@@ -83,16 +83,14 @@ module Bridgetown
       options.merge!(options[:locals]) if options[:locals]
       options[:content] = yield if block_given?
 
-      partial_segments = partial_name.split("/")
-      partial_segments.last.sub!(%r!^!, "_")
-      partial_name = partial_segments.join("/")
-
-      Tilt::ErubiTemplate.new(
-        site.in_source_dir(site.config[:partials_dir], "#{partial_name}.erb"),
+      partial_path = _partial_path(partial_name, "erb")
+      tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"] ||= Tilt::ErubiTemplate.new(
+        partial_path,
         outvar: "@_erbout",
         bufval: "Bridgetown::OutputBuffer.new",
         engine_class: ERBEngine
-      ).render(self, options)
+      )
+      tmpl.render(self, options)
     end
   end
 

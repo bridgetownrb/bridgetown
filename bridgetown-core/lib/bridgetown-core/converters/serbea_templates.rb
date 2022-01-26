@@ -11,13 +11,10 @@ module Bridgetown
       options.merge!(options[:locals]) if options[:locals]
       options[:content] = capture(&block) if block
 
-      partial_segments = partial_name.split("/")
-      partial_segments.last.sub!(%r!^!, "_")
-      partial_name = partial_segments.join("/")
-
-      Tilt::SerbeaTemplate.new(
-        site.in_source_dir(site.config[:partials_dir], "#{partial_name}.serb")
-      ).render(self, options)
+      partial_path = _partial_path(partial_name, "serb")
+      tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"] ||=
+        Tilt::SerbeaTemplate.new(partial_path)
+      tmpl.render(self, options)
     end
   end
 
