@@ -107,5 +107,12 @@ module Bridgetown
         strict_variables: site.config["liquid"]["strict_variables"],
       }
     end
+
+    def _partial_path(partial_name, ext)
+      partial_name = partial_name.split("/").tap { _1.last.prepend("_") }.join("/")
+
+      # TODO: see if there's a workaround for this to speed up performance
+      site.in_source_dir(site.config[:partials_dir], "#{partial_name}.#{ext}")
+    end
   end
 end

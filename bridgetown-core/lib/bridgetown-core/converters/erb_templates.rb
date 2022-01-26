@@ -83,20 +83,13 @@ module Bridgetown
       options.merge!(options[:locals]) if options[:locals]
       options[:content] = yield if block_given?
 
-      partial_segments = partial_name.split("/")
-      partial_segments.last.sub!(%r!^!, "_")
-      partial_name = partial_segments.join("/")
-
-      # TODO: see if there's a workaround for this to speed up performance
-      partial_path = site.in_source_dir(site.config[:partials_dir], "#{partial_name}.erb")
-
+      partial_path = _partial_path(partial_name, "erb")
       tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"] ||= Tilt::ErubiTemplate.new(
         partial_path,
         outvar: "@_erbout",
         bufval: "Bridgetown::OutputBuffer.new",
         engine_class: ERBEngine
       )
-
       tmpl.render(self, options)
     end
   end
