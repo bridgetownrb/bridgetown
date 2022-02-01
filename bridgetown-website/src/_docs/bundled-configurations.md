@@ -26,7 +26,7 @@ The full list of configurations can also be seen by running `bridgetown configur
 Bundled configurations can also be run while creating a new Bridgetown project using the `--configure=` or `-c` flag and passing in a comma-separated list of configurations.
 
 ```sh
-bridgetown new my_project -c swup,purgecss
+bridgetown new my_project -c turbo,purgecss
 ```
 
 ## Configuration Setup Details
