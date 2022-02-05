@@ -34,7 +34,7 @@ module Bridgetown
       # rubocop:disable Naming/AccessorMethodName
       def set_url(url_value)
         @path = url_value.delete_prefix "/"
-        @dir  = File.dirname(@path)
+        @dir = @path.ends_with?("/") ? @path : File.dirname(@path)
         @url = url_value
       end
       # rubocop:enable Naming/AccessorMethodName
