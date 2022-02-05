@@ -13,8 +13,7 @@ class TestGeneratedPage < BridgetownUnitTest
   end
 
   def do_render(page)
-    renderer = Bridgetown::Renderer.new(@site, page)
-    renderer.render_document
+    page.transform!
   end
 
   def render_and_write
@@ -112,7 +111,7 @@ class TestGeneratedPage < BridgetownUnitTest
     end
   end
 
-  context "A GeneratedPage (legacy)" do
+  context "A GeneratedPage" do
     setup do
       clear_dest
       @site = Site.new(Bridgetown.configuration(

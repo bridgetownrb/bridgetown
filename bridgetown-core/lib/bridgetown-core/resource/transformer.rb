@@ -85,40 +85,10 @@ module Bridgetown
           .fetch(:output_ext)
       end
 
-      # @return [Array<Bridgetown::Layout>]
-      def validated_layouts
-        layout = site.layouts[resource.data.layout]
-        warn_on_missing_layout layout, resource.data.layout
-
-        layout_list = Set.new([layout])
-        while layout
-          layout_name = layout.data.layout
-          layout = site.layouts[layout_name]
-          warn_on_missing_layout layout, layout_name
-
-          layout_list << layout
-        end
-
-        layout_list.to_a.compact
-      end
-
-      def warn_on_missing_layout(layout, layout_name)
-        return unless layout.nil? && layout_name
-
-        Bridgetown.logger.warn(
-          "Build Warning:",
-          "Layout '#{layout_name}' requested via #{resource.relative_path} does not exist."
-        )
-      end
-
       ### Transformation Actions
 
-      def run_conversions # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-        input = resource.content.to_s
-
-        # @param content [String]
-        # @param converter [Bridgetown::Converter]
-        resource.content = converters.each_with_index.inject(input) do |content, (converter, index)|
+      def run_conversions # rubocop:disable Metrics/AbcSize
+        resource.content = converters.each_with_index.inject(resource.content.to_s) do |content, (converter, index)| # rubocop:disable Layout/LineLength
           output = if converter.method(:convert).arity == 1
                      converter.convert content
                    else
@@ -143,7 +113,7 @@ module Bridgetown
       def place_into_layouts
         Bridgetown.logger.debug "Placing in Layouts:", resource.relative_path
         output = resource.content.dup
-        validated_layouts.each do |layout|
+        site.validated_layouts_for(resource, resource.data.layout).each do |layout|
           output = run_layout_conversions layout, output
         end
         resource.output = output
