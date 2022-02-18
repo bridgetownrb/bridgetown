@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## 1.0.0.beta3 — 2022-02-18
+
+- Project repo Gemfile cleanup
+- Remove the Renderer class by merging into GeneratedPage [#492](https://github.com/bridgetownrb/bridgetown/pull/492) ([jaredcwhite](https://github.com/jaredcwhite))
+- Cleaner paginated page URL [#491](https://github.com/bridgetownrb/bridgetown/pull/491) ([jaredcwhite](https://github.com/jaredcwhite))
+- Documentation updates by [fpsvogel](https://github.com/fpsvogel) and [subsevenx](https://github.com/subsevenx)
+
 ## 1.0.0.beta2 — 2022-01-26
 
 - Partials rendering speedup by nearly 8x (!) [#489](https://github.com/bridgetownrb/bridgetown/pull/489) ([jaredcwhite](https://github.com/jaredcwhite))
