@@ -3,10 +3,10 @@
 source "https://rubygems.org"
 
 gem "rake", "~> 13.0"
+gem "yard", "~> 0.9"
 
 group :development do
   gem "solargraph"
-  gem "yard", "~> 0.9"
 end
 
 group :test do
