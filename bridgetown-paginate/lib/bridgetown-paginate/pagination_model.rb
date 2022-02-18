@@ -366,18 +366,7 @@ module Bridgetown
             index_page_ext
           )
 
-          # Create the url for the new page, make sure we prepend any permalinks
-          # that are defined in the template page before
-          if newpage.paginator.page_path.end_with? "/"
-            newpage.set_url(File.join(newpage.paginator.page_path, index_page_with_ext))
-          elsif newpage.paginator.page_path.end_with? index_page_ext.to_s
-            # Support for direct .html files
-            newpage.set_url(newpage.paginator.page_path)
-          else
-            # Support for extensionless permalinks
-            newpage.set_url(newpage.paginator.page_path + index_page_ext.to_s)
-          end
-
+          newpage.set_url(newpage.paginator.page_path)
           newpage.data["permalink"] = newpage.paginator.page_path if template.data["permalink"]
 
           # Transfer the title across to the new page

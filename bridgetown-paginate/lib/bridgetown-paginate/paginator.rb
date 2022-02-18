@@ -42,8 +42,8 @@ module Bridgetown
         # Ensure that the current page has correct extensions if needed
         this_page_url = Utils.ensure_full_path(
           @page == 1 ? first_index_page_url : paginated_page_url,
-          !default_indexpage || default_indexpage.empty? ? "index" : default_indexpage,
-          !default_ext || default_ext.empty? ? ".html" : default_ext
+          default_indexpage || "",
+          default_ext || ""
         )
 
         # To support customizable pagination pages we attempt to explicitly
