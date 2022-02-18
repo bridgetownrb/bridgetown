@@ -10,7 +10,7 @@ class Bridgetown::Site
       Bridgetown::Hooks.trigger :site, :pre_render, self
       execute_inline_ruby_for_layouts!
       render_resources
-      render_generated_pages
+      generated_pages.each(&:transform!)
       Bridgetown::Hooks.trigger :site, :post_render, self
     end
 
@@ -46,6 +46,32 @@ class Bridgetown::Site
       matches
     end
 
+    # @return [Array<Bridgetown::Layout>]
+    def validated_layouts_for(convertible, layout_name)
+      layout = layouts[layout_name]
+      warn_on_missing_layout convertible, layout, layout_name
+
+      layout_list = Set.new([layout])
+      while layout
+        layout_name = layout.data.layout
+        layout = layouts[layout_name]
+        warn_on_missing_layout convertible, layout, layout_name
+
+        layout_list << layout
+      end
+
+      layout_list.to_a.compact
+    end
+
+    def warn_on_missing_layout(convertible, layout, layout_name)
+      return unless layout.nil? && layout_name
+
+      Bridgetown.logger.warn(
+        "Build Warning:",
+        "Layout '#{layout_name}' requested via #{convertible.relative_path} does not exist."
+      )
+    end
+
     # Renders all resources
     # @return [void]
     def render_resources
@@ -55,14 +81,6 @@ class Bridgetown::Site
             resource.transform!
           end
         end
-      end
-    end
-
-    # Renders all generated pages
-    # @return [void]
-    def render_generated_pages
-      generated_pages.each do |page|
-        render_page page
       end
     end
 
@@ -79,13 +97,6 @@ class Bridgetown::Site
       else
         yield
       end
-    end
-
-    # Regenerates a content item using {Renderer}
-    # @param item [Page] The page to render
-    # @return [void]
-    def render_page(page)
-      Bridgetown::Renderer.new(self, page).run
     end
   end
 end

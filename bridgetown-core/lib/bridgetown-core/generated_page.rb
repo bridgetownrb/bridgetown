@@ -5,6 +5,7 @@ module Bridgetown
     include LayoutPlaceable
     include LiquidRenderable
     include Publishable
+    include Transformable
 
     attr_writer :dir
     attr_accessor :site, :paginator, :name, :ext, :basename, :data, :content, :output
@@ -12,7 +13,7 @@ module Bridgetown
     alias_method :extname, :ext
 
     # A set of extensions that are considered HTML or HTML-like so we
-    # should not alter them,  this includes .xhtml through XHTM5.
+    # should not alter them
 
     HTML_EXTENSIONS = %w(
       .html
@@ -54,11 +55,11 @@ module Bridgetown
       output || content || ""
     end
 
-    # Accessor for data properties by Liquid.
+    # Accessor for data properties by Liquid
     #
-    # property - The String name of the property to retrieve.
+    # @param property [String] name of the property to retrieve
     #
-    # Returns the String value or nil if the property isn't included.
+    # @return [Object]
     def [](property)
       data[property]
     end
@@ -67,7 +68,7 @@ module Bridgetown
     # upon generation. This is derived from the permalink or, if
     # permalink is absent, will be '/'
     #
-    # Returns the String destination directory.
+    # @return [String]
     def dir
       if url.end_with?("/")
         url
@@ -78,6 +79,8 @@ module Bridgetown
     end
 
     # Liquid representation of current page
+    #
+    # @return [Bridgetown::Drops::GeneratedPageDrop]
     def to_liquid
       @liquid_drop ||= Drops::GeneratedPageDrop.new(self)
     end
@@ -90,7 +93,7 @@ module Bridgetown
 
     # The template of the permalink.
     #
-    # Returns the template String.
+    # @return [String]
     def template
       if !html?
         "/:path/:basename:output_ext"
@@ -103,7 +106,7 @@ module Bridgetown
 
     # The generated relative url of this page. e.g. /about.html.
     #
-    # Returns the String url.
+    # @return [String]
     def url
       @url ||= URL.new(
         template: template,
@@ -123,6 +126,22 @@ module Bridgetown
       }
     end
 
+    # Layout associated with this resource
+    # This will output a warning if the layout can't be found.
+    #
+    # @return [Bridgetown::Layout]
+    def layout
+      return @layout if @layout
+      return if no_layout?
+
+      @layout = site.layouts[data.layout].tap do |layout|
+        unless layout
+          Bridgetown.logger.warn "Generated Page:", "Layout '#{data.layout}' " \
+                                                    "requested via #{relative_path} does not exist."
+        end
+      end
+    end
+
     # Overide this in subclasses for custom initialization behavior
     def process
       # no-op by default
@@ -139,21 +158,68 @@ module Bridgetown
       @relative_path ||= File.join(*[@dir, @name].map(&:to_s).reject(&:empty?)).delete_prefix("/")
     end
 
-    # FIXME: spinning up a new Renderer object just to get an extension
-    # seems excessive
-    #
     # The output extension of the page.
     #
-    # Returns the output extension
+    # @return [String]
     def output_ext
-      @output_ext ||= Bridgetown::Renderer.new(site, self).output_ext
+      @output_ext ||= (permalink_ext || converter_output_ext)
+    end
+
+    def permalink_ext
+      page_permalink = permalink
+      if page_permalink &&
+          !page_permalink.end_with?("/")
+        permalink_ext = File.extname(page_permalink)
+        permalink_ext unless permalink_ext.empty?
+      end
+    end
+
+    def converter_output_ext
+      if output_exts.size == 1
+        output_exts.last
+      else
+        output_exts[-2]
+      end
+    end
+
+    def output_exts
+      @output_exts ||= converters.filter_map do |c|
+        c.output_ext(extname)
+      end
+    end
+
+    # @return [Array<Bridgetown::Converter>]
+    def converters
+      @converters ||= site.matched_converters_for_convertible(self)
+    end
+
+    def transform!
+      Bridgetown.logger.debug "Transforming:", relative_path
+
+      trigger_hooks :pre_render
+      self.content = transform_content(self)
+      place_in_layout? ? place_into_layouts : self.output = content.dup
+      trigger_hooks :post_render
+
+      self
+    end
+
+    def place_into_layouts
+      Bridgetown.logger.debug "Placing in Layouts:", relative_path
+      rendered_output = content.dup
+
+      site.validated_layouts_for(self, data.layout).each do |layout|
+        rendered_output = transform_with_layout(layout, rendered_output, self)
+      end
+
+      self.output = rendered_output
     end
 
     # Obtain destination path.
     #
-    # dest - The String path to the destination dir.
+    # @param dest [String] path to the destination dir
     #
-    # Returns the destination file path String.
+    # @return [String]
     def destination(dest)
       path = site.in_dest_dir(dest, URL.unescape_path(url))
       path = File.join(path, "index") if url.end_with?("/")
@@ -163,9 +229,7 @@ module Bridgetown
 
     # Write the generated page file to the destination directory.
     #
-    # dest - The String path to the destination dir.
-    #
-    # Returns nothing.
+    # @param dest [String] path to the destination dir
     def write(dest)
       path = destination(dest)
       FileUtils.mkdir_p(File.dirname(path))

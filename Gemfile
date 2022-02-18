@@ -3,12 +3,11 @@
 source "https://rubygems.org"
 
 gem "rake", "~> 13.0"
+gem "yard", "~> 0.9"
 
 group :development do
   gem "solargraph"
 end
-
-#
 
 group :test do
   gem "cucumber", "~> 3.0"
@@ -22,16 +21,7 @@ group :test do
   gem "rubocop-bridgetown", "~> 0.3.0", require: false
   gem "shoulda"
   gem "simplecov"
-end
-
-#
-
-group :bridgetown_optional_dependencies do
-  gem "liquid-c", "~> 4.0"
-  gem "mime-types", "~> 3.0"
   gem "tomlrb", "~> 1.2"
-  gem "yajl-ruby", "~> 1.4"
-  gem "yard", "~> 0.9"
 end
 
 # Bridgetown
