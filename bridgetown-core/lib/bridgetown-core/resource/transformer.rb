@@ -3,6 +3,8 @@
 module Bridgetown
   module Resource
     class Transformer
+      include Transformable
+
       # @return [Array<Hash>]
       attr_reader :conversions
 
@@ -30,10 +32,18 @@ module Bridgetown
         permalink_ext || output_ext
       end
 
-      def process!
+      def process! # rubocop:disable Metrics/AbcSize
         Bridgetown.logger.debug "Transforming:", resource.relative_path
         resource.around_hook :render do
-          run_conversions
+          resource.content = transform_content(resource) do |converter, index, output|
+            conversions[index] = {
+              type: :content,
+              converter: converter,
+              output: Bridgetown.env.production? ? nil : output,
+              output_ext: conversions[index]&.dig(:output_ext) ||
+                converter.output_ext(resource.extname),
+            }
+          end
           resource.place_in_layout? ? place_into_layouts : resource.output = resource.content.dup
         end
       end
@@ -85,64 +95,20 @@ module Bridgetown
           .fetch(:output_ext)
       end
 
-      ### Transformation Actions
-
-      def run_conversions # rubocop:disable Metrics/AbcSize
-        resource.content = converters.each_with_index.inject(resource.content.to_s) do |content, (converter, index)| # rubocop:disable Layout/LineLength
-          output = if converter.method(:convert).arity == 1
-                     converter.convert content
-                   else
-                     converter.convert content, resource
-                   end
-          conversions[index] = {
-            type: :content,
-            converter: converter,
-            output: Bridgetown.env.production? ? nil : output,
-            output_ext: conversions[index]&.dig(:output_ext) ||
-              converter.output_ext(resource.extname),
-          }
-          output.html_safe
-        rescue StandardError => e
-          Bridgetown.logger.error "Conversion error:",
-                                  "#{converter.class} encountered an error while "\
-                                  "converting `#{resource.relative_path}'"
-          raise e
-        end
-      end
-
       def place_into_layouts
         Bridgetown.logger.debug "Placing in Layouts:", resource.relative_path
         output = resource.content.dup
         site.validated_layouts_for(resource, resource.data.layout).each do |layout|
-          output = run_layout_conversions layout, output
+          output = transform_with_layout(layout, output, resource) do |converter, layout_output|
+            conversions << {
+              type: :layout,
+              layout: layout,
+              converter: converter,
+              output: Bridgetown.env.production? ? nil : layout_output,
+            }
+          end
         end
         resource.output = output
-      end
-
-      def run_layout_conversions(layout, output)
-        layout_converters = site.matched_converters_for_convertible(layout)
-        layout_input = layout.content.dup
-
-        layout_converters.inject(layout_input) do |content, converter|
-          next(content) unless [2, -2].include?(converter.method(:convert).arity) # rubocop:disable Performance/CollectionLiteralInLoop
-
-          layout.current_document = resource
-          layout.current_document_output = output
-          layout_output = converter.convert content, layout
-
-          conversions << {
-            type: :layout,
-            layout: layout,
-            converter: converter,
-            output: Bridgetown.env.production? ? nil : layout_output,
-          }
-          layout_output
-        rescue StandardError => e
-          Bridgetown.logger.error "Conversion error:",
-                                  "#{converter.class} encountered an error while "\
-                                  "converting `#{resource.relative_path}'"
-          raise e
-        end
       end
     end
   end

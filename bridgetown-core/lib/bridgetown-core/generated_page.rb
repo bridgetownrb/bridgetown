@@ -5,6 +5,7 @@ module Bridgetown
     include LayoutPlaceable
     include LiquidRenderable
     include Publishable
+    include Transformable
 
     attr_writer :dir
     attr_accessor :site, :paginator, :name, :ext, :basename, :data, :content, :output
@@ -196,59 +197,22 @@ module Bridgetown
       Bridgetown.logger.debug "Transforming:", relative_path
 
       trigger_hooks :pre_render
-      self.output = run_conversions
+      self.content = transform_content(self)
+      place_in_layout? ? place_into_layouts : self.output = content.dup
       trigger_hooks :post_render
 
       self
     end
 
-    def run_conversions
-      self.content = converters.inject(content.to_s) do |input_content, converter|
-        if converter.method(:convert).arity == 1
-          converter.convert input_content
-        else
-          converter.convert input_content, self
-        end.html_safe
-      rescue StandardError => e
-        Bridgetown.logger.error "Conversion error:",
-                                "#{converter.class} encountered an error while "\
-                                "converting `#{relative_path}'"
-        raise e
-      end
-
-      place_in_layout? ? place_into_layouts(content) : content.dup
-    end
-
-    def place_into_layouts(content)
+    def place_into_layouts
       Bridgetown.logger.debug "Placing in Layouts:", relative_path
       rendered_output = content.dup
 
       site.validated_layouts_for(self, data.layout).each do |layout|
-        rendered_output = run_layout_conversions layout, rendered_output
+        rendered_output = transform_with_layout(layout, rendered_output, self)
       end
 
-      rendered_output
-    end
-
-    # Render layout content into output
-    #
-    # @return [String]
-    def run_layout_conversions(layout, rendered_output)
-      layout_converters = site.matched_converters_for_convertible(layout)
-      layout_input = layout.content.dup
-
-      layout_converters.inject(layout_input) do |layout_content, converter|
-        next(layout_content) unless [2, -2].include?(converter.method(:convert).arity) # rubocop:disable Performance/CollectionLiteralInLoop
-
-        layout.current_document = self
-        layout.current_document_output = rendered_output
-        converter.convert layout_content, layout
-      rescue StandardError => e
-        Bridgetown.logger.error "Conversion error:",
-                                "#{converter.class} encountered an error while "\
-                                "converting `#{relative_path}'"
-        raise e
-      end
+      self.output = rendered_output
     end
 
     # Obtain destination path.

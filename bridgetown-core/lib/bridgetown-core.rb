@@ -96,6 +96,7 @@ module Bridgetown
   autoload :LogWriter,           "bridgetown-core/log_writer"
   autoload :Site,                "bridgetown-core/site"
   autoload :StaticFile,          "bridgetown-core/static_file"
+  autoload :Transformable,       "bridgetown-core/concerns/transformable"
   autoload :URL,                 "bridgetown-core/url"
   autoload :Utils,               "bridgetown-core/utils"
   autoload :VERSION,             "bridgetown-core/version"
