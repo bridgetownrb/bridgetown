@@ -14,3 +14,13 @@ Try reading [these excellent instructions by GoRails](https://gorails.com/setup/
 
 {%@ "docs/install/node_on_linux" %}
 {%@ "docs/install/bridgetown" %}
+
+{%@ Note type: "warning" do %}
+    #### Windows Subsystem for Linux and Live-Reloading
+
+    Projects residing on recent versions of WSL (Windows Subsystem for Linux) might face issues with live-reloading if the live-reload server is initialized from a non-Linux directory. For example: initializing the server from a directory within `/mnt/c/`. 
+    
+    This issue impacts WSL Version 2 and it's not Bridgetown-exclusive. You can [learn more about it here.](https://github.com/microsoft/WSL/issues/216)
+
+    To minimize headaches, we recommend developing from within the Linux file system. If you use VS Code, the [Remote WSL extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl) allows you to interact with the the Linux subsystem directly. It may facilitate your development workflow.
+{% end %}
