@@ -6,6 +6,7 @@ module Bridgetown
     # (requires a `converter` method to be present on the including class)
     #
     # @param document [Bridgetown::GeneratedPage, Bridgetown::Resource::Base]
+    # @return String
     # @yieldparam converter [Bridgetown::Converter]
     # @yieldparam index [Integer] index of the conversion step
     # @yieldparam output [String]
