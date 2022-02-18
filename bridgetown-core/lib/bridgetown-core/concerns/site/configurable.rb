@@ -38,6 +38,8 @@ class Bridgetown::Site
     # @param strip_slash_only [Boolean] set to true if you wish "/" to be returned as ""
     # @return [String]
     def base_path(strip_slash_only: false)
+      config[:base_path] = "/" unless Bridgetown.env.production?
+
       (config[:base_path] || config[:baseurl]).yield_self do |path|
         strip_slash_only ? path.to_s.sub(%r{^/$}, "") : path
       end
