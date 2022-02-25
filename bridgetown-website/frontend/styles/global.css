@@ -155,6 +155,11 @@ h2 {
   &.serif {
     font-size: calc(var(--h2-font-size) + 0.2em);
   }
+
+  @media (--sl-breakpoint-xs) {
+    position: relative;
+    overflow-x: hidden;
+  }
 }
 
 h1, h2 {
