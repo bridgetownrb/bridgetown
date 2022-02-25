@@ -5,7 +5,7 @@ top_section: Writing Content
 category: data-files
 ---
 
-In addition to [built-in variables](/docs/variables) and [front matter](/docs/front-matter), you can specify custom datasets which are accessible via Liquid and Ruby templates as well as plugins.
+In addition to standard [resources](/docs/resources), you can specify custom datasets which are accessible via Liquid and Ruby templates as well as plugins.
 
 Bridgetown supports loading data from [YAML](http://yaml.org/), [JSON](http://www.json.org/), [CSV](https://en.wikipedia.org/wiki/Comma-separated_values), and [TSV](https://en.wikipedia.org/wiki/Tab-separated_values) files located in the `src/_data` folder. Note that CSV and TSV files *must* contain a header row.
 
@@ -17,7 +17,7 @@ This powerful feature allows you to avoid repetition in your templates and set s
 
 ## The Data Folder
 
-The `_data` folder is where you can save YAML, JSON, or CSV files (using either the `.yml`, `.yaml`, `.json` or `.csv` extension), and they will be accessible via `site.data`. In Bridgetown 0.21 and later, any files ending in `.rb` within the data folder will be evaluated as Ruby code when using the Resource content engine.
+The `_data` folder is where you can save YAML, JSON, or CSV files (using either the `.yml`, `.yaml`, `.json` or `.csv` extension), and they will be accessible via `site.data`. Also, any files ending in `.rb` within the data folder will be evaluated as Ruby code with a Hash formatted output.
 
 ## The Metadata File
 
@@ -36,8 +36,7 @@ Want to switch to using a `site_metadata.rb` file where you have more programmat
 
 ## Example: Define a List of members
 
-Here is a basic example of using Data Files to avoid copy-pasting large chunks
-of code in your Bridgetown templates:
+Here is a basic example of using Data Files to avoid copy-pasting large chunks of code in your Bridgetown templates:
 
 In `_data/members.yml`:
 
@@ -61,8 +60,7 @@ Parker Moore,parkr
 Liu Fengyun,liufengyun
 ```
 
-This data can be accessed via `site.data.members` (notice that the filename
-determines the variable name).
+This data can be accessed via `site.data.members` (notice that the filename determines the variable name).
 
 You can now render the list of members in a template:
 
@@ -82,10 +80,7 @@ You can now render the list of members in a template:
 
 ## Subfolders
 
-Data files can also be placed in subfolders of the `_data` folder. Each folder
-level will be added to a variable's namespace. The example below shows how
-GitHub organizations could be defined separately in a file under the `orgs`
-folder:
+Data files can also be placed in subfolders of the `_data` folder. Each folder level will be added to a variable's namespace. The example below shows how GitHub organizations could be defined separately in a file under the `orgs` folder:
 
 In `_data/orgs/bridgetownrb.yml`:
 
@@ -110,8 +105,7 @@ members:
     github: jdoe
 ```
 
-The organizations can then be accessed via `site.data.orgs`, followed by the
-file name:
+The organizations can then be accessed via `site.data.orgs`, followed by the file name:
 
 {% raw %}
 ```liquid

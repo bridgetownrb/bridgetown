@@ -5,11 +5,12 @@ top_section: Writing Content
 category: resources
 ---
 
-The majority of your text-based content and view templates in Bridgetown are processed as **resources**. A resource might be an informational page about you or your company, a blog post, an event, a podcast episode. Every resource you create is part of a [collection](/docs/collections). Bridgetown comes with two collections: **posts** and **pages**. If you add a resource file to `src/_posts`, it automatically lives in the posts collection. Similarly, if you add a resource file to `src/_pages`, or even just `src`, it automatically lives in the pages collection.
+The majority of your text-based content and view templates in Bridgetown are processed as **resources**. A resource might be an informational page about you or your company, a blog post, an event, a podcast episode, a product.
 
 Resource files contain [front matter](/docs/front-matter), metadata about the resource which can be used in other layouts and templates. For example, your about page (`src/_pages/about.md`) might be written like this:
 
 {% raw %}
+
 ```md
 ---
 layout: page
@@ -28,6 +29,10 @@ Here's what I look like:
 In this example, the [layout](/docs/layouts) of the resource is specified as `page`, the title is "About Me" (which will be used by the layout and related templates), and a headshot filename is given which can then inform the final URL of the image in the body of the content.
 
 You can save resources as files within your source tree, and you can also [generate resources programatically](/docs/plugins/external-apis) via a builder plugin—perhaps based on data from a headless CMS or other third-party APIs.
+
+Every resource you create is part of a [collection](/docs/collections). Bridgetown comes with two built-in collections, **posts** and **pages**, as well as a no-output **data** collection. You can easily create custom collections to group related content and facilitate easy pagination and archiving functionality.
+
+Want to learn more about how to use resources effectively in your website structure and content strategy? Read on!
 
 {{ toc }}
 
@@ -49,85 +54,6 @@ Let's say you add a new blog post by saving `src/_posts/2021-05-10-super-cool-bl
 3. The model then "emits" a resource object. The resource is provided a clone of the model data which it can then process for use within template like Liquid, ERB, and so forth. Resources may also point to other resources within their collection, and templates can access resources through various means (looping through collections, referencing resources by source paths, etc.)
 4. The resource is transformed by a transformer object which runs a pipeline to convert Markdown to HTML, render Liquid or ERB templates, and any other conversions specified—as well as optionally place the resource output within a converted layout.
 5. Finally, a destination object is responsible for determining the resource's "permalink" based on configured criteria or the presence of `permalink` front matter. It will then write out to the output folder using a static file name matching the destination permalink.
-
-## Builtin Collections
-
-With the resource content engine, Bridgetown comes with three collections configured out of the box. These are
-
-* `data`, located in the `src/_data` folder
-* `pages`, located in either the `src` top-level folder or the `src/_pages` folder
-* `posts`, located in the `src/_posts` folder
-
-The data collection doesn't output to any URL and is used strictly to provide a complete merged dataset via the `site.data` variable.
-
-Pages are for generic, standalone (aka not dated) pages which will output at a URL similar to their file path. So `src/i/am/a-page.html` will end up with the URL `/i/am/a-page/`.
-
-Posts are for dated articles which will output at a URL based on the configured permalink style which might include category and date information. Posts are typically saved in a `YYYY-MM-DD-slug-goes-here.EXT` format which will cause the date to be extracted from the filename prefix.
-
-## Custom Collections
-
-You're by no means limited to the builtin collections. You can create custom collections with any name you choose. By default they will behave similar to standalone pages, but you can configure them to behave in other ways (maybe like posts). For example, you could create an events collection which would function similar to posts, and you could even allow future-dated content to publish (unlike what's typical for posts).
-
-```yaml
-# bridgetown.config.yml
-
-collections:
-  events:
-    output: true
-    permalink: pretty
-    future: true
-```
-
-Thus an event saved at `src/_events/2021-12-15-merry-christmas.md` would output to the URL `/events/2021/12/15/merry-christmas/`.
-
-You can control way a collection is sorted by specifying the front matter key (default is either filename or date if present) as well as the direction as either ascending (default) or descending.
-
-```yaml
-collections:
-  reverse_ordered:
-    output: true
-    sort_by: order
-    sort_direction: descending
-```
-
-## Taxonomies
-
-Bridgetown comes with two builtin taxonomies: **category** and **tag**.
-
-Categories are usually used to structure resources in a way that affects their output URLs and easily match up with specialized archive pages. It's a good way to "group" like-minded resources together.
-
-Tags are considered more of a flat "folksonomy" that you can apply to resources which are purely useful for display, searching, or viewing related items.
-
-You can use a singular front matter key "category / tag" or a plural "categories / tags". If using the plural form but only providing a string, the categories/tags will be split via a space delimiter. Otherwise provide an array of values, like so:
-
-```yaml
-categories:
-  - category 1
-  - another category 2
-tags:
-  - blessed
-  - super awesome
-```
-
-In addition to the builtin taxonomies, you can define your own taxonomies. For example, if you were setting up a website all about music, you could create a "genre" taxonomy. Just set it up in the config:
-
-```yaml
-# bridgetown.config.yml
-
-taxonomies:
-  genre:
-    key: genres
-    title: "Musical Genre"
-    other_metadata: "can go here!"
-```
-
-Then use that front matter key in your resources:
-
-```yaml
-genres:
-  - Jazz
-  - Big Band
-```
 
 ## Accessing Resources in Templates
 
@@ -178,11 +104,48 @@ You can easily loop through collection resources by name, e.g., `collections.pos
 <% end %>
 ```
 
-Read more about [how the paginator works here](/docs/content/pagination).
+Read more about [how the paginator works here](/docs/content/pagination). You can also [refer to how collections work](/docs/collections) and how you can also create your own custom collections.
 
-### Taxonomies
+## Taxonomies
 
-Accessing taxonomies for resources is simple as well:
+Bridgetown comes with two builtin taxonomies: **category** and **tag**.
+
+Categories are usually used to structure resources in a way that affects their output URLs and easily match up with specialized archive pages. It's a good way to "group" like-minded resources together.
+
+Tags are considered more of a flat "folksonomy" that you can apply to resources which are purely useful for display, searching, or viewing related items.
+
+You can use a singular front matter key "category / tag" or a plural "categories / tags". If using the plural form but only providing a string, the categories/tags will be split via a space delimiter. Otherwise provide an array of values, like so:
+
+```yaml
+categories:
+  - category 1
+  - another category 2
+tags:
+  - blessed
+  - super awesome
+```
+
+In addition to the builtin taxonomies, you can define your own taxonomies. For example, if you were setting up a website all about music, you could create a "genre" taxonomy. Just set it up in the config:
+
+```yaml
+# bridgetown.config.yml
+
+taxonomies:
+  genre:
+    key: genres
+    title: "Musical Genre"
+    other_metadata: "can go here!"
+```
+
+Then use that front matter key in your resources:
+
+```yaml
+genres:
+  - Jazz
+  - Big Band
+```
+
+Accessing taxonomies for resources in your templates is pretty straightforward.
 
 ```liquid
 <!-- Liquid -->
