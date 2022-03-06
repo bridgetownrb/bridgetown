@@ -47,7 +47,9 @@ module Bridgetown
           end
 
           # Support custom base_path configurations
-          roda_app.request.on Bridgetown::Current.preloaded_configuration.base_path.delete_prefix("/") do
+          roda_app.request.on(
+            Bridgetown::Current.preloaded_configuration.base_path.delete_prefix("/")
+          ) do
             load_all_routes roda_app
           end
 
@@ -66,9 +68,9 @@ module Bridgetown
             klass.merge roda_app
           end
 
-          if defined?(Bridgetown::Routes::RodaRouter)
-            Bridgetown::Routes::RodaRouter.start!(roda_app)
-          end
+          return unless defined?(Bridgetown::Routes::RodaRouter)
+
+          Bridgetown::Routes::RodaRouter.start!(roda_app)
         end
 
         def setup_live_reload(app) # rubocop:disable Metrics/AbcSize
