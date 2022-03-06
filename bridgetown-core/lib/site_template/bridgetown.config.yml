@@ -19,8 +19,10 @@ url: "" # the base hostname & protocol for your site, e.g. https://example.com
 permalink: pretty
 
 # Other options you might want to investigate:
-# 
-# base_path: "/" # the subpath of your site, e.g. /blog
+#
+# base_path: "/" # the subpath of your site, e.g. /blog. If you set this option,
+# ensure you use the `relative_url` helper for all links and assets in your HTML.
+
 # timezone: America/Los_Angeles
 # pagination:
 #   enabled: true
