@@ -1,11 +1,11 @@
 <header>
-  <img src="/images/logo.svg" alt="Logo" />
+  <img src="{{ '/images/logo.svg' | relative_url }}" alt="Logo" />
 </header>
 
 <nav>
   <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/about">About</a></li>
-    <li><a href="/posts">Posts</a></li>
+    <li><a href="{{ '/' | relative_url }}">Home</a></li>
+    <li><a href="{{ '/about' | relative_url }}">About</a></li>
+    <li><a href="{{ '/posts' | relative_url }}">Posts</a></li>
   </ul>
 </nav>

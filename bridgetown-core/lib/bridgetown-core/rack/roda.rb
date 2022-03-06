@@ -48,7 +48,13 @@ module Bridgetown
         Bridgetown::Current.preloaded_configuration ||=
           self.class.opts[:bridgetown_preloaded_config]
 
-        request.public
+        if Bridgetown::Current.preloaded_configuration.base_path == "/"
+          request.public
+        else
+          request.on(Bridgetown::Current.preloaded_configuration.base_path.delete_prefix("/")) do
+            request.public
+          end
+        end
 
         request.root do
           output_folder = Bridgetown::Current.preloaded_configuration.destination
