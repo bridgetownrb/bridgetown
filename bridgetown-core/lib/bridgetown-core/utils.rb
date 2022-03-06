@@ -457,7 +457,7 @@ module Bridgetown
       code = <<~JAVASCRIPT
         let lastmod = 0
         function startReloadConnection() {
-          const evtSource = new EventSource("/_bridgetown/live_reload")
+          const evtSource = new EventSource("#{site.base_path(strip_slash_only: true)}/_bridgetown/live_reload")
           evtSource.onmessage = event => {
             if (event.data == "reloaded!") {
               location.reload()

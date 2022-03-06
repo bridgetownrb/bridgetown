@@ -48,8 +48,6 @@ module Bridgetown
         Bridgetown::Current.preloaded_configuration ||=
           self.class.opts[:bridgetown_preloaded_config]
 
-        request.public
-
         request.root do
           output_folder = Bridgetown::Current.preloaded_configuration.destination
           File.read(File.join(output_folder, "index.html"))
