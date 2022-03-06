@@ -18,6 +18,7 @@ The configurations we include are:
 - [Render YAML Configuration](#render-yaml-configuration) (`render`)
 - [Netlify TOML Configuration](#netlify-toml-configuration) (`netlify`)
 - [Vercel JSON Configuration](#vercel-json-configuration) (`vercel`)
+- [GitHub Pages Configuration](#github-pages-configuration) (`gh-pages`)
 - [Automated Test Suite using Minitest](#automated-test-suite-using-minitest) (`minitesting`)
 - [Cypress](#cypress) (`cypress`)
 
@@ -129,6 +130,18 @@ bin/bridgetown configure netlify
 
 ```sh
 bin/bridgetown configure vercel
+```
+
+### GitHub Pages Configuration
+
+⚙️ Sets up a GitHub Action so you can host your Bridgetown site directly on GitHub.
+
+Make sure you follow the provided instructions after you run this command so your `base_path` is configured correctly.
+
+🛠 **Configure using:**
+
+```sh
+bin/bridgetown configure gh-pages
 ```
 
 ### Automated Test Suite using Minitest

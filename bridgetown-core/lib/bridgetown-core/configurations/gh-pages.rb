@@ -11,5 +11,6 @@ say "🛠️  After pushing the action, go to your repository settings and confi
 say ""
 
 say "You'll likely also need to set `base_path` in your `bridgetown.config.yml` to your repository's name. If you do this you'll need to use the `relative_url` helper for all links and assets in your HTML."
+say "If you're using esbuild for frontend assets, edit `esbuild.config.js` to update `publicPath`."
 say ""
 # rubocop:enable Layout/LineLength
