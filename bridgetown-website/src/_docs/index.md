@@ -15,8 +15,8 @@ For more background on this development approach, [read up on our Jamstack prime
 
 For a succinct overview of how the Bridgetown build process works and what goes into creating a site, [read our Core Concepts guide](/docs/core-concepts/).
 
-{% rendercontent "docs/note", title: "Try our latest edge release!" %}
-Interested in checking out the latest and greatest Bridgetown 1.0 features before its final release? [Head on over to our edge documentation](https://edge.bridgetownrb.com) for installation instructions and guides.
+{% rendercontent "docs/note", title: "Try our newer release!" %}
+Interested in checking out the latest and greatest Bridgetown v1 features? [Head on over to our updated documentation](https://www.bridgetownrb.com) for installation instructions and upgrade guides.
 {% endrendercontent %}
 
 ## Quick Instructions {% if bridgetown.version contains "beta" %}(BETA RELEASE){% endif %}

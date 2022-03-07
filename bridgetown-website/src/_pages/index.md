@@ -10,8 +10,8 @@ layout: home
   <a href="/docs/jamstack/" class="button is-warning is-large has-mixed-case">Er, Jamwhat?</a>
 </button-group>
 
-{% rendercontent "docs/note", title: "Try our latest edge release!" %}
-Interested in checking out the latest and greatest Bridgetown 1.0 features before its final release? [Head on over to our edge documentation](https://edge.bridgetownrb.com) for installation instructions and guides.
+{% rendercontent "docs/note", title: "Try our newer release!" %}
+Interested in checking out the latest and greatest Bridgetown v1 features? [Head on over to our updated documentation](https://www.bridgetownrb.com) for installation instructions and upgrade guides.
 {% endrendercontent %}
 
 Built upon proven open source technology, **Bridgetown** is a _fast_, _scalable_, _modular_, and _thoroughly forward-looking_ framework for building websites and frontend applications.
