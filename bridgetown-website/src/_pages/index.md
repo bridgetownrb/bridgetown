@@ -166,7 +166,7 @@ Like the Ruby language itself, **Bridgetown** is optimized for [web developer ha
 ## Super-dee-dooper features galore.
 {:.serif .colorful}
 
-Bridgetown's philosophy is if we take the time to build what you'll actually need, you wont have to. Without having to hunt for any additional add-ons or extra recipes, **Bridgetown** gives you right out of the box from day one:
+Bridgetown's philosophy is if we take the time to build what you'll actually need, you won't have to. Without having to hunt for any additional add-ons or extra recipes, **Bridgetown** gives you right out of the box from day one:
 
 {:.info-grid.highlighted-cards}
 - <sl-card markdown="block">

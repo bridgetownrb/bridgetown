@@ -5,7 +5,7 @@ top_section: Setup
 category: command-line-usage
 ---
 
-The Bridgetown gem makes the `bridgetown` executable available to you in your terminal. In a site project, a binstub is provided in the `bin` folder so you can execute `bin/bridgetown` and ensure you're using the correct version of Bridgetown as specified in your `Gemfile`.
+The Bridgetown gem makes the `bridgetown` executable available to you in your terminal. In a site project, a binstub is provided in the `bin` folder so you can execute `bin/bridgetown` and ensure you're using the correct version of Bridgetown as specified in your `Gemfile`. (The shorter `bin/bt` alias is also provided.)
 
 You can run `bin/bridgetown` to see a list of available commands as well as Rake tasks which either come with Bridgetown or are located in your `Rakefile`. See below for information on how to define your own Rake tasks.
 
@@ -21,8 +21,8 @@ Available commands are:
   * Use the `-e` option to choose Webpack instead of esbuild for your frontend bundler (aka `-e webpack`).
   * When using Webpack, you can also choose to use Sass over PostCSS by adding the `--use-sass` option.
 * `bin/bridgetown start` or `s` - Boots the Rack-based server (using Puma) at `localhost:4000`. In development, you'll get live reload functionality as long as `{% live_reload_dev_js %}` or `<%= live_reload_dev_js %>` is in your HTML head.
-* `bin/bridgetown deploy` - Ensures that all frontend assets get built alongside the published Bridgetown output. This is the command you'll want to use for ([deployment](/docs/deployment)).
-* `bin/bridgetown build` or `b` - Performs a single build of your site to the `output` folder (by default). Add the `-w` flag to also regenerate the site whenever a source file changes.
+* `bin/bridgetown deploy` - Ensures that all frontend assets get built alongside the published Bridgetown output. This is the command you'll want to use for [deployment](/docs/deployment).
+* `bin/bridgetown build` or `b` - Performs a single build of your site to the `output` folder. Add the `-w` flag to also regenerate the site whenever a source file changes.
 * `bin/bridgetown console` or `c` - Opens up an IRB console and lets you
   inspect your site configuration and content "under the hood" using
   Bridgetown's native Ruby API. See below for information on how to add your own console methods.
@@ -40,9 +40,11 @@ To change Bridgetown's default build behavior have a look through the [configura
 
 For deployment, if you need to add an extra step to copy `output` to a web server or run some script post-build, putting that in the `deploy` task in your `Rakefile` is a good way to go.
 
-Also take a look at the `scripts` configuration in `package.json` which provides integration points with the Webpack frontend bundler.
+Also take a look at the `scripts` configuration in `package.json` which provides integration points with the frontend bundler.
 
 ## Rakefile and Rake tasks
+
+Rake is a task runner for Ruby applications. Tasks can execute shell commands, run through Ruby logic, or perform automation actions. Some tasks can be written to depend on the execution of prerequisite tasks.
 
 In the default `Rakefile` which comes with a new Bridgetown site project, you'll see a few tasks defined which are used by various built-in commands. For example, when you run the `bin/bridgetown start` command in a typical development environment, one of the tasks it performs is `frontend:dev`. You can see that in your Rakefile here:
 

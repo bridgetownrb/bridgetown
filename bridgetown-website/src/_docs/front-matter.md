@@ -5,7 +5,7 @@ top_section: Writing Content
 category: front-matter
 ---
 
-Front matter is a snippet of [YAML](https://yaml.org/) or Ruby data which sits at the top of a file between special line delimiters. You can think of front matter as a datastore consisting of one or more key-value pairs (aka a `Hash` in Ruby). You use front matter to add metadata, like a title or a description, to files such as pages and documents as well as site layouts. Front matter can be used in various ways to set configuration options on a per-file basis, and if you need more dynamic handling of variable data, you can write Ruby code for processing as front matter.
+Front matter is a snippet of [YAML](https://yaml.org/) or Ruby data which sits at the top of a file between special line delimiters. You can think of front matter as a datastore consisting of one or more key-value pairs (aka a `Hash` in Ruby). You use front matter to add metadata, like a title or a description, to resources as well as site layouts. Front matter can be used in various ways to set configuration options on a per-file basis, and if you need more dynamic handling of variable data, you can write Ruby code for processing as front matter.
 
 {%@ Note do %}
   #### Don't repeat yourself
@@ -34,21 +34,19 @@ title: Blogging Like a Hacker
 
 Between these triple-dashed lines, you can set predefined variables (see below
 for a reference) or add custom variables of your own. These variables will
-then be available to you to access using Liquid tags both further down in the
-file and also in any layouts or components that the file in question relies on.
+then be available to you to access using Liquid or Ruby-based template code further down in the
+file, as well as in any layouts or components that the file in question relies on.
 
 {%@ Note do %}
   #### Front matter variables are optional
-  If you want to use [Liquid tags and variables](/docs/variables/)
-  but don’t need anything in your front matter, just leave it empty! The set
-  of triple-dashed lines with nothing in between will still get Bridgetown to
-  process your file. (This is useful for things like RSS feeds.)
+
+  If you want to use template code in a file but don’t need anything in your front matter, just leave it empty! The set of triple-dashed lines with nothing in between will still get Bridgetown to process your file. (This is useful for things like RSS feeds.)
 {% end %}
 
 ## Predefined Global Variables
 
 There are a number of predefined global variables that you can set in the
-front matter of a page or document.
+front matter of a resource.
 
 <table class="settings biggest-output">
   <thead>
@@ -73,8 +71,8 @@ front matter of a page or document.
         <ul>
           <li>
             Using <code>null</code> will produce a file without using a layout
-            file. This is overridden if the file is a document and has a
-            layout defined in the <a href="{{ '/docs/content/front-matter-defaults/' | relative_url }}">
+            file. This is overridden if the file is a resource and has a
+            layout defined in the <a href="/docs/content/front-matter-defaults">
             front matter defaults</a>.
           </li>
           <li>
@@ -102,7 +100,7 @@ front matter of a page or document.
         <p>
 
           If you need your URLs to be something other than what is configured by default,
-          (for posts, the default is <code>/category/year/month/day/title.html</code>),
+          (for posts, the default is <code>/category/year/month/day/title/</code>),
           then you can set this variable and it will be used as the final URL.
         </p>
       </td>
@@ -123,7 +121,7 @@ front matter of a page or document.
 
 {%@ Note do %}
   #### Render pages marked as unpublished
-  To preview unpublished pages, run `bridgetown serve` or `bridgetown build` with
+  To preview unpublished pages, run `bridgetown start` or `bridgetown build` with
   the `--unpublished` switch.
 {% end %}
 
@@ -152,9 +150,9 @@ food: Pad Thai
 <h1><%= resource.data.food %></h1>
 ```
 
-You can also use a document's front matter variables in other places like layouts, and
-you can even reference those variables in loops through documents or as part of more
-complex queries (see [Liquid filters](/docs/liquid/filters/) for more information).
+You can also use a resource's front matter variables in other places like layouts, and
+you can even reference those variables in loops or as part of more
+complex queries (see the [Liquid](/docs/template-engines/liquid) or [ERB and Beyond](/docs/template-engines/erb-and-beyond) docs for more information).
 
 ## Predefined Variables
 
@@ -177,7 +175,7 @@ These resource variables are available out-of-the-box:
           Specifying a date variable overrides the date from the filename of the resource.
           This can be used to ensure correct sorting of posts. A date is specified in the
           format <code>YYYY-MM-DD HH:MM:SS +/-TTTT</code>; hours, minutes, seconds, and
-          timezone offset are optional.
+          timezone offset are optional. You can also use a more human-readable format like this: <code>Wed, 02 Feb 2022 08:55:41 -0800</code>.
         </p>
       </td>
     </tr>

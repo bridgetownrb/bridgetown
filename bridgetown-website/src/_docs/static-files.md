@@ -37,7 +37,7 @@ following metadata:
       <td><p><code>file.modified_time</code></p></td>
       <td><p>
 
-        The `Time` the file was last modified, e.g. <code>2016-04-01 16:35:26 +0200</code>
+        The time the file was last modified, e.g. <code>2016-04-01 16:35:26 +0200</code>
 
       </p></td>
     </tr>

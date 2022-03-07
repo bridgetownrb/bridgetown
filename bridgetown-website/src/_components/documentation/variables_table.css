@@ -37,7 +37,7 @@ table.settings {
   & td {
     border: 1px solid var(--sl-color-neutral-200);
     border-width: 0 0 1px;
-    padding: .5em .75em;
+    padding: 0.7em 0.75em;
     vertical-align: top;
 
     &:first-child {

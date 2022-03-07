@@ -296,7 +296,7 @@ First, add the following to your Gemfile:
 ```ruby
 gem "railties" # required by Primer
 gem "actionpack" # required by Primer
-gem "primer_view_components", github: "primer/view_components", branch: "main"
+gem "primer_view_components"
 ```
 
 Next, add the following file to your plugins folder:
@@ -308,11 +308,11 @@ require "action_dispatch"
 require "rails/engine"
 require "primer/view_components/engine"
 
-class PrimerBuilder < SiteBuilder
+class Builders::PrimerBuilder < SiteBuilder
   def build
     site.config.loaded_primer ||= begin
       primer_loader = Zeitwerk::Loader.new
-      Primer::ViewComponents::Engine.config.autoload_once_paths.each do |path|
+      Primer::ViewComponents::Engine.config.eager_load_paths.each do |path|
         primer_loader.push_dir path
       end
       primer_loader.setup
@@ -328,7 +328,7 @@ What this does is import a couple of additional Rails dependencies, set up the a
 Let's also add the Primer CSS link tag to your site's head:
 
 ```
-<link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet" />
+<link href="https://unpkg.com/@primer/css@^19.0.0/dist/primer.css" rel="stylesheet" />
 ```
 
 Now you can use Primer components in any Ruby template in your Bridgetown project!

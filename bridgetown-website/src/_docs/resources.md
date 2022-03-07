@@ -50,15 +50,15 @@ Resources come with a merry band of objects to help them along the way. These ar
 Let's say you add a new blog post by saving `src/_posts/2021-05-10-super-cool-blog-post.md`. To make the transition from a Markdown file with Liquid or ERB template syntax to a final URL on your website, Bridgetown takes your data through several steps:
 
 1. It finds the appropriate origin class to load the post. The posts collection file reader uses a special **origin ID** identify the file (in this case: `repo://posts.collection/_posts/2021-05-10-super-cool-blog-post.md`). Other origin classes could handle different protocols to download content from third-party APIs or load in content directly from scripts.
-2. Once the origin provides the post's data it is used to create a model object. The model will be a `Bridgetown::Model::Base` object by default, but you can create your own subclasses to alter and enhance data, or for use in a Ruby-based CMS environment. For example, `class Post < Bridgetown::Model::Base; end` will get used automatically for the `posts` collection (because Bridgetown will use the Rails inflector to map `posts` to `Post`). You can save subclasses in your `plugins` folder.
-3. The model then "emits" a resource object. The resource is provided a clone of the model data which it can then process for use within template like Liquid, ERB, and so forth. Resources may also point to other resources within their collection, and templates can access resources through various means (looping through collections, referencing resources by source paths, etc.)
-4. The resource is transformed by a transformer object which runs a pipeline to convert Markdown to HTML, render Liquid or ERB templates, and any other conversions specified—as well as optionally place the resource output within a converted layout.
+2. Once the origin provides the post's data it is used to create a model object. The model will be a `Bridgetown::Model::Base` object by default, but you can create your own subclasses to alter and enhance data, or for use in a Ruby-based CMS environment. For example, `class Post < Bridgetown::Model::Base; end` will get used automatically for the `posts` collection (because Bridgetown will use the Rails inflector to map `posts` to `Post`). You can save subclasses in your `plugins` folder, or set up a dedicated `models` folder to be [eager-loaded by Zeitwerk](/docs/plugins#zeitwerk-and-autoloading).
+3. The model then "emits" a resource object. The resource is provided a clone of the model data which it can then process for use within templates. Resources may also point to other resources through relations, and templates can access resources through various means (looping through collections, referencing resources by source paths, etc.)
+4. The resource is transformed by a pipeline to convert Markdown to HTML, render template code like Liquid or ERB, and any other conversions specified—as well as optionally place the resource output within a converted layout.
 5. Finally, a destination object is responsible for determining the resource's "permalink" based on configured criteria or the presence of `permalink` front matter. It will then write out to the output folder using a static file name matching the destination permalink.
 
 ## Accessing Resources in Templates
 
 {% raw %}
-The simplest way to access resources in your templates is to use the `collections` variable, available now in both Liquid and Ruby-based templates.
+The simplest way to access resources in your templates is to use the `collections` variable, available in both Liquid and Ruby-based templates.
 
 ```liquid
 <!-- Liquid -->
@@ -78,7 +78,31 @@ First URL: <%= collections.genre.resources[0].relative_url %>
 
 ### Loops and Pagination
 
-You can easily loop through collection resources by name, e.g., `collections.posts.resources`, but much of the time you'll probably want to use a paginator:
+You can easily loop through collection resources by name, e.g., `collections.posts.resources`:
+
+```liquid
+{% for post in collections.posts.resources %}
+  <article>
+    <a href="{{ post.relative_url }}"><h2>{{ post.data.title }}</h2></a>
+
+    <p>{{ post.data.description }}</p>
+  </article>
+{% endfor %}
+```
+
+```eruby
+<!-- ERB -->
+
+<% collections.posts.resources.each do |post| %>
+  <article>
+    <a href="<%= post.relative_url %>"><h2><%= post.data.title %></h2></a>
+
+    <p><%= post.data.description %></p>
+  </article>
+<% end %>
+```
+
+Sometimes you'll likely want to use a paginator:
 
 ```liquid
 <!-- Liquid -->
@@ -259,7 +283,7 @@ Refer to our [permalinks documentation](/docs/content/permalinks) for further de
 
 ## Ruby Front Matter and All-Ruby Templates
 
-For advanced use cases where you wish to generate dynamic values for front matter variables, you can use Ruby Front Matter. [Read the documentation here.](/docs/front-matter)
+For advanced use cases where you wish to generate dynamic values for front matter variables, you can use Ruby Front Matter. [Read the documentation here.](/docs/front-matter#the-power-of-ruby-in-front-matter)
 
 In addition, you can add all-Ruby page templates to your site besides just the typical Markdown/Liquid/ERB options. Yes, you're reading that right: put `.rb` files directly in your `src` folder! As long as the final statement in your code returns a string or can be converted to a string via `to_s`, you're golden. Ruby templates are evaluated in a `Bridgetown::ERBView` context (even though they aren't actually ERB), so all the usual Ruby template helpers are available.
 
@@ -324,7 +348,7 @@ Bridgetown::Resource.register_extension TestResourceExtension
 Now in any Ruby template or other scenario, you can call `heres_a_method` on a resource:
 
 ```ruby
-@site.resources.first.heres_a_method
+site.resources.first.heres_a_method
 ```
 
 Or in Liquid, it'll be available through the drop:
@@ -359,7 +383,7 @@ Prior to Bridgetown 1.0, a different content engine based on Jekyll was used whi
 * Front matter data is now accessed in Liquid through the `data` variable just like in ERB and skipping `data` is deprecated. Use `{{ post.data.description }}` instead of just `{{ post.description }}`.
 * In addition, instead of referencing the current "page" through `page` (aka `page.data.title`), you can use `resource` instead: `resource.data.title`.
 * Resources don't have a `url` variable. Your templates/plugins will need to reference either `relative_url` or `absolute_url`. Also, the site's `base_path` (if configured) is built into both values, so you won't need to prepend it manually.
-* Permalink formats have changed somewhat, so please refer to the new [permalink](/docs/content/permalinks) for how to use the new permalink styles and placeholders.
+* Permalink formats have changed somewhat, so please refer to the latest [permalink](/docs/content/permalinks) docs for how to use the new permalink styles and placeholders.
 * Whereas the `id` of a document is the relative destination URL, the `id` of a resource is its origin id. You can define an id in front matter separately however, which would be available as `resource.data.id`.
 * The paginator items are now accessed via `paginator.resources` instead of `paginator.documents`.
 * Instead of `pagination:\n  enabled: true` in your front matter for a paginated page, you'll put the collection name instead. Also you can use the term `paginate` instead of `pagination`. So to paginate through posts, just add `paginate:\n  collection: posts` to your front matter.

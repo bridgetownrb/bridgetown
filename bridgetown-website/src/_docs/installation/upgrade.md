@@ -15,7 +15,7 @@ gem "bridgetown", "~> {{ Bridgetown::VERSION }}"
 You’ll also need to add Puma to your Gemfile:
 
 ```ruby
-gem "puma", "~> 5.5"
+gem "puma", "~> 5.6"
 ```
 
 Then run `bundle install`. (You’ll also want to upgrade to the latest version of any extra plugins you may have added, such as the feed and seo plugins.)
