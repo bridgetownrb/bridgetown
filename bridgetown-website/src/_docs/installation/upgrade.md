@@ -18,7 +18,7 @@ You’ll also need to add Puma to your Gemfile:
 gem "puma", "~> 5.6"
 ```
 
-Then run `bundle install`. (You’ll also want to upgrade to the latest version of any extra plugins you may have added, such as the feed and seo plugins.)
+Then run `bundle update`. (You’ll also ensure you're specifying the latest version of any extra plugins you may have added, such as the feed and seo plugins.)
 
 Next you should run `bundle binstubs bridgetown-core` so you have access to `bin/bridgetown`, as this is now the canonical way of accessing the Bridgetown CLI within your project.
 
