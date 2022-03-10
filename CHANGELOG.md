@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## 1.0.0 (stable release) — 2022-03-07
+
+- Add bundled configuration for GH pages [#503](https://github.com/bridgetownrb/bridgetown/pull/503) ([ayushn21](https://github.com/ayushn21))
+- Fix `base_path` issues with Roda and site templates [#510](https://github.com/bridgetownrb/bridgetown/pull/510) ([jaredcwhite](https://github.com/jaredcwhite))
+- Many documentation tweaks
+- Plus _everything_ since v0.21!
+
 ## 1.0.0.beta3 — 2022-02-18
 
 - Project repo Gemfile cleanup
