@@ -166,11 +166,14 @@ module Bridgetown
 
       def configure_sass
         copy_file("frontend/styles/index.css", "frontend/styles/index.scss")
+        copy_file("frontend/styles/syntax-highlighting.css",
+                  "frontend/styles/syntax-highlighting.scss")
       end
 
       def configure_postcss
         template("postcss.config.js.erb", "postcss.config.js")
         copy_file("frontend/styles/index.css")
+        copy_file("frontend/styles/syntax-highlighting.css")
       end
 
       # After a new site has been created, print a success notification and

@@ -109,7 +109,7 @@ class TestNewCommand < BridgetownUnitTest
     end
 
     should "copy the static files for postcss configuration in site template to the new directory" do
-      postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
+      postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css", "/frontend/styles/syntax-highlighting.css"]
       postcss_template_files = static_template_files + postcss_config_files + template_config_files + liquid_config_files + esbuild_config_files
 
       capture_output do
@@ -124,7 +124,7 @@ class TestNewCommand < BridgetownUnitTest
     end
 
     should "copy the static files for erb templates config to the new directory" do
-      postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
+      postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css", "/frontend/styles/syntax-highlighting.css"]
       postcss_template_files = static_template_files + postcss_config_files + template_config_files + erb_config_files + esbuild_config_files
 
       capture_output do
@@ -139,7 +139,7 @@ class TestNewCommand < BridgetownUnitTest
     end
 
     should "copy the static files for sass configuration in site template to the new directory" do
-      sass_config_files = ["/frontend/styles/index.scss"]
+      sass_config_files = ["/frontend/styles/index.scss", "/frontend/styles/syntax-highlighting.scss"]
       sass_template_files = static_template_files + sass_config_files + template_config_files + liquid_config_files + webpack_config_files
 
       capture_output do
