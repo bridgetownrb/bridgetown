@@ -7,11 +7,13 @@ category: news
 
 Personally, [I'm a Bulma man myself](https://bulma.io), but I understand there are a ton of you out there who love [Tailwind CSS](https://tailwindcss.com) and won't give it up until they pry it out of your cold, dead hands.
 
-So I'm pleased as Ruby-colored punch to [highlight this breezy tutorial by Andrew Mason](https://andrewm.codes/posts/build-and-deploy-a-static-site-with-ruby-bridgetown-tailwindcss-and-netlify-3934/) all about how you can quickly and easily set up a new Bridgetown website with Tailwind CSS and PostCSS.
+So I'm pleased as Ruby-colored punch to [highlight this breezy tutorial by Andrew Mason][andrewm-blog] all about how you can quickly and easily set up a new Bridgetown website with Tailwind CSS and PostCSS.
 
-From the [article](https://andrewm.codes/posts/build-and-deploy-a-static-site-with-ruby-bridgetown-tailwindcss-and-netlify-3934/):
-
+From the [article][andrewm-blog]:
+									 
 > If you have had Ruby/Rails/Jekyll experience, you should feel right at home with Bridgetown. Bridgetown also removes the barrier to entry for integrating webpack and all the goodies the JavaScript community has to offer.
+
+[andrewm-blog]: https://andrewm.codes/blog/build-and-deploy-a-static-site-with-ruby-bridgetown-tailwindcss-and-netlify/
 
 ### Plugins Are Coming 😲
 
