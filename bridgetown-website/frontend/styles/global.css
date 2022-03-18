@@ -158,7 +158,7 @@ h2 {
 
   @media (--sl-breakpoint-xs) {
     position: relative;
-    overflow-x: hidden;
+    overflow: hidden;
   }
 }
 
