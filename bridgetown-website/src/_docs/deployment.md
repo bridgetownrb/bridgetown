@@ -125,7 +125,15 @@ After the build the site should be live at https://bridgetownrb.gitlab.io/mysite
 
 ### GitHub Pages
 
-Much like with GitLab, you can also deploy static sites to [GitHub Pages](https://pages.github.com/). You can make use of [GitHub Actions](https://github.com/features/actions) to automate building and deploying your site to GitHub Pages. For an out-of-the-box solution, check out the [`bridgetown-gh-pages-action`](https://github.com/andrewmcodes/bridgetown-gh-pages-action). One thing to note is that this action's default deployment branch is the `gh-pages` branch, so if you're using the default, you'll need to make sure your repo's GitHub Pages Settings at `https://github.com/<your-account>/<your-site>/settings/pages` have Source set to the `gh-pages` branch.
+Much like with GitLab, you can also deploy static sites to [GitHub Pages](https://pages.github.com/). You can make use of [GitHub Actions](https://github.com/features/actions) to automate building and deploying your site to GitHub Pages. 
+
+Bridgetown includes a [bundled configuration to set up GitHub pages](/docs/bundled-configurations#github-pages-configuration). You can apply it with the following command:
+
+```shell
+bin/bridgetown configure gh-pages
+```
+
+The default deployment branch will be `gh-pages`, so you'll need to make sure your repo's GitHub Pages Settings at `https://github.com/<your-account>/<your-site>/settings/pages` have Source set to the `gh-pages` branch. You'll also likely need to set a [`base_path`](/docs/configuration/options#build-command-options) in your Bridgetown configuration unless you're setting up a custom domain.
 
 ### Dokku
 
