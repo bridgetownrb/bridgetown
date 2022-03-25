@@ -2,16 +2,18 @@
 
 module Bridgetown
   module Localizable
-    def in_locales
-      case self
-      when Bridgetown::Resource::Base
-        collection.resources.select { |item| item.data.slug == data.slug }.sort_by do |item|
-          site.config.available_locales.index item.data.locale
-        end
-      when Bridgetown::GeneratedPage
-        site.generated_pages.select { |item| item.data.slug == data.slug }.sort_by do |item|
-          site.config.available_locales.index item.data.locale
-        end
+    def all_locales
+      result_set = case self
+                   when Bridgetown::Resource::Base
+                     collection.resources
+                   when Bridgetown::GeneratedPage
+                     site.generated_pages
+                   else
+                     []
+                   end
+
+      result_set.select { |item| item.data.slug == data.slug }.sort_by do |item|
+        site.config.available_locales.index item.data.locale
       end
     end
   end

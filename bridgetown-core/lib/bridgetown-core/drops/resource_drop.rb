@@ -25,7 +25,7 @@ module Bridgetown
                      :date,
                      :taxonomies,
                      :relations,
-                     :in_locales
+                     :all_locales
 
       private def_delegator :@obj, :data, :fallback_data
 

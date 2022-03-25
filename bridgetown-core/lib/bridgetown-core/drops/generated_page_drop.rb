@@ -16,7 +16,7 @@ module Bridgetown
                      :url,
                      :relative_url,
                      :relative_path,
-                     :in_locales
+                     :all_locales
 
       private def_delegator :@obj, :data, :fallback_data
     end
