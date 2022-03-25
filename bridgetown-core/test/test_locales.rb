@@ -24,6 +24,11 @@ class TestLocales < BridgetownUnitTest
     should "have the correct permalink and locale in French" do
       assert_equal "/fr/second-level-page/", @french_resource.relative_url
       assert_includes @french_resource.output, "<p>C’est <strong>bien</strong>.</p>\n\n<p>Locale: fr</p>"
+
+      assert_includes @french_resource.output, <<-HTML
+    <li>I'm a Second Level Page: /second-level-page/</li>
+    <li>I'm a Second Level Page in French: /fr/second-level-page/</li>
+      HTML
     end
   end
 
@@ -41,12 +46,21 @@ class TestLocales < BridgetownUnitTest
 
     should "have the correct permalink and locale in English" do
       assert_equal "/multi-page/", @english_resource.relative_url
+      assert_includes @english_resource.output, 'lang="en"'
+      assert_includes @english_resource.output, "<title>Multi-locale page</title>"
       assert_includes @english_resource.output, "<p>English: Multi-locale page</p>"
     end
 
     should "have the correct permalink and locale in French" do
       assert_equal "/fr/multi-page/", @french_resource.relative_url
+      assert_includes @french_resource.output, 'lang="fr"'
+      assert_includes @french_resource.output, "<title>Sur mesure</title>"
       assert_includes @french_resource.output, "<p>French: Sur mesure</p>"
+
+      assert_includes @french_resource.output, <<-HTML
+    <li>Multi-locale page: /multi-page/</li>
+    <li>Sur mesure: /fr/multi-page/</li>
+      HTML
     end
   end
 end

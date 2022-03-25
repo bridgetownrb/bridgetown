@@ -1,4 +1,5 @@
 ---
+layout: localization
 title: "Multi-locale page"
 locale_overrides:
   fr:
