@@ -73,6 +73,7 @@ There's also a growing number of companies which provide commercial support for 
 * [fslash42](https://fslash42.com){:target="_blank"}
 * [Helena's Nursery](https://helenas-nursery.com){:target="_blank"}
 * [Open Source KnowledgeBase](https://knowledgebase.redwebtigers.com){:target="_blank"}
+* [SplitFilter](https://splitfilter.com){:target="_blank"}
 
 In addition, members of the Bridgetown Core Team have appeared in podcasts and presentations across the web promoting Bridgetown! Check it out:
 
