@@ -117,7 +117,7 @@ gem "bridgetown-core", path: "/path/to/bridgetown/bridgetown-core"
 
 ## Need help?
 
-If you don't find the answer to your problem in our [docs](https://www.bridgetownrb.com/docs/), ask the [community](https://www.bridgetownrb.com/docs/community/) for help.
+If you don't find the answer to your problem in our [docs](https://www.bridgetownrb.com/docs/), ask the [community](https://www.bridgetownrb.com/community) for help.
 
 ## Code of Conduct
 

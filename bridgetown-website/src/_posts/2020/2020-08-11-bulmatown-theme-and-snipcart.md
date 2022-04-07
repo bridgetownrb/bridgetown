@@ -106,5 +106,5 @@ Bridgetown can be effectively used for a small amount of e-commerce. [Snipcart](
 
 ----
 
-_Want to set up your own online store or portfolio? [Give Bridgetown a whirl](/docs) and [let us know how it goes](/docs/community)!_
+_Want to set up your own online store or portfolio? [Give Bridgetown a whirl](/docs) and [let us know how it goes](/community)!_
 {: .has-text-centered}

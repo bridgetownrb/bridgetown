@@ -27,7 +27,7 @@ Not only that, but ERB/Haml/Slim templates are automatically supplied with the f
 
 Want to add your own helpers? No problem! Simply decorate the `Bridgetown::RubyTemplateView::Helpers` class or add a mixin.
 
-All this and more is well-documented in [ERB and Beyond](/docs/erb-and-beyond). If you run into any problems or have suggestions on how to improve template support, [please let us know!](/docs/community)
+All this and more is well-documented in [ERB and Beyond](/docs/erb-and-beyond). If you run into any problems or have suggestions on how to improve template support, [please let us know!](/community)
 
 ### Class Map Liquid Tag
 

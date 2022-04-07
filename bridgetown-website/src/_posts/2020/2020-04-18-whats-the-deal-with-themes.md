@@ -58,4 +58,4 @@ Imagine adding a `cool-new-plugin` Gem to your site and suddenly you have a new 
 
 This is no small feat because, in addition to allowing multiple plugins to supply templates and assets, we also need to integrate plugins into Bridgetown's new Webpack pipeline. Getting templates, Ruby code, Javascript, stylesheets, images, etc. all working together in harmony across an advanced website build with numerous plugins is going to be a massive undertaking, no doubt about it. **But we think the end result will be well worth the effort.**
 
-If you have any feedback or ideas about themes in Bridgetown, please drop by [our community forum](https://community.bridgetownrb.com) and let us know, or head over to the [Bridgetown repository on GitHub](https://github.com/bridgetownrb/bridgetown) and contribute to the project!
+If you have any feedback or ideas about themes in Bridgetown, please drop by [our community forum](https://www.bridgetownrb.com/community) and let us know, or head over to the [Bridgetown repository on GitHub](https://github.com/bridgetownrb/bridgetown) and contribute to the project!
