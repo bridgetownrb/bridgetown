@@ -72,7 +72,7 @@ Get started today.
 [Go Bridgetown](/docs/){:.button.is-large.is-warning.is-outlined}
 {:.has-text-centered.my-10}
 
-(or [find out how you can become a contributor](/docs/community/)…or perhaps join the Bridgetown core team!)
+(or [find out how you can become a contributor](/community)…or perhaps join the Bridgetown core team!)
 {:.has-text-centered}
 
 {%@ Note do %}

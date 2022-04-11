@@ -59,7 +59,7 @@ We're thrilled to be attracting both new and long-time fans of the Ruby programm
 
 ### Get Started with Bridgetown
 
-So enough with the technobabble. [Give Bridgetown a spin](/docs) and [let us know what you think](/docs/community)!
+So enough with the technobabble. [Give Bridgetown a spin](/docs) and [let us know what you think](/community)!
 
 Also check out [our Core Concepts guide](/docs/core-concepts) to learn more about the fundamentals of Bridgetown.
 

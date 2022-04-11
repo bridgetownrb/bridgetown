@@ -49,7 +49,7 @@ module Bridgetown
 
               The full error message from Ruby is: '#{e.message}'
 
-              If you run into trouble, you can find helpful resources at https://www.bridgetownrb.com/docs/community/
+              If you run into trouble, you can find helpful resources at https://www.bridgetownrb.com/community
             MSG
             raise Bridgetown::Errors::MissingDependencyException, name
           end

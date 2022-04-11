@@ -107,7 +107,7 @@ Finally, the other major step forward in Hazelwood is we're starting to break up
 
 Bridgetown 0.14 "Hazelwood" is an exciting release, not merely because of what it enables website designers and developers to do today, but because of the impact it will have on future releases of Bridgetown.
 
-[Give Bridgetown a spin](/docs) and [let us know what you think](/docs/community)!
+[Give Bridgetown a spin](/docs) and [let us know what you think](/community)!
 
 Also check out [our new Core Concepts guide](/docs/core-concepts) to learn more about the fundamentals of Bridgetown.
 
