@@ -20,7 +20,8 @@ module Bridgetown
       def self.run_process(name, color, cmd)
         Thread.new do
           rd, wr = IO.pipe("BINARY")
-          pid = Process.spawn(cmd, out: wr, err: wr, pgroup: true)
+          pid = Process.spawn({ "BRIDGETOWN_NO_BUNDLER_REQUIRE" => nil },
+                              cmd, out: wr, err: wr, pgroup: true)
           @mutex.synchronize do
             add_pid pid
           end
