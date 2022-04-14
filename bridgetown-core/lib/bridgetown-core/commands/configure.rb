@@ -38,10 +38,18 @@ module Bridgetown
       protected
 
       def configure(configuration)
-        configuration_file = find_in_source_paths("#{configuration}.rb")
+        if configuration.include?(":")
+          configuration_filename = configuration.split(":").first
+          configuration_option = configuration.split(":").last.split.first
+        else
+          configuration_filename = configuration
+        end
+
+        configuration_file = find_in_source_paths("#{configuration_filename}.rb")
 
         inside(New.created_site_dir || Dir.pwd) do
-          @templates_dir = File.expand_path("../configurations/#{configuration}", __dir__)
+          @templates_dir = File.expand_path("../configurations/#{configuration_filename}", __dir__)
+          @configuration_option = configuration_option
           apply configuration_file, verbose: false
         end
       end
