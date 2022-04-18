@@ -160,7 +160,7 @@ module Bridgetown
 
     def load_tasks
       require "bridgetown-core/commands/base"
-      Bridgetown::PluginManager.require_from_bundler
+      Bridgetown::PluginManager.require_from_bundler(skip_yarn: true)
       load File.expand_path("bridgetown-core/tasks/bridgetown_tasks.rake", __dir__)
     end
 

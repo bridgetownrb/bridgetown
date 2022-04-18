@@ -51,7 +51,7 @@ module Bridgetown
     # config - The Hash of configuration options.
     #
     # Returns a new instance.
-    def initialize(config = {})
+    def initialize(config = {}) # rubocop:disable Style/RedundantInitialize
       # no-op for default
     end
   end
