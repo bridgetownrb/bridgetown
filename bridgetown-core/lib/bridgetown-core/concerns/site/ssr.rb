@@ -46,7 +46,7 @@ class Bridgetown::Site
       end
       Bridgetown::Hooks.trigger :site, :post_read, self
 
-      block&.call(site) # provide additional setup hook
+      block&.call(self) # provide additional setup hook
       return if Bridgetown.env.production?
 
       Bridgetown::Watcher.watch(self, config, &block)
