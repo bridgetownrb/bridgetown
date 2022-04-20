@@ -9,6 +9,46 @@ module Bridgetown
     end
 
     class Routes
+      PRIORITIES = {
+        highest: "010",
+        high: "020",
+        normal: "030",
+        low: "040",
+        lowest: "050",
+      }.freeze
+
+      # Get or set the priority of this plugin. When called without an
+      # argument it returns the priority. When an argument is given, it will
+      # set the priority.
+      #
+      # priority - The Symbol priority (default: nil). Valid options are:
+      #            :lowest, :low, :normal, :high, :highest
+      #
+      # Returns the Symbol priority.
+      def self.priority(priority = nil)
+        @priority ||= nil
+        @priority = priority if priority && PRIORITIES.key?(priority)
+        @priority || :normal
+      end
+
+      # Spaceship is priority [higher -> lower]
+      #
+      # other - The class to be compared.
+      #
+      # Returns -1, 0, 1.
+      def self.<=>(other)
+        "#{PRIORITIES[priority]}#{self}" <=> "#{PRIORITIES[other.priority]}#{other}"
+      end
+
+      # Spaceship is priority [higher -> lower]
+      #
+      # other - The class to be compared.
+      #
+      # Returns -1, 0, 1.
+      def <=>(other)
+        self.class <=> other.class
+      end
+
       class << self
         attr_accessor :tracked_subclasses, :router_block
 
@@ -20,6 +60,10 @@ module Bridgetown
         def track_subclass(klass)
           Bridgetown::Rack::Routes.tracked_subclasses ||= {}
           Bridgetown::Rack::Routes.tracked_subclasses[klass.name] = klass
+        end
+
+        def sorted_subclasses
+          Bridgetown::Rack::Routes.tracked_subclasses&.values&.sort
         end
 
         def reload_subclasses
@@ -64,7 +108,7 @@ module Bridgetown
             setup_live_reload roda_app
           end
 
-          Bridgetown::Rack::Routes.tracked_subclasses&.each_value do |klass|
+          Bridgetown::Rack::Routes.sorted_subclasses&.each do |klass|
             klass.merge roda_app
           end
 
