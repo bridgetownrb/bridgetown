@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Routes::Hello < Bridgetown::Rack::Routes
   priority :lowest
 

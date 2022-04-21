@@ -6,7 +6,7 @@ class TestSSR < BridgetownUnitTest
   include Rack::Test::Methods
 
   def app
-    @@ssr_app ||= Rack::Builder.parse_file(File.expand_path("ssr/config.ru", __dir__)).first
+    @@ssr_app ||= Rack::Builder.parse_file(File.expand_path("ssr/config.ru", __dir__)).first # rubocop:disable Style/ClassVars
   end
 
   context "Roda-powered Bridgetown server" do

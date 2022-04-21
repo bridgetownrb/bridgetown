@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "bridgetown-core/rack/boot"
 
 Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration.from(
