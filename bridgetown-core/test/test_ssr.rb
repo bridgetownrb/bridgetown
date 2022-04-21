@@ -28,7 +28,15 @@ class TestSSR < BridgetownUnitTest
     should "return JSON for the hello route" do
       get "/hello/world"
       assert last_response.ok?
-      assert_equal({ hello: "friend world IVAR" }.to_json, last_response.body)
+      assert_equal({ hello: "friend world VALUE" }.to_json, last_response.body)
+    end
+
+    should "preserve site data between live reloads" do
+      app # ensure it's been run
+      site = @@ssr_app.opts[:bridgetown_site]
+      assert_equal 1, site.data.iterations
+      site.reset(soft: true)
+      assert_equal 2, site.data.iterations
     end
   end
 end

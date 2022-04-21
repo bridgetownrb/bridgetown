@@ -1,6 +1,6 @@
 class Routes::Kello < Bridgetown::Rack::Routes
   route do |r|
-    r.instance_variable_set(:@ivar, "IVAR")
+    bridgetown_site.data.save_value = "VALUE"
 
     # route: GET /hello/:name
     r.get "kello", String do |name|

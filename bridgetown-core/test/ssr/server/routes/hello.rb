@@ -2,11 +2,11 @@ class Routes::Hello < Bridgetown::Rack::Routes
   priority :lowest
 
   route do |r|
-    @ivar = r.instance_variable_get(:@ivar)
+    saved_value = bridgetown_site.data.save_value
 
     # route: GET /hello/:name
     r.get "hello", String do |name|
-      { hello: "friend #{name} #{@ivar}" }
+      { hello: "friend #{name} #{saved_value}" }
     end
   end
 end
