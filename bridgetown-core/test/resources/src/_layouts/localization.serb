@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="{%= site.locale %}">
+<head>
+  <title>{{ resource.data.title }}</title>
+</head>
+<body>
+{%= yield %}
+
+Other Locales:
+
+<ul>
+  {% resource.all_locales.each do |other_resource| %}
+    <li>{{ other_resource.data.title }}: {{ other_resource.relative_url }}</li>
+  {% end %}
+</ul>
+
+</body>
+</html>

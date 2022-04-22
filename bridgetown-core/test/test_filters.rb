@@ -740,6 +740,8 @@ class TestFilters < BridgetownUnitTest
         assert prev.is_a?(Hash), "doc.next should be an object"
         relations = actual.delete("relations")
         refute_nil relations
+        all_locales = actual.delete("all_locales")
+        assert all_locales.length == 1
         assert_equal expected, actual
       end
 

@@ -94,6 +94,8 @@ Security/YAMLLoad:
   Exclude:
     - !ruby/regexp /bridgetown-core/features\/.*.rb/
     - !ruby/regexp /bridgetown-core/test\/.*.rb$/
+Style/FetchEnvVar:
+  Enabled: false
 Style/FrozenStringLiteralComment:
   Exclude:
     - bridgetown-core/lib/site_template/**/*.rb

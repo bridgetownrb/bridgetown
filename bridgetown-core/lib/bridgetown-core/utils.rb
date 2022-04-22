@@ -320,7 +320,7 @@ module Bridgetown
         end
 
         if continue_processing
-          line_indentation = line.match(%r!^ +!).yield_self do |indent|
+          line_indentation = line.match(%r!^ +!).then do |indent|
             indent.nil? ? "" : indent[0]
           end
           new_indentation = line_indentation.rjust(starting_indent_length, " ")

@@ -66,6 +66,11 @@ module Bridgetown
 
           next unless template_config["enabled"]
 
+          if template.site.config.available_locales.size > 1 && !template_config["locale"]
+            template_config["locale"] =
+              template.data["locale"].to_s
+          end
+
           @logging_lambda.call "found page: #{template.path}", "debug" unless @debug
 
           # Request all documents in all collections that the user has requested
