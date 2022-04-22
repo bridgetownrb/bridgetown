@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-...
+- Re-run SSR setup block on live reload
+- Trigger pre/post-read hooks on SSR reload
+  - **BREAKING CHANGE:** (maybe) If you had long-running code in a plugin `build` method or a hook, this might surprise you when you live reload in dev using dynamic routes. Use `site.ssr?` if you want to bypass code in SSR mode.
+- Fix bug where sidecar aux process wasn't requiring bundler groups (#532)
 
 ## 1.0.0 (stable release) — 2022-03-07
 

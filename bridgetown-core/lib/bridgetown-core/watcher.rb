@@ -12,10 +12,20 @@ module Bridgetown
     #
     # @param site [Bridgetown::Site] the current site instance
     # @param options [Bridgetown::Configuration] the site configuration
-    def watch(site, options)
+    # @yield the block will be called when in SSR mode right after the post_read event
+    def watch(site, options, &block)
       ENV["LISTEN_GEM_DEBUGGING"] ||= "1" if options["verbose"]
 
       listen(site, options)
+
+      if site.ssr?
+        # We need to trigger pre/post read hooks when SSR reload occurs in order to re-run Builders
+        Bridgetown::Hooks.register_one :site, :after_soft_reset, reloadable: false do
+          Bridgetown::Hooks.trigger :site, :pre_read, site
+          Bridgetown::Hooks.trigger :site, :post_read, site
+          block&.call(site)
+        end
+      end
 
       Bridgetown.logger.info "Watcher:", "enabled." unless options[:using_puma]
 

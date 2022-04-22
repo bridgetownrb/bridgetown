@@ -40,7 +40,8 @@ module Bridgetown
       @loaders_manager = Bridgetown::Utils::LoadersManager.new(site.config)
     end
 
-    def self.require_from_bundler
+    def self.require_from_bundler(skip_yarn: false) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      # NOTE: investigate why this ENV var is really necessary
       if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] && File.file?("Gemfile")
         require "bundler"
 
@@ -48,7 +49,7 @@ module Bridgetown
           (dep.groups & [PLUGINS_GROUP]).any? && dep.should_include?
         end
 
-        install_yarn_dependencies(required_gems)
+        install_yarn_dependencies(required_gems) unless skip_yarn
 
         required_gems.each do |installed_gem|
           add_registered_plugin installed_gem

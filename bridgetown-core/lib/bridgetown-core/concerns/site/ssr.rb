@@ -32,7 +32,7 @@ class Bridgetown::Site
       @ssr_enabled = true
     end
 
-    def ssr_setup
+    def ssr_setup(&block)
       config.serving = true
       Bridgetown::Hooks.trigger :site, :pre_read, self
       defaults_reader.tap do |d|
@@ -46,10 +46,10 @@ class Bridgetown::Site
       end
       Bridgetown::Hooks.trigger :site, :post_read, self
 
-      yield self if block_given? # provide additional setup hook
+      block&.call(self) # provide additional setup hook
       return if Bridgetown.env.production?
 
-      Bridgetown::Watcher.watch(self, config)
+      Bridgetown::Watcher.watch(self, config, &block)
     end
 
     def disable_ssr

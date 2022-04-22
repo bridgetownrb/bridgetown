@@ -97,5 +97,5 @@ Wow, what a day! You've learned about how to incorporate content from a headless
 
 ----
 
-_Want to set up your own website that's super fast and easy to customize? [Give Bridgetown a try today](/docs) and [let us know how it goes](/docs/community)!_
+_Want to set up your own website that's super fast and easy to customize? [Give Bridgetown a try today](/docs) and [let us know how it goes](/community)!_
 {: .has-text-centered}

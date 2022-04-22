@@ -122,9 +122,57 @@ will look for `frontend/images/folder/somefile.png`.
 
 ## esbuild Setup
 
-The default configuration is defined in `config/esbuild.defaults.js`. However, you should add or override your own config options in the top-level `esbuild.config.js` file.
+The default configuration is defined in `config/esbuild.defaults.js`. However, you should add or override your own config options in the top-level `esbuild.config.js` file. By modifying the `esbuildOptions` object (blank by default), it adds to or overrides default config options. This provides a straightforward way of adding esbuild plugins and other esbuild features unique to your frontend.
 
-_More documentation coming soon!_
+For instance, you could add [Ruby2JS](https://www.ruby2js.com/) support and switch to using a `.js.rb` file for your entrypoint:
+
+```js
+const ruby2js = require("@ruby2js/esbuild-plugin")
+
+const esbuildOptions = {
+  entryPoints: ["frontend/javascript/index.js.rb"],
+  target: "es2020",
+  plugins: [
+    ruby2js({
+      eslevel: 2020,
+      filters: ["camelCase", "functions", "lit", "esm", "return"]
+    }),
+  ]
+}
+```
+
+### Multiple Entry Points
+
+You can specify multiple entry points (which result in multiple output bundles) by using a custom `entryPoints` config. You can then reference the additional entry points using the `asset_path` Liquid tag or Ruby helper. (Be sure to start with `javascript` in your relative paths.) For example:
+
+```js
+// esbuild.config.js
+
+const esbuildOptions = {
+  entryPoints: [
+    "frontend/javascript/index.js",
+    "frontend/javascript/pages/contact_form.js"
+  ],
+  format: "esm"
+}
+```
+
+```liquid
+<script src="{% asset_path javascript/pages/contact_form.js %}"></script>
+```
+
+By also adding `format: "esm"`, you gain the ability to import code from new entry points directly inside of `type="module"` scripts in your HTML! Let's say `contact_form.js` exports the function `contactForm` to set up a form dynamically. Instead of using a `script src=` tag in the HTML head, you could do this (using ERB in this example):
+
+```erb
+<script type="module">
+  import { contactForm } from "<%= asset_path 'javascript/pages/contact_form.js' %>"
+
+  contactForm("contact-form")
+</script>
+
+<form id="contact-form">
+</form>
+```
 
 ## Webpack Setup
 
@@ -143,7 +191,7 @@ bin/bridgetown webpack
 
 ### Multiple Entry Points
 
-If you need to manage more than one Webpack bundle, you can add additional entry points to the `webpack.config.js` file (in Bridgetown 0.20 and above). For example:
+If you need to manage more than one Webpack bundle, you can add additional entry points to the `webpack.config.js` file. For example:
 
 ```js
   config.entry.somethingElse = "./frontend/otherscript/something_else.js"

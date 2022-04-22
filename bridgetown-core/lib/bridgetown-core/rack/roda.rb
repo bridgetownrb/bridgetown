@@ -51,6 +51,9 @@ module Bridgetown
         request.root do
           output_folder = Bridgetown::Current.preloaded_configuration.destination
           File.read(File.join(output_folder, "index.html"))
+        rescue StandardError
+          response.status = 500
+          "<p>ERROR: cannot find <code>index.html</code> in the output folder.</p>"
         end
       end
 

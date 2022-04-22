@@ -18,9 +18,9 @@ Bridgetown is a next-generation, progressive site generator & fullstack framewor
 
 ----
 
-## Special Thanks to Our Founding Members! 🙏 🎉
+## Special Thanks to Our GitHub Sponsors! 🙏 🎉
 
-Say howdy 👋 to our growing list of the first ~~twenty~~ twenty-six and counting sponsors of Bridgetown on GitHub!
+Say howdy 👋 to our growing list of the first ~~twenty~~ thirty and counting sponsors of Bridgetown on GitHub!
 [You too can join this list and sponsor Bridgetown.](https://github.com/sponsors/jaredcwhite)
 
 |<img src="https://avatars.githubusercontent.com/pilotcph?s=256" alt="pilotcph" width="128" />|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://avatars.githubusercontent.com/miatrinity?s=256" alt="miatrinity" width="128" />|<img src="https://avatars.githubusercontent.com/marcoroth?s=256" alt="marcoroth" width="128" />|<img src="https://avatars.githubusercontent.com/mtomov?s=256" alt="mtomov" width="128" />|
@@ -53,10 +53,10 @@ Say howdy 👋 to our growing list of the first ~~twenty~~ twenty-six and counti
 |<a href="https://github.com/collindonnell">@collindonnell</a>|<a href="https://github.com/AbuMareBear">@AbuMareBear</a>|<a href="https://github.com/luctus">@luctus</a>|<a href="https://github.com/pascallaliberte">@pascallaliberte</a>|<a href="https://github.com/johlym">@johlym</a>|
 |<a href="https://keyandnib.com">Website</a>||<a href="https://dailytics.com">Website</a>|<a href="https://pascal.works">Website</a>|<a href="https://johnathan.org">Website</a>|
 
-|<img src="https://avatars.githubusercontent.com/subsevenx?s=256" alt="subsevenx" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|
-|<a href="https://github.com/subsevenx">@subsevenx</a>|You Next?|
-|||
+|<img src="https://avatars.githubusercontent.com/subsevenx?s=256" alt="subsevenx" width="128" />|<img src="https://avatars.githubusercontent.com/coreyaus?s=256" alt="coreyaus" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|
+|<a href="https://github.com/subsevenx">@subsevenx</a>|<a href="https://github.com/coreyaus">@coreyaus</a>|You Next?|
+||<a href="https://www.codenation.com">Website</a>||
 
 ## Commercial Support
 
@@ -117,7 +117,7 @@ gem "bridgetown-core", path: "/path/to/bridgetown/bridgetown-core"
 
 ## Need help?
 
-If you don't find the answer to your problem in our [docs](https://www.bridgetownrb.com/docs/), ask the [community](https://www.bridgetownrb.com/docs/community/) for help.
+If you don't find the answer to your problem in our [docs](https://www.bridgetownrb.com/docs/), ask the [community](https://www.bridgetownrb.com/community) for help.
 
 ## Code of Conduct
 
