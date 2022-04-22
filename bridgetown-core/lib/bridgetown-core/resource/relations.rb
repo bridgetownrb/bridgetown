@@ -68,7 +68,7 @@ module Bridgetown
       # @return [String]
       def kind_of_relation_for_type(type)
         relation_schema&.each do |relation_type, collections|
-          collections = Array(collections).yield_self do |collections_arr|
+          collections = Array(collections).then do |collections_arr|
             collections_arr +
               collections_arr.map { |item| ActiveSupport::Inflector.pluralize(item) }
           end.flatten.uniq
