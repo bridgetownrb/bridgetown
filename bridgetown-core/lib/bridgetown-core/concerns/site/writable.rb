@@ -53,7 +53,7 @@ class Bridgetown::Site
         <html>
           <head>
             <title>Redirecting…</title>
-            <meta http-equiv="refresh" content="0; url=/#{config.default_locale}/" />
+            <meta http-equiv="refresh" content="0; url=#{resource.relative_url}" />
           </head>
           <body></body>
         </html>

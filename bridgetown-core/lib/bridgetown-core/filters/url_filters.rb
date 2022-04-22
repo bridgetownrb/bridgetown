@@ -7,9 +7,8 @@ module Bridgetown
 
       # Produces an absolute URL based on site.url and site.base_path.
       #
-      # input - the URL to make absolute.
-      #
-      # Returns the absolute URL as a String.
+      # @param input [String] the URL to make absolute.
+      # @return [String] the absolute URL as a String.
       def absolute_url(input)
         cache = (@context.registers[:cached_absolute_urls] ||= {})
         cache[input] ||= compute_absolute_url(input)
@@ -18,19 +17,37 @@ module Bridgetown
       # Produces a URL relative to the domain root based on site.base_path
       # unless it is already an absolute url with an authority (host).
       #
-      # input - the URL to make relative to the domain root
-      #
-      # Returns a URL relative to the domain root as a String.
+      # @param input [String] the URL to make relative to the domain root
+      # @return [String] a URL relative to the domain root as a String.
       def relative_url(input)
         cache = (@context.registers[:cached_relative_urls] ||= {})
         cache[input] ||= compute_relative_url(input)
       end
 
+      # Adds a prefix of the current site locale to a relative URL, unless it's
+      # a default locale and prefix_current_locale config is false.
+      #
+      # @param input [String] the relative URL
+      # @param use_locale [String] another locale to use beside the current one (must if in site's available_configs)
+      # @return [String] the prefixed relative URL
+      def in_locale(input, use_locale = nil)
+        site = @context.registers[:site]
+        use_locale ||= site.locale
+
+        if !site.config.prefix_default_locale &&
+            use_locale&.to_sym == site.config.default_locale
+          return input
+        end
+
+        return input unless site.config.available_locales.include?(use_locale.to_sym)
+
+        "#{use_locale}/#{input.to_s.delete_prefix("/")}"
+      end
+
       # Strips trailing `/index.html` from URLs to create pretty permalinks
       #
-      # input - the URL with a possible `/index.html`
-      #
-      # Returns a URL with the trailing `/index.html` removed
+      # @param input [String] the URL with a possible `/index.html`
+      # @return [String] a URL with the trailing `/index.html` removed
       def strip_index(input)
         return if input.nil? || input.to_s.empty?
 

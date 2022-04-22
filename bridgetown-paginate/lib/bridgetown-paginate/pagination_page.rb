@@ -38,6 +38,15 @@ module Bridgetown
         @url = url_value
       end
       # rubocop:enable Naming/AccessorMethodName
+
+      def destination(dest)
+        path = site.in_dest_dir(
+          dest, URL.unescape_path(url).delete_prefix(site.base_path(strip_slash_only: true))
+        )
+        path = File.join(path, "index") if url.end_with?("/")
+        path << output_ext unless path.end_with? output_ext
+        path
+      end
     end
   end
 end
