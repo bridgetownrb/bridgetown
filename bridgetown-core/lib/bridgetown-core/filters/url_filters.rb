@@ -28,7 +28,8 @@ module Bridgetown
       # a default locale and prefix_current_locale config is false.
       #
       # @param input [String] the relative URL
-      # @param use_locale [String] another locale to use beside the current one (must if in site's available_configs)
+      # @param use_locale [String] another locale to use beside the current one (must if in site's
+      #   available_configs)
       # @return [String] the prefixed relative URL
       def in_locale(input, use_locale = nil)
         site = @context.registers[:site]
