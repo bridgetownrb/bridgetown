@@ -48,6 +48,13 @@ class Bridgetown::Site
         item.data.slug == "index" && item.data.locale == config.default_locale
       end
 
+      unless resource
+        Bridgetown.logger.warn(
+          "Index file not found in the source folder, cannot generate top-level redirect file"
+        )
+        return
+      end
+
       index_html = <<~HTML
         <!DOCTYPE html>
         <html>
