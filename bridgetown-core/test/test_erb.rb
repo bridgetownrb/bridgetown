@@ -5,7 +5,7 @@ require "helper"
 class TestERB < BridgetownUnitTest
   def setup
     @site = fixture_site
-    @site.process
+    @process_output = capture_output { @site.process }
     @erb_page = @site.resources.find { |p| p.data[:title] == "I'm an ERB Page" }
   end
 
@@ -48,6 +48,13 @@ class TestERB < BridgetownUnitTest
     should "render partials" do
       assert_includes @erb_page.output, "A partial success? yes."
       assert_includes @erb_page.output, "A partial success? YES!!"
+    end
+  end
+
+  context "Rails-style extensions" do
+    should "issue a warning" do
+      assert_includes @process_output, "Uh oh! You're using a Rails-style filename extension in:"
+      assert_includes @process_output, "rails-style.html.erb"
     end
   end
 end
