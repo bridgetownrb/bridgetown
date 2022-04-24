@@ -339,6 +339,11 @@ module Bridgetown
     end
     # rubocop:enable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
 
+    # Return an asset path based on a frontend manifest file
+    #
+    # @param site [Bridgetown::Site] The current site object
+    # @param asset_type [String] js or css, or filename in manifest
+    # @return [String, nil]
     def parse_frontend_manifest_file(site, asset_type)
       case frontend_bundler_type(site.root_dir)
       when :webpack
@@ -362,9 +367,6 @@ module Bridgetown
     #   file isnt found
     # @return [nil] Returns nil if the asset isnt found
     # @return [String] Returns the path to the asset if no issues parsing
-    #
-    # @raise [WebpackAssetError] if unable to find css or js in the manifest
-    #   file
     def parse_webpack_manifest_file(site, asset_type)
       return log_frontend_asset_error(site, "Webpack manifest") if site.frontend_manifest.nil?
 
@@ -389,16 +391,17 @@ module Bridgetown
     #   file isnt found
     # @return [nil] Returns nil if the asset isnt found
     # @return [String] Returns the path to the asset if no issues parsing
-    #
-    # @raise [WebpackAssetError] if unable to find css or js in the manifest
-    #   file
     def parse_esbuild_manifest_file(site, asset_type) # rubocop:disable Metrics/PerceivedComplexity
       return log_frontend_asset_error(site, "esbuild manifest") if site.frontend_manifest.nil?
 
-      asset_path = if %w(js css).include?(asset_type)
-                     folder = asset_type == "js" ? "javascript" : "styles"
-                     site.frontend_manifest["#{folder}/index.#{asset_type}"] ||
-                       site.frontend_manifest["#{folder}/index.#{asset_type}.rb"]
+      asset_path = case asset_type
+                   when "css"
+                     site.frontend_manifest["styles/index.css"] ||
+                       site.frontend_manifest["styles/index.scss"] ||
+                       site.frontend_manifest["styles/index.sass"]
+                   when "js"
+                     site.frontend_manifest["javascript/index.js"] ||
+                       site.frontend_manifest["javascript/index.js.rb"]
                    else
                      site.frontend_manifest.find do |item, _|
                        item.sub(%r{^../(frontend/|src/)?}, "") == asset_type
