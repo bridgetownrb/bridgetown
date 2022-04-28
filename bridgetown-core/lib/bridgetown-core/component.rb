@@ -4,7 +4,7 @@ module Bridgetown
   class Component
     extend Forwardable
 
-    def_delegators :@view_context, :helpers, :liquid_render, :partial
+    def_delegators :@view_context, :liquid_render, :partial
 
     # @return [Bridgetown::Site]
     attr_reader :site # will be nil unless you explicitly set a `@site` ivar
@@ -32,14 +32,12 @@ module Bridgetown
       def renderer_for_ext(ext, &block)
         @_tmpl ||= case ext.to_s
                    when "erb"
-                     include ERBCapture
                      Tilt::ErubiTemplate.new(component_template_path,
                                              outvar: "@_erbout",
                                              bufval: "Bridgetown::OutputBuffer.new",
                                              engine_class: Bridgetown::ERBEngine,
                                              &block)
-                   when "serb" # requires serbea
-                     include Serbea::Helpers
+                   when "serb"
                      Tilt::SerbeaTemplate.new(component_template_path, &block)
                    when "slim" # requires bridgetown-slim
                      Slim::Template.new(component_template_path, &block)
@@ -166,12 +164,20 @@ module Bridgetown
     def _renderer
       @_renderer ||= begin
         ext = File.extname(self.class.component_template_path).delete_prefix(".")
-        self.class.renderer_for_ext(ext) { self.class.component_template_content }
+        self.class.renderer_for_ext(ext) { self.class.component_template_content }.tap do |rn|
+          self.class.include(rn.is_a?(Tilt::SerbeaTemplate) ? Serbea::Helpers : ERBCapture)
+        end
       end
     end
 
+    def helpers
+      @helpers ||= Bridgetown::RubyTemplateView::Helpers.new(
+        self, view_context&.site || Bridgetown::Current.site
+      )
+    end
+
     def method_missing(method, *args, **kwargs, &block)
-      if view_context && helpers.respond_to?(method.to_sym)
+      if helpers.respond_to?(method.to_sym)
         helpers.send method.to_sym, *args, **kwargs, &block
       else
         super
@@ -179,7 +185,7 @@ module Bridgetown
     end
 
     def respond_to_missing?(method, include_private = false)
-      (view_context && helpers.respond_to?(method.to_sym, include_private)) || super
+      helpers.respond_to?(method.to_sym, include_private) || super
     end
   end
 end
