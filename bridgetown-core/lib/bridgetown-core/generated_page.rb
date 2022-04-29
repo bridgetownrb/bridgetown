@@ -4,6 +4,7 @@ module Bridgetown
   class GeneratedPage
     include LayoutPlaceable
     include LiquidRenderable
+    include Localizable
     include Publishable
     include Transformable
 

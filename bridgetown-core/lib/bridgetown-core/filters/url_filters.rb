@@ -42,7 +42,7 @@ module Bridgetown
       # @param input [Object] value which responds to `to_s`
       # @return [String]
       def strip_extname(input)
-        Pathname.new(input.to_s).yield_self do |path|
+        Pathname.new(input.to_s).then do |path|
           path.dirname + path.basename(".*")
         end.to_s
       end

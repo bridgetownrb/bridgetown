@@ -168,6 +168,7 @@ class TestSite < BridgetownUnitTest
         page_using_erb.erb
         page_using_serb.serb
         properties.html
+        rails-style.html.erb
         sitemap.xml
         static_files.html
         symlinked-file

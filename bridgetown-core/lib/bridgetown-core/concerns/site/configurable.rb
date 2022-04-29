@@ -38,7 +38,7 @@ class Bridgetown::Site
     # @param strip_slash_only [Boolean] set to true if you wish "/" to be returned as ""
     # @return [String]
     def base_path(strip_slash_only: false)
-      (config[:base_path] || config[:baseurl]).yield_self do |path|
+      (config[:base_path] || config[:baseurl]).then do |path|
         strip_slash_only ? path.to_s.sub(%r{^/$}, "") : path
       end
     end
@@ -166,7 +166,7 @@ class Bridgetown::Site
       plugin_components_load_paths = Bridgetown::PluginManager.source_manifests
         .filter_map(&:components)
 
-      local_components_load_paths = config["components_dir"].yield_self do |dir|
+      local_components_load_paths = config["components_dir"].then do |dir|
         dir.is_a?(Array) ? dir : [dir]
       end
       local_components_load_paths.map! do |dir|

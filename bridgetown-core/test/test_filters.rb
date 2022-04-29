@@ -740,6 +740,8 @@ class TestFilters < BridgetownUnitTest
         assert prev.is_a?(Hash), "doc.next should be an object"
         relations = actual.delete("relations")
         refute_nil relations
+        all_locales = actual.delete("all_locales")
+        assert all_locales.length == 1
         assert_equal expected, actual
       end
 
@@ -874,7 +876,7 @@ class TestFilters < BridgetownUnitTest
               g["items"].is_a?(Array),
               "The list of grouped items for '' is not an Array."
             )
-            assert_equal 17, g["items"].size
+            assert_equal 18, g["items"].size
           end
         end
       end
@@ -1169,7 +1171,7 @@ class TestFilters < BridgetownUnitTest
               g["items"].is_a?(Array),
               "The list of grouped items for '' is not an Array."
             )
-            assert_equal 17, g["items"].size
+            assert_equal 18, g["items"].size
           end
         end
       end

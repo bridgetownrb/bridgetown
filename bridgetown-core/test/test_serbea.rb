@@ -55,4 +55,10 @@ class TestSerbea < BridgetownUnitTest
       assert_includes @serb_page.output, "A partial success? YES!!"
     end
   end
+
+  context "capturing inside of component templates" do
+    should "not leak into main output" do
+      refute_includes @serb_page.output, "## You should not see this captured content."
+    end
+  end
 end

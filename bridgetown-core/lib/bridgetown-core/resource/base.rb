@@ -7,6 +7,7 @@ module Bridgetown
       include Bridgetown::Publishable
       include Bridgetown::LayoutPlaceable
       include Bridgetown::LiquidRenderable
+      include Bridgetown::Localizable
 
       # @return [HashWithDotAccess::Hash]
       attr_reader :data

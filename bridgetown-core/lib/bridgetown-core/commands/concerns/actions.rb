@@ -79,7 +79,7 @@ module Bridgetown
 
       def determine_remote_filename(arg)
         if arg.end_with?(".rb")
-          arg.split("/").yield_self do |segments|
+          arg.split("/").then do |segments|
             arg.sub!(%r!/#{segments.last}$!, "")
             segments.last
           end

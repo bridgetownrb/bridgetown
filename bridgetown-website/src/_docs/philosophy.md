@@ -13,7 +13,7 @@ Every successful open source project has a certain "vibe", those thought pattern
 
 ## Core Principles
 
-* **Move fast but try really hard not to break things.** Most developer-focsued software projects err on a side…either the side of extreme backwards-compatibility with past versions, or the side of evolving quickly and requiring devs to go through multiple rounds of ["yak shaving"](http://projects.csail.mit.edu/gsb/old-archive/gsb-archive/gsb2000-02-11.html) when upgrading to new versions.
+* **Move fast but try really hard not to break things.** Most developer-focused software projects err on a side…either the side of extreme backwards-compatibility with past versions, or the side of evolving quickly and requiring devs to go through multiple rounds of ["yak shaving"](http://projects.csail.mit.edu/gsb/old-archive/gsb-archive/gsb2000-02-11.html) when upgrading to new versions.
 
   We hope to strike a thoughtful balance between those two extremes. We don't want to break stuff or change the setup process just for the heck of it. But we also don't want to be constrained by past problematic decisions which reduce the quality of the software. History has proven many times over that open source projects which fail to keep pace with the times and new trends in software eventually wither and die. This is a fate we wish to avoid!
 

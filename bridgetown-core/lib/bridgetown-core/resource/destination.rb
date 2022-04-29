@@ -12,6 +12,7 @@ module Bridgetown
       # @param resource [Bridgetown::Resource::Base]
       def initialize(resource)
         @resource = resource
+        warn_on_rails_style_extension
         @output_ext = resource.transformer.final_ext
       end
 
@@ -45,6 +46,23 @@ module Bridgetown
         FileUtils.mkdir_p(File.dirname(path))
         Bridgetown.logger.debug "Writing:", path
         File.write(path, output, mode: "wb")
+      end
+
+      private
+
+      def warn_on_rails_style_extension
+        return unless resource.relative_path.fnmatch?("*.{html,json,js}.*", File::FNM_EXTGLOB)
+
+        Bridgetown.logger.warn("Uh oh!", "You're using a Rails-style filename extension in:")
+        Bridgetown.logger.warn("", resource.relative_path)
+        Bridgetown.logger.warn(
+          "", "Instead, you can use either the desired output file extension or set a permalink."
+        )
+        Bridgetown.logger.warn(
+          "For more info:",
+          "https://www.bridgetownrb.com/docs/template-engines/erb-and-beyond#extensions-and-permalinks"
+        )
+        Bridgetown.logger.warn("")
       end
     end
   end

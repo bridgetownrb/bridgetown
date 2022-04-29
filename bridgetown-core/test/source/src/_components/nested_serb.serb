@@ -3,3 +3,7 @@
 {% if @level == 4 %}
   {{ "**#{site.config.level} 4!!**" | markdownify }}
 {% end %}
+
+{%= markdownify do %}
+## You should not see this captured content.
+{% end %}
