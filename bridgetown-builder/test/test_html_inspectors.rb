@@ -26,6 +26,10 @@ class TestHtmlInspectors < BridgetownUnitTest
       end
     end
 
+    teardown do
+      @_inspectors = nil
+    end
+
     should "allow manipulation via Nokogiri" do
       add_resource :posts, "html-inspectors.md" do
         title "I'm a Markdown post!"
