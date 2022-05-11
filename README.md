@@ -16,10 +16,6 @@ Bridgetown is a next-generation, progressive site generator & fullstack framewor
 [![Join the Discord Chat](https://img.shields.io/discord/711236503493148733?color=forestgreen&logo=discord)](https://discord.gg/4E6hktQGz4)
 [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-blue.svg)](https://github.com/bridgetownrb/bridgetown/blob/master/CONTRIBUTING.md)
 
-## Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=bridgetownrb/bridgetown&type=Date)](https://star-history.com/#bridgetownrb/bridgetown&Date)
-
 ----
 
 ## Special Thanks to Our GitHub Sponsors! 🙏 🎉
@@ -65,6 +61,10 @@ Say howdy 👋 to our growing list of the first ~~twenty~~ thirty and counting s
 ## Commercial Support
 
 Bridgetown development is spearheaded by Portland-based web studio [Whitefusion](https://www.whitefusion.studio). Contact us if you need commercial support for your Bridgetown content strategy, site design, or deployment. Also providing commercial support: [Radioactive Toy](https://radioactivetoy.tech) based in the UK.
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=bridgetownrb/bridgetown&type=Date)](https://star-history.com/#bridgetownrb/bridgetown&Date)
 
 ----
 
