@@ -83,6 +83,7 @@ module Bridgetown
         "footnote_nr"             => 1,
         "show_warnings"           => false,
         "include_extraction_tags" => false,
+        "mark_highlighting"       => true,
       },
     }.each_with_object(Configuration.new) { |(k, v), hsh| hsh[k] = v.freeze }.freeze
 
