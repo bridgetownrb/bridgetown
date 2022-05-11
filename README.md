@@ -1,11 +1,11 @@
 <p align="center">
-  <a href="https://edge.bridgetownrb.com">
-    <img src="https://edge.bridgetownrb.com/images/bridgetown-logo-twitter-card.jpg?v=1" alt="Bridgetown" width="750" />
+  <a href="https://www.bridgetownrb.com">
+    <img src="https://www.bridgetownrb.com/images/bridgetown-logo-twitter-card.jpg?v=1" alt="Bridgetown" width="750" />
   </a>
 </p>
 
 <h1 align="center">
-  <a href="https://edge.bridgetownrb.com">Bridgetown</a>
+  <a href="https://www.bridgetownrb.com">Bridgetown</a>
 </h1>
 
 Bridgetown is a next-generation, progressive site generator & fullstack framework, powered by Ruby. Bridgetown takes your content, API data, and frontend assets; renders templates in Markdown, Liquid, ERB, and many other formats; and exports a complete website ready to be served by fast CDNs like Render or traditional web servers like Caddy or Nginx.
@@ -15,6 +15,10 @@ Bridgetown is a next-generation, progressive site generator & fullstack framewor
 [![Licensed MIT](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](LICENSE)
 [![Join the Discord Chat](https://img.shields.io/discord/711236503493148733?color=forestgreen&logo=discord)](https://discord.gg/4E6hktQGz4)
 [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-blue.svg)](https://github.com/bridgetownrb/bridgetown/blob/master/CONTRIBUTING.md)
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=bridgetownrb/bridgetown&type=Date)](https://star-history.com/#bridgetownrb/bridgetown&Date)
 
 ----
 
