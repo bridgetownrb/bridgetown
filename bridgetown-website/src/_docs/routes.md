@@ -34,6 +34,7 @@ class Routes::Preview < Bridgetown::Rack::Routes
         item = Bridgetown::Model::Base.find("repo://#{collection}/#{path}")
 
         unless item.content.present?
+          response.status = 404
           next Bridgetown::Model::Base.find("repo://pages/_pages/404.html")
             .render_as_resource
             .output
