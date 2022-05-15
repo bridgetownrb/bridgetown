@@ -11,7 +11,7 @@ Bridgetown doesn't directly install the Nokogiri gem, so be sure to run `bundle 
 
 ## Your First Inspector
 
-Let's add a oft-requested feature to our site: automatic `target="_blank"` attributes on all outgoing links. It's easy with an HTML inspector.
+Let's add an oft-requested feature to our site: automatic `target="_blank"` attributes on all outgoing links. It's easy with an HTML inspector.
 
 We'll create a new builder plugin and use the `inspect_html` method to access the Nokogiri document and update all the relevant links.
 
