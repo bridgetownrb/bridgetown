@@ -62,6 +62,35 @@ class RodaApp < Bridgetown::Rack::Roda
 end
 ```
 
+### Priority Flag
+
+You can configure a `Routes` class with a specific `priority` flag. This flag determines what order the router is loaded in relative to other routers.
+
+The default priority is `:normal`. Valid values are:
+
+<code>:lowest</code>, <code>:low</code>, <code>:normal</code>, <code>:high</code>, and <code>:highest</code>.
+Highest priority plugins are run first, lowest priority are run last.
+
+Examples of specifying this flag:
+
+```ruby
+class Routes::InitialSetup < Bridgetown::Rack::Routes
+  priority :highest
+
+  route do |r|
+    r.session[:adding_this] ||= "value"
+  end
+end
+
+class Routes::LaterOn < Bridgetown::Rack::Routes
+  route do |r|
+    r.get "later" do
+      { session_value: r.session[:adding_this] } # :session_value => "value"
+    end
+  end
+end
+```
+
 ## File-based Dynamic Routes
 
 **But wait, there’s more!** We now ship a new gem you can opt-into (as part of the Bridgetown monorepo) called `bridgetown-routes`. Within minutes of installing it, you gain the ability to write file-based dynamic routes with view templates right inside your source folder!
