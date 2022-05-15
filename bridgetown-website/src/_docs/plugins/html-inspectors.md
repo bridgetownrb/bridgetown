@@ -62,4 +62,4 @@ All resources which result in HTML output (rather than JSON or some other format
 Nokogiri [relies on a C extension](https://nokogiri.org/#guiding-principles_1) which in turn uses `libxml2`, so generally you should see very fast performance unless the number of resources in your project is extremely large.
 {% end %}
 
-If you find yourself needing to bypass inspectors for certain resources and avoid the overhead of using Nokogiri at all for those resources, you can set the [front matter](/docs/front-matter) variable `bypass_html_inspectors: true`. (And if you want, you can use [front matter defaults](/docs/content/front-matter-defaults) to apply this to a whole array of resources.)
+If you find yourself needing to bypass inspectors for certain, large resources to avoid the overhead of using Nokogiri, you can set the [front matter](/docs/front-matter) variable `bypass_html_inspectors: true` to instruct Nokogiri not to parse that resource. To apply this to a whole array of resources, make it a default with [front matter defaults.](/docs/content/front-matter-defaults)
