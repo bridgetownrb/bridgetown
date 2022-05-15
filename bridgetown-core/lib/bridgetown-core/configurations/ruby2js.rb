@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 unless Bridgetown::Utils.frontend_bundler_type == :esbuild
-  error_message = "#{"esbuild.config.js".bold} not found. (This configuration doesn't currently support Webpack.)"
+  error_message = "#{"esbuild.config.js".bold} not found. (This configuration doesn't currently " \
+                  "support Webpack.)"
 
   @logger.error "\nError:".red, "🚨 #{error_message}"
 
@@ -39,7 +40,7 @@ unless found_match
 
       const ruby2js = require("@ruby2js/esbuild-plugin")
 
-      // Uncomment and move the following into your plugins array:
+      // TODO: Uncomment and move the following into your plugins array:
       //
       //  ruby2js({
       //    eslevel: 2022,
@@ -55,7 +56,12 @@ end
 
 copy_file in_templates_dir("hello_world.js.rb"), "src/_components/hello_world.js.rb"
 
-say_status :ruby2js, "Ruby2JS is now configured!"
+if found_match
+  say_status :ruby2js, "Ruby2JS is now configured!"
+else
+  say_status :ruby2js, "Ruby2JS is just about configured!"
+  say_status :ruby2js, "You will need to edit `esbuild.config.js` to finish setting up the plugin."
+end
 
 say "Check out the example `hello_world.js.rb` file in `src/_components`", :blue
 say 'For further reading, check out "https://www.ruby2js.com"', :blue

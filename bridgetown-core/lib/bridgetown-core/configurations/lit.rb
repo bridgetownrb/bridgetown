@@ -1,0 +1,71 @@
+# frozen_string_literal: true
+
+unless Bridgetown::Utils.frontend_bundler_type == :esbuild
+  error_message = "#{"esbuild.config.js".bold} not found. (This configuration doesn't currently " \
+                  "support Webpack.)"
+
+  @logger.error "\nError:".red, "🚨 #{error_message}"
+
+  return
+end
+
+say_status :ruby2js, "Installing Lit + SSR Plugin..."
+
+add_bridgetown_plugin "bridgetown-lit-renderer", version: "2.0.0.beta3"
+
+run "yarn add lit bridgetown-lit-renderer@2.0.0-beta3"
+
+copy_file in_templates_dir("lit-ssr.config.js"), "config/lit-ssr.config.js"
+copy_file in_templates_dir("lit-components-entry.js"), "config/lit-components-entry.js"
+copy_file in_templates_dir("esbuild-plugins.js"), "config/esbuild-plugins.js"
+
+insert_into_file "esbuild.config.js",
+                 after: 'const build = require("./config/esbuild.defaults.js")' do
+  <<~JS
+
+    const { plugins } = require("./config/esbuild-plugins.js")
+  JS
+end
+
+found_match = false
+gsub_file "esbuild.config.js", %r{const esbuildOptions = {}\n} do |_match|
+  found_match = true
+
+  <<~JS
+    const esbuildOptions = {
+      plugins: [...plugins]
+    }
+  JS
+end
+
+unless found_match
+  insert_into_file "esbuild.config.js",
+                   after: 'const { plugins } = require("./config/esbuild-plugins.js")' do
+    <<~JS
+
+      // TODO: You will manually need to move any plugins below you wish to share with
+      // Lit SSR into the `config/esbuild-plugins.js` file.
+      // Then add `...plugins` as an item in your plugins array.
+    JS
+  end
+end
+
+copy_file in_templates_dir("happy-days.lit.js"), "src/_components/happy-days.lit.js"
+
+javascript_import do
+  <<~JS
+    import "bridgetown-lit-renderer"
+  JS
+end
+
+if found_match
+  say_status :lit, "Lit is now configured!"
+  say_status :lit,
+             "The `config/esbuild-plugins.js` file will let you add full-stack plugins in future."
+else
+  say_status :lit, "Lit is just about configured!"
+  say_status :lit, "You will need to edit `esbuild.config.js` to finish setting up the plugin."
+end
+
+say "Check out the example `happy-days.lit.js` file in `src/_components`", :blue
+say 'For further reading, check out "https://edge.bridgetownrb.com/docs/components/lit"', :blue

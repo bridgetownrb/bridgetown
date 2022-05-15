@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 say_status :shoelace, "Installing Shoelace..."
 
 run "yarn add @shoelace-style/shoelace"
