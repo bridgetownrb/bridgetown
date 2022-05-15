@@ -9,7 +9,9 @@ module Bridgetown
     end
 
     class Routes
-      PRIORITIES = {
+      include Bridgetown::Prioritizable
+
+      self.priorities = {
         highest: "010",
         high: "020",
         normal: "030",
@@ -17,55 +19,39 @@ module Bridgetown
         lowest: "050",
       }.freeze
 
-      # Get or set the priority of this plugin. When called without an
-      # argument it returns the priority. When an argument is given, it will
-      # set the priority.
-      #
-      # priority - The Symbol priority (default: nil). Valid options are:
-      #            :lowest, :low, :normal, :high, :highest
-      #
-      # Returns the Symbol priority.
-      def self.priority(priority = nil)
-        @priority ||= nil
-        @priority = priority if priority && PRIORITIES.key?(priority)
-        @priority || :normal
-      end
-
-      # Spaceship is priority [higher -> lower]
-      #
-      # other - The class to be compared.
-      #
-      # Returns -1, 0, 1.
-      def self.<=>(other)
-        "#{PRIORITIES[priority]}#{self}" <=> "#{PRIORITIES[other.priority]}#{other}"
-      end
-
-      # Spaceship is priority [higher -> lower]
-      #
-      # other - The class to be compared.
-      #
-      # Returns -1, 0, 1.
-      def <=>(other)
-        self.class <=> other.class
-      end
-
       class << self
-        attr_accessor :tracked_subclasses, :router_block
+        # @return [Hash<String, Class(Routes)>]
+        attr_accessor :tracked_subclasses
 
+        # @return [Proc]
+        attr_accessor :router_block
+
+        # Spaceship is priority [higher -> lower]
+        #
+        # @param other [Class(Routes)] The class to be compared.
+        # @return [Integer] -1, 0, 1.
+        def <=>(other)
+          "#{priorities[priority]}#{self}" <=> "#{priorities[other.priority]}#{other}"
+        end
+
+        # @param base [Class(Routes)]
         def inherited(base)
           Bridgetown::Rack::Routes.track_subclass base
           super
         end
 
+        # @param klass [Class(Routes)]
         def track_subclass(klass)
           Bridgetown::Rack::Routes.tracked_subclasses ||= {}
           Bridgetown::Rack::Routes.tracked_subclasses[klass.name] = klass
         end
 
+        # @return [Array<Class(Routes)>]
         def sorted_subclasses
           Bridgetown::Rack::Routes.tracked_subclasses&.values&.sort
         end
 
+        # @return [void]
         def reload_subclasses
           Bridgetown::Rack::Routes.tracked_subclasses&.each_key do |klassname|
             Kernel.const_get(klassname)
@@ -74,16 +60,38 @@ module Bridgetown
           end
         end
 
+        # Add a router block via the current Routes class
+        #
+        # Example:
+        #
+        #   class Routes::Hello < Bridgetown::Rack::Routes
+        #     route do |r|
+        #       r.get "hello", String do |name|
+        #         { hello: "friend #{name}" }
+        #       end
+        #     end
+        #   end
+        #
+        # @param block [Proc]
         def route(&block)
           self.router_block = block
         end
 
+        # Initialize a new Routes instance and execute the route as part of the
+        # Roda app request cycle
+        #
+        # @param roda_app [Bridgetown::Rack::Roda]
         def merge(roda_app)
           return unless router_block
 
           new(roda_app).handle_routes
         end
 
+        # Start the Roda app request cycle. There are two different code paths
+        # depending on if there's a site `base_path` configured
+        #
+        # @param roda_app [Bridgetown::Rack::Roda]
+        # @return [void]
         def start!(roda_app)
           if Bridgetown::Current.preloaded_configuration.base_path == "/"
             load_all_routes roda_app
@@ -100,6 +108,12 @@ module Bridgetown
           nil
         end
 
+        # Run the Roda public plugin first, set up live reload if allowed, then
+        # run through all the Routes blocks. If the file-based router plugin
+        # is available, kick off that request process next.
+        #
+        # @param roda_app [Bridgetown::Rack::Roda]
+        # @return [void]
         def load_all_routes(roda_app)
           roda_app.request.public
 
@@ -117,6 +131,7 @@ module Bridgetown
           Bridgetown::Routes::RodaRouter.start!(roda_app)
         end
 
+        # @param app [Bridgetown::Rack::Roda]
         def setup_live_reload(app) # rubocop:disable Metrics/AbcSize
           sleep_interval = 0.2
           file_to_check = File.join(app.class.opts[:bridgetown_preloaded_config].destination,
@@ -146,14 +161,20 @@ module Bridgetown
         end
       end
 
+      # @param roda_app [Bridgetown::Rack::Roda]
       def initialize(roda_app)
         @_roda_app = roda_app
       end
 
+      # Execute the router block via the instance, passing it the Roda request
+      #
+      # @return [Object] whatever is returned by the router block as expected
+      #   by the Roda API
       def handle_routes
         instance_exec(@_roda_app.request, &self.class.router_block)
       end
 
+      # Any missing methods are passed along to the underlying Roda app if possible
       def method_missing(method_name, *args, **kwargs, &block)
         if @_roda_app.respond_to?(method_name.to_sym)
           @_roda_app.send method_name.to_sym, *args, **kwargs, &block

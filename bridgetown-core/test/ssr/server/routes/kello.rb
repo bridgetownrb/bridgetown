@@ -6,7 +6,7 @@ class Routes::Kello < Bridgetown::Rack::Routes
 
     # route: GET /hello/:name
     r.get "kello", String do |name|
-      { kello: "kriend #{name} #{@ivar}" }
+      { kello: "kriend #{name}" }
     end
   end
 end
