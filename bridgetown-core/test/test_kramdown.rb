@@ -57,6 +57,11 @@ class TestKramdown < BridgetownUnitTest
       assert_equal "<h1>Some Header</h1>", @converter.convert("# Some Header #").strip
     end
 
+    should "render mark tags" do
+      assert_equal "<p>This is <mark>highlighted</mark> like <mark>this.</mark></p>",
+                   @converter.convert("This is ::highlighted:: like ==this.==").strip
+    end
+
     should "should log kramdown warnings" do
       allow_any_instance_of(Kramdown::Document).to receive(:warnings).and_return(["foo"])
       expect(Bridgetown.logger).to receive(:warn).with("Kramdown warning:", "foo")
