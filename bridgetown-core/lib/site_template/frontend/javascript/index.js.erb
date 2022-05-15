@@ -1,10 +1,9 @@
 <%- if postcss_option -%>
 import "index.css"
-import "syntax-highlighting.css"
 <%- else -%>
 import "index.scss"
-import "syntax-highlighting.scss"
 <%- end -%>
+import "syntax-highlighting.css"
 
 // Import all JavaScript & CSS files from src/_components
 <%- if frontend_bundling_option == "esbuild" -%>
