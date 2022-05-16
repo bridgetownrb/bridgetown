@@ -84,11 +84,11 @@ const importGlobPlugin = () => ({
 })
 
 // Plugin for PostCSS
-const postCssPlugin = (options) => ({
+const postCssPlugin = (options, configuration) => ({
   name: "postcss",
   async setup(build) {
     // Process .css files with PostCSS
-    build.onLoad({ filter: /\.(css)$/ }, async (args) => {
+    build.onLoad({ filter: (configuration.filter || /\.css$/) }, async (args) => {
       const additionalFilePaths = []
       const css = await fs.readFile(args.path, "utf8")
 
@@ -264,7 +264,8 @@ const postCssConfig = postcssrc.sync()
 module.exports = (outputFolder, esbuildOptions) => {
   esbuildOptions.plugins = esbuildOptions.plugins || []
   // Add the PostCSS & glob plugins to the top of the plugin stack
-  esbuildOptions.plugins.unshift(postCssPlugin(postCssConfig))
+  esbuildOptions.plugins.unshift(postCssPlugin(postCssConfig, esbuildOptions.postCssPluginConfig || {}))
+  if (esbuildOptions.postCssPluginConfig) delete esbuildOptions.postCssPluginConfig
   esbuildOptions.plugins.unshift(importGlobPlugin())
   // Add the Sass plugin
   esbuildOptions.plugins.push(sassPlugin(esbuildOptions.sassOptions || {}))

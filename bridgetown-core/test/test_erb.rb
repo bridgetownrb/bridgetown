@@ -51,6 +51,12 @@ class TestERB < BridgetownUnitTest
     end
   end
 
+  context "capturing inside of component templates" do
+    should "not leak into main output" do
+      refute_includes @erb_page.output, "## You should not see this captured content."
+    end
+  end
+
   context "Rails-style extensions" do
     should "issue a warning" do
       assert_includes @process_output, "Uh oh! You're using a Rails-style filename extension in:"
