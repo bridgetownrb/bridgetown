@@ -59,6 +59,7 @@ module Bridgetown
       # Output Configuration
       "available_locales"          => [:en],
       "default_locale"             => :en,
+      "prefix_default_locale"      => false,
       "permalink"                  => nil, # default is set according to content engine
       "timezone"                   => nil, # use the local timezone
 
