@@ -26,9 +26,11 @@ class TestInspectors < BridgetownUnitTest
         end
       end
 
-      inspect_xml "atom" do |document|
+      inspect_xml "atom" do |document, resource|
         title = document.query_selector("entry > title")
         title.content = title.content.upcase
+
+        assert_equal ".atom", resource.extname
       end
     end
 
@@ -56,7 +58,7 @@ class TestInspectors < BridgetownUnitTest
     should "bypass inspectors with special front matter variable" do
       add_resource :posts, "html-inspectors-bypass.md" do
         title "I'm a Markdown post!"
-        bypass_html_inspectors true
+        bypass_inspectors true
         content <<~MARKDOWN
           # Hello World!
         MARKDOWN

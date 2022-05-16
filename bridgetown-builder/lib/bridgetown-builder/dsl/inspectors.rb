@@ -21,7 +21,7 @@ module Bridgetown
           def self.can_run?(resource, inspectors)
             inspectors &&
               resource.destination&.output_ext&.starts_with?(".htm") &&
-              !resource.data.bypass_html_inspectors
+              !resource.data.bypass_inspectors
           end
 
           # Process the resource with the available inspectors and return the output HTML
@@ -31,7 +31,7 @@ module Bridgetown
             doc = Nokogiri.HTML5(resource.output)
 
             inspectors.each do |block|
-              block.call(doc)
+              block.call(doc, resource)
             end
 
             doc.to_html
@@ -49,7 +49,7 @@ module Bridgetown
           def self.can_run?(resource, inspectors)
             inspectors &&
               inspectors[resource_ext(resource)] &&
-              !resource.data.bypass_xml_inspectors
+              !resource.data.bypass_inspectors
           end
 
           # Process the resource with the available inspectors and return the output XML
@@ -59,7 +59,7 @@ module Bridgetown
             doc = Nokogiri::XML(resource.output)
 
             inspectors[resource_ext(resource)].each do |block|
-              block.call(doc)
+              block.call(doc, resource)
             end
 
             doc.to_xml

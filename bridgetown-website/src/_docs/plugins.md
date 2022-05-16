@@ -171,9 +171,9 @@ Easily pull data in from external APIs, and use a special DSL (Domain-Specific L
 
 Hooks provide fine-grained control to trigger custom functionality at various points in the build process.
 
-### [HTML Inspectors](/docs/plugins/html-inspectors)
+### [HTML & XML Inspectors](/docs/plugins/inspectors)
 
-Post-process the HTML output of resources using the Nokogiri Ruby gem and its DOM-like API.
+Post-process the HTML or XML output of resources using the Nokogiri Ruby gem and its DOM-like API.
 
 ### [Generators](/docs/plugins/generators)
 
