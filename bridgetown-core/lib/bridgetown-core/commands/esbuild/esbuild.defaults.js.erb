@@ -167,8 +167,8 @@ const sassPlugin = (options) => ({
         const sourceMap = result.sourceMap
 
         const promises = sourceMap.sources.map(async source => {
-          const daFile = await fs.readFile(fileURLToPath(source), "utf8")
-          return daFile
+          const sourceFile = await fs.readFile(fileURLToPath(source), "utf8")
+          return sourceFile
         })
         sourceMap.sourcesContent = await Promise.all(promises)
 
