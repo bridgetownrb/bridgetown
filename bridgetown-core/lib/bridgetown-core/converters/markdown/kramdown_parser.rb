@@ -76,7 +76,7 @@ module Bridgetown
           @config["syntax_highlighter"] ||= config["highlighter"] || "rouge"
           @config["syntax_highlighter_opts"] ||= {}
           @config["syntax_highlighter_opts"]["guess_lang"] = @config["guess_lang"]
-          require "kramdown-parser-gfm" if @config["input"] == "GFM"
+          require_relative "../../kramdown/parser/gfm" if @config["input"] == "GFM"
         end
 
         def convert(content)

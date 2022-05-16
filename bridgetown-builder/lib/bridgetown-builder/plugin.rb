@@ -9,6 +9,16 @@ require "bridgetown-builder/dsl/resources"
 module Bridgetown
   module Builders
     class PluginBuilder
+      include Bridgetown::Prioritizable
+
+      self.priorities = {
+        highest: 100,
+        high: 10,
+        normal: 0,
+        low: -10,
+        lowest: -100,
+      }.freeze
+
       include DSL::Generators
       include DSL::Helpers
       include DSL::Hooks

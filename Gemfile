@@ -16,6 +16,7 @@ group :test do
   gem "minitest-profile"
   gem "minitest-reporters"
   gem "nokogiri", "~> 1.7"
+  gem "rack-test"
   gem "rspec"
   gem "rspec-mocks"
   gem "rubocop-bridgetown", "~> 0.3.0", require: false

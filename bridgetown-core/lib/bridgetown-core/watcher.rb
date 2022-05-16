@@ -42,10 +42,9 @@ module Bridgetown
     #
     # @param (see #watch)
     def load_paths_to_watch(site, options)
-      site.plugin_manager.plugins_path.select { |path| Dir.exist?(path) }
-        .then do |paths|
-          (paths + options.autoload_paths).uniq
-        end
+      (site.plugin_manager.plugins_path + options.autoload_paths).uniq.select do |path|
+        Dir.exist?(path)
+      end
     end
 
     # Start a listener to watch for changes and call {#reload_site}
