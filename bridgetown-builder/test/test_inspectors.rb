@@ -4,19 +4,20 @@ require "helper"
 
 Bridgetown::Builder # trigger autoload
 
-class TestHtmlInspectors < BridgetownUnitTest
+class TestInspectors < BridgetownUnitTest
   include Bridgetown::Builders::DSL::Hooks
-  include Bridgetown::Builders::DSL::HtmlInspectors
+  include Bridgetown::Builders::DSL::Inspectors
   include Bridgetown::Builders::DSL::Resources
 
   def functions # stub to get hooks working
-    @_test_functions ||= []
+    @_test_functions
   end
 
   context "a resource after being transformed" do
     setup do
       Bridgetown.sites.clear
       @site = Site.new(site_configuration)
+      @_test_functions = []
 
       inspect_html do |document|
         document.query_selector_all("h1").each do |heading|
@@ -24,10 +25,16 @@ class TestHtmlInspectors < BridgetownUnitTest
           heading.add_class "universal"
         end
       end
+
+      inspect_xml "atom" do |document|
+        title = document.query_selector("entry > title")
+        title.content = title.content.upcase
+      end
     end
 
     teardown do
-      @_inspectors = nil
+      @_html_inspectors = nil
+      @_xml_inspectors = nil
     end
 
     should "allow manipulation via Nokogiri" do
@@ -76,6 +83,39 @@ class TestHtmlInspectors < BridgetownUnitTest
       resource.transform!
       assert_equal %({ a: 1, b: "2" }),
                    resource.output.strip
+    end
+
+    should "work with XML resources too" do
+      add_resource :pages, "sample-feed.atom" do
+        content <<~XML
+          <?xml version="1.0" encoding="utf-8"?>
+          <feed xmlns="http://www.w3.org/2005/Atom">
+
+            <title>Example Feed</title>
+            <link href="http://example.org/"/>
+            <updated>2003-12-13T18:30:02Z</updated>
+            <author>
+              <name>John Doe</name>
+            </author>
+            <id>urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
+
+            <entry>
+              <title>Atom-Powered Robots Run Amok</title>
+              <link href="http://example.org/2003/12/13/atom03"/>
+              <id>urn:uuid:1225c695-cfb8-4ebb-aaaa-80da344efa6a</id>
+              <updated>2003-12-13T18:30:02Z</updated>
+              <summary>Some text.</summary>
+            </entry>
+
+          </feed>
+        XML
+      end
+
+      resource = @site.collections.pages.resources.first
+      assert_equal 1, @site.collections.pages.resources.length
+      assert_includes resource.content, "<title>Atom-Powered Robots Run Amok</title>"
+      resource.transform!
+      assert_includes resource.output, "<title>ATOM-POWERED ROBOTS RUN AMOK</title>"
     end
   end
 end
