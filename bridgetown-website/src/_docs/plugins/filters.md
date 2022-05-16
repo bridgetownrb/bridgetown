@@ -13,7 +13,7 @@ of the filter, and you can also support multiple method arguments (and even opti
 Example:
 
 ```ruby
-class Filters < SiteBuilder
+class Builders::Filters < SiteBuilder
   def build
     liquid_filter :cache_busting_url do |url|
       "http://www.example.com/#{url}?#{Time.now.to_i}"
@@ -37,7 +37,7 @@ http://www.example.com/mydynamicfile.js?1586194585
 You can accept multiple arguments to your filter by simply adding them to your block or method, and optional ones are simply specified with a default value (perhaps `nil` or `false`). For example:
 
 ```ruby
-class Filters < SiteBuilder
+class Builders::Filters < SiteBuilder
   def build
     liquid_filter :multiply_and_optionally_add do |input, multiply_by, add_by = nil|
       value = input * multiply_by
@@ -76,7 +76,7 @@ And of course you can chain any number of built-in and custom filters together:
 As with other parts of the Builder API, you can also use an instance method to register your filter:
 
 ```ruby
-class Filters < SiteBuilder
+class Builders::Filters < SiteBuilder
   def build
     liquid_filter :cache_busting_url, :bust_it
   end
@@ -96,7 +96,7 @@ By default, the code within the filter block or method is executed within the sc
 To remedy this, simply pass the `filters_scope: true` argument when defining a filter block. Then you can call other filters as part of your code block (but not methods within your builder).
 
 ```ruby
-class Filters < SiteBuilder
+class Builders::Filters < SiteBuilder
   def build
     liquid_filter :slugify_and_upcase, filters_scope: true do |url|
       slugify(url).upcase

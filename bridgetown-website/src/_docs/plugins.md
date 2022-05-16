@@ -171,6 +171,10 @@ Easily pull data in from external APIs, and use a special DSL (Domain-Specific L
 
 Hooks provide fine-grained control to trigger custom functionality at various points in the build process.
 
+### [HTML & XML Inspectors](/docs/plugins/inspectors)
+
+Post-process the HTML or XML output of resources using the Nokogiri Ruby gem and its DOM-like API.
+
 ### [Generators](/docs/plugins/generators)
 
 Generators allow you to automate the creating or updating of content in your site using Bridgetown's internal Ruby API.

@@ -12,3 +12,5 @@ Bridgetown gives you a lot of flexibility to customize how it builds your site. 
 * [Markdown Options](/docs/configuration/markdown)
 * [Liquid Options](/docs/configuration/liquid)
 * Puma Configuration (_docs coming soon_)
+
+Most of the ways you'll enhance and extend your site however is through writing [plugins](/docs/plugins). Continue reading for information on how to get started writing your first plugin or installing third-party plugins.

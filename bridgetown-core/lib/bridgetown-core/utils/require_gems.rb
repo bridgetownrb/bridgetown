@@ -41,15 +41,12 @@ module Bridgetown
             require name
           rescue LoadError => e
             Bridgetown.logger.error "Dependency Error:", <<~MSG
-              Yikes! It looks like you don't have #{name} or one of its dependencies installed.
-              In order to use Bridgetown as currently configured, you'll need to install this gem.
+              Oops! It looks like you don't have #{name} or one of its dependencies installed.
+              Please double-check you've added #{name} to your Gemfile.
 
-              If you've run Bridgetown with `bundle exec`, ensure that you have included the #{name}
-              gem in your Gemfile as well.
+              If you're stuck, you can find help at https://www.bridgetownrb.com/community
 
               The full error message from Ruby is: '#{e.message}'
-
-              If you run into trouble, you can find helpful resources at https://www.bridgetownrb.com/community
             MSG
             raise Bridgetown::Errors::MissingDependencyException, name
           end

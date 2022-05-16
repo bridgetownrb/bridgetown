@@ -3,9 +3,11 @@
 require "bridgetown-builder/dsl/generators"
 require "bridgetown-builder/dsl/helpers"
 require "bridgetown-builder/dsl/hooks"
+require "bridgetown-builder/dsl/inspectors"
 require "bridgetown-builder/dsl/http"
 require "bridgetown-builder/dsl/liquid"
 require "bridgetown-builder/dsl/resources"
+
 module Bridgetown
   module Builders
     class PluginBuilder
@@ -22,6 +24,7 @@ module Bridgetown
       include DSL::Generators
       include DSL::Helpers
       include DSL::Hooks
+      include DSL::Inspectors
       include DSL::HTTP
       include DSL::Liquid
       include DSL::Resources
