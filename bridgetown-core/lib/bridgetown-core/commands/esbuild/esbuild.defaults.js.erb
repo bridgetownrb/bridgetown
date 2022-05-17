@@ -94,14 +94,12 @@ const postCssPlugin = (options, configuration) => ({
 
       // Configure import plugin so PostCSS can properly resolve `@import`ed CSS files
       const importPlugin = postCssImport({
-        filter: itemPath => {
-          // We'll want to track any imports later when in watch mode
-          additionalFilePaths.push(path.resolve(path.dirname(args.path), itemPath))
-          return true
-        },
+        filter: itemPath => !itemPath.startsWith("/"), // ensure it doesn't try to import source-relative paths
         load: async filename => {
           let contents = await readCache(filename, "utf-8")
           const filedir = path.dirname(filename)
+          // We'll want to track any imports later when in watch mode:          
+          additionalFilePaths.push(filename)
 
           // We need to transform `url(...)` in imported CSS so the filepaths are properly
           // relative to the entrypoint. Seems icky to have to hack this! C'est la vie...
