@@ -13,6 +13,8 @@ class GeneratorBuilder < Builder
 end
 
 class GeneratorBuilder2 < Builder
+  priority :normal
+
   def build
     generator do
       site.data[:site_metadata][:title] = "Test Title 2"
