@@ -20,11 +20,11 @@ module Bridgetown
     end
 
     def builtin?
-      label.in? %w(posts pages data).freeze
+      @is_builtin ||= label.in?(%w(posts pages data).freeze)
     end
 
     def data?
-      label == "data"
+      @is_data ||= label == "data"
     end
 
     # Fetch the Resources in this collection.
@@ -284,18 +284,21 @@ module Bridgetown
       if model.attributes.key?(:locale) && model.locale.to_sym == :multi
         site.config.available_locales.each do |locale|
           model.locale = locale
-          add_model_resource model
+          add_resource_from_model model
         end
         return
       end
 
-      add_model_resource model
+      add_resource_from_model model
     end
 
-    def add_model_resource(model)
-      resource = model.to_resource.read!
-      resources << resource if site.config.unpublished || resource.published?
+    # @param model [Bridgetown::Model::Base]
+    def add_resource_from_model(model)
+      model.to_resource.read!.tap do |resource|
+        resources << resource if resource.publishable?
+      end
     end
+    alias_method :add_model_resource, :add_resource_from_model
 
     def sort_resources!
       if metadata["sort_by"].is_a?(String)

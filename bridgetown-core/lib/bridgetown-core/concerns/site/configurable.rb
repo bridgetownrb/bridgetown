@@ -61,14 +61,6 @@ class Bridgetown::Site
       @frontmatter_defaults ||= Bridgetown::FrontmatterDefaults.new(self)
     end
 
-    # Returns the current instance of {Publisher} or creates a new instance of
-    #   {Publisher} if one doesn't exist.
-    #
-    # @return [Publisher] Returns an instance of {Publisher}
-    def publisher
-      @publisher ||= Bridgetown::Publisher.new(self)
-    end
-
     # Prefix a path or paths with the {#root_dir} directory.
     #
     # @see Bridgetown.sanitized_path

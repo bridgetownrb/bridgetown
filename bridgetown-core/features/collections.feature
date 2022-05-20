@@ -119,6 +119,27 @@ Feature: Collections
     And the output directory should exist
     And the "output/puppies/fido/index.html" file should exist
 
+  Scenario: Rendered collection with future true metadata
+    Given I have a _puppies directory
+    And I have the following documents under the puppies collection:
+      | title  | date       | content             |
+      | Rover  | 2007-12-31 | content for Rover.  |
+      | Fido   | 2120-12-31 | content for Fido.   |
+    And I have a "bridgetown.config.yml" file with content:
+    """
+    collections:
+      puppies:
+        output: true
+        future: true
+    """
+    And I have a "index.html" page that contains "Newest puppy: {% assign puppy = collections.puppies.resources.last %}{{ puppy.title }}"
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And the output directory should exist
+    And I should see "Newest puppy: Fido" in "output/index.html"
+    And I should see "content for Fido" in "output/puppies/fido/index.html"
+    And the "output/puppies/fido/index.html" file should exist
+
   Scenario: Access rendered collection with future dated document via Liquid
     Given I have a _puppies directory
     And I have the following documents under the puppies collection:
@@ -135,7 +156,7 @@ Feature: Collections
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Newest puppy: Fido" in "output/index.html"
+    And I should see "Newest puppy: Rover" in "output/index.html"
     But the "output/puppies/fido/index.html" file should not exist
     When I run bridgetown build --future
     Then I should get a zero exit status
@@ -162,7 +183,7 @@ Feature: Collections
     Then I should get a zero exit status
     And the output directory should exist
     And I should see "<div>Rover</div>" in "output/index.html"
-    But I should see "<div>Snowy</div>" in "output/index.html"
+    But I should not see "<div>Snowy</div>" in "output/index.html"
     And I should not see "<div>Figor</div>" in "output/index.html"
     And I should not see "<div>Hardy</div>" in "output/index.html"
     And the "output/puppies/rover/index.html" file should exist
@@ -220,7 +241,7 @@ Feature: Collections
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Newest puppy: Fido" in "output/index.html"
+    But I should not see "Newest puppy: Fido" in "output/index.html"
     But the "output/puppies/fido/index.html" file should not exist
     When I run bridgetown build --future
     Then I should get a zero exit status
@@ -247,7 +268,7 @@ Feature: Collections
     Then I should get a zero exit status
     And the output directory should exist
     And I should see "<div>Rover</div>" in "output/index.html"
-    But I should see "<div>Snowy</div>" in "output/index.html"
+    But I should not see "<div>Snowy</div>" in "output/index.html"
     And I should not see "<div>Figor</div>" in "output/index.html"
     And I should not see "<div>Hardy</div>" in "output/index.html"
     And the "output/puppies/rover/index.html" file should not exist
@@ -285,7 +306,7 @@ Feature: Collections
     Then I should get a zero exit status
     And the output directory should exist
     And I should see "<div>Rover</div>" in "output/index.html"
-    But I should see "<div>Snowy</div>" in "output/index.html"
+    But I should not see "<div>Snowy</div>" in "output/index.html"
     And I should not see "<div>Figor</div>" in "output/index.html"
     And I should not see "<div>Hardy</div>" in "output/index.html"
     And the "output/puppies/rover/index.html" file should exist
@@ -296,9 +317,9 @@ Feature: Collections
     Then I should get a zero exit status
     And the output directory should exist
     And I should see "<div>Rover</div>" in "output/index.html"
-    And I should see "<div>Snowy</div>" in "output/index.html"
+    But I should not see "<div>Snowy</div>" in "output/index.html"
     And I should see "<div>Figor</div>" in "output/index.html"
-    But I should see "<div>Hardy</div>" in "output/index.html"
+    But I should not see "<div>Hardy</div>" in "output/index.html"
     And the "output/puppies/rover/index.html" file should exist
     And the "output/puppies/snowy/index.html" file should not exist
     And the "output/puppies/figor/index.html" file should exist
@@ -334,7 +355,7 @@ Feature: Collections
     Then I should get a zero exit status
     And the output directory should exist
     And I should see "<div>Rover</div>" in "output/index.html"
-    But I should see "<div>Snowy</div>" in "output/index.html"
+    But I should not see "<div>Snowy</div>" in "output/index.html"
     And I should not see "<div>Figor</div>" in "output/index.html"
     And I should not see "<div>Hardy</div>" in "output/index.html"
     And the "output/puppies/rover/index.html" file should not exist
@@ -345,9 +366,9 @@ Feature: Collections
     Then I should get a zero exit status
     And the output directory should exist
     And I should see "<div>Rover</div>" in "output/index.html"
-    And I should see "<div>Snowy</div>" in "output/index.html"
+    But I should not see "<div>Snowy</div>" in "output/index.html"
     And I should see "<div>Figor</div>" in "output/index.html"
-    But I should see "<div>Hardy</div>" in "output/index.html"
+    But I should not see "<div>Hardy</div>" in "output/index.html"
     And the "output/puppies/rover/index.html" file should not exist
     And the "output/puppies/snowy/index.html" file should not exist
     And the "output/puppies/figor/index.html" file should not exist

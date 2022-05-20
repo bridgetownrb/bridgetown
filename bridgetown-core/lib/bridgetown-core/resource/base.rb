@@ -211,10 +211,7 @@ module Bridgetown
       def requires_destination?
         collection.write? && data.config&.output != false
       end
-
-      def write?
-        requires_destination? && site.publisher.publish?(self)
-      end
+      alias_method :write?, :requires_destination?
 
       # Write the generated Document file to the destination directory.
       #
