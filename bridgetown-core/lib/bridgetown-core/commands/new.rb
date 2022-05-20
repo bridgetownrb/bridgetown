@@ -115,6 +115,7 @@ module Bridgetown
         template("frontend/javascript/index.js.erb", "frontend/javascript/index.js")
         template("src/index.md.erb", "src/index.md")
         template("src/posts.md.erb", "src/posts.md")
+        copy_file("frontend/styles/syntax-highlighting.css")
 
         case options["templates"]
         when "erb"

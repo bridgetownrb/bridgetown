@@ -34,7 +34,7 @@ following example, the page `reading.html` will have two variables `ongoing` and
 that get added via the generator:
 
 ```ruby
-class BookStatus < SiteBuilder
+class Builders::BookStatus < SiteBuilder
   def build
     generator do
       book_status = remote_data # perhaps fetching data from an API

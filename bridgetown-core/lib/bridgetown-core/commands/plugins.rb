@@ -120,6 +120,7 @@ module Bridgetown
                                  " return to your site root.")
           puts
 
+          # rubocop: disable Style/RedundantCondition
           Dir.chdir dir do
             ENV["BRIDGETOWN_SITE"] = site.root_dir
             if ENV["SHELL"]
@@ -128,6 +129,7 @@ module Bridgetown
               system("/bin/sh")
             end
           end
+          # rubocop: enable Style/RedundantCondition
 
           puts
           Bridgetown.logger.info("Done!", "You're back in #{Dir.pwd.green}")

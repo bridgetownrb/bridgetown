@@ -24,6 +24,7 @@ currently supported options:
 * **html_to_native** - Convert HTML elements to native elements
 * **line_width** - Defines the line width to be used when outputting a document
 * **link_defs** - Pre-defines link definitions
+* **mark_highlighting** - When `true`, allows `==text==` or `::text::` to highlight text with `<mark>` tags (this is a custom Bridgetown-only option)
 * **math_engine** - Set the math engine
 * **math_engine_opts** - Set the math engine options
 * **parse_block_html** - Process kramdown syntax in block HTML tags

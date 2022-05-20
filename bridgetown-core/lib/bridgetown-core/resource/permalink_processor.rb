@@ -137,7 +137,10 @@ module Bridgetown
 
       # @param resource [Bridgetown::Resource::Base]
       register_placeholder :locale, ->(resource) do
-        next nil if resource.data.locale&.to_sym == resource.site.config.default_locale
+        if !resource.site.config.prefix_default_locale &&
+            resource.data.locale&.to_sym == resource.site.config.default_locale
+          next nil
+        end
 
         locale_data = resource.data.locale&.to_sym
         resource.site.config.available_locales.include?(locale_data) ? locale_data.to_s : nil

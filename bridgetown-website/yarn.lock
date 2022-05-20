@@ -97,18 +97,18 @@
   resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.10.2.tgz#0798c03351f0dea1a5a4cabddf26a55a7cbee590"
   integrity sha512-IXf3XA7+XyN7CP9gGh/XB0UxVMlvARGEgGXLubFICsUMGz6Q+DU+i4gGlpOxTjKvXjkJDJC8YdqdKkDj9qZHEQ==
 
-"@ruby2js/esbuild-plugin@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@ruby2js/esbuild-plugin/-/esbuild-plugin-0.0.2.tgz#ce0a42ad59dff4e80e7bddac55c93427a6d25a96"
-  integrity sha512-gcqCBel1h7o+tJWPPL6wI4kQbBfi/BdrLmTnM+ok4dPHde+0Bb5rj0gab6S+RoXfIqXg+JoNuV8VCTNhv1+bzQ==
+"@ruby2js/esbuild-plugin@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@ruby2js/esbuild-plugin/-/esbuild-plugin-0.0.3.tgz#62e9c6074732839b3256eac48dfdebc585144fb9"
+  integrity sha512-u6RYM45Nb761LXBjQKMcn1vfTgki3k55oF3/jiF/Qqeu3lCy1RAclJCqrKum9jm30DzWiG+1nZsCWrtZpbUdSg==
   dependencies:
     "@ruby2js/ruby2js" ">0.0.1"
     convert-source-map "^1.8.0"
 
-"@ruby2js/ruby2js@>0.0.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@ruby2js/ruby2js/-/ruby2js-0.2.1.tgz#0b3036e88305e1c671eb00b65006bc04e52e1a4d"
-  integrity sha512-WYMhAgY2m74xbMa6tHNSUU+uCS3EA4GDZfbhEafnYtJyMsxGszpKqkrjB+9hf6FePQoMX+x4jfXM73AUgkFg7A==
+"@ruby2js/ruby2js@5.0.1", "@ruby2js/ruby2js@>0.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@ruby2js/ruby2js/-/ruby2js-5.0.1.tgz#80e0ac745b1aaae34e0870f74369b5352b017da7"
+  integrity sha512-SPL5JFLNyytSZESSnLcFHkLrJkfwEajKGYb3YJJbtNtupCmBgMlYUCIft3RzDYwqlht0owfO9In2SsLxVSZ8LQ==
 
 "@shoelace-style/animations@^1.1.0":
   version "1.1.0"

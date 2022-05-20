@@ -27,6 +27,7 @@ class TestNewCommand < BridgetownUnitTest
       "/Rakefile",
       "/package.json",
       "/frontend/javascript/index.js",
+      "/frontend/styles/syntax-highlighting.css",
       "/src/_layouts",
       "/src/_components",
       "/src/index.md",

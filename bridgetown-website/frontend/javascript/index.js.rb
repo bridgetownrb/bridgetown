@@ -23,7 +23,6 @@ end
 
 import "turbo_transitions"
 import "wiggle_note"
-import [ add_heading_anchors ], from: "./lib/functions"
 
 set_timeout 1000 do
   document.documentElement.remove_attribute :fresh
@@ -36,9 +35,6 @@ set_timeout 1000 do
     event.target.closest("sl-bar-item").query_selector("kbd").style.display = "none"
   end
 end
-
-#import smoothscroll from 'smoothscroll-polyfill'
-#smoothscroll.polyfill()
 
 import "index.css"
 
@@ -64,6 +60,4 @@ document.add_event_listener "turbo:load" do
       end
     end
   end
-
-  add_heading_anchors()
 end

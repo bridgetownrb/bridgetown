@@ -70,6 +70,9 @@ module Bridgetown
             end
 
             cli = Puma::CLI.new puma_args
+            cli.launcher.events.on_stopped do
+              Bridgetown::Hooks.trigger :site, :server_shutdown
+            end
             cli.run
           end
 

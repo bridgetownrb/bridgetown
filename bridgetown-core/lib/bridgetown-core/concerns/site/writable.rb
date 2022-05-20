@@ -14,6 +14,8 @@ class Bridgetown::Site
     # @return [void]
     def write
       each_site_file { |item| item.write(dest) }
+      write_redirecting_index if config.prefix_default_locale
+
       Bridgetown::Hooks.trigger :site, :post_write, self
     end
 
@@ -39,6 +41,32 @@ class Bridgetown::Site
           id: resource.model.id,
         }
       end
+    end
+
+    def write_redirecting_index
+      resource = resources.find do |item|
+        item.data.slug == "index" && item.data.locale == config.default_locale
+      end
+
+      unless resource
+        Bridgetown.logger.warn(
+          "Index file not found in the source folder, cannot generate top-level redirect file"
+        )
+        return
+      end
+
+      index_html = <<~HTML
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Redirecting…</title>
+            <meta http-equiv="refresh" content="0; url=#{resource.relative_url}" />
+          </head>
+          <body></body>
+        </html>
+      HTML
+
+      File.write(in_dest_dir("index.html"), index_html, mode: "wb")
     end
   end
 end

@@ -41,7 +41,7 @@ module Bridgetown
           document_data = document.data[index_key]
           document_data = document_data.split(%r!;|,!) if document_data.is_a?(String)
 
-          document_data.each do |key|
+          Array(document_data).each do |key|
             key = key.to_s.downcase.strip
             # If the key is a delimetered list of values
             # (meaning the user didn't use an array but a string with commas)

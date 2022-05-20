@@ -59,6 +59,7 @@ module Bridgetown
       # Output Configuration
       "available_locales"          => [:en],
       "default_locale"             => :en,
+      "prefix_default_locale"      => false,
       "permalink"                  => nil, # default is set according to content engine
       "timezone"                   => nil, # use the local timezone
 
@@ -83,6 +84,7 @@ module Bridgetown
         "footnote_nr"             => 1,
         "show_warnings"           => false,
         "include_extraction_tags" => false,
+        "mark_highlighting"       => true,
       },
     }.each_with_object(Configuration.new) { |(k, v), hsh| hsh[k] = v.freeze }.freeze
 

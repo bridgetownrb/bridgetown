@@ -34,6 +34,7 @@ class Routes::Preview < Bridgetown::Rack::Routes
         item = Bridgetown::Model::Base.find("repo://#{collection}/#{path}")
 
         unless item.content.present?
+          response.status = 404
           next Bridgetown::Model::Base.find("repo://pages/_pages/404.html")
             .render_as_resource
             .output
@@ -59,6 +60,35 @@ class RodaApp < Bridgetown::Rack::Roda
   plugin :bridgetown_ssr
   
   # etc.
+end
+```
+
+### Priority Flag
+
+You can configure a `Routes` class with a specific `priority` flag. This flag determines what order the router is loaded in relative to other routers.
+
+The default priority is `:normal`. Valid values are:
+
+<code>:lowest</code>, <code>:low</code>, <code>:normal</code>, <code>:high</code>, and <code>:highest</code>.
+Highest priority plugins are run first, lowest priority are run last.
+
+Examples of specifying this flag:
+
+```ruby
+class Routes::InitialSetup < Bridgetown::Rack::Routes
+  priority :highest
+
+  route do |r|
+    r.session[:adding_this] ||= "value"
+  end
+end
+
+class Routes::LaterOn < Bridgetown::Rack::Routes
+  route do |r|
+    r.get "later" do
+      { session_value: r.session[:adding_this] } # :session_value => "value"
+    end
+  end
 end
 ```
 
