@@ -20,13 +20,17 @@ module Bridgetown
         self.id = id
       end
 
+      def uri
+        @uri ||= URI.parse(id)
+      end
+
       # You can override in subclass
       def verify_model?(klass)
-        collection_name = URI.parse(id).host.chomp(".collection")
+        @collection_name ||= uri.host.chomp(".collection")
 
-        return klass.collection_name.to_s == collection_name if klass.respond_to?(:collection_name)
+        return klass.collection_name.to_s == @collection_name if klass.respond_to?(:collection_name)
 
-        klass.name == ActiveSupport::Inflector.classify(collection_name)
+        klass.name == ActiveSupport::Inflector.classify(@collection_name)
       end
 
       def read

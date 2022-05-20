@@ -18,11 +18,7 @@ module Bridgetown
 
       def initialize(id)
         super
-        @relative_path = Pathname.new(url.path.delete_prefix("/"))
-      end
-
-      def url
-        @url ||= URI.parse(id)
+        @relative_path = Pathname.new(uri.path.delete_prefix("/"))
       end
 
       def read
@@ -39,7 +35,7 @@ module Bridgetown
       end
 
       def read_data_from_builder
-        builder = Kernel.const_get(url.host.gsub(".", "::"))
+        builder = Kernel.const_get(uri.host.gsub(".", "::"))
         raise NameError unless builder.instance_methods.include?(:resource_data_for_id)
 
         builder.new.resource_data_for_id(id) || raise(NameError)

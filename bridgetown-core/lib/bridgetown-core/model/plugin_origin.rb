@@ -11,7 +11,7 @@ module Bridgetown
 
       def manifest
         @manifest ||= begin
-          manifest_origin = Addressable::URI.unescape(url.path.delete_prefix("/")).split("/").first
+          manifest_origin = Addressable::URI.unescape(uri.path.delete_prefix("/")).split("/").first
           Bridgetown::PluginManager.source_manifests.find do |manifest|
             manifest.origin.to_s == manifest_origin
           end.tap do |manifest|
@@ -22,7 +22,7 @@ module Bridgetown
 
       def relative_path
         @relative_path ||= Pathname.new(
-          Addressable::URI.unescape(url.path.delete_prefix("/")).split("/")[1..].join("/")
+          Addressable::URI.unescape(uri.path.delete_prefix("/")).split("/")[1..].join("/")
         )
       end
 

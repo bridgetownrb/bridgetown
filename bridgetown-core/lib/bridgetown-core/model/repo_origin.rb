@@ -75,21 +75,17 @@ module Bridgetown
         true
       end
 
-      def url
-        @url ||= URI.parse(id)
-      end
-
       def relative_path
         @relative_path ||= Pathname.new(
-          Addressable::URI.unescape(url.path.delete_prefix("/"))
+          Addressable::URI.unescape(uri.path.delete_prefix("/"))
         )
       end
 
       def collection
         return @collection if @collection
 
-        collection_name = if url.host.ends_with?(".collection")
-                            url.host.chomp(".collection")
+        collection_name = if uri.host.ends_with?(".collection")
+                            uri.host.chomp(".collection")
                           else
                             "pages"
                           end
