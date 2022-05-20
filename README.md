@@ -79,13 +79,13 @@ Bridgetown development is spearheaded by Portland-based web studio [Whitefusion]
 ## Get Up to Speed
 
 * Explore the [Folder Structure](https://www.bridgetownrb.com/docs/structure) of a Bridgetown website
-* Start adding [Pages](https://www.bridgetownrb.com/docs/pages/) and [Posts](https://bridgetownrb.com/docs/posts/)
-* Learn how [Front Matter](https://www.bridgetownrb.com/docs/front-matter/) works
-* Put information on your site with [Variables](https://www.bridgetownrb.com/docs/variables/) and [Data Files](https://www.bridgetownrb.com/docs/datafiles/)
-* Customize the [Permalinks](https://www.bridgetownrb.com/docs/structure/permalinks/) your posts are generated with
-* Use the built-in [Liquid Tags and Filters](https://www.bridgetownrb.com/docs/liquid/) to author sophisticated content and template designs
-* Extend with [Custom Plugins](https://www.bridgetownrb.com/docs/plugins/) to generate content specific to your site
-* Discover how to add [Frontend Assets](https://www.bridgetownrb.com/docs/frontend-assets/) using Webpack for a modern Javascript & CSS build pipeline
+* Start adding content to your site in the form of [Resources](https://www.bridgetownrb.com/docs/resources/)
+* Learn how [Front Matter](https://www.bridgetownrb.com/docs/front-matter/) works for adding metadata to resources
+* Add extra information to your site with [Data Files](https://www.bridgetownrb.com/docs/datafiles/)
+* Customize the [Permalinks](https://www.bridgetownrb.com/docs/content/permalinks/) your resources are generated with
+* Use [Template Engines](https://www.bridgetownrb.com/docs/template-engines) like Liquid, ERB, and Serbea to author sophisticated template designs
+* Extend with [Custom Plugins](https://www.bridgetownrb.com/docs/plugins/) to generate and manipulate content specific to your site
+* Discover how to add [Frontend Assets](https://www.bridgetownrb.com/docs/frontend-assets/) using esbuild or Webpack for a modern Javascript & CSS build pipeline
 
 ## Testing Locally
 
