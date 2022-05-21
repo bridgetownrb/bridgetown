@@ -29,7 +29,7 @@ Bridgetown uses [Yarn](https://yarnpkg.com) to install and manage frontend NPM-b
 
 The starting place for JavaScript code lives at `./frontend/javascript/index.js`. Here you can write your custom functionality, use `import` statements to pull in other modules or external packages, and so forth. This is also where you'd import the CSS entrypoint as well to be processed through esbuild or Webpack. (By default it imports `./frontend/styles/index.css`.)
 
-Because Bridgetown utilizes standard ES bundler functionality, you can trick out your JavaScript setup with additional language enhancements like Ruby2JS or TypeScript or add well-known libraries like [LitElement](https://lit.dev), [Stimulus](https://stimulus.hotwired.dev), [Alpine](https://alpinejs.dev/), [React](https://reactjs.org), [Vue](https://vuejs.org), and many others.
+Because Bridgetown utilizes standard ES bundler functionality, you can trick out your JavaScript setup with additional language enhancements and libraries like Ruby2JS, Lit, Turbo, Shoelace, and many others. And for automated installation of the aforementioned libraries in particular, check out our [Bundled Configurations](/docs/bundled-configurations).
 
 ## CSS
 
@@ -41,7 +41,7 @@ You can also choose to use [Sass](https://sass-lang.com), a pre-processor for CS
 
 The default `PostCSS` config is largely empty so you can set it up as per your preference. The only two plugins included by default are [`postcss-flexbugs-fixes`](https://github.com/luisrudge/postcss-flexbugs-fixes) and [`postcss-preset-env`](https://preset-env.cssdb.org).
 
-There's also a [bundled configuration](/docs/bundled-configurations#bridgetown-recommended-postcss-plugins) you can run to install additional recommended PostCSS plugins.
+There's also a [Bundled Configuration](/docs/bundled-configurations#bridgetown-recommended-postcss-plugins) you can run to install additional recommended PostCSS plugins.
 
 {%@ Note do %}
   #### All the stylesheet’s a stage…
@@ -151,10 +151,17 @@ const esbuildOptions = {
 }
 ```
 
+{% endraw %}
+
+{%@ Note do %}
+  Check out the [Ruby2JS Bundled Configuration](/docs/bundled-configurations#ruby2js) for an automated way to install Ruby2JS.
+{% end %}
+
 ### Multiple Entry Points
 
 You can specify multiple entry points (which result in multiple output bundles) by using a custom `entryPoints` config. You can then reference the additional entry points using the `asset_path` Liquid tag or Ruby helper. (Be sure to start with `javascript` in your relative paths.) For example:
 
+{% raw %}
 ```js
 // esbuild.config.js
 
@@ -184,6 +191,46 @@ By also adding `format: "esm"`, you gain the ability to import code from new ent
 </form>
 ```
 
+### Code Splitting
+
+Another option for "breaking up the bundle" is to dynamically import new code within the execution of your JavaScript code at runtime. To enable this, make sure your esbuild config has these two options:
+
+```js
+const esbuildOptions = {
+  format: "esm",
+  splitting: true,
+
+  // other options here…
+}
+```
+
+Then replace the `defer` attribute in your HTML head with `type="module"` to ensure your primary JavaScript bundle is loaded as an ES module by the browser. For example:
+
+```
+<script src="<%= asset_path :js %>" type="module"></script>
+```
+
+Now you can dynamically and asynchronously import JavaScript code within any function:
+
+```js
+const loadStuff = async () => {
+  const importantStuff = await import("important_stuff.js")
+  return importantStuff.default()
+}
+
+const doStuff = async () => {
+  const justDoIt = await loadStuff()
+  justDoIt("Don't let your dreams be dreams!")
+}
+```
+{% endraw %}
+
+You can learn more about [dynamic imports on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports).
+
+{%@ Note type: :warning do %}
+  ES Module imports have been supported in all modern browsers since 2019, but if you wish to preserve backwards compatibility with older browsers, you'll need to avoid using this technique. 
+{% end %}
+
 ## Webpack Setup
 
 The default configuration is defined in `config/webpack.defaults.js`. However, you should add or override your own config options in the top-level `webpack.config.js` file.
@@ -209,6 +256,7 @@ If you need to manage more than one Webpack bundle, you can add additional entry
 
 Then simply reference the entry point filename via `asset_path` wherever you'd like to load it in your HTML:
 
+{% raw %}
 ```liquid
 <script src="{% asset_path something_else.js %}"></script>
 ```

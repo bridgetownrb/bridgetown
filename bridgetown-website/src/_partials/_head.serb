@@ -10,6 +10,6 @@
 
 <meta name="turbo-cache-control" content="no-preview" />
 <link rel="stylesheet" href="{%= asset_path :css %}" data-turbo-track="reload" />
-<script src="{%= asset_path :js %}" defer data-turbo-track="reload"></script>
+<script src="{%= asset_path :js %}" type="module" data-turbo-track="reload"></script>
 {%= feed_meta %}
 {%= live_reload_dev_js %}

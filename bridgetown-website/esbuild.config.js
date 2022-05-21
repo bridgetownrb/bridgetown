@@ -13,7 +13,9 @@ const esbuildOptions = {
       eslevel: 2020,
       filters: ["camelCase", "functions", "lit", "esm", "return"]
     }),
-  ]
+  ],
+  format: "esm",
+  splitting: true
 }
 
 build(outputFolder, esbuildOptions)
