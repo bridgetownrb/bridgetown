@@ -176,7 +176,7 @@ Feature: Site configuration
     When I run bridgetown build
     Then I should get a zero exit status
     And the output directory should exist
-    And I should see "Page Layout: 2 on 2010-01-01" in "output/index.html"
+    And I should see "Page Layout: 1 on 2010-01-01" in "output/index.html"
     And I should see "Post Layout: <p>content for entry1.</p>" in "output/2007/12/31/entry1/index.html"
     And the "output/2020/01/31/entry2/index.html" file should not exist
 

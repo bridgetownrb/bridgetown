@@ -93,7 +93,6 @@ module Bridgetown
   autoload :PluginManager,       "bridgetown-core/plugin_manager"
   autoload :Prioritizable,       "bridgetown-core/concerns/prioritizable"
   autoload :Publishable,         "bridgetown-core/concerns/publishable"
-  autoload :Publisher,           "bridgetown-core/publisher"
   autoload :Reader,              "bridgetown-core/reader"
   autoload :RubyTemplateView,    "bridgetown-core/ruby_template_view"
   autoload :LogWriter,           "bridgetown-core/log_writer"
