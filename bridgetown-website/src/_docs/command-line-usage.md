@@ -19,7 +19,7 @@ Available commands are:
   * Use the `--configure=` or `-c` option to [apply one or more bundled configurations](/docs/bundled-configurations) to the new site.
   * Use the `-t` option to choose ERB or Serbea templates instead of Liquid (aka `-t erb`).
   * Use the `-e` option to choose Webpack instead of esbuild for your frontend bundler (aka `-e webpack`).
-  * When using Webpack, you can also choose to use Sass over PostCSS by adding the `--use-sass` option.
+  * Use the `--use-sass` option to configure your project to support Sass.
 * `bin/bridgetown start` or `s` - Boots the Rack-based server (using Puma) at `localhost:4000`. In development, you'll get live reload functionality as long as `{% live_reload_dev_js %}` or `<%= live_reload_dev_js %>` is in your HTML head.
 * `bin/bridgetown deploy` - Ensures that all frontend assets get built alongside the published Bridgetown output. This is the command you'll want to use for [deployment](/docs/deployment).
 * `bin/bridgetown build` or `b` - Performs a single build of your site to the `output` folder. Add the `-w` flag to also regenerate the site whenever a source file changes.
