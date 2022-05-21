@@ -1,6 +1,5 @@
 module.exports = {
   plugins: {
-    'postcss-easy-import': {},
     'postcss-mixins': {},
     'postcss-color-function': {},
     'postcss-flexbugs-fixes': {},
@@ -14,7 +13,7 @@ module.exports = {
         'custom-media-queries': true
       },
     },
-    'cssnano' : {
+    'cssnano': {
       preset: 'default'
     }
   }

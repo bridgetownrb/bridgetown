@@ -86,7 +86,6 @@ bin/bridgetown configure purgecss
 
 ⛓️ Installs and configures a set of [PostCSS](https://postcss.org) plugins recommended by the Bridgetown community:
 
-- [`postcss-easy-import`](https://github.com/trysound/postcss-easy-import)
 - [`postcss-mixins`](https://github.com/postcss/postcss-mixins)
 - [`postcss-color-function`](https://github.com/postcss/postcss-color-function)
 - [`cssnano`](https://cssnano.co)
