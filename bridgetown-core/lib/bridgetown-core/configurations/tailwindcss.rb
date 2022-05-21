@@ -38,6 +38,20 @@ end
 
 create_file "frontend/styles/jit-refresh.css", "/* #{Time.now.to_i} */"
 
+insert_into_file "Rakefile",
+                  after: %r{  task :(build|dev) do\n} do
+  <<-JS
+    sh "touch frontend/styles/jit-refresh.css"
+  JS
+end
+
+append_to_file ".gitignore" do
+  <<~FILES
+
+    frontend/styles/jit-refresh.css
+  FILES
+end
+
 create_builder "tailwind_jit.rb" do
   <<~RUBY
     class Builders::TailwindJit < SiteBuilder
