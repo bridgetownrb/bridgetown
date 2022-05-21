@@ -466,4 +466,6 @@ kramdown:
   guess_lang        : true
   footnote_nr       : 1
   show_warnings     : false
+  include_extraction_tags: false
+  mark_highlighting : true
 ```

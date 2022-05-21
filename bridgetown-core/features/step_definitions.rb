@@ -192,7 +192,7 @@ Given(%r!^I have a configuration file with "(.*)" set to "(.*)"$!) do |key, valu
     else
       {}
     end
-  config[key] = YAML.load(value)
+  config[key] = Bridgetown::YAMLParser.load(value)
   Bridgetown.set_timezone(value) if key == "timezone"
   File.write("bridgetown.config.yml", YAML.dump(config))
 end

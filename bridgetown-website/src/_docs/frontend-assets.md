@@ -35,7 +35,7 @@ Because Bridgetown utilizes standard ES bundler functionality, you can trick out
 
 By default Bridgetown comes with support for [PostCSS](https://postcss.org) to allow for cutting-edge/upcoming CSS features which aren't yet supported in all browsers (such as variable-based media queries and selector nesting).
 
-You can also choose to use [Sass](https://sass-lang.com), a pre-processor for CSS; but to do so you must pass `-e webpack --use-sass` to `bridgetown new` — currently only Webpack is officially supported (esbuild support is coming in the next point release).
+You can also choose to use [Sass](https://sass-lang.com), a pre-processor for CSS. Pass `--use-sass` to `bridgetown new` to set up your project to support Sass.
 
 ### PostCSS
 
@@ -78,6 +78,16 @@ and then add:
 ```
 
 to `index.scss`.
+
+Or if you'd like to add [Bootstrap](https://getbootstrap.com):
+
+```shell
+$ yarn add bootstrap
+```
+
+```css
+@import "~bootstrap/scss/bootstrap.scss";
+```
 
 ## Linking to the Output Bundles
 

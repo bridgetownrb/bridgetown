@@ -31,7 +31,7 @@ module Bridgetown
     # @param path [String] the relative path of the resource
     # @param collection [Symbol] :posts, :pages, etc.
     #
-    # @returns [Hash] all default values (an empty hash if there are none)
+    # @return [Hash] all default values (an empty hash if there are none)
     def all(path, collection)
       defaults = {}
 
@@ -123,7 +123,7 @@ module Bridgetown
     # @param scope [Hash] the defaults set being asked about
     # @param collection [Symbol] the collection of the resource being processed
     #
-    # @returns [Boolean] whether either of the above conditions are satisfied
+    # @return [Boolean] whether either of the above conditions are satisfied
     def applies_collection?(scope, collection)
       !scope.key?("collection") || scope["collection"].eql?(collection.to_s)
     end
@@ -132,7 +132,7 @@ module Bridgetown
     #
     # @param set [Hash] the default value hash as defined in bridgetown.config.yml
     #
-    # @returns [Boolean] if the set is valid and can be used
+    # @return [Boolean] if the set is valid and can be used
     def valid?(set)
       set.is_a?(Hash) && set["values"].is_a?(Hash)
     end

@@ -3,9 +3,21 @@
 require "helper"
 
 class GeneratorBuilder < Builder
+  priority :low
+
   def build
     generator do
       site.data[:site_metadata][:title] = "Test Title"
+    end
+  end
+end
+
+class GeneratorBuilder2 < Builder
+  priority :normal
+
+  def build
+    generator do
+      site.data[:site_metadata][:title] = "Test Title 2"
     end
   end
 end
@@ -15,7 +27,10 @@ class TestGenerators < BridgetownUnitTest
     setup do
       Bridgetown.sites.clear
       @site = Site.new(site_configuration)
-      @builder = GeneratorBuilder.new("Generator Test", @site).build_with_callbacks
+      @builders = [GeneratorBuilder, GeneratorBuilder2].sort
+      @builders.each_with_index do |builder, index|
+        builder.new("Generator Test #{index}", @site).build_with_callbacks
+      end
     end
 
     should "be loaded on site setup" do

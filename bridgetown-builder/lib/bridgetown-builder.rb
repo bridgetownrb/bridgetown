@@ -15,7 +15,7 @@ Bridgetown::Hooks.register_one :site, :pre_read, priority: :low, reloadable: fal
   # SiteBuilder is the superclass sites can subclass to create any number of
   # builders, but if the site hasn't defined it explicitly, this is a no-op
   if defined?(SiteBuilder)
-    SiteBuilder.descendants.map do |c|
+    SiteBuilder.descendants.sort.map do |c|
       c.new(c.name, site).build_with_callbacks
     end
   end

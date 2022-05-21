@@ -43,7 +43,7 @@ module Bridgetown
                    desc: "Skip 'yarn install'"
       class_option :"use-sass",
                    type: :boolean,
-                   desc: "(Webpack only) Create a Sass configuration instead of using PostCSS"
+                   desc: "Set up a Sass configuration for your stylesheet"
 
       DOCSURL = "https://bridgetownrb.com/docs"
 
@@ -61,11 +61,6 @@ module Bridgetown
 
       def new_site
         raise ArgumentError, "You must specify a path." if args.empty?
-
-        if frontend_bundling_option != "webpack" && options["use-sass"]
-          raise ArgumentError,
-                "To install Sass, you must choose Webpack (-e webpack) as your frontend bundler"
-        end
 
         new_site_path = File.expand_path(args.join(" "), Dir.pwd)
         @site_name = new_site_path.split(File::SEPARATOR).last
@@ -98,7 +93,11 @@ module Bridgetown
       end
 
       def postcss_option
-        !(frontend_bundling_option == "webpack" && options["use-sass"])
+        !options["use-sass"]
+      end
+
+      def disable_postcss?
+        options["use-sass"] && options["frontend-bundling"] == "webpack"
       end
 
       def create_site(new_site_path)
@@ -116,6 +115,7 @@ module Bridgetown
         template("frontend/javascript/index.js.erb", "frontend/javascript/index.js")
         template("src/index.md.erb", "src/index.md")
         template("src/posts.md.erb", "src/posts.md")
+        copy_file("frontend/styles/syntax-highlighting.css")
 
         case options["templates"]
         when "erb"
@@ -126,11 +126,11 @@ module Bridgetown
           setup_liquid_templates
         end
 
+        postcss_option ? configure_postcss : configure_sass
+
         if frontend_bundling_option == "esbuild"
-          configure_postcss
           invoke(Esbuild, ["setup"], {})
         else
-          postcss_option ? configure_postcss : configure_sass
           invoke(Webpack, ["setup"], {})
         end
       end
@@ -165,6 +165,7 @@ module Bridgetown
       end
 
       def configure_sass
+        template("postcss.config.js.erb", "postcss.config.js") unless disable_postcss?
         copy_file("frontend/styles/index.css", "frontend/styles/index.scss")
       end
 

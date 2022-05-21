@@ -95,8 +95,7 @@ module Bridgetown
 
       # @return [Bridgetown::Resource::Base]
       def as_resource_in_collection
-        collection.resources << to_resource.read!
-        collection.resources.last
+        collection.add_resource_from_model(self)
       end
 
       # @return [Bridgetown::Resource::Base]

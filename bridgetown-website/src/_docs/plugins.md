@@ -171,6 +171,10 @@ Easily pull data in from external APIs, and use a special DSL (Domain-Specific L
 
 Hooks provide fine-grained control to trigger custom functionality at various points in the build process.
 
+### [HTML & XML Inspectors](/docs/plugins/inspectors)
+
+Post-process the HTML or XML output of resources using the Nokogiri Ruby gem and its DOM-like API.
+
 ### [Generators](/docs/plugins/generators)
 
 Generators allow you to automate the creating or updating of content in your site using Bridgetown's internal Ruby API.
@@ -185,19 +189,29 @@ Converters change a markup language from one format to another.
 
 #### Priority Flag
 
-You can configure a Legacy API plugin (mainly generators and converters) with a specific `priority` flag. This flag determines what order the plugin is loaded in.
+You can configure a plugin (builders, converters, etc.) with a specific `priority` flag. This flag determines what order the plugin is loaded in.
 
-Valid values are: <code>:lowest</code>, <code>:low</code>, <code>:normal</code>,
-          <code>:high</code>, and <code>:highest</code>. Highest priority
-          matches are applied first, lowest priority are applied last.
+The default priority is `:normal`. Valid values are:
 
-Here is how you’d specify this flag:
+<code>:lowest</code>, <code>:low</code>, <code>:normal</code>, <code>:high</code>, and <code>:highest</code>.
+Highest priority plugins are run first, lowest priority are run last.
+
+Examples of specifying this flag:
 
 ```ruby
-module MySite
-  class UpcaseConverter < Converter
-    priority :low
-    ...
+class Builders::DoImportantStuff < SiteBuilder
+  priority :highest
+
+  def build
+    # do really important stuff here
+  end
+end
+
+class Builders::CanWaitUntilLater < SiteBuilder
+  priority :low
+
+  def build
+    # stuff that'll get run later (after the really important stuff)
   end
 end
 ```

@@ -14,7 +14,7 @@ end
 confirm = ask "This configuration will ovewrite your existing #{"postcss.config.js".bold.white}. Would you like to continue? [Yn]"
 return unless confirm.casecmp?("Y")
 
-plugins = %w(postcss-easy-import postcss-mixins postcss-color-function cssnano)
+plugins = %w(postcss-mixins postcss-color-function cssnano)
 
 say "Adding the following PostCSS plugins: #{plugins.join(' | ')}", :green
 run "yarn add -D #{plugins.join(' ')}"

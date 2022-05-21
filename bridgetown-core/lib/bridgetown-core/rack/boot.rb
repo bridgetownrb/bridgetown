@@ -19,6 +19,11 @@ module Bridgetown
       attr_accessor :loaders_manager
     end
 
+    # Start up the Roda Rack application and the Zeitwerk autoloaders. Ensure the
+    # Roda app is provided the preloaded Bridgetown site configuration. Handle
+    # any uncaught Roda errors.
+    #
+    # @param [Bridgetown::Rack::Roda] optional, defaults to the `RodaApp` constant
     def self.boot(roda_app = nil)
       self.loaders_manager =
         Bridgetown::Utils::LoadersManager.new(Bridgetown::Current.preloaded_configuration)

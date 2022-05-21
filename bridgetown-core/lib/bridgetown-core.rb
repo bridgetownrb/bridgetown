@@ -32,6 +32,7 @@ require "yaml"
 
 # 3rd party
 require "active_support"
+require "active_support/core_ext/class/attribute"
 require "active_support/core_ext/hash/keys"
 require "active_support/core_ext/module/delegation"
 require "active_support/core_ext/object/blank"
@@ -90,8 +91,8 @@ module Bridgetown
   autoload :LogAdapter,          "bridgetown-core/log_adapter"
   autoload :PluginContentReader, "bridgetown-core/readers/plugin_content_reader"
   autoload :PluginManager,       "bridgetown-core/plugin_manager"
+  autoload :Prioritizable,       "bridgetown-core/concerns/prioritizable"
   autoload :Publishable,         "bridgetown-core/concerns/publishable"
-  autoload :Publisher,           "bridgetown-core/publisher"
   autoload :Reader,              "bridgetown-core/reader"
   autoload :RubyTemplateView,    "bridgetown-core/ruby_template_view"
   autoload :LogWriter,           "bridgetown-core/log_writer"
