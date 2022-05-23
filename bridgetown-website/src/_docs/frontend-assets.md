@@ -27,9 +27,19 @@ Bridgetown uses [Yarn](https://yarnpkg.com) to install and manage frontend NPM-b
 
 ## JavaScript
 
-The starting place for JavaScript code lives at `./frontend/javascript/index.js`. Here you can write your custom functionality, use `import` statements to pull in other modules or external packages, and so forth. This is also where you'd import the CSS entrypoint as well to be processed through esbuild or Webpack. (By default it imports `./frontend/styles/index.css`.)
+The starting place for JavaScript code lives at `./frontend/javascript/index.js`. Here you can write your custom functionality, use `import` statements to pull in other modules or external packages, and so forth. This is also where you'd import the CSS entrypoint as well to be processed through esbuild or Webpack.
+
+JS files placed anywhere inside `src/_components` are automatically imported and bundled as well.
 
 Because Bridgetown utilizes standard ES bundler functionality, you can trick out your JavaScript setup with additional language enhancements and libraries like Ruby2JS, Lit, Turbo, Shoelace, and many others. And for automated installation of the aforementioned libraries in particular, check out our [Bundled Configurations](/docs/bundled-configurations).
+
+{%@ Note do %}
+  #### What about TypeScript?
+
+  TypeScript is one of the many transpile-to-JavaScript languages available today. TypeScript code isn't directly compatible with native JavaScript environments and always requires a build step. It's main selling point is static type-checking. However, it's possible to use type-checking and gain the secondary benefits of documentation popups and project navigation using JSDoc in vanilla JavaScript! In fact, simply by adding `// @ts-check` to the top of a `.js` file, VSCode for example will immediately provide TypeScript-like features as you author your code.
+
+  Bridgetown happily endorses JSDoc-enhanced JavaScript for a 100% ES spec-compatible development environment. [You can learn more about this approach on the TypeScript website.](https://www.typescriptlang.org/docs/handbook/intro-to-js-ts.html)
+{% end %}
 
 ## CSS
 
@@ -37,11 +47,13 @@ By default Bridgetown comes with support for [PostCSS](https://postcss.org) to a
 
 You can also choose to use [Sass](https://sass-lang.com), a pre-processor for CSS. Pass `--use-sass` to `bridgetown new` to set up your project to support Sass.
 
+The starting place for CSS code lives at `frontend/styles/index.css`. You can add additional stylesheets and `@import` them into `index.css`. CSS files placed anywhere inside `src/_components` are automatically imported.
+
 ### PostCSS
 
 The default `PostCSS` config is largely empty so you can set it up as per your preference. The only two plugins included by default are [`postcss-flexbugs-fixes`](https://github.com/luisrudge/postcss-flexbugs-fixes) and [`postcss-preset-env`](https://preset-env.cssdb.org).
 
-There's also a [Bundled Configuration](/docs/bundled-configurations#bridgetown-recommended-postcss-plugins) you can run to install additional recommended PostCSS plugins.
+There's also a [Bundled Configuration](/docs/bundled-configurations#bridgetown-recommended-postcss-plugins) you can run to install recommended PostCSS plugins and set up specific useful features like nesting.
 
 {%@ Note do %}
   #### All the stylesheet’s a stage…
