@@ -6,7 +6,5 @@ class RodaApp < Bridgetown::Rack::Roda
     site.data.iterations += 1
   end
 
-  route do |r|
-    r.bridgetown
-  end
+  route(&:bridgetown)
 end
