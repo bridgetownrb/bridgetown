@@ -7,10 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- Simplify the Roda boot process, add more route tests [#562](https://github.com/bridgetownrb/bridgetown/pull/562) ([jaredcwhite](https://github.com/jaredcwhite))
+- Add Sass support for esbuild, update frontend dependency versions [#542](https://github.com/bridgetownrb/bridgetown/pull/542) ([jaredcwhite](https://github.com/jaredcwhite))
+  - Add ability to configure file filter for PostCSS plugin
+  - Fix PostCSS esbuild watch bug & remove easy-import
+- Update Tailwind config so jit-refresh.css is git ignored [#559](https://github.com/bridgetownrb/bridgetown/pull/559) ([jaredcwhite](https://github.com/jaredcwhite))
+- Ensure future-dated resources import only when expected [#558](https://github.com/bridgetownrb/bridgetown/pull/558) ([jaredcwhite](https://github.com/jaredcwhite))
+- Inherit generator priority from builder
+  - **BREAKING CHANGE:** (maybe) The exact order multiple generators will run in may be subtly different than before. Use Builder priorities to resolve
+- Add HTML & XML Inspectors API using Nokogiri [#546](https://github.com/bridgetownrb/bridgetown/pull/546) ([jaredcwhite](https://github.com/jaredcwhite)) & ([andrewmcodes](https://github.com/andrewmcodes))
+- Add default locale prefixing config option, `in_locale` template filter/helper [#540](https://github.com/bridgetownrb/bridgetown/pull/540) ([jaredcwhite](https://github.com/jaredcwhite))
+
+- Add Markdown support to convert `==` / `::` to `<mark>` [#551](https://github.com/bridgetownrb/bridgetown/pull/551) ([jaredcwhite](https://github.com/jaredcwhite))
+- Apply default theme for syntax highlighting [#516](https://github.com/bridgetownrb/bridgetown/pull/516) ([jaredlt](https://github.com/jaredlt))
+- Add site `server_shutdown` hook via Puma
+- Allow route classes to be prioritized to adjust run order [#538](https://github.com/bridgetownrb/bridgetown/pull/538) ([jaredcwhite](https://github.com/jaredcwhite))
+
+- Fix: ensure capturing helpers use dedicated component context
+- Fix typo in "Core Principles": focsued → focused [#542] (Raphael Das Gupta)
+- Allow finding and linking to alternate locale pages [#522](https://github.com/bridgetownrb/bridgetown/pull/522) ([jaredcwhite](https://github.com/jaredcwhite))
+- Issue warning when a Rails-style extension is used (like .html.erb) [#523](https://github.com/bridgetownrb/bridgetown/pull/523) ([jaredcwhite](https://github.com/jaredcwhite))
+- Fix Roda serving bug when index.html is missing
 - Re-run SSR setup block on live reload
 - Trigger pre/post-read hooks on SSR reload
   - **BREAKING CHANGE:** (maybe) If you had long-running code in a plugin `build` method or a hook, this might surprise you when you live reload in dev using dynamic routes. Use `site.ssr?` if you want to bypass code in SSR mode.
-- Fix bug where sidecar aux process wasn't requiring bundler groups (#532)
+- Fix bug where sidecar aux process wasn't requiring bundler groups [#532](https://github.com/bridgetownrb/bridgetown/pull/532) ([jaredcwhite](https://github.com/jaredcwhite))
 
 ## 1.0.0 (stable release) — 2022-03-07
 
