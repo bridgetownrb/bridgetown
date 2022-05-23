@@ -2,6 +2,13 @@
 
 require "rack/indifferent"
 
+begin
+  # If it's in the Gemfile's :bridgetown_plugins group it's already been required, but we'll try
+  # again just to be on the safe side:
+  require "bridgetown-routes"
+rescue LoadError
+end
+
 class Roda
   module RodaPlugins
     module BridgetownSSR
@@ -12,6 +19,34 @@ class Roda
     end
 
     register_plugin :bridgetown_ssr, BridgetownSSR
+
+    module BridgetownBoot
+      module InstanceMethods
+        # Helper shorthand for Bridgetown::Current.site
+        # @return [Bridgetown::Site]
+        def bridgetown_site
+          Bridgetown::Current.site
+        end
+      end
+
+      Roda::RodaRequest.alias_method :_previous_roda_cookies, :cookies
+
+      module RequestMethods
+        # Monkeypatch Roda/Rack's Request object so it returns a hash which allows for
+        # indifferent access
+        def cookies
+          # TODO: maybe replace with a simpler hash that offers an overloaded `[]` method
+          _previous_roda_cookies.with_indifferent_access
+        end
+
+        # Starts up the Bridgetown routing system
+        def bridgetown
+          Bridgetown::Rack::Routes.start!(scope)
+        end
+      end
+    end
+
+    register_plugin :bridgetown_boot, BridgetownBoot
   end
 end
 
@@ -24,6 +59,7 @@ module Bridgetown
       plugin :json_parser
       plugin :cookies
       plugin :streaming
+      plugin :bridgetown_boot
       plugin :public, root: Bridgetown::Current.preloaded_configuration.destination
       plugin :not_found do
         output_folder = Bridgetown::Current.preloaded_configuration.destination
@@ -55,12 +91,6 @@ module Bridgetown
           response.status = 500
           "<p>ERROR: cannot find <code>index.html</code> in the output folder.</p>"
         end
-      end
-
-      # Helper shorthand for Bridgetown::Current.site
-      # @return [Bridgetown::Site]
-      def bridgetown_site
-        Bridgetown::Current.site
       end
     end
   end

@@ -12,11 +12,15 @@ AllCops:
     - tmp/**/*
     - test/source/**/*
     - test/resources/src/_pages/*.rb
+    - lib/bridgetown-core/commands/base.rb
+    - lib/bridgetown-core/commands/plugins.rb
+    - lib/bridgetown-core/rack/roda.rb
     - lib/site_template/TEMPLATES/**/*
     - lib/site_template/Rakefile
     - lib/site_template/config.ru
     - lib/site_template/config/**/*
     - lib/site_template/plugins/site_builder.rb
+    - lib/site_template/server/roda_app.rb
 
 Lint/ConstantDefinitionInBlock:
   Exclude:
