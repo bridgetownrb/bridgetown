@@ -215,7 +215,7 @@ module Bridgetown
     # Used by Resource's permalink processor
     # @return [String]
     def default_permalink
-      metadata.fetch("permalink", "/:collection/:path/")
+      metadata.fetch("permalink", "/:locale/:collection/:path/")
     end
 
     # Extract options for this collection from the site configuration.

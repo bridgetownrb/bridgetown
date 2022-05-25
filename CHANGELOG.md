@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- Fix default custom collection permalink so it includes the locale prefix
+- Add link to configuration options documentation in the default `bridgetown.config.yml` [#563](https://github.com/bridgetownrb/bridgetown/pull/563) ([andrewmcodes](https://github.com/andrewmcodes))
 - Simplify the Roda boot process, add more route tests [#562](https://github.com/bridgetownrb/bridgetown/pull/562) ([jaredcwhite](https://github.com/jaredcwhite))
 - Add Sass support for esbuild, update frontend dependency versions [#542](https://github.com/bridgetownrb/bridgetown/pull/542) ([jaredcwhite](https://github.com/jaredcwhite))
   - Add ability to configure file filter for PostCSS plugin
