@@ -21,7 +21,7 @@ run "npx tailwindcss init"
 
 gsub_file "tailwind.config.js", "content: [],", <<~JS.strip
   content: [
-      './src/**/*.{html,md,liquid,erb,serb}',
+      './src/**/*.{html,md,liquid,erb,serb,rb}',
       './frontend/javascript/**/*.js',
     ],
 JS
@@ -59,7 +59,7 @@ create_builder "tailwind_jit.rb" do
         hook :site, :pre_reload do |_, paths|
           # Don't trigger refresh if it's a frontend-only change
           next if paths.length == 1 && paths.first.ends_with?("manifest.json")
-    
+
           # Save out a comment file to trigger Tailwind's JIT
           refresh_file = site.in_root_dir("frontend", "styles", "jit-refresh.css")
           File.write refresh_file, "/* \#{Time.now.to_i} */"
