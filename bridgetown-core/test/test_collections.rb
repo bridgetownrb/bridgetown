@@ -31,7 +31,7 @@ class TestCollections < BridgetownUnitTest
     end
 
     should "have default URL template" do
-      assert_equal "/:collection/:path/", @collection.default_permalink
+      assert_equal "/:locale/:collection/:path/", @collection.default_permalink
     end
 
     should "contain no docs when initialized" do
