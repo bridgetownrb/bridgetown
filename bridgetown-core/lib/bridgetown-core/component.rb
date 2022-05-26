@@ -124,6 +124,7 @@ module Bridgetown
     # This is where the magic happens. Render the component within a view context.
     #
     # @param view_context [Bridgetown::RubyTemplateView]
+    # @yield The component's `content` will be set to the captured output of the block.
     def render_in(view_context, &block)
       @view_context = view_context
       @_content_block = block
@@ -139,6 +140,17 @@ module Bridgetown
                               "#{self.class} encountered an error while "\
                               "rendering `#{self.class.path_for_errors}'"
       raise e
+    end
+
+    # Render the component directly to the string, without needing a prior view context.
+    #
+    # @yield The component's `content` will be set to the captured output of the block.
+    def render_to_string(&block)
+      blank_convertible = HashWithDotAccess::Hash.new({
+        data: {},
+        site: site || Bridgetown::Current.site,
+      })
+      render_in(Bridgetown::ERBView.new(blank_convertible), &block)
     end
 
     # Subclasses can override this method to return a string from their own
