@@ -270,18 +270,11 @@ module Bridgetown
 
     # Read in resource from repo path
     # @param full_path [String]
-    def read_resource(full_path, manifest: nil) # rubocop:todo Metrics/AbcSize
-      scheme = manifest ? "plugin" : "repo"
-      id = +"#{scheme}://#{label}.collection/"
-      id += "#{manifest.origin}/" if manifest
-      id += Addressable::URI.escape(
-        Pathname(full_path).relative_path_from(
-          manifest ? Pathname(manifest.content) : Pathname(site.source)
-        ).to_s
-      ).gsub("#", "%23")
-      model = Bridgetown::Model::Base.find(id)
+    def read_resource(full_path, manifest: nil)
+      model = Bridgetown::Model::Base.find(model_id_from_path(full_path, manifest: manifest))
 
-      if model.attributes.key?(:locale) && model.locale.to_sym == :multi
+      if (model.attributes.key?(:locale) && model.locale.to_sym == :multi) ||
+          File.extname(File.basename(full_path, ".*")) == ".multi"
         site.config.available_locales.each do |locale|
           model.locale = locale
           add_resource_from_model model
@@ -367,6 +360,18 @@ module Bridgetown
         File.basename(full_path),
         self
       )
+    end
+
+    def model_id_from_path(full_path, manifest: nil)
+      scheme = manifest ? "plugin" : "repo"
+      id = +"#{scheme}://#{label}.collection/"
+      id += "#{manifest.origin}/" if manifest
+      id += Addressable::URI.escape(
+        Pathname(full_path).relative_path_from(
+          manifest ? Pathname(manifest.content) : Pathname(site.source)
+        ).to_s
+      ).gsub("#", "%23")
+      id
     end
   end
 end

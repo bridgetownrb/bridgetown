@@ -38,7 +38,7 @@ class TestLocales < BridgetownUnitTest
       @site.process
       # @type [Bridgetown::Resource::Base]
       @resources = @site.collections.pages.resources.select do |page|
-        page.relative_path.to_s == "_pages/multi-page.md"
+        page.relative_path.to_s == "_pages/multi-page.multi.md"
       end
       @english_resource = @resources.find { |page| page.data.locale == :en }
       @french_resource = @resources.find { |page| page.data.locale == :fr }
@@ -70,7 +70,7 @@ class TestLocales < BridgetownUnitTest
       @site.process
       # @type [Bridgetown::Resource::Base]
       @resources = @site.collections.pages.resources.select do |page|
-        page.relative_path.to_s == "_pages/multi-page.md"
+        page.relative_path.to_s == "_pages/multi-page.multi.md"
       end
       @english_resource = @resources.find { |page| page.data.locale == :en }
       @french_resource = @resources.find { |page| page.data.locale == :fr }
@@ -102,7 +102,7 @@ class TestLocales < BridgetownUnitTest
       @site.process
       # @type [Bridgetown::Resource::Base]
       @resources = @site.collections.pages.resources.select do |page|
-        page.relative_path.to_s == "_pages/multi-page.md"
+        page.relative_path.to_s == "_pages/multi-page.multi.md"
       end
       @english_resource = @resources.find { |page| page.data.locale == :en }
       @french_resource = @resources.find { |page| page.data.locale == :fr }

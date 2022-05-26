@@ -113,9 +113,8 @@ module Bridgetown
             if resource.site.config["collections_dir"].present?
               path.delete_prefix! "#{resource.site.config["collections_dir"]}/"
             end
-            if resource.data.locale && path.ends_with?(".#{resource.data.locale}")
-              path.chomp!(".#{resource.data.locale}")
-            end
+
+            Bridgetown::Utils.chomp_locale_suffix!(path, resource.data.locale)
           end,
         }
       end
