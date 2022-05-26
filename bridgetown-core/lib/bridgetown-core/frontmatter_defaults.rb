@@ -9,10 +9,12 @@ module Bridgetown
 
     def initialize(site)
       @site = site
+      @defaults_cache = {}
     end
 
     def reset
       @glob_cache = {}
+      @defaults_cache = {}
     end
 
     def ensure_time!(set)
@@ -29,16 +31,19 @@ module Bridgetown
     # Collects a hash with all default values for a resource
     #
     # @param path [String] the relative path of the resource
-    # @param collection [Symbol] :posts, :pages, etc.
+    # @param collection_name [Symbol] :posts, :pages, etc.
     #
     # @return [Hash] all default values (an empty hash if there are none)
-    def all(path, collection)
-      defaults = {}
+    def all(path, collection_name)
+      if @defaults_cache.key?([path, collection_name])
+        return @defaults_cache[[path, collection_name]]
+      end
 
+      defaults = {}
       merge_data_cascade_for_path(path, defaults)
 
       old_scope = nil
-      matching_sets(path, collection).each do |set|
+      matching_sets(path, collection_name).each do |set|
         if has_precedence?(old_scope, set["scope"])
           defaults = Utils.deep_merge_hashes(defaults, set["values"])
           old_scope = set["scope"]
@@ -46,7 +51,8 @@ module Bridgetown
           defaults = Utils.deep_merge_hashes(set["values"], defaults)
         end
       end
-      defaults
+
+      @defaults_cache[[path, collection_name]] = defaults
     end
 
     private
