@@ -380,7 +380,7 @@ module Bridgetown
     def model_is_multi_locale?(model, model_relative_path)
       (model.attributes.key?(:locale) && model.locale.to_sym == :multi) ||
         File.extname(File.basename(model_relative_path, ".*")) == ".multi" ||
-        site.frontmatter_defaults.all(model_relative_path, label.to_sym)[:locale].to_s == "multi"
+        site.frontmatter_defaults.all(model_relative_path, label.to_sym)["locale"].to_s == "multi"
     end
   end
 end
