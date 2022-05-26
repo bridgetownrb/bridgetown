@@ -11,7 +11,7 @@ AllCops:
     - vendor/**/*
     - tmp/**/*
     - test/source/**/*
-    - test/resources/src/_pages/*.rb
+    - test/resources/src/**/*.rb
     - lib/bridgetown-core/commands/base.rb
     - lib/bridgetown-core/commands/plugins.rb
     - lib/bridgetown-core/rack/roda.rb
