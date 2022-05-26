@@ -7,3 +7,5 @@ locale_overrides:
 ---
 
 {% if site.locale == "en" %}English:{% elsif site.locale == "fr" %}French:{% endif %} {{ resource.data.title }}
+
+{{ site.locale | t }}: {{ "test.name" | t }}

@@ -126,5 +126,26 @@ class TestLocales < BridgetownUnitTest
     <li>Sur mesure: /basefolder/fr/multi-page/</li>
       HTML
     end
+
+    context "translation filters" do
+      setup do
+        @site = resources_site
+        @site.process
+        # @type [Bridgetown::Resource::Base]
+        @resources = @site.collections.pages.resources.select do |page|
+          page.relative_path.to_s == "_pages/multi-page.multi.md"
+        end
+        @english_resource = @resources.find { |page| page.data.locale == :en }
+        @french_resource = @resources.find { |page| page.data.locale == :fr }
+      end
+
+      should "pull in the right English translation" do
+        assert_includes @english_resource.output, "<p>English: Test Name</p>"
+      end
+
+      should "fall back to English on missing translation" do
+        assert_includes @french_resource.output, "<p>Français: Test Name</p>"
+      end
+    end
   end
 end

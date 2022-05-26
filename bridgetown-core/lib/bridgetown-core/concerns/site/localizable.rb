@@ -12,6 +12,10 @@ class Bridgetown::Site
         end
         I18n.available_locales = config[:available_locales]
         I18n.default_locale = locale
+        I18n.fallbacks.each do |k, v|
+          v.push(locale) if k != locale && !v.include?(locale)
+        end
+        locale
       end
     end
 

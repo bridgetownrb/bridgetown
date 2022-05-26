@@ -51,9 +51,13 @@ require "listen"
 require "kramdown"
 require "colorator"
 require "i18n"
+require "i18n/backend/fallbacks"
 require "faraday"
 require "thor"
 require "zeitwerk"
+
+# Ensure we can set up fallbacks so the default locale gets used
+I18n::Backend::Simple.include I18n::Backend::Fallbacks
 
 module HashWithDotAccess
   class Hash # :nodoc:
