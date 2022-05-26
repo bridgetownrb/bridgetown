@@ -3,8 +3,21 @@
 require "helper"
 
 class TestLocales < BridgetownUnitTest
+  def reset_i18n_config
+    I18n.enforce_available_locales = false
+    I18n.locale = nil
+    I18n.default_locale = nil
+    I18n.load_path = nil
+    I18n.available_locales = nil
+    I18n.backend = nil
+    I18n.default_separator = nil
+    I18n.enforce_available_locales = true
+    I18n.fallbacks = nil if I18n.respond_to?(:fallbacks=)
+  end
+
   context "similar pages in different locales" do
     setup do
+      reset_i18n_config
       @site = resources_site
       @site.process
       # @type [Bridgetown::Resource::Base]
@@ -34,6 +47,7 @@ class TestLocales < BridgetownUnitTest
 
   context "one page which is generated into multiple locales" do
     setup do
+      reset_i18n_config
       @site = resources_site
       @site.process
       # @type [Bridgetown::Resource::Base]
@@ -66,6 +80,7 @@ class TestLocales < BridgetownUnitTest
 
   context "locales and a base_path combined" do
     setup do
+      reset_i18n_config
       @site = resources_site(base_path: "/basefolder")
       @site.process
       # @type [Bridgetown::Resource::Base]
@@ -98,6 +113,7 @@ class TestLocales < BridgetownUnitTest
 
   context "locales, prefix_default_locale, and base_path combined" do
     setup do
+      reset_i18n_config
       @site = resources_site(base_path: "/basefolder", prefix_default_locale: true)
       @site.process
       # @type [Bridgetown::Resource::Base]
@@ -129,6 +145,7 @@ class TestLocales < BridgetownUnitTest
 
     context "translation filters" do
       setup do
+        reset_i18n_config
         @site = resources_site
         @site.process
         # @type [Bridgetown::Resource::Base]
