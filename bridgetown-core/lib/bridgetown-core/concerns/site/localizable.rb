@@ -13,7 +13,7 @@ class Bridgetown::Site
         I18n.available_locales = config[:available_locales]
         I18n.default_locale = locale
         I18n.fallbacks = config[:available_locales].to_h do |available_locale|
-          [available_locale, [available_locale, locale].uniq]
+          [available_locale, [available_locale, locale, :en].uniq]
         end
         locale
       end
