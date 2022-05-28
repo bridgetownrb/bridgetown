@@ -15,9 +15,9 @@ module Bridgetown
     InvalidURLError             = Class.new(FatalException)
     InvalidConfigurationError   = Class.new(FatalException)
 
-    def self.print_build_error(exc, trace: false)
-      Bridgetown.logger.error "Exception raised:", exc.class.to_s.bold
-      Bridgetown.logger.error exc.message.reset_ansi
+    def self.print_build_error(exc, trace: false, logger: Bridgetown.logger)
+      logger.error "Exception raised:", exc.class.to_s.bold
+      logger.error exc.message.reset_ansi
 
       trace_args = ["-t", "--trace"]
       print_trace_msg = true
@@ -28,12 +28,12 @@ module Bridgetown
                  exc.backtrace[0..4]
                end
       traces.each_with_index do |backtrace_line, index|
-        Bridgetown.logger.error "#{index + 1}:", backtrace_line.reset_ansi
+        logger.error "#{index + 1}:", backtrace_line.reset_ansi
       end
 
       return unless print_trace_msg
 
-      Bridgetown.logger.warn "Backtrace:", "Use the --trace option for complete information."
+      logger.warn "Backtrace:", "Use the --trace option for complete information."
     end
   end
 end
