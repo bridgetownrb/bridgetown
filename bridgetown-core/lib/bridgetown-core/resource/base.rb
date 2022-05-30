@@ -293,7 +293,7 @@ module Bridgetown
 
       private
 
-      def ensure_default_data # rubocop:todo Metrics/AbcSize
+      def ensure_default_data
         determine_locale
 
         slug = if matches = relative_path.to_s.match(DATE_FILENAME_MATCHER) # rubocop:disable Lint/AssignmentInCondition
@@ -303,7 +303,7 @@ module Bridgetown
                  basename_without_ext
                end
 
-        slug.chomp!(".#{data.locale}") if data.locale && slug.ends_with?(".#{data.locale}")
+        Bridgetown::Utils.chomp_locale_suffix!(slug, data.locale)
 
         data.slug ||= slug
         data.title ||= Bridgetown::Utils.titleize_slug(slug)

@@ -3,6 +3,9 @@
 # This config file is for settings that affect your whole site, values
 # which you are expected to set up once and rarely edit after that.
 #
+# A list of all available configuration options can be found here:
+# https://www.bridgetownrb.com/docs/configuration/options
+#
 # For technical reasons, this file is *NOT* reloaded automatically when you use
 # `bin/bridgetown start`. If you change this file, please restart the server process.
 #

@@ -491,6 +491,16 @@ module Bridgetown
       %(<script type="module">#{code}</script>).html_safe
     end
 
+    def chomp_locale_suffix!(path, locale)
+      return path unless locale
+
+      if path.ends_with?(".#{locale}")
+        path.chomp!(".#{locale}")
+      elsif path.ends_with?(".multi")
+        path.chomp!(".multi")
+      end
+    end
+
     private
 
     def merge_values(target, overwrite)

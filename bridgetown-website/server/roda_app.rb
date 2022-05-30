@@ -7,9 +7,7 @@
 class RodaApp < Bridgetown::Rack::Roda
   plugin :bridgetown_ssr
 
-  route do
-    # Load all the files in server/routes
-    # see hello.rb.sample
-    Bridgetown::Rack::Routes.start! self
+  route do |r|
+    r.bridgetown
   end
 end

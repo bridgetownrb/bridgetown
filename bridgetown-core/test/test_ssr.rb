@@ -9,6 +9,10 @@ class TestSSR < BridgetownUnitTest
     @@ssr_app ||= Rack::Builder.parse_file(File.expand_path("ssr/config.ru", __dir__)).first # rubocop:disable Style/ClassVars
   end
 
+  def site
+    app.opts[:bridgetown_site]
+  end
+
   context "Roda-powered Bridgetown server" do
     setup do
       Bridgetown::Current.site = nil
@@ -32,11 +36,22 @@ class TestSSR < BridgetownUnitTest
     end
 
     should "preserve site data between live reloads" do
-      app # ensure it's been run
-      site = @@ssr_app.opts[:bridgetown_site]
       assert_equal 1, site.data.iterations
       site.reset(soft: true)
       assert_equal 2, site.data.iterations
+    end
+
+    should "support indifferent cookies" do
+      post "/cookies", value: "Gookie!"
+      get "/cookies"
+      assert last_response.ok?
+      assert_equal({ value: "Gookie!" }.to_json, last_response.body)
+    end
+
+    should "support incoming JSON payloads" do
+      post "/ooh_json", { tell_me: "what you're chasin'" }
+      assert last_response.ok?
+      assert_equal({ because_the_night: "will never give you what you want" }.to_json, last_response.body)
     end
   end
 end
