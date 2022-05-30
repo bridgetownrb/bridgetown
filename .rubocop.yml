@@ -11,9 +11,6 @@ inherit_gem:
 Bridgetown/NoPutsAllowed:
   Exclude:
     - rake/*.rake
-    - bridgetown-core/lib/bridgetown-core/commands/base.rb
-    - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
-    - bridgetown-core/lib/bridgetown-core/rack/roda.rb
 
 AllCops:
   TargetRubyVersion: 2.7

@@ -41,7 +41,7 @@ module Bridgetown
               #{code}
             end
           RUBY
-          instance_eval(code, file, -1)
+          instance_eval(code, file, ruby_content ? 1 : 0)
         end
       end
     end

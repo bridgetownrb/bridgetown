@@ -3,7 +3,14 @@
 module Bridgetown
   module Routes
     module RodaRouter
-      def self.start!(app)
+      def self.start!(app) # rubocop:todo Metrics/MethodLength
+        unless Bridgetown::Current.site
+          Bridgetown.logger.warn(
+            "The `bridgetown_routes` plugin hasn't been configured in the Roda app."
+          )
+          return
+        end
+
         r = app.request
         response = app.response
 

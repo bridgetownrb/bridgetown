@@ -16,6 +16,7 @@ module Bridgetown
 
     # rubocop:disable Bridgetown/NoPutsAllowed
     def self.print_roda_routes
+      # TODO: this needs to be fully documented, currently no info on how to generate .routes.json
       routes = begin
         JSON.parse(File.read("#{Dir.pwd}/.routes.json"))
       rescue StandardError

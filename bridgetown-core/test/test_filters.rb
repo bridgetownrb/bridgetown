@@ -1138,6 +1138,20 @@ class TestFilters < BridgetownUnitTest
       end
     end
 
+    context "in_locale filter" do
+      should "filter by current site locale" do
+        filter = make_filter_mock(
+          available_locales: [:en, :es]
+        )
+        filter.site.read
+        posts = filter.site.site_payload["collections"]["posts"].resources
+        posts.first.data[:locale] = "es"
+        filter.site.locale = :es
+        results = filter.in_locale(posts)
+        assert_equal 1, results.length
+      end
+    end
+
     context "group_by_exp filter" do
       should "successfully group array of Bridgetown::Page's" do
         @filter.site.process

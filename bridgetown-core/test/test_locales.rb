@@ -3,8 +3,21 @@
 require "helper"
 
 class TestLocales < BridgetownUnitTest
+  def reset_i18n_config
+    I18n.enforce_available_locales = false
+    I18n.locale = nil
+    I18n.default_locale = nil
+    I18n.load_path = nil
+    I18n.available_locales = nil
+    I18n.backend = nil
+    I18n.default_separator = nil
+    I18n.enforce_available_locales = true
+    I18n.fallbacks = nil if I18n.respond_to?(:fallbacks=)
+  end
+
   context "similar pages in different locales" do
     setup do
+      reset_i18n_config
       @site = resources_site
       @site.process
       # @type [Bridgetown::Resource::Base]
@@ -34,11 +47,12 @@ class TestLocales < BridgetownUnitTest
 
   context "one page which is generated into multiple locales" do
     setup do
+      reset_i18n_config
       @site = resources_site
       @site.process
       # @type [Bridgetown::Resource::Base]
       @resources = @site.collections.pages.resources.select do |page|
-        page.relative_path.to_s == "_pages/multi-page.md"
+        page.relative_path.to_s == "_pages/multi-page.multi.md"
       end
       @english_resource = @resources.find { |page| page.data.locale == :en }
       @french_resource = @resources.find { |page| page.data.locale == :fr }
@@ -66,11 +80,12 @@ class TestLocales < BridgetownUnitTest
 
   context "locales and a base_path combined" do
     setup do
+      reset_i18n_config
       @site = resources_site(base_path: "/basefolder")
       @site.process
       # @type [Bridgetown::Resource::Base]
       @resources = @site.collections.pages.resources.select do |page|
-        page.relative_path.to_s == "_pages/multi-page.md"
+        page.relative_path.to_s == "_pages/multi-page.multi.md"
       end
       @english_resource = @resources.find { |page| page.data.locale == :en }
       @french_resource = @resources.find { |page| page.data.locale == :fr }
@@ -98,11 +113,12 @@ class TestLocales < BridgetownUnitTest
 
   context "locales, prefix_default_locale, and base_path combined" do
     setup do
+      reset_i18n_config
       @site = resources_site(base_path: "/basefolder", prefix_default_locale: true)
       @site.process
       # @type [Bridgetown::Resource::Base]
       @resources = @site.collections.pages.resources.select do |page|
-        page.relative_path.to_s == "_pages/multi-page.md"
+        page.relative_path.to_s == "_pages/multi-page.multi.md"
       end
       @english_resource = @resources.find { |page| page.data.locale == :en }
       @french_resource = @resources.find { |page| page.data.locale == :fr }
@@ -125,6 +141,28 @@ class TestLocales < BridgetownUnitTest
     <li>Multi-locale page: /basefolder/en/multi-page/</li>
     <li>Sur mesure: /basefolder/fr/multi-page/</li>
       HTML
+    end
+
+    context "translation filters" do
+      setup do
+        reset_i18n_config
+        @site = resources_site
+        @site.process
+        # @type [Bridgetown::Resource::Base]
+        @resources = @site.collections.pages.resources.select do |page|
+          page.relative_path.to_s == "_pages/multi-page.multi.md"
+        end
+        @english_resource = @resources.find { |page| page.data.locale == :en }
+        @french_resource = @resources.find { |page| page.data.locale == :fr }
+      end
+
+      should "pull in the right English translation" do
+        assert_includes @english_resource.output, "<p>English: Test Name</p>"
+      end
+
+      should "fall back to English on missing translation" do
+        assert_includes @french_resource.output, "<p>Français: Test Name</p>"
+      end
     end
   end
 end

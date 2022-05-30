@@ -215,7 +215,7 @@ module Bridgetown
     # Used by Resource's permalink processor
     # @return [String]
     def default_permalink
-      metadata.fetch("permalink", "/:collection/:path/")
+      metadata.fetch("permalink", "/:locale/:collection/:path/")
     end
 
     # Extract options for this collection from the site configuration.
@@ -270,18 +270,12 @@ module Bridgetown
 
     # Read in resource from repo path
     # @param full_path [String]
-    def read_resource(full_path, manifest: nil) # rubocop:todo Metrics/AbcSize
-      scheme = manifest ? "plugin" : "repo"
-      id = +"#{scheme}://#{label}.collection/"
-      id += "#{manifest.origin}/" if manifest
-      id += Addressable::URI.escape(
-        Pathname(full_path).relative_path_from(
-          manifest ? Pathname(manifest.content) : Pathname(site.source)
-        ).to_s
-      ).gsub("#", "%23")
-      model = Bridgetown::Model::Base.find(id)
+    def read_resource(full_path, manifest: nil)
+      model_relative_path = relative_model_path_for(full_path, manifest: manifest)
+      model = Bridgetown::Model::Base.find(model_id_from_relative_path(model_relative_path,
+                                                                       manifest: manifest))
 
-      if model.attributes.key?(:locale) && model.locale.to_sym == :multi
+      if model_is_multi_locale?(model, model_relative_path)
         site.config.available_locales.each do |locale|
           model.locale = locale
           add_resource_from_model model
@@ -367,6 +361,26 @@ module Bridgetown
         File.basename(full_path),
         self
       )
+    end
+
+    def relative_model_path_for(full_path, manifest: nil)
+      Pathname(full_path).relative_path_from(
+        manifest ? Pathname(manifest.content) : Pathname(site.source)
+      ).to_s
+    end
+
+    def model_id_from_relative_path(model_relative_path, manifest: nil)
+      scheme = manifest ? "plugin" : "repo"
+      id = +"#{scheme}://#{label}.collection/"
+      id += "#{manifest.origin}/" if manifest
+      id += Addressable::URI.escape(model_relative_path).gsub("#", "%23")
+      id
+    end
+
+    def model_is_multi_locale?(model, model_relative_path)
+      (model.attributes.key?(:locale) && model.locale.to_sym == :multi) ||
+        File.extname(File.basename(model_relative_path, ".*")) == ".multi" ||
+        site.frontmatter_defaults.all(model_relative_path, label.to_sym)["locale"].to_s == "multi"
     end
   end
 end

@@ -157,12 +157,6 @@ To opt-into the `bridgetown-routes` gem, make sure it's enabled in your `Gemfile
 gem "bridgetown-routes", group: :bridgetown_plugins
 ```
 
-and required at the top of your `server/roda_app.rb` file:
-
-```ruby
-require "bridgetown-routes"
-```
-
 and added in as a Roda plugin below the SSR plugin:
 
 ```ruby

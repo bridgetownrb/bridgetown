@@ -24,19 +24,28 @@ module Bridgetown
         cache[input] ||= compute_relative_url(input)
       end
 
-      # Adds a prefix of the current site locale to a relative URL, unless it's
-      # a default locale and prefix_current_locale config is false.
+      # For string input, adds a prefix of the current site locale to a relative
+      # URL, unless it's a default locale and prefix_current_locale config is
+      # false. For a resources array input, return a filtered resources array
+      # based on the locale.
       #
-      # @param input [String] the relative URL
-      # @param use_locale [String] another locale to use beside the current one (must if in site's
-      #   available_configs)
-      # @return [String] the prefixed relative URL
+      # @param input [String, Array] the relative URL, or an array of resources
+      # @param use_locale [String] another locale to use beside the current one
+      #   (must be in site's `available_locales` config)
+      # @return [String, Array] the prefixed relative URL, or filtered resources
       def in_locale(input, use_locale = nil)
         site = @context.registers[:site]
         use_locale ||= site.locale
 
+        # If we're given a collection, filter down and return
+        if input.is_a?(Array)
+          return input.select do |res|
+            res.data[:locale].to_sym == use_locale.to_sym
+          end
+        end
+
         if !site.config.prefix_default_locale &&
-            use_locale&.to_sym == site.config.default_locale
+            use_locale.to_sym == site.config.default_locale
           return input
         end
 
