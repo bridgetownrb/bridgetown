@@ -14,6 +14,7 @@ The configurations we include are:
 - [Stimulus](#stimulus) (`stimulus`)
 - [Lit](#lit) (`lit`)
 - [Shoelace](#shoelace) (`shoelace`)
+- [Open Props](#open-props) (`open-props`)
 - [Ruby2JS](#ruby2js) (`ruby2js`)
 - [Bridgetown recommended PostCSS plugins](#bridgetown-recommended-postcss-plugins) (`bt-postcss`)
 - [PurgeCSS Post-Build Hook](#purgecss-post-build-hook) (`purgecss`)
@@ -87,6 +88,16 @@ Read our full [Lit Components documentation here](/docs/components/lit).
 
 ```sh
 bin/bridgetown configure shoelace
+```
+
+### Open Props
+
+🎨 Installs [Open Props](https://open-props.style), a collection of "supercharged CSS variables" and optional normalize stylesheet to help you create your own design system.
+
+🛠 **Configure using:**
+
+```sh
+bin/bridgetown configure open-props
 ```
 
 ### Ruby2JS

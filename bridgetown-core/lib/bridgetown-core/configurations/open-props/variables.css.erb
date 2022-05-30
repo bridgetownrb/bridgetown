@@ -1,0 +1,11 @@
+@import "open-props/<% if Bridgetown::Utils.frontend_bundler_type == :esbuild %>open-props.min.css<% else %>style<% end %>";
+
+/* Uncomment this if you want addiitonal "default" styles applied: */
+/* @import "open-props/normalize<% if Bridgetown::Utils.frontend_bundler_type == :esbuild %>.min.css<% end %>"; */
+
+:root {
+  /* Define additional variables here. */
+
+  /* You can use variables from Open Props in your own custom properties. */
+  --color-medium-gray: var(--gray-7);
+}
