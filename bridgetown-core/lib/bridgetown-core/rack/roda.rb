@@ -67,13 +67,74 @@ module Bridgetown
       rescue Errno::ENOENT
         "404 Not Found"
       end
+      plugin :exception_page
       plugin :error_handler do |e|
-        puts "\n#{e.class} (#{e.message}):\n\n"
-        puts e.backtrace
+        Bridgetown::Errors.print_build_error(
+          e, logger: Bridgetown::LogAdapter.new(self.class.opts[:common_logger])
+        )
+        next exception_page(e) if ENV.fetch("RACK_ENV", nil) == "development"
+
         output_folder = Bridgetown::Current.preloaded_configuration.destination
         File.read(File.join(output_folder, "500.html"))
       rescue Errno::ENOENT
         "500 Internal Server Error"
+      end
+
+      ::Roda::RodaPlugins::ExceptionPage.class_eval do
+        def self.css
+          <<~CSS
+            html * { padding:0; margin:0; }
+            body * { padding:10px 20px; }
+            body * * { padding:0; }
+            body { font-family: -apple-system, sans-serif; font-size: 90%; }
+            body>div { border-bottom:1px solid #ddd; }
+            code { font-family: ui-monospace, monospace; }
+            h1 { font-weight: bold; margin-block-end: .8em; }
+            h2 { margin-block-end:.8em; }
+            h2 span { font-size:80%; color:#f7f7db; font-weight:normal; }
+            h3 { margin:1em 0 .5em 0; }
+            h4 { margin:0 0 .5em 0; font-weight: normal; }
+            table {
+                border:1px solid #ccc; border-collapse: collapse; background:white; }
+            tbody td, tbody th { vertical-align:top; padding:2px 3px; }
+            thead th {
+                padding:1px 6px 1px 3px; background:#fefefe; text-align:left;
+                font-weight:normal; font-size:11px; border:1px solid #ddd; }
+            tbody th { text-align:right; opacity: 0.7; padding-right:.5em; }
+            table.vars { margin:5px 0 2px 40px; }
+            table.vars td, table.req td { font-family: ui-monospace, monospace; }
+            table td.code { width:100%;}
+            table td.code div { overflow:hidden; }
+            table.source th { color:#666; }
+            table.source td {
+                font-family: ui-monospace, monospace; white-space:pre; border-bottom:1px solid #eee; }
+            ul.traceback { list-style-type:none; }
+            ul.traceback li.frame { margin-bottom:1em; }
+            div.context { margin: 10px 0; }
+            div.context ol {
+                padding-left:30px; margin:0 10px; list-style-position: inside; }
+            div.context ol li {
+                font-family: ui-monospace, monospace; white-space:pre; color:#666; cursor:pointer; }
+            div.context ol.context-line li { color:black; background-color:#f7f7db; }
+            div.context ol.context-line li span { float: right; }
+            div.commands { margin-left: 40px; }
+            div.commands a { color:black; text-decoration:none; }
+            #summary { background: #1D453C; color: white; }
+            #summary h2 { font-weight: normal; color: white; }
+            #summary ul#quicklinks { list-style-type: none; margin-bottom: 2em; }
+            #summary ul#quicklinks li { float: left; padding: 0 1em; }
+            #summary ul#quicklinks>li+li { border-left: 1px #666 solid; }
+            #summary a { color: #f47c3c; }
+            #explanation { background:#eee; }
+            #traceback { background: white; }
+            #requestinfo { background:#f6f6f6; padding-left:120px; }
+            #summary table { border:none; background:transparent; }
+            #requestinfo h2, #requestinfo h3 { position:relative; margin-left:-100px; }
+            #requestinfo h3 { margin-bottom:-1em; }
+            .error { background: #ffc; }
+            .specific { color:#cc3300; font-weight:bold; }
+          CSS
+        end
       end
 
       before do
