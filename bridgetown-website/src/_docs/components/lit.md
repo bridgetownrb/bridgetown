@@ -29,7 +29,7 @@ $ bridgetown new mysite -t erb -c lit
 
 This will install both the Lit library itself plus the Lit Renderer plugin.
 
-### Take Lit for a Spin
+## Take Lit for a Spin
 
 As part of the installation, an example component was provided in `src/_components/happy-days.lit.js`. It looks like this:
 
@@ -93,7 +93,7 @@ Once you start up your Bridgetown site and visit the page, you should see a box 
 
 You can reload the page several times and see that the timestamp doesn't change, because Lit's SSR + Hydration support knows not to re-render the component. However, if you change the `hello` attribute, you'll get a re-render and thus see a new timestamp. _How cool is that?!_
 
-### Lit Helper Options
+## Lit Helper Options
 
 The `lit` helper works in any Ruby template language and let's you pass data down to the Lit SSR build process. Any value that's not already a string will be converted to JSON (via Ruby's `to_json`). You can use a symbol or string for the tag name and underscores are automatically converted to dashes.
 
@@ -133,7 +133,7 @@ You also have the option of choosing a different entry point (aka your JS file t
 
 This would typically coincide with a strategy of having multiple esbuild/Webpack entry points, and loading different entry points on different parts of your site. An exercise left for the reader…
 
-### Sidecar CSS Files
+## Sidecar CSS Files
 
 The "default" manner in which you author styles in Lit components is to use `css` tagged template literals (as you saw in the `happy-days` example above). However, some people prefer authoring styles in dedicated CSS files. The [esbuild-plugin-lit-css](https://github.com/bennypowers/lit-css/tree/main/packages/esbuild-plugin-lit-css) plugin allows you to author perfectly vanilla CSS files alongside your component files and import them.
 
@@ -185,7 +185,7 @@ export class ManyStylesElement extends LitElement {
 }
 ```
 
-### In Combination with Ruby Components
+## In Combination with Ruby Components
 
 A very powerful pattern for Bridgetown component design is to use a Lit component _as the template_ for a Ruby component. This allows you to use the Ruby component anywhere on your site, along with any pre-processing of data you need it to perform, and then the Ruby component can "emit" a Lit web component upon render. As an example:
 
@@ -205,9 +205,14 @@ class MyRubyComponent < Bridgetown::Component
 end
 ```
 
+```erb
+<!-- elsewhere -->
+<%= render MyRubyComponent.new(value: "Here is my value") %>
+```
+
 In this example, you wouldn't need a sidecar template for your component in ERB or whatever, because the Lit component serves as the template.
 
-### Technical and Performance Considerations
+## Technical and Performance Considerations
 
 With a bit of careful planning of which entry point(s) you use, the data you provide, and the structure of your HTML markup within the `lit` helper, you can achieve good Lit SSR performance while still taking full advantage of the Ruby templates and components you know and love.
 
