@@ -23,4 +23,4 @@ export class HappyDaysElement extends LitElement {
 
 // Try adding `<%= lit :happy_days, hello: "there" %>` somewhere in an ERB template
 // on your site to see this example Lit component in action!
-customElements.define('happy-days', HappyDaysElement)
+customElements.define("happy-days", HappyDaysElement)
