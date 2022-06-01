@@ -5,13 +5,68 @@ top_section: Designing Your Site
 category: components
 ---
 
-Thinking of your website design as a collection of loosely-coupled, independent components which can be placed anywhere, nested, and reused, is one of the most exciting developments in the practice of building for the modern web.
+Thinking of your website design as a collection of loosely-coupled, independent components which can be placed anywhere, nested, and reused, is one of the most exciting developments in the practice of building for the  web.
 
-While it's tempting to think of components as applicable to frontend development only (via popular frameworks such as React), component-based design is actually something you can accomplish using SSR (server-side rendering) or static rendering as well, and there are a myriad of ways you can wire up generated component markup served to the browser with frontend dynamism using JavaScript.
+Component-based design systems are at the forefront of major leaps forward in the architecture used to enable agile, scalable codebases. Techniques such as "island architecture" and "hydration" have entered into the modern vernacular. We increasingly see the shift from "page-level" to "component-level" thinking as projects unfold.
 
-Bridgetown provides two mechanisms to do this today, either by using the [Liquid template engine](/docs/template-engines/liquid) or a [Ruby-based template engine such as ERB](/docs/template-engines/erb-and-beyond). Bridgetown even supports a [compatibility shim](https://github.com/bridgetownrb/bridgetown-view-component) for the ViewComponent library by GitHub which has taken the Rails community by storm. One Ruby component library to rule them all? Could be!
+Just as a web page can be thought of as the interconnected product of the three primary web technologies (HTML, CSS, & JavaScript), components are themselves individual products made out of those three technologies—or for simpler components, perhaps just one or two. Components also carry with them the concept of a "lifecycle". Understanding the lifecycle of a component on both the backend (SSR & SSG) and the frontend—and perhaps the component's "children" as well—is crucial in determining which toolset you should use to build the component. This touches on the concept we like to call "progressive generation". ([Read our tech specs intro for additional context.](/docs#more-about-the-tech-specs))
 
-So go ahead: pick your preferred component flavor and let's dive in.
+**Bridgetown provides three environments for writing components:**
+
+### [Liquid](/docs/components/liquid)
+
+Use the [Liquid template engine](/docs/template-engines/liquid) to write simple components without a lot of custom logic or for maximum compatibility with all template engines. Liquid components are not recommended when complexity is required for frontend logic.
+
+### [Ruby](/docs/components/ruby)
+
+Use a [Ruby-based template engine](/docs/template-engines/erb-and-beyond) in conjunction with a dedicated Ruby class to facilitate more comprehensive scenarios and take full advantage of Ruby's feature set and object-oriented nature. Bridgetown also supports a compatibility shim for the ViewComponent library, a popular Rails extension created by GitHub.
+
+### [Lit (Web Components)](/docs/components/lit)
+
+After installing the Lit Renderer plugin, you can write "hybrid" components which support both a backend lifecycle (during SSG & SSR) and a frontend lifecycle (via Hydration). This technique is recommended for components which must support a high degree of interactivity or data timeliness. You can also take full advantage of web component APIs such as the "shadow DOM" for encapsulated styling (meaning your component styles won't "leak out" and accidentally effect other parts of the website).
+
+So pick your flavor and dive in, or keep reading for more conceptual overview of Bridgetown's component architecture.
+
+## The Subtle Interplay of HTML, CSS, & JavaScript
+
+As previously mentioned, a component will often encompass not just the output HTML coming from the component's logic/template, but styling via CSS, and client-side interactivity via JavaScript.
+
+In those cases, where you place your CSS and JS code will vary depending on the environment. For Liquid and Ruby components, you will write what are called "sidecar" files which live alongside your component classes/templates. In contrast, Lit components fall under the category of Single-File Components. The logic, template, and styling is all part of the same unit of code. Lit components can be written in either vanilla JavaScript or Ruby2JS (a Ruby-like syntax and set of idioms which then transpiles to JavaScript). However, with a smidge of extra configuration, you do have the option of splitting the CSS of a Lit component out to its own sidecar file if you so choose.
+
+Here's an example file structure showing all three environments in use:
+
+```shell
+.
+└── src
+    └── _components
+        ├── blog_entry.liquid
+        ├── products
+        │   ├── buy-now.lit.js
+        │   ├── buying.rb
+        │   ├── product-cart.lit.css
+        │   └── product-cart.lit.js
+        └── shared
+            ├── navbar.erb
+            ├── navbar.js
+            ├── navbar.rb
+            └── navbar.global.css
+```
+
+A rundown of the various component types:
+
+* The "blog entry" component is a single `.liquid` file. Even though it only outputs HTML, we still call this a component because the none of the outside variables of any other template or component can be accessed or mutated. You must pass all necessary data into the component it needs to render content.
+* The `buy-now` and `product-cart` components are both Lit-powered web components. The cart component uses a sidecar CSS file. There's also a `Products::Buying` Ruby component which serves as a "wrapper" to the buy now component.
+* The `Shared::Navbar` component is a Ruby component with a sidecar ERB template, a modest bit of JavaScript logic (not a web component), and CSS meant to be included in the global stylesheet bundle.
+
+Now let's talk about the lifecycle of these components.
+
+* The Liquid component's lifecycle is static-only. The HTML is rendered out during the build process and that's it.
+* The `Shared::Navbar` Ruby component starts out as static HTML + global CSS, and the lifecycle is then extended on the client by JavaScript code which can perform tasks such as attach event handlers or highlight certain items based on real-time navigational changes.
+* The Lit components offer true hybrid lifecycles. They are written in JavaScript (or Ruby2JS) and are initially rendered as part of the build process (and thus present in the output HTML) by the Lit Renderer plugin, using an emerging spec called Declarative Shadow DOM. The components are then "hydrated" on the client-side so they can manage state, offer interactivity, and re-render as needed.
+
+Regarding that last item, due to various performance concerns both on the static-build/server-side and the client-side, it should be noted that you likely wouldn't want pepper pages with dozens (or hundreds!) of Lit component renders. Instead you'd want to create what's called an "island" within your page, using the `lit` helper. You can read more about this on the Lit components page.
+
+Ready to dive more into a particular component flavor? Let's go!
 
 <p style="margin-top:2em; display:flex; gap:1em; justify-content:center">
   <a href="/docs/components/liquid">
@@ -22,146 +77,14 @@ So go ahead: pick your preferred component flavor and let's dive in.
   </a>
   <a href="/docs/components/ruby">
     <sl-button type="primary" outline>
-      Ruby (ERB & Beyond)
+      Ruby
+      <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+    </sl-button>
+  </a>
+  <a href="/docs/components/lit">
+    <sl-button type="primary" outline>
+      Lit
       <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
     </sl-button>
   </a>
 </p>
-
-## Sidecar Frontend Assets
-
-As part of a component-based design system, you might want to include CSS and/or JavaScript files alongside your components, so that the styles for your components are defined in the same folder structure as the component templates themselves, and any client-side interactivity related to the component is also defined in-place. Here's an example file structure:
-
-```shell
-.
-├── src
-│   ├── _components
-│   │   ├── card.liquid
-│   │   ├── card.scss
-│   │   ├── shared
-│   │   │   ├── navbar.erb
-│   │   │   ├── navbar.js
-│   │   │   ├── navbar.rb
-│   │   │   └── navbar.scss
-```
-
-Bridgetown comes with a built-in Sass or PostCSS configuration so you can import `.(s)css` files from the `src/_components` folder. In the above example, to import `card.scss` and `shared/navbar.scss` into your stylesheet, add the following to `frontend/styles/index.scss`:
-
-```scss
-@import "components.scss"; // in src/_components
-```
-
-And then add the imports to the `src/_components/components.scss` file:
-
-```scss
-@import "card.scss";
-@import "shared/navbar.scss";
-```
-
-For JavaScript files, Bridgetown will automatically load all `.js` files in the `src/_components` directory into your bundle.
-
-### Hybrid Components
-
-One of the interesting design patterns that emerges when defining components this way is the interplay between statically-rendered markup and JavaScript-powered interactivity. Unlike static site generators built around client-side technologies such as React, Bridgetown starts you off with the strategic concept that everything originates with "server-rendered" content. What you choose to do with that built HTML _after_ it's presented in the browser is up to you. However, an approach we've come to deeply appreciate is combining a static component with a "web component".
-
-[Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_components) is an open standard, an integral part of the fabric of the web and supported by all modern, evergreen browsers. A web component starts life as a custom element in HTML markup which contains one or more dashes, for example `<my-button>` or `<card-heading-title>`. You then direct the browser to load that custom element as a custom JavaScript object through use of the `window.customElements.define` method. A web component also comes with a suite of features such as Shadow DOM, Slots, and CSS Shadow Parts to give the component a degree of autonomy and clean separation from the styling and markup concerns of the parent document.
-
-While you can author a web component without using libraries or frameworks of any kind, we recommend using a small library called [LitElement](https://lit-element.polymer-project.org) (or even its tinier sibling [lit-html](https://lit-html.polymer-project.org)) which makes web component development as conceptually straightforward as legacy component frameworks such as Vue or React.
-
-By building "default" markup into your static component, and then using a "hydration-like" strategy to enhance the component in JavaScript, you get lightning-fast static markup which works even without JavaScript enabled—while at the same time taking advantage of advanced client-side user interface capabilities. You can also take advantage of APIs to render up-to-date content in real-time in the browser after possibly-stale static content has first loaded.
-
-{%@ Note do %}
-  You don't _have_ to use web components to take advantage of this pattern. You can use any light-weight "JavaScript sprinkles" library such as [Stimulus](https://stimulusjs.org) or [Alpine](https://github.com/alpinejs/alpine/) and the concepts remain relatively the same.
-{% end %}
-
-Here's an example of a component which shows a product price and an Add to Cart button. We'll first define it as a Liquid component and display the price directly as statically-generated HTML. Then we'll define a LitElement-powered web component which updates the price and checks if the product is in stock before enabling the shopping cart interactivity of the button.
-
-`src/_components/product.liquid`:
-
-{% raw %}
-```html
-<product-price class="{{ class }}" sku="{{ sku }}">
-  <strong slot="price">${{ price }}</strong>
-  <button class="button is-primary" slot="add-to-cart">Add to Cart</button>
-</product-price>
-```
-{% endraw %}
-
-After running `yarn add lit-element` to add LitElement to your Webpack config, add the following JavaScript:
-
-`src/_components/product.js`:
-
-```js
-import { css, customElement, html, LitElement, property } from "lit-element"
-import registry from "../../frontend/javascript/productStockRegistry.js"
-
-@customElement("product-price")
-class ProductPrice extends LitElement {
-  @property()
-  sku = ""
-
-  static styles = css`
-    .loading {
-      opacity: 0.5;
-    }
-  `
-
-  // Render the component template to the document DOM
-  render() {
-    return html`
-      <aside class="${!this.productLoaded? "loading" : ""}">
-        <div><slot name="price"></slot></div>
-        <div>
-          ${ this.product.inventory > 0 ?
-            html`<slot @click="${this.addToCartHandler}" name="add-to-cart"></slot>` :
-            html`We're sorry, this product is currently out of stock.`
-          }
-        </div>
-      </aside>
-    `
-  }
-
-  // After render, update the text within the price slot
-  updated() {
-    if (this.product.price) {
-      this.querySelector("[slot=price]").textContent = `\$${this.product.price}`
-    }
-  }
-
-  // Kick off loading the remote product data
-  connectedCallback() {
-    this.loadProduct()
-    super.connectedCallback()
-  }
-
-  // Load in the remote product data, then trigger a re-render
-  async loadProduct() {
-    this.product = {inventory: 1} // initial state
-    this.product = await registry.stockForProduct(this.sku)
-    this.productLoaded = true
-    this.requestUpdate()
-  }
-
-  // Event handler for when the Add to Cart button is clicked
-  addToCartHandler(e) {
-    if (this.productLoaded) {
-      // Add the product to the cart! :)
-    } else {
-      // Uh oh, we don't know if there's real inventory yet
-      console.warn("Inventory not yet loaded…")
-    }
-  }
-}
-```
-
-(The stock registry object and the API call it makes to retrieve external data is left as an exercise for the reader.)
-
-Finally, to render the Liquid component and thus instantiate the web component on the client side, all you need to do is add this to a Bridgetown page or template:
-
-{% raw %}
-```liquid
-{% render "product", class: "highlighted", price: product.price, sku: product.sku %}
-```
-{% endraw %}
-
-In this case, the `product` data would likely come from the same remote API during the Bridgetown build process as what the client side uses.

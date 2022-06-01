@@ -11,7 +11,7 @@ A component is a reusable piece of template logic (sometimes referred to as a "p
 
 Liquid components can be combined with front-end component strategies using **web components** or other JavaScript libraries/frameworks for a [hybrid static/dynamic approach](/docs/components#hybrid-components).
 
-{% toc %}
+{%= toc %}
 
 ## Usage
 

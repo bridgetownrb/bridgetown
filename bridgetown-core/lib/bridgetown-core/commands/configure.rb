@@ -60,7 +60,7 @@ module Bridgetown
 
       def configurations
         inside self.class.source_root do
-          return Dir.glob("*.rb").map { |file| file.sub(".rb", "") }
+          return Dir.glob("*.rb").map { |file| file.sub(".rb", "") }.sort
         end
       end
 

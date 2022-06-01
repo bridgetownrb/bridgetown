@@ -27,9 +27,19 @@ Bridgetown uses [Yarn](https://yarnpkg.com) to install and manage frontend NPM-b
 
 ## JavaScript
 
-The starting place for JavaScript code lives at `./frontend/javascript/index.js`. Here you can write your custom functionality, use `import` statements to pull in other modules or external packages, and so forth. This is also where you'd import the CSS entrypoint as well to be processed through esbuild or Webpack. (By default it imports `./frontend/styles/index.css`.)
+The starting place for JavaScript code lives at `./frontend/javascript/index.js`. Here you can write your custom functionality, use `import` statements to pull in other modules or external packages, and so forth. This is also where you'd import the CSS entrypoint as well to be processed through esbuild or Webpack.
 
-Because Bridgetown utilizes standard ES bundler functionality, you can trick out your JavaScript setup with additional language enhancements like Ruby2JS or TypeScript or add well-known libraries like [LitElement](https://lit.dev), [Stimulus](https://stimulus.hotwired.dev), [Alpine](https://alpinejs.dev/), [React](https://reactjs.org), [Vue](https://vuejs.org), and many others.
+JS files placed anywhere inside `src/_components` are automatically imported and bundled as well.
+
+Because Bridgetown utilizes standard ES bundler functionality, you can trick out your JavaScript setup with additional language enhancements and libraries like Ruby2JS, Lit, Turbo, Shoelace, and many others. And for automated installation of the aforementioned libraries in particular, check out our [Bundled Configurations](/docs/bundled-configurations).
+
+{%@ Note do %}
+  #### What about TypeScript?
+
+  TypeScript is one of the many transpile-to-JavaScript languages available today. TypeScript code isn't directly compatible with native JavaScript environments and always requires a build step. It's main selling point is static type-checking. However, it's possible to use type-checking and gain the secondary benefits of documentation popups and project navigation using JSDoc in vanilla JavaScript! In fact, simply by adding `// @ts-check` to the top of a `.js` file, VSCode for example will immediately provide TypeScript-like features as you author your code.
+
+  Bridgetown happily endorses JSDoc-enhanced JavaScript for a 100% ES spec-compatible development environment. [You can learn more about this approach on the TypeScript website.](https://www.typescriptlang.org/docs/handbook/intro-to-js-ts.html)
+{% end %}
 
 ## CSS
 
@@ -37,11 +47,13 @@ By default Bridgetown comes with support for [PostCSS](https://postcss.org) to a
 
 You can also choose to use [Sass](https://sass-lang.com), a pre-processor for CSS. Pass `--use-sass` to `bridgetown new` to set up your project to support Sass.
 
+The starting place for CSS code lives at `frontend/styles/index.css`. You can add additional stylesheets and `@import` them into `index.css`. CSS files placed anywhere inside `src/_components` are automatically imported.
+
 ### PostCSS
 
 The default `PostCSS` config is largely empty so you can set it up as per your preference. The only two plugins included by default are [`postcss-flexbugs-fixes`](https://github.com/luisrudge/postcss-flexbugs-fixes) and [`postcss-preset-env`](https://preset-env.cssdb.org).
 
-There's also a [bundled configuration](/docs/bundled-configurations#bridgetown-recommended-postcss-plugins) you can run to install additional recommended PostCSS plugins.
+There's also a [Bundled Configuration](/docs/bundled-configurations#bridgetown-recommended-postcss-plugins) you can run to install recommended PostCSS plugins and set up specific useful features like nesting.
 
 {%@ Note do %}
   #### All the stylesheet’s a stage…
@@ -151,10 +163,17 @@ const esbuildOptions = {
 }
 ```
 
+{% endraw %}
+
+{%@ Note do %}
+  Check out the [Ruby2JS Bundled Configuration](/docs/bundled-configurations#ruby2js) for an automated way to install Ruby2JS.
+{% end %}
+
 ### Multiple Entry Points
 
 You can specify multiple entry points (which result in multiple output bundles) by using a custom `entryPoints` config. You can then reference the additional entry points using the `asset_path` Liquid tag or Ruby helper. (Be sure to start with `javascript` in your relative paths.) For example:
 
+{% raw %}
 ```js
 // esbuild.config.js
 
@@ -184,6 +203,46 @@ By also adding `format: "esm"`, you gain the ability to import code from new ent
 </form>
 ```
 
+### Code Splitting
+
+Another option for "breaking up the bundle" is to dynamically import new code within the execution of your JavaScript code at runtime. To enable this, make sure your esbuild config has these two options:
+
+```js
+const esbuildOptions = {
+  format: "esm",
+  splitting: true,
+
+  // other options here…
+}
+```
+
+Then replace the `defer` attribute in your HTML head with `type="module"` to ensure your primary JavaScript bundle is loaded as an ES module by the browser. For example:
+
+```
+<script src="<%= asset_path :js %>" type="module"></script>
+```
+
+Now you can dynamically and asynchronously import JavaScript code within any function:
+
+```js
+const loadStuff = async () => {
+  const importantStuff = await import("important_stuff.js")
+  return importantStuff.default()
+}
+
+const doStuff = async () => {
+  const justDoIt = await loadStuff()
+  justDoIt("Don't let your dreams be dreams!")
+}
+```
+{% endraw %}
+
+You can learn more about [dynamic imports on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports).
+
+{%@ Note type: :warning do %}
+  ES Module imports have been supported in all modern browsers since 2019, but if you wish to preserve backwards compatibility with older browsers, you'll need to avoid using this technique. 
+{% end %}
+
 ## Webpack Setup
 
 The default configuration is defined in `config/webpack.defaults.js`. However, you should add or override your own config options in the top-level `webpack.config.js` file.
@@ -209,6 +268,7 @@ If you need to manage more than one Webpack bundle, you can add additional entry
 
 Then simply reference the entry point filename via `asset_path` wherever you'd like to load it in your HTML:
 
+{% raw %}
 ```liquid
 <script src="{% asset_path something_else.js %}"></script>
 ```

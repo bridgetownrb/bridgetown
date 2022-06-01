@@ -12,7 +12,7 @@ import '@shoelace-style/shoelace/dist/components/input/input.js'
 import '@shoelace-style/shoelace/dist/components/tag/tag.js'
 import [ register_icon_library ], from: '@shoelace-style/shoelace/dist/utilities/icon-library.js'
 import [ set_animation ], from: '@shoelace-style/shoelace/dist/utilities/animation-registry.js'
-import "bridgetown-quick-search/dist"
+
 import "*", as: Turbo, from: "@hotwired/turbo"
 
 import hotkeys from "hotkeys-js"
@@ -22,10 +22,9 @@ hotkeys "cmd+k,ctrl+k" do |event|
 end
 
 import "turbo_transitions"
-import "wiggle_note"
 
-set_timeout 1000 do
-  document.documentElement.remove_attribute :fresh
+async def import_additional_dependencies()
+  await import("bridgetown-quick-search/dist")
 
   document.query_selector("bridgetown-search-form > input").add_event_listener :keydown do |event|
     if event.key_code == 13
@@ -34,7 +33,11 @@ set_timeout 1000 do
 
     event.target.closest("sl-bar-item").query_selector("kbd").style.display = "none"
   end
+
+  await import("wiggle_note")
 end
+
+import_additional_dependencies()
 
 import "index.css"
 
