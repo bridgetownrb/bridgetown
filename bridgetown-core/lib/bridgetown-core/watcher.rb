@@ -128,6 +128,10 @@ module Bridgetown
       end
     end
 
+    def component_frontend_matcher
+      %r{_components/.*?(\.js|\.jsx|\.js\.rb|\.css)$}
+    end
+
     def to_exclude(options)
       [
         config_files(options),
@@ -160,7 +164,7 @@ module Bridgetown
         rescue ArgumentError
           # Could not find a relative path
         end
-      end + [%r!^\.bridgetown-metadata!]
+      end + [component_frontend_matcher] + [%r!^\.bridgetown-metadata!]
     end
 
     def sleep_forever
