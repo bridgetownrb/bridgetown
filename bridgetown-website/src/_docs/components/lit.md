@@ -137,7 +137,7 @@ This would typically coincide with a strategy of having multiple esbuild/Webpack
 
 The "default" manner in which you author styles in Lit components is to use `css` tagged template literals (as you saw in the `happy-days` example above). However, some people prefer authoring styles in dedicated CSS files. The [esbuild-plugin-lit-css](https://github.com/bennypowers/lit-css/tree/main/packages/esbuild-plugin-lit-css) plugin allows you to author perfectly vanilla CSS files alongside your component files and import them.
 
-{%@ Note %}
+{%@ Note do %}
   One major benefit to this approach is it allows you to process your component CSS through [PostCSS](/docs/frontend-assets#postcss) using the same configuration and plugins as for other CSS files.
 {% end %}
 
