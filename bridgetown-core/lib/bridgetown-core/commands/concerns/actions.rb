@@ -54,7 +54,8 @@ module Bridgetown
 
       def add_bridgetown_plugin(gemname, version: nil)
         version = " -v \"#{version}\"" if version
-        run "bundle add #{gemname}#{version} -g bridgetown_plugins"
+        run "bundle add #{gemname}#{version} -g bridgetown_plugins",
+            env: { "BUNDLE_GEMFILE" => File.join(destination_root, "Gemfile") }
       rescue SystemExit
         say_status :run, "Gem not added due to bundler error", :red
       end
