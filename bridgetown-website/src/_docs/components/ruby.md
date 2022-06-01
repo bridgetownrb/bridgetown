@@ -8,7 +8,7 @@ order: 0
 
 A component is a reusable piece of template logic that can be included in any part of the site, and a full suite of components can comprise what is often called a "design system". You can render Ruby component objects directly in your Ruby-based templates, and you can render components from within other components. This provides the basis for a fully-featured view component architecture for ERB and beyond.
 
-Ruby components can be combined with front-end component strategies using **web components** or other JavaScript libraries/frameworks for a [hybrid static/dynamic approach](/docs/components#hybrid-components).
+Ruby components can be combined with front-end component strategies using **web components** or other JavaScript libraries/frameworks. For one particular spin on this, check out our [Lit Components](/docs/components/lit) documentation.
 
 <%= toc %>
 
@@ -69,7 +69,7 @@ Bear in mind that Ruby components aren't accessible from Liquid templates. So if
 
 While squggly heredocs are nice, what most people probably want to [the ability to write a template](/docs/templates/erb-and-beyond) in ERB, Haml, Slim, or Serbea.
 
-Starting in Bridgetown 0.21, you can subclass your components from `Bridgetown::Component` and then add a template file right next to the component's `.rb` file. The template will automatically get rendered by the component and you won't need to define a `render_in` method yourself. For example, if we were to translate the previous heredoc to a template-based component:
+You can subclass your components from `Bridgetown::Component` and then add a template file right next to the component's `.rb` file. The template will automatically get rendered by the component and you won't need to define a `render_in` method yourself. For example, if we were to translate the previous heredoc to a template-based component:
 
 ```ruby
 # src/_components/field_component.rb

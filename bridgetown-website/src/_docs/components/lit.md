@@ -11,7 +11,7 @@ While you can author a web component without using libraries or frameworks of an
 
 Through the use of Bridgetown's [Lit Renderer](https://www.github.com/bridgetownrb/bridgetown-lit-renderer) plugin, you can "bake" HTML & CSS from the Lit component into your static or server-rendered output via Declarative Shadow DOM, which is then "re-hydrated" on the client side. You can take advantage of APIs to render up-to-date content in real-time in the browser after possibly-stale static content has first loaded.
 
-{% toc %}
+{%= toc %}
 
 ## Installing Lit Renderer
 
@@ -184,6 +184,28 @@ export class ManyStylesElement extends LitElement {
   // …
 }
 ```
+
+### In Combination with Ruby Components
+
+A very powerful pattern for Bridgetown component design is to use a Lit component _as the template_ for a Ruby component. This allows you to use the Ruby component anywhere on your site, along with any pre-processing of data you need it to perform, and then the Ruby component can "emit" a Lit web component upon render. As an example:
+
+```rb
+class MyRubyComponent < Bridgetown::Component
+  def initialize(value:)
+    @value = process_value(value)
+  end
+
+  def process_value
+    @value = "Value: #{@value}"
+  end
+
+  def template
+    lit :my_lit_component, value: @value
+  end
+end
+```
+
+In this example, you wouldn't need a sidecar template for your component in ERB or whatever, because the Lit component serves as the template.
 
 ### Technical and Performance Considerations
 
