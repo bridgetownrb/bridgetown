@@ -40,7 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add site `server_shutdown` hook via Puma
 - Allow route classes to be prioritized to adjust run order [#538](https://github.com/bridgetownrb/bridgetown/pull/538) ([jaredcwhite](https://github.com/jaredcwhite))
 - Fix: ensure capturing helpers use dedicated component context
-- Fix typo in "Core Principles": focsued → focused [#542] (Raphael Das Gupta)
+- Fix typo in "Core Principles": focsued → focused [#541](https://github.com/bridgetownrb/bridgetown/pull/541) ([das-g](https://github.com/das-g))
 - Allow finding and linking to alternate locale pages [#522](https://github.com/bridgetownrb/bridgetown/pull/522) ([jaredcwhite](https://github.com/jaredcwhite))
 - Issue warning when a Rails-style extension is used (like .html.erb) [#523](https://github.com/bridgetownrb/bridgetown/pull/523) ([jaredcwhite](https://github.com/jaredcwhite))
 - Fix Roda serving bug when index.html is missing
