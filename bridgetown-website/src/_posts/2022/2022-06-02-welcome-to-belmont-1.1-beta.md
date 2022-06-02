@@ -5,7 +5,7 @@ author: jared
 category: release
 ---
 
-Hot off the heels of our Bridgetown 1.0 release, we return to announce the beta of v1.1 and an array of fun new features. [The new edge documentation is available here.](https://edge.bridgetownrb.com)
+Hot off the heels of our Bridgetown 1.0 release, we return to announce the beta of v1.1 "Belmont" and an array of fun new features. [The new edge documentation is available here.](https://edge.bridgetownrb.com)
 
 To upgrade and try out the beta of 1.1, edit your Gemfile:
 
