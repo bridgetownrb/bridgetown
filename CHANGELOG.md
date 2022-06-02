@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- New bundled configurations: Lit, Shoelace, Ruby2JS, Open Props [#553](https://github.com/bridgetownrb/bridgetown/pull/553) ([jaredcwhite](https://github.com/jaredcwhite))
+  - NOTE: "frontend component files" (aka `.js`/`.css` files within the `src/_components` folder) will now be ignored by the build process watcher, thus allowing the frontend bundling refresh to trigger a dev reload
 - Improve Roda error handling and update static error pages [#565](https://github.com/bridgetownrb/bridgetown/pull/565) ([jaredcwhite](https://github.com/jaredcwhite))
 - Always make sure `:en` is at the end of the I18n fallback chain
 - Support `.rb` and `.json` for translation files
