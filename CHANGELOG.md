@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-## [1.0.0.beta1] — 2022-06-01
+## [1.1.0.beta2] — 2022-06-01
+
+- Update Webpack 5 default config to switch to native asset loaders (no more `file-loader` needed)
+
+## [1.1.0.beta1] — 2022-06-01
 
 - New bundled configurations: Lit, Shoelace, Ruby2JS, Open Props [#553](https://github.com/bridgetownrb/bridgetown/pull/553) ([jaredcwhite](https://github.com/jaredcwhite))
   - NOTE: "frontend component files" (aka `.js`/`.css` files within the `src/_components` folder) will now be ignored by the build process watcher, thus allowing the frontend bundling refresh to trigger a dev reload

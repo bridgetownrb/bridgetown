@@ -81,22 +81,18 @@ const cssRules = {
 
 const fontsRule = {
   test: /\.woff2?$|\.ttf$|\.eot$/,
-  loader: "file-loader",
-  options: {
-    name: "[name]-[contenthash].[ext]",
-    outputPath: "../fonts",
-    publicPath: "../fonts",
-  },
+  type: "asset/resource",
+  generator: {
+    filename: "../fonts/[name]-[hash][ext][query]"
+  }
 }
 
 const imagesRule = {
   test: /\.png?$|\.gif$|\.jpg$|\.svg$/,
-  loader: "file-loader",
-  options: {
-    name: "[path][name]-[contenthash].[ext]",
-    outputPath: "../",
-    publicPath: "../",
-  },
+  type: "asset/resource",
+  generator: {
+    filename: "../[path][name]-[hash][ext][query]"
+  }
 }
 
 // Default configuration object
