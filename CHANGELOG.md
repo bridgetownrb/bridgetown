@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.0.0.beta1] — 2022-06-01
+
 - New bundled configurations: Lit, Shoelace, Ruby2JS, Open Props [#553](https://github.com/bridgetownrb/bridgetown/pull/553) ([jaredcwhite](https://github.com/jaredcwhite))
   - NOTE: "frontend component files" (aka `.js`/`.css` files within the `src/_components` folder) will now be ignored by the build process watcher, thus allowing the frontend bundling refresh to trigger a dev reload
 - Improve Roda error handling and update static error pages [#565](https://github.com/bridgetownrb/bridgetown/pull/565) ([jaredcwhite](https://github.com/jaredcwhite))
@@ -43,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **BREAKING CHANGE:** (maybe) If you had long-running code in a plugin `build` method or a hook, this might surprise you when you live reload in dev using dynamic routes. Use `site.ssr?` if you want to bypass code in SSR mode.
 - Fix bug where sidecar aux process wasn't requiring bundler groups [#532](https://github.com/bridgetownrb/bridgetown/pull/532) ([jaredcwhite](https://github.com/jaredcwhite))
 
-## 1.0.0 (stable release) — 2022-03-07
+## [1.0.0] (stable release) — 2022-03-07
 
 - Add bundled configuration for GH pages [#503](https://github.com/bridgetownrb/bridgetown/pull/503) ([ayushn21](https://github.com/ayushn21))
 - Fix `base_path` issues with Roda and site templates [#510](https://github.com/bridgetownrb/bridgetown/pull/510) ([jaredcwhite](https://github.com/jaredcwhite))
