@@ -8,6 +8,15 @@ body > nav {
     margin: var(--sl-spacing-medium) 0;
   }
 
+  &.edge {
+    background: linear-gradient(
+      to bottom,
+      white 0%,
+      rgb(255, 251, 235) 90%,
+      white 100%
+    );
+  }
+
   & a.active {
     text-decoration-thickness: 5px;
     text-decoration-skip: none;
@@ -15,7 +24,7 @@ body > nav {
   }
 
   & .logo {
-    width:320px;
+    width: 320px;
     margin-top: -45px;
 
     @media (--nav-minimal) {
@@ -32,7 +41,7 @@ body > nav {
     margin-left: 0.7rem;
     font-size: 70%;
     font-weight: var(--body-font-weight);
-    opacity:0.5;
+    opacity: 0.5;
   }
 }
 
@@ -42,7 +51,8 @@ html:not([loaded]) #nav-bar {
   animation-fill-mode: forwards;
 }
 
-navbar-inner, footer-inner {
+navbar-inner,
+footer-inner {
   display: block;
   max-width: var(--max-content-width);
   margin: 0 auto;
@@ -55,16 +65,71 @@ bridgetown-search-form input {
   font-size: 1em;
   font-weight: 520;
   margin-bottom: 0.3em;
-  padding: .2em .6em;
+  padding: 0.2em 0.6em;
   width: calc(100% - 1.3em);
   background: #fff;
   opacity: 0.5;
   border: 1px solid var(--color-light-gray);
   border-radius: 1em;
-  box-shadow: inset 0 .0625em .125em rgba(10,10,10,.05);
+  box-shadow: inset 0 0.0625em 0.125em rgba(10, 10, 10, 0.05);
   color: inherit;
 
-  &:focus, &:hover {
+  &:focus,
+  &:hover {
     opacity: 1;
+  }
+}
+
+@keyframes swingBackAndForth {
+  0% {
+    transform: rotate(-7deg);
+  }
+  4.5% {
+    transform: rotate(-16deg);
+  }
+  11.5% {
+    transform: rotate(-7deg);
+  }
+  18% {
+    transform: rotate(-10deg);
+  }
+  25% {
+    transform: rotate(-7deg);
+  }
+  30% {
+    transform: rotate(-8deg);
+  }
+  37% {
+    transform: rotate(-7deg);
+  }
+}
+
+edge-label {
+  position: absolute;
+  left: 7.3rem;
+  top: 4.5rem;
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transform: rotate(-7deg);
+  transform-origin: 99% 2%;
+  background: var(--color-orange);
+  color: white;
+  padding: 0.25em 0.7em;
+  border-radius: 4px 2px 4px 4px;
+  box-shadow: 0px 11px 6px -7px rgba(0, 0, 0, 0.15);
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
+  animation: swingBackAndForth 8s;
+  animation-delay: 1s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+
+  @media (--nav-minimal) {
+    font-size: 0.75rem;
+    top: 5.15rem;
+    left: 7.75rem;
   }
 }

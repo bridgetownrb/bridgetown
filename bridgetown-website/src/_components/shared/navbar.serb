@@ -1,10 +1,16 @@
-<nav aria-label="Main navigation">
+<nav aria-label="Main navigation"{% if site.data.edge_version %} class="edge"{% end %}>
   <navbar-inner id="nav-bar" data-turbo-permanent>
     <sl-bar align-items="center" spaced="between" expanded="false">
-      <sl-bar-item branding size="4/10 lg:3/10 xl:3/10">
+      <sl-bar-item branding size="4/10 lg:3/10 xl:3/10" style="position:relative">
         <a href="/">
           {{ svg "/images/bridgetown-logo-2022.svg", class: "logo", role: "img", "aria-label": "Bridgetown" }}
         </a>
+        {% if site.data.edge_version %}
+          <edge-label onclick='
+            this.style.animation = "none";
+            setTimeout(() => this.style.animation = null, 50)
+          '>EDGE</edge-label>
+        {% end %}
       </sl-bar-item>
       <sl-bar-item mobileonly>
         <sl-button menutoggle type="text" onclick='

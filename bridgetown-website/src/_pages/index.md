@@ -30,7 +30,11 @@ While your competitors are wrestling with complicated build tools, limited progr
 {:style="text-align:center; margin-top:3rem"}
 
 <small>Version {{ Bridgetown::VERSION }} released {{ current_version_date }}  
-Looking for [0.2x documentation](https://bridgetown-v0.onrender.com/)?</small>
+{% if site.data.edge_version %}
+Looking for [stable release documentation](https://www.bridgetownrb.com/)?
+{% else %}
+Looking for [0.2x documentation](https://bridgetown-v0.onrender.com/)?
+{% end %}</small>
 {:style="color:var(--sl-color-neutral-300)"}
 
 
