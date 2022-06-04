@@ -152,7 +152,7 @@ Bridgetown's bundled Lit configuration provides the building blocks for this set
 // _src/components/my-nifty-tag.lit.js
 import { LitElement, html } from "lit"
 
-import style from "./my-nifty-tag.lit.css"
+import style from "./my-nifty-tag.lit.css" assert { type: "css" }
 
 export class MyNiftyTag extends LitElement {
   static styles = [style]
@@ -168,7 +168,7 @@ You can even combine external stylesheets with ones defined directly within a co
 ```js
 import { LitElement, html } from "lit"
 
-import style from "./shared/components.lit.css"
+import style from "./shared/components.lit.css" assert { type: "css" }
 
 export class ManyStylesElement extends LitElement {
   static styles = [
@@ -184,6 +184,10 @@ export class ManyStylesElement extends LitElement {
   // …
 }
 ```
+
+{%@ Note do %}
+  While the esbuild Lit CSS plugin doesn't _require_ you to include `assert { type: "css" }` at the end of your import statements, it's a good idea to get in the habit as it aligns your code with the [CSS Module Scripts](https://web.dev/css-module-scripts/) spec rolling out to browsers now and in future.
+{% end %}
 
 ## In Combination with Ruby Components
 
