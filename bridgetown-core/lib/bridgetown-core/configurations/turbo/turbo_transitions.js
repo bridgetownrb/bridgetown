@@ -16,7 +16,7 @@ document.addEventListener("turbo:visit", () => {
       { opacity: 1, transform: "translateY(0px) scale(1)" },
       { opacity: 0, transform: `translateY(${movement}) scale(${scale})` }
     ],
-    { duration: 300, easing: "cubic-bezier(0.45, 0, 0.55, 1)" }
+    { duration: 300, easing: "cubic-bezier(0.45, 0, 0.55, 1)", fill: "forwards" }
   );
 
   Promise.all(main.getAnimations().map(animation => animation.finished)).then(() => {
