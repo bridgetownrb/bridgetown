@@ -31,6 +31,12 @@ module Bridgetown
 
       attr_accessor :functions, :name, :site, :config
 
+      class << self
+        def plugin_registrations
+          @plugin_registrations ||= Set.new
+        end
+      end
+
       def initialize(name = nil, current_site = nil)
         self.functions = Set.new
         self.name = name || self.class.name

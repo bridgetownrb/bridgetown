@@ -4,12 +4,11 @@ module Bridgetown
   module Commands
     module Registrations
       def self.registrations
-        @registrations || []
+        @registrations ||= []
       end
 
       def self.register(&block)
-        @registrations ||= []
-        @registrations.push(block)
+        registrations << block
       end
     end
   end
