@@ -10,9 +10,7 @@ module Bridgetown
 
     class << self
       def register
-        Bridgetown::Hooks.register_one :site, :pre_read, reloadable: false do |site|
-          new(name, site).build_with_callbacks
-        end
+        Bridgetown::Builders::PluginBuilder.plugin_registrations << self
       end
 
       def before_build(*args, **kwargs, &block)

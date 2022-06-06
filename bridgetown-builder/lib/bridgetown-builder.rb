@@ -12,12 +12,14 @@ module Bridgetown
 end
 
 Bridgetown::Hooks.register_one :site, :pre_read, priority: :low, reloadable: false do |site|
+  builders = Bridgetown::Builders::PluginBuilder.plugin_registrations.to_a
+
   # SiteBuilder is the superclass sites can subclass to create any number of
   # builders, but if the site hasn't defined it explicitly, this is a no-op
-  if defined?(SiteBuilder)
-    SiteBuilder.descendants.sort.map do |c|
-      c.new(c.name, site).build_with_callbacks
-    end
+  builders += SiteBuilder.descendants if defined?(SiteBuilder)
+
+  builders.sort.map do |c|
+    c.new(c.name, site).build_with_callbacks
   end
 end
 
