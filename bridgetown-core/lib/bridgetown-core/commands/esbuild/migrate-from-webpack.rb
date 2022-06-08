@@ -2,11 +2,6 @@
 
 # rubocop:disable Layout/LineLength
 
-if package_json["devDependencies"].key?("sass")
-  say "Unable to migrate, project uses Sass. Please migrate to PostCSS first before migrating to esbuild."
-  return
-end
-
 remove_file "webpack.config.js"
 remove_file "config/webpack.defaults.js"
 
@@ -16,7 +11,7 @@ default_postcss_config = File.expand_path("../../../site_template/postcss.config
 template default_postcss_config, "postcss.config.js"
 
 unless Bridgetown.environment.test?
-  required_packages = %w(esbuild glob postcss postcss-flexbugs-fixes postcss-preset-env postcss-import postcss-load-config)
+  required_packages = %w(esbuild glob postcss postcss-flexbugs-fixes postcss-preset-env postcss-import postcss-load-config@3.1.4)
   redundant_packages = %w(esbuild-loader webpack webpack-cli webpack-manifest-plugin webpack-merge css-loader file-loader mini-css-extract-plugin postcss-loader)
 
   say "Installing required packages"
