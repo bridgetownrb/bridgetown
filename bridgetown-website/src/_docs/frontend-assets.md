@@ -47,7 +47,7 @@ By default Bridgetown comes with support for [PostCSS](https://postcss.org) to a
 
 You can also choose to use [Sass](https://sass-lang.com), a pre-processor for CSS. Pass `--use-sass` to `bridgetown new` to set up your project to support Sass.
 
-The starting place for CSS code lives at `frontend/styles/index.css`. You can add additional stylesheets and `@import` them into `index.css`. CSS files placed anywhere inside `src/_components` are automatically imported.
+The starting place for CSS code lives at `frontend/styles/index.css`. You can add additional stylesheets and `@import` them into `index.css`. CSS files placed anywhere inside `src/_components` are automatically imported. PostCSS is only applied to `.css` files and not `.sass` files.
 
 ### PostCSS
 
