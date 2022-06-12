@@ -181,6 +181,11 @@ module Bridgetown
         model.origin.id
       end
 
+      # @return [String]
+      def output_ext
+        destination&.output_ext
+      end
+
       def date
         data["date"] ||= site.time
       end

@@ -20,7 +20,7 @@ module Bridgetown
           # Are there inspectors available? Is it an .htm* file?
           def self.can_run?(resource, inspectors)
             inspectors &&
-              resource.destination&.output_ext&.starts_with?(".htm") &&
+              resource.output_ext&.starts_with?(".htm") &&
               !resource.data.bypass_inspectors
           end
 
@@ -42,7 +42,7 @@ module Bridgetown
         module XML
           # Strip the resource's initial extension dot. `.rss` => `rss`
           def self.resource_ext(resource)
-            resource.destination&.output_ext&.delete_prefix(".")
+            resource.output_ext&.delete_prefix(".")
           end
 
           # Are there any inspectors available which match the resource extension?
@@ -103,6 +103,12 @@ module Bridgetown
 
               resource.output = Inspectors.process_html(resource, @_html_inspectors)
             end
+
+            hook :generated_pages, :post_render do |page|
+              next unless HTML.can_run?(page, @_html_inspectors)
+
+              page.output = Inspectors.process_html(page, @_html_inspectors)
+            end
           end
 
           @_html_inspectors << block
@@ -122,6 +128,12 @@ module Bridgetown
               next unless Inspectors::XML.can_run?(resource, @_xml_inspectors)
 
               resource.output = Inspectors.process_xml(resource, @_xml_inspectors)
+            end
+
+            hook :generated_pages, :post_render do |page|
+              next unless Inspectors::XML.can_run?(page, @_xml_inspectors)
+
+              page.output = Inspectors.process_xml(page, @_xml_inspectors)
             end
           end
 
