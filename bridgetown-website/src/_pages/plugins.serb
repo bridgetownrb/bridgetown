@@ -34,7 +34,6 @@
   Peruse our growing collection of official and third-party plugins which provide new capabilities to your Bridgetown site. If you've authored a <a href="/docs/plugins/#creating-a-gem">plugin gem</a>, add the <code>bridgetown-plugin</code> topic to your GitHub repo to include it here.
 </p>
 
-<!-- linthtml-configure tag-bans="false" -->
 <ul class="info-grid">
   {% page.data.plugins.each do |plugin| %}
     <li><sl-card>

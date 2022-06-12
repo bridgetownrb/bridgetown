@@ -4,7 +4,6 @@ subtitle: It’s one thing to claim you can take an existing website and convert
 author: jared
 category: showcase
 ---
-<!-- linthtml-configure tag-bans="false" -->
 
 {: .has-text-centered}
 **“Make the plan, execute the plan, expect the plan to go off the rails…throw away the plan.”**  
@@ -114,5 +113,3 @@ Also mentioned in Part I, I installed [linthtml](https://github.com/linthtml/lin
 ### Conclusion
 
 While it was certainly a chunk of effort for no obviously noticeable gains, I remain very satisfied with the end result of this project, and it’s completely changed how I think about writing HTML and CSS for my websites and web applications. While it’s premature to say I’ll never reach for a `<div>` or a `<span>` again, what I can tell you is that it’s quickly becoming habitual _not to_. And I think that’s a wonderful testament to just how powerful and expressive HTML can be today.
-
-<!-- linthtml-configure tag-bans="true" -->

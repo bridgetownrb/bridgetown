@@ -63,9 +63,7 @@ namespace :frontend do
 end
 ```
 
-<!-- linthtml-configure tag-bans="false" -->
 You're welcome to modify the tasks in your Rakefile as needed. For example, for this website we run a linter which looks for unnecessary `<div>` and `<span>` tags in the output HTML. This check is run for each deployment, so the `deploy` task has been modified to include this step:
-<!-- linthtml-configure tag-bans="true" -->
 
 ```ruby
 desc "Build the Bridgetown site for deployment"

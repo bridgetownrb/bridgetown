@@ -4,7 +4,6 @@ subtitle: Nobody ever got fired for adding a div tag to a React component or an 
 author: jared
 category: showcase
 ---
-<!-- linthtml-configure tag-bans="false" -->
 
 As we prepare to enter the year 2021, allow me to make a bold statement: it's totally unnecessary—perhaps even an anti-pattern—to use `<div>` and `<span>` tags in your HTML.
 
@@ -116,5 +115,3 @@ That's right, all the `<div>` and `<span>` tags are gone. (Well, 99.9% of them a
 Not only that, but I installed the `linthtml` linter as part of this site's build process so that _you can't add any new DIVs/SPANs unless you explicitly bypass the lint rule_. Excessive? Probably. Unwise? Maybe. But I'm here to make a point. **It's time to ditch your ancient 90s-era markup and teleport into the future.** Custom elements (as well as web components proper) and here and _they're here to stay_. We can finally have our HTML cake and eat XML-like extensibility too. Finally.
 
 [Keep reading for "part 2" of this story](/showcase/custom-html-elements-everywhere-executing-the-plan) where I do a deep dive into how I converted the Bridgetown website over to using custom elements along with a few neat tips & tricks along the way for organizing and styling your custom element library.
-
-<!-- linthtml-configure tag-bans="true" -->

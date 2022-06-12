@@ -8,14 +8,9 @@ Bridgetown.load_tasks
 desc "Build the Bridgetown site for deployment"
 task deploy: [
   :clean,
-  :linthtml,
   "frontend:build",
 ] do
   Bridgetown::Commands::Build.start
-end
-
-task :linthtml do
-  sh "yarn lint:html"
 end
 
 desc "Build the site in a test environment"

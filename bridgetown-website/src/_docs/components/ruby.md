@@ -333,10 +333,8 @@ Let's also add the Primer CSS link tag to your site's head:
 
 Now you can use Primer components in any Ruby template in your Bridgetown project!
 
-<!-- linthtml-configure tag-bans="false" -->
 ```erb
 <%%= render(Primer::FlashComponent.new(scheme: :success)) do %>
   <span markdown="1">This is a **success** flash message!</span>
 <%% end %>
 ```
-<!-- linthtml-configure tag-bans="true" -->
