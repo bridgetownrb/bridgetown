@@ -53,5 +53,16 @@ class TestSSR < BridgetownUnitTest
       assert last_response.ok?
       assert_equal({ because_the_night: "will never give you what you want" }.to_json, last_response.body)
     end
+
+    should "support redirecting with helpers" do
+      site.config.url = "http://test.site"
+      post "/redirect_me/now"
+
+      refute last_response.ok?
+
+      get last_response["Location"].sub("http://test.site", "")
+      assert last_response.ok?
+      assert_equal("Redirected!", last_response.body)
+    end
   end
 end
