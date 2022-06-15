@@ -7,10 +7,7 @@ module Bridgetown
   class SerbeaView < ERBView
     include Serbea::Helpers
 
-    def partial(partial_name, options = {}, &block)
-      options.merge!(options[:locals]) if options[:locals]
-      options[:content] = capture(&block) if block
-
+    def _render_partial(partial_name, options)
       partial_path = _partial_path(partial_name, "serb")
       tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"] ||=
         Tilt::SerbeaTemplate.new(partial_path)

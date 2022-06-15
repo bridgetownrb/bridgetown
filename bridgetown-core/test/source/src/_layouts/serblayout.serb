@@ -9,7 +9,7 @@ layout_var:
 
 {%= yield %}
 
-{%= partial "testing/partials", locals: { yes: "yes." } %}
+{%= partial template: "testing/partials", locals: { yes: "yes." } %}
 {%= render "testing/partials", yes: "YES!!" %}
 
 <footer>{%= site.time %} / {%= Bridgetown::VERSION %}</footer>
