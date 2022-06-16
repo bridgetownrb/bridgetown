@@ -136,7 +136,7 @@ instance, if you set a variable called `food`, you can use that in your page:
 food: Pizza
 ---
 
-<h1>{{ resouce.data.food }}</h1>
+<h1>{{ resource.data.food }}</h1>
 ```
 {% endraw %}
 
