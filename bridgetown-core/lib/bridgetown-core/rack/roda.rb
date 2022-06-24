@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "rack/indifferent"
-
 begin
   # If it's in the Gemfile's :bridgetown_plugins group it's already been required, but we'll try
   # again just to be on the safe side:
@@ -57,6 +55,7 @@ module Bridgetown
       plugin :common_logger, Bridgetown::Rack::Logger.new($stdout), method: :info
       plugin :json
       plugin :json_parser
+      plugin :indifferent_params
       plugin :cookies
       plugin :streaming
       plugin :bridgetown_boot
