@@ -3,6 +3,7 @@ order: 20
 title: Core Concepts
 top_section: Introduction
 category: core_concepts
+next_page_order: 25
 ---
 
 It's easy to get started with Bridgetown, but it helps to have a basic understanding of a few key aspects of the site build process so you know which tools to use for the right job. Websites using Bridgetown are built and deployed as atomic artifacts, but they can optionally provide dynamic routes via a secondary server process. Frameworks like this are sometimes referred to as Jamstack frameworks. This means the website your visitors will ultimately engage with was largely produced as a "snapshot in time"—the product of Bridgetown's build process. How does that process work? Let's find out!

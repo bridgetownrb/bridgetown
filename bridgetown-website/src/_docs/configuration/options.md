@@ -242,7 +242,7 @@ class="flag">flags</code> (specified on the command-line) that control them.
       </td>
       <td class="has-text-centered">
         <p><code class="option">unpublished: BOOL</code></p>
-        <p><code class="flag">--unpublished</code></p>
+        <p><code class="flag">-U, --unpublished</code></p>
       </td>
     </tr>
     <tr class="setting">
