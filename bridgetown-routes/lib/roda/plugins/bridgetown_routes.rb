@@ -26,8 +26,8 @@ class Roda
       def self.configure(app, _opts = {})
         return unless app.opts[:bridgetown_site].nil?
 
-        raise "Roda app failure: the bridgetown_ssr plugin must be registered before" \
-              " bridgetown_routes"
+        raise "Roda app failure: the bridgetown_ssr plugin must be registered before " \
+              "bridgetown_routes"
       end
 
       module InstanceMethods

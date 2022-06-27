@@ -28,8 +28,8 @@ module Bridgetown
         @total_pages = num_pages
 
         if @page > @total_pages
-          raise "page number can't be greater than total pages:" \
-                " #{@page} > #{@total_pages}"
+          raise "page number can't be greater than total pages: " \
+                "#{@page} > #{@total_pages}"
         end
 
         init = (@page - 1) * @per_page

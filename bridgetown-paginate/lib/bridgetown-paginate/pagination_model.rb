@@ -33,8 +33,8 @@ module Bridgetown
       def run(default_config, templates, site_title) # rubocop:todo Metrics/AbcSize
         if templates.size.to_i <= 0
           @logging_lambda.call(
-            "is enabled in the config, but no paginated pages found." \
-            " Add 'pagination:\\n  collection: <label>' to the front-matter of a page.",
+            "is enabled in the config, but no paginated pages found. " \
+            "Add 'pagination:\\n  collection: <label>' to the front-matter of a page.",
             "warn"
           )
           return

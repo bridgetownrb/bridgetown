@@ -35,8 +35,8 @@ module Bridgetown
 
         # If disabled then simply quit
         unless default_config["enabled"]
-          Bridgetown.logger.info "Pagination:", "disabled. Enable in site config" \
-                                                " with pagination:\\n  enabled: true"
+          Bridgetown.logger.info "Pagination:", "disabled. Enable in site config " \
+                                                "with pagination:\\n  enabled: true"
           return
         end
 
