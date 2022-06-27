@@ -160,6 +160,15 @@ You can also pass variables to partials using either a `locals` hash or as keywo
 <%%= render "some/partial", locals: { key: "value", another_key: 123 } %>
 ```
 
+As an alternative to passing the partial filename as the first argument, you can supply a `template` keyword argument instead. This makes it easier to pass all arguments via a separate hash:
+
+```eruby
+<%% options = { template: "mypartial", title: "Hello!" } %>
+<%%= partial **options %>
+```
+
+Partials also support capture blocks, which can then be referenced via the `content` local variable within the partial.
+
 ## Rendering Ruby Components
 
 For better encapsulation and reuse of Ruby-based templates as part of a "design system" for your site, we encourage you to write Ruby components using either `Bridgetown::Component` or GitHub's ViewComponent library. [Check out the documentation and code examples here](/docs/components/ruby).

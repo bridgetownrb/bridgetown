@@ -79,10 +79,15 @@ module Bridgetown
       Erubi.h(input)
     end
 
-    def partial(partial_name, options = {})
+    def partial(partial_name = nil, **options, &block)
+      partial_name = options[:template] if partial_name.nil? && options[:template]
       options.merge!(options[:locals]) if options[:locals]
-      options[:content] = yield if block_given?
+      options[:content] = capture(&block) if block
 
+      _render_partial partial_name, options
+    end
+
+    def _render_partial(partial_name, options)
       partial_path = _partial_path(partial_name, "erb")
       tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"] ||= Tilt::ErubiTemplate.new(
         partial_path,

@@ -22,16 +22,16 @@ module Bridgetown
       @site = page.site
     end
 
-    def partial(_partial_name, _options = {})
+    def partial(_partial_name = nil, **_options)
       raise "Must be implemented in a subclass"
     end
 
-    def render(item, options = {}, &block)
+    def render(item, **options, &block)
       if item.respond_to?(:render_in)
         result = item.render_in(self, &block)
         result&.html_safe
       else
-        partial(item, options, &block)&.html_safe
+        partial(item, **options, &block)&.html_safe
       end
     end
 
