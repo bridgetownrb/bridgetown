@@ -449,9 +449,9 @@ class TestTags < BridgetownUnitTest
     end
 
     should "throw a deprecation warning" do
-      deprecation_warning = "       Deprecation: A call to "\
-                            "'{% post_url 2008-11-21-nested %}' did not match a post using the new matching "\
-                            "method of checking name (path-date-slug) equality. Please make sure that you "\
+      deprecation_warning = "       Deprecation: A call to " \
+                            "'{% post_url 2008-11-21-nested %}' did not match a post using the new matching " \
+                            "method of checking name (path-date-slug) equality. Please make sure that you " \
                             "change this tag to match the post's name exactly."
       assert_includes Bridgetown.logger.messages, deprecation_warning
     end

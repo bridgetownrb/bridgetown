@@ -64,9 +64,9 @@ module Bridgetown
         require "irb/ext/save-history"
         require "amazing_print" unless options[:"bypass-ap"]
 
-        Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
-                                            " (codename \"#{Bridgetown::CODE_NAME.yellow}\")" \
-                                            " console…"
+        Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta} " \
+                                            "(codename \"#{Bridgetown::CODE_NAME.yellow}\") " \
+                                            "console…"
         Bridgetown.logger.info "Environment:", Bridgetown.environment.cyan
         site = Bridgetown::Site.new(configuration_with_overrides(options))
 
@@ -80,8 +80,8 @@ module Bridgetown
         IRB.conf[:MAIN_CONTEXT] = irb.context
         Bridgetown.logger.info "Console:", "Your site is now available as #{"site".cyan}"
         Bridgetown.logger.info "",
-                               "You can also access #{"collections".cyan} or perform a" \
-                               " #{"reload!".cyan}"
+                               "You can also access #{"collections".cyan} or perform a " \
+                               "#{"reload!".cyan}"
 
         trap("SIGINT") do
           irb.signal_handle

@@ -23,7 +23,7 @@ module Bridgetown
         output.html_safe
       rescue StandardError => e
         Bridgetown.logger.error "Conversion error:",
-                                "#{converter.class} encountered an error while "\
+                                "#{converter.class} encountered an error while " \
                                 "converting `#{document.relative_path}'"
         raise e
       end
@@ -53,7 +53,7 @@ module Bridgetown
         layout_output
       rescue StandardError => e
         Bridgetown.logger.error "Conversion error:",
-                                "#{converter.class} encountered an error while "\
+                                "#{converter.class} encountered an error while " \
                                 "converting `#{document.relative_path}'"
         raise e
       end

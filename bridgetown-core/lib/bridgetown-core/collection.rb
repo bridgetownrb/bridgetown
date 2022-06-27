@@ -343,8 +343,8 @@ module Bridgetown
     end
 
     def order_with_warning(sort_key, resource, order)
-      Bridgetown.logger.warn "Sort warning:", "'#{sort_key}' not defined in" \
-                                              " #{resource.relative_path}"
+      Bridgetown.logger.warn "Sort warning:", "'#{sort_key}' not defined in " \
+                                              "#{resource.relative_path}"
       order
     end
 

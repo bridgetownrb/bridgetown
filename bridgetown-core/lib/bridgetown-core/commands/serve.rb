@@ -178,8 +178,8 @@ module Bridgetown
 
           Process.detach(pid)
           Bridgetown.logger.info "Server detached with pid '#{pid}'.", \
-                                 "Run `pkill -f bridgetown' or `kill -9 #{pid}'" \
-                                 " to stop the server."
+                                 "Run `pkill -f bridgetown' or `kill -9 #{pid}' " \
+                                 "to stop the server."
         else
           t = Thread.new { server.start }
           trap("INT") { server.shutdown }

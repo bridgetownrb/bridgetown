@@ -33,8 +33,8 @@ module Bridgetown
     rescue Roda::RodaError => e
       if e.message.include?("sessions plugin :secret option")
         raise Bridgetown::Errors::InvalidConfigurationError,
-              "The Roda sessions plugin can't find a valid secret. Run `bin/bridgetown secret'" \
-              " and put the key in a ENV var you can use to configure the session in `roda_app.rb'"
+              "The Roda sessions plugin can't find a valid secret. Run `bin/bridgetown secret' " \
+              "and put the key in a ENV var you can use to configure the session in `roda_app.rb'"
       end
 
       raise e

@@ -152,8 +152,8 @@ module Bridgetown
           return attributes[key]
         end
 
-        Bridgetown.logger.warn "key `#{method_name}' not found in attributes for" \
-                               " #{attributes[:id].presence || "new #{self.class}"}"
+        Bridgetown.logger.warn "key `#{method_name}' not found in attributes for " \
+                               "#{attributes[:id].presence || "new #{self.class}"}"
         nil
       end
 

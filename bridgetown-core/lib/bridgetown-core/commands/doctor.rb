@@ -62,8 +62,8 @@ module Bridgetown
           next unless paths.size > 1
 
           conflicting_urls = true
-          Bridgetown.logger.warn "Conflict:", "The URL '#{url}' is the destination" \
-                                              " for the following pages: #{paths.join(", ")}"
+          Bridgetown.logger.warn "Conflict:", "The URL '#{url}' is the destination " \
+                                              "for the following pages: #{paths.join(", ")}"
         end
         conflicting_urls
       end
@@ -77,8 +77,8 @@ module Bridgetown
           urls_only_differ_by_case = true
           Bridgetown.logger.warn(
             "Warning:",
-            "The following URLs only differ by case. On a case-insensitive file system one of the" \
-            " URLs will be overwritten by the other: #{real_urls.join(", ")}"
+            "The following URLs only differ by case. On a case-insensitive file system one of " \
+            "the URLs will be overwritten by the other: #{real_urls.join(", ")}"
           )
         end
         urls_only_differ_by_case
@@ -121,7 +121,7 @@ module Bridgetown
       def url_exists?(url)
         return true unless url.nil? || url.empty?
 
-        Bridgetown.logger.warn "Warning:", "You didn't set an URL in the config file, "\
+        Bridgetown.logger.warn "Warning:", "You didn't set an URL in the config file, " \
                                            "you may encounter problems with some plugins."
         false
       end
@@ -132,7 +132,7 @@ module Bridgetown
       # Addressable::URI#parse only raises a TypeError
       # https://git.io/vFfbx
       rescue TypeError
-        Bridgetown.logger.warn "Warning:", "The site URL does not seem to be valid, "\
+        Bridgetown.logger.warn "Warning:", "The site URL does not seem to be valid, " \
                                            "check the value of `url` in your config file."
         false
       end
@@ -140,7 +140,7 @@ module Bridgetown
       def url_absolute(url)
         return true if url.is_a?(String) && Addressable::URI.parse(url).absolute?
 
-        Bridgetown.logger.warn "Warning:", "Your site URL does not seem to be absolute, "\
+        Bridgetown.logger.warn "Warning:", "Your site URL does not seem to be absolute, " \
                                            "check the value of `url` in your config file."
         false
       end

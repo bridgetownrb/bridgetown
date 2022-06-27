@@ -26,7 +26,7 @@ end
 #
 
 Given(%r!^I have a blank site in "(.*)"$!) do |path|
-  FileUtils.mkdir_p(path) unless File.exist?(path)
+  FileUtils.mkdir_p(path)
 end
 
 #
@@ -47,7 +47,7 @@ Given(%r!^I have an? "(.*)" page(?: with (.*) "(.*)")? that contains "(.*)"$!) d
       #{text}
     DATA
   else
-    FileUtils.mkdir_p("src") unless File.exist?("src")
+    FileUtils.mkdir_p("src")
     File.write(File.join("src", file), <<~DATA)
       ---
       #{key || "layout"}: #{value || "none"}
@@ -64,7 +64,7 @@ Given(%r!^I have an? "(.*)" file that contains "(.*)"$!) do |file, text|
   if Paths.root_files.include?(file.split("/").first)
     File.write(file, text)
   else
-    FileUtils.mkdir_p("src") unless File.exist?("src")
+    FileUtils.mkdir_p("src")
     File.write(File.join("src", file), text)
   end
 end
@@ -85,7 +85,7 @@ Given(%r!^I have an? "(.*)" file with content:$!) do |file, text|
   if Paths.root_files.include?(file.split("/").first)
     File.write(file, text)
   else
-    FileUtils.mkdir_p("src") unless File.exist?("src")
+    FileUtils.mkdir_p("src")
     File.write(File.join("src", file), text)
   end
 end
@@ -93,7 +93,7 @@ end
 #
 
 Given(%r!^I have an? "(.*)" page(?: configured with (.*) "(.*)")? with content:$!) do |file, key, value, text|
-  FileUtils.mkdir_p("src") unless File.exist?("src")
+  FileUtils.mkdir_p("src")
   File.write(File.join("src", file), <<~DATA)
     ---
     #{key || "layout"}: #{value || "none"}

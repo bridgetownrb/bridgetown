@@ -58,9 +58,9 @@ module Bridgetown
         automation_command = args.empty? ? "bridgetown.automation.rb" : args[0]
 
         if args.empty? && !File.exist?("bridgetown.automation.rb")
-          raise ArgumentError, "You must specify a path or a URL," \
-                               " or add bridgetown.automation.rb to the" \
-                               " current folder."
+          raise ArgumentError, "You must specify a path or a URL, " \
+                               "or add bridgetown.automation.rb to the " \
+                               "current folder."
         end
 
         Bridgetown.with_unbundled_env do

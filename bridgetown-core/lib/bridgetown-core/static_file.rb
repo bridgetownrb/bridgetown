@@ -108,7 +108,7 @@ module Bridgetown
       self.class.mtimes[path] = mtime
 
       FileUtils.mkdir_p(File.dirname(dest_path))
-      FileUtils.rm(dest_path) if File.exist?(dest_path)
+      FileUtils.rm_rf(dest_path)
       Bridgetown.logger.debug "Saving file:", dest_path
       copy_file(dest_path)
 

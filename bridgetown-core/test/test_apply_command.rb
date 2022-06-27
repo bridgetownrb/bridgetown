@@ -8,7 +8,7 @@ class TestApplyCommand < BridgetownUnitTest
     context "the apply command" do
       setup do
         @cmd = Bridgetown::Commands::Apply.new
-        File.delete("bridgetown.automation.rb") if File.exist?("bridgetown.automation.rb")
+        FileUtils.rm_rf("bridgetown.automation.rb")
         @template = "" + <<-TEMPLATE
         say_status :urltest, "Works!"
         TEMPLATE

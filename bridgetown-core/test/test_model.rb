@@ -23,7 +23,7 @@ class TestModel < BridgetownUnitTest
       assert_equal model.layout, new_model.layout.to_sym
       assert_equal model.content, new_model.content
     ensure
-      File.delete(@filepath) if File.exist?(@filepath)
+      FileUtils.rm_rf(@filepath)
     end
 
     should "refrain from overwriting non-YAML front matter files" do
@@ -42,7 +42,7 @@ class TestModel < BridgetownUnitTest
 
       assert_includes File.read(@filepath), "---\ntitle: Hello"
     ensure
-      File.delete(@filepath) if File.exist?(@filepath)
+      FileUtils.rm_rf(@filepath)
     end
   end
 end

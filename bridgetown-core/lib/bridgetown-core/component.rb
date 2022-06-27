@@ -136,7 +136,7 @@ module Bridgetown
       end
     rescue StandardError => e
       Bridgetown.logger.error "Component error:",
-                              "#{self.class} encountered an error while "\
+                              "#{self.class} encountered an error while " \
                               "rendering `#{self.class.path_for_errors}'"
       raise e
     end

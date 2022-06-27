@@ -99,8 +99,8 @@ module Bridgetown
 
           site.process
         end
-        Bridgetown.logger.info "Done! 🎉", "#{"Completed".bold.green} in less than" \
-                                          " #{(Time.now - time).ceil(2)} seconds."
+        Bridgetown.logger.info "Done! 🎉", "#{"Completed".bold.green} in less than " \
+                                          "#{(Time.now - time).ceil(2)} seconds."
       rescue StandardError => e
         Bridgetown::Errors.print_build_error(e, trace: options[:trace])
       end

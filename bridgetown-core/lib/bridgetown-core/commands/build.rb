@@ -22,8 +22,8 @@ module Bridgetown
                    desc: "Watch for changes and rebuild"
 
       def self.print_startup_message
-        Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta}" \
-                                            " (codename \"#{Bridgetown::CODE_NAME.yellow}\")"
+        Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta} " \
+                                            "(codename \"#{Bridgetown::CODE_NAME.yellow}\")"
       end
 
       # Build your bridgetown site
@@ -45,8 +45,8 @@ module Bridgetown
         @site = Bridgetown::Site.new(config_options)
 
         if config_options.fetch("skip_initial_build", false)
-          Bridgetown.logger.warn "Build Warning:", "Skipping the initial build." \
-                                                   " This may result in an out-of-date site."
+          Bridgetown.logger.warn "Build Warning:", "Skipping the initial build. " \
+                                                   "This may result in an out-of-date site."
         else
           build_site(config_options)
         end
@@ -77,8 +77,8 @@ module Bridgetown
         end
         Bridgetown.logger.info "Generating…"
         @site.process
-        Bridgetown.logger.info "Done! 🎉", "#{"Completed".bold.green} in less than" \
-                                          " #{(Time.now - t).ceil(2)} seconds."
+        Bridgetown.logger.info "Done! 🎉", "#{"Completed".bold.green} in less than " \
+                                          "#{(Time.now - t).ceil(2)} seconds."
 
         return unless config_options[:using_puma]
 

@@ -95,7 +95,7 @@ class TestGeneratedPage < BridgetownUnitTest
         refute File.exist?(dest_dir("virtual-about", "index.html"))
       end
 
-      should "be processed and written to destination when passed as "\
+      should "be processed and written to destination when passed as " \
              "an entry in 'site.generated_pages' array" do
         @page.content = "{{ site.title }}"
         @page.data["permalink"] = "/virtual-about/"
@@ -305,7 +305,7 @@ class TestGeneratedPage < BridgetownUnitTest
 
       should "not be writable outside of destination" do
         unexpected = File.expand_path("../../../baddie.html", dest_dir)
-        File.delete unexpected if File.exist?(unexpected)
+        FileUtils.rm_rf unexpected
         page = setup_page("exploit.md")
         do_render(page)
         page.write(dest_dir)

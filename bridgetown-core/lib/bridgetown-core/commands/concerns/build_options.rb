@@ -21,8 +21,8 @@ module Bridgetown
                            desc: "Destination directory (defaults to output)"
         klass.class_option :root_dir,
                            aliases: "-r",
-                           desc: "The top-level root folder" \
-                                 " where config files are located"
+                           desc: "The top-level root folder " \
+                                 "where config files are located"
         klass.class_option :plugins_dir,
                            aliases: "-p",
                            type: :array,

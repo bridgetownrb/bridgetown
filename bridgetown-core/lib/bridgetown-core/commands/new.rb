@@ -68,8 +68,8 @@ module Bridgetown
         if preserve_source_location?(new_site_path, options)
           say_status :conflict, "#{new_site_path} exists and is not empty.", :red
           Bridgetown.logger.abort_with(
-            "Ensure #{new_site_path} is empty or else try again with `--force` to proceed and" \
-            " overwrite any files."
+            "Ensure #{new_site_path} is empty or else try again with `--force` to proceed and " \
+            "overwrite any files."
           )
         end
 
@@ -194,18 +194,18 @@ module Bridgetown
         logger = Bridgetown.logger
         bt_start = "bin/bridgetown start"
         logger.info ""
-        logger.info "Success!".green, "🎉 Your new Bridgetown site was" \
-                                      " generated in #{cli_path.cyan}."
+        logger.info "Success!".green, "🎉 Your new Bridgetown site was " \
+                                      "generated in #{cli_path.cyan}."
         if options["skip-yarn"]
           logger.info "You can now #{"cd".cyan} #{cli_path.cyan} to get started."
-          logger.info "You'll probably also want to #{"yarn install".cyan}" \
-                      " to load in your frontend assets."
+          logger.info "You'll probably also want to #{"yarn install".cyan} " \
+                      "to load in your frontend assets."
         else
-          logger.info "You can now #{"cd".cyan} #{cli_path.cyan} and run #{bt_start.cyan}" \
-                      " to get started."
+          logger.info "You can now #{"cd".cyan} #{cli_path.cyan} and run #{bt_start.cyan} " \
+                      "to get started."
         end
-        logger.info "Then check out our online documentation for" \
-                    " next steps: #{DOCSURL.cyan}"
+        logger.info "Then check out our online documentation for " \
+                    "next steps: #{DOCSURL.cyan}"
 
         if @skipped_bundle
           logger.info "Bundle install skipped.".yellow

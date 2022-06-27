@@ -103,8 +103,8 @@ class TestNewCommand < BridgetownUnitTest
       output = capture_output do
         Bridgetown::Commands::Base.start(argumentize(@args))
       end
-      success_message = "Your new Bridgetown site was generated in" \
-                        " #{@path.cyan}."
+      success_message = "Your new Bridgetown site was generated in " \
+                        "#{@path.cyan}."
 
       assert_includes output, success_message
     end
