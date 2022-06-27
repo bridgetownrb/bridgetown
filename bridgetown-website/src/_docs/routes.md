@@ -167,3 +167,13 @@ class RodaApp < Bridgetown::Rack::Roda
   # etc.
 end
 ```
+
+## URL Helpers
+
+You can use the `relative_url` and `absolute_url` helpers within your Roda code any time you need to reference a particular URL, to ensure any base path or locale prefix gets added automatically. It also will work with any object which responds to a method like `relative_url` or `url`. For example:
+
+```rb
+r.redirect relative_url("/path/to/page")
+
+r.redirect relative_url(obj)
+```

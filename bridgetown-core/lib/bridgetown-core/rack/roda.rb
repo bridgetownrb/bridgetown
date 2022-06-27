@@ -10,15 +10,6 @@ end
 class Roda
   module RodaPlugins
     module BridgetownSSR
-      def self.configure(app, _opts = {}, &block)
-        app.opts[:bridgetown_site] =
-          Bridgetown::Site.start_ssr!(loaders_manager: Bridgetown::Rack.loaders_manager, &block)
-      end
-    end
-
-    register_plugin :bridgetown_ssr, BridgetownSSR
-
-    module BridgetownBoot
       module InstanceMethods
         # Helper shorthand for Bridgetown::Current.site
         # @return [Bridgetown::Site]
@@ -27,6 +18,16 @@ class Roda
         end
       end
 
+      def self.configure(app, _opts = {}, &block)
+        app.include Bridgetown::Filters::URLFilters
+        app.opts[:bridgetown_site] =
+          Bridgetown::Site.start_ssr!(loaders_manager: Bridgetown::Rack.loaders_manager, &block)
+      end
+    end
+
+    register_plugin :bridgetown_ssr, BridgetownSSR
+
+    module BridgetownBoot
       Roda::RodaRequest.alias_method :_previous_roda_cookies, :cookies
 
       module RequestMethods
@@ -51,6 +52,8 @@ end
 module Bridgetown
   module Rack
     class Roda < ::Roda
+      SiteContext = Struct.new(:registers) # for use by Liquid-esque URL helpers
+
       plugin :hooks
       plugin :common_logger, Bridgetown::Rack::Logger.new($stdout), method: :info
       plugin :json
@@ -140,6 +143,7 @@ module Bridgetown
         if self.class.opts[:bridgetown_site]
           # The site had previously been initialized via the bridgetown_ssr plugin
           Bridgetown::Current.site ||= self.class.opts[:bridgetown_site]
+          @context ||= SiteContext.new({ site: self.class.opts[:bridgetown_site] })
         end
         Bridgetown::Current.preloaded_configuration ||=
           self.class.opts[:bridgetown_preloaded_config]
