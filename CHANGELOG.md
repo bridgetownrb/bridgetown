@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.1.0.beta3] — 2022-06-28
+
+- Provide URL helpers to Roda [#583](https://github.com/bridgetownrb/bridgetown/pull/583) ([jaredcwhite](https://github.com/jaredcwhite))
+- Support kwargs-only method calls for `partial` [#582](https://github.com/bridgetownrb/bridgetown/pull/582) ([jaredcwhite](https://github.com/jaredcwhite))
+- Switch from `rack-indifferent` to Roda's `indifferent_params` plugin [#586](https://github.com/bridgetownrb/bridgetown/pull/586) ([jaredcwhite](https://github.com/jaredcwhite)) with thanks to @jeremyevans
+- Thanks to [work-leonid](https://github.com/andrewmcodes) for docs improvements
+- Fix: apply Inspectors to Generated Pages as well
+  - **Breaking change from beta2**
+- Update Gemfile template with nokogiri commented out (helps with the Inspectors API) [#574](https://github.com/bridgetownrb/bridgetown/pull/574) ([andrewmcodes](https://github.com/andrewmcodes))
+- Fix migrate-from-webpack process [#573](https://github.com/bridgetownrb/bridgetown/pull/573) ([katafrakt](https://github.com/katafrakt))
+- Ensure gem-based Builders are part of priority sorting [#567](https://github.com/bridgetownrb/bridgetown/pull/567) ([jaredcwhite](https://github.com/jaredcwhite))
+- Add `fill: "forwards"` to improve Turbo transition states
+
 ## [1.1.0.beta2] — 2022-06-01
 
 - Update Webpack 5 default config to switch to native asset loaders (no more `file-loader` needed)
