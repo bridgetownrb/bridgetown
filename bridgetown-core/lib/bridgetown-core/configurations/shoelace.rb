@@ -4,14 +4,27 @@ say_status :shoelace, "Installing Shoelace..."
 
 run "yarn add @shoelace-style/shoelace"
 
+stylesheet_import = <<~CSS
+  /* Import the base Shoelace stylesheet: */
+  @import "@shoelace-style/shoelace/dist/themes/light.css";
+
+CSS
+
+if File.exist?("frontend/styles/index.css")
+  prepend_to_file "frontend/styles/index.css", stylesheet_import
+elsif File.exist?("frontend/styles/index.scss")
+  prepend_to_file "frontend/styles/index.scss", stylesheet_import
+else
+  say "\nPlease add the following lines to your CSS index file:"
+  say stylesheet_import
+end
+
 say 'Adding Shoelace to "frontend/javascript/index.js"...', :magenta
 
 javascript_import do
   <<~JS
-    // Import the base Shoelace stylesheet:
-    import "@shoelace-style/shoelace/dist/themes/light.css"
 
-    // Example components, mix 'n' match however you like!
+    // Example Shoelace components. Mix 'n' match however you like!
     import "@shoelace-style/shoelace/dist/components/button/button.js"
     import "@shoelace-style/shoelace/dist/components/icon/icon.js"
     import "@shoelace-style/shoelace/dist/components/spinner/spinner.js"
@@ -43,6 +56,15 @@ else
             '"webpack-build": "yarn shoelace:copy-assets && webpack'
   gsub_file "package.json", %r{"webpack-dev": "webpack},
             '"webpack-dev": "yarn shoelace:copy-assets && webpack'
+end
+
+if File.exist?(".gitignore")
+  append_to_file ".gitignore" do
+    <<~FILES
+
+      src/shoelace-assets
+    FILES
+  end
 end
 
 say_status :shoelace, "Shoelace is now configured!"

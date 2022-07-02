@@ -45,11 +45,13 @@ insert_into_file "Rakefile",
   JS
 end
 
-append_to_file ".gitignore" do
-  <<~FILES
+if File.exist?(".gitignore")
+  append_to_file ".gitignore" do
+    <<~FILES
 
-    frontend/styles/jit-refresh.css
-  FILES
+      frontend/styles/jit-refresh.css
+    FILES
+  end
 end
 
 create_builder "tailwind_jit.rb" do
