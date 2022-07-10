@@ -21,7 +21,7 @@ module Bridgetown
 
             route_block = Bridgetown::Routes::CodeBlocks.route_block(file_slug)
             response.instance_variable_set(
-              :@_route_file_code, route_block.instance_variable_get(:@_route_file_code)
+              :@_route_file_contents, route_block.instance_variable_get(:@_route_file_contents)
             ) # could be nil
             app.instance_exec(r, &route_block)
           end

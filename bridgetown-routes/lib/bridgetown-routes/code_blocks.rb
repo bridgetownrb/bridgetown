@@ -6,8 +6,8 @@ module Bridgetown
       class << self
         attr_accessor :blocks
 
-        def add_route(name, file_code = nil, &block)
-          block.instance_variable_set(:@_route_file_code, file_code) if file_code
+        def add_route(name, file_contents = nil, &block)
+          block.instance_variable_set(:@_route_file_contents, file_contents) if file_contents
 
           @blocks ||= {}
           @blocks[name] = block

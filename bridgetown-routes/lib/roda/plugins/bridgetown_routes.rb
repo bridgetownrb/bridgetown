@@ -36,7 +36,7 @@ class Roda
           source_path = Pathname.new(path).relative_path_from(
             Bridgetown::Current.site.in_source_dir("_routes")
           )
-          code = response._route_file_code
+          code = response._route_file_contents
 
           unless code.present?
             raise Bridgetown::Errors::FatalException,
@@ -72,8 +72,8 @@ class Roda
 
       module ResponseMethods
         # template string provided, if available, by the saved code block
-        def _route_file_code
-          @_route_file_code
+        def _route_file_contents
+          @_route_file_contents
         end
 
         def _fake_resource_view(view_class:, roda_app:, bridgetown_site:)
