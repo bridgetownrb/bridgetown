@@ -36,9 +36,8 @@ class Roda
           source_path = Pathname.new(path).relative_path_from(
             Bridgetown::Current.site.in_source_dir("_routes")
           )
-          code = response._route_file_contents
 
-          unless code.present?
+          unless response._route_file_contents.present?
             raise Bridgetown::Errors::FatalException,
                   "`render_with' method must be called from a template-based file in `src/_routes'"
           end
@@ -50,7 +49,7 @@ class Roda
           ).read do
             data[:_collection_] = Bridgetown::Current.site.collections.pages
             data[:_relative_path_] = source_path
-            data[:_content_] = code
+            data[:_content_] = response._route_file_contents
             data
           end
 
