@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="{{ site.locale }}">
   <head>
-    {% render "head", metadata: site.metadata, title: page.title %}
+    {% render "head", metadata: site.metadata, title: resource.data.title %}
   </head>
   <body class="{{ resource.data.layout }} {{ resource.data.page_class }}">
     {% render "navbar", metadata: site.metadata, resource: resource %}
