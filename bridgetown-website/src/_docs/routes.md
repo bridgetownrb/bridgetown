@@ -1,26 +1,25 @@
 ---
-title: Dynamic Routes & SSR
+title: Dynamic Routes, SSR, & Roda
 order: 250
 top_section: Experimental
 category: routes
 ---
 
-
 {%@ Note type: "warning" do %}
-#### This is just the beginning…
-
-While Bridgetown's fullstack framework features (aka SSR, file-based routing, and API endpoints) are already being used in production settings, this functionality is still considered "experimental" and subject to further refinement in Bridgetown 1.1 and beyond. Fully-fledged documentation is in the works and ongoing. 
+While Bridgetown's fullstack framework features (aka SSR, file-based routing, and API endpoints) are already being used in production settings, this functionality is still considered "experimental" and subject to further refinement prior to API stability in Bridgetown 2.0.
 {% end %}
 
-Bridgetown 1.0 comes with a production-ready web server based on the battle-hardened one-two punch of [Rack](https://github.com/rack/rack) + [Puma](https://puma.io). On top of Puma we've layered on [Roda](http://roda.jeremyevans.net), a refreshingly fast & lightweight web routing toolkit created by Jeremy Evans. On a basic level, it handles serving of all statically-built site files you access when you run `bin/bridgetown start`.
+Bridgetown comes with a production-ready web server based on the battle-hardened one-two punch of [Rack](https://github.com/rack/rack) + [Puma](https://puma.io). On top of Puma we've layered on [Roda](http://roda.jeremyevans.net), a refreshingly fast & lightweight web routing toolkit created by Jeremy Evans. On a basic level, it handles serving of all statically-built site files you access when you run `bin/bridgetown start`.
 
-Because Bridgetown uses a Rack-based stack, this means you can potentially add on API endpoints served by a secondary Rails app, or Sinatra, or of course, Roda. In other words, because Rack is fully capable of mounting multiple “apps” within a single server process, you can run Bridgetown alongside your favorite backend/fullstack Ruby app framework. Naturally, we recommend starting out with the framework we've built with Roda as you'll learn more about shortly.
+Because Bridgetown uses a Rack-based stack, this means you can author API endpoints served by a secondary Rails app, or Sinatra, or of course, Roda. In other words, because Rack is fully capable of mounting multiple “apps” within a single server process, you can run Bridgetown alongside your favorite backend/fullstack Ruby app framework. Naturally, we recommend starting out with the framework we've built with Roda as you'll learn more about shortly.
+
+{{ toc }}
 
 ## Bridgetown SSR via Roda
 
 Server-Side Rendering, known as SSR, has made its peace with SSG (Static Site Generation), and we are increasingly seeing an SSG/SSR “hybrid” architecture emerge in tooling throughout the web dev industry.
 
-Bridgetown 1.0 takes advantage of this evolving paradigm by providing a streamlined path for booting a site up in-memory. This means you can write a server-side API to render content whenever it is requested. Here’s an example of what that looks like:
+Bridgetown takes advantage of this evolving paradigm by providing a streamlined path for booting a site up in-memory. This means you can write a server-side API to render content whenever it is requested. Here’s an example of what that looks like:
 
 ```ruby
 # ./server/routes/preview.rb
@@ -49,7 +48,7 @@ class Routes::Preview < Bridgetown::Rack::Routes
 end
 ```
 
-This route handles any `/preview/:collection/:path` URLs which are accessed just like any other statically-generated resource. It will find a content item via a repo origin ID and render that item’s **resource** which is then output as HTML. Needless to say, _this was simply an impossible task_ prior to Bridgetown 1.0. For example: `/preview/posts/_posts%2F2022-01-10-hello-world.md` would SSR the Markdown content located in `src/_posts/2022-01-10-hello-world.md`.
+This route handles any `/preview/:collection/:path` URLs which are accessed just like any other statically-generated resource. It will find a content item via a repo origin ID and render that item’s **resource** which is then output as HTML. For example: `/preview/posts/_posts%2F2022-01-10-hello-world.md` would SSR the Markdown content located in `src/_posts/2022-01-10-hello-world.md`.
 
 SSR is great for generating preview content on-the-fly, but you can use it for any number of instances where it’s not feasible to pre-build your content. In addition, you can use SSR to “refresh” stale content…for example, you could pre-build all your product pages statically, but then request a newer version of the page (or better yet, just a component of it) whenever the static page is viewed which would then contain the up-to-date pricing (perhaps coming from a PostgreSQL database or some other external data source). And if you cache _that_ data using Redis in, say, 10-minute increments, you’ve just built yourself an extremely performant e-commerce solution. This is only a single example!
 
@@ -94,7 +93,24 @@ end
 
 ## File-based Dynamic Routes
 
-**But wait, there’s more!** We now ship a new gem you can opt-into (as part of the Bridgetown monorepo) called `bridgetown-routes`. Within minutes of installing it, you gain the ability to write file-based dynamic routes with view templates right inside your source folder!
+**But wait, there’s more!** We ship a gem you can opt-into (as part of the Bridgetown monorepo) called `bridgetown-routes`. Within seconds of adding it to your project, you gain the ability to write file-based dynamic routes with view templates right inside your source folder.
+
+To opt-into the `bridgetown-routes` gem, make sure it's enabled in your `Gemfile`:
+
+```ruby
+gem "bridgetown-routes", group: :bridgetown_plugins
+```
+
+and added in as a Roda plugin below the SSR plugin:
+
+```ruby
+class RodaApp < Bridgetown::Rack::Roda
+  plugin :bridgetown_ssr
+  plugin :bridgetown_routes
+
+  # etc.
+end
+```
 
 Here’s an example of a route saved to `src/_routes/items/index.erb`. It provides the `/items` URL which shows a list of item links:
 
@@ -121,13 +137,15 @@ end
 </ul>
 ```
 
-Since all the data in the above example is created and rendered by the server in real-time, there’s no way to know ahead of time which routes should be accessible via `/items/:slug`. That’s why `bridgetown-routes` supports routing placeholders at the filesystem level! Let’s go ahead and define our item-specific route in `src/_routes/items/[slug].erb`:
+Since all the data in the above example is created and rendered by the server in real-time, there’s no way to know ahead of time which routes should be accessible via `/items/:slug`. That’s why `bridgetown-routes` supports routing placeholders (aka wildcard parameters) at the filesystem level using brackets notation.
+
+Let’s go ahead and define our item-specific route in `src/_routes/items/[slug].erb`:
 
 ```eruby
 ---<%
 # route: /items/:slug
 r.get do
-  item_id, *item_sku = r.params[:slug].split("-")
+  item_id, *item_sku = params[:slug].split("-")
   item_sku = item_sku.join("-")
 
   render_with data: {
@@ -145,28 +163,11 @@ end
 
 ```
 
-This is a contrived example of course, but you can easily imagine loading a specific item from a data source based on the incoming parameter(s) and providing that item data to the view, all within a single file.
+As you can see, the `slug` wildcard parameter has been processed and inserted into Roda's `params` hash. This is a contrived example of course, but you can easily imagine loading a specific item from a data source based on the incoming parameter(s) and providing that item data to the view, all within a single file.
 
-You can even use placeholders in folder names! A route saved to `src/_routes/books/[id]/chapter/[chapter_id].erb` would match to something like `/books/234259/chapter/5` and let you access `r.params[:id]` and `r.params[:chapter_id]`. Pretty nifty.
+You can even use placeholders directly in folder names! A route saved to `src/_routes/books/[id]/chapter/[chapter_id].erb` would match to something like `/books/234259/chapter/5` and let you access `params[:id]` and `params[:chapter_id]`. Pretty nifty.
 
 Testing is straightforward as well. Simply place `.test.rb` files alongside your routes, and you’ll be able to use Capybara to write **fast** integration tests including interactions requiring Javascript (assuming Cupite is also installed). (_docs coming soon_)
-
-To opt-into the `bridgetown-routes` gem, make sure it's enabled in your `Gemfile`:
-
-```ruby
-gem "bridgetown-routes", group: :bridgetown_plugins
-```
-
-and added in as a Roda plugin below the SSR plugin:
-
-```ruby
-class RodaApp < Bridgetown::Rack::Roda
-  plugin :bridgetown_ssr
-  plugin :bridgetown_routes
-
-  # etc.
-end
-```
 
 ## URL Helpers
 
@@ -177,3 +178,29 @@ r.redirect relative_url("/path/to/page")
 
 r.redirect relative_url(obj)
 ```
+
+## Configuring and Extending Roda
+
+The [Roda documentation](http://roda.jeremyevans.net/documentation.html) provides a rundown of various plugins you can add and configure which come with Roda, as well as information on how to author your own plugins or pull in third-party plugins.
+
+Out of the box, Bridgetown configures several of Roda's plugins for a superior DX (Developer Experience):
+
+* hooks
+* common_logger
+* json
+* json_parser
+* indifferent_params
+* cookies (note: Bridgetown further allows for "indifferent" cookies hash access)
+* streaming
+* public
+* not_found
+* exception_page
+* error_handler
+
+In addition, if you add the `bridgetown-routes` gem to your project, the following plugins are automatically configured:
+
+* slash\_path\_empty
+* placeholder\_string\_matchers
+* flash
+* route_csrf
+
