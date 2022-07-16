@@ -257,11 +257,11 @@ const bridgetownPreset = (outputFolder) => ({
 
 // Load the PostCSS config from postcss.config.js or whatever else is a supported location/format
 const postcssrc = require("postcss-load-config")
-const postCssConfig = postcssrc.sync()
 
-module.exports = (outputFolder, esbuildOptions) => {
+module.exports = async (outputFolder, esbuildOptions) => {
   esbuildOptions.plugins = esbuildOptions.plugins || []
   // Add the PostCSS & glob plugins to the top of the plugin stack
+  const postCssConfig = await postcssrc()
   esbuildOptions.plugins.unshift(importPostCssPlugin(postCssConfig, esbuildOptions.postCssPluginConfig || {}))
   if (esbuildOptions.postCssPluginConfig) delete esbuildOptions.postCssPluginConfig
   esbuildOptions.plugins.unshift(importGlobPlugin())
