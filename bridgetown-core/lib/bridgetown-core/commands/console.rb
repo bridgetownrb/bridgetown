@@ -58,6 +58,10 @@ module Bridgetown
       class_option :blank,
                    type: :boolean,
                    desc: "Skip reading content and running generators before opening console"
+      class_option :"server-config",
+                   aliases: "-s",
+                   type: :boolean,
+                   desc: "Load configuration files in config/server"
 
       def console
         require "irb"
@@ -68,7 +72,18 @@ module Bridgetown
                                             "(codename \"#{Bridgetown::CODE_NAME.yellow}\") " \
                                             "console…"
         Bridgetown.logger.info "Environment:", Bridgetown.environment.cyan
-        site = Bridgetown::Site.new(configuration_with_overrides(options))
+
+        config_options = configuration_with_overrides(options)
+        if options[:"server-config"]
+          require "puma"
+          require "bridgetown-core/rack/boot"
+          Bridgetown.load_server_configurations(root: config_options.root_dir)
+          require File.join(config_options.root_dir, "server", "roda_app.rb")
+          Bridgetown.logger.info "Console:", "Configurations in #{"config/server".yellow} loaded"
+        else
+          Bridgetown.load_dotenv(root: config_options.root_dir)
+        end
+        site = Bridgetown::Site.new(config_options)
 
         ConsoleMethods.site_reset(site) unless options[:blank]
 

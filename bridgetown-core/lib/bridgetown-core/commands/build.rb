@@ -37,9 +37,12 @@ module Bridgetown
           self.class.print_startup_message
         end
 
+        # @type [Bridgetown::Configuration]
         config_options = (
           Bridgetown::Current.preloaded_configuration || configuration_with_overrides(options)
         ).merge(options)
+
+        Bridgetown.load_dotenv(root: config_options.root_dir)
 
         config_options["serving"] = false unless config_options["serving"]
         @site = Bridgetown::Site.new(config_options)

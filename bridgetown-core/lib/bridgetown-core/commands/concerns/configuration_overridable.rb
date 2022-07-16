@@ -12,9 +12,8 @@ module Bridgetown
 
       # Create a full Bridgetown configuration with the options passed in as overrides
       #
-      # options - the configuration overrides
-      #
-      # Returns a full Bridgetown configuration
+      # @param options [Hash] the configuration overrides
+      # @return [Bridgetown::Configuration] a full Bridgetown configuration
       def configuration_with_overrides(options)
         return options if options.is_a?(Bridgetown::Configuration)
 

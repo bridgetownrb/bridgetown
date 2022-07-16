@@ -170,6 +170,33 @@ module Bridgetown
       load File.expand_path("bridgetown-core/tasks/bridgetown_tasks.rake", __dir__)
     end
 
+    # Loads ENV configuration via dotenv gem, if available
+    #
+    # @param root [String] root of Bridgetown site
+    def load_dotenv(root:)
+      require "dotenv"
+      dotenv_files = [
+        File.join(root, ".env.#{Bridgetown.env}.local"),
+        (File.join(root, ".env.local") unless Bridgetown.env.test?),
+        File.join(root, ".env.#{Bridgetown.env}"),
+        File.join(root, ".env"),
+      ].compact
+      Dotenv.load(*dotenv_files)
+    rescue LoadError # rubocop:disable Lint/SuppressedException
+    end
+
+    # Loads dotenv then requires all Ruby files in config/server
+    #
+    # @param root [String] root of Bridgetown site
+    def load_server_configurations(root:)
+      Bridgetown.load_dotenv(root: root)
+
+      glob = File.join(root, "config", "server", "**", "*.rb")
+      Dir[glob].sort.each do |f|
+        require f
+      end
+    end
+
     # Determines the correct Bundler environment block method to use and passes
     # the block on to it.
     #

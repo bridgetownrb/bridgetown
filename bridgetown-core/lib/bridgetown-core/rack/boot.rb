@@ -23,10 +23,11 @@ module Bridgetown
     # Roda app is provided the preloaded Bridgetown site configuration. Handle
     # any uncaught Roda errors.
     #
-    # @param [Bridgetown::Rack::Roda] optional, defaults to the `RodaApp` constant
+    # @param roda_app [Bridgetown::Rack::Roda] optional, defaults to the `RodaApp` constant
     def self.boot(roda_app = nil)
       self.loaders_manager =
         Bridgetown::Utils::LoadersManager.new(Bridgetown::Current.preloaded_configuration)
+      Bridgetown.load_server_configurations(root: Bridgetown::Current.preloaded_configuration.root_dir)
       autoload_server_folder
       (roda_app || RodaApp).opts[:bridgetown_preloaded_config] =
         Bridgetown::Current.preloaded_configuration
@@ -45,7 +46,6 @@ module Bridgetown
       root: Bridgetown::Current.preloaded_configuration.root_dir
     )
       server_folder = File.join(root, "server")
-      #      Bridgetown::Current.preloaded_configuration.autoload_paths << server_folder
 
       Bridgetown::Hooks.register_one(
         :loader, :post_setup, reloadable: false
