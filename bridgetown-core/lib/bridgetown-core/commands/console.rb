@@ -61,7 +61,7 @@ module Bridgetown
       class_option :"server-config",
                    aliases: "-s",
                    type: :boolean,
-                   desc: "Load configuration files in config/server"
+                   desc: "Load server configurations"
 
       def console
         require "irb"
@@ -77,11 +77,10 @@ module Bridgetown
         if options[:"server-config"]
           require "puma"
           require "bridgetown-core/rack/boot"
-          Bridgetown.load_server_configurations(root: config_options.root_dir)
+          config_options.run_initializers! context: :server
           require File.join(config_options.root_dir, "server", "roda_app.rb")
-          Bridgetown.logger.info "Console:", "Configurations in #{"config/server".yellow} loaded"
         else
-          Bridgetown.load_dotenv(root: config_options.root_dir)
+          config_options.run_initializers! context: :static
         end
         site = Bridgetown::Site.new(config_options)
 

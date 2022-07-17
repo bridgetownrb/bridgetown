@@ -29,7 +29,7 @@ namespace :frontend do
 end
 
 desc "Prerequisite task which loads site and provides automation"
-task :environment do
+task :environment do # rubocop:todo Metrics/BlockLength
   class HammerActions < Thor # rubocop:disable Lint/ConstantDefinitionInBlock
     include Thor::Actions
     include Bridgetown::Commands::Actions
@@ -44,8 +44,12 @@ task :environment do
 
     private
 
-    def site
-      @site ||= Bridgetown::Site.new(Bridgetown.configuration)
+    def site(context: :static)
+      @site ||= begin
+        config = Bridgetown.configuration
+        config.run_initializers! context: context
+        Bridgetown::Site.new(config)
+      end
     end
   end
 
@@ -54,8 +58,8 @@ task :environment do
     @hammer.instance_exec(*args, &block)
   end
 
-  define_singleton_method :site do
+  define_singleton_method :site do |**kwargs|
     @hammer ||= HammerActions.new
-    @hammer.send(:site)
+    @hammer.send(:site, **kwargs)
   end
 end

@@ -7,6 +7,53 @@ module Bridgetown
   #   bugs just making minor changes, and all the indirection is
   #   quite hard to decipher. -JW
   class Configuration < HashWithDotAccess::Hash
+    Initializer = Struct.new(:name, :block, :completed, keyword_init: true)
+
+    class ConfigurationDSL < Bridgetown::Utils::RubyFrontMatter
+      def init(name, require_gem: true, &block)
+        require(name.to_s) if require_gem
+
+        initializer = @scope.initializers[name]
+        if initializer.nil?
+          Bridgetown.logger.warn("Initializing:",
+                                 "Oops, the `#{name}' initializer could not be found")
+          return
+        end
+
+        return unless initializer.completed == false
+
+        params = if block
+                   set(:"#{name}_initializer", &block)
+                 else
+                   {}
+                 end
+
+        @scope.initializers[name].block.(@scope, **params)
+        initializer.completed = true
+      end
+
+      def only(context, &block)
+        return unless @context == context
+
+        instance_exec(&block)
+      end
+
+      def set(key, value = nil, &block)
+        # Handle nested data within a block
+        if block
+          value = self.class.new(scope: @scope).tap do |fm|
+            fm.instance_exec(&block)
+          end.to_h
+        end
+
+        @data[key] = if @data[key].is_a?(Hash) && value.is_a?(Hash)
+                       Bridgetown::Utils.deep_merge_hashes(@data[key], value)
+                     else
+                       value
+                     end
+      end
+    end
+
     # Default options. Overridden by values in bridgetown.config.yml.
     # Strings rather than symbols are used for compatibility with YAML.
     DEFAULTS = {
@@ -94,6 +141,9 @@ module Bridgetown
     CONFIG_FILE_PREFIXES = %w(bridgetown.config _config).freeze
     CONFIG_FILE_EXTS = %w(yml yaml toml).freeze
 
+    # @return [Hash<Symbol, Initializer>]
+    attr_accessor :initializers
+
     class << self
       # Static: Produce a Configuration ready for use in a Site.
       # It takes the input, fills in the defaults where values do not exist.
@@ -110,6 +160,27 @@ module Bridgetown
           .add_default_excludes
           .check_include_exclude
       end
+    end
+
+    def run_initializers!(context:)
+      initializers_file = File.join(root_dir, "config", "initializers.rb")
+      return unless File.exist?(initializers_file)
+
+      Bridgetown::Current.preloaded_configuration = self # it most likely is already
+      require initializers_file
+
+      return unless initializers # no initializers have been set up
+
+      init_init = initializers[:init]
+      return unless init_init && !init_init.completed
+
+      Bridgetown.initializer :dotenv do
+        Bridgetown.load_dotenv root: root_dir
+      end
+
+      dsl = ConfigurationDSL.new(scope: self, data: self)
+      dsl.instance_variable_set(:@context, context)
+      dsl.instance_exec(&init_init.block)
     end
 
     def get_config_value_with_override(config_key, override)

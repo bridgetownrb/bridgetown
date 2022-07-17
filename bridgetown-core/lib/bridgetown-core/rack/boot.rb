@@ -27,7 +27,7 @@ module Bridgetown
     def self.boot(roda_app = nil)
       self.loaders_manager =
         Bridgetown::Utils::LoadersManager.new(Bridgetown::Current.preloaded_configuration)
-      Bridgetown.load_server_configurations(root: Bridgetown::Current.preloaded_configuration.root_dir)
+      Bridgetown::Current.preloaded_configuration.run_initializers! context: :server
       autoload_server_folder
       (roda_app || RodaApp).opts[:bridgetown_preloaded_config] =
         Bridgetown::Current.preloaded_configuration

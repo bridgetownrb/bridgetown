@@ -9,9 +9,8 @@ module Bridgetown
     end
 
     class RubyFrontMatter
-      def initialize(scope: nil)
-        @data = {}
-        @scope = scope
+      def initialize(scope: nil, data: {})
+        @data, @scope = data, scope
       end
 
       def method_missing(key, *value, &block) # rubocop:disable Metrics/CyclomaticComplexity, Style/MissingRespondToMissing
