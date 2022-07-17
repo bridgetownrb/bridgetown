@@ -12,7 +12,7 @@ your own tags using [plugins](/docs/plugins/tags).
 
 ## Component rendering
 
-You can use the `render` and `rendercontent` tags to embed content and template partials into your main templates. [Read the documentation here](/docs/components).
+You can use the `render` and `rendercontent` tags to embed content and template partials into your main templates. [Read the documentation here](/docs/components/liquid).
 
 ## Find tag
 
