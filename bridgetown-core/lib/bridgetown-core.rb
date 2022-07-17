@@ -165,9 +165,9 @@ module Bridgetown
 
       Bridgetown::Current.preloaded_configuration.initializers ||= {}
 
-      Bridgetown::Current.preloaded_configuration.initializers[name] =
+      Bridgetown::Current.preloaded_configuration.initializers[name.to_sym] =
         Bridgetown::Configuration::Initializer.new(
-          name: name,
+          name: name.to_sym,
           block: block,
           completed: false
         )

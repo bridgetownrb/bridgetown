@@ -7,13 +7,26 @@ module Bridgetown
   #   bugs just making minor changes, and all the indirection is
   #   quite hard to decipher. -JW
   class Configuration < HashWithDotAccess::Hash
-    Initializer = Struct.new(:name, :block, :completed, keyword_init: true)
+    Initializer = Struct.new(:name, :block, :completed, keyword_init: true) do
+      def to_s
+        "#{name} (Initializer)"
+      end
+    end
 
     class ConfigurationDSL < Bridgetown::Utils::RubyFrontMatter
-      def init(name, require_gem: true, &block)
-        require(name.to_s) if require_gem
+      def self.bundler_specs
+        @bundler_specs ||= Bundler.load.requested_specs
+      end
 
-        initializer = @scope.initializers[name]
+      def init(name, require_gem: true, **kwargs, &block) # rubocop:todo Metrics/AbcSize
+        if require_gem
+          require(name.to_s) &&
+            Bridgetown::PluginManager.install_yarn_dependencies(
+              self.class.bundler_specs, name
+            )
+        end
+
+        initializer = @scope.initializers[name.to_sym]
         if initializer.nil?
           Bridgetown.logger.warn("Initializing:",
                                  "Oops, the `#{name}' initializer could not be found")
@@ -22,13 +35,12 @@ module Bridgetown
 
         return unless initializer.completed == false
 
-        params = if block
-                   set(:"#{name}_initializer", &block)
-                 else
-                   {}
-                 end
+        set :init_params do
+          block ? set(name, &block) : set(name, kwargs)
+        end
 
-        @scope.initializers[name].block.(@scope, **params)
+        Bridgetown.logger.debug "Initializing:", name
+        @scope.initializers[name.to_sym].block.(@scope, **@scope.init_params[name].symbolize_keys)
         initializer.completed = true
       end
 
@@ -178,6 +190,8 @@ module Bridgetown
         Bridgetown.load_dotenv root: root_dir
       end
 
+      Bridgetown.logger.debug "Initializing:", "Running initializers in `#{initializers_file}'..."
+      self.init_params = {}
       dsl = ConfigurationDSL.new(scope: self, data: self)
       dsl.instance_variable_set(:@context, context)
       dsl.instance_exec(&init_init.block)

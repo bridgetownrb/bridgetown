@@ -17,22 +17,33 @@ module Bridgetown
              type: :boolean,
              desc: "Print the source path of each plugin"
       def list
-        site = Bridgetown::Site.new(configuration_with_overrides(options))
+        config_options = configuration_with_overrides(options)
+        config_options.run_initializers! context: :static
+        site = Bridgetown::Site.new(config_options)
         site.reset
         Bridgetown::Hooks.trigger :site, :pre_read, site
 
+        plugins_list = config_options.initializers.values.sort_by(&:name)
+
         pm = site.plugin_manager
 
-        plugins_list = pm.class.registered_plugins.reject do |plugin|
+        plugins_list += pm.class.registered_plugins.reject do |plugin|
           plugin.to_s.end_with? "site_builder.rb"
         end
 
         Bridgetown.logger.info("Registered Plugins:", plugins_list.length.to_s.yellow.bold)
 
         plugins_list.each do |plugin|
-          unless plugin.to_s.end_with? "site_builder.rb"
-            Bridgetown.logger.info("", plugin.to_s.sub(site.in_root_dir("/"), ""))
-          end
+          plugin_desc = plugin.to_s
+          next if plugin_desc.ends_with?("site_builder.rb") || plugin_desc == "init (Initializer)"
+
+          Bridgetown.logger.info("", plugin_desc.sub(site.in_root_dir("/"), ""))
+          next unless plugin.is_a?(Bridgetown::Configuration::Initializer)
+
+          Bridgetown.logger.debug(
+            "", "PATH: " + plugin.block.source_location[0]
+          )
+          Bridgetown.logger.debug("")
         end
 
         Bridgetown.logger.info("Source Manifests:", "----") unless pm.class.source_manifests.empty?
@@ -56,12 +67,10 @@ module Bridgetown
             last_name = name_components.pop
             name_components.push last_name.magenta
             Bridgetown.logger.info("", name_components.join("::"))
-            next unless options[:verbose]
-
-            Bridgetown.logger.info(
+            Bridgetown.logger.debug(
               "", "PATH: " + builder_path_for(builder)
             )
-            Bridgetown.logger.info("")
+            Bridgetown.logger.debug("")
           end
           Bridgetown.logger.info("", "----")
         end
@@ -74,12 +83,10 @@ module Bridgetown
           last_name = name_components.pop
           name_components.push last_name.magenta
           Bridgetown.logger.info("", name_components.join("::"))
-          next unless options[:verbose]
-
-          Bridgetown.logger.info(
+          Bridgetown.logger.debug(
             "", "PATH: " + converter_path_for(converter)
           )
-          Bridgetown.logger.info("")
+          Bridgetown.logger.debug("")
         end
 
         Bridgetown.logger.info("", "----")
@@ -92,12 +99,10 @@ module Bridgetown
           last_name = name_components.pop
           name_components.push last_name.magenta
           Bridgetown.logger.info("", name_components.join("::"))
-          next unless options[:verbose]
-
-          Bridgetown.logger.info(
+          Bridgetown.logger.debug(
             "", "PATH: " + generator_path_for(generator)
           )
-          Bridgetown.logger.info("")
+          Bridgetown.logger.debug("")
         end
       end
 

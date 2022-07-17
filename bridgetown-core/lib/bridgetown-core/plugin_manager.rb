@@ -41,7 +41,6 @@ module Bridgetown
     end
 
     def self.require_from_bundler(skip_yarn: false) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
-      # NOTE: investigate why this ENV var is really necessary
       if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] && File.file?("Gemfile")
         require "bundler"
 
