@@ -48,7 +48,6 @@ module Bridgetown
       "content_engine"             => "resource",
       "markdown"                   => "kramdown",
       "highlighter"                => "rouge",
-      "excerpt_separator"          => "\n\n",
 
       # Serving
       "port"                       => "4000",
