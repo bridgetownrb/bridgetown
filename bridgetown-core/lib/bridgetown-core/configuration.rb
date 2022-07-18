@@ -154,6 +154,8 @@ module Bridgetown
         raise ArgumentError,
               "No parser for '#{filename}' is available. Use a .y(a)ml or .toml file instead."
       end
+    rescue Psych::DisallowedClass => e
+      raise "Unable to parse `#{File.basename(filename)}'. #{e.message}"
     end
 
     # Public: Generate list of configuration files from the override
