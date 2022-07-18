@@ -303,6 +303,14 @@ You can pass additional keyword arguments to `link_to` which will be translated 
 <!-- output: -->
 <a href="/events/livestream" class="event" data-expire="2020-11-08">Join our livestream!</a>
 ```
+Passing a hash as the value of a keyword argument will result in individual attributes in the generated HTML. With the keyword argument key being added to the keys of the incoming hash:
+
+```eruby
+<%%= link_to "Join our livestream!", "_events/livestream.md", data: { controller: "testable", action: "testable#test" } %>
+
+<!-- output: -->
+<a href="/events/livestream" data-controller="testable" data-action="testable#test">Join our livestream!</a>
+```
 
 You can also pass relative or aboslute URLs to `link_to` and they'll just pass-through to the anchor tag without change:
 
