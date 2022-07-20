@@ -187,6 +187,7 @@ module Bridgetown
     def load_tasks
       require "bridgetown-core/commands/base"
       Bridgetown::PluginManager.require_from_bundler(skip_yarn: true)
+      Bridgetown::Current.preloaded_configuration ||= Bridgetown.configuration
       load File.expand_path("bridgetown-core/tasks/bridgetown_tasks.rake", __dir__)
     end
 
@@ -202,18 +203,6 @@ module Bridgetown
       ].compact
       Dotenv.load(*dotenv_files)
     end
-
-    # Loads dotenv then requires all Ruby files in config/server
-    #
-    # @param root [String] root of Bridgetown site
-    # def load_server_configurations(root:)
-    #   Bridgetown.load_dotenv(root: root)
-
-    #   glob = File.join(root, "config", "server", "**", "*.rb")
-    #   Dir[glob].sort.each do |f|
-    #     require f
-    #   end
-    # end
 
     # Determines the correct Bundler environment block method to use and passes
     # the block on to it.

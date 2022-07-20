@@ -18,7 +18,7 @@ module Bridgetown
         @bundler_specs ||= Bundler.load.requested_specs
       end
 
-      def init(name, require_gem: true, **kwargs, &block) # rubocop:todo Metrics/AbcSize
+      def init(name, require_gem: true, require_initializer: true, **kwargs, &block) # rubocop:todo Metrics/AbcSize
         if require_gem
           require(name.to_s) &&
             Bridgetown::PluginManager.install_yarn_dependencies(
@@ -26,10 +26,15 @@ module Bridgetown
             )
         end
 
+        if require_initializer
+          init_file_name = File.join(@scope.root_dir, "config", "#{name}.rb")
+          require(init_file_name) if File.exist?(init_file_name)
+        end
+
         initializer = @scope.initializers[name.to_sym]
         if initializer.nil?
-          Bridgetown.logger.warn("Initializing:",
-                                 "Oops, the `#{name}' initializer could not be found")
+          Bridgetown.logger.debug("Initializing:",
+                                  "The `#{name}' initializer could not be found")
           return
         end
 
@@ -44,8 +49,8 @@ module Bridgetown
         initializer.completed = true
       end
 
-      def only(context, &block)
-        return unless @context == context
+      def only(*context, &block)
+        return unless context.any? { _1 == @context }
 
         instance_exec(&block)
       end
@@ -195,6 +200,8 @@ module Bridgetown
       dsl = ConfigurationDSL.new(scope: self, data: self)
       dsl.instance_variable_set(:@context, context)
       dsl.instance_exec(&init_init.block)
+
+      self
     end
 
     def get_config_value_with_override(config_key, override)

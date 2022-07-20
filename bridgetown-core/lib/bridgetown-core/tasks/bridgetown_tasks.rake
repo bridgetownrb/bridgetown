@@ -11,9 +11,8 @@ namespace :frontend do
   task :watcher, :sidecar do |_task, args|
     # sidecar is when the task is running alongside the start command
     sidecar = args[:sidecar] == true
-    Bridgetown::Utils::Aux.group do
-      run_process "Frontend", :yellow, "bundle exec bridgetown frontend:dev"
-    end
+    Bridgetown::Utils::Aux.run_process "Frontend", :yellow, "bundle exec bridgetown frontend:dev"
+
     if sidecar
       # give FE bundler time to boot before returning control to the start command
       sleep Bridgetown::Utils.frontend_bundler_type == :esbuild ? 3 : 4
@@ -44,9 +43,9 @@ task :environment do # rubocop:todo Metrics/BlockLength
 
     private
 
-    def site(context: :static)
+    def site(context: :rake)
       @site ||= begin
-        config = Bridgetown.configuration
+        config = Bridgetown::Current.preloaded_configuration
         config.run_initializers! context: context
         Bridgetown::Site.new(config)
       end
@@ -58,8 +57,10 @@ task :environment do # rubocop:todo Metrics/BlockLength
     @hammer.instance_exec(*args, &block)
   end
 
-  define_singleton_method :site do |**kwargs|
-    @hammer ||= HammerActions.new
-    @hammer.send(:site, **kwargs)
+  %i(site run_initializers).each do |meth|
+    define_singleton_method meth do |**kwargs|
+      @hammer ||= HammerActions.new
+      @hammer.send(:site, **kwargs)
+    end
   end
 end

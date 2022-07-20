@@ -80,7 +80,7 @@ task :linthtml do # this is custom for the website project
 end
 ```
 
-As is shown in comments for the default Rakefile, you can add your own [automations](/docs/automations) directly inside of Rake tasks. In the provided example, you can see that an instantiated `site` object is provided, and within an `automation` block you can call Thor actions just like in standard automation scripts:
+As is shown in comments for the default Rakefile, you can add your own [automations](/docs/automations) directly inside of Rake tasks. In the provided example, you can see that a `site` object is available, and within an `automation` block you can call Thor actions just like in standard automation scripts:
 
 ```ruby
 task :my_task => :environment do
@@ -92,6 +92,10 @@ end
 ```
 
 Running `bin/bridgetown my_task` would result in printing out the root path of the site as well as executing the `say_status` Thor action.
+
+{%@ Note type: :warning %}
+  The `site` variable is lazy-loaded, aka the site doesn't initialize before the `site` variable is accessed. You can add `run_initializers` to the top of your task block to ensure all site configurations, hooks, etc. have been executed. You can also pass a different initializer context (other than `:rake`) by providing the context as an argument. For example: `run_initializers context: :server`
+{% end %}
 
 ## Console Commands
 

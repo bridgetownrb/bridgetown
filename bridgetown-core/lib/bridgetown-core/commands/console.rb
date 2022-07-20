@@ -80,7 +80,7 @@ module Bridgetown
           config_options.run_initializers! context: :server
           require File.join(config_options.root_dir, "server", "roda_app.rb")
         else
-          config_options.run_initializers! context: :static
+          config_options.run_initializers! context: :console
         end
         site = Bridgetown::Site.new(config_options)
 
