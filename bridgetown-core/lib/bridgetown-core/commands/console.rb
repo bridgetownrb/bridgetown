@@ -62,11 +62,17 @@ module Bridgetown
                    aliases: "-s",
                    type: :boolean,
                    desc: "Load server configurations"
+      class_option :verbose,
+                   aliases: "-V",
+                   type: :boolean,
+                   desc: "Print verbose output."
 
       def console
         require "irb"
         require "irb/ext/save-history"
         require "amazing_print" unless options[:"bypass-ap"]
+
+        Bridgetown.logger.adjust_verbosity(options)
 
         Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta} " \
                                             "(codename \"#{Bridgetown::CODE_NAME.yellow}\") " \

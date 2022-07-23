@@ -134,6 +134,12 @@ module Bridgetown
     end
     alias_method :env, :environment
 
+    def begin!
+      ENV["RACK_ENV"] = ENV["BRIDGETOWN_ENV"]
+
+      Bridgetown::PluginManager.setup_bundler
+    end
+
     # Generate a Bridgetown configuration hash by merging the default
     #   options with anything in bridgetown.config.yml, and adding the given
     #   options on top.
@@ -186,7 +192,7 @@ module Bridgetown
 
     def load_tasks
       require "bridgetown-core/commands/base"
-      Bridgetown::PluginManager.require_from_bundler(skip_yarn: true)
+      Bridgetown::PluginManager.setup_bundler(skip_yarn: true)
       Bridgetown::Current.preloaded_configuration ||= Bridgetown.configuration
       load File.expand_path("bridgetown-core/tasks/bridgetown_tasks.rake", __dir__)
     end

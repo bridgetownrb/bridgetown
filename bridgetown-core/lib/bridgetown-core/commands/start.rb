@@ -77,14 +77,6 @@ module Bridgetown
           end
 
         begin
-          unless Bridgetown.env.production? || options[:skip_frontend]
-            require "rake"
-            Rake.with_application do |rake|
-              rake.load_rakefile
-              rake["frontend:watcher"].invoke(true)
-            end
-          end
-
           Signal.trap("TERM") do
             Process.kill "SIGINT", puma_pid
             sleep 0.5 # let it breathe

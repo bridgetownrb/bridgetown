@@ -14,17 +14,8 @@ module Bridgetown
     end
 
     class ConfigurationDSL < Bridgetown::Utils::RubyFrontMatter
-      def self.bundler_specs
-        @bundler_specs ||= Bundler.load.requested_specs
-      end
-
-      def init(name, require_gem: true, require_initializer: true, **kwargs, &block) # rubocop:todo Metrics/AbcSize
-        if require_gem
-          require(name.to_s) &&
-            Bridgetown::PluginManager.install_yarn_dependencies(
-              self.class.bundler_specs, name
-            )
-        end
+      def init(name, require_gem: true, require_initializer: true, **kwargs, &block) # rubocop:todo Metrics
+        Bridgetown::PluginManager.require_gem(name) if require_gem
 
         if require_initializer
           init_file_name = File.join(@scope.root_dir, "config", "#{name}.rb")
@@ -181,7 +172,7 @@ module Bridgetown
 
     def run_initializers!(context:)
       initializers_file = File.join(root_dir, "config", "initializers.rb")
-      return unless File.exist?(initializers_file)
+      return unless File.file?(initializers_file)
 
       Bridgetown::Current.preloaded_configuration = self # it most likely is already
       require initializers_file
@@ -191,11 +182,10 @@ module Bridgetown
       init_init = initializers[:init]
       return unless init_init && !init_init.completed
 
-      Bridgetown.initializer :dotenv do
-        Bridgetown.load_dotenv root: root_dir
-      end
+      require_relative "initializers"
 
-      Bridgetown.logger.debug "Initializing:", "Running initializers in `#{initializers_file}'..."
+      Bridgetown.logger.debug "Initializing:", "Running initializers with `#{context}' context in:"
+      Bridgetown.logger.debug "", initializers_file
       self.init_params = {}
       dsl = ConfigurationDSL.new(scope: self, data: self)
       dsl.instance_variable_set(:@context, context)

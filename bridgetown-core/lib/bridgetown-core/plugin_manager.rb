@@ -2,7 +2,7 @@
 
 module Bridgetown
   class PluginManager
-    PLUGINS_GROUP = :bridgetown_plugins
+    LEGACY_PLUGINS_GROUP = :bridgetown_plugins
     YARN_DEPENDENCY_REGEXP = %r!(.+)@([^@]*)$!.freeze
 
     attr_reader :site, :loaders_manager
@@ -28,54 +28,89 @@ module Bridgetown
 
     class << self
       attr_reader :source_manifests, :registered_plugins
+
+      def bundler_specs
+        @bundler_specs ||= Bundler.load.requested_specs
+      end
     end
 
-    # Create an instance of this class.
-    #
-    # site - the instance of Bridgetown::Site we're concerned with
-    #
-    # Returns nothing
-    def initialize(site)
-      @site = site
-      @loaders_manager = Bridgetown::Utils::LoadersManager.new(site.config)
-    end
-
-    def self.require_from_bundler(skip_yarn: false) # rubocop:todo Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def self.setup_bundler(skip_yarn: false)
       if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] && File.file?("Gemfile")
         require "bundler"
 
-        required_gems = Bundler.require(PLUGINS_GROUP).select do |dep|
-          (dep.groups & [PLUGINS_GROUP]).any? && dep.should_include?
-        end
+        load_determined_bundler_environment(skip_yarn: skip_yarn)
 
-        install_yarn_dependencies(required_gems) unless skip_yarn
-
-        required_gems.each do |installed_gem|
-          add_registered_plugin installed_gem
-        end
-
-        Bridgetown.logger.debug("PluginManager:",
-                                "Required #{required_gems.map(&:name).join(", ")}")
         ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] = "true"
-
         true
       else
         false
       end
     end
+    class << self
+      alias_method :require_from_bundler, :setup_bundler
+    end
 
-    # Iterates through loaded plugins and finds yard-add gemspec metadata.
+    def self.load_determined_bundler_environment(skip_yarn: false)
+      boot_file = File.join("config", "boot.rb")
+
+      if File.file?(boot_file)
+        # We'll let config/boot.rb take care of Bundler setup
+        require File.expand_path(boot_file)
+      elsif File.file?(File.join("config", "initializers.rb"))
+        # We'll just make sure the default and environmental gems are available
+        Bundler.setup(:default, Bridgetown.env)
+      else
+        # Only setup and require :bridgetown_plugins
+        legacy_yarn_and_register(legacy_require, skip_yarn: skip_yarn)
+      end
+    end
+
+    def self.require_gem(name)
+      require(name.to_s)
+      plugins = Bridgetown::PluginManager.install_yarn_dependencies(name: name)
+
+      plugin_to_register = if plugins.length == 1
+                             plugins.first
+                           else
+                             bundler_specs.find do |loaded_gem|
+                               loaded_gem.to_spec&.name == name.to_s
+                             end
+                           end
+      add_registered_plugin plugin_to_register
+
+      Bridgetown.logger.debug("PluginManager:",
+                              "Registered #{plugin_to_register.name}")
+    end
+
+    def self.legacy_require
+      Bundler.require(LEGACY_PLUGINS_GROUP).select do |dep|
+        (dep.groups & [LEGACY_PLUGINS_GROUP]).any? && dep.should_include?
+      end
+    end
+
+    def self.legacy_yarn_and_register(required_gems, skip_yarn: false)
+      install_yarn_dependencies(required_gems) unless skip_yarn
+
+      required_gems.each do |installed_gem|
+        add_registered_plugin installed_gem
+      end
+
+      Bridgetown.logger.debug("PluginManager:",
+                              "Required #{required_gems.map(&:name).join(", ")}")
+    end
+
+    # Iterates through loaded gems and finds yard-add gemspec metadata.
     # If that exact package hasn't been installed, execute yarn add
     #
-    # Returns nothing.
-    def self.install_yarn_dependencies(required_gems, single_gemname = nil)
-      return unless File.exist?("package.json")
+    # @return [Bundler::SpecSet]
+    def self.install_yarn_dependencies(required_gems = bundler_specs, name: nil)
+      return required_gems unless File.exist?("package.json")
 
       package_json = JSON.parse(File.read("package.json"))
 
-      gems_to_search = if single_gemname
+      gems_to_search = if name
                          required_gems.select do |loaded_gem|
-                           loaded_gem.to_spec&.name == single_gemname.to_s
+                           loaded_gem.to_spec&.name == name.to_s
                          end
                        else
                          required_gems
@@ -89,6 +124,8 @@ module Bridgetown
         cmd = "yarn add #{yarn_dependency.join("@")}"
         system cmd
       end
+
+      gems_to_search
     end
 
     def self.find_yarn_dependency(loaded_gem)
@@ -114,9 +151,17 @@ module Bridgetown
       current_version.nil? || (current_version != dep_version && !current_version.include?("/"))
     end
 
-    # Require all .rb files
+    # Provides a plugin manager for the site
     #
-    # Returns nothing.
+    # @param site [Bridgetown::Site]
+    def initialize(site)
+      @site = site
+      @loaders_manager = Bridgetown::Utils::LoadersManager.new(site.config)
+    end
+
+    # Finds and registers plugins in the local folder(s)
+    #
+    # @return [void]
     def require_plugin_files
       plugins_path.each do |plugin_search_path|
         plugin_files = Utils.safe_glob(plugin_search_path, File.join("**", "*.rb"))
@@ -138,7 +183,10 @@ module Bridgetown
       end
     end
 
-    # Reload .rb plugin files via the watcher
+    # Reloads .rb plugin files via the watcher
+    # DEPRECATED (not necessary with Zeitwerk)
+    #
+    # @return [void]
     def reload_plugin_files
       return if site.config[:plugins_use_zeitwerk]
 
@@ -152,9 +200,9 @@ module Bridgetown
       end
     end
 
-    # Public: Setup the plugin search path
+    # Expands the path(s) of the plugins_dir config value
     #
-    # Returns an Array of plugin search paths
+    # @return [Array<String>] one or more plugin search paths
     def plugins_path
       if site.config["plugins_dir"].eql? Bridgetown::Configuration::DEFAULTS["plugins_dir"]
         [site.in_root_dir(site.config["plugins_dir"])]

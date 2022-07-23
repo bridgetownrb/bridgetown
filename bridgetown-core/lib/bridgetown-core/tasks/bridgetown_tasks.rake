@@ -27,6 +27,15 @@ namespace :frontend do
   end
 end
 
+namespace :roda do
+  desc "Prints out the Roda routes file"
+  task routes: :environment do
+    run_initializers context: :server
+
+    Bridgetown::Routes.print_roda_routes
+  end
+end
+
 desc "Prerequisite task which loads site and provides automation"
 task :environment do # rubocop:todo Metrics/BlockLength
   class HammerActions < Thor # rubocop:disable Lint/ConstantDefinitionInBlock

@@ -64,10 +64,8 @@ module Bridgetown
         say_status :add_yarn, gemname
 
         Bundler.reset!
-        available_gems = Bundler.setup Bridgetown::PluginManager::PLUGINS_GROUP
-        Bridgetown::PluginManager.install_yarn_dependencies(
-          available_gems.requested_specs, gemname
-        )
+        Bridgetown::PluginManager.load_determined_bundler_environment
+        Bridgetown::PluginManager.install_yarn_dependencies(name: gemname)
       rescue SystemExit
         say_status :add_yarn, "Package not added due to yarn error", :red
       end
