@@ -14,7 +14,12 @@ module Bridgetown
     end
 
     class ConfigurationDSL < Bridgetown::Utils::RubyFrontMatter
+      attr_reader :context
+
       def init(name, require_gem: true, require_initializer: true, **kwargs, &block) # rubocop:todo Metrics
+        return if @scope.initializers.key?(name.to_sym) &&
+          @scope.initializers[name.to_sym].completed
+
         Bridgetown::PluginManager.require_gem(name) if require_gem
 
         if require_initializer
@@ -36,7 +41,7 @@ module Bridgetown
         end
 
         Bridgetown.logger.debug "Initializing:", name
-        @scope.initializers[name.to_sym].block.(@scope, **@scope.init_params[name].symbolize_keys)
+        @scope.initializers[name.to_sym].block.(self, **@scope.init_params[name].symbolize_keys)
         initializer.completed = true
       end
 
@@ -44,6 +49,12 @@ module Bridgetown
         return unless context.any? { _1 == @context }
 
         instance_exec(&block)
+      end
+
+      def method_missing(key, *value, &block) # rubocop:disable Style/MissingRespondToMissing
+        return get(key) if value.length.zero? && block.nil?
+
+        set(key, value[0], &block)
       end
 
       def set(key, value = nil, &block)
@@ -168,6 +179,30 @@ module Bridgetown
           .add_default_excludes
           .check_include_exclude
       end
+
+      # rubocop:disable Bridgetown/NoPutsAllowed
+      def print_roda_routes
+        # TODO: this needs to be fully documented
+        routes = begin
+          JSON.parse(File.read(File.join(Dir.pwd, ".routes.json")))
+        rescue StandardError
+          []
+        end
+        puts
+        puts "Routes:"
+        puts "======="
+        if routes.blank?
+          puts "No routes found. Have you commented all of your routes?"
+          puts "Documentation: https://github.com/jeremyevans/roda-route_list#basic-usage-"
+        end
+
+        routes.each do |route|
+          puts [route["methods"]&.join("|") || "GET", route["path"],
+                route["file"],].compact.join(" ")
+        end
+        puts
+      end
+      # rubocop:enable Bridgetown/NoPutsAllowed
     end
 
     def run_initializers!(context:)
@@ -182,7 +217,7 @@ module Bridgetown
       init_init = initializers[:init]
       return unless init_init && !init_init.completed
 
-      require_relative "initializers"
+      require_relative "utils/initializers"
 
       Bridgetown.logger.debug "Initializing:", "Running initializers with `#{context}' context in:"
       Bridgetown.logger.debug "", initializers_file

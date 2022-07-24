@@ -57,7 +57,9 @@ module Bridgetown
         # We'll let config/boot.rb take care of Bundler setup
         require File.expand_path(boot_file)
       elsif File.file?(File.join("config", "initializers.rb"))
-        # We'll just make sure the default and environmental gems are available
+        # We'll just make sure the default and environmental gems are available.
+        # Note: the default Bundler config will set up all gem groups,
+        #   see: https://bundler.io/guides/groups.html
         Bundler.setup(:default, Bridgetown.env)
       else
         # Only setup and require :bridgetown_plugins

@@ -13,29 +13,6 @@ module Bridgetown
     autoload :CodeBlocks, "bridgetown-routes/code_blocks"
     autoload :Manifest, "bridgetown-routes/manifest"
     autoload :RodaRouter, "bridgetown-routes/roda_router"
-
-    # rubocop:disable Bridgetown/NoPutsAllowed
-    def self.print_roda_routes
-      # TODO: this needs to be fully documented, currently no info on how to generate .routes.json
-      routes = begin
-        JSON.parse(File.read("#{Dir.pwd}/.routes.json"))
-      rescue StandardError
-        []
-      end
-      puts
-      puts "Routes:"
-      puts "======="
-      if routes.blank?
-        puts "No routes found. Have you commented all of your routes?"
-        puts "Documentation: https://github.com/jeremyevans/roda-route_list#basic-usage-"
-      end
-
-      routes.each do |route|
-        puts [route["methods"]&.join("|") || "GET", route["path"], route["file"]].compact.join(" ")
-      end
-      puts
-    end
-    # rubocop:enable Bridgetown/NoPutsAllowed
   end
 end
 
