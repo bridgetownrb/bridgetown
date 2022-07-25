@@ -51,10 +51,33 @@ module Bridgetown
         instance_exec(&block)
       end
 
+      def except(*context, &block)
+        return if context.any? { _1 == @context }
+
+        instance_exec(&block)
+      end
+
+      def hook(
+        owner,
+        event,
+        priority: Bridgetown::Hooks::DEFAULT_PRIORITY,
+        &block
+      )
+        Bridgetown::Hooks.register_one(owner, event, priority: priority, &block)
+      end
+
       def method_missing(key, *value, &block) # rubocop:disable Style/MissingRespondToMissing
         return get(key) if value.length.zero? && block.nil?
 
         set(key, value[0], &block)
+      end
+
+      def get(key)
+        unless @data.key?(key)
+          Bridgetown.logger.debug("Initializing:", "Uh oh, missing key `#{key}' in configuration")
+        end
+
+        super
       end
 
       def set(key, value = nil, &block)
