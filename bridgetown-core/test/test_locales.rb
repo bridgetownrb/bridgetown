@@ -165,4 +165,40 @@ class TestLocales < BridgetownUnitTest
       end
     end
   end
+
+  context "fallback chain" do
+    setup do
+      reset_i18n_config
+      @site = resources_site
+      @site.process
+    end
+
+    should "include English for base language" do
+      assert_equal %i[de en], I18n.fallbacks[:de]
+      assert_equal %i[fr en], I18n.fallbacks[:fr]
+    end
+
+    should "include English and base language for regional locale" do
+      assert_equal %i[de-NL de en], I18n.fallbacks[:"de-NL"]
+      assert_equal %i[fr-CA fr en], I18n.fallbacks[:"fr-CA"]
+    end
+  end
+
+  context "fallback chain with different default locale" do
+    setup do
+      reset_i18n_config
+      @site = resources_site("default_locale" => :es, "available_locales" => %w[en es])
+      @site.process
+    end
+
+    should "include both the default language and English in the fallback chain" do
+      assert_equal %i[de es en], I18n.fallbacks[:de]
+      assert_equal %i[es en], I18n.fallbacks[:es]
+    end
+
+    should "include base language, default, and English for regional language" do
+      assert_equal %i[de-NL de es en], I18n.fallbacks[:"de-NL"]
+      assert_equal %i[es-MX es en], I18n.fallbacks[:"es-MX"]
+    end
+  end
 end
