@@ -116,7 +116,10 @@ module Bridgetown
       alias_method :read, :read! # TODO: eventually use the bang version only
 
       def transform!
-        transformer.process! unless collection.data?
+        unless collection.data?
+          transformer.process!
+          destination&.memoize_relative_url!
+        end
 
         self
       end

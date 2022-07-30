@@ -24,7 +24,15 @@ module Bridgetown
 
       def relative_url
         @processor ||= PermalinkProcessor.new(resource)
-        @processor.transform
+        @relative_url || @processor.transform
+      end
+
+      def memoize_relative_url!
+        @relative_url = relative_url
+      end
+
+      def reset_relative_url!
+        @relative_url = nil
       end
 
       def final_ext

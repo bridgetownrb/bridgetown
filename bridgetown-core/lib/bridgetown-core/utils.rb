@@ -492,7 +492,7 @@ module Bridgetown
     end
 
     def chomp_locale_suffix!(path, locale)
-      return path unless locale
+      return unless locale
 
       if path.ends_with?(".#{locale}")
         path.chomp!(".#{locale}")

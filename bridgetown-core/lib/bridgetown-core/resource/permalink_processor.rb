@@ -120,6 +120,17 @@ module Bridgetown
       end
 
       # @param resource [Bridgetown::Resource::Base]
+      register_placeholder :localized_path, ->(resource) do
+        placeholder_processors[:path].(resource).then do |path|
+          {
+            raw_value: path[:raw_value].split(File::SEPARATOR).map do |segment|
+              I18n.t("paths.#{segment}", default: segment)
+            end.join(File::SEPARATOR),
+          }
+        end
+      end
+
+      # @param resource [Bridgetown::Resource::Base]
       register_placeholder :name, ->(resource) do
         resource.basename_without_ext
       end
@@ -127,6 +138,13 @@ module Bridgetown
       # @param resource [Bridgetown::Resource::Base]
       register_placeholder :slug, ->(resource) do
         resource.data.slug || placeholder_processors[:name].(resource)
+      end
+
+      # @param resource [Bridgetown::Resource::Base]
+      register_placeholder :localized_slug, ->(resource) do
+        placeholder_processors[:slug].(resource).then do |slug|
+          I18n.t("paths.#{slug}", default: slug)
+        end
       end
 
       # @param resource [Bridgetown::Resource::Base]
