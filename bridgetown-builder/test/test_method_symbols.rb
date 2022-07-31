@@ -35,7 +35,6 @@ end
 class TestMethodSymbols < BridgetownUnitTest
   context "adding tags, filters, generators, and hooks using method symbols" do
     setup do
-      Bridgetown.sites.clear
       @site = Site.new(site_configuration)
       @builder = MethodSymbolsBuilder.new("MethodSymbols", @site).build_with_callbacks
     end

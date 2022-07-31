@@ -17,7 +17,6 @@ class TestResources < BridgetownUnitTest
 
   context "creating a new resource" do
     setup do
-      Bridgetown.sites.clear
       @site = Site.new(site_configuration)
     end
 

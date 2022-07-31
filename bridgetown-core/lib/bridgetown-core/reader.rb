@@ -5,6 +5,7 @@ module Bridgetown
     # @return [Bridgetown::Site]
     attr_reader :site
 
+    # @param site [Bridgetown::Site]
     def initialize(site)
       @site = site
     end
@@ -87,7 +88,7 @@ module Bridgetown
       dot_dirs.each do |file|
         dir_path = site.in_source_dir(dir, file)
         rel_path = File.join(dir, file)
-        @site.reader.read_directories(rel_path) unless @site.dest.chomp("/") == dir_path
+        read_directories(rel_path) unless @site.destination.chomp("/") == dir_path
       end
     end
 

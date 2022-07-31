@@ -23,7 +23,6 @@ end
 class TestHelpers < BridgetownUnitTest
   context "adding helpers" do
     setup do
-      Bridgetown.sites.clear
       @site = Site.new(site_configuration)
       @builder = HelpersBuilder.new("HelpersBuilder", @site).build_with_callbacks
       @resource = Bridgetown::Model::Base.build(self, :posts, "im-a-post.md", {

@@ -10,6 +10,7 @@ module Bridgetown
     @source_manifests = Set.new
     @registered_plugins = Set.new
 
+    # @param source_manifest [Bridgetown::Plugin::SourceManifest]
     def self.add_source_manifest(source_manifest)
       unless source_manifest.is_a?(Bridgetown::Plugin::SourceManifest)
         raise "You must add a SourceManifest instance"
@@ -18,8 +19,12 @@ module Bridgetown
       @source_manifests << source_manifest
     end
 
-    def self.new_source_manifest(*args, **kwargs)
-      add_source_manifest(Bridgetown::Plugin::SourceManifest.new(*args, **kwargs))
+    def self.new_source_manifest(*_args, **kwargs)
+      Bridgetown::Deprecator.deprecation_message(
+        "The #{kwargs[:origin]} plugin should switch from using `new_source_manifest' to the" \
+        " `source_manifest` initializer method"
+      )
+      add_source_manifest(Bridgetown::Plugin::SourceManifest.new(**kwargs))
     end
 
     def self.add_registered_plugin(gem_or_plugin_file)
@@ -158,7 +163,6 @@ module Bridgetown
     # @param site [Bridgetown::Site]
     def initialize(site)
       @site = site
-      @loaders_manager = Bridgetown::Utils::LoadersManager.new(site.config)
     end
 
     # Finds and registers plugins in the local folder(s)

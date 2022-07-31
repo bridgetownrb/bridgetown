@@ -13,13 +13,11 @@ class TestServeCommand < BridgetownUnitTest
   context "with a serve command" do
     setup do
       @cmd = Bridgetown::Commands::Serve.new
-      Bridgetown.sites.clear
       allow(Bridgetown::YAMLParser).to receive(:load_file).and_return({})
       allow_any_instance_of(Bridgetown::Commands::Build).to receive(:build)
       allow_any_instance_of(Bridgetown::Commands::Serve).to receive(:start_up_webrick)
     end
     teardown do
-      Bridgetown.sites.clear
       Bridgetown::Current.preloaded_configuration = nil
     end
 
@@ -59,8 +57,7 @@ class TestServeCommand < BridgetownUnitTest
           }.with_indifferent_access
           @cmd.serve
 
-          assert_equal 1, Bridgetown.sites.count
-          assert_equal "http://localhost:4000", Bridgetown.sites.first.config["url"]
+          assert_equal "http://localhost:4000", Bridgetown::Current.site.config["url"]
         end
 
         should "take `host`, `port` and `ssl` into consideration if set" do
@@ -72,8 +69,7 @@ class TestServeCommand < BridgetownUnitTest
                            "ssl_key"  => "bar", }.with_indifferent_access
           @cmd.serve
 
-          assert_equal 1, Bridgetown.sites.count
-          assert_equal "https://example.com:9999", Bridgetown.sites.first.config["url"]
+          assert_equal "https://example.com:9999", Bridgetown::Current.site.config["url"]
         end
       end
 
@@ -86,8 +82,7 @@ class TestServeCommand < BridgetownUnitTest
           allow(Bridgetown).to receive_messages(environment: "production")
           @cmd.serve
 
-          assert_equal 1, Bridgetown.sites.count
-          assert_equal "https://bridgetownrb.com/", Bridgetown.sites.first.config["url"]
+          assert_equal "https://bridgetownrb.com/", Bridgetown::Current.site.config["url"]
         end
       end
 

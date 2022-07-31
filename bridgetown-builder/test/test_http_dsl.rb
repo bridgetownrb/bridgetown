@@ -45,7 +45,6 @@ end
 class TestHTTPDSL < BridgetownUnitTest
   context "dsl for http requests" do
     setup do
-      Bridgetown.sites.clear
       @site = Site.new(site_configuration)
       @builder = HTTPBuilder.new("Hooks Test", @site).build_with_callbacks
     end

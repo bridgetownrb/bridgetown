@@ -84,7 +84,7 @@ module Bridgetown
       begin
         time = Time.now
         I18n.reload! # make sure any locale files get read again
-        Bridgetown::Current.site = site # needed in SSR mode apparently
+        Bridgetown::Current.sites[site.label] = site # needed in SSR mode apparently
         catch :halt do
           Bridgetown::Hooks.trigger :site, :pre_reload, site, paths
           Bridgetown::Hooks.clear_reloadable_hooks

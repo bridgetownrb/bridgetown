@@ -34,7 +34,7 @@ class Roda
         def render_with(data: {}) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
           path = Kernel.caller_locations(1, 1).first.path
           source_path = Pathname.new(path).relative_path_from(
-            Bridgetown::Current.site.in_source_dir("_routes")
+            bridgetown_site.in_source_dir("_routes")
           )
           code = response._route_file_code
 
@@ -48,7 +48,7 @@ class Roda
               self, Addressable::URI.encode(source_path.to_s)
             )
           ).read do
-            data[:_collection_] = Bridgetown::Current.site.collections.pages
+            data[:_collection_] = bridgetown_site.collections.pages
             data[:_relative_path_] = source_path
             data[:_content_] = code
             data

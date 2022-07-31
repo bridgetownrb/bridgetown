@@ -152,7 +152,7 @@ module Bridgetown
     # @return [Hash] The final configuration hash.
     def configuration(override = {})
       config = Configuration.new
-      override = Configuration[override].stringify_keys
+      override = Configuration.new(override)
       unless override.delete("skip_config_files")
         config = config.read_config_files(config.config_files(override))
       end
@@ -183,7 +183,7 @@ module Bridgetown
       initializer :init, &block
     end
 
-    # Conveinence method to register a new Thor command
+    # Convenience method to register a new Thor command
     #
     # @see Bridgetown::Commands::Registrations.register
     def register_command(&block)
@@ -254,6 +254,10 @@ module Bridgetown
     #
     # @return [Array<Bridgetown::Site>] the Bridgetown sites created.
     def sites
+      Deprecator.deprecation_message(
+        "Bridgetown.sites will be removed in the next version. Use Bridgetown::Current.sites" \
+        "instead"
+      )
       [Bridgetown::Current.site].compact
     end
 

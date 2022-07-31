@@ -31,7 +31,6 @@ end
 class TestFilterDSL < BridgetownUnitTest
   context "adding a Liquid filter" do
     setup do
-      Bridgetown.sites.clear
       @site = Site.new(site_configuration)
       @builder = FiltersBuilder.new("FiltersDSL", @site).build_with_callbacks
     end

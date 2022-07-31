@@ -93,7 +93,7 @@ end
 
 Running `bin/bridgetown my_task` would result in printing out the root path of the site as well as executing the `say_status` Thor action.
 
-{%@ Note type: :warning %}
+{%@ Note type: :warning do %}
   The `site` variable is lazy-loaded, aka the site doesn't initialize before the `site` variable is accessed. You can add `run_initializers` to the top of your task block to ensure all site configurations, hooks, etc. have been executed. You can also pass a different initializer context (other than `:rake`) by providing the context as an argument. For example: `run_initializers context: :server`
 {% end %}
 

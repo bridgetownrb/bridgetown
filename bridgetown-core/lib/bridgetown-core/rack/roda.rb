@@ -11,10 +11,10 @@ class Roda
   module RodaPlugins
     module BridgetownSSR
       module InstanceMethods
-        # Helper shorthand for Bridgetown::Current.site
+        # Helper to get the site associated with the Roda app
         # @return [Bridgetown::Site]
         def bridgetown_site
-          Bridgetown::Current.site
+          self.class.opts[:bridgetown_site]
         end
       end
 

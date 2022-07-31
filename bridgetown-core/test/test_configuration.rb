@@ -28,7 +28,7 @@ class TestConfiguration < BridgetownUnitTest
     should "merge input over defaults" do
       result = Configuration.from("source" => "blah")
       refute_equal result["source"], Configuration::DEFAULTS["source"]
-      assert_equal "blah", result["source"]
+      assert_equal File.expand_path("blah"), result["source"]
     end
 
     should "return a valid Configuration instance" do

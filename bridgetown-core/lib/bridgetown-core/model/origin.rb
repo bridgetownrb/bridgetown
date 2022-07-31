@@ -11,13 +11,17 @@ module Bridgetown
       # @return [String]
       attr_accessor :id
 
+      # @return [Bridgetown::Site]
+      attr_accessor :site
+
       # You must implement in subclasses
       def self.handle_scheme?(_scheme)
         false
       end
 
-      def initialize(id)
+      def initialize(id, site: Bridgetown::Current.site)
         self.id = id
+        self.site = site
       end
 
       # You can override in subclass

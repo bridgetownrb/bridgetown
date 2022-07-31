@@ -62,7 +62,7 @@ changes from there.
 
 Source manifest functionality, along with the ability to publish an NPM module
 with [frontend assets](/docs/plugins/gems-and-frontend), plus the
-power of [automations](/docs/automations) to simply the setup process means
+power of [automations](/docs/automations) to simplify the setup process means
 that you can easily design and distribute themes for use by Bridgetown site
 owners.
 

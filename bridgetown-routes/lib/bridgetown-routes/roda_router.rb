@@ -4,7 +4,7 @@ module Bridgetown
   module Routes
     module RodaRouter
       def self.start!(app) # rubocop:todo Metrics/MethodLength
-        unless Bridgetown::Current.site
+        unless app.bridgetown_site
           Bridgetown.logger.warn(
             "The `bridgetown_routes` plugin hasn't been configured in the Roda app."
           )
@@ -14,7 +14,7 @@ module Bridgetown
         r = app.request
         response = app.response
 
-        Bridgetown::Routes::Manifest.generate_manifest.each do |route|
+        Bridgetown::Routes::Manifest.generate_manifest(app.bridgetown_site).each do |route|
           file, file_slug, segment_keys = route
 
           r.on file_slug do |*segment_values|

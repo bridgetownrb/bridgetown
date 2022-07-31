@@ -9,10 +9,10 @@ module Bridgetown
           %w(rb md serb erb liquid)
         end
 
-        def generate_manifest # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
-          return @route_manifest if @route_manifest && Bridgetown.env.production?
+        def generate_manifest(site) # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
+          return @route_manifest[site.label] if @route_manifest && Bridgetown.env.production?
 
-          routes_dir = Bridgetown::Current.site.in_source_dir("_routes")
+          routes_dir = site.in_source_dir("_routes")
           # @type [Array]
           routes = Dir.glob(
             routes_dir + "/**/*.{#{routable_extensions.join(",")}}"
@@ -48,7 +48,8 @@ module Bridgetown
             end
           end.reverse!
 
-          @route_manifest = routes
+          @route_manifest ||= {}
+          @route_manifest[site.label] = routes
         end
       end
     end

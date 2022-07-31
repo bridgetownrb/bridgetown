@@ -32,10 +32,10 @@ module Bridgetown
         # @param collection [Bridgetown::Collection, String, Symbol] either a collection
         #   label or Collection object
         # @param relative_path [Pathname, String] the source path of the file to save
-        def new_with_collection_path(collection, relative_path)
+        def new_with_collection_path(collection, relative_path, site: Bridgetown::Current.site)
           collection = collection.label if collection.is_a?(Bridgetown::Collection)
 
-          new("repo://#{collection}.collection/#{relative_path}")
+          new("repo://#{collection}.collection/#{relative_path}", site: site)
         end
       end
 
@@ -93,11 +93,11 @@ module Bridgetown
                           else
                             "pages"
                           end
-        @collection = Bridgetown::Current.site.collections[collection_name]
+        @collection = site.collections[collection_name]
       end
 
       def original_path
-        @original_path ||= relative_path.expand_path(Bridgetown::Current.site.source)
+        @original_path ||= relative_path.expand_path(site.source)
       end
 
       def exists?
@@ -118,7 +118,7 @@ module Bridgetown
             rows:
               CSV.read(original_path,
                        headers: true,
-                       encoding: Bridgetown::Current.site.config["encoding"]).map(&:to_hash),
+                       encoding: site.config["encoding"]).map(&:to_hash),
           }
         when ".tsv"
           {
@@ -126,7 +126,7 @@ module Bridgetown
               CSV.read(original_path,
                        col_sep: "\t",
                        headers: true,
-                       encoding: Bridgetown::Current.site.config["encoding"]).map(&:to_hash),
+                       encoding: site.config["encoding"]).map(&:to_hash),
           }
         when ".rb"
           process_ruby_data(File.read(original_path), original_path, 1)
@@ -145,7 +145,7 @@ module Bridgetown
                                   "could not read file #{original_path}: #{error.message}"
         end
 
-        if Bridgetown::Current.site.config["strict_front_matter"] ||
+        if site.config["strict_front_matter"] ||
             error.is_a?(Bridgetown::Errors::FatalException)
           raise error
         end

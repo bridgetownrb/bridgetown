@@ -13,10 +13,16 @@ module Bridgetown
     include SSR
     include Writable
 
-    attr_reader :root_dir, :source, :dest, :cache_dir, :config, :liquid_renderer
+    # @return [Bridgetown::Configuration]
+    attr_reader :config
+
+    # @return [Symbol]
+    attr_reader :label
 
     # @return [Bridgetown::Utils::LoadersManager]
     attr_reader :loaders_manager
+
+    attr_reader :cache_dir, :liquid_renderer
 
     # All files not pages/documents or structured data in the source folder
     # @return [Array<StaticFile>]
@@ -36,7 +42,8 @@ module Bridgetown
     #
     # @param config [Bridgetown::Configuration]
     # @param loaders_manager [Bridgetown::Utils::LoadersManager] initialized if none provided
-    def initialize(config, loaders_manager: nil)
+    def initialize(config, label: :main, loaders_manager: nil)
+      @label = label.to_sym
       self.config = config
       locale
 
@@ -56,7 +63,7 @@ module Bridgetown
       Bridgetown::Cache.base_cache["site_tmp"] = {}.with_dot_access
       ensure_not_in_dest
 
-      Bridgetown::Current.site = self
+      Bridgetown::Current.sites[@label] = self
       Bridgetown::Hooks.trigger :site, :after_init, self
 
       reset   # Processable

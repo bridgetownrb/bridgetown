@@ -19,7 +19,6 @@ class TestSSR < BridgetownUnitTest
     end
 
     teardown do
-      Bridgetown.sites.clear
       Bridgetown::Current.preloaded_configuration = nil
     end
 

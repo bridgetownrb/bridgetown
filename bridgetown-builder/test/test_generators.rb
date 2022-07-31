@@ -25,7 +25,6 @@ end
 class TestGenerators < BridgetownUnitTest
   context "creating a generator" do
     setup do
-      Bridgetown.sites.clear
       @site = Site.new(site_configuration)
       @builders = [GeneratorBuilder, GeneratorBuilder2].sort
       @builders.each_with_index do |builder, index|

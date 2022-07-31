@@ -66,6 +66,12 @@ module Bridgetown
         Bridgetown::Hooks.register_one(owner, event, priority: priority, &block)
       end
 
+      def source_manifest(**kwargs)
+        Bridgetown::PluginManager.add_source_manifest(
+          Bridgetown::Plugin::SourceManifest.new(**kwargs)
+        )
+      end
+
       def method_missing(key, *value, &block) # rubocop:disable Style/MissingRespondToMissing
         return get(key) if value.length.zero? && block.nil?
 
@@ -102,8 +108,8 @@ module Bridgetown
       # Where things are
       "root_dir"                   => Dir.pwd,
       "plugins_dir"                => "plugins",
-      "source"                     => File.join(Dir.pwd, "src"),
-      "destination"                => File.join(Dir.pwd, "output"),
+      "source"                     => "src",
+      "destination"                => "output",
       "collections_dir"            => "",
       "cache_dir"                  => ".bridgetown-cache",
       "layouts_dir"                => "_layouts",
@@ -194,7 +200,7 @@ module Bridgetown
       #
       # Returns a Configuration filled with defaults.
       def from(user_config, starting_defaults = DEFAULTS)
-        Utils.deep_merge_hashes(starting_defaults.deep_dup, Configuration[user_config])
+        Utils.deep_merge_hashes(starting_defaults.deep_dup, Configuration.new(user_config))
           .merge_environment_specific_options!
           .setup_load_paths!
           .setup_locales
@@ -391,7 +397,11 @@ module Bridgetown
       self
     end
 
-    def setup_load_paths!
+    def setup_load_paths! # rubocop:todo Metrics
+      self[:root_dir] = File.expand_path(self[:root_dir])
+      self[:source] = File.expand_path(self[:source], self[:root_dir])
+      self[:destination] = File.expand_path(self[:destination], self[:root_dir])
+
       if self[:plugins_use_zeitwerk]
         autoload_paths.unshift({
           path: self[:plugins_dir],

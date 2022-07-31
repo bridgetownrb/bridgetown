@@ -10,6 +10,7 @@ group :development do
 end
 
 group :test do
+  gem "benchmark-ips"
   gem "cucumber", "~> 3.0"
   gem "memory_profiler"
   gem "minitest"

@@ -15,7 +15,6 @@ class TestInspectors < BridgetownUnitTest
 
   context "a resource after being transformed" do
     setup do
-      Bridgetown.sites.clear
       @site = Site.new(site_configuration)
       @_test_functions = []
 
