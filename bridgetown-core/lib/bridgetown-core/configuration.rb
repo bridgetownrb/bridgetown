@@ -13,6 +13,15 @@ module Bridgetown
       end
     end
 
+    SourceManifest = Struct.new(:origin, :components, :content, :layouts, keyword_init: true)
+
+    Preflight = Struct.new(:source_manifests, :initializers, keyword_init: true) do
+      def initialize(*)
+        super
+        self.source_manifests ||= Set.new
+      end
+    end
+
     class ConfigurationDSL < Bridgetown::Utils::RubyFrontMatter
       attr_reader :context
 
@@ -67,9 +76,7 @@ module Bridgetown
       end
 
       def source_manifest(**kwargs)
-        Bridgetown::PluginManager.add_source_manifest(
-          Bridgetown::Plugin::SourceManifest.new(**kwargs)
-        )
+        @scope.source_manifests << SourceManifest.new(**kwargs)
       end
 
       def method_missing(key, *value, &block) # rubocop:disable Style/MissingRespondToMissing
@@ -192,6 +199,8 @@ module Bridgetown
     # @return [Hash<Symbol, Initializer>]
     attr_accessor :initializers
 
+    attr_writer :source_manifests
+
     class << self
       # Static: Produce a Configuration ready for use in a Site.
       # It takes the input, fills in the defaults where values do not exist.
@@ -238,7 +247,6 @@ module Bridgetown
       initializers_file = File.join(root_dir, "config", "initializers.rb")
       return unless File.file?(initializers_file)
 
-      Bridgetown::Current.preloaded_configuration = self # it most likely is already
       require initializers_file
 
       return unless initializers # no initializers have been set up
@@ -256,6 +264,11 @@ module Bridgetown
       dsl.instance_exec(&init_init.block)
 
       self
+    end
+
+    # @return [Set<SourceManifest>]
+    def source_manifests
+      @source_manifests ||= Set.new
     end
 
     def get_config_value_with_override(config_key, override)

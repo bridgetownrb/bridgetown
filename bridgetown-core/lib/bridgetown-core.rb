@@ -137,6 +137,7 @@ module Bridgetown
     def begin!
       ENV["RACK_ENV"] = ENV["BRIDGETOWN_ENV"]
 
+      Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
       Bridgetown::PluginManager.setup_bundler
     end
 
@@ -158,8 +159,20 @@ module Bridgetown
       end
 
       # Merge DEFAULTS < bridgetown.config.yml < override
+      # @param obj [Bridgetown::Configuration]
       Configuration.from(Utils.deep_merge_hashes(config, override)).tap do |obj|
         set_timezone(obj["timezone"]) if obj["timezone"]
+
+        # Copy "global" source manifests and initializers into this new configuration
+        if Bridgetown::Current.preloaded_configuration.is_a?(Bridgetown::Configuration::Preflight)
+          obj.source_manifests = Bridgetown::Current.preloaded_configuration.source_manifests
+
+          if Bridgetown::Current.preloaded_configuration.initializers
+            obj.initializers = Bridgetown::Current.preloaded_configuration.initializers
+          end
+        end
+
+        Bridgetown::Current.preloaded_configuration = obj
       end
     end
 

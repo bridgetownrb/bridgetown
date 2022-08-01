@@ -159,7 +159,7 @@ class Bridgetown::Site
 
     def configure_component_paths # rubocop:todo Metrics/AbcSize
       # Loop through plugins paths first
-      plugin_components_load_paths = Bridgetown::PluginManager.source_manifests
+      plugin_components_load_paths = config.source_manifests
         .filter_map(&:components)
 
       local_components_load_paths = config["components_dir"].then do |dir|

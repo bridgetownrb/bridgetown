@@ -15,6 +15,8 @@ class TestResources < BridgetownUnitTest
     "Resolved!"
   end
 
+  attr_reader :site
+
   context "creating a new resource" do
     setup do
       @site = Site.new(site_configuration)

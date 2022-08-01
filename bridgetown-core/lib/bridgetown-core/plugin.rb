@@ -13,13 +13,9 @@ module Bridgetown
       lowest: -100,
     }.freeze
 
-    SourceManifest = Struct.new(:origin, :components, :content, :layouts, keyword_init: true)
-
-    # Initialize a new plugin. This should be overridden by the subclass.
+    # Initialize a new plugin. This should be overridden by the subclass (generator or converter)
     #
-    # config - The Hash of configuration options.
-    #
-    # Returns a new instance.
+    # @param config [Bridgetown::Configuration] the configuration for the site
     def initialize(config = {}) # rubocop:disable Style/RedundantInitialize
       # no-op for default
     end

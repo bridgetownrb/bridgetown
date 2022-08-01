@@ -13,6 +13,8 @@ class TestInspectors < BridgetownUnitTest
     @_test_functions
   end
 
+  attr_reader :site
+
   context "a resource after being transformed" do
     setup do
       @site = Site.new(site_configuration)

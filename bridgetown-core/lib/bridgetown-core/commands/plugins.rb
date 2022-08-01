@@ -46,9 +46,11 @@ module Bridgetown
           Bridgetown.logger.debug("")
         end
 
-        Bridgetown.logger.info("Source Manifests:", "----") unless pm.class.source_manifests.empty?
+        unless site.config.source_manifests.empty?
+          Bridgetown.logger.info("Source Manifests:", "----")
+        end
 
-        pm.class.source_manifests.each do |manifest|
+        site.config.source_manifests.each do |manifest|
           Bridgetown.logger.info("Origin:", (manifest.origin || "n/a").to_s.green)
           Bridgetown.logger.info("Components:", (manifest.components || "n/a").to_s.cyan)
           Bridgetown.logger.info("Content:", (manifest.content || "n/a").to_s.cyan)
@@ -127,9 +129,8 @@ module Bridgetown
       # Now all the plugin's layouts will be in the site repo directly.
       #
       def cd(arg)
-        site = Bridgetown::Site.new(configuration_with_overrides(options))
-
-        pm = site.plugin_manager
+        config_options = configuration_with_overrides(options)
+        config_options.run_initializers! context: :static
 
         directive = arg.split("/")
         unless directive[1]
@@ -137,7 +138,7 @@ module Bridgetown
           return
         end
 
-        manifest = pm.class.source_manifests.find do |source_manifest|
+        manifest = config_options.source_manifests.find do |source_manifest|
           source_manifest.origin.to_s == directive[0]
         end
 
@@ -151,7 +152,7 @@ module Bridgetown
 
           # rubocop: disable Style/RedundantCondition
           Dir.chdir dir do
-            ENV["BRIDGETOWN_SITE"] = site.root_dir
+            ENV["BRIDGETOWN_SITE"] = config_options.root_dir
             if ENV["SHELL"]
               system(ENV["SHELL"])
             else

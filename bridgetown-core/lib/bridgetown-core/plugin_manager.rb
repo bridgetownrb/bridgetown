@@ -7,24 +7,37 @@ module Bridgetown
 
     attr_reader :site, :loaders_manager
 
-    @source_manifests = Set.new
     @registered_plugins = Set.new
 
-    # @param source_manifest [Bridgetown::Plugin::SourceManifest]
+    # @param source_manifest [Bridgetown::Configuration::SourceManifest]
     def self.add_source_manifest(source_manifest)
-      unless source_manifest.is_a?(Bridgetown::Plugin::SourceManifest)
+      unless source_manifest.is_a?(Bridgetown::Configuration::SourceManifest)
         raise "You must add a SourceManifest instance"
       end
 
-      @source_manifests << source_manifest
+      unless Bridgetown::Current.preloaded_configuration
+        raise "A preloaded configuration must be present before adding source manifests"
+      end
+
+      Bridgetown::Deprecator.deprecation_message(
+        "The #{source_manifest.origin} plugin should switch from using `add_source_manifest' to" \
+        " the `source_manifest` initializer method"
+      )
+
+      Bridgetown::Current.preloaded_configuration.source_manifests << source_manifest
     end
 
     def self.new_source_manifest(*_args, **kwargs)
+      unless Bridgetown::Current.preloaded_configuration
+        raise "A preloaded configuration must be present before adding source manifests"
+      end
+
       Bridgetown::Deprecator.deprecation_message(
         "The #{kwargs[:origin]} plugin should switch from using `new_source_manifest' to the" \
         " `source_manifest` initializer method"
       )
-      add_source_manifest(Bridgetown::Plugin::SourceManifest.new(**kwargs))
+
+      add_source_manifest(Bridgetown::Configuration::SourceManifest.new(**kwargs))
     end
 
     def self.add_registered_plugin(gem_or_plugin_file)
@@ -32,10 +45,18 @@ module Bridgetown
     end
 
     class << self
-      attr_reader :source_manifests, :registered_plugins
+      attr_reader :registered_plugins
 
       def bundler_specs
         @bundler_specs ||= Bundler.load.requested_specs
+      end
+
+      def source_manifests
+        Bridgetown::Deprecator.deprecation_message(
+          "Use the configuration's `source_manifests` method instead of the plugin manager"
+        )
+
+        Bridgetown::Current.preloaded_configuration.source_manifests
       end
     end
 

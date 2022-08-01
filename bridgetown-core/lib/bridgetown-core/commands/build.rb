@@ -38,9 +38,9 @@ module Bridgetown
         end
 
         # @type [Bridgetown::Configuration]
-        config_options = (
-          Bridgetown::Current.preloaded_configuration || configuration_with_overrides(options)
-        ).merge(options)
+        config_options = configuration_with_overrides(
+          options, Bridgetown::Current.preloaded_configuration
+        )
 
         config_options.run_initializers! context: :static
 

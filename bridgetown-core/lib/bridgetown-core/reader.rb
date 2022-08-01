@@ -21,7 +21,7 @@ module Bridgetown
       sort_files!
       site.data = site.collections.data.read.merge_data_resources
       read_collections
-      Bridgetown::PluginManager.source_manifests.select(&:content).each do |manifest|
+      site.config.source_manifests.select(&:content).each do |manifest|
         PluginContentReader.new(site, manifest).read
       end
     end

@@ -38,14 +38,15 @@ module Bridgetown
           origin ||= origin_for_id(id)
           origin.verify_model?(self)
         end
-      end
 
-      class << self
+        # @param builder [Bridgetown::Builder]
         def build(builder, collection_name, path, data)
+          site = builder.site
           data = Bridgetown::Model::BuilderOrigin.new(
-            Bridgetown::Model::BuilderOrigin.id_for_builder_path(builder, path)
+            Bridgetown::Model::BuilderOrigin.id_for_builder_path(builder, path),
+            site: site
           ).read do
-            data[:_collection_] = Bridgetown::Current.site.collections[collection_name]
+            data[:_collection_] = site.collections[collection_name]
             data
           end
           new(data)

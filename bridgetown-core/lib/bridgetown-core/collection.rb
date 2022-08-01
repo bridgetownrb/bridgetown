@@ -270,7 +270,7 @@ module Bridgetown
 
     # Read in resource from repo path
     # @param full_path [String]
-    # @param manifest [Bridgetown::Plugin::SourceManifest]
+    # @param manifest [Bridgetown::Configuration::SourceManifest]
     def read_resource(full_path, manifest: nil)
       model_relative_path = relative_model_path_for(full_path, manifest: manifest)
       model = Bridgetown::Model::Base.find(

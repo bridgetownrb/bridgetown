@@ -21,6 +21,8 @@ class HelpersBuilder < Builder
 end
 
 class TestHelpers < BridgetownUnitTest
+  attr_reader :site
+
   context "adding helpers" do
     setup do
       @site = Site.new(site_configuration)
