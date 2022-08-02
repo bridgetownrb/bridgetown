@@ -1,52 +1,13 @@
 # frozen_string_literal: true
 
-begin
-  # If it's in the Gemfile's :bridgetown_plugins group it's already been required, but we'll try
-  # again just to be on the safe side:
-  require "bridgetown-routes"
-rescue LoadError
+unless Bridgetown::Current.preloaded_configuration
+  raise "You must supply a preloaded configuration before loading Bridgetown's Roda superclass"
 end
 
-class Roda
-  module RodaPlugins
-    module BridgetownSSR
-      module InstanceMethods
-        # Helper to get the site associated with the Roda app
-        # @return [Bridgetown::Site]
-        def bridgetown_site
-          self.class.opts[:bridgetown_site]
-        end
-      end
-
-      def self.configure(app, _opts = {}, &block)
-        app.include Bridgetown::Filters::URLFilters
-        app.opts[:bridgetown_site] =
-          Bridgetown::Site.start_ssr!(loaders_manager: Bridgetown::Rack.loaders_manager, &block)
-      end
-    end
-
-    register_plugin :bridgetown_ssr, BridgetownSSR
-
-    module BridgetownBoot
-      Roda::RodaRequest.alias_method :_previous_roda_cookies, :cookies
-
-      module RequestMethods
-        # Monkeypatch Roda/Rack's Request object so it returns a hash which allows for
-        # indifferent access
-        def cookies
-          # TODO: maybe replace with a simpler hash that offers an overloaded `[]` method
-          _previous_roda_cookies.with_indifferent_access
-        end
-
-        # Starts up the Bridgetown routing system
-        def bridgetown
-          Bridgetown::Rack::Routes.start!(scope)
-        end
-      end
-    end
-
-    register_plugin :bridgetown_boot, BridgetownBoot
-  end
+begin
+  # If the bridgetown-routes gem is available, we should load it first here:
+  require "bridgetown-routes"
+rescue LoadError
 end
 
 module Bridgetown
