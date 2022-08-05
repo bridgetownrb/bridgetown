@@ -139,4 +139,23 @@ class TestResources < BridgetownUnitTest
       assert_equal "NOPE", upcased_content
     end
   end
+
+  context "adding a permalink placeholder" do
+    setup do
+      @site = Site.new(site_configuration)
+    end
+
+    should "update the permalink" do
+      permalink_placeholder :bar do |resource|
+        resource.data.title.split.last.delete_suffix("!")
+      end
+
+      add_resource :posts, "im-a-post.md" do
+        title "I'm a post!"
+        permalink "/foo/:bar/"
+      end
+
+      assert_equal "/foo/post/", @site.resources.first.relative_url
+    end
+  end
 end

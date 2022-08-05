@@ -57,6 +57,16 @@ module Bridgetown
 
           class_scope ? Bridgetown::Resource::Base.extend(m) : Bridgetown::Resource::Base.include(m)
         end
+
+        def permalink_placeholder(key, &block)
+          Bridgetown::Resource::PermalinkProcessor.register_placeholder(
+            key, block
+          )
+        end
+
+        def placeholder_processors
+          Bridgetown::Resource::PermalinkProcessor.placeholder_processors
+        end
       end
     end
   end
