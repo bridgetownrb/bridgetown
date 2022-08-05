@@ -15,6 +15,10 @@ class TestResources < BridgetownUnitTest
     "Resolved!"
   end
 
+  def upcased_content
+    resource ? resource.content.upcase : "NOPE"
+  end
+
   attr_reader :site
 
   context "creating a new resource" do
@@ -104,6 +108,29 @@ class TestResources < BridgetownUnitTest
 
       assert_includes @site.collections.posts.resources.first.destination.output_path,
                       "/dest/2018/im-an-old-post/index.html"
+    end
+  end
+
+  context "extending resources" do
+    setup do
+      @site = Site.new(site_configuration)
+    end
+
+    should "add a new method" do
+      define_resource_method :upcased_title do
+        data.title.upcase
+      end
+      define_resource_method :upcased_content
+
+      add_resource :posts, "im-a-markdown-post.html" do
+        title "I'm a post!"
+        content "Yay!"
+      end
+
+      assert_equal 1, @site.collections[:posts].resources.length
+      assert_equal "I'M A POST!", @site.collections[:posts].resources.first.upcased_title
+      assert_equal "YAY!", @site.collections[:posts].resources.first.upcased_content
+      assert_equal "NOPE", upcased_content
     end
   end
 end

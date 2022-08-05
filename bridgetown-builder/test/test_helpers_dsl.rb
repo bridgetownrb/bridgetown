@@ -16,7 +16,7 @@ class HelpersBuilder < Builder
   end
 
   def method_based(something)
-    "Method Based #{something} #{self.class}"
+    "Method Based #{something} #{self.class} #{view.class}"
   end
 end
 
@@ -60,7 +60,8 @@ class TestHelpers < BridgetownUnitTest
         outvar: "@_erbout"
       ) { content }
       result = tmpl.render(@erb_view)
-      assert_equal "This is the Method Based I'm a post! HelpersBuilder helper", result
+      assert_equal "This is the Method Based I'm a post! HelpersBuilder Bridgetown::ERBView helper",
+                   result
     end
   end
 end

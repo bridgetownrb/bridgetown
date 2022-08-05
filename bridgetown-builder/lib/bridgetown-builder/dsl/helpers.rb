@@ -4,6 +4,10 @@ module Bridgetown
   module Builders
     module DSL
       module Helpers
+        def view
+          @view # could be nil
+        end
+
         def helper(helper_name, method_name = nil, helpers_scope: false, &block)
           builder_self = self
           m = Module.new
@@ -19,7 +23,10 @@ module Bridgetown
               end
             end
             m.define_method helper_name do |*args, **kwargs, &block2|
-              builder_self.send(method_name, *args, **kwargs, &block2)
+              builder_self.instance_variable_set(:@view, view)
+              builder_self.send(method_name, *args, **kwargs, &block2).tap do
+                builder_self.instance_variable_set(:@view, nil)
+              end
             end
           end
 
