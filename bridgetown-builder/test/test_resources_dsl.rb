@@ -121,6 +121,12 @@ class TestResources < BridgetownUnitTest
         data.title.upcase
       end
       define_resource_method :upcased_content
+      define_resource_method :resource_class_name, class_scope: true do
+        "All your #{name} are belong to us!"
+      end
+
+      assert_equal "All your Bridgetown::Resource::Base are belong to us!",
+                   Bridgetown::Resource::Base.resource_class_name
 
       add_resource :posts, "im-a-markdown-post.html" do
         title "I'm a post!"
