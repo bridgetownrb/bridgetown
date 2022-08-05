@@ -261,7 +261,7 @@ module Bridgetown
       self.init_params = {}
       dsl = ConfigurationDSL.new(scope: self, data: self)
       dsl.instance_variable_set(:@context, context)
-      dsl.instance_exec(&init_init.block)
+      dsl.instance_exec(self, &init_init.block)
 
       self
     end
