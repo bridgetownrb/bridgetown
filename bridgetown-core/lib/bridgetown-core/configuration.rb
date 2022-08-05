@@ -79,6 +79,18 @@ module Bridgetown
         @scope.source_manifests << SourceManifest.new(**kwargs)
       end
 
+      def builder(klass = nil, &block)
+        return klass.register if klass.is_a?(Bridgetown::Builder)
+
+        unless klass.is_a?(Symbol)
+          raise "You must supply a constant symbol to register an inline builder"
+        end
+
+        Object.const_set(
+          klass, Class.new(Bridgetown::Builder, &block).tap(&:register)
+        )
+      end
+
       def method_missing(key, *value, &block) # rubocop:disable Style/MissingRespondToMissing
         return get(key) if value.length.zero? && block.nil?
 
