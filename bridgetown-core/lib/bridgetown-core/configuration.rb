@@ -113,6 +113,8 @@ module Bridgetown
           end.to_h
         end
 
+        key = key.to_s.delete_suffix("=") if key.to_s.ends_with?("=")
+
         @data[key] = if @data[key].is_a?(Hash) && value.is_a?(Hash)
                        Bridgetown::Utils.deep_merge_hashes(@data[key], value)
                      else
@@ -273,7 +275,7 @@ module Bridgetown
       self.init_params = {}
       dsl = ConfigurationDSL.new(scope: self, data: self)
       dsl.instance_variable_set(:@context, context)
-      dsl.instance_exec(self, &init_init.block)
+      dsl.instance_exec(dsl, &init_init.block)
 
       self
     end

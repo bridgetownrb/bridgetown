@@ -24,8 +24,10 @@ module Bridgetown
             end
             m.define_method helper_name do |*args, **kwargs, &block2|
               builder_self.instance_variable_set(:@view, view)
+              builder_self.instance_variable_set(:@resource, view.resource)
               builder_self.send(method_name, *args, **kwargs, &block2).tap do
                 builder_self.instance_variable_set(:@view, nil)
+                builder_self.instance_variable_set(:@resource, nil)
               end
             end
           end
