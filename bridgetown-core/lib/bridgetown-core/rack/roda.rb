@@ -4,12 +4,6 @@ unless Bridgetown::Current.preloaded_configuration
   raise "You must supply a preloaded configuration before loading Bridgetown's Roda superclass"
 end
 
-begin
-  # If the bridgetown-routes gem is available, we should load it first here:
-  require "bridgetown-routes"
-rescue LoadError
-end
-
 module Bridgetown
   module Rack
     class Roda < ::Roda
@@ -103,7 +97,8 @@ module Bridgetown
       before do
         if self.class.opts[:bridgetown_site]
           # The site had previously been initialized via the bridgetown_ssr plugin
-          Bridgetown::Current.site ||= self.class.opts[:bridgetown_site]
+          Bridgetown::Current.sites[self.class.opts[:bridgetown_site].label] =
+            self.class.opts[:bridgetown_site]
           @context ||= SiteContext.new({ site: self.class.opts[:bridgetown_site] })
         end
         Bridgetown::Current.preloaded_configuration ||=

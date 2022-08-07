@@ -125,10 +125,6 @@ module Bridgetown
           Bridgetown::Rack::Routes.sorted_subclasses&.each do |klass|
             klass.merge roda_app
           end
-
-          return unless defined?(Bridgetown::Routes::RodaRouter)
-
-          Bridgetown::Routes::RodaRouter.start!(roda_app)
         end
 
         # @param app [Bridgetown::Rack::Roda]

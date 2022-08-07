@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
 require "bridgetown-core"
-require "bridgetown-core/version"
-
-require_relative "bridgetown-routes/view_helpers"
-
-# Roda isn't defined for Bridgetown build-only
-require_relative "roda/plugins/bridgetown_routes" if defined?(Roda)
 
 module Bridgetown
   module Routes
@@ -16,20 +10,28 @@ module Bridgetown
   end
 end
 
-module RodaResourceExtension
-  module RubyResource
-    def roda_app=(app)
-      unless app.is_a?(Bridgetown::Rack::Roda)
-        raise Bridgetown::Errors::FatalException,
-              "Resource's assigned Roda app must be of type `Bridgetown::Rack::Roda'"
+# @param config [Bridgetown::Configuration::ConfigurationDSL]
+Bridgetown.initializer :"bridgetown-routes" do |config|
+  config.only :server do
+    require_relative "bridgetown-routes/manifest_router"
+  end
+
+  require_relative "bridgetown-routes/view_helpers"
+
+  config.builder :BridgetownRoutesBuilder do
+    def build
+      define_resource_method :roda_app do
+        @roda_app
       end
 
-      @roda_app = app
-    end
+      define_resource_method :roda_app= do |app|
+        unless app.is_a?(Bridgetown::Rack::Roda)
+          raise Bridgetown::Errors::FatalException,
+                "Resource's assigned Roda app must be of type `Bridgetown::Rack::Roda'"
+        end
 
-    def roda_app
-      @roda_app
+        @roda_app = app
+      end
     end
   end
 end
-Bridgetown::Resource.register_extension RodaResourceExtension

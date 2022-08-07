@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "roda/plugins/flash"
+require_relative "../../bridgetown-routes/flash_additions"
 
 Roda::RodaPlugins::Flash::FlashHash.include Bridgetown::Routes::FlashHashAdditions,
                                             Bridgetown::Routes::FlashHashIndifferent

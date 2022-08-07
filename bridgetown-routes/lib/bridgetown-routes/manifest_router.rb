@@ -2,25 +2,24 @@
 
 module Bridgetown
   module Routes
-    module RodaRouter
-      def self.start!(app) # rubocop:todo Metrics/MethodLength
-        unless app.bridgetown_site
+    class ManifestRouter < Bridgetown::Rack::Routes
+      priority :lowest
+
+      route do |r|
+        unless bridgetown_site
           Bridgetown.logger.warn(
             "The `bridgetown_routes` plugin hasn't been configured in the Roda app."
           )
           return
         end
 
-        r = app.request
-        response = app.response
-
-        Bridgetown::Routes::Manifest.generate_manifest(app.bridgetown_site).each do |route|
+        Bridgetown::Routes::Manifest.generate_manifest(bridgetown_site).each do |route|
           file, file_slug, segment_keys = route
 
           r.on file_slug do |*segment_values|
             response["X-Bridgetown-SSR"] = "1"
             # eval_route_file caches when Bridgetown.env.production?
-            Bridgetown::Routes::CodeBlocks.eval_route_file file, file_slug, app
+            Bridgetown::Routes::CodeBlocks.eval_route_file file, file_slug, @_roda_app
 
             segment_values.each_with_index do |value, index|
               r.params[segment_keys[index]] ||= value
@@ -30,7 +29,7 @@ module Bridgetown
             response.instance_variable_set(
               :@_route_file_code, route_block.instance_variable_get(:@_route_file_code)
             ) # could be nil
-            app.instance_exec(r, &route_block)
+            @_roda_app.instance_exec(r, &route_block)
           end
         end
 
