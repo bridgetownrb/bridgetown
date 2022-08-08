@@ -7,8 +7,13 @@ end
 Bridgetown.initializer :parse_routes do |config|
   require "roda-route_parser"
 
-  route_files = Dir["#{config.root_dir}/server/**/*.rb"] +
-    Dir["#{config.root_dir}/src/_routes/**/*.*"]
+  route_files = Dir["#{config.root_dir}/server/**/*.rb"]
+  if config.key?(:routes)
+    routes.source_paths.each do |routes_dir|
+      routes_dir = File.expand_path(routes_dir, source)
+      route_files += Dir["#{routes_dir}/**/*.*"]
+    end
+  end
 
   parser = RodaRouteParser.new
   json_gen_opts = { indent: "  ", space: " ", object_nl: "\n", array_nl: "\n" }

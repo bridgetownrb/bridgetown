@@ -12,6 +12,10 @@ end
 
 # @param config [Bridgetown::Configuration::ConfigurationDSL]
 Bridgetown.initializer :"bridgetown-routes" do |config|
+  config.routes ||= {}
+  config.routes.source_paths ||= ["_routes"]
+  config.routes.extensions ||= %w(rb md serb erb liquid)
+
   config.only :server do
     require_relative "bridgetown-routes/manifest_router"
   end

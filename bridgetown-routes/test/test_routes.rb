@@ -39,5 +39,10 @@ class TestRoutes < BridgetownUnitTest
       get "/howdy?yo=joe&happy=pleased"
       assert_equal "<h1>joe 42</h1>\n\n<p>I am pleasedpleased.</p>\n", last_response.body
     end
+
+    should "return HTML for a route in an arbitrary folder" do
+      get "/yello/my-friend"
+      assert_equal "<p>So arbitrary!</p>\n", last_response.body
+    end
   end
 end
