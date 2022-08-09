@@ -26,6 +26,11 @@ const outputFolder = "output"
 // ```
 // const esbuildOptions = { publicPath: "/my_subfolder/_bridgetown/static" }
 // ```
+
+/**
+ * @typedef { import("esbuild").BuildOptions } BuildOptions
+ * @type {BuildOptions}
+ */
 const esbuildOptions = {}
 
 build(outputFolder, esbuildOptions)
