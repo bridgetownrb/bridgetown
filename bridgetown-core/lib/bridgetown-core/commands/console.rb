@@ -83,8 +83,7 @@ module Bridgetown
         if options[:"server-config"]
           require "puma"
           require "bridgetown-core/rack/boot"
-          config_options.run_initializers! context: :server
-          require File.join(config_options.root_dir, "server", "roda_app.rb")
+          Bridgetown::Rack.boot
         else
           config_options.run_initializers! context: :console
         end
