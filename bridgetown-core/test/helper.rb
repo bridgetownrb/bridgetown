@@ -142,8 +142,8 @@ class BridgetownUnitTest < Minitest::Test
     Bridgetown::Site.new new_config
   end
 
-  def load_plugin_content
-    Bridgetown::PluginManager.new_source_manifest(
+  def load_plugin_content(config)
+    config.source_manifests << Bridgetown::Configuration::SourceManifest.new(
       origin: self.class,
       components: test_dir("plugin_content", "components"),
       content: test_dir("plugin_content", "content"),
@@ -154,7 +154,7 @@ class BridgetownUnitTest < Minitest::Test
   def site_configuration(overrides = {})
     Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
 
-    load_plugin_content
+    load_plugin_content(Bridgetown::Current.preloaded_configuration)
 
     full_overrides = Utils.deep_merge_hashes({ "destination" => dest_dir,
                                                "plugins_dir" => site_root_dir("plugins"), }, overrides)
