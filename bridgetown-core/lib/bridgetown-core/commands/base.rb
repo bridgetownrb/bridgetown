@@ -87,7 +87,7 @@ module Bridgetown
           klass.start(["-h"])
         else
           puts "Bridgetown v#{Bridgetown::VERSION.magenta} \"#{Bridgetown::CODE_NAME.yellow}\"" \
-               " is a Webpack-aware, Ruby-powered static site generator for the modern Jamstack era"
+               " is a next-generation, progressive site generator & fullstack framework, powered by Ruby"
           puts ""
           puts "Usage:"
           puts "  bridgetown <command> [options]"
