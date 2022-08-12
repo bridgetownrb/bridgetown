@@ -15,16 +15,16 @@ module Bridgetown
           Array(names).each do |name|
             Bridgetown.logger.debug "Requiring:", name.to_s
             require name.to_s
-          rescue LoadError => e
-            Bridgetown.logger.error "Dependency Error:", <<~MSG
-              Oops! It looks like you don't have #{name} or one of its dependencies installed.
-              Please double-check you've added #{name} to your Gemfile.
-
-              If you're stuck, you can find help at https://www.bridgetownrb.com/community
-
-              The full error message from Ruby is: '#{e.message}'
-            MSG
-            raise Bridgetown::Errors::MissingDependencyException, name
+          rescue LoadError => _e
+            Bridgetown.logger.error(
+              "Dependency Error:",
+              "Hmm, it looks like you don't have `#{name}' or one of its dependencies" \
+              " installed. Please double-check you've added it to your Gemfile."
+            )
+            Bridgetown.logger.error(
+              "", "You can also find help at https://www.bridgetownrb.com/community"
+            )
+            exit(1)
           end
         end
       end

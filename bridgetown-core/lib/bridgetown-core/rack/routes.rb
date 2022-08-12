@@ -186,7 +186,7 @@ module Bridgetown
   end
 end
 
-if Bridgetown.env.development? &&
+if defined?(Puma) && Bridgetown.env.development? &&
     !Bridgetown::Current.preloaded_configuration.skip_live_reload
   Puma::Launcher.class_eval do
     alias_method :_old_stop, :stop

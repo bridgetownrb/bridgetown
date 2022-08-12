@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "bridgetown-core/rack/routes"
+
 module Bridgetown
   module Routes
     class ManifestRouter < Bridgetown::Rack::Routes

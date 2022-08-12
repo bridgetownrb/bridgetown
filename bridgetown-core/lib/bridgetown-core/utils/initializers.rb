@@ -9,8 +9,8 @@ Bridgetown.initializer :parse_routes do |config|
 
   route_files = Dir["#{config.root_dir}/server/**/*.rb"]
   if config.key?(:routes)
-    routes.source_paths.each do |routes_dir|
-      routes_dir = File.expand_path(routes_dir, source)
+    config.routes.source_paths.each do |routes_dir|
+      routes_dir = File.expand_path(routes_dir, config.source)
       route_files += Dir["#{routes_dir}/**/*.*"]
     end
   end
