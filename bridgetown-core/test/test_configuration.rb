@@ -385,32 +385,16 @@ class TestConfiguration < BridgetownUnitTest
         default_config_fixture({ "config" => [@paths[:empty]] })
     end
 
-    should "successfully load a TOML file" do
-      Bridgetown.logger.log_level = :warn
-      assert_equal \
-        site_configuration(
-          "baseurl" => "/you-beautiful-blog-you",
-          "title"   => "My magnificent site, wut",
-          "config"  => [@paths[:toml]]
-        ),
-        default_config_fixture({ "config" => [@paths[:toml]] })
-      Bridgetown.logger.log_level = :info
-    end
-
     should "load multiple config files" do
-      Utils::RequireGems.require_with_graceful_fail("tomlrb")
-
       allow(Bridgetown::YAMLParser).to receive(:load_file).with(@paths[:default]).and_return({})
       allow(Bridgetown::YAMLParser).to receive(:load_file).with(@paths[:other]).and_return({})
-      allow(Tomlrb).to receive(:load_file).with(@paths[:toml]).and_return({})
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:default]}")
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:other]}")
-      allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:toml]}")
       assert_equal(
         site_configuration(
-          "config" => [@paths[:default], @paths[:other], @paths[:toml]]
+          "config" => [@paths[:default], @paths[:other]]
         ),
-        default_config_fixture({ "config" => [@paths[:default], @paths[:other], @paths[:toml]] })
+        default_config_fixture({ "config" => [@paths[:default], @paths[:other]] })
       )
     end
 

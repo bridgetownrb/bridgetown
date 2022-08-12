@@ -23,7 +23,6 @@ group :test do
   gem "rubocop-bridgetown", "~> 0.3.0", require: false
   gem "shoulda"
   gem "simplecov"
-  gem "tomlrb", "~> 1.2"
 end
 
 # Bridgetown

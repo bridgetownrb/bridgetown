@@ -94,7 +94,7 @@ module Bridgetown
     end
 
     def self.require_gem(name)
-      require(name.to_s)
+      Bridgetown::Utils::RequireGems.require_with_graceful_fail(name)
       plugins = Bridgetown::PluginManager.install_yarn_dependencies(name: name)
 
       plugin_to_register = if plugins.length == 1

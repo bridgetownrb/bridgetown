@@ -303,9 +303,6 @@ module Bridgetown
         File.join(base_directory, clean_path)
       end
     end
-
-    # Conditional optimizations
-    Bridgetown::Utils::RequireGems.require_if_present("liquid/c")
   end
 end
 

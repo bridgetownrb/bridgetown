@@ -122,19 +122,12 @@ module Bridgetown
       Array(options["exclude"]).map { |e| Bridgetown.sanitized_path(options["source"], e) }
     end
 
-    def config_files(options)
-      %w(yml yaml toml).map do |ext|
-        Bridgetown.sanitized_path(options["source"], "_config.#{ext}")
-      end
-    end
-
     def component_frontend_matcher
       %r{_components/.*?(\.js|\.jsx|\.js\.rb|\.css)$}
     end
 
     def to_exclude(options)
       [
-        config_files(options),
         options["destination"],
         custom_excludes(options),
       ].flatten

@@ -203,9 +203,7 @@ module Bridgetown
       },
     }.each_with_object(Configuration.new) { |(k, v), hsh| hsh[k] = v.freeze }.freeze
 
-    # The modern default config file name is bridgetown.config.EXT, but we also
-    # need to check for _config.EXT as a backward-compatibility nod to our
-    # progenitor
+    # TODO: Deprecated. Remove support for _config as well as toml in the next release.
     CONFIG_FILE_PREFIXES = %w(bridgetown.config _config).freeze
     CONFIG_FILE_EXTS = %w(yml yaml toml).freeze
 
@@ -316,16 +314,32 @@ module Bridgetown
     end
     alias_method :verbose?, :verbose
 
-    def safe_load_file(filename)
+    def safe_load_file(filename) # rubocop:todo Metrics
       case File.extname(filename)
       when %r!\.toml!i
+        Deprecator.deprecation_message(
+          "TOML configurations will no longer be supported in the next version of Bridgetown." \
+          " Use initializers or a .yaml config instead."
+        )
         Bridgetown::Utils::RequireGems.require_with_graceful_fail("tomlrb") unless defined?(Tomlrb)
         Tomlrb.load_file(filename)
       when %r!\.ya?ml!i
+        if File.basename(filename, ".*") == "_config"
+          Deprecator.deprecation_message(
+            "YAML configurations named `_config.y(a)ml' will no longer be supported in the next" \
+            " version of Bridgetown. Rename to `bridgetown.config.yml' instead."
+          )
+        end
+        if File.extname(filename) == ".yaml"
+          Deprecator.deprecation_message(
+            "YAML configurations ending in `.yaml' will no longer be supported in the next" \
+            " version of Bridgetown. Rename to use `.yml' extension instead."
+          )
+        end
         YAMLParser.load_file(filename) || {}
       else
         raise ArgumentError,
-              "No parser for '#{filename}' is available. Use a .y(a)ml or .toml file instead."
+              "No parser for '#{filename}' is available. Use a .y(a)ml file instead."
       end
     rescue Psych::DisallowedClass => e
       raise "Unable to parse `#{File.basename(filename)}'. #{e.message}"
