@@ -111,7 +111,7 @@ pages:
   - master
 
 ```
-Once this fie has been created, add it and the other files and folders to the repository, and then push them to GitLab:
+Once this file has been created, add it and the other files and folders to the repository, and then push them to GitLab:
 
 ```
 git add .gitlab-ci.yml

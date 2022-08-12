@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+- New GitHub Pages configurations will deploy a production build
+
+## [1.1.0] — 2022-07-18
+
+- Add better error message for YAML parse error around Symbols
+- Remove unnecessary `excerpt_separator` configuration default
+- New docs: a guide how to migrate from Jekyll [#594](https://github.com/bridgetownrb/bridgetown/pull/594) ([jaredcwhite](https://github.com/jaredcwhite))
+- Improved default Liquid layout
+- Fix PurgeCSS configuration so it works with esbuild
 
 ## [1.1.0.beta3] — 2022-06-28
 
