@@ -18,12 +18,14 @@ class FiltersBuilder < Builder
     end
 
     liquid_filter "site_config" do |input|
+      raise "OOPS!" if filters_context.registers[:site] && filters_context.registers[:site] != site
+
       input.to_s + " #{site.root_dir}"
     end
 
-    liquid_filter "within_filters_scope", filters_scope: true do |something|
-      sl = slugify(something)
-      "Within Filters Scope: #{site_config(sl)} #{reading_time("text")}"
+    liquid_filter "within_filters_scope" do |something|
+      sl = filters.slugify(something)
+      "Within Filters Scope: #{filters.site_config(sl)} #{filters.reading_time("text")}"
     end
   end
 end

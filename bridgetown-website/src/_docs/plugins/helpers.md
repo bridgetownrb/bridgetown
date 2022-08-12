@@ -76,32 +76,35 @@ If your helper name and method name are the same, you can omit the second argume
 
 ## Helper Execution Scope
 
-By default, the code within the helper block or method is executed within the scope of the builder object. This means you will not have access to other helpers you may expecting to call. For example, if you want to call `slugify` from your helper, it will cause an error.
-
-To remedy this, simply pass the `helpers_scope: true` argument when defining a helper block. Then you can call other helpers as part of your code block (but not methods within your builder).
+The code within the helper block or method is executed within the scope of the builder object. This means you will need to use the `helpers` method to call other helpers or gain access to the view context.
 
 ```ruby
 class Builders::Helpers < SiteBuilder
   def build
-    helper :slugify_and_upcase, helpers_scope: true do |url|
-      slugify(url).upcase
+    helper :slugify_and_upcase do |url|
+      helpers.slugify(url).upcase
     end
+    helper :slugify_and_downcase
+  end
+
+  def slugify_and_downcase(url)
+    helpers.slugify(url).downcase
   end
 end
 ```
 
-When using the helpers scope, you have access to two variables: `site` and `view`. `site` is of course an instance of `Bridgetown::Site`, and `view` will be a subclassed instance of `Bridgetown::RubyTemplateView` which reflects the current template engine in use. For example, it will be `Bridgetown::ERBView` for ERB templates. This gives you access to engine-specific view methods such as `partial`, as well as any other custom methods that may have been defined for the view to use.
+The `helpers.view` method will return a subclassed instance of `Bridgetown::RubyTemplateView` which reflects the current template engine in use. For example, it will be `Bridgetown::ERBView` for ERB templates. This gives you access to engine-specific view methods such as `partial`, as well as any other custom methods that may have been defined for the view to use.
 
 ## Using the Capture Helper
 
-Within the helpers scope, you can "capture" the contents of a block and use that text inside your helper. Optionally, you can pass an object to the block itself from your helper. For example:
+You can "capture" the contents of a block and use that text inside your helper. Optionally, you can pass an object to the block itself from your helper. For example:
 
 ```ruby
 class Builders::Helpers < SiteBuilder
   def build
-    helper :capture_and_upcase, helpers_scope: true do |&block|
+    helper :capture_and_upcase do |&block|
       label = "upcased"
-      view.capture(label, &block).upcase
+      helpers.view.capture(label, &block).upcase
     end
   end
 end

@@ -14,6 +14,8 @@ module Bridgetown
 
       Context = Struct.new(:registers)
 
+      # @param view [Bridgetown::RubyTemplateView]
+      # @param site [Bridgetown::Site]
       def initialize(view, site)
         @view = view
         @site = site

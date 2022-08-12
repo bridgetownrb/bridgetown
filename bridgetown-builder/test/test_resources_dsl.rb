@@ -133,10 +133,26 @@ class TestResources < BridgetownUnitTest
         content "Yay!"
       end
 
+      resource = @site.collections[:posts].resources.first
       assert_equal 1, @site.collections[:posts].resources.length
-      assert_equal "I'M A POST!", @site.collections[:posts].resources.first.upcased_title
-      assert_equal "YAY!", @site.collections[:posts].resources.first.upcased_content
+      assert_equal "I'M A POST!", resource.upcased_title
+      assert_equal "YAY!", resource.upcased_content
       assert_equal "NOPE", upcased_content
+    end
+
+    should "allow new summaries" do
+      add_resource :posts, "im-a-markdown-post.html" do
+        title "I'm a post!"
+        content "This is my content."
+      end
+
+      assert_equal "This is my content.", @site.collections[:posts].resources.first.summary
+
+      define_resource_method :summary_extension_output do
+        content.sub("my", "MY")
+      end
+
+      assert_equal "This is MY content.", @site.collections[:posts].resources.first.summary
     end
   end
 

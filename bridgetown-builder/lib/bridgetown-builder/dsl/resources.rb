@@ -45,9 +45,10 @@ module Bridgetown
           unless block
             builder_self = self
             block = proc do |*args, **kwargs, &block2|
+              prev_var = builder_self.instance_variable_get(:@resource)
               builder_self.instance_variable_set(:@resource, self)
               builder_self.send(method_name, *args, **kwargs, &block2).tap do
-                builder_self.instance_variable_set(:@resource, nil)
+                builder_self.instance_variable_set(:@resource, prev_var)
               end
             end
           end

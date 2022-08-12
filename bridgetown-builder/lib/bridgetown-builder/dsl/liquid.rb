@@ -4,13 +4,25 @@ module Bridgetown
   module Builders
     module DSL
       module Liquid
+        def filters
+          @filters # could be nil
+        end
+
+        def filters_context
+          filters&.instance_variable_get(:@context)
+        end
+
         def liquid_filter(filter_name, method_name = nil, filters_scope: false, &block)
-          builder_self = self
           m = Module.new
 
           if block && filters_scope
+            Deprecator.deprecation_message(
+              "The `filters_scope' functionality is deprecated. Use the `filters' builder" \
+              " method to access the filters scope in your plugin."
+            )
             m.define_method filter_name, &block
           else
+            builder_self = self
             method_name ||= filter_name unless block
             unless method_name
               method_name = :"__filter_#{filter_name}"
@@ -19,7 +31,11 @@ module Bridgetown
               end
             end
             m.define_method filter_name do |*args, **kwargs|
-              builder_self.send(method_name, *args, **kwargs)
+              prev_var = builder_self.instance_variable_get(:@filters)
+              builder_self.instance_variable_set(:@filters, self)
+              builder_self.send(method_name, *args, **kwargs).tap do
+                builder_self.instance_variable_set(:@filters, prev_var)
+              end
             end
           end
 

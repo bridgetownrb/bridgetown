@@ -91,21 +91,19 @@ If your filter name and method name are the same, you can omit the second argume
 
 ## Filter Execution Scope
 
-By default, the code within the filter block or method is executed within the scope of the builder object. This means you will not have access to other filters you may expecting to call. For example, if you want to call `slugify` from your filter, it will cause an error.
-
-To remedy this, simply pass the `filters_scope: true` argument when defining a filter block. Then you can call other filters as part of your code block (but not methods within your builder).
+The code within the filter block or method is executed within the scope of the builder object. This means you will need to use the `filters` method to call other filters.
 
 ```ruby
 class Builders::Filters < SiteBuilder
   def build
-    liquid_filter :slugify_and_upcase, filters_scope: true do |url|
-      slugify(url).upcase
+    liquid_filter :slugify_and_upcase do |url|
+      filters.slugify(url).upcase
     end
   end
 end
 ```
 
-When using the filters scope, you have access to the Liquid context via `@context`, which provides current template objects such as the site and the page (e.g., `@context.registers[:site]`).
+You also have access to the Liquid context via `filters_context`, which provides current template objects such as the page (e.g., `filters_context.registers[:page]`).
 
 ## When to use a Filter vs. a Tag
 

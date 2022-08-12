@@ -206,6 +206,10 @@ module Bridgetown
         end
         next if site.config[:plugins_use_zeitwerk]
 
+        Deprecator.deprecation_message(
+          "The `plugins_use_zeitwerk' configuration option will be removed in the next version" \
+          " of Bridgetown (aka will be permanently set to \"true\")"
+        )
         Bridgetown::Utils::RequireGems.require_with_graceful_fail(sorted_plugin_files)
       end
     end

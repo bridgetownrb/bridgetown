@@ -5,7 +5,7 @@ top_section: Configuration
 category: plugins
 ---
 
-The Inspectors API, added in Bridgetown 1.1, provides a useful way to review or manipulate the output of your HTML or XML resources. The API utilizes [Nokogiri](https://nokogiri.org), a Ruby gem which lets you work with a DOM-like API directly on the nodes of a document tree.
+The Inspectors API provides a useful way to review or manipulate the output of your HTML or XML resources. The API utilizes [Nokogiri](https://nokogiri.org), a Ruby gem which lets you work with a DOM-like API directly on the nodes of a document tree.
 
 This is a safer approach of modifying HTML/XML content than alternatives such as string manipulation or regular expressions which can be prone to error or fail on unexpected input.
 

@@ -40,19 +40,7 @@ This would result in URLs such as `/lots-of/articles/2021/super-neato/`.
 
 ### Placeholders
 
-All of the segments you see above starting with a colon, such as `:year` or `:slug`, are called **placeholders**. Bridgetown ships with a number of placeholders, but you can also create your own! Simply use the `register_placeholder` in a plugin, perhaps at the bottom of your `plugins/site_builder.rb` file. For example, if you wanted a placeholder to resolve a resource data, you could add:
-
-```ruby
-Bridgetown::Resource::PermalinkProcessor.register_placeholder :ymd, ->(resource) do
-  "#{resource.date.strftime("%Y")}#{resource.date.strftime("%m")}#{resource.date.strftime("%d")}"
-end
-
-Bridgetown::Resource::PermalinkProcessor.register_placeholder :y_m_d, ->(resource) do
-  "#{resource.date.strftime("%Y")}-#{resource.date.strftime("%m")}-#{resource.date.strftime("%d")}"
-end
-```
-
-Thus with a permalink key of `/blog/:ymd/:slug/`, you'd get `/blog/20211020/my-post/`, or for `/blog/:y_m_d/:slug/` you'd get `/blog/2021-10-20/my-post/`.
+All of the segments you see above starting with a colon, such as `:year` or `:slug`, are called **placeholders**. Bridgetown ships with a number of placeholders, but you can also create your own! See the [placeholders plugin page](/docs/plugins/placeholders) for details.
 
 Here's the full list of built-in placeholders available:
 
