@@ -32,7 +32,7 @@ namespace :roda do
   task routes: :environment do
     run_initializers context: :server
 
-    Bridgetown::Configuration.print_roda_routes
+    Bridgetown::Rack::Roda.print_routes
   end
 end
 

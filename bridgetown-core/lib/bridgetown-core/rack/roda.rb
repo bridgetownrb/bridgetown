@@ -7,25 +7,63 @@ end
 module Bridgetown
   module Rack
     class Roda < ::Roda
+      class << self
+        alias_method :init, :plugin
+
+        def inherited(klass)
+          super
+          puts "Yello! #{klass}"
+          Bridgetown::Current.preloaded_configuration.initialize_roda_app(klass)
+        end
+
+        # rubocop:disable Bridgetown/NoPutsAllowed
+        def print_routes
+          # TODO: this needs to be fully documented
+          routes = begin
+            JSON.parse(
+              File.read(
+                File.join(Bridgetown::Current.preloaded_configuration.root_dir, ".routes.json")
+              )
+            )
+          rescue StandardError
+            []
+          end
+          puts
+          puts "Routes:"
+          puts "======="
+          if routes.blank?
+            puts "No routes found. Have you commented all of your routes?"
+            puts "Documentation: https://github.com/jeremyevans/roda-route_list#basic-usage-"
+          end
+
+          routes.each do |route|
+            puts [route["methods"]&.join("|") || "GET", route["path"],
+                  route["file"],].compact.join(" ")
+          end
+          puts
+        end
+        # rubocop:enable Bridgetown/NoPutsAllowed
+      end
+
       SiteContext = Struct.new(:registers) # for use by Liquid-esque URL helpers
 
-      plugin :hooks
-      plugin :common_logger, Bridgetown::Rack::Logger.new($stdout), method: :info
-      plugin :json
-      plugin :json_parser
-      plugin :indifferent_params
-      plugin :cookies
-      plugin :streaming
-      plugin :bridgetown_boot
-      plugin :public, root: Bridgetown::Current.preloaded_configuration.destination
-      plugin :not_found do
+      init :hooks
+      init :common_logger, Bridgetown::Rack::Logger.new($stdout), method: :info
+      init :json
+      init :json_parser
+      init :indifferent_params
+      init :cookies
+      init :streaming
+      init :bridgetown_boot
+      init :public, root: Bridgetown::Current.preloaded_configuration.destination
+      init :not_found do
         output_folder = Bridgetown::Current.preloaded_configuration.destination
         File.read(File.join(output_folder, "404.html"))
       rescue Errno::ENOENT
         "404 Not Found"
       end
-      plugin :exception_page
-      plugin :error_handler do |e|
+      init :exception_page
+      init :error_handler do |e|
         Bridgetown::Errors.print_build_error(
           e, logger: Bridgetown::LogAdapter.new(self.class.opts[:common_logger])
         )

@@ -20,6 +20,10 @@ Bridgetown.initializer :"bridgetown-routes" do |config|
     require_relative "bridgetown-routes/manifest_router"
   end
 
+  config.roda do
+    init :bridgetown_routes
+  end
+
   require_relative "bridgetown-routes/view_helpers"
 
   config.builder :BridgetownRoutesBuilder do

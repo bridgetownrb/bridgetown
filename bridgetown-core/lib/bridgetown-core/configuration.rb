@@ -1,11 +1,7 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  # Holds the processed configuration loaded from the YAML config file.
-  #
-  # @todo refactor this whole object! Already had to fix obscure
-  #   bugs just making minor changes, and all the indirection is
-  #   quite hard to decipher. -JW
+  # The primary configuration object for a Bridgetown project
   class Configuration < HashWithDotAccess::Hash
     Initializer = Struct.new(:name, :block, :completed, keyword_init: true) do
       def to_s
@@ -85,6 +81,10 @@ module Bridgetown
         Object.const_set(
           klass, Class.new(Bridgetown::Builder, &block).tap(&:register)
         )
+      end
+
+      def roda(&block)
+        @scope.roda_initializers << block
       end
 
       def method_missing(key, *value, &block) # rubocop:disable Style/MissingRespondToMissing
@@ -241,7 +241,7 @@ module Bridgetown
     # @return [Hash<Symbol, Initializer>]
     attr_accessor :initializers
 
-    attr_writer :source_manifests
+    attr_writer :source_manifests, :roda_initializers
 
     class << self
       # Static: Produce a Configuration ready for use in a Site.
@@ -259,30 +259,6 @@ module Bridgetown
           .add_default_excludes
           .check_include_exclude
       end
-
-      # rubocop:disable Bridgetown/NoPutsAllowed
-      def print_roda_routes
-        # TODO: this needs to be fully documented
-        routes = begin
-          JSON.parse(File.read(File.join(Dir.pwd, ".routes.json")))
-        rescue StandardError
-          []
-        end
-        puts
-        puts "Routes:"
-        puts "======="
-        if routes.blank?
-          puts "No routes found. Have you commented all of your routes?"
-          puts "Documentation: https://github.com/jeremyevans/roda-route_list#basic-usage-"
-        end
-
-        routes.each do |route|
-          puts [route["methods"]&.join("|") || "GET", route["path"],
-                route["file"],].compact.join(" ")
-        end
-        puts
-      end
-      # rubocop:enable Bridgetown/NoPutsAllowed
     end
 
     def run_initializers!(context:)
@@ -311,6 +287,17 @@ module Bridgetown
     # @return [Set<SourceManifest>]
     def source_manifests
       @source_manifests ||= Set.new
+    end
+
+    # @return [Array<Proc>]
+    def roda_initializers
+      @roda_initializers ||= []
+    end
+
+    def initialize_roda_app(app)
+      roda_initializers.each do |initializer|
+        app.instance_exec(&initializer)
+      end
     end
 
     def get_config_value_with_override(config_key, override)
