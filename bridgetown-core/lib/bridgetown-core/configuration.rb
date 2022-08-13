@@ -29,14 +29,10 @@ module Bridgetown
         return if @scope.initializers.key?(name.to_sym) &&
           @scope.initializers[name.to_sym].completed
 
-        Bridgetown::PluginManager.require_gem(name) if require_gem
+        initializer = _setup_initializer(
+          name: name, require_gem: require_gem, require_initializer: require_initializer
+        )
 
-        if require_initializer
-          init_file_name = File.join(@scope.root_dir, "config", "#{name}.rb")
-          require(init_file_name) if File.exist?(init_file_name)
-        end
-
-        initializer = @scope.initializers[name.to_sym]
         if initializer.nil?
           Bridgetown.logger.debug("Initializing:",
                                   "The `#{name}' initializer could not be found")
@@ -120,6 +116,41 @@ module Bridgetown
                      else
                        value
                      end
+      end
+
+      def reflect(name, require_gem: true, require_initializer: true)
+        initializer = _setup_initializer(
+          name: name, require_gem: require_gem, require_initializer: require_initializer
+        )
+
+        if initializer.nil?
+          Bridgetown.logger.info("Reflection:",
+                                 "The `#{name}' initializer could not be found")
+          return
+        end
+
+        Bridgetown.logger.info(
+          "Reflection:",
+          "The #{name.to_s.yellow} initializer accepts the following options:"
+        )
+        initializer.block.parameters.each do |param|
+          next if param[0] == :opt
+
+          Bridgetown.logger.info("",
+                                 "* #{param[1].to_s.cyan}#{" (required)" if param[0] == :keyreq}")
+        end
+      end
+
+      # @return [Bridgetown::Configuration::Initializer]
+      def _setup_initializer(name:, require_gem:, require_initializer:)
+        Bridgetown::PluginManager.require_gem(name) if require_gem
+
+        if require_initializer
+          init_file_name = File.join(@scope.root_dir, "config", "#{name}.rb")
+          require(init_file_name) if File.exist?(init_file_name)
+        end
+
+        @scope.initializers[name.to_sym]
       end
     end
 
