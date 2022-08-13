@@ -37,12 +37,20 @@ module Bridgetown
           plugin_desc = plugin.to_s
           next if plugin_desc.ends_with?("site_builder.rb") || plugin_desc == "init (Initializer)"
 
-          Bridgetown.logger.info("", plugin_desc.sub(site.in_root_dir("/"), ""))
-          next unless plugin.is_a?(Bridgetown::Configuration::Initializer)
+          if plugin.is_a?(Bridgetown::Configuration::Initializer)
+            Bridgetown.logger.info("", plugin_desc)
+            Bridgetown.logger.debug(
+              "", "PATH: " + plugin.block.source_location[0]
+            )
+          elsif plugin.is_a?(Bundler::StubSpecification) || plugin.is_a?(Gem::Specification)
+            Bridgetown.logger.info("", "#{plugin.name} (Rubygem)")
+            Bridgetown.logger.debug(
+              "", "PATH: " + plugin.full_gem_path
+            )
+          else
+            Bridgetown.logger.info("", plugin_desc.sub(site.in_root_dir("/"), ""))
+          end
 
-          Bridgetown.logger.debug(
-            "", "PATH: " + plugin.block.source_location[0]
-          )
           Bridgetown.logger.debug("")
         end
 
