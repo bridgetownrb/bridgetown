@@ -405,4 +405,24 @@ class TestUtils < BridgetownUnitTest
       end
     end
   end
+
+  context "The \`Utils.build_output_tag_for_template_extname\` method" do
+    setup do
+      Utils::TEMPLATE_EXTNAMES_TAGS = {
+        ".liquid" => ["{%", "%}"],
+        ".erb"    => ["<%=", "%>"],
+      }.freeze
+    end
+
+    should "return content within tags for the supplied file extname" do
+      assert_equal "{% content %}", Utils.build_output_tag_for_template_extname(".liquid", "content")
+      assert_equal "<%= content %>", Utils.build_output_tag_for_template_extname(".erb", "content")
+    end
+
+    should "raise an error if the supplied extname is not supported" do
+      assert_raises do
+        Utils.build_output_tag_for_template_extname(".not_a_template_engine", "content")
+      end
+    end
+  end
 end
