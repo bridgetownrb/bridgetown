@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 - New GitHub Pages configurations will deploy a production build
+- Add an seo configuration (bridgetown-seo-tag gem)
+- Add a feed configuration (bridgetown-feed gem)
 
 ## [1.1.0] — 2022-07-18
 
