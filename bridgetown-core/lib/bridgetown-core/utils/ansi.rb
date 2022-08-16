@@ -1,4 +1,4 @@
-# Frozen-string-literal: true
+# frozen_string_literal: true
 
 module Bridgetown
   module Utils
