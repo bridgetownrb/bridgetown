@@ -1,6 +1,6 @@
 image:
   file: .gitpod.dockerfile
 tasks:
-  - init: bundle install
+  - init: bundle install && cd bridgetown-website && bundle install && yarn install
 
 
