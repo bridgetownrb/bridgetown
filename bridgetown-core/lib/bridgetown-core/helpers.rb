@@ -98,7 +98,6 @@ module Bridgetown
       def link_to(text, relative_path, options = {})
         segments = attributes_from_options({ href: url_for(relative_path) }.merge(options))
 
-        # TODO: this might leak an XSS string into text, need to check
         safe("<a #{segments}>#{text}</a>")
       end
 
@@ -117,7 +116,7 @@ module Bridgetown
             segments << attribute_segment(attr, option)
           end
         end
-        segments.join(" ")
+        safe(segments.join(" "))
       end
 
       # Forward all arguments to I18n.t method
