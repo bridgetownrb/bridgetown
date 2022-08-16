@@ -344,14 +344,14 @@ Finally, if you pass a Ruby object (i.e., it responds to `url`), it will work as
 ### attributes_from_options
 `attributes_from_options` allows you to pass a hash and have it converted to a string of HTML attributes:
 ```eruby
-<p <%= attributes_from_options({ class: "my-class", id: "some-id" }) %>>Hello, World!</p>
+<p <%%= attributes_from_options({ class: "my-class", id: "some-id" }) %>>Hello, World!</p>
 
 <!-- output: -->
 <p class="my-class" id="some-id">Hello, World!</p>
 ```
 `attributes_from_options` also allows for any value of the passed hash to itself be a hash. This will result in individual attributes being created from each pair in the hash. When doing this, the key the hash was paired with will be prepended to each attribute name:
 ```eruby
-<button <%= attributes_from_options({ data: { controller: "clickable", action: "click->clickable#test" } }) %>>Click Me!</button>
+<button <%%= attributes_from_options({ data: { controller: "clickable", action: "click->clickable#test" } }) %>>Click Me!</button>
 
 <!-- output: -->
 <button data-controller="clickable" data-action="click->clickable#test">Click Me!</button>
