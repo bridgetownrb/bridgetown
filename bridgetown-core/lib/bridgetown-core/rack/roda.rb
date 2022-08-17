@@ -8,12 +8,9 @@ module Bridgetown
   module Rack
     class Roda < ::Roda
       class << self
-        alias_method :init, :plugin
-
         def inherited(klass)
           super
-          puts "Yello! #{klass}"
-          Bridgetown::Current.preloaded_configuration.initialize_roda_app(klass)
+          klass.plugin :initializers
         end
 
         # rubocop:disable Bridgetown/NoPutsAllowed
@@ -47,23 +44,23 @@ module Bridgetown
 
       SiteContext = Struct.new(:registers) # for use by Liquid-esque URL helpers
 
-      init :hooks
-      init :common_logger, Bridgetown::Rack::Logger.new($stdout), method: :info
-      init :json
-      init :json_parser
-      init :indifferent_params
-      init :cookies
-      init :streaming
-      init :bridgetown_boot
-      init :public, root: Bridgetown::Current.preloaded_configuration.destination
-      init :not_found do
+      plugin :hooks
+      plugin :common_logger, Bridgetown::Rack::Logger.new($stdout), method: :info
+      plugin :json
+      plugin :json_parser
+      plugin :indifferent_params
+      plugin :cookies
+      plugin :streaming
+      plugin :bridgetown_boot
+      plugin :public, root: Bridgetown::Current.preloaded_configuration.destination
+      plugin :not_found do
         output_folder = Bridgetown::Current.preloaded_configuration.destination
         File.read(File.join(output_folder, "404.html"))
       rescue Errno::ENOENT
         "404 Not Found"
       end
-      init :exception_page
-      init :error_handler do |e|
+      plugin :exception_page
+      plugin :error_handler do |e|
         Bridgetown::Errors.print_build_error(
           e, logger: Bridgetown::LogAdapter.new(self.class.opts[:common_logger])
         )

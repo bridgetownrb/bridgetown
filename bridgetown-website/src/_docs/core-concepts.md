@@ -6,7 +6,7 @@ category: core_concepts
 next_page_order: 25
 ---
 
-It's easy to get started with Bridgetown, but it helps to have a basic understanding of a few key aspects of the site build process so you know which tools to use for the right job. Websites using Bridgetown are built and deployed as atomic artifacts, but they can optionally provide dynamic routes via a secondary server process. Frameworks like this are sometimes referred to as Jamstack frameworks. This means the website your visitors will ultimately engage with was largely produced as a "snapshot in time"—the product of Bridgetown's build process. How does that process work? Let's find out!
+It's easy to get started with Bridgetown, but it helps to have a basic understanding of a few key aspects of the site build process so you know which tools to use for the right job. Websites using Bridgetown are built and deployed as atomic artifacts, but they can optionally provide dynamic routes via a secondary server process. This means the website your visitors will ultimately engage with was largely produced as a "snapshot in time"—the product of Bridgetown's build process. How does that process work? Let's find out!
 
 ## The Build Process
 
@@ -66,9 +66,9 @@ You can discover links to these and many more in our [Plugins directory](/plugin
 
 ## Server-Side Rendering and Dynamic Routes
 
-For most content-rich websites intended for marketing, educational, or publishing purposes (blogs, etc.), a statically-built and deployed site may be all you need. But there may be times when you need a real backend running for your site, either to provide API endpoints your principal pages can communicate with via JavaScript, or to offer actual routes that are fully SSR'd (Server-Side Rendered).
+For most content-rich websites intended for marketing, educational, or publishing purposes (blogs, etc.), a statically-built and deployed site may be all you need. But there may be times when you need a real backend running for your site, either to provide API endpoints your principal pages can communicate with via JavaScript, or to offer actual routes that are fully <abbr title="Server-Side Rendered">SSR'd</abbr>.
 
-Bridgetown 1.0 ships with an early look at a [full SSR pipeline powered by the Roda web toolkit](/docs/routes). Roda, like Rails or Sinatra, takes full advantage of Ruby's Rack ecosystem and offers a minimalist yet elegant DSL (Domain-Specific Language) for defining and handling routes via a "routing tree" as well as processing request/response cycles. Accepting form data or JSON payloads is a snap, and there's even a core plugin you can configure to enable dynamic, file-based routing with all of Bridgetown's template engines and component rendering at your disposal.
+Bridgetown provides a [full SSR pipeline powered by the Roda web toolkit](/docs/routes). Roda, like Rails or Sinatra, takes full advantage of Ruby's Rack ecosystem and offers a minimalist yet elegant <abbr title="Domain-Specific Language">DSL</abbr> for defining and handling routes via a "routing tree" as well as processing request/response cycles. Accepting form data or JSON payloads is a snap, and there's even a core plugin you can configure to enable dynamic, file-based routing with all of Bridgetown's template engines and component rendering at your disposal.
 
 ## What to Learn Next
 

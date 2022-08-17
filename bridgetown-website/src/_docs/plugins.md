@@ -268,6 +268,8 @@ Bridgetown websites. You'll want to make sure you update the `gemspec`,
 plugin to ensure all the necessary metadata and user documentation is present
 and accounted for.
 
+Starting with v1.2, Bridgetown plugins will typically provide an [initializer](/docs/configuration/initializers) so that they can be easily required and configured via the user's configuration block within `config/initializers.rb`. It's a good practice to ensure at least simple configuration options can alternatively be provided using YAML in `bridgetown.config.yml`.
+
 Make sure you [follow these instructions](/docs/plugins/gems-and-frontend/) to integrate your plugin's frontend code with the users' esbuild or Webpack setup. Also read up on [Source Manifests](/docs/plugins/source-manifests/) if you have layouts, components, resources, static files, and other content you would like your plugin to provide.
 
 You can also provide an automation via your plugin's GitHub repository by adding

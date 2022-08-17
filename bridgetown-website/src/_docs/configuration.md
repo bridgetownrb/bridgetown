@@ -9,7 +9,7 @@ There are three ways you can configure your Bridgetown site and customize aspect
 
 1. Using command line options (via the CLI)
 2. Using the `bridgetown.config.yml` YAML config file
-3. Using the `config/initializers.rb` file, which is the most expressive way and provides deterministic support for loading in gem-based plugins.
+3. Using the [`config/initializers.rb`](/docs/configuration/initializers) file, which is the most expressive way and provides deterministic support for loading in gem-based plugins.
 
 **CLI:** When you use a command line option, it looks something like this:
 
@@ -54,15 +54,11 @@ Bridgetown.configure do |config|
 
   config.autoload_paths << "jobs"
 
-  init :"bridgetown-routes"
-
   permalink "pretty"
   timezone "America/Los_Angeles"
 
   only :server do
-    init :mail do
-      password ENV["SENDGRID_API_KEY"]
-    end
+    init :mail, password: ENV["SENDGRID_API_KEY"]
   end
 end
 ```

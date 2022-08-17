@@ -4,6 +4,12 @@ Bridgetown.initializer :dotenv do |config|
   Bridgetown.load_dotenv root: config.root_dir
 end
 
+Bridgetown.initializer :ssr do |config, setup: nil|
+  config.roda do |app|
+    app.plugin(:bridgetown_ssr, &setup)
+  end
+end
+
 Bridgetown.initializer :parse_routes do |config|
   require "roda-route_parser"
 

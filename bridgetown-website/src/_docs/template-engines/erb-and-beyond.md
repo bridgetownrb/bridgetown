@@ -6,7 +6,7 @@ category: template-engines
 template_engine: erb
 ---
 
-Bridgetown's implementation language, Ruby, has a rich history of providing [ERB (Embedded RuBy)](https://docs.ruby-lang.org/en/2.7.0/ERB.html) for templates and view layers across a wide variety of tools and frameworks. Other Ruby-based template languages such as [Haml](https://haml.info), [Slim](http://slim-lang.com), and [Serbea](https://www.serbea.dev) garner enthusiastic usage as well.
+Bridgetown's implementation language, Ruby, has a rich history of providing [<abbr title="Embedded RuBy">ERB</abbr>](https://docs.ruby-lang.org/en/2.7.0/ERB.html) for templates and view layers across a wide variety of tools and frameworks. Other Ruby-based template languages such as [Haml](https://haml.info), [Slim](http://slim-lang.com), and [Serbea](https://www.serbea.dev) garner enthusiastic usage as well.
 
 Bridgetown makes it easy to add both ERB-based and Serbea-based templates and components to any site. In additional, there are plugins you can easily install for Haml and Slim support. Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process these Ruby templates.
 

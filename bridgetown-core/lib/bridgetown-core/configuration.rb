@@ -3,6 +3,8 @@
 module Bridgetown
   # The primary configuration object for a Bridgetown project
   class Configuration < HashWithDotAccess::Hash
+    REQUIRE_DENYLIST = %i(parse_routes ssr)
+
     Initializer = Struct.new(:name, :block, :completed, keyword_init: true) do
       def to_s
         "#{name} (Initializer)"
@@ -143,7 +145,7 @@ module Bridgetown
 
       # @return [Bridgetown::Configuration::Initializer]
       def _setup_initializer(name:, require_gem:, require_initializer:)
-        Bridgetown::PluginManager.require_gem(name) if require_gem
+        Bridgetown::PluginManager.require_gem(name) if require_gem && !_in_require_denylist?(name)
 
         if require_initializer
           init_file_name = File.join(@scope.root_dir, "config", "#{name}.rb")
@@ -151,6 +153,10 @@ module Bridgetown
         end
 
         @scope.initializers[name.to_sym]
+      end
+
+      def _in_require_denylist?(name)
+        REQUIRE_DENYLIST.include?(name.to_sym)
       end
     end
 
@@ -296,7 +302,7 @@ module Bridgetown
 
     def initialize_roda_app(app)
       roda_initializers.each do |initializer|
-        app.instance_exec(&initializer)
+        initializer.(app)
       end
     end
 

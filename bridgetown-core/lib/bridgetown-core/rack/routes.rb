@@ -130,7 +130,7 @@ module Bridgetown
         # @param app [Bridgetown::Rack::Roda]
         def setup_live_reload(app) # rubocop:disable Metrics/AbcSize
           sleep_interval = 0.2
-          file_to_check = File.join(app.class.opts[:bridgetown_preloaded_config].destination,
+          file_to_check = File.join(Bridgetown::Current.preloaded_configuration.destination,
                                     "index.html")
 
           app.request.get "_bridgetown/live_reload" do

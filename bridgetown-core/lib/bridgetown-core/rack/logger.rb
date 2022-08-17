@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "logger"
+require "bridgetown-core/log_writer"
 
 module Bridgetown
   module Rack
