@@ -192,6 +192,7 @@ module Bridgetown
         )
     end
 
+    # @yieldself [Bridgetown::Configuration::ConfigurationDSL]
     def configure(&block)
       initializer :init, &block
     end
@@ -206,7 +207,11 @@ module Bridgetown
     def load_tasks
       require "bridgetown-core/commands/base"
       Bridgetown::PluginManager.setup_bundler(skip_yarn: true)
-      Bridgetown::Current.preloaded_configuration ||= Bridgetown.configuration
+      if Bridgetown::Current.preloaded_configuration.is_a?(Bridgetown::Configuration::Preflight)
+        Bridgetown::Current.preloaded_configuration = Bridgetown.configuration
+      else
+        Bridgetown::Current.preloaded_configuration ||= Bridgetown.configuration
+      end
       load File.expand_path("bridgetown-core/tasks/bridgetown_tasks.rake", __dir__)
     end
 
