@@ -29,8 +29,8 @@ end
 
 namespace :roda do
   desc "Prints out the Roda routes file"
-  task routes: :environment do
-    run_initializers context: :server
+  task :routes do
+    require "bridgetown-core/rack/boot"
 
     Bridgetown::Rack::Roda.print_routes
   end
