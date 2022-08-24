@@ -123,8 +123,8 @@ module Bridgetown
       #
       # @return [String] the translated string
       # @see I18n
-      def t(*args)
-        I18n.send :t, *args
+      def t(*args, **kwargs)
+        I18n.send :t, *args, **kwargs
       end
 
       # For template contexts where ActiveSupport's output safety is loaded, we
