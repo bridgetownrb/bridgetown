@@ -6,17 +6,19 @@
   --color-wintermint: #f1fffa;
   --color-orange: #f47c3c;
   --color-light-orange: #ffb088; /*#ff9359;*/
+  --color-lightest-orange: #f8f5f0;
   --color-brick: #d64045;
   --color-dark-brick: #923538;
   --color-blackish: #131e1b;
   --color-dark-gray: #2e2525;
   --color-medium-gray: #454545;
   --color-light-gray: #b0b5b3;
-  --color-code-background: #f8f5f0;
 
   --body-background: white;
   --body-color: var(--color-dark-gray);
   --body-size: 120%;
+
+  --color-code-background: var(--color-lightest-orange);
 
   --sl-font-sans: RedHatText, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
