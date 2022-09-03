@@ -11,7 +11,7 @@ default_postcss_config = File.expand_path("../../../site_template/postcss.config
 template default_postcss_config, "postcss.config.js"
 
 unless Bridgetown.environment.test?
-  required_packages = %w(esbuild glob postcss postcss-flexbugs-fixes postcss-preset-env postcss-import postcss-load-config@3.1.4)
+  required_packages = %w(esbuild glob postcss postcss-flexbugs-fixes postcss-preset-env postcss-import postcss-load-config@4.0.1)
   redundant_packages = %w(esbuild-loader webpack webpack-cli webpack-manifest-plugin webpack-merge css-loader file-loader mini-css-extract-plugin postcss-loader)
 
   say "Installing required packages"

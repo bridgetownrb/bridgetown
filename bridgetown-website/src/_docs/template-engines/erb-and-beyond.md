@@ -313,6 +313,17 @@ You can pass additional keyword arguments to `link_to` which will be translated 
 <a href="/events/livestream" class="event" data-expire="2020-11-08">Join our livestream!</a>
 ```
 
+In order to simplify more complex lists of HTML attributes you may also pass a hash as the value of one of the keyword arguments.  This will convert all pairs in the hash into HTML attributes and prepend each key in the hash with the keyword argument:
+
+```eruby
+<%%= link_to "Join our livestream!", "_events/livestream.md", data: { controller: "testable", action: "testable#test" } %>
+
+<!-- output: -->
+<a href="/events/livestream" data-controller="testable" data-action="testable#test">Join our livestream!</a>
+```
+
+`link_to` uses [`attributes_from_options`](#attributes_from_options) under the hood to handle this converstion.
+
 You can also pass relative or aboslute URLs to `link_to` and they'll just pass-through to the anchor tag without change:
 
 ```eruby
@@ -326,6 +337,24 @@ Finally, if you pass a Ruby object (i.e., it responds to `url`), it will work as
 
 <!-- output: -->
 <a href="/this/is/my-last-page">My last page</a>
+```
+
+## Other HTML Helpers
+
+### attributes_from_options
+`attributes_from_options` allows you to pass a hash and have it converted to a string of HTML attributes:
+```eruby
+<p <%%= attributes_from_options({ class: "my-class", id: "some-id" }) %>>Hello, World!</p>
+
+<!-- output: -->
+<p class="my-class" id="some-id">Hello, World!</p>
+```
+`attributes_from_options` also allows for any value of the passed hash to itself be a hash. This will result in individual attributes being created from each pair in the hash. When doing this, the key the hash was paired with will be prepended to each attribute name:
+```eruby
+<button <%%= attributes_from_options({ data: { controller: "clickable", action: "click->clickable#test" } }) %>>Click Me!</button>
+
+<!-- output: -->
+<button data-controller="clickable" data-action="click->clickable#test">Click Me!</button>
 ```
 
 ## Capture Helper

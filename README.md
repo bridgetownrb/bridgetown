@@ -26,7 +26,7 @@ Say howdy 👋 to our growing list of past & present sponsors of Bridgetown on G
 |<img src="https://avatars.githubusercontent.com/pilotcph?s=256" alt="pilotcph" width="128" />|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://avatars.githubusercontent.com/miatrinity?s=256" alt="miatrinity" width="128" />|<img src="https://avatars.githubusercontent.com/marcoroth?s=256" alt="marcoroth" width="128" />|<img src="https://avatars.githubusercontent.com/mtomov?s=256" alt="mtomov" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
 |<a href="https://twitter.com/cabgfx">@cabgfx</a>|<a href="https://twitter.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/miatrinity">@miatrinity</a>|<a href="https://www.twitter.com/marcoroth_">@marcoroth_</a>|<a href="https://github.com/mtomov">@mtomov</a>|
-|<a href="http://www.pilotcph.dk">Website</a>|<a href="https://andrewm.codes">Website</a>|<a href="https://railsnew.io/">Website</a>|<a href="https://marcoroth.dev">Website</a>||
+|<a href="http://www.pilotcph.dk">Website</a>|<a href="https://andrewm.codes">Website</a>||<a href="https://marcoroth.dev">Website</a>||
 
 |<img src="https://avatars.githubusercontent.com/johnchambers?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/pascalwengerter?s=256" alt="pascalwengerter" width="128" />|<img src="https://avatars.githubusercontent.com/DRBragg?s=256" alt="DRBragg" width="128" />|<img src="https://avatars.githubusercontent.com/jasoncharnes?s=256" alt="jasoncharnes" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|

@@ -18,7 +18,6 @@ The configurations we include are:
 - [Ruby2JS](#ruby2js) (`ruby2js`)
 - [Bridgetown recommended PostCSS plugins](#bridgetown-recommended-postcss-plugins) (`bt-postcss`)
 - [PurgeCSS Post-Build Hook](#purgecss-post-build-hook) (`purgecss`)
-- [TailwindCSS](#tailwindcss) (`tailwindcss`)
 - [Render YAML Configuration](#render-yaml-configuration) (`render`)
 - [Netlify TOML Configuration](#netlify-toml-configuration) (`netlify`)
 - [Vercel JSON Configuration](#vercel-json-configuration) (`vercel`)
@@ -38,6 +37,12 @@ Bundled configurations can also be run while creating a new Bridgetown project u
   `$ bridgetown new born_to_be_wild -t serbea -c turbo,ruby2js,shoelace,lit,bt-postcss,render`
 
   Keep reading for documentation on all those options.
+{% end %}
+
+{%@ Note type: :warning do %}
+  #### Looking for Tailwind?
+
+  The bundled configuration for TailwindCSS has been [relocated to a separate community-maintained repo](https://github.com/bridgetownrb/tailwindcss-automation). The installation process remains just as simple. However, the Bridgetown core team recommends looking into options such as Open Props, Shoelace, and otherwise "vanilla" CSS (perhaps with a bit of help from PostCSS or Sass) as a best practice for "Use the Platform", future-compatible frontend development.
 {% end %}
 
 ## Configuration Setup Details
@@ -140,20 +145,6 @@ If you'd like to customize your setup further you can find more plugins [here](h
 
 ```sh
 bin/bridgetown configure purgecss
-```
-
-### TailwindCSS
-
-🍃 Adds [TailwindCSS](https://tailwindcss.com) for utility class-based prototyping and layout.
-
-Please be aware that you need to have [PostCSS](https://postcss.org) installed to run this configuration.
-
-This configuration will overwrite any existing `postcss.config.js` file. **NOTE:** you do not need to install the PurgeCSS hook as Tailwind now uses a JIT (Just-In-Time) compiler to add only the styles it needs based on your source files.
-
-🛠 **Configure using:**
-
-```sh
-bin/bridgetown configure tailwindcss
 ```
 
 ### Render YAML Configuration

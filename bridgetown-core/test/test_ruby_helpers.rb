@@ -32,6 +32,20 @@ class TestRubyHelpers < BridgetownUnitTest
     should "accept additional attributes" do
       assert_equal "<a href=\"/foo/bar\" class=\"classes\" data-test=\"abc123\">Label</a>", @helpers.link_to("Label", "/foo/bar", class: "classes", data_test: "abc123")
     end
+
+    should "accept hash attributes" do
+      assert_equal "<a href=\"/foo/bar\" class=\"classes\" data-controller=\"test\" data-action=\"test#test\">Label</a>", @helpers.link_to("Label", "/foo/bar", class: "classes", data: { controller: "test", action: "test#test" })
+    end
+  end
+
+  context "attributes_from_options" do
+    should "return an attribute string from a hash" do
+      assert_equal "class=\"classes\" data-test=\"abc123\"", @helpers.attributes_from_options(class: "classes", data_test: "abc123")
+    end
+
+    should "handle nested hashes" do
+      assert_equal "class=\"classes\" data-controller=\"test\" data-action=\"test#test\" data-test-target=\"test_value\" data-test-index-value=\"1\"", @helpers.attributes_from_options(class: "classes", data: { controller: "test", action: "test#test", test: { target: "test_value", index_value: "1" } })
+    end
   end
 
   context "class_map" do

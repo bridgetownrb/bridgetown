@@ -98,23 +98,35 @@ module Bridgetown
       # @return [String] the anchor tag HTML
       # @raise [ArgumentError] if the file cannot be found
       def link_to(text, relative_path, options = {})
+        segments = attributes_from_options({ href: url_for(relative_path) }.merge(options))
+
+        safe("<a #{segments}>#{text}</a>")
+      end
+
+      # Create a set of attributes from a hash.
+      #
+      # @param options [Hash] key-value pairs of HTML attributes
+      # @return [String]
+      def attributes_from_options(options)
         segments = []
-        segments << "a"
-        segments << "href=\"#{url_for(relative_path)}\""
         options.each do |attr, option|
-          attr = attr.to_s.tr("_", "-")
-          segments << "#{attr}=\"#{Utils.xml_escape(option)}\""
+          attr = dashed(attr)
+          if option.is_a?(Hash)
+            option = option.transform_keys { |key| "#{attr}-#{dashed(key)}" }
+            segments << attributes_from_options(option)
+          else
+            segments << attribute_segment(attr, option)
+          end
         end
-        # TODO: this might leak an XSS string into text, need to check
-        safe("<#{segments.join(" ")}>#{text}</a>")
+        safe(segments.join(" "))
       end
 
       # Forward all arguments to I18n.t method
       #
       # @return [String] the translated string
       # @see I18n
-      def t(*args)
-        I18n.send :t, *args
+      def t(*args, **kwargs)
+        I18n.send :t, *args, **kwargs
       end
 
       # For template contexts where ActiveSupport's output safety is loaded, we
@@ -126,6 +138,27 @@ module Bridgetown
         input.to_s.html_safe
       end
       alias_method :raw, :safe
+
+      private
+
+      # Covert an underscored value into a dashed string.
+      #
+      # @example "foo_bar_baz" => "foo-bar-baz"
+      #
+      # @param value [String|Symbol]
+      # @return [String]
+      def dashed(value)
+        value.to_s.tr("_", "-")
+      end
+
+      # Create an attribute segment for a tag.
+      #
+      # @param attr [String] the HTML attribute name
+      # @param value [String] the attribute value
+      # @return [String]
+      def attribute_segment(attr, value)
+        "#{attr}=\"#{Utils.xml_escape(value)}\""
+      end
     end
   end
 end
