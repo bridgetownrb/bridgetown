@@ -20,8 +20,8 @@ module Bridgetown
       end
 
       Bridgetown::Deprecator.deprecation_message(
-        "The #{source_manifest.origin} plugin should switch from using `add_source_manifest' to" \
-        " the `source_manifest` initializer method"
+        "The #{source_manifest.origin} plugin should switch from using `add_source_manifest' to " \
+        "the `source_manifest` initializer method"
       )
 
       Bridgetown::Current.preloaded_configuration.source_manifests << source_manifest
@@ -33,8 +33,8 @@ module Bridgetown
       end
 
       Bridgetown::Deprecator.deprecation_message(
-        "The #{kwargs[:origin]} plugin should switch from using `new_source_manifest' to the" \
-        " `source_manifest` initializer method"
+        "The #{kwargs[:origin]} plugin should switch from using `new_source_manifest' to the " \
+        "`source_manifest` initializer method"
       )
 
       add_source_manifest(Bridgetown::Configuration::SourceManifest.new(**kwargs))
@@ -207,8 +207,8 @@ module Bridgetown
         next if site.config[:plugins_use_zeitwerk]
 
         Deprecator.deprecation_message(
-          "The `plugins_use_zeitwerk' configuration option will be removed in the next version" \
-          " of Bridgetown (aka will be permanently set to \"true\")"
+          "The `plugins_use_zeitwerk' configuration option will be removed in the next version " \
+          "of Bridgetown (aka will be permanently set to \"true\")"
         )
         Bridgetown::Utils::RequireGems.require_with_graceful_fail(sorted_plugin_files)
       end

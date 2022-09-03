@@ -13,8 +13,8 @@ module Bridgetown
 
           if block && helpers_scope
             Deprecator.deprecation_message(
-              "The `helpers_scope' functionality is deprecated. Use the `helpers' builder" \
-              " method to access the helpers scope in your plugin."
+              "The `helpers_scope' functionality is deprecated. Use the `helpers' builder " \
+              "method to access the helpers scope in your plugin."
             )
             m.define_method helper_name, &block
           else

@@ -17,8 +17,8 @@ module Bridgetown
 
           if block && filters_scope
             Deprecator.deprecation_message(
-              "The `filters_scope' functionality is deprecated. Use the `filters' builder" \
-              " method to access the filters scope in your plugin."
+              "The `filters_scope' functionality is deprecated. Use the `filters' builder " \
+              "method to access the filters scope in your plugin."
             )
             m.define_method filter_name, &block
           else

@@ -3,7 +3,7 @@
 module Bridgetown
   # The primary configuration object for a Bridgetown project
   class Configuration < HashWithDotAccess::Hash
-    REQUIRE_DENYLIST = %i(parse_routes ssr)
+    REQUIRE_DENYLIST = %i(parse_routes ssr) # rubocop:disable Style/MutableConstant
 
     Initializer = Struct.new(:name, :block, :completed, keyword_init: true) do
       def to_s
@@ -343,21 +343,21 @@ module Bridgetown
       when %r!\.toml!i
         Deprecator.deprecation_message(
           "TOML configurations will no longer be supported in the next version of Bridgetown." \
-          " Use initializers or a .yaml config instead."
+          "Use initializers or a .yaml config instead."
         )
         Bridgetown::Utils::RequireGems.require_with_graceful_fail("tomlrb") unless defined?(Tomlrb)
         Tomlrb.load_file(filename)
       when %r!\.ya?ml!i
         if File.basename(filename, ".*") == "_config"
           Deprecator.deprecation_message(
-            "YAML configurations named `_config.y(a)ml' will no longer be supported in the next" \
-            " version of Bridgetown. Rename to `bridgetown.config.yml' instead."
+            "YAML configurations named `_config.y(a)ml' will no longer be supported in the next " \
+            "version of Bridgetown. Rename to `bridgetown.config.yml' instead."
           )
         end
         if File.extname(filename) == ".yaml"
           Deprecator.deprecation_message(
-            "YAML configurations ending in `.yaml' will no longer be supported in the next" \
-            " version of Bridgetown. Rename to use `.yml' extension instead."
+            "YAML configurations ending in `.yaml' will no longer be supported in the next " \
+            "version of Bridgetown. Rename to use `.yml' extension instead."
           )
         end
         YAMLParser.load_file(filename) || {}

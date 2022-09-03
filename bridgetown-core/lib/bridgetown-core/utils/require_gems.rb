@@ -18,8 +18,8 @@ module Bridgetown
           rescue LoadError => _e
             Bridgetown.logger.error(
               "Dependency Error:",
-              "Hmm, it looks like you don't have `#{name}' or one of its dependencies" \
-              " installed. Please double-check you've added it to your Gemfile."
+              "Hmm, it looks like you don't have `#{name}' or one of its dependencies " \
+              "installed. Please double-check you've added it to your Gemfile."
             )
             Bridgetown.logger.error(
               "", "You can also find help at https://www.bridgetownrb.com/community"

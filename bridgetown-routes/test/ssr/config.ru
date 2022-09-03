@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-Bridgetown::Current.preloaded_configuration = Bridgetown.configuration(
+require "bridgetown-core/rack/boot"
+
+Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration.from(
   root_dir: __dir__,
   destination: "test_output"
 )
-
-require "bridgetown-core/rack/boot"
 
 Bridgetown::Rack.boot
 

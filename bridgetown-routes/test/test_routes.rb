@@ -15,14 +15,6 @@ class TestRoutes < BridgetownUnitTest
   end
 
   context "Roda-powered Bridgetown server" do
-    setup do
-      Bridgetown::Current.site = nil
-    end
-
-    teardown do
-      Bridgetown::Current.preloaded_configuration = nil
-    end
-
     should "return the index page" do
       get "/"
       assert last_response.ok?

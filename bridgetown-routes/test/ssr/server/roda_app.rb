@@ -9,8 +9,5 @@ class RodaApp < Bridgetown::Rack::Roda
   end)
   # rubocop:enable Lint/EmptyBlock
 
-  plugin :bridgetown_ssr
-  plugin :bridgetown_routes
-
   route(&:bridgetown)
 end
