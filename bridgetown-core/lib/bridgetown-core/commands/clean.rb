@@ -17,7 +17,7 @@ module Bridgetown
       summary "Clean the site (removes site output and metadata file) without building"
 
       def clean
-        config = configuration_with_overrides(options)
+        config = configuration_with_overrides(options, Bridgetown::Current.preloaded_configuration)
         destination = config["destination"]
         metadata_file = File.join(config["root_dir"], ".bridgetown-metadata")
         cache_dir = File.join(config["root_dir"], config["cache_dir"])
