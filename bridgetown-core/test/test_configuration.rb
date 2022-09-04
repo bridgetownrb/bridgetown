@@ -500,4 +500,48 @@ class TestConfiguration < BridgetownUnitTest
       refute_includes config["description"], "\n"
     end
   end
+
+  context "initializers" do
+    setup do
+      @config = Configuration.from({})
+      @config.initializers = {}
+
+      @config.initializers[:something] =
+        Bridgetown::Configuration::Initializer.new(
+          name: :something,
+          block: proc { |secret_value:|
+            assert_equal secret_value, "shhh!"
+          },
+          completed: false
+        )
+    end
+
+    should "affect the underlying configuration" do
+      dsl = Configuration::ConfigurationDSL.new(scope: @config, data: @config)
+
+      dsl.instance_variable_set(:@context, :testing)
+      dsl.instance_exec(dsl) do |config|
+        url "http://www.proddomain.com"
+
+        only :testing do
+          url "http://www.testdomain.com"
+
+          init :something, require_gem: false do
+            secret_value "shhh!"
+          end
+        end
+
+        except :testing do
+          url "http://www.fakedomain.com"
+        end
+
+        config.autoload_paths << "stuff"
+      end
+
+      assert_equal "http://www.testdomain.com", @config.url
+      assert_equal "stuff", @config.autoload_paths[1]
+
+      assert @config.init_params.key?("something")
+    end
+  end
 end
