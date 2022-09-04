@@ -26,7 +26,7 @@ layout: default
     {%= yield %}
 
     <p style="margin-top:2.5em; text-align:center">
-      <sl-button type="primary" size="small" pill outline onclick='
+      <sl-button variant="primary" size="small" pill outline onclick='
         navigator.share({url: location.href})
       '>
         <sl-icon slot="suffix" library="remixicon" name="system/share-box"></sl-icon>

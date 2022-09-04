@@ -22,7 +22,7 @@ While your competitors are wrestling with complicated build tools, limited progr
 {:style="margin-left:auto; margin-right:auto; max-width:43em"}
 
 <p>
-  <a href="/docs"><sl-button type="primary" pill size="large">
+  <a href="/docs"><sl-button variant="primary" pill size="large">
     <sl-icon slot="prefix" library="remixicon" name="development/code-box"></sl-icon>
     Get Started Today
   </sl-button></a>
@@ -132,7 +132,7 @@ Like the Ruby language itself, **Bridgetown** is optimized for [web developer ha
 
 
 <p>
-  <a href="/docs"><sl-button type="primary" outline>
+  <a href="/docs"><sl-button variant="primary" outline>
     <sl-icon slot="prefix" library="remixicon" name="development/code-box"></sl-icon>
     Install Now
   </sl-button></a>
@@ -181,7 +181,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   All of the features you’ve grown to love from the world of static site generation. Front Matter. Markdown. Easy permalinks. File-based content deployment with Git history and atomic builds. Data transformation pipelines. Paginated archives. It's all here and ready to roll.
 
-  <p><a href="/docs/core-concepts"><sl-button type="primary" size="small" outline pill>
+  <p><a href="/docs/core-concepts"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
     <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
@@ -194,7 +194,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
   
   Set up collections for whatever types of content you need. Define taxonomies. Create relationships between different pieces of content. And when you need to, easily generate new content at build-time (or in real-time!) by connecting to a Headless CMS and other web APIs.
 
-  <p><a href="/docs/resources"><sl-button type="primary" size="small" outline pill>
+  <p><a href="/docs/resources"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
     <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
@@ -207,7 +207,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
   
   Actually more than one. Actually three! Liquid. ERB. Serbea. Increasing levels of power and sophistication with each step. Liquid, created by Shopify, is easy to get started with. Upgrade to ERB for the same syntax Ruby on Rails employs. Or choose Serbea, a superset of ERB which brings the best of Ruby and Liquid templates together.
 
-  <p><a href="/docs/template-engines"><sl-button type="primary" size="small" outline pill>
+  <p><a href="/docs/template-engines"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
     <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
@@ -220,7 +220,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
   
   Best practices in modern web design revolve around components, discrete building blocks of visual and semantic functionality. Use Bridgetown components for a modular approach to your site design, pull in GitHub's ViewComponent for even more power, or sprinkle frontend web components on top for that extra sizzle.
 
-  <p><a href="/docs/components"><sl-button type="primary" size="small" outline pill>
+  <p><a href="/docs/components"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
     <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
@@ -233,7 +233,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
   
   Some projects don't need an SSR backend. But for the ones that do, Bridgetown's got you covered. It comes with Roda baked-in, one of the fastest Ruby web frameworks in the biz. And when we say "baked-in", we literally mean it. Create a regular view template and add a dynamic route block at the top which can handle all the requests you'll throw at it. Need even more power? Mount a Rails API using Rack. All in one monorepo. Now that's a stack.
 
-  <p><a href="/docs/routes"><sl-button type="primary" size="small" outline pill>
+  <p><a href="/docs/routes"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
     <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
@@ -246,7 +246,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
   
   Bridgetown sets you up with blazing-fast, zero-config esbuild & PostCSS. Or pick Webpack if you prefer. Either way, add modern JavaScript libraries like Turbo, Stimulus, Lit, even Preact with a simple command. Install comprehensive component libraries such as Shoelace for rapid UI development. Go big with interactive functionality or stay minimalist for that “zero JS" experience. It's totally your choice.
 
-  <p><a href="/docs/frontend-assets"><sl-button type="primary" size="small" outline pill>
+  <p><a href="/docs/frontend-assets"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
     <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
@@ -259,7 +259,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
   
   Bridgetown might just be the easiest way to get started learning and writing Ruby code. Craft custom plugins to enhance your site build and content with a straightforward DSL and make huge strides in only a few lines! If you already have experience writing Rails apps, you should feel right at home. (Yes, we love Active Support too!)
 
-  <p><a href="/docs/plugins"><sl-button type="primary" size="small" outline pill>
+  <p><a href="/docs/plugins"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
     <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
@@ -272,7 +272,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
   
   For static-only projects, you can deploy Bridgetown sites literally anywhere which supports HTML/CSS/JS files. Jamstack-style hosts are great options for performance and security. For a full-stack production setup with database access, Redis caching, and all the rest, Render is our recommended hosting platform.
 
-  <p><a href="/docs/deployment"><sl-button type="primary" size="small" outline pill>
+  <p><a href="/docs/deployment"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
     <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
@@ -282,7 +282,7 @@ Then when you're ready, [bundled configurations](/docs/bundled-configurations) a
 {:style="text-align:center; margin-top:3rem; margin-left:auto; margin-right:auto; max-width:50em"}
 
 <p>
-  <a href="/docs"><sl-button type="primary" pill size="large">
+  <a href="/docs"><sl-button variant="primary" pill size="large">
     Start Your Build Today
     <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
   </sl-button></a>

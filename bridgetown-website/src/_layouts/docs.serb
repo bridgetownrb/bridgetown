@@ -23,7 +23,7 @@ layout: default
 
   {% if url_sections.size > 3 %}
     <p style="text-align:center; margin-top:4rem">
-      <a href="/docs/{{ resource.data.back_to || resource.data.category }}"><sl-button type="primary" size="small" outline>
+      <a href="/docs/{{ resource.data.back_to || resource.data.category }}"><sl-button variant="primary" size="small" outline>
         Back to {{ resource.data.category | titleize }}
         <sl-icon slot="prefix" library="remixicon" name="system/arrow-up-s-fill"></sl-icon>
       </sl-button></a>
@@ -37,7 +37,7 @@ layout: default
     {% next_page = collections.docs.resources.find { _1.data.order == next_order } %}
     {% if next_page %}
       <p style="text-align:right; margin-top:4rem">
-        <a href="{{ next_page.relative_url }}"><sl-button type="primary" size="small" outline>
+        <a href="{{ next_page.relative_url }}"><sl-button variant="primary" size="small" outline>
           {{ next_page.data.title }}
           <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
         </sl-button></a>
