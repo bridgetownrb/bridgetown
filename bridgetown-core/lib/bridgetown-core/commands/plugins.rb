@@ -177,14 +177,12 @@ module Bridgetown
         end
       end
 
-      desc "new NAME", "Create a new plugin NAME (please-use-dashes) by" \
-                       " cloning the sample plugin repo"
-      def new(plugin_name)
-        folder_name = plugin_name.underscore
-        name = folder_name.dasherize
+      desc "new NAME", "Create a new plugin NAME by cloning the sample plugin repo"
+      def new(name)
+        folder_name = name.underscore
         module_name = folder_name.camelize
 
-        run "git clone https://github.com/bridgetownrb/bridgetown-sample-plugin #{name}"
+        run "git clone -b v1.2-initializer https://github.com/bridgetownrb/bridgetown-sample-plugin #{name}"
         new_gemspec = "#{name}.gemspec"
 
         inside name do # rubocop:todo Metrics/BlockLength
@@ -200,11 +198,11 @@ module Bridgetown
           gsub_file "package.json", "https://github.com/bridgetownrb/bridgetown-sample-plugin", "https://github.com/username/#{name}"
           gsub_file "package.json", "bridgetown-sample-plugin", name
 
-          FileUtils.mv "lib/sample-plugin.rb", "lib/#{name}.rb"
-          gsub_file "lib/#{name}.rb", "sample-plugin", name
+          FileUtils.mv "lib/sample_plugin.rb", "lib/#{folder_name}.rb"
+          gsub_file "lib/#{name}.rb", "sample_plugin", folder_name
           gsub_file "lib/#{name}.rb", "SamplePlugin", module_name
 
-          FileUtils.mv "lib/sample-plugin", "lib/#{name}"
+          FileUtils.mv "lib/sample_plugin", "lib/#{folder_name}"
           gsub_file "lib/#{name}/builder.rb", "SamplePlugin", module_name
           gsub_file "lib/#{name}/version.rb", "SamplePlugin", module_name
 
@@ -219,6 +217,8 @@ module Bridgetown
           gsub_file "layouts/#{folder_name}/layout.html", "sample_plugin", folder_name
           gsub_file "content/#{folder_name}/example_page.md", "sample_plugin", folder_name
           gsub_file "components/#{folder_name}/layout_help.liquid", "sample_plugin", folder_name
+
+          gsub_file "components/#{folder_name}/plugin_component.rb", "SamplePlugin", module_name
 
           gsub_file "frontend/javascript/index.js", "bridgetown-sample-plugin", name
           gsub_file "frontend/javascript/index.js", "SamplePlugin", module_name
