@@ -45,7 +45,7 @@
 
       <p>
         <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbridgetownrb.com&via={{ site.metadata.twitter }}&text=Check%20out%20this%20awesome%20new%20static%20site%20generator%20built%20in%20Ruby%21&hashtags=SpinUpBridgetown%2CJamstack">
-          <sl-button type="primary" size="small">
+          <sl-button variant="primary" size="small">
             <sl-icon slot="prefix" library="remixicon" name="logos/twitter-fill"></sl-icon>
             Tweet
           </sl-button>
@@ -58,7 +58,7 @@
 
       <p>
         <a href="/feed.xml">
-          <sl-button type="warning" size="small">
+          <sl-button variant="warning" size="small">
             <sl-icon slot="prefix" library="remixicon" name="device/rss-fill"></sl-icon>
             News Feed
           </sl-button>

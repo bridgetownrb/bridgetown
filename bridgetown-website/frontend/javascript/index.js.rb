@@ -6,7 +6,6 @@ import '@shoelace-style/shoelace/dist/components/breadcrumb-item/breadcrumb-item
 import '@shoelace-style/shoelace/dist/components/button/button.js'
 import '@shoelace-style/shoelace/dist/components/card/card.js'
 import '@shoelace-style/shoelace/dist/components/dialog/dialog.js'
-import '@shoelace-style/shoelace/dist/components/form/form.js'
 import '@shoelace-style/shoelace/dist/components/icon/icon.js'
 import '@shoelace-style/shoelace/dist/components/input/input.js'
 import '@shoelace-style/shoelace/dist/components/tag/tag.js'

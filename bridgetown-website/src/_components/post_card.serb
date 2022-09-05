@@ -17,7 +17,7 @@
     </ui-label>
 
     <a href="{{ @post.relative_url }}">
-      <sl-button type="primary">
+      <sl-button variant="primary">
         <sl-icon slot="prefix" library="remixicon" name="document/article-fill"></sl-icon>
         Read…
       </sl-button>
