@@ -13,7 +13,7 @@
         {% end %}
       </sl-bar-item>
       <sl-bar-item mobileonly>
-        <sl-button menutoggle type="text" onclick='
+        <sl-button menutoggle variant="text" onclick='
           const bar = this.closest("sl-bar")
           if (bar.getAttribute("expanded") != "true") {
             menuShow(this)
