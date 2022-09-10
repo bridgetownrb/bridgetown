@@ -231,9 +231,10 @@ const bridgetownPreset = (outputFolder) => ({
           // We have an entrypoint!
           manifest[stripPrefix(value.entryPoint)] = outputPath
           entrypoints.push([outputPath, fileSize(key)])
-        } else if (key.match(/index(\.js)?\.[^-.]*\.css/) && inputs.find(item => item.match(/\.(s?css|sass)$/))) {
+        } else if (key.match(/index(\.js)?\.[^-.]*\.css/) && inputs.find(item => item.match(/frontend.*\.(s?css|sass)$/))) {
           // Special treatment for index.css
-          manifest[stripPrefix(inputs.find(item => item.match(/\.(s?css|sass)$/)))] = outputPath
+          const input = inputs.find(item => item.match(/frontend.*\.(s?css|sass)$/))
+          manifest[stripPrefix(input)] = outputPath
           entrypoints.push([outputPath, fileSize(key)])
         } else if (inputs.length > 0) {
           // Naive implementation, we'll just grab the first input and hope it's accurate
