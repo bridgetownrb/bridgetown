@@ -176,13 +176,36 @@ module Bridgetown
       end
     end
 
-    def initializer(name, &block)
+    def initializer(name, prepend: false, replace: false, &block) # rubocop:todo Metrics
       unless Bridgetown::Current.preloaded_configuration
         raise "The `#{name}' initializer in #{block.source_location[0]} was called " \
               "without a preloaded configuration"
       end
 
       Bridgetown::Current.preloaded_configuration.initializers ||= {}
+
+      if Bridgetown::Current.preloaded_configuration.initializers.key?(name.to_sym)
+        if replace
+          Bridgetown.logger.warn(
+            "Initializing:",
+            "The previous `#{name}' initializer was replaced by a new initializer"
+          )
+        else
+          prev_block = Bridgetown::Current.preloaded_configuration.initializers[name.to_sym].block
+          new_block = block
+          block = if prepend
+                    proc do |*args, **kwargs|
+                      new_block.(*args, **kwargs)
+                      prev_block.(*args, **kwargs)
+                    end
+                  else
+                    proc do |*args, **kwargs|
+                      prev_block.(*args, **kwargs)
+                      new_block.(*args, **kwargs)
+                    end
+                  end
+        end
+      end
 
       Bridgetown::Current.preloaded_configuration.initializers[name.to_sym] =
         Bridgetown::Configuration::Initializer.new(

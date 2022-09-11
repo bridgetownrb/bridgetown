@@ -140,8 +140,6 @@ module Bridgetown
       init_init = initializers[:init]
       return unless init_init && !init_init.completed
 
-      require_relative "utils/initializers"
-
       Bridgetown.logger.debug "Initializing:", "Running initializers with `#{context}' context in:"
       Bridgetown.logger.debug "", initializers_file
       self.init_params = {}

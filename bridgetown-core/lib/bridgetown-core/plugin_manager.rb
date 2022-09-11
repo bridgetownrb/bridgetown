@@ -64,6 +64,7 @@ module Bridgetown
       if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] && File.file?("Gemfile")
         require "bundler"
 
+        require_relative "utils/initializers"
         load_determined_bundler_environment(skip_yarn: skip_yarn)
 
         ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] = "true"
