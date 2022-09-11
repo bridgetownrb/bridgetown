@@ -111,7 +111,7 @@ The organizations can then be accessed via `site.data.orgs`, followed by the fil
 ```liquid
 <ul>
 {% for org_hash in site.data.orgs %}
-{% assign org = org_hash[1] %}
+  {% assign org = org_hash[1] %}
   <li>
     <a href="https://github.com/{{ org.username }}" rel="noopener">
       {{ org.name }}
@@ -122,6 +122,21 @@ The organizations can then be accessed via `site.data.orgs`, followed by the fil
 </ul>
 ```
 {% endraw %}
+
+## Merging Site Data into Resource Data
+
+New for Bridgetown 1.2: for easier access to data in your templates whether that data comes from the resource directly or from data files, you can use [front matter](/docs/front-matter/) to specify a data path for merging into the resource.
+
+Just define a front matter variable in a resource like so:
+
+```yaml
+---
+title: Projects
+projects: site.data.projects
+---
+```
+
+Now your template you can reference `data.projects` just like you might `data.title` or any other front matter variable. You can even use [front matter defaults](/docs/content/front-matter-defaults/) to assign such a data variable to multiple resources at once.
 
 ## Example: Accessing a specific author
 
@@ -142,9 +157,10 @@ The author can then be specified as a page variable in a post's front matter:
 ---
 title: sample post
 author: dave
+people: site.data.people
 ---
 
-{% assign author = site.data.people[resource.data.author] %}
+{% assign author = data.people[data.author] %}
 <a rel="author noopener"
   href="https://twitter.com/{{ author.twitter }}"
   title="{{ author.name }}">

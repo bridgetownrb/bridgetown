@@ -22,6 +22,10 @@ module Bridgetown
       @site = page.site
     end
 
+    def data
+      resource.data
+    end
+
     def partial(_partial_name = nil, **_options)
       raise "Must be implemented in a subclass"
     end

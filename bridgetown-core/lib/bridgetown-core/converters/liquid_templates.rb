@@ -89,6 +89,7 @@ module Bridgetown
         payload["paginator"] = document.respond_to?(:paginator) ? document.paginator.to_liquid : nil
         payload["layout"] = @layout ? @layout.to_liquid.merge({ data: @layout.data }) : {}
         payload["content"] = content
+        payload["data"] = payload["page"].data
       end
 
       def liquid_context
