@@ -11,6 +11,9 @@ Bridgetown.initializer :ssr do |config, setup: nil|
 end
 
 Bridgetown.initializer :parse_routes do |config|
+  # This builds upon the work done here:
+  # https://github.com/jeremyevans/roda-route_list/blob/master/bin/roda-parse_routes
+
   require "roda-route_parser"
 
   route_files = Dir["#{config.root_dir}/server/**/*.rb"]

@@ -154,18 +154,14 @@ Testing is straightforward as well. Simply place `.test.rb` files alongside your
 To opt-into the `bridgetown-routes` gem, make sure it's enabled in your `Gemfile`:
 
 ```ruby
-gem "bridgetown-routes", group: :bridgetown_plugins
+gem "bridgetown-routes"
 ```
 
-and added in as a Roda plugin below the SSR plugin:
+and added in to `config/initializers.rb` along with the SSR plugin:
 
 ```ruby
-class RodaApp < Bridgetown::Rack::Roda
-  plugin :bridgetown_ssr
-  plugin :bridgetown_routes
-
-  # etc.
-end
+init :ssr
+init :"bridgetown-routes"
 ```
 
 ## URL Helpers

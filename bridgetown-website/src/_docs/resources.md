@@ -307,7 +307,7 @@ output << "[bridgetown](https://github.com/bridgetownrb/bridgetown)"
 markdownify output.join("\n")
 ```
 
-Now obviously it's silly to build up Markdown content in an array of strings in a Ruby code file…but imagine building or using third-party DSLs to generate sophisticated markup and advanced structural documents of all kinds. [Arbre](https://activeadmin.github.io/arbre/) is but one example of a Ruby-first approach to creating templates.
+Now obviously it's silly to build up Markdown content in an array of strings in a Ruby code file…but imagine building or using third-party <abbr title="Domain-Specific Languages">DSLs</abbr> to generate sophisticated markup and advanced structural documents of all kinds. [Arbre](https://activeadmin.github.io/arbre/) is but one example of a Ruby-first approach to creating templates.
 
 ```
 # What if your .rb template looked like this?

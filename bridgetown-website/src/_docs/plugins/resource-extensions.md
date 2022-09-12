@@ -5,7 +5,7 @@ top_section: Configuration
 category: plugins
 ---
 
-This API allows you or a third-party gem to augment resources with new methods. There are two ways to use it: in a Builder via a DSL method, or by defining your own modules to register as an extension. The Builder way works just with Ruby-based templates (ERB, etc.), whereas the module way can work with the Resource Liquid Drop as well.
+This API allows you or a third-party gem to augment resources with new methods. There are two ways to use it: in a Builder via a <abbr title="Domain-Specific Language">DSL</abbr> method, or by defining your own modules to register as an extension. The Builder way works just with Ruby-based templates (ERB, etc.), whereas the module way can work with the Resource Liquid Drop as well.
 
 There's also a summary extension point which can allow a plugin to provide enhanced summaries for resource content.
 

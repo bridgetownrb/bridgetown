@@ -33,23 +33,26 @@ Whenever you need more information about the plugins installed on your site and 
 
 There are three methods of adding plugins to your site build.
 
-1. In your site's root folder (aka where your config file lives), make a `plugins` folder. Write your custom plugins and save them here. Any file ending in `.rb` inside this folder will be loaded automatically before Bridgetown generates your site.
+1. Within your site's root folder, there's a `plugins` folder. Write your custom plugins and save them here. Any file ending in `.rb` inside this folder will be loaded automatically before Bridgetown generates your site. Most plugins you write will likely be using the Builder API, so you can add them in `plugins/builders`.
 
 2. Add gem-based plugins to your `Gemfile` by running a command such as:
   ```sh
 bundle add bridgetown-feed
   ```
-  and then adding an init statement to your configuration (such as `init :"bridgetown-feed"`).
+  and then adding an init statement to your `config/initializers.rb` file (such as `init :"bridgetown-feed"`).
 
-3. Running an [automation](/docs/automations) which will install one or more
-gems along with other set up and configuration:
+3. Run an [automation](/docs/automations) which will install one or more gems along with other set up and configuration:
   ```sh
 bin/bridgetown apply https://github.com/bridgetownrb/bridgetown-cloudinary
   ```
 
+{%@ Note type: :warning do %}
+  Starting in Bridgetown 1.2, plugins are no longer required to be placed in the `bridgetown_plugins` group for sites which use the new initializers system. Read the [Initializers documentation](/docs/configuration/initializers/) for further details.
+{% end %}
+
 ## Introduction to the Builder API
 
-The Builder API (with its various Domain-Specific Languages, or DSLs) is typically the approach you'll use to write Bridgetown plugins.
+The Builder API (with its various <abbr title="Domain-Specific Languages">DSLs</abbr>) is typically the approach you'll use to write Bridgetown plugins.
 
 ### Local Custom Plugins
 
@@ -82,7 +85,7 @@ class Builders::AddNewData < SiteBuilder
 end
 ```
 
-And then reference that data in any Liquid template:
+And then reference that data in any template:
 
 ```Liquid
 {% raw %}{{ site.data.new_data.new }}{% endraw %}
@@ -123,7 +126,7 @@ the internal Ruby API. Objects like `Bridgetown::Site`, `Bridgetown::Resource::B
 
 Documentation for Bridgetown's class hierarchy is [available on our API website](https://api.bridgetownrb.com).
 
-The simplest way to debug the code you write is to run `bridgetown console` and interact with the API there. You can then copy working code into your plugin, or test out new ideas before committing them to your plugin code.
+The simplest way to debug the code you write is to run `bridgetown console` and interact with the API there. You can then copy working code into your plugin, or test out new ideas before committing them to your plugin code. You can also write `binding.irb` at any point in your code, and you'll be dropped into a console when execution pauses at that point.
 
 ## Plugin Categories
 
@@ -143,7 +146,7 @@ You can provide custom Liquid filters to help transform data and content.
 
 ### [HTTP Requests and the Resource Builder](/docs/plugins/external-apis)
 
-Easily pull data in from external APIs, and use a special DSL (Domain-Specific Language) to build resources out of that data.
+Easily pull data in from external APIs, and use a special <abbr title="Domain-Specific Language">DSL</abbr> to build resources out of that data.
 
 ### [Hooks](/docs/plugins/hooks)
 

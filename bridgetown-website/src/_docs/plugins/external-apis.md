@@ -92,7 +92,7 @@ Bridgetown comes with the [Faraday Middleware gem](https://github.com/lostisland
 
 ## The Resource Builder
 
-Adding content from an API to the `site.data` object is certainly useful, but an even more powerful feature is the Resource Builder. All you need to do is call the `add_resource` method to generate resources which function in exactly the same way as if those files were already stored in your repository. It uses a special DSL, similar to [Ruby Front Matter](/docs/front-matter), to make assigning front matter and content very simple.
+Adding content from an API to the `site.data` object is certainly useful, but an even more powerful feature is the Resource Builder. All you need to do is call the `add_resource` method to generate resources which function in exactly the same way as if those files were already stored in your repository. It uses a special <abbr title="Domain-Specific Language">DSL</abbr>, similar to [Ruby Front Matter](/docs/front-matter), to make assigning front matter and content very simple.
 
 Here's a simple example of creating a new blog post:
 
@@ -265,11 +265,9 @@ Graphtown allows you to consume GraphQL APIs for your Bridgetown website
 using a tidy Builder DSL on top of the
 [Graphlient](https://github.com/ashkan18/graphlient) gem.
 
-Get started by simply running `bundle add graphtown -g
-bridgetown_plugins` in your bridgetown site.
+Get started by simply running `bundle add graphtown` in your bridgetown site and adding `init :graphtown` to `config/initializers.rb`.
 
-Then, navigate to your `plugins/site_builder.rb` file and add the
-Graphtown mixin.
+Then, navigate to your `plugins/site_builder.rb` file and add the Graphtown mixin.
 
 ```rb
 # plugins/site_builder.rb
@@ -279,8 +277,7 @@ class SiteBuilder < Bridgetown::Builder
 end
 ```
 
-Setup your `graphql_endpoint` in your `bridgetown.config.yml` and
-you're ready to rock and roll.
+Setup your `graphql_endpoint` in your `bridgetown.config.yml` and you're ready to rock and roll.
 
 ```rb
 # bridgetown.config.yml

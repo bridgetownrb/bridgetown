@@ -34,8 +34,11 @@ module Bridgetown
           end
 
           routes.each do |route|
-            puts [route["methods"]&.join("|") || "GET", route["path"],
-                  route["file"],].compact.join(" ")
+            puts [
+              route["methods"]&.join("|") || "GET",
+              route["path"],
+              route["file"] ? "\n  File: #{route["file"]}" : nil,
+            ].compact.join(" ")
           end
           puts
         end

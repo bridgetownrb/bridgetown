@@ -13,10 +13,10 @@ You install a theme the same way you'd install any plugin, either by running
 a command such as:
 
 ```sh
-bundle add really-cool-theme -g bridgetown_plugins
+bundle add really-cool-theme
 ```
 
-Or by applying an [automation](/docs/automations):
+and adding `init :"really-cool-theme"` to your initializers file, or by applying an [automation](/docs/automations):
 
 ```sh
 bin/bridgetown apply https://github.com/super-great-themes/theme-one

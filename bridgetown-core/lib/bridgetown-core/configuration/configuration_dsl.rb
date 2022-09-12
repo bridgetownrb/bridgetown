@@ -14,16 +14,16 @@ module Bridgetown
           name: name, require_gem: require_gem, require_initializer: require_initializer
         )
 
+        return unless initializer.nil? || initializer.completed == false
+
+        set :init_params do
+          block ? set(name, &block) : set(name, kwargs)
+        end
+
         if initializer.nil?
           Bridgetown.logger.warn("Initializing:",
                                  "The `#{name}' initializer could not be found")
           return
-        end
-
-        return unless initializer.completed == false
-
-        set :init_params do
-          block ? set(name, &block) : set(name, kwargs)
         end
 
         Bridgetown.logger.debug "Initializing:", name

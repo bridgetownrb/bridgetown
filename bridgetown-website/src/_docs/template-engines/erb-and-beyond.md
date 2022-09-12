@@ -393,7 +393,7 @@ Because of the use of the `||=` operator, you'll only see "saving this into the 
 
 ## Custom Helpers
 
-If you'd like to add your own custom template helpers, you can use the `helper` DSL within builder plugins. [Read this documentation to learn more](/docs/plugins/helpers).
+If you'd like to add your own custom template helpers, you can use the `helper` <abbr title="Domain-Specific Language">DSL</abbr> within builder plugins. [Read this documentation to learn more](/docs/plugins/helpers).
 
 Alternatively, you could open up the `Helpers` class and define additional methods:
 
@@ -488,14 +488,4 @@ Bridgetown comes with ERB support out-of-the-box, but you can easily add support
 * [`bridgetown-haml`](https://github.com/bridgetownrb/bridgetown-haml){:rel="noopener"}
 * [`bridgetown-slim`](https://github.com/bridgetownrb/bridgetown-slim){:rel="noopener"}
 
-All you'd need to do is run `bundle add bridgetown-haml -g bridgetown_plugins` (or `bridgetown-slim`) to install the plugin, and then you can immediately start using `.haml` or `.slim` pages, layouts, partials, and [components](/docs/components/ruby) in your Bridgetown site.
-
-## Serbea
-
-Serbea combines the best ideas from “brace-style” template languages such as Liquid, Nunjucks, Twig, Jinja, Mustache, etc.—and applies them to the world of ERB. In addition to Bridgetown sites, you can use Serbea in Rails applications or pretty much any Ruby scenario you could imagine.
-
-```
-bundle add serbea -g bridgetown_plugins
-```
-
-[Find out more about using Serbea in Bridgetown here.](https://www.serbea.dev/#bridgetown-support)
+All you'd need to do is run `bundle add bridgetown-haml` (or `bridgetown-slim`) and add `init :"bridgetown-haml"` or `init :"bridgetown-slim"` to `config/initializers.rb`, and then you can immediately start using `.haml` or `.slim` pages, layouts, partials, and [components](/docs/components/ruby) in your Bridgetown site.
