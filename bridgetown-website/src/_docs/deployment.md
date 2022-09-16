@@ -54,6 +54,38 @@ Rsync is similar to scp except it can be faster as it will only send changed
 parts of files as opposed to the entire file. You can learn more about using
 rsync in the [Digital Ocean tutorial](https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps).
 
+### Docker
+
+Many modern hosting solutions support deploying a `Dockerfile`. Building a Bridgetown site for one of these services is as easy as adding this file to a `Dockerfile` in the root directory of your project:
+
+```Dockerfile
+# Build frontend JS and CSS assets using ESbuild
+FROM node:alpine as asset_builder
+ENV BRIDGETOWN_ENV=production
+WORKDIR /assets
+COPY . .
+RUN yarn install
+RUN yarn run esbuild
+
+# Generate your site content as HTML
+FROM ruby:alpine as bridgetown_builder
+ENV BRIDGETOWN_ENV=production
+WORKDIR /app
+RUN apk add --no-cache build-base
+RUN gem install bundler -N
+RUN gem install bridgetown -N
+COPY . .
+RUN bundle install
+COPY --from=asset_builder /assets/output output/
+RUN ./bin/bridgetown build
+
+# Serve your site in a tiny production container, which serves on port 8043.
+FROM pierrezemb/gostatic
+COPY --from=bridgetown_builder /app/output /srv/http/
+```
+
+A `Dockerfile` like this could be used, for example, to [deploy a static website to Fly.io](https://fly.io/docs/languages-and-frameworks/static/).
+
 ### GitLab Pages
 
 [GitLab pages](https://docs.gitlab.com/ee/user/project/pages/) can host static websites. Create a repository on GitLab, 
