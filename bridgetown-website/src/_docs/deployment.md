@@ -77,6 +77,7 @@ RUN gem install bridgetown -N
 COPY . .
 RUN bundle install
 COPY --from=asset_builder /assets/output output/
+COPY --from=asset_builder /assets/.bridgetown-cache .bridgetown-cache/
 RUN ./bin/bridgetown build
 
 # Serve your site in a tiny production container, which serves on port 8043.
