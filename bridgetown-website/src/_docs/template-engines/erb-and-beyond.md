@@ -341,7 +341,8 @@ Finally, if you pass a Ruby object (i.e., it responds to `url`), it will work as
 
 ## Other HTML Helpers
 
-### attributes_from_options
+### `attributes_from_options`
+
 `attributes_from_options` allows you to pass a hash and have it converted to a string of HTML attributes:
 ```eruby
 <p <%%= attributes_from_options({ class: "my-class", id: "some-id" }) %>>Hello, World!</p>
@@ -357,7 +358,7 @@ Finally, if you pass a Ruby object (i.e., it responds to `url`), it will work as
 <button data-controller="clickable" data-action="click->clickable#test">Click Me!</button>
 ```
 
-## Capture Helper
+### `capture`
 
 If you need to capture a part of your template and store it in a variable for later use, you can use the `capture` helper.
 
