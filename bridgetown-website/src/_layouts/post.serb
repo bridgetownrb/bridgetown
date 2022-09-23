@@ -9,17 +9,17 @@ layout: default
     <sl-icon library="remixicon" name="system/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></sl-icon>
 
     <sl-breadcrumb-item href="/blog">Blog</sl-breadcrumb-item>
-    <sl-breadcrumb-item href="/blog/{{ resource.data.category }}">Category: {{ resource.data.category | titleize }}</sl-breadcrumb-item>
+    <sl-breadcrumb-item href="/blog/{{ data.category }}">Category: {{ data.category | titleize }}</sl-breadcrumb-item>
     <sl-breadcrumb-item></sl-breadcrumb-item>
   </sl-breadcrumb>
 
   <article>
-    <h1 class="serif colorful">{{ resource.data.title }}</h1>
+    <h1 class="serif colorful">{{ data.title }}</h1>
 
     <article-author class="mb-10 author has-text-centered p-author">
-      {% author = site.data.authors[resource.data.author] %}
+      {% author = site.data.authors[data.author] %}
       <img src="{{ author.avatar }}" alt="{{ author.name }}" class="avatar u-photo" />
-      <a href="/authors/{{ resource.data.author }}/" class="has-text-weight-bold u-url p-name">{{ author.name }}</a>
+      <a href="/authors/{{ data.author }}/" class="has-text-weight-bold u-url p-name">{{ author.name }}</a>
       on <no-br style="white-space:nowrap">{{ resource.date | strftime: "%B %-d, %Y" }}</no-br>
     </article-author>
 

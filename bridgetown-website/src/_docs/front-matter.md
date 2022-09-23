@@ -154,6 +154,10 @@ You can also use a resource's front matter variables in other places like layout
 you can even reference those variables in loops or as part of more
 complex queries (see the [Liquid](/docs/template-engines/liquid) or [ERB and Beyond](/docs/template-engines/erb-and-beyond) docs for more information).
 
+{%@Note do %}
+Starting in Bridgetown 1.2, you can use the shorthand `data` method to access resource data in a template. For example: `data.food` instead of `resource.data.food`, `data.slug` instead of `resource.data.slug`, etc. Note that you'll still need to use the `resource` object directly for predefined methods such as `resource.relative_url`, `resource.summary`, and some others.
+{% end %}
+
 ## Predefined Variables
 
 These resource variables are available out-of-the-box:

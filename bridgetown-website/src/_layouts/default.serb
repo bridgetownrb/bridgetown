@@ -3,7 +3,7 @@
   <head>
     {%@ "head" %}
   </head>
-  <body class="{{ resource.data.layout }} {{ resource.data.page_class }}">
+  <body class="{{ data.layout }} {{ data.page_class }}">
     {%@ Shared::Navbar metadata: site.metadata, resource: resource %}
 
     <main>

@@ -36,7 +36,7 @@ Want to switch to using a `site_metadata.rb` file where you have more programmat
 
 ## Example: Define a List of members
 
-Here is a basic example of using Data Files to avoid copy-pasting large chunks of code in your Bridgetown templates:
+Here is a basic example of using data files to avoid copy-pasting large chunks of code in your Bridgetown templates:
 
 In `_data/members.yml`:
 
@@ -111,7 +111,7 @@ The organizations can then be accessed via `site.data.orgs`, followed by the fil
 ```liquid
 <ul>
 {% for org_hash in site.data.orgs %}
-{% assign org = org_hash[1] %}
+  {% assign org = org_hash[1] %}
   <li>
     <a href="https://github.com/{{ org.username }}" rel="noopener">
       {{ org.name }}
@@ -123,9 +123,24 @@ The organizations can then be accessed via `site.data.orgs`, followed by the fil
 ```
 {% endraw %}
 
-## Example: Accessing a specific author
+## Merging Site Data into Resource Data
 
-Pages and posts can also access a specific data item. The example below shows how to access a specific item:
+New for Bridgetown 1.2: for easier access to data in your templates whether that data comes from the resource directly or from data files, you can use [front matter](/docs/front-matter/) to specify a data path for merging into the resource.
+
+Just define a front matter variable in a resource like so:
+
+```yaml
+---
+title: Projects
+projects: site.data.projects
+---
+```
+
+Now in your template you can reference `data.projects` just like you might `data.title` or any other front matter variable. You can even use [front matter defaults](/docs/content/front-matter-defaults/) to assign such a data variable to multiple resources at once.
+
+### Example: Accessing a Specific Author
+
+You can access a specific data item from a dataset using a front matter variable. The example below shows how. First, define your dataset:
 
 `_data/people.yml`:
 
@@ -135,20 +150,20 @@ dave:
   twitter: DavidSilvaSmith
 ```
 
-The author can then be specified as a page variable in a post's front matter:
+That author can then be specified as a variable in a post's front matter:
 
 {% raw %}
 ```liquid
 ---
-title: sample post
+title: Sample Post
 author: dave
+people: site.data.people
 ---
 
-{% assign author = site.data.people[resource.data.author] %}
-<a rel="author noopener"
-  href="https://twitter.com/{{ author.twitter }}"
-  title="{{ author.name }}">
-    {{ author.name }}
+{% assign author = data.people[data.author] %}
+
+<a rel="author" href="https://twitter.com/{{ author.twitter }}">
+  {{ author.name }}
 </a>
 ```
 {% endraw %}

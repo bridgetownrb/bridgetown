@@ -22,7 +22,7 @@ Here's a page all about myself.
 
 Here's what I look like:
 
-![Me, Myself, and I](/images/{{ resource.data.headshot }})
+![Me, Myself, and I](/images/{{ data.headshot }})
 ```
 {% endraw %}
 

@@ -8,7 +8,7 @@ prototype:
   data_label: name
 ---
 
-{% resource.data.breadcrumbs_for_layout = capture do %}
+{% data.breadcrumbs_for_layout = capture do %}
   <sl-breadcrumb style="display:block; margin-bottom:2.1em">
     <sl-icon library="remixicon" name="system/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></sl-icon>
 
