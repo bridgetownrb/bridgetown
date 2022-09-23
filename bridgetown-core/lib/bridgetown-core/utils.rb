@@ -18,6 +18,21 @@ module Bridgetown
     SLUGIFY_PRETTY_REGEXP = Regexp.new("[^\\p{M}\\p{L}\\p{Nd}._~!$&'()+,;=@]+").freeze
     SLUGIFY_ASCII_REGEXP = Regexp.new("[^[A-Za-z0-9]]+").freeze
 
+    TEMPLATE_EXTNAMES_TAGS = {
+      ".liquid" => [
+        "{%",
+        "%}",
+      ],
+      ".erb"    => [
+        "<%=",
+        "%>",
+      ],
+      ".serb"   => [
+        "{%=",
+        "%}",
+      ],
+    }.freeze
+
     # Takes a slug and turns it into a simple title.
     def titleize_slug(slug)
       slug.gsub(%r![_ ]!, "-").split("-").map!(&:capitalize).join(" ")
@@ -116,7 +131,7 @@ module Bridgetown
       raise Errors::InvalidDateError, "Invalid date '#{input}': #{msg}"
     end
 
-    # Determines whether a given file has
+    # Determines whether a given file has YAML front matter
     #
     # @return [Boolean] if the YAML front matter is present.
     # rubocop: disable Naming/PredicateName
@@ -128,7 +143,7 @@ module Bridgetown
       File.open(file, "rb", &:gets)&.match?(Bridgetown::FrontMatterImporter::RUBY_HEADER) || false
     end
 
-    # Determine whether the given content string contains Liquid Tags or Vaiables
+    # Determine whether the given content string contains Liquid Tags or Variables
     #
     # @return [Boolean] if the string contains sequences of `{%` or `{{`
     def has_liquid_construct?(content)
@@ -499,6 +514,17 @@ module Bridgetown
       elsif path.ends_with?(".multi")
         path.chomp!(".multi")
       end
+    end
+
+    def build_output_tag_for_template_extname(extname, content)
+      unless TEMPLATE_EXTNAMES_TAGS.key?(extname)
+        raise "Template engines using file extension #{extname}" \
+              "are not currently supported by default"
+      end
+
+      start_tag, end_tag = TEMPLATE_EXTNAMES_TAGS[extname]
+
+      [start_tag, content, end_tag].join(" ")
     end
 
     private
