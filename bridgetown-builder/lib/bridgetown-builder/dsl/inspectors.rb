@@ -7,7 +7,7 @@ module Bridgetown
         # Add a couple familar DOM API features
         module QuerySelection
           def query_selector(selector)
-            css(selector).first
+            at_css(selector)
           end
 
           def query_selector_all(selector)

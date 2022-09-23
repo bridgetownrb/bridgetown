@@ -2,14 +2,6 @@ body.docs > main > aside {
   & nav {
     margin-top: 4.2em;
 
-    /*
-    @media (--nav-fullsize) {
-      top: 1em;
-      position: -webkit-sticky;
-      position: sticky;
-    }
-    */
-
     @media (--nav-minimal) {
       margin-top: 2em;
       border-top: 2px solid var(--color-code-background);
@@ -32,5 +24,9 @@ body.docs > main > aside {
     margin-top: 1.5em;
     margin-bottom: 0.8em;
     text-align: left;
+  }
+
+  & a[aria-current] {
+    font-weight: bold;
   }
 }
