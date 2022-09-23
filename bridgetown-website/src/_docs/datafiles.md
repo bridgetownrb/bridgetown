@@ -136,7 +136,7 @@ projects: site.data.projects
 ---
 ```
 
-Now your template you can reference `data.projects` just like you might `data.title` or any other front matter variable. You can even use [front matter defaults](/docs/content/front-matter-defaults/) to assign such a data variable to multiple resources at once.
+Now in your template you can reference `data.projects` just like you might `data.title` or any other front matter variable. You can even use [front matter defaults](/docs/content/front-matter-defaults/) to assign such a data variable to multiple resources at once.
 
 ### Example: Accessing a Specific Author
 
