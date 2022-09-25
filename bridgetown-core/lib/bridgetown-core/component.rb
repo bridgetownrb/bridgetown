@@ -12,6 +12,30 @@ module Bridgetown
     # @return [Bridgetown::RubyTemplateView, Bridgetown::Component]
     attr_reader :view_context
 
+    def slots
+      @slots ||= []
+    end
+
+    def slot(name, input = nil, replace: false, &block)
+      content = block.nil? ? input.to_s : view.capture(&block)
+
+      slots.reject! { _1.name == name.to_s } if replace
+
+      slots << Slot.new(name: name.to_s, content: content)
+
+      nil
+    end
+
+    def slotted(name)
+      content # ensure content block is processed
+
+      filtered_slots = slots.select do |slot|
+        slot.name == name.to_s
+      end
+
+      filtered_slots.map(&:content).join.html_safe
+    end
+
     class << self
       attr_accessor :source_location
 

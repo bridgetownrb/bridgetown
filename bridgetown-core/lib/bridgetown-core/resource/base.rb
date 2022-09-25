@@ -21,6 +21,8 @@ module Bridgetown
       # @return [Bridgetown::Site]
       attr_reader :site
 
+      attr_reader :slots
+
       # @return [String]
       attr_accessor :content, :untransformed_content, :output
 
@@ -32,6 +34,7 @@ module Bridgetown
         @model = model
         @site = model.site
         @data = collection.data? ? HashWithDotAccess::Hash.new : front_matter_defaults
+        @slots = []
 
         trigger_hooks :post_init
       end

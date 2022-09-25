@@ -137,6 +137,50 @@ module Bridgetown
       end
       alias_method :raw, :safe
 
+      def slot(name, input = nil, replace: false, &block)
+        @si ||= 0
+        @si += 1
+
+        si = @si
+        content = Bridgetown::Utils.reindent_for_markdown(
+          block.nil? ? input.to_s : view.capture(&block)
+        )
+        @si -= 1
+
+        if view.respond_to?(:resource)
+          # We're in a resource rendering context. Use the converter system.
+          resource = view.resource
+          resource.slots.reject! { _1.name == name.to_s } if replace
+
+          <<~HTML.html_safe
+            <bridgetown-slot-#{si} name="#{name}" markdown="block">#{content}</bridgetown-slot-#{si}>
+          HTML
+        elsif view.respond_to?(:view_context)
+          # We're in a component rendering context. We'll add the slot content directly.
+          resource = view.view_context.resource
+          resource.slots.reject! { _1.name == name.to_s } if replace
+          resource.slots << Slot.new(name: name.to_s, content: content)
+
+          nil
+        end
+      end
+
+      def slotted(name)
+        resource = if view.respond_to?(:resource)
+                     view.resource
+                   elsif view.respond_to?(:view_context)
+                     view.view_context.resource
+                   end
+
+        return unless resource
+
+        slots = resource.slots.select do |slot|
+          slot.name == name.to_s
+        end
+
+        slots.map(&:content).join.html_safe
+      end
+
       private
 
       # Covert an underscored value into a dashed string.
