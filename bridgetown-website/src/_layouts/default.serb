@@ -4,6 +4,8 @@
     {%@ "head" %}
   </head>
   <body class="{{ data.layout }} {{ data.page_class }}">
+    <theme-picker></theme-picker>
+
     {%@ Shared::Navbar metadata: site.metadata, resource: resource %}
 
     <main>

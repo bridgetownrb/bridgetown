@@ -11,6 +11,7 @@
   --color-dark-brick: #923538;
   --color-blackish: #131e1b;
   --color-dark-gray: #2e2525;
+  --color-darkest-gray: #0b0b0b;
   --color-medium-gray: #454545;
   --color-light-gray: #b0b5b3;
 
@@ -248,6 +249,10 @@ svg-wrapper svg {
   display: block;
 }
 
+.main-wave {
+  background-color: white;
+}
+
 main {
   margin: 0 0 8rem;
   min-height: calc(100vh - 600px);
@@ -400,4 +405,12 @@ bridgetown-search-results {
   &::part(inner) {
     border: 1px solid var(--color-code-background);
   }
+}
+
+svg.logo .letter {
+  fill: #1e2826;
+}
+
+.version-text {
+  color: var(--sl-color-neutral-300);
 }
