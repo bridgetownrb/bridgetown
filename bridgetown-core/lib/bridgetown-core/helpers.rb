@@ -137,35 +137,34 @@ module Bridgetown
       end
       alias_method :raw, :safe
 
-      def slot(name, input = nil, replace: false, &block)
-        @si ||= 0
-        @si += 1
-
-        si = @si
+      def slot(name, input = nil, replace: false, transform: true, &block)
         content = Bridgetown::Utils.reindent_for_markdown(
           block.nil? ? input.to_s : view.capture(&block)
         )
-        @si -= 1
 
-        if view.respond_to?(:resource)
-          # We're in a resource rendering context. Use the converter system.
-          resource = view.resource
-          resource.slots.reject! { _1.name == name.to_s } if replace
+        resource = if view.respond_to?(:resource)
+                     # We're in a resource rendering context
+                     view.resource
+                   elsif view.respond_to?(:view_context)
+                     # We're in a component rendering context, although it's
+                     # likely the component's own `slot` method will be called
+                     # in this context
+                     view.view_context.resource
+                   end
 
-          <<~HTML.html_safe
-            <bridgetown-slot-#{si} name="#{name}" markdown="block">#{content}</bridgetown-slot-#{si}>
-          HTML
-        elsif view.respond_to?(:view_context)
-          # We're in a component rendering context. We'll add the slot content directly.
-          resource = view.view_context.resource
-          resource.slots.reject! { _1.name == name.to_s } if replace
-          resource.slots << Slot.new(name: name.to_s, content: content)
+        name = name.to_s
+        resource.slots.reject! { _1.name == name } if replace
+        resource.slots << Slot.new(
+          name: name,
+          content: content,
+          context: resource,
+          transform: transform
+        )
 
-          nil
-        end
+        nil
       end
 
-      def slotted(name)
+      def slotted(name, default_input = nil, &default_block)
         resource = if view.respond_to?(:resource)
                      view.resource
                    elsif view.respond_to?(:view_context)
@@ -174,11 +173,29 @@ module Bridgetown
 
         return unless resource
 
-        slots = resource.slots.select do |slot|
-          slot.name == name.to_s
+        name = name.to_s
+        filtered_slots = resource.slots.select do |slot|
+          slot.name == name
         end
 
-        slots.map(&:content).join.html_safe
+        return filtered_slots.map(&:content).join.html_safe if filtered_slots.length.positive?
+
+        default_block.nil? ? default_input.to_s : view.capture(&default_block)
+      end
+
+      def slotted?(name)
+        resource = if view.respond_to?(:resource)
+                     view.resource
+                   elsif view.respond_to?(:view_context)
+                     view.view_context.resource
+                   end
+
+        return unless resource
+
+        name = name.to_s
+        resource.slots.any? do |slot|
+          slot.name == name
+        end
       end
 
       private

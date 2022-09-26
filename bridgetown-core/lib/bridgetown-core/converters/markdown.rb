@@ -5,6 +5,8 @@ module Bridgetown
     # Markdown converter.
     # For more info on converters see https://bridgetownrb.com/docs/plugins/converters/
     class Markdown < Converter
+      support_slots
+
       def initialize(config = {})
         super
 

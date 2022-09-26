@@ -14,6 +14,14 @@ module Bridgetown
         self.extname_list ||= []
         self.extname_list += extnames.map { |e| ".#{e.to_s.downcase}" }
       end
+
+      def supports_slots?
+        @support_slots == true
+      end
+
+      def support_slots(bool = true)
+        @support_slots = bool == true
+      end
     end
 
     # Initialize the converter.

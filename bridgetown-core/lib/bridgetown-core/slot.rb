@@ -2,10 +2,40 @@
 
 module Bridgetown
   class Slot
-    attr_reader :name, :content
+    include Transformable
 
-    def initialize(name:, content:)
-      @name, @content = name, content
+    # @return [String]
+    attr_reader :name
+
+    # @return [String]
+    attr_accessor :content
+
+    # @return [Object, nil]
+    attr_reader :context
+
+    def initialize(name:, content:, context:, transform: false)
+      @name, @content, @context = name, content, context
+
+      Bridgetown::Hooks.trigger :slots, :pre_render, self
+      transform! if transform
+      Bridgetown::Hooks.trigger :slots, :post_render, self
+    end
+
+    def transform!
+      self.content = transform_content(context, alternate_content: content)
+    end
+
+    private
+
+    def converters
+      # A private method calling another private method. Hmm.
+      document_converters = if context.is_a?(Bridgetown::Resource::Base)
+                              context.transformer.send(:converters)
+                            else
+                              context.send(:converters)
+                            end
+
+      document_converters.select { _1.class.supports_slots? }
     end
   end
 end

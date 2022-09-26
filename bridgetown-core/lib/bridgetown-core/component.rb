@@ -12,30 +12,6 @@ module Bridgetown
     # @return [Bridgetown::RubyTemplateView, Bridgetown::Component]
     attr_reader :view_context
 
-    def slots
-      @slots ||= []
-    end
-
-    def slot(name, input = nil, replace: false, &block)
-      content = block.nil? ? input.to_s : view.capture(&block)
-
-      slots.reject! { _1.name == name.to_s } if replace
-
-      slots << Slot.new(name: name.to_s, content: content)
-
-      nil
-    end
-
-    def slotted(name)
-      content # ensure content block is processed
-
-      filtered_slots = slots.select do |slot|
-        slot.name == name.to_s
-      end
-
-      filtered_slots.map(&:content).join.html_safe
-    end
-
     class << self
       attr_accessor :source_location
 
@@ -126,6 +102,41 @@ module Bridgetown
     # @return [String] or nil
     def content
       @_content ||= (view_context.capture(self, &@_content_block) if @_content_block)
+    end
+
+    def slots
+      @slots ||= []
+    end
+
+    def slot(name, input = nil, replace: false, &block)
+      content = block.nil? ? input.to_s : view.capture(&block)
+
+      name = name.to_s
+      slots.reject! { _1.name == name } if replace
+
+      slots << Slot.new(name: name, content: content, context: self, transform: false)
+
+      nil
+    end
+
+    def slotted(name, default_input = nil, &default_block)
+      content # ensure content block is processed
+
+      name = name.to_s
+      filtered_slots = slots.select do |slot|
+        slot.name == name
+      end
+
+      return filtered_slots.map(&:content).join.html_safe if filtered_slots.length.positive?
+
+      default_block.nil? ? default_input.to_s : view.capture(&default_block)
+    end
+
+    def slotted?(name)
+      name = name.to_s
+      slots.any? do |slot|
+        slot.name == name
+      end
     end
 
     # Provide a render helper for evaluation within the component context.
