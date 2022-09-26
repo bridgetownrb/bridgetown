@@ -164,7 +164,7 @@ module Bridgetown
         nil
       end
 
-      def slotted(name, default_input = nil, &default_block)
+      def slotted(name, default_input = nil, &default_block) # rubocop:todo Metrics
         resource = if view.respond_to?(:resource)
                      view.resource
                    elsif view.respond_to?(:view_context)

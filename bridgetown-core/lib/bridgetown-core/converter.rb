@@ -19,7 +19,7 @@ module Bridgetown
         @support_slots == true
       end
 
-      def support_slots(bool = true)
+      def support_slots(bool = true) # rubocop:disable Style/OptionalBooleanParameter
         @support_slots = bool == true
       end
     end
