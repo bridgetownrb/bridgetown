@@ -18,35 +18,16 @@ module Kramdown
 end
 
 module Bridgetown
-  module Converters
-    # SmartyPants converter.
-    # For more info on converters see https://bridgetownrb.com/docs/plugins/converters/
-    class SmartyPants < Converter
-      priority :low
-
+  module Utils
+    class SmartyPantsConverter
+      # @param config [Bridgetown::Configuration]
       def initialize(config)
-        super
-        unless defined?(Kramdown)
-          Bridgetown::Utils::RequireGems.require_with_graceful_fail "kramdown"
-        end
         @config = config["kramdown"].dup || {}
         @config[:input] = :SmartyPants
       end
 
-      # Public: The extension to be given to the output file (including the dot).
-      #
-      # ext - The String extension or original file.
-      #
-      # Returns The String output file extension.
-      def output_ext(_ext)
-        nil
-      end
-
-      # Logic to do the content conversion.
-      #
-      # content - String content of file (without front matter).
-      #
-      # Returns a String of the converted content.
+      # @param content [String]
+      # @return String
       def convert(content)
         document = Kramdown::Document.new(content, @config)
         html_output = document.to_html.chomp

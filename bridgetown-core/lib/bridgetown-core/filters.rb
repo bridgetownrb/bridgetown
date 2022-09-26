@@ -26,9 +26,7 @@ module Bridgetown
     #
     # Returns the smart-quotified String.
     def smartify(input)
-      @context.registers[:site].find_converter_instance(
-        Bridgetown::Converters::SmartyPants
-      ).convert(input.to_s)
+      Utils::SmartyPantsConverter.new(@context.registers[:site].config).convert(input.to_s)
     end
 
     # Slugify a filename or title.
