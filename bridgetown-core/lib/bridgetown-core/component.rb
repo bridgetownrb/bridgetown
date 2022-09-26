@@ -109,7 +109,7 @@ module Bridgetown
     end
 
     def slot(name, input = nil, replace: false, &block)
-      content = block.nil? ? input.to_s : view.capture(&block)
+      content = block.nil? ? input.to_s : view_context.capture(&block)
 
       name = name.to_s
       slots.reject! { _1.name == name } if replace
@@ -129,7 +129,7 @@ module Bridgetown
 
       return filtered_slots.map(&:content).join.html_safe if filtered_slots.length.positive?
 
-      default_block.nil? ? default_input.to_s : view.capture(&default_block)
+      default_block.nil? ? default_input.to_s : view_context.capture(&default_block)
     end
 
     def slotted?(name)
