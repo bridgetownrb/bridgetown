@@ -339,6 +339,68 @@ Finally, if you pass a Ruby object (i.e., it responds to `url`), it will work as
 <a href="/this/is/my-last-page">My last page</a>
 ```
 
+## Slotted Content
+
+New in Bridgetown 1.2, you can now contain portions of content in a template file (whether for pages, layouts, or another resources) within "slots". These slots can then be rendered higher up the rendering pipeline. For example, a resource can define a slot, and its layout can render it. Or a layout itself can define a slot and its parent layout can render it. You can render slots within partials as well.
+
+Bridgetown's [Ruby components](/docs/components/ruby) also has its own slotting mechanism.
+
+Here's an example of using slots in ERB templates to relocate page-specific styles up to the HTML `<head>`.
+
+In your `src/_partials/head.erb` file, append the following:
+
+```erb
+<%%= slotted :html_head %>
+```
+
+Then on one of your ERB pages, try adding something like:
+
+```erb
+<%% slot :html_head do %>
+  <style>
+    h1 {
+      color: navy;
+    }
+  </style>
+<%% end %>
+```
+
+You'll then be able to verify that the new style tag only gets rendered out in `<head>` for the particular page where the slot is provided.
+
+Slotted content will automatically adhere to the format of the context where `slot` is called. In other words, if you're in a Markdown file, the slotted content will also be converted from Markdown to HTML. (Additional converter plugins will need to opt-in to support this feature.) To disable this functionality, pass `transform: false`.
+
+The `slotted` helper can also provide default content should the slot not already be defined:
+
+```erb
+<%%= slotted :aside do %>
+  <p>This only displays if there's no "aside" slot defined.</p>
+<%% end %>
+```
+
+Multiple captures using the same slot name will be cumulative. The above `aside` slot could be appended to by calling `slot :aside` multiple times. If you wish to change behavior, you can pass `replace: true` as a keyword argument to `slot` to clear any previous slot content. _Use with extreme caution!_
+
+For more control over slot content, you can use the `pre_render` and `post_render` hooks. Builders can register hooks to transform slots in specific ways based on their name or context:
+
+```rb
+class Builders::BeamMeUpSlotty < SiteBuilder
+  def build
+    hook :slots, :pre_render do |slot|
+      slot.content.upcase! if slot.name == "upcase_me"
+    end
+  end
+end
+```
+
+Within the hook, you can call `slot.context` to access the definition context for that slot (a resource, a layout, etc.).
+
+<%= render Note.new do %>
+  Both `slot` and `slotted` accept an argument instead of a block for content. So you could call `<%% slot :slotname, "Here's some content" %>` rather than supplying a block, or even pass in something like front matter data!
+<% end %>
+
+<%= render Note.new(type: :warning) do %>
+  Don't let the naming fool you…Bridgetown's slotted content feature is not related to the concept of slots in custom elements and shadow DOM (aka web components). But there are some surface-level similarities. Many view-related frameworks provide some notion of slots (perhaps called something else like content or layout blocks), as it's helpful to be able to render named "child" content within "parent" views.
+<% end %>
+
 ## Other HTML Helpers
 
 ### attributes_from_options
