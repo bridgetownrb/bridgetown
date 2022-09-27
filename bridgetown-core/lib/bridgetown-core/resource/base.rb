@@ -21,6 +21,7 @@ module Bridgetown
       # @return [Bridgetown::Site]
       attr_reader :site
 
+      # @return [Array<Bridgetown::Slot>]
       attr_reader :slots
 
       # @return [String]
