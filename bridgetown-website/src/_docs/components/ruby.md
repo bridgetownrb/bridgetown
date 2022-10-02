@@ -104,7 +104,11 @@ You also have access to a `content` variable within your component .rb/template 
 </layout-box>
 ```
 
-If you need multiple "content areas" (sometimes known as slots), you can use the `capture` helper of the view context—and the fact `render` supplies the component itself as a block argument—like this:
+## Slotted Content
+
+New in Bridgetown 1.2, you can now provide specific named content from within the calling template to a component. If the `content` variable above could be considered the "default" slot, you'll now learn how to work with named content slots.
+
+Here's an example of supplying and rendering an image within a card.
 
 ```ruby
 # src/_components/card.rb
@@ -112,23 +116,13 @@ class Card < Bridgetown::Component
   def initialize(title:, footer:)
     @title, @footer = title, footer
   end
-
-  def image(&block)
-    if block
-      @_image_content = view_context.capture(&block)
-      nil
-    else
-      content # make sure content block is first evaluated
-      @_image_content
-    end
-  end
 end
 ```
 
 ```erb
 <!-- src/_components/card.erb -->
 <app-card>
-  <figure><%%= image %></figure>
+  <figure><%%= slotted :image %></figure>
   <header><%%= @title %></header>
   <app-card-inner>
     <%%= content %>
@@ -139,12 +133,48 @@ end
 
 ```erb
 <!-- some page template -->
-<%%= render(Card.new(title: "Card Header", footer: "Card Footer")) do |c| %>
-  <%% c.image do %><img src="<%%= resource.data.image %>" /><%% end %>
+<%%= render(Card.new(title: "Card Header", footer: "Card Footer")) do |card| %>
+  <%% card.slot :image do %><img src="<%%= resource.data.image %>" /><%% end %>
 
   Some card content goes here!
 <%% end %>
 ```
+
+The `slotted` helper can also provide default content should the slot not already be defined:
+
+```erb
+<%%= slotted :image do %>
+  <img src="/images/unknown.png" />
+<%% end %>
+```
+
+Multiple captures using the same slot name will be cumulative. The above `image` slot could be appended to by calling `slot :image` multiple times. If you wish to change this behavior, you can pass `replace: true` as a keyword argument to `slot` to clear any previous slot content. _Use with extreme caution!_
+
+For more control over slot content, you can use the `pre_render` hook. Builders can register hooks to transform slots in specific ways based on their name or context. This is perhaps not all that useful when you're writing both the content and the components, but for easy customization of third-party components it could come in handy.
+
+```rb
+class Builders::FigureItOut < SiteBuilder
+  def build
+    hook :slots, :pre_render do |slot|
+      return unless slot.name == "image" && slot.context == SomeComponent
+
+      slot.content = "#{slot.content}<figcaption>Cool Image</figcaption>".html_safe
+    end
+  end
+end
+```
+
+<%= render Note.new do %>
+  Both `slot` and `slotted` accept an argument instead of a block for content. So you could call `<%% slot :slotname, "Here's some content" %>` rather than supplying a block.
+<% end %>
+
+<%= render Note.new do %>
+  Bridgetown's main [Ruby template rendering pipeline](/docs/template-engines/erb-and-beyond#slotted-content) also has its own slotting mechanism.
+<% end %>
+
+<%= render Note.new(type: :warning) do %>
+  Don't let the naming fool you…Bridgetown's slotted content feature is not related to the concept of slots in custom elements and shadow DOM (aka web components). But there are some surface-level similarities. Many view-related frameworks provide some notion of slots (perhaps called something else like content or layout blocks), as it's helpful to be able to render named "child" content within "parent" views.
+<% end %>
 
 ### Helpers
 
