@@ -152,7 +152,7 @@ end
 
 Then when you call `init :stripe, api_key: ENV["STRIPE_API_KEY"]`, code to the effect of `require "stripe"` will get called automatically and the initializer will get passed the value of `api_key`.
 
-Some additional features provided by initializers which are particularly will be covered in a later section.
+Some advanced features provided by initializers will be covered in a later section.
 
 ### Using `only`, `except`, and understanding initialization contexts
 
@@ -198,7 +198,9 @@ puts my_val # => 123 for most contexts, 456 for the server context
 
 ### Adding `roda` blocks
 
-If you want to configure your site's [Roda server](/docs/routes/) specifically, including setting up Roda plugins, you can add a `roda` block to your configuration. The `app` argument is the class of your Roda application (typically `RodaApp`) in a Bridgetown project.
+If you wish to configure your site's [Roda server](/docs/routes/), including setting up Roda plugins, you can add a `roda` block to your configuration. This provides a convenient alternative to placing configuration in your Roda class directly.
+
+The `app` argument of a `roda` block is the class of your Roda application (typically `RodaApp`) in a Bridgetown project.
 
 ```rb
 roda do |app|
@@ -214,5 +216,44 @@ end
 While it's not strictly required that you place a Roda block inside of an `only :server do` block, it's probably a good idea that you do since Roda blocks aren't used in any other configuration context.
 
 {%@ Note do %}
-  You're more than welcome to add and configure plugins directly in the Roda class file (`server/roda_app.rb`) just like any standard Roda application, but using a Roda configuration block alongside your other initialization steps is a handy way to keep everything consolidated. Bear in mind that the Roda blocks are all executed prior to anything defined within the class-level code of `server/roda_app.rb`, so if you write any code in a Roda block that relies on state having already been defined in the app class directly, it will fail. Best to keep Roda block code self-contained, or reliant only on other settings in the Bridgetown initializers file.
+  As mentioned above, you can still add and configure plugins directly in your Roda class file (`server/roda_app.rb`) just like any standard Roda application, but using a Roda configuration block alongside your other initialization steps is a handy way to keep everything consolidated. Bear in mind that the Roda blocks are all executed prior to anything defined within the class-level code of `server/roda_app.rb`, so if you write any code in a Roda block that relies on state having already been defined in the app class directly, it will fail. Best to keep Roda block code self-contained, or reliant only on other settings in the Bridgetown initializers file.
 {% end %}
+
+## Built-in Initializers
+
+Bridgetown ships with several initializers you can add to your configuration. In future versions of Bridgetown, we expect to make our overall architecture a little more modular so you can use the initializer system to specify just those key features you need (and by omission which ones you don't!).
+
+### SSR & Dynamic Routes
+
+The SSR features of Bridgetown, along with its companion file-based routing features, are now configurable via initializers.
+
+```rb
+init :ssr
+
+# optional:
+init :"bridgetown-routes"
+
+# …or you can just init the routes, which will init :ssr automatically:
+
+init :"bridgetown-routes"
+```
+
+Check out our [Routes documentation here](/docs/routes).
+
+### Dotenv
+
+The Dotenv gem provides a simple way to manage environment variables with your Bridgetown project. Simply add the gem to your Gemfile (`bundle add dotenv`), and then add the initializer to your configuration:
+
+```rb
+init :dotenv
+```
+
+Now anywhere in your Ruby plugins, templates, etc., you can access environment variables via `ENV` once you've defined your `.env` file. Our integration also supports specially-named files such as `.env.development`, `.env.test`, etc.
+
+### Parse Roda Routes
+
+Because of how Roda works via its dynamic routing tree, there's no straightforward way to programmatically list out all the routes in your application.
+
+However, Roda provides a convention which lets you add code comments next to your routing blocks. These comments are then converted to a JSON file containing route information which can then be printed out with a single command.
+
+TBC…

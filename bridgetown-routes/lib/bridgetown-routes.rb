@@ -12,6 +12,8 @@ end
 
 # @param config [Bridgetown::Configuration::ConfigurationDSL]
 Bridgetown.initializer :"bridgetown-routes" do |config|
+  config.init :ssr # ensure we already have touchdown!
+ 
   config.routes ||= {}
   config.routes.source_paths ||= ["_routes"]
   config.routes.extensions ||= %w(rb md serb erb liquid)
