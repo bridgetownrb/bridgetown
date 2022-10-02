@@ -377,7 +377,7 @@ The `slotted` helper can also provide default content should the slot not alread
 <%% end %>
 ```
 
-Multiple captures using the same slot name will be cumulative. The above `aside` slot could be appended to by calling `slot :aside` multiple times. If you wish to change behavior, you can pass `replace: true` as a keyword argument to `slot` to clear any previous slot content. _Use with extreme caution!_
+Multiple captures using the same slot name will be cumulative. The above `aside` slot could be appended to by calling `slot :aside` multiple times. If you wish to change this behavior, you can pass `replace: true` as a keyword argument to `slot` to clear any previous slot content. _Use with extreme caution!_
 
 For more control over slot content, you can use the `pre_render` and `post_render` hooks. Builders can register hooks to transform slots in specific ways based on their name or context:
 

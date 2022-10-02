@@ -148,17 +148,17 @@ The `slotted` helper can also provide default content should the slot not alread
 <%% end %>
 ```
 
-Multiple captures using the same slot name will be cumulative. The above `image` slot could be appended to by calling `slot :image` multiple times. If you wish to change behavior, you can pass `replace: true` as a keyword argument to `slot` to clear any previous slot content. _Use with extreme caution!_
+Multiple captures using the same slot name will be cumulative. The above `image` slot could be appended to by calling `slot :image` multiple times. If you wish to change this behavior, you can pass `replace: true` as a keyword argument to `slot` to clear any previous slot content. _Use with extreme caution!_
 
 For more control over slot content, you can use the `pre_render` hook. Builders can register hooks to transform slots in specific ways based on their name or context. This is perhaps not all that useful when you're writing both the content and the components, but for easy customization of third-party components it could come in handy.
 
 ```rb
 class Builders::FigureItOut < SiteBuilder
   def build
-    hook :slots, :image do |slot|
-      return unless slot.context == SomeComponent
+    hook :slots, :pre_render do |slot|
+      return unless slot.name == "image" && slot.context == SomeComponent
 
-      slot.content = "<figure>#{slot.content}</figure>".html_safe
+      slot.content = "#{slot.content}<figcaption>Cool Image</figcaption>".html_safe
     end
   end
 end
