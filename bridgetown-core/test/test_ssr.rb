@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 require "helper"
+require "rack"
 
 class TestSSR < BridgetownUnitTest
   include Rack::Test::Methods
 
   def app
-    @@ssr_app ||= Rack::Builder.parse_file(File.expand_path("ssr/config.ru", __dir__)).first # rubocop:disable Style/ClassVars
+    @@ssr_app ||= Rack::Builder.parse_file(File.expand_path("ssr/config.ru", __dir__)) # rubocop:disable Style/ClassVars
   end
 
   def site

@@ -28,7 +28,7 @@ Oats, <%= array_to_sentence_string ["peas", "beans", "barley"] %> grow.
 <%= render RubyComponent.new %>
 
 <%= render(Card.new(title: "I'm a card", footer: "I'm a footer")) do |c| %>
-  <% c.image do %>
+  <% c.slot :image do %>
     <img src="test.jpg" />
   <% end %>
   <p>I'm the body of the <%= c.kind %></p>

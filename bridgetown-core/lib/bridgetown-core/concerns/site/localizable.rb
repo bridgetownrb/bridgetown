@@ -10,9 +10,7 @@ class Bridgetown::Site
         I18n.load_path += Dir["#{in_source_dir("_locales")}/**/*.{json,rb,yml}"]
         I18n.available_locales = config[:available_locales]
         I18n.default_locale = locale
-        I18n.fallbacks = (config[:available_locales] + [:en]).uniq.to_h do |available_locale|
-          [available_locale, [available_locale, locale, :en].uniq]
-        end
+        I18n.fallbacks = [locale, :en].uniq
         locale
       end
     end

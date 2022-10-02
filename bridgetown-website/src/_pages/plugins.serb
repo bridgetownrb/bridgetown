@@ -50,7 +50,7 @@
       <div slot="footer">
         {% if plugin.gem_version %}
           <ui-label class="tags" style="padding-right:0.5rem">
-            <sl-tag type="success">v{{ plugin.gem_version }}</sl-tag>
+            <sl-tag variant="success">v{{ plugin.gem_version }}</sl-tag>
           </ui-label>
         {% end %}
 

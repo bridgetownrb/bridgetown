@@ -7,6 +7,8 @@ module Bridgetown
     class Identity < Converter
       priority :lowest
 
+      support_slots
+
       # Public: Does the given extension match this converter's list of acceptable extensions?
       # Takes one argument: the file's extension (including the dot).
       #

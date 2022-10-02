@@ -2,7 +2,7 @@
 
 module Bridgetown
   module Resource
-    class Base
+    class Base # rubocop:todo Metrics/ClassLength
       include Comparable
       include Bridgetown::Publishable
       include Bridgetown::LayoutPlaceable
@@ -21,6 +21,9 @@ module Bridgetown
       # @return [Bridgetown::Site]
       attr_reader :site
 
+      # @return [Array<Bridgetown::Slot>]
+      attr_reader :slots
+
       # @return [String]
       attr_accessor :content, :untransformed_content, :output
 
@@ -32,6 +35,7 @@ module Bridgetown
         @model = model
         @site = model.site
         @data = collection.data? ? HashWithDotAccess::Hash.new : front_matter_defaults
+        @slots = []
 
         trigger_hooks :post_init
       end
@@ -300,6 +304,7 @@ module Bridgetown
 
       def ensure_default_data
         determine_locale
+        merge_requested_site_data
 
         slug = if matches = relative_path.to_s.match(DATE_FILENAME_MATCHER) # rubocop:disable Lint/AssignmentInCondition
                  set_date_from_string(matches[1]) unless data.date
@@ -312,6 +317,17 @@ module Bridgetown
 
         data.slug ||= slug
         data.title ||= Bridgetown::Utils.titleize_slug(slug)
+      end
+
+      # Lets you put `site.data.foo.bar` in a front matter variable and it will then get swapped
+      # out for the actual site data
+      def merge_requested_site_data
+        data.each do |k, v|
+          next unless v.is_a?(String) && v.starts_with?("site.data.")
+
+          data_path = v.delete_prefix("site.data.")
+          data[k] = site.data.dig(*data_path.split("."))
+        end
       end
 
       def set_date_from_string(new_date) # rubocop:disable Naming/AccessorMethodName

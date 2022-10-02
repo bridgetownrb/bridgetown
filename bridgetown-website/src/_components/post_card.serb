@@ -11,13 +11,13 @@
   
   <div slot="footer">
     <ui-label class="tags" style="padding-right:0.5rem">
-      <sl-tag type="success" size="small" pill>{{ @post.data.category | titleize }}</sl-tag>
+      <sl-tag variant="success" size="small" pill>{{ @post.data.category | titleize }}</sl-tag>
 
-      <sl-tag type="warning" size="small" pill>{{ @post.date | strftime: "%-m/%-d/%y" }}</sl-tag>
+      <sl-tag variant="warning" size="small" pill>{{ @post.date | strftime: "%-m/%-d/%y" }}</sl-tag>
     </ui-label>
 
     <a href="{{ @post.relative_url }}">
-      <sl-button type="primary">
+      <sl-button variant="primary">
         <sl-icon slot="prefix" library="remixicon" name="document/article-fill"></sl-icon>
         Read…
       </sl-button>

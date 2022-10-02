@@ -6,12 +6,15 @@ module Bridgetown
     # (requires a `converter` method to be present on the including class)
     #
     # @param document [Bridgetown::GeneratedPage, Bridgetown::Resource::Base]
+    # @param alternate_content [String, nil] Pass in content if you don't want to use document's
     # @return String
     # @yieldparam converter [Bridgetown::Converter]
     # @yieldparam index [Integer] index of the conversion step
     # @yieldparam output [String]
-    def transform_content(document)
-      converters.each_with_index.inject(document.content.to_s) do |content, (converter, index)|
+    def transform_content(document, alternate_content: nil)
+      converters.each_with_index.inject(
+        (alternate_content || document.content).to_s
+      ) do |content, (converter, index)|
         output = if converter.method(:convert).arity == 1
                    converter.convert content
                  else

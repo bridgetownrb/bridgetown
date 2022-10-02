@@ -92,7 +92,7 @@ module Bridgetown
 
     # Returns the contents as a String.
     def to_s
-      output || content || ""
+      content || ""
     end
 
     # Accessor for data properties by Liquid.

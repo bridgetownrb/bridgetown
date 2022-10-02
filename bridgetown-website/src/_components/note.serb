@@ -1,4 +1,4 @@
-<sl-alert type="{{ @type }}" open>
+<sl-alert variant="{{ @type }}" open>
   <sl-icon
     slot="icon"
     library="remixicon"

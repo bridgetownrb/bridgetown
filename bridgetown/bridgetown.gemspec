@@ -15,7 +15,14 @@ Gem::Specification.new do |s|
   s.files        = `git ls-files -z`.split("\0")
   s.require_path = "lib"
 
-  s.required_ruby_version = ">= 2.7.0"
+  s.metadata      = {
+    "source_code_uri" => "https://github.com/bridgetownrb/bridgetown",
+    "bug_tracker_uri" => "https://github.com/bridgetownrb/bridgetown/issues",
+    "changelog_uri"   => "https://github.com/bridgetownrb/bridgetown/releases",
+    "homepage_uri"    => s.homepage,
+  }
+
+  s.required_ruby_version     = ">= 2.7.0"
 
   s.add_dependency("bridgetown-builder", Bridgetown::VERSION)
   s.add_dependency("bridgetown-core", Bridgetown::VERSION)

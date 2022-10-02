@@ -101,6 +101,7 @@ module Bridgetown
   autoload :RubyTemplateView,    "bridgetown-core/ruby_template_view"
   autoload :LogWriter,           "bridgetown-core/log_writer"
   autoload :Site,                "bridgetown-core/site"
+  autoload :Slot,                "bridgetown-core/slot"
   autoload :StaticFile,          "bridgetown-core/static_file"
   autoload :Transformable,       "bridgetown-core/concerns/transformable"
   autoload :URL,                 "bridgetown-core/url"

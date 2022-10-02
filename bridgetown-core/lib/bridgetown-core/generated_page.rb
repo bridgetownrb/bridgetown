@@ -65,6 +65,11 @@ module Bridgetown
       data[property]
     end
 
+    # @return [Array<Bridgetown::Slot>]
+    def slots
+      @slots ||= []
+    end
+
     # The generated directory into which the page will be placed
     # upon generation. This is derived from the permalink or, if
     # permalink is absent, will be '/'

@@ -3,6 +3,7 @@ title: Liquid Filters
 top_section: Designing Your Site
 order: 0
 category: template-engines
+bridgetown_filters: site.data.bridgetown_variables.liquid_filters
 shopify_filter_url: https://shopify.github.io/liquid/filters/
 shopify_filters:
 - abs
@@ -68,7 +69,7 @@ using [plugins](/docs/plugins/filters).
     </tr>
   </thead>
   <tbody>
-    {% site.data.bridgetown_variables.liquid_filters.each do |filter| %}
+    {% data.bridgetown_filters.each do |filter| %}
       <tr>
         <td>
           <p class="name"><strong>{{ filter.name }}</strong></p>
@@ -142,8 +143,8 @@ Or to get a list of comic-book based movies, one may use the following:
 
 ### Standard Liquid Filters
 
-For your convenience, here is the list of all [Liquid filters]({{ resource.data.shopify_filter_url }}) with links to examples in the official Liquid documentation.
+For your convenience, here is the list of all [Liquid filters]({{ data.shopify_filter_url }}) with links to examples in the official Liquid documentation.
 
-{% resource.data.shopify_filters.each do |filter| %}
-- [{{ filter }}]({{ filter | prepend: resource.data.shopify_filter_url | append: '/' }})
+{% data.shopify_filters.each do |filter| %}
+- [{{ filter }}]({{ filter | prepend: data.shopify_filter_url | append: '/' }})
 {% end %}

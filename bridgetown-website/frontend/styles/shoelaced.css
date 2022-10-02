@@ -56,7 +56,7 @@ sl-dialog {
     }
   }
 
-  & h3[slot=label] {
+  & h3[slot="label"] {
     display: inline-block;
     margin-bottom: 0;
     font-size: 1.3em;
@@ -65,7 +65,7 @@ sl-dialog {
 
   &::part(footer) {
     z-index: 100;
-    box-shadow: 0px -10px 20px rgba(0,0,0,0.1);
+    box-shadow: 0px -10px 20px rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -92,7 +92,7 @@ sl-alert {
   --sl-font-size-small: 0.92em;
   --sl-panel-background-color: var(--color-wintermint);
 
-  &[type="warning"] {
+  &[variant="warning"] {
     --sl-panel-background-color: var(--sl-color-warning-50);
   }
 

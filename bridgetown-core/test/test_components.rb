@@ -51,6 +51,7 @@ class TestComponents < BridgetownUnitTest
 
           #{morespaces}<img src="test.jpg" />
 
+          #{spaces}NOTHING
           </app-card-inner>
           <footer>I&#39;m a footer</footer>
         </app-card>

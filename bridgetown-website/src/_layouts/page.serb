@@ -5,9 +5,9 @@ layout: default
 <main-content>
   <section-wrapper><section>
 
-  {%= resource.data.breadcrumbs_for_layout %}
+  {%= data.breadcrumbs_for_layout %}
 
-  <h1 class="serif colorful">{{ resource.data.title }}</h1>
+  <h1 class="serif colorful">{{ data.title }}</h1>
 
   {%= yield %}
 

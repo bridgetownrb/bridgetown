@@ -139,6 +139,82 @@ module Bridgetown
       end
       alias_method :raw, :safe
 
+      # Define a new content slot
+      #
+      # @param name [String, Symbol] name of the slot
+      # @param input [String] content if not supplying a block
+      # @param replace [Boolean] set to true to replace any previously defined slot with same name
+      # @param transform [Boolean] set to false to avoid template-based transforms (Markdown, etc.)
+      # @return [void]
+      def slot(name, input = nil, replace: false, transform: true, &block)
+        content = Bridgetown::Utils.reindent_for_markdown(
+          block.nil? ? input.to_s : view.capture(&block)
+        )
+
+        resource = if view.respond_to?(:resource)
+                     # We're in a resource rendering context
+                     view.resource
+                   elsif view.respond_to?(:view_context)
+                     # We're in a component rendering context, although it's
+                     # likely the component's own `slot` method will be called
+                     # in this context
+                     view.view_context.resource
+                   end
+
+        name = name.to_s
+        resource.slots.reject! { _1.name == name } if replace
+        resource.slots << Slot.new(
+          name: name,
+          content: content,
+          context: resource,
+          transform: transform
+        )
+
+        nil
+      end
+
+      # Render out a content slot
+      #
+      # @param name [String, Symbol] name of the slot
+      # @param input [String] default content if slot isn't defined and no block provided
+      # @return [String]
+      def slotted(name, default_input = nil, &default_block) # rubocop:todo Metrics
+        resource = if view.respond_to?(:resource)
+                     view.resource
+                   elsif view.respond_to?(:view_context)
+                     view.view_context.resource
+                   end
+
+        return unless resource
+
+        name = name.to_s
+        filtered_slots = resource.slots.select do |slot|
+          slot.name == name
+        end
+
+        return filtered_slots.map(&:content).join.html_safe if filtered_slots.length.positive?
+
+        default_block.nil? ? default_input.to_s : view.capture(&default_block)
+      end
+
+      # Check if a content slot has been defined
+      #
+      # @return [Boolean]
+      def slotted?(name)
+        resource = if view.respond_to?(:resource)
+                     view.resource
+                   elsif view.respond_to?(:view_context)
+                     view.view_context.resource
+                   end
+
+        return unless resource
+
+        name = name.to_s
+        resource.slots.any? do |slot|
+          slot.name == name
+        end
+      end
+
       private
 
       # Covert an underscored value into a dashed string.

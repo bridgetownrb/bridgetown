@@ -104,6 +104,56 @@ module Bridgetown
       @_content ||= (view_context.capture(self, &@_content_block) if @_content_block)
     end
 
+    # @return [Array<Bridgetown::Slot>]
+    def slots
+      @slots ||= []
+    end
+
+    # Define a new component slot
+    #
+    # @param name [String, Symbol] name of the slot
+    # @param input [String] content if not supplying a block
+    # @param replace [Boolean] set to true to replace any previously defined slot with same name
+    # @return [void]
+    def slot(name, input = nil, replace: false, &block)
+      content = block.nil? ? input.to_s : view_context.capture(&block)
+
+      name = name.to_s
+      slots.reject! { _1.name == name } if replace
+
+      slots << Slot.new(name: name, content: content, context: self, transform: false)
+
+      nil
+    end
+
+    # Render out a component slot
+    #
+    # @param name [String, Symbol] name of the slot
+    # @param input [String] default content if slot isn't defined and no block provided
+    # @return [String]
+    def slotted(name, default_input = nil, &default_block)
+      content # ensure content block is processed
+
+      name = name.to_s
+      filtered_slots = slots.select do |slot|
+        slot.name == name
+      end
+
+      return filtered_slots.map(&:content).join.html_safe if filtered_slots.length.positive?
+
+      default_block.nil? ? default_input.to_s : capture(&default_block)
+    end
+
+    # Check if a component slot has been defined
+    #
+    # @return [Boolean]
+    def slotted?(name)
+      name = name.to_s
+      slots.any? do |slot|
+        slot.name == name
+      end
+    end
+
     # Provide a render helper for evaluation within the component context.
     #
     # @param item [Object] a component supporting `render_in` or a partial name

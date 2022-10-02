@@ -22,7 +22,7 @@ Here's a page all about myself.
 
 Here's what I look like:
 
-![Me, Myself, and I](/images/{{ resource.data.headshot }})
+![Me, Myself, and I](/images/{{ data.headshot }})
 ```
 {% endraw %}
 
@@ -280,6 +280,10 @@ Bridgetown uses permalink "templates" to determine the default permalink to use 
 * In addition, if multiple site locales are configured, any content not in the "default" locale will be prefixed by the locale key. So a page offering both English and French variations would be output to `/page-information` and `/fr/page-information`.
 
 Refer to our [permalinks documentation](/docs/content/permalinks) for further details on how to configure and custom generate permalinks.
+
+## Slotted Content
+
+When writing out your resource content and you're using a Ruby-based template language such as ERB, you can provide extra content in the form of "slots" which won't be included in the main body of the resource but will be available within layouts and partials. This is perfect for "out of band" content such as extra HTML for the `<head>` or info to display in a sidebar or footer. [Check out the docs here.](/docs/template-engines/erb-and-beyond#slotted-content)
 
 ## Ruby Front Matter and All-Ruby Templates
 

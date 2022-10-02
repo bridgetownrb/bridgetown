@@ -10,6 +10,7 @@ module Bridgetown
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
     autoload :RubyFrontMatter, "bridgetown-core/utils/ruby_front_matter"
     autoload :RubyFrontMatterDSL, "bridgetown-core/utils/ruby_front_matter"
+    autoload :SmartyPantsConverter, "bridgetown-core/utils/smarty_pants_converter"
 
     # Constants for use in #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
