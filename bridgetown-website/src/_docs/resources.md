@@ -281,6 +281,10 @@ Bridgetown uses permalink "templates" to determine the default permalink to use 
 
 Refer to our [permalinks documentation](/docs/content/permalinks) for further details on how to configure and custom generate permalinks.
 
+## Slotted Content
+
+When writing out your resource content and you're using a Ruby-based template language such as ERB, you can provide extra content in the form of "slots" which won't be included in the main body of the resource but will be available within layouts and partials. This is perfect for "out of band" content such as extra HTML for the `<head>` or info to display in a sidebar or footer. [Check out the docs here.](/docs/template-engines/erb-and-beyond#slotted-content)
+
 ## Ruby Front Matter and All-Ruby Templates
 
 For advanced use cases where you wish to generate dynamic values for front matter variables, you can use Ruby Front Matter. [Read the documentation here.](/docs/front-matter#the-power-of-ruby-in-front-matter)

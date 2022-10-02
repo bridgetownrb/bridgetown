@@ -341,9 +341,9 @@ Finally, if you pass a Ruby object (i.e., it responds to `url`), it will work as
 
 ## Slotted Content
 
-New in Bridgetown 1.2, you can now contain portions of content in a template file (whether for pages, layouts, or another resources) within "slots". These slots can then be rendered higher up the rendering pipeline. For example, a resource can define a slot, and its layout can render it. Or a layout itself can define a slot and its parent layout can render it. You can render slots within partials as well.
+New in Bridgetown 1.2, you can now contain portions of content in a template file (whether for pages, layouts, or another resources) within "slots". These content slots can then be rendered higher up the rendering pipeline. For example, a resource can define a slot, and its layout can render it. Or a layout itself can define a slot and its parent layout can render it. You can render slots within partials as well.
 
-Bridgetown's [Ruby components](/docs/components/ruby) also has its own slotting mechanism.
+Bridgetown's [Ruby components](/docs/components/ruby#slotted-content) also has its own slotting mechanism.
 
 Here's an example of using slots in ERB templates to relocate page-specific styles up to the HTML `<head>`.
 
