@@ -14,7 +14,7 @@ While Bridgetown's fullstack framework features (aka SSR, file-based routing, an
 
 Bridgetown comes with a production-ready web server based on the battle-hardened one-two punch of [Rack](https://github.com/rack/rack) + [Puma](https://puma.io). On top of Puma we've layered on [Roda](http://roda.jeremyevans.net), a refreshingly fast & lightweight web routing toolkit created by Jeremy Evans. On a basic level, it handles serving of all statically-built site files you access when you run `bin/bridgetown start`.
 
-Bridgetown lets you create your own Roda-based API routes in the `server/routes` folder. An example ships in each new Bridgetown project for you to examine (`server/routes/hello.rb.sample`).
+Bridgetown lets you create your own Roda-based API routes in the `server/routes` folder. An example ships in each new Bridgetown project for you to examine (`server/routes/hello.rb.sample`). These routes provide the standard features you may be accustomed to if you've used Roda standalone.
 
 However, to take full advantage of all the Bridgetown has to offer, we recommend you load up our SSR and Dynamic Routes plugins. Simply add to your configuration in `config/initializers.rb`:
 

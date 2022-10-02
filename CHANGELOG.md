@@ -6,7 +6,46 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
-- New GitHub Pages configurations will deploy a production build
+
+## [1.2.0.beta1] "Bonny Slope" - 2022-10-02
+
+Don't let yourself get distracted by the moonshine!
+https://cedarmillnews.com/legacy/archive/706/bonny_slope_bootleggers.html
+
+### General
+
+- Add gemspec metadata for all gems (#619)
+
+## Added
+
+- Major refactor to add new configuration & initializer DSLs [#618](https://github.com/bridgetownrb/bridgetown/pull/618) ([jaredcwhite](https://github.com/jaredcwhite))
+  - All-new Ruby-based config file format
+  - New Dotenv support
+  - Refactor to setup Bundler without automatic requires
+  - Relocate Roda plugins to their own files and use new init functionality
+  - Add permalink placeholder to Builder DSL
+  - Improve helper scope for methods, add resource extension to Builder DSL
+  - Deprecate TOML, `_config`, and `.yaml` files for configurations (`.yml` preferred)
+- Slot content feature for templates and components [#629](https://github.com/bridgetownrb/bridgetown/pull/629) ([jaredcwhite](https://github.com/jaredcwhite))
+- Allow templates to use `data` directly instead of `resource.data` or even `site.data` [#622](https://github.com/bridgetownrb/bridgetown/pull/622) ([jaredcwhite](https://github.com/jaredcwhite) and [johlym](https://github.com/johlym))
+- Add Dockerfile to deployment options [#626](https://github.com/bridgetownrb/bridgetown/pull/626) ([stephendolan](https://github.com/stephendolan))
+- Add hash attributes functionality to view tag helpers [#589](https://github.com/bridgetownrb/bridgetown/pull/589) ([DRBragg](https://github.com/DRBragg))
+- Provide esbuild config typing via JSDoc [#604](https://github.com/bridgetownrb/bridgetown/pull/604) ([jaredcwhite](https://github.com/jaredcwhite))
+
+## Changed
+
+- Update postcss-load-config to 4.x and address synchronization issues [#596](https://github.com/bridgetownrb/bridgetown/pull/596) ([stefanvermaas](https://github.com/stefanvermaas))
+  **Possible breaking change** — see: https://github.com/bridgetownrb/bridgetown/pull/596#issuecomment-1236028272
+- Tailwind automation has been relocated to a separate repository — see: https://github.com/bridgetownrb/tailwindcss-automation
+- Include subdirectories of `src/_locales` in I18n loader [#606](https://github.com/bridgetownrb/bridgetown/pull/606) ([lux-shaun](https://github.com/lux-shaun))
+
+## Fixed
+
+- Update SSR tests to work with Rack 3 [#627](https://github.com/bridgetownrb/bridgetown/pull/627) ([vvveebs](https://github.com/vvveebs))
+- Use regional fallbacks from i18n [#607](https://github.com/bridgetownrb/bridgetown/pull/607) ([lux-shaun](https://github.com/lux-shaun))
+- esbuild entrypoint selection for index.css [#621](https://github.com/bridgetownrb/bridgetown/pull/627) ([zealot128](https://github.com/zealot128))
+- Silence kwargs warning in ruby 2.7 [#615](https://github.com/bridgetownrb/bridgetown/pull/615) ([sandstrom](https://github.com/sandstrom))
+- New GitHub Pages configurations will deploy a production build [#610](https://github.com/bridgetownrb/bridgetown/pull/610) ([vvveebs](https://github.com/vvveebs))
 
 ## [1.1.0] — 2022-07-18
 
