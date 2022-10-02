@@ -142,29 +142,29 @@ class BridgetownUnitTest < Minitest::Test
     Bridgetown::Site.new new_config
   end
 
-  def load_plugin_content
-    unless @plugin_loaded
-      Bridgetown::PluginManager.new_source_manifest(
-        origin: self.class,
-        components: test_dir("plugin_content", "components"),
-        content: test_dir("plugin_content", "content"),
-        layouts: test_dir("plugin_content", "layouts")
-      )
-    end
-    @plugin_loaded ||= true
+  def load_plugin_content(config)
+    config.source_manifests << Bridgetown::Configuration::SourceManifest.new(
+      origin: self.class,
+      components: test_dir("plugin_content", "components"),
+      content: test_dir("plugin_content", "content"),
+      layouts: test_dir("plugin_content", "layouts")
+    )
   end
 
   def site_configuration(overrides = {})
-    load_plugin_content
+    Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
+
+    load_plugin_content(Bridgetown::Current.preloaded_configuration)
 
     full_overrides = Utils.deep_merge_hashes({ "destination" => dest_dir,
                                                "plugins_dir" => site_root_dir("plugins"), }, overrides)
     full_overrides["plugins_use_zeitwerk"] = false if overrides["plugins_use_zeitwerk"].nil?
 
-    Configuration.from(full_overrides.merge(
-                         "root_dir" => site_root_dir,
-                         "source"   => source_dir
-                       ))
+    Bridgetown.configuration(full_overrides.merge(
+                               "root_dir"          => site_root_dir,
+                               "source"            => source_dir,
+                               "skip_config_files" => true
+                             ))
   end
 
   def clear_dest

@@ -38,7 +38,7 @@ create_file "test/helper.rb" do
       include Rails::Dom::Testing::Assertions
 
       def site
-        @site ||= Bridgetown.sites.first
+        @site ||= Bridgetown::Current.site
       end
 
       def nokogiri(input)

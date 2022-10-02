@@ -1,20 +1,35 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  # Holds the processed configuration loaded from the YAML config file.
-  #
-  # @todo refactor this whole object! Already had to fix obscure
-  #   bugs just making minor changes, and all the indirection is
-  #   quite hard to decipher. -JW
+  # The primary configuration object for a Bridgetown project
   class Configuration < HashWithDotAccess::Hash
-    # Default options. Overridden by values in bridgetown.config.yml.
+    REQUIRE_DENYLIST = %i(parse_routes ssr) # rubocop:disable Style/MutableConstant
+
+    Initializer = Struct.new(:name, :block, :completed, keyword_init: true) do
+      def to_s
+        "#{name} (Initializer)"
+      end
+    end
+
+    SourceManifest = Struct.new(:origin, :components, :content, :layouts, keyword_init: true)
+
+    Preflight = Struct.new(:source_manifests, :initializers, keyword_init: true) do
+      def initialize(*)
+        super
+        self.source_manifests ||= Set.new
+      end
+    end
+
+    require_relative "configuration/configuration_dsl"
+
+    # Default options. Overridden by values in bridgetown.config.yml or initializers.
     # Strings rather than symbols are used for compatibility with YAML.
     DEFAULTS = {
       # Where things are
       "root_dir"                   => Dir.pwd,
       "plugins_dir"                => "plugins",
-      "source"                     => File.join(Dir.pwd, "src"),
-      "destination"                => File.join(Dir.pwd, "output"),
+      "source"                     => "src",
+      "destination"                => "output",
       "collections_dir"            => "",
       "cache_dir"                  => ".bridgetown-cache",
       "layouts_dir"                => "_layouts",
@@ -87,11 +102,14 @@ module Bridgetown
       },
     }.each_with_object(Configuration.new) { |(k, v), hsh| hsh[k] = v.freeze }.freeze
 
-    # The modern default config file name is bridgetown.config.EXT, but we also
-    # need to check for _config.EXT as a backward-compatibility nod to our
-    # progenitor
+    # TODO: Deprecated. Remove support for _config as well as toml in the next release.
     CONFIG_FILE_PREFIXES = %w(bridgetown.config _config).freeze
     CONFIG_FILE_EXTS = %w(yml yaml toml).freeze
+
+    # @return [Hash<Symbol, Initializer>]
+    attr_accessor :initializers
+
+    attr_writer :source_manifests, :roda_initializers
 
     class << self
       # Static: Produce a Configuration ready for use in a Site.
@@ -101,13 +119,50 @@ module Bridgetown
       #
       # Returns a Configuration filled with defaults.
       def from(user_config, starting_defaults = DEFAULTS)
-        Utils.deep_merge_hashes(starting_defaults.deep_dup, Configuration[user_config])
+        Utils.deep_merge_hashes(starting_defaults.deep_dup, Configuration.new(user_config))
           .merge_environment_specific_options!
           .setup_load_paths!
           .setup_locales
           .add_default_collections
           .add_default_excludes
           .check_include_exclude
+      end
+    end
+
+    def run_initializers!(context:)
+      initializers_file = File.join(root_dir, "config", "initializers.rb")
+      return unless File.file?(initializers_file)
+
+      require initializers_file
+
+      return unless initializers # no initializers have been set up
+
+      init_init = initializers[:init]
+      return unless init_init && !init_init.completed
+
+      Bridgetown.logger.debug "Initializing:", "Running initializers with `#{context}' context in:"
+      Bridgetown.logger.debug "", initializers_file
+      self.init_params = {}
+      dsl = ConfigurationDSL.new(scope: self, data: self)
+      dsl.instance_variable_set(:@context, context)
+      dsl.instance_exec(dsl, &init_init.block)
+
+      self
+    end
+
+    # @return [Set<SourceManifest>]
+    def source_manifests
+      @source_manifests ||= Set.new
+    end
+
+    # @return [Array<Proc>]
+    def roda_initializers
+      @roda_initializers ||= []
+    end
+
+    def initialize_roda_app(app)
+      roda_initializers.each do |initializer|
+        initializer.(app)
       end
     end
 
@@ -143,16 +198,32 @@ module Bridgetown
     end
     alias_method :verbose?, :verbose
 
-    def safe_load_file(filename)
+    def safe_load_file(filename) # rubocop:todo Metrics
       case File.extname(filename)
       when %r!\.toml!i
+        Deprecator.deprecation_message(
+          "TOML configurations will no longer be supported in the next version of Bridgetown." \
+          "Use initializers or a .yaml config instead."
+        )
         Bridgetown::Utils::RequireGems.require_with_graceful_fail("tomlrb") unless defined?(Tomlrb)
         Tomlrb.load_file(filename)
       when %r!\.ya?ml!i
+        if File.basename(filename, ".*") == "_config"
+          Deprecator.deprecation_message(
+            "YAML configurations named `_config.y(a)ml' will no longer be supported in the next " \
+            "version of Bridgetown. Rename to `bridgetown.config.yml' instead."
+          )
+        end
+        if File.extname(filename) == ".yaml"
+          Deprecator.deprecation_message(
+            "YAML configurations ending in `.yaml' will no longer be supported in the next " \
+            "version of Bridgetown. Rename to use `.yml' extension instead."
+          )
+        end
         YAMLParser.load_file(filename) || {}
       else
         raise ArgumentError,
-              "No parser for '#{filename}' is available. Use a .y(a)ml or .toml file instead."
+              "No parser for '#{filename}' is available. Use a .y(a)ml file instead."
       end
     rescue Psych::DisallowedClass => e
       raise "Unable to parse `#{File.basename(filename)}'. #{e.message}"
@@ -252,7 +323,11 @@ module Bridgetown
       self
     end
 
-    def setup_load_paths!
+    def setup_load_paths! # rubocop:todo Metrics
+      self[:root_dir] = File.expand_path(self[:root_dir])
+      self[:source] = File.expand_path(self[:source], self[:root_dir])
+      self[:destination] = File.expand_path(self[:destination], self[:root_dir])
+
       if self[:plugins_use_zeitwerk]
         autoload_paths.unshift({
           path: self[:plugins_dir],

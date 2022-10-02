@@ -135,6 +135,13 @@ module Bridgetown
     end
     alias_method :env, :environment
 
+    def begin!
+      ENV["RACK_ENV"] = ENV["BRIDGETOWN_ENV"]
+
+      Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
+      Bridgetown::PluginManager.setup_bundler
+    end
+
     # Generate a Bridgetown configuration hash by merging the default
     #   options with anything in bridgetown.config.yml, and adding the given
     #   options on top.
@@ -147,18 +154,74 @@ module Bridgetown
     # @return [Hash] The final configuration hash.
     def configuration(override = {})
       config = Configuration.new
-      override = Configuration[override].stringify_keys
+      override = Configuration.new(override)
       unless override.delete("skip_config_files")
         config = config.read_config_files(config.config_files(override))
       end
 
       # Merge DEFAULTS < bridgetown.config.yml < override
+      # @param obj [Bridgetown::Configuration]
       Configuration.from(Utils.deep_merge_hashes(config, override)).tap do |obj|
         set_timezone(obj["timezone"]) if obj["timezone"]
+
+        # Copy "global" source manifests and initializers into this new configuration
+        if Bridgetown::Current.preloaded_configuration.is_a?(Bridgetown::Configuration::Preflight)
+          obj.source_manifests = Bridgetown::Current.preloaded_configuration.source_manifests
+
+          if Bridgetown::Current.preloaded_configuration.initializers
+            obj.initializers = Bridgetown::Current.preloaded_configuration.initializers
+          end
+        end
+
+        Bridgetown::Current.preloaded_configuration = obj
       end
     end
 
-    # Conveinence method to register a new Thor command
+    def initializer(name, prepend: false, replace: false, &block) # rubocop:todo Metrics
+      unless Bridgetown::Current.preloaded_configuration
+        raise "The `#{name}' initializer in #{block.source_location[0]} was called " \
+              "without a preloaded configuration"
+      end
+
+      Bridgetown::Current.preloaded_configuration.initializers ||= {}
+
+      if Bridgetown::Current.preloaded_configuration.initializers.key?(name.to_sym)
+        if replace
+          Bridgetown.logger.warn(
+            "Initializing:",
+            "The previous `#{name}' initializer was replaced by a new initializer"
+          )
+        else
+          prev_block = Bridgetown::Current.preloaded_configuration.initializers[name.to_sym].block
+          new_block = block
+          block = if prepend
+                    proc do |*args, **kwargs|
+                      new_block.(*args, **kwargs)
+                      prev_block.(*args, **kwargs)
+                    end
+                  else
+                    proc do |*args, **kwargs|
+                      prev_block.(*args, **kwargs)
+                      new_block.(*args, **kwargs)
+                    end
+                  end
+        end
+      end
+
+      Bridgetown::Current.preloaded_configuration.initializers[name.to_sym] =
+        Bridgetown::Configuration::Initializer.new(
+          name: name.to_sym,
+          block: block,
+          completed: false
+        )
+    end
+
+    # @yieldself [Bridgetown::Configuration::ConfigurationDSL]
+    def configure(&block)
+      initializer :init, &block
+    end
+
+    # Convenience method to register a new Thor command
     #
     # @see Bridgetown::Commands::Registrations.register
     def register_command(&block)
@@ -167,8 +230,26 @@ module Bridgetown
 
     def load_tasks
       require "bridgetown-core/commands/base"
-      Bridgetown::PluginManager.require_from_bundler(skip_yarn: true)
+      Bridgetown::PluginManager.setup_bundler(skip_yarn: true)
+      if Bridgetown::Current.preloaded_configuration.is_a?(Bridgetown::Configuration::Preflight)
+        Bridgetown::Current.preloaded_configuration = Bridgetown.configuration
+      else
+        Bridgetown::Current.preloaded_configuration ||= Bridgetown.configuration
+      end
       load File.expand_path("bridgetown-core/tasks/bridgetown_tasks.rake", __dir__)
+    end
+
+    # Loads ENV configuration via dotenv gem, if available
+    #
+    # @param root [String] root of Bridgetown site
+    def load_dotenv(root:)
+      dotenv_files = [
+        File.join(root, ".env.#{Bridgetown.env}.local"),
+        (File.join(root, ".env.local") unless Bridgetown.env.test?),
+        File.join(root, ".env.#{Bridgetown.env}"),
+        File.join(root, ".env"),
+      ].compact
+      Dotenv.load(*dotenv_files)
     end
 
     # Determines the correct Bundler environment block method to use and passes
@@ -215,6 +296,10 @@ module Bridgetown
     #
     # @return [Array<Bridgetown::Site>] the Bridgetown sites created.
     def sites
+      Deprecator.deprecation_message(
+        "Bridgetown.sites will be removed in the next version. Use Bridgetown::Current.sites" \
+        "instead"
+      )
       [Bridgetown::Current.site].compact
     end
 
@@ -247,9 +332,6 @@ module Bridgetown
         File.join(base_directory, clean_path)
       end
     end
-
-    # Conditional optimizations
-    Bridgetown::Utils::RequireGems.require_if_present("liquid/c")
   end
 end
 

@@ -17,14 +17,14 @@ module Bridgetown
         running_pids << pid
       end
 
-      def self.run_process(name, color, cmd)
+      def self.run_process(name, color, cmd, env: {})
+        @mutex ||= Thread::Mutex.new
+
         Thread.new do
           rd, wr = IO.pipe("BINARY")
-          pid = Process.spawn({ "BRIDGETOWN_NO_BUNDLER_REQUIRE" => nil },
+          pid = Process.spawn({ "BRIDGETOWN_NO_BUNDLER_REQUIRE" => nil }.merge(env),
                               cmd, out: wr, err: wr, pgroup: true)
-          @mutex.synchronize do
-            add_pid pid
-          end
+          @mutex.synchronize { add_pid(pid) }
 
           loop do
             line = rd.gets
@@ -42,7 +42,8 @@ module Bridgetown
       end
 
       def self.group(&block)
-        @mutex = Thread::Mutex.new
+        Bridgetown::Deprecator.deprecation_message "Bridgetown::Aux.group method will be removed" \
+                                                   "in a future version, use run_process"
         instance_exec(&block)
       end
 

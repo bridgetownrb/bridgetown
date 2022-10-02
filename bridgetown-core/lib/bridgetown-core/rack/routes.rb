@@ -125,16 +125,12 @@ module Bridgetown
           Bridgetown::Rack::Routes.sorted_subclasses&.each do |klass|
             klass.merge roda_app
           end
-
-          return unless defined?(Bridgetown::Routes::RodaRouter)
-
-          Bridgetown::Routes::RodaRouter.start!(roda_app)
         end
 
         # @param app [Bridgetown::Rack::Roda]
         def setup_live_reload(app) # rubocop:disable Metrics/AbcSize
           sleep_interval = 0.2
-          file_to_check = File.join(app.class.opts[:bridgetown_preloaded_config].destination,
+          file_to_check = File.join(Bridgetown::Current.preloaded_configuration.destination,
                                     "index.html")
 
           app.request.get "_bridgetown/live_reload" do
@@ -190,7 +186,7 @@ module Bridgetown
   end
 end
 
-if Bridgetown.env.development? &&
+if defined?(Puma) && Bridgetown.env.development? &&
     !Bridgetown::Current.preloaded_configuration.skip_live_reload
   Puma::Launcher.class_eval do
     alias_method :_old_stop, :stop

@@ -6,7 +6,7 @@ category: template-engines
 template_engine: erb
 ---
 
-Bridgetown's implementation language, Ruby, has a rich history of providing [ERB (Embedded RuBy)](https://docs.ruby-lang.org/en/2.7.0/ERB.html) for templates and view layers across a wide variety of tools and frameworks. Other Ruby-based template languages such as [Haml](https://haml.info), [Slim](http://slim-lang.com), and [Serbea](https://www.serbea.dev) garner enthusiastic usage as well.
+Bridgetown's implementation language, Ruby, has a rich history of providing [<abbr title="Embedded RuBy">ERB</abbr>](https://docs.ruby-lang.org/en/2.7.0/ERB.html) for templates and view layers across a wide variety of tools and frameworks. Other Ruby-based template languages such as [Haml](https://haml.info), [Slim](http://slim-lang.com), and [Serbea](https://www.serbea.dev) garner enthusiastic usage as well.
 
 Bridgetown makes it easy to add both ERB-based and Serbea-based templates and components to any site. In additional, there are plugins you can easily install for Haml and Slim support. Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process these Ruby templates.
 
@@ -403,7 +403,8 @@ Within the hook, you can call `slot.context` to access the definition context fo
 
 ## Other HTML Helpers
 
-### attributes_from_options
+### `attributes_from_options`
+
 `attributes_from_options` allows you to pass a hash and have it converted to a string of HTML attributes:
 ```eruby
 <p <%%= attributes_from_options({ class: "my-class", id: "some-id" }) %>>Hello, World!</p>
@@ -419,7 +420,7 @@ Within the hook, you can call `slot.context` to access the definition context fo
 <button data-controller="clickable" data-action="click->clickable#test">Click Me!</button>
 ```
 
-## Capture Helper
+### `capture`
 
 If you need to capture a part of your template and store it in a variable for later use, you can use the `capture` helper.
 
@@ -455,7 +456,7 @@ Because of the use of the `||=` operator, you'll only see "saving this into the 
 
 ## Custom Helpers
 
-If you'd like to add your own custom template helpers, you can use the `helper` DSL within builder plugins. [Read this documentation to learn more](/docs/plugins/helpers).
+If you'd like to add your own custom template helpers, you can use the `helper` <abbr title="Domain-Specific Language">DSL</abbr> within builder plugins. [Read this documentation to learn more](/docs/plugins/helpers).
 
 Alternatively, you could open up the `Helpers` class and define additional methods:
 
@@ -550,14 +551,4 @@ Bridgetown comes with ERB support out-of-the-box, but you can easily add support
 * [`bridgetown-haml`](https://github.com/bridgetownrb/bridgetown-haml){:rel="noopener"}
 * [`bridgetown-slim`](https://github.com/bridgetownrb/bridgetown-slim){:rel="noopener"}
 
-All you'd need to do is run `bundle add bridgetown-haml -g bridgetown_plugins` (or `bridgetown-slim`) to install the plugin, and then you can immediately start using `.haml` or `.slim` pages, layouts, partials, and [components](/docs/components/ruby) in your Bridgetown site.
-
-## Serbea
-
-Serbea combines the best ideas from “brace-style” template languages such as Liquid, Nunjucks, Twig, Jinja, Mustache, etc.—and applies them to the world of ERB. In addition to Bridgetown sites, you can use Serbea in Rails applications or pretty much any Ruby scenario you could imagine.
-
-```
-bundle add serbea -g bridgetown_plugins
-```
-
-[Find out more about using Serbea in Bridgetown here.](https://www.serbea.dev/#bridgetown-support)
+All you'd need to do is run `bundle add bridgetown-haml` (or `bridgetown-slim`) and add `init :"bridgetown-haml"` or `init :"bridgetown-slim"` to `config/initializers.rb`, and then you can immediately start using `.haml` or `.slim` pages, layouts, partials, and [components](/docs/components/ruby) in your Bridgetown site.

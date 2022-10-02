@@ -17,27 +17,48 @@ module Bridgetown
              type: :boolean,
              desc: "Print the source path of each plugin"
       def list
-        site = Bridgetown::Site.new(configuration_with_overrides(options))
+        config_options = configuration_with_overrides(options)
+        config_options.run_initializers! context: :static
+        site = Bridgetown::Site.new(config_options)
         site.reset
         Bridgetown::Hooks.trigger :site, :pre_read, site
 
+        plugins_list = config_options.initializers.values.sort_by(&:name)
+
         pm = site.plugin_manager
 
-        plugins_list = pm.class.registered_plugins.reject do |plugin|
+        plugins_list += pm.class.registered_plugins.reject do |plugin|
           plugin.to_s.end_with? "site_builder.rb"
         end
 
         Bridgetown.logger.info("Registered Plugins:", plugins_list.length.to_s.yellow.bold)
 
         plugins_list.each do |plugin|
-          unless plugin.to_s.end_with? "site_builder.rb"
-            Bridgetown.logger.info("", plugin.to_s.sub(site.in_root_dir("/"), ""))
+          plugin_desc = plugin.to_s
+          next if plugin_desc.ends_with?("site_builder.rb") || plugin_desc == "init (Initializer)"
+
+          if plugin.is_a?(Bridgetown::Configuration::Initializer)
+            Bridgetown.logger.info("", plugin_desc)
+            Bridgetown.logger.debug(
+              "", "PATH: " + plugin.block.source_location[0]
+            )
+          elsif plugin.is_a?(Bundler::StubSpecification) || plugin.is_a?(Gem::Specification)
+            Bridgetown.logger.info("", "#{plugin.name} (Rubygem)")
+            Bridgetown.logger.debug(
+              "", "PATH: " + plugin.full_gem_path
+            )
+          else
+            Bridgetown.logger.info("", plugin_desc.sub(site.in_root_dir("/"), ""))
           end
+
+          Bridgetown.logger.debug("")
         end
 
-        Bridgetown.logger.info("Source Manifests:", "----") unless pm.class.source_manifests.empty?
+        unless site.config.source_manifests.empty?
+          Bridgetown.logger.info("Source Manifests:", "----")
+        end
 
-        pm.class.source_manifests.each do |manifest|
+        site.config.source_manifests.each do |manifest|
           Bridgetown.logger.info("Origin:", (manifest.origin || "n/a").to_s.green)
           Bridgetown.logger.info("Components:", (manifest.components || "n/a").to_s.cyan)
           Bridgetown.logger.info("Content:", (manifest.content || "n/a").to_s.cyan)
@@ -56,12 +77,10 @@ module Bridgetown
             last_name = name_components.pop
             name_components.push last_name.magenta
             Bridgetown.logger.info("", name_components.join("::"))
-            next unless options[:verbose]
-
-            Bridgetown.logger.info(
+            Bridgetown.logger.debug(
               "", "PATH: " + builder_path_for(builder)
             )
-            Bridgetown.logger.info("")
+            Bridgetown.logger.debug("")
           end
           Bridgetown.logger.info("", "----")
         end
@@ -74,12 +93,10 @@ module Bridgetown
           last_name = name_components.pop
           name_components.push last_name.magenta
           Bridgetown.logger.info("", name_components.join("::"))
-          next unless options[:verbose]
-
-          Bridgetown.logger.info(
+          Bridgetown.logger.debug(
             "", "PATH: " + converter_path_for(converter)
           )
-          Bridgetown.logger.info("")
+          Bridgetown.logger.debug("")
         end
 
         Bridgetown.logger.info("", "----")
@@ -92,12 +109,10 @@ module Bridgetown
           last_name = name_components.pop
           name_components.push last_name.magenta
           Bridgetown.logger.info("", name_components.join("::"))
-          next unless options[:verbose]
-
-          Bridgetown.logger.info(
+          Bridgetown.logger.debug(
             "", "PATH: " + generator_path_for(generator)
           )
-          Bridgetown.logger.info("")
+          Bridgetown.logger.debug("")
         end
       end
 
@@ -122,9 +137,8 @@ module Bridgetown
       # Now all the plugin's layouts will be in the site repo directly.
       #
       def cd(arg)
-        site = Bridgetown::Site.new(configuration_with_overrides(options))
-
-        pm = site.plugin_manager
+        config_options = configuration_with_overrides(options)
+        config_options.run_initializers! context: :static
 
         directive = arg.split("/")
         unless directive[1]
@@ -132,7 +146,7 @@ module Bridgetown
           return
         end
 
-        manifest = pm.class.source_manifests.find do |source_manifest|
+        manifest = config_options.source_manifests.find do |source_manifest|
           source_manifest.origin.to_s == directive[0]
         end
 
@@ -146,7 +160,7 @@ module Bridgetown
 
           # rubocop: disable Style/RedundantCondition
           Dir.chdir dir do
-            ENV["BRIDGETOWN_SITE"] = site.root_dir
+            ENV["BRIDGETOWN_SITE"] = config_options.root_dir
             if ENV["SHELL"]
               system(ENV["SHELL"])
             else
@@ -163,14 +177,12 @@ module Bridgetown
         end
       end
 
-      desc "new NAME", "Create a new plugin NAME (please-use-dashes) by" \
-                       " cloning the sample plugin repo"
-      def new(plugin_name)
-        folder_name = plugin_name.underscore
-        name = folder_name.dasherize
+      desc "new NAME", "Create a new plugin NAME by cloning the sample plugin repo"
+      def new(name)
+        folder_name = name.underscore
         module_name = folder_name.camelize
 
-        run "git clone https://github.com/bridgetownrb/bridgetown-sample-plugin #{name}"
+        run "git clone -b v1.2-initializer https://github.com/bridgetownrb/bridgetown-sample-plugin #{name}"
         new_gemspec = "#{name}.gemspec"
 
         inside name do # rubocop:todo Metrics/BlockLength
@@ -186,11 +198,11 @@ module Bridgetown
           gsub_file "package.json", "https://github.com/bridgetownrb/bridgetown-sample-plugin", "https://github.com/username/#{name}"
           gsub_file "package.json", "bridgetown-sample-plugin", name
 
-          FileUtils.mv "lib/sample-plugin.rb", "lib/#{name}.rb"
-          gsub_file "lib/#{name}.rb", "sample-plugin", name
+          FileUtils.mv "lib/sample_plugin.rb", "lib/#{folder_name}.rb"
+          gsub_file "lib/#{name}.rb", "sample_plugin", folder_name
           gsub_file "lib/#{name}.rb", "SamplePlugin", module_name
 
-          FileUtils.mv "lib/sample-plugin", "lib/#{name}"
+          FileUtils.mv "lib/sample_plugin", "lib/#{folder_name}"
           gsub_file "lib/#{name}/builder.rb", "SamplePlugin", module_name
           gsub_file "lib/#{name}/version.rb", "SamplePlugin", module_name
 
@@ -205,6 +217,8 @@ module Bridgetown
           gsub_file "layouts/#{folder_name}/layout.html", "sample_plugin", folder_name
           gsub_file "content/#{folder_name}/example_page.md", "sample_plugin", folder_name
           gsub_file "components/#{folder_name}/layout_help.liquid", "sample_plugin", folder_name
+
+          gsub_file "components/#{folder_name}/plugin_component.rb", "SamplePlugin", module_name
 
           gsub_file "frontend/javascript/index.js", "bridgetown-sample-plugin", name
           gsub_file "frontend/javascript/index.js", "SamplePlugin", module_name

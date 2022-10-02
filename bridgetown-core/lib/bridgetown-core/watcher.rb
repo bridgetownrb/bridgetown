@@ -84,7 +84,7 @@ module Bridgetown
       begin
         time = Time.now
         I18n.reload! # make sure any locale files get read again
-        Bridgetown::Current.site = site # needed in SSR mode apparently
+        Bridgetown::Current.sites[site.label] = site # needed in SSR mode apparently
         catch :halt do
           Bridgetown::Hooks.trigger :site, :pre_reload, site, paths
           Bridgetown::Hooks.clear_reloadable_hooks
@@ -122,19 +122,12 @@ module Bridgetown
       Array(options["exclude"]).map { |e| Bridgetown.sanitized_path(options["source"], e) }
     end
 
-    def config_files(options)
-      %w(yml yaml toml).map do |ext|
-        Bridgetown.sanitized_path(options["source"], "_config.#{ext}")
-      end
-    end
-
     def component_frontend_matcher
       %r{_components/.*?(\.js|\.jsx|\.js\.rb|\.css)$}
     end
 
     def to_exclude(options)
       [
-        config_files(options),
         options["destination"],
         custom_excludes(options),
       ].flatten

@@ -16,7 +16,7 @@ module Bridgetown
         end
       end
 
-      def initialize(id)
+      def initialize(id, site: Bridgetown::Current.site)
         super
         @relative_path = Pathname.new(url.path.delete_prefix("/"))
       end

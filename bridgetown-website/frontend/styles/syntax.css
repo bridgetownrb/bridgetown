@@ -16,6 +16,11 @@ p code, li code, blockquote code {
   color: var(--color-dark-brick);
 }
 
+:is(h2, h3) code {
+  padding: 0.2em;
+  font-weight: bold;
+}
+
 div.highlight {
   margin-top: 1.5em;
   margin-bottom: 2em;

@@ -1,0 +1,9 @@
+---<%
+render_with data: {
+  title: "#{params[:yo]} #{@answer_to_life}"
+}
+%>---
+
+<h1><%= resource.data.title %></h1>
+
+<p>I am <%= roda_app.params[:happy] + r.params[:happy] %>.</p>

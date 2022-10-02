@@ -3,4 +3,4 @@
 set -ex
 
 script/fmt
-#script/test
+script/test

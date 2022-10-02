@@ -32,16 +32,29 @@ module Bridgetown
         Bridgetown.logger.adjust_verbosity(options)
 
         unless caller_locations.find do |loc|
-          loc.to_s.include?("bridgetown-core/commands/start.rb")
-        end
+                 loc.to_s.include?("bridgetown-core/commands/start.rb")
+               end
           self.class.print_startup_message
         end
 
-        config_options = (
-          Bridgetown::Current.preloaded_configuration || configuration_with_overrides(options)
-        ).merge(options)
+        # @type [Bridgetown::Configuration]
+        config_options = configuration_with_overrides(
+          options, Bridgetown::Current.preloaded_configuration
+        )
+
+        config_options.run_initializers! context: :static
 
         config_options["serving"] = false unless config_options["serving"]
+
+        if !Bridgetown.env.production? &&
+            !config_options[:skip_frontend] && config_options["using_puma"]
+          require "rake"
+          Rake.with_application do |rake|
+            rake.load_rakefile
+            rake["frontend:watcher"].invoke(true)
+          end
+        end
+
         @site = Bridgetown::Site.new(config_options)
 
         if config_options.fetch("skip_initial_build", false)

@@ -9,10 +9,10 @@ module Bridgetown
 
       # @param config [Bridgetown::Configuration]
       # @param root_dir [String] root of the current site
-      def initialize(config, root_dir = Dir.pwd)
+      def initialize(config)
         @config = config
         @loaders = {}
-        @root_dir = root_dir
+        @root_dir = config.root_dir
       end
 
       def unload_loaders

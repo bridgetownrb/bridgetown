@@ -22,19 +22,16 @@ module Bridgetown
     # Start up the Roda Rack application and the Zeitwerk autoloaders. Ensure the
     # Roda app is provided the preloaded Bridgetown site configuration. Handle
     # any uncaught Roda errors.
-    #
-    # @param [Bridgetown::Rack::Roda] optional, defaults to the `RodaApp` constant
-    def self.boot(roda_app = nil)
+    def self.boot(*)
       self.loaders_manager =
         Bridgetown::Utils::LoadersManager.new(Bridgetown::Current.preloaded_configuration)
+      Bridgetown::Current.preloaded_configuration.run_initializers! context: :server
       autoload_server_folder
-      (roda_app || RodaApp).opts[:bridgetown_preloaded_config] =
-        Bridgetown::Current.preloaded_configuration
     rescue Roda::RodaError => e
       if e.message.include?("sessions plugin :secret option")
         raise Bridgetown::Errors::InvalidConfigurationError,
               "The Roda sessions plugin can't find a valid secret. Run `bin/bridgetown secret' " \
-              "and put the key in a ENV var you can use to configure the session in `roda_app.rb'"
+              "and put the key in a ENV var you can use to configure the session in the Roda app"
       end
 
       raise e
@@ -45,7 +42,6 @@ module Bridgetown
       root: Bridgetown::Current.preloaded_configuration.root_dir
     )
       server_folder = File.join(root, "server")
-      #      Bridgetown::Current.preloaded_configuration.autoload_paths << server_folder
 
       Bridgetown::Hooks.register_one(
         :loader, :post_setup, reloadable: false

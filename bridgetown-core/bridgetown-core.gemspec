@@ -9,8 +9,8 @@ Gem::Specification.new do |s|
   s.author        = "Bridgetown Team"
   s.email         = "maintainers@bridgetownrb.com"
   s.homepage      = "https://www.bridgetownrb.com"
-  s.summary       = "A Webpack-aware, Ruby-based static site generator for the modern Jamstack era"
-  s.description   = "Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern Jamstack era"
+  s.summary       = "A next-generation, progressive site generator & fullstack framework, powered by Ruby"
+  s.description   = "Bridgetown is a next-generation, progressive site generator & fullstack framework, powered by Ruby"
 
   s.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r!^(benchmark|features|script|test)/!)
@@ -20,10 +20,11 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.metadata      = {
-    "source_code_uri" => "https://github.com/bridgetownrb/bridgetown",
-    "bug_tracker_uri" => "https://github.com/bridgetownrb/bridgetown/issues",
-    "changelog_uri"   => "https://github.com/bridgetownrb/bridgetown/releases",
-    "homepage_uri"    => s.homepage,
+    "source_code_uri"       => "https://github.com/bridgetownrb/bridgetown",
+    "bug_tracker_uri"       => "https://github.com/bridgetownrb/bridgetown/issues",
+    "changelog_uri"         => "https://github.com/bridgetownrb/bridgetown/releases",
+    "homepage_uri"          => s.homepage,
+    "rubygems_mfa_required" => "true",
   }
 
   s.rdoc_options = ["--charset=UTF-8"]

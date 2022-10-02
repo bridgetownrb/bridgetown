@@ -3,6 +3,7 @@ output
 .bridgetown-cache
 .bridgetown-metadata
 .bridgetown-webpack
+.routes.json
 
 # Dependency folders
 node_modules

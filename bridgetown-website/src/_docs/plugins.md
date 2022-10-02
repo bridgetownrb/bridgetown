@@ -33,22 +33,26 @@ Whenever you need more information about the plugins installed on your site and 
 
 There are three methods of adding plugins to your site build.
 
-1. In your site's root folder (aka where your config file lives), make a `plugins` folder. Write your custom plugins and save them here. Any file ending in `.rb` inside this folder will be loaded automatically before Bridgetown generates your site.
+1. Within your site's root folder, there's a `plugins` folder. Write your custom plugins and save them here. Any file ending in `.rb` inside this folder will be loaded automatically before Bridgetown generates your site. Most plugins you write will likely be using the Builder API, so you can add them in `plugins/builders`.
 
-2. Add gem-based plugins to the `bridgetown_plugins` Bundler group in your `Gemfile` by running a command such as:
+2. Add gem-based plugins to your `Gemfile` by running a command such as:
   ```sh
-bundle add bridgetown-feed -g bridgetown_plugins
+bundle add bridgetown-feed
   ```
+  and then adding an init statement to your `config/initializers.rb` file (such as `init :"bridgetown-feed"`).
 
-3. Running an [automation](/docs/automations) which will install one or more
-gems along with other set up and configuration:
+3. Run an [automation](/docs/automations) which will install one or more gems along with other set up and configuration:
   ```sh
 bin/bridgetown apply https://github.com/bridgetownrb/bridgetown-cloudinary
   ```
 
+{%@ Note type: :warning do %}
+  Starting in Bridgetown 1.2, plugins are no longer required to be placed in the `bridgetown_plugins` group for sites which use the new initializers system. Read the [Initializers documentation](/docs/configuration/initializers/) for further details.
+{% end %}
+
 ## Introduction to the Builder API
 
-The Builder API (also sometimes referred to as the Unified Plugins API) is our preferred method of writing plugins for both custom plugins as well as gem-based plugins. Previous techniques of writing plugins (registering Liquid tags and filters, generators, etc.) are known as the Legacy API. This API isn't going away any time soon as it provides the underlying functionality for the Builder API. However, we recommend all new plugin development center around the Builder API going forward.
+The Builder API (with its various <abbr title="Domain-Specific Languages">DSLs</abbr>) is typically the approach you'll use to write Bridgetown plugins.
 
 ### Local Custom Plugins
 
@@ -75,13 +79,13 @@ So for example you could add data with a generator:
 class Builders::AddNewData < SiteBuilder
   def build
     generator do
-      site.data[:new_data] = {new: "New stuff"}
+      site.data.new_data = { new: "New stuff" }
     end
   end
 end
 ```
 
-And then reference that data in any Liquid template:
+And then reference that data in any template:
 
 ```Liquid
 {% raw %}{{ site.data.new_data.new }}{% endraw %}
@@ -89,53 +93,28 @@ And then reference that data in any Liquid template:
   output: New stuff
 ```
 
-### Default Configurations
-
-The `config` instance method is available to access the Bridgetown site configuration object, and along with that you can optionally define a default configuration that will be included in the config object—and can be overridden by config settings directly in `bridgetown.config.yml`. For example:
-
-```ruby
-class Builders::BuilderWithConfiguration < SiteBuilder
-  CONFIG_DEFAULTS = {
-    custom_config: {
-      my_setting: 123
-    }
-  }
-
-  def build
-    p config[:my_setting] # 123
-
-    # now add this to bridgetown.config.yml:
-    # custom_config:
-    #   my_setting: "one two three"
-
-    p config[:my_setting] # "one two three"
-  end
-end
-```
-
 ### Gem-based Plugins
 
-For a gem-based plugin, all you have to do is subclass directly from `Bridgetown::Builder` and then use the `register` class method to register the builder with Bridgetown when the plugin loads. Example:
+For a gem-based plugin, all you have to do is subclass directly from `Bridgetown::Builder`, then define it within your plugin initializer (along with any other configuration set up).
 
 ```ruby
-module Bridgetown
-  module MyNiftyPlugin
-    class Builder < Bridgetown::Builder
-      CONFIG_DEFAULTS = {
-        my_nifty_plugin: {
-          this_goes_to_11: true
-        }
-      }
-
-      def build
-        this_goes_to = config[:my_nifty_plugin][:this_goes_to_11]
-        # do other groovy things
-      end
+# lib/my_nifty_plugin/builder.rb
+module MyNiftyPlugin
+  class Builder < Bridgetown::Builder
+    def build
+      this_goes_to = config.my_nifty_plugin.this_goes_to_11
+      # do other groovy things
     end
   end
 end
 
-Bridgetown::MyNiftyPlugin::Builder.register
+# my_nifty_plugin.rb
+Bridgetown.initializer :my_nifty_plugin do |config|
+  config.my_nifty_plugin ||= {}
+  config.my_nifty_plugin.this_goes_to_11 ||= 11
+
+  builder MyNiftyPlugin::Builder
+end
 ```
 
 [Read further instructions below on how to create and publish a gem.](#creating-a-gem)
@@ -145,27 +124,29 @@ Bridgetown::MyNiftyPlugin::Builder.register
 When writing a plugin for Bridgetown, you may sometimes be interacting with
 the internal Ruby API. Objects like `Bridgetown::Site`, `Bridgetown::Resource::Base`, `Bridgetown::GeneratedPage`, etc. Other times you may be interacting with Liquid Drops, which are "safe" representations of the internal Ruby API for use in Liquid templates.
 
-Documentation on the internal Ruby API for Bridgetown is forthcoming, but meanwhile, the simplest way to debug the code you write is to run `bridgetown console` and interact with the API there. Then you can copy working code into your plugin.
+Documentation for Bridgetown's class hierarchy is [available on our API website](https://api.bridgetownrb.com).
+
+The simplest way to debug the code you write is to run `bridgetown console` and interact with the API there. You can then copy working code into your plugin, or test out new ideas before committing them to your plugin code. You can also write `binding.irb` at any point in your code, and you'll be dropped into a console when execution pauses at that point.
 
 ## Plugin Categories
 
 There are several categories of functionality you can add to your Bridgetown plugin:
 
+### [Helpers](/docs/plugins/helpers)
+
+For Ruby-based templates such as ERB, Serbea, etc., you can provide custom helpers which can be called from your content and design templates.
+
 ### [Tags](/docs/plugins/tags)
 
-Create custom Liquid tags or "shortcodes" which you can add to your content or design templates. 
+For Liquid-based templates, you can provide tags (aka "shortcodes") which can be called from your content and design templates. 
 
 ### [Filters](/docs/plugins/filters)
 
-Provide custom Liquid filters to help transform data and content.
-
-### [Helpers](/docs/plugins/helpers)
-
-For Ruby-based templates such as ERB, Serbea, etc., you can provide custom helpers which can be called from your templates.
+You can provide custom Liquid filters to help transform data and content.
 
 ### [HTTP Requests and the Resource Builder](/docs/plugins/external-apis)
 
-Easily pull data in from external APIs, and use a special DSL (Domain-Specific Language) to build resources out of that data.
+Easily pull data in from external APIs, and use a special <abbr title="Domain-Specific Language">DSL</abbr> to build resources out of that data.
 
 ### [Hooks](/docs/plugins/hooks)
 
@@ -177,7 +158,15 @@ Post-process the HTML or XML output of resources using the Nokogiri Ruby gem and
 
 ### [Generators](/docs/plugins/generators)
 
-Generators allow you to automate the creating or updating of content in your site using Bridgetown's internal Ruby API.
+Generators allow you to automate the creating or updating of content in your site using Bridgetown's internal Ruby APIs.
+
+### [Permalink Placeholders](/docs/plugins/placeholders)
+
+Define lambdas which will be run for any matching placeholders within a permalink.
+
+### [Resource Extensions](/docs/plugins/resource-extensions)
+
+Add new functionality to the resource objects in your site build.
 
 ### [Commands](/docs/plugins/commands)
 
@@ -222,7 +211,7 @@ Bridgetown features a [Caching API](/docs/plugins/cache-api) which is used both 
 
 ## Zeitwerk and Autoloading
 
-Bridgetown 1.0 brings with it a new autoloading mechanism using [Zeitwerk](https://github.com/fxn/zeitwerk), the same code loader used by Rails and many other Ruby-based projects. Zeitwerk uses a specific naming convension so the paths of your Ruby files and the namespaces/modules/classes of your Ruby code are aligned. For example:
+Bridgetown uses an autoloading mechanism provided by [Zeitwerk](https://github.com/fxn/zeitwerk), the same code loader used by Rails and many other Ruby-based projects. Zeitwerk uses a specific naming convention so the paths of your Ruby files and the namespaces/modules/classes of your Ruby code are aligned. For example:
 
 ```
 plugins/my_plugin.rb         -> MyPlugin
@@ -232,11 +221,6 @@ plugins/my_plugin/woo/zoo.rb -> MyPlugin::Woo::Zoo
 ```
 
 You can read more about [Zeitwerk's file conventions here](https://github.com/fxn/zeitwerk#file-structure).
-
-{%@ Note do %}
-  #### Take Me Back
-  If you run into any problems with Zeitwerk after upgrading your Bridgetown project from pre-1.0, you can switch to the previous plugin loading method by adding `plugins_use_zeitwerk: false` to your `bridgetown.config.yml`. Or you can try using the `autoloader_collapsed_paths` setting as described below.
-{% end %}
 
 In addition to the `plugins` folder provided by default, **you can add your own folders** with autoloading support! Simply add to the `autoload_paths` setting in your config YAML:
 
@@ -287,6 +271,8 @@ Bridgetown websites. You'll want to make sure you update the `gemspec`,
 plugin to ensure all the necessary metadata and user documentation is present
 and accounted for.
 
+Starting with v1.2, Bridgetown plugins will typically provide an [initializer](/docs/configuration/initializers) so that they can be easily required and configured via the user's configuration block within `config/initializers.rb`. It's a good practice to ensure at least simple configuration options can alternatively be provided using YAML in `bridgetown.config.yml`.
+
 Make sure you [follow these instructions](/docs/plugins/gems-and-frontend/) to integrate your plugin's frontend code with the users' esbuild or Webpack setup. Also read up on [Source Manifests](/docs/plugins/source-manifests/) if you have layouts, components, resources, static files, and other content you would like your plugin to provide.
 
 You can also provide an automation via your plugin's GitHub repository by adding
@@ -309,12 +295,10 @@ As always, if you have any questions or need support in creating your plugin,
 {%@ Note do %}
   #### Testing Your Plugin
 
-  As you author your plugin, you'll need a way to _use_ the gem within a live
-  Bridgetown site. The easiest way to do that is to use a relative local path in
-  the test site's `Gemfile`.
+  As you author your plugin, you'll need a way to _use_ the gem within a live Bridgetown site. The easiest way to do that is to use a relative local path in the test site's `Gemfile`.
 
   ```ruby
-  gem "my-plugin", :path => "../my-plugin", :group => :bridgetown_plugins
+  gem "my-plugin", :path => "../my-plugin"
   ```
 
   You would do something similar in your test site's `package.json` as well (be sure to run [yarn link](https://classic.yarnpkg.com/en/docs/cli/link) so Yarn knows not to install your local path into `node_modules`):
@@ -326,11 +310,7 @@ As always, if you have any questions or need support in creating your plugin,
   }
   ```
 
-  You may need to restart your server at times to pick up changes you make
-  to your plugin (unfortunately hot-reload doesn't always work with gem-based plugins).
+  You may need to restart your server at times to pick up changes you make to your plugin (unfortunately hot-reload doesn't always work with gem-based plugins).
 
-  Finally, you should try writing some [tests](http://docs.seattlerb.org/minitest/)
-  in the `test` folder of your plugin. These tests could ensure your tags, filters,
-  and other content are working as expected and won't break in the future as code
-  gets updated.
+  Finally, you should try writing some [tests](http://docs.seattlerb.org/minitest/) in the `test` folder of your plugin. These tests could ensure your content and APIs are working as expected and won't break in the future as code gets updated.
 {% end %}

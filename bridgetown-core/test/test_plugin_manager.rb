@@ -19,10 +19,10 @@ class TestPluginManager < BridgetownUnitTest
       FileUtils.rm "Gemfile"
     end
 
-    should "require from bundler" do
+    should "setup bundler" do
       with_env("BRIDGETOWN_NO_BUNDLER_REQUIRE", nil) do
-        assert Bridgetown::PluginManager.require_from_bundler,
-               "require_from_bundler should return true."
+        assert Bridgetown::PluginManager.setup_bundler,
+               "setup_bundler should return true."
         assert ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"], "Gemfile plugins were not required."
       end
     end
@@ -37,9 +37,9 @@ class TestPluginManager < BridgetownUnitTest
       FileUtils.rm "Gemfile"
     end
 
-    should "not require from bundler" do
+    should "not setup bundler" do
       with_env("BRIDGETOWN_NO_BUNDLER_REQUIRE", "true") do
-        refute Bridgetown::PluginManager.require_from_bundler,
+        refute Bridgetown::PluginManager.setup_bundler,
                "Gemfile plugins were required but shouldn't have been"
         assert ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"]
       end
@@ -47,10 +47,10 @@ class TestPluginManager < BridgetownUnitTest
   end
 
   context "BRIDGETOWN_NO_BUNDLER_REQUIRE set to `nil` and no Gemfile present" do
-    should "not require from bundler" do
+    should "not setup bundler" do
       with_env("BRIDGETOWN_NO_BUNDLER_REQUIRE", nil) do
         with_no_gemfile do
-          refute Bridgetown::PluginManager.require_from_bundler,
+          refute Bridgetown::PluginManager.setup_bundler,
                  "Gemfile plugins were required but shouldn't have been"
           assert_nil ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"]
         end

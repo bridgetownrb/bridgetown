@@ -14,7 +14,6 @@ class Bridgetown::Site
                                                     "Check your Rack app for threading issues"
         end
 
-        Bridgetown::PluginManager.require_from_bundler
         site = new(Bridgetown::Current.preloaded_configuration, loaders_manager: loaders_manager)
         site.enable_ssr
         site.ssr_setup(&block)

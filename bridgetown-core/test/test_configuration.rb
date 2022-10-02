@@ -28,7 +28,7 @@ class TestConfiguration < BridgetownUnitTest
     should "merge input over defaults" do
       result = Configuration.from("source" => "blah")
       refute_equal result["source"], Configuration::DEFAULTS["source"]
-      assert_equal "blah", result["source"]
+      assert_equal File.expand_path("blah"), result["source"]
     end
 
     should "return a valid Configuration instance" do
@@ -385,32 +385,16 @@ class TestConfiguration < BridgetownUnitTest
         default_config_fixture({ "config" => [@paths[:empty]] })
     end
 
-    should "successfully load a TOML file" do
-      Bridgetown.logger.log_level = :warn
-      assert_equal \
-        site_configuration(
-          "baseurl" => "/you-beautiful-blog-you",
-          "title"   => "My magnificent site, wut",
-          "config"  => [@paths[:toml]]
-        ),
-        default_config_fixture({ "config" => [@paths[:toml]] })
-      Bridgetown.logger.log_level = :info
-    end
-
     should "load multiple config files" do
-      Utils::RequireGems.require_with_graceful_fail("tomlrb")
-
       allow(Bridgetown::YAMLParser).to receive(:load_file).with(@paths[:default]).and_return({})
       allow(Bridgetown::YAMLParser).to receive(:load_file).with(@paths[:other]).and_return({})
-      allow(Tomlrb).to receive(:load_file).with(@paths[:toml]).and_return({})
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:default]}")
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:other]}")
-      allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:toml]}")
       assert_equal(
         site_configuration(
-          "config" => [@paths[:default], @paths[:other], @paths[:toml]]
+          "config" => [@paths[:default], @paths[:other]]
         ),
-        default_config_fixture({ "config" => [@paths[:default], @paths[:other], @paths[:toml]] })
+        default_config_fixture({ "config" => [@paths[:default], @paths[:other]] })
       )
     end
 
@@ -514,6 +498,50 @@ class TestConfiguration < BridgetownUnitTest
       )
       assert_includes config["description"], "an awesome description"
       refute_includes config["description"], "\n"
+    end
+  end
+
+  context "initializers" do
+    setup do
+      @config = Configuration.from({})
+      @config.initializers = {}
+
+      @config.initializers[:something] =
+        Bridgetown::Configuration::Initializer.new(
+          name: :something,
+          block: proc { |secret_value:|
+            assert_equal secret_value, "shhh!"
+          },
+          completed: false
+        )
+    end
+
+    should "affect the underlying configuration" do
+      dsl = Configuration::ConfigurationDSL.new(scope: @config, data: @config)
+
+      dsl.instance_variable_set(:@context, :testing)
+      dsl.instance_exec(dsl) do |config|
+        url "http://www.proddomain.com"
+
+        only :testing do
+          url "http://www.testdomain.com"
+
+          init :something, require_gem: false do
+            secret_value "shhh!"
+          end
+        end
+
+        except :testing do
+          url "http://www.fakedomain.com"
+        end
+
+        config.autoload_paths << "stuff"
+      end
+
+      assert_equal "http://www.testdomain.com", @config.url
+      assert_equal "stuff", @config.autoload_paths[1]
+
+      assert @config.init_params.key?("something")
     end
   end
 end

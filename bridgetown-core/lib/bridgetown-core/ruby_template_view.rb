@@ -6,20 +6,20 @@ module Bridgetown
   class RubyTemplateView
     require "bridgetown-core/helpers"
 
-    attr_reader :layout, :page, :paginator, :site, :content
-    alias_method :resource, :page
+    attr_reader :layout, :resource, :paginator, :site, :content
+    alias_method :page, :resource
 
     def initialize(convertible)
       if convertible.is_a?(Layout)
         @layout = convertible
-        @page = layout.current_document
+        @resource = layout.current_document
         @content = layout.current_document_output
       else
         @layout = convertible.site.layouts[convertible.data["layout"]]
-        @page = convertible
+        @resource = convertible
       end
-      @paginator = page.paginator if page.respond_to?(:paginator)
-      @site = page.site
+      @paginator = resource.paginator if resource.respond_to?(:paginator)
+      @site = resource.site
     end
 
     def data
@@ -52,7 +52,7 @@ module Bridgetown
       render_statement = _render_statement(component, options)
 
       template = site.liquid_renderer.file(
-        "#{page.path}.#{Digest::SHA2.hexdigest(render_statement)}"
+        "#{resource.path}.#{Digest::SHA2.hexdigest(render_statement)}"
       ).parse(render_statement)
       template.warnings.each do |e|
         Bridgetown.logger.warn "Liquid Warning:",
@@ -104,7 +104,7 @@ module Bridgetown
       {
         registers: {
           site: site,
-          page: page.to_liquid,
+          page: resource.to_liquid,
           cached_partials: Bridgetown::Converters::LiquidTemplates.cached_partials,
         },
         strict_filters: site.config["liquid"]["strict_filters"],

@@ -1,77 +1,47 @@
 # frozen_string_literal: true
 
-module Bridgetown
-  module Routes
-    module FlashHashAdditions
-      def info
-        self["info"]
-      end
-
-      def info=(val)
-        self["info"] = val
-      end
-
-      def alert
-        self["alert"]
-      end
-
-      def alert=(val)
-        self["alert"] = val
-      end
-    end
-
-    module FlashHashIndifferent
-      def []=(key, val)
-        @next[key.to_s] = val
-      end
-    end
-
-    module FlashNowHashIndifferent
-      def []=(key, val)
-        super(key.to_s, val)
-      end
-
-      def [](key)
-        super(key.to_s)
-      end
-    end
-  end
-end
+require_relative "flash_additions"
 
 module Bridgetown
   module Routes
-    class BlankFlash < Hash
-      include Bridgetown::Routes::FlashHashAdditions
-
-      def now
-        self
-      end
-    end
-
     module ViewHelpers
+      # This flash is only used as a stub for views in case there's no Roda flash
+      # available in the rendering context
+      class Flash < Hash
+        include Bridgetown::Routes::FlashHashAdditions
+
+        def now
+          self
+        end
+      end
+
+      def roda_app
+        view.resource&.roda_app
+      end
+
       def request
-        view.resource&.roda_app&.request
+        roda_app&.request
       end
       alias_method :r, :request
 
       def response
-        view.resource&.roda_app&.response
+        roda_app&.response
       end
 
       def flash
-        view.resource&.roda_app&.flash || _basic_flash
+        roda_app&.flash || _blank_flash
       end
 
-      def _basic_flash
-        @_basic_flash ||= BlankFlash.new
+      def _blank_flash
+        @_blank_flash ||= Flash.new
       end
 
       def csrf_tag(...)
-        request.scope.csrf_tag(...)
+        roda_app.csrf_tag(...)
       end
 
       def csrf_token(...)
-        request.scope.csrf_token(...)
+        roda_app.csrf_token(...)
       end
     end
   end

@@ -2,34 +2,37 @@
 
 class Bridgetown::Site
   module Configurable
-    # Set the site's configuration. This handles side-effects caused by
-    #   changing values in the configuration.
+    # Set the site's configuration object
     #
     # @param config [Configuration]
-    #   An instance of {Configuration},
-    #   containing the new configuration.
-    #
-    # @return [Configuration]
-    #   The processed instance of {Configuration}
     def config=(config)
-      @config = config.clone
-
-      # Source and destination may not be changed after the site has been created.
-      @root_dir        = File.expand_path(config["root_dir"]).freeze
-      @source          = File.expand_path(config["source"]).freeze
-      @dest            = File.expand_path(config["destination"]).freeze
+      @config = config
 
       configure_cache
       configure_component_paths
       configure_file_read_opts
 
       self.permalink_style = (config["permalink"] || "pretty").to_sym
-
-      @config
     end
 
+    def root_dir
+      config["root_dir"]
+    end
+
+    def source
+      config["source"]
+    end
+
+    def destination
+      config["destination"]
+    end
+    alias_method :dest, :destination
+
     def uses_resource?
-      config[:content_engine] == "resource"
+      Bridgetown::Deprecator.deprecation_message(
+        "The Site#uses_resource? method will be removed in the next version"
+      )
+      true
     end
 
     # Returns a base path from which the site is served (aka `/cool-site`) or
@@ -98,11 +101,12 @@ class Bridgetown::Site
     #   {Bridgetown.sanitized_path} method.
     #
     # @return [Array<String>] Return an array of updated paths if multiple paths given.
-    def in_dest_dir(*paths)
-      paths.reduce(dest) do |base, path|
+    def in_destination_dir(*paths)
+      paths.reduce(destination) do |base, path|
         Bridgetown.sanitized_path(base, path)
       end
     end
+    alias_method :in_dest_dir, :in_destination_dir
 
     # Prefix a path or paths with the {#cache_dir} directory.
     #
@@ -155,7 +159,7 @@ class Bridgetown::Site
 
     def configure_component_paths # rubocop:todo Metrics/AbcSize
       # Loop through plugins paths first
-      plugin_components_load_paths = Bridgetown::PluginManager.source_manifests
+      plugin_components_load_paths = config.source_manifests
         .filter_map(&:components)
 
       local_components_load_paths = config["components_dir"].then do |dir|

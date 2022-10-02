@@ -15,9 +15,14 @@ class TestResources < BridgetownUnitTest
     "Resolved!"
   end
 
+  def upcased_content
+    resource ? resource.content.upcase : "NOPE"
+  end
+
+  attr_reader :site
+
   context "creating a new resource" do
     setup do
-      Bridgetown.sites.clear
       @site = Site.new(site_configuration)
     end
 
@@ -103,6 +108,70 @@ class TestResources < BridgetownUnitTest
 
       assert_includes @site.collections.posts.resources.first.destination.output_path,
                       "/dest/2018/im-an-old-post/index.html"
+    end
+  end
+
+  context "extending resources" do
+    setup do
+      @site = Site.new(site_configuration)
+    end
+
+    should "add a new method" do
+      define_resource_method :upcased_title do
+        data.title.upcase
+      end
+      define_resource_method :upcased_content
+      define_resource_method :resource_class_name, class_scope: true do
+        "All your #{name} are belong to us!"
+      end
+
+      assert_equal "All your Bridgetown::Resource::Base are belong to us!",
+                   Bridgetown::Resource::Base.resource_class_name
+
+      add_resource :posts, "im-a-markdown-post.html" do
+        title "I'm a post!"
+        content "Yay!"
+      end
+
+      resource = @site.collections[:posts].resources.first
+      assert_equal 1, @site.collections[:posts].resources.length
+      assert_equal "I'M A POST!", resource.upcased_title
+      assert_equal "YAY!", resource.upcased_content
+      assert_equal "NOPE", upcased_content
+    end
+
+    should "allow new summaries" do
+      add_resource :posts, "im-a-markdown-post.html" do
+        title "I'm a post!"
+        content "This is my content."
+      end
+
+      assert_equal "This is my content.", @site.collections[:posts].resources.first.summary
+
+      define_resource_method :summary_extension_output do
+        content.sub("my", "MY")
+      end
+
+      assert_equal "This is MY content.", @site.collections[:posts].resources.first.summary
+    end
+  end
+
+  context "adding a permalink placeholder" do
+    setup do
+      @site = Site.new(site_configuration)
+    end
+
+    should "update the permalink" do
+      permalink_placeholder :bar do |resource|
+        resource.data.title.split.last.delete_suffix("!")
+      end
+
+      add_resource :posts, "im-a-post.md" do
+        title "I'm a post!"
+        permalink "/foo/:bar/"
+      end
+
+      assert_equal "/foo/post/", @site.resources.first.relative_url
     end
   end
 end

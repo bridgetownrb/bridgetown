@@ -227,8 +227,10 @@ Let's break it down!
 First, you'll need to add the compatibility gem to your Gemfile (which will also add in ViewComponent as a dependency). In a new Bridgetown site folder, run the following command:
 
 ```
-bundle add bridgetown-view-component -g bridgetown_plugins
+bundle add bridgetown-view-component
 ```
+
+and then add `init :"bridgetown-view-component"` to `config/initializers.rb`.
 
 Next create a `shared` folder in `src/_components` and add the following two files:
 

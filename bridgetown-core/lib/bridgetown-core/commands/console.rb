@@ -58,17 +58,36 @@ module Bridgetown
       class_option :blank,
                    type: :boolean,
                    desc: "Skip reading content and running generators before opening console"
+      class_option :"server-config",
+                   aliases: "-s",
+                   type: :boolean,
+                   desc: "Load server configurations"
+      class_option :verbose,
+                   aliases: "-V",
+                   type: :boolean,
+                   desc: "Print verbose output."
 
       def console
         require "irb"
         require "irb/ext/save-history"
         require "amazing_print" unless options[:"bypass-ap"]
 
+        Bridgetown.logger.adjust_verbosity(options)
+
         Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta} " \
                                             "(codename \"#{Bridgetown::CODE_NAME.yellow}\") " \
                                             "console…"
         Bridgetown.logger.info "Environment:", Bridgetown.environment.cyan
-        site = Bridgetown::Site.new(configuration_with_overrides(options))
+
+        config_options = configuration_with_overrides(options)
+        if options[:"server-config"]
+          require "puma"
+          require "bridgetown-core/rack/boot"
+          Bridgetown::Rack.boot
+        else
+          config_options.run_initializers! context: :console
+        end
+        site = Bridgetown::Site.new(config_options)
 
         ConsoleMethods.site_reset(site) unless options[:blank]
 

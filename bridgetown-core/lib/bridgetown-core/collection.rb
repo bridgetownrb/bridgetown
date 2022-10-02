@@ -270,10 +270,13 @@ module Bridgetown
 
     # Read in resource from repo path
     # @param full_path [String]
+    # @param manifest [Bridgetown::Configuration::SourceManifest]
     def read_resource(full_path, manifest: nil)
       model_relative_path = relative_model_path_for(full_path, manifest: manifest)
-      model = Bridgetown::Model::Base.find(model_id_from_relative_path(model_relative_path,
-                                                                       manifest: manifest))
+      model = Bridgetown::Model::Base.find(
+        model_id_from_relative_path(model_relative_path, manifest: manifest),
+        site: site
+      )
 
       if model_is_multi_locale?(model, model_relative_path)
         site.config.available_locales.each do |locale|

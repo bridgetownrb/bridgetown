@@ -82,7 +82,7 @@ You can use components [provided by others via plugins](/docs/plugins/source-man
 ```
 {% endraw %}
 
-## The "with" Tag
+## The `with` Tag
 
 Instead of passing variable data to a block-style component inline with the `rendercomponent` definition, you can also use the `with` tag. This is great for components which combine a bunch of content regions into a single markup composition.
 

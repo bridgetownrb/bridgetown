@@ -13,8 +13,6 @@ require "active_support/core_ext/string/indent"
 
 require "bridgetown"
 
-Bridgetown::PluginManager.require_from_bundler
-
 # Support NO_COLOR: https://no-color.org
 # TODO: need to change behavior of Colorator gem
 ENV["THOR_SHELL"] = "Basic" if ENV["NO_COLOR"]
@@ -31,7 +29,7 @@ elsif env_flag = ARGV.find { |arg| arg.start_with?("--environment=") } # rubocop
   ENV["BRIDGETOWN_ENV"] = env_flag.split("=").last
 end
 
-ENV["RACK_ENV"] = ENV["BRIDGETOWN_ENV"]
+Bridgetown.begin!
 
 require "bridgetown-core/commands/base"
 begin

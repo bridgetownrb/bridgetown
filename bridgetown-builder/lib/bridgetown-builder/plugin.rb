@@ -40,9 +40,13 @@ module Bridgetown
       def initialize(name = nil, current_site = nil)
         self.functions = Set.new
         self.name = name || self.class.name
-        self.site = current_site || Bridgetown.sites.first
+        self.site = current_site || Bridgetown::Current.site
 
         self.config = if defined?(self.class::CONFIG_DEFAULTS)
+                        Deprecator.deprecation_message(
+                          "Using `CONFIG_DEFAULTS' in your builder is deprecated. " \
+                          "Switch to defining config data via an initializer instead."
+                        )
                         Bridgetown::Utils.deep_merge_hashes(
                           self.class::CONFIG_DEFAULTS.with_dot_access, site.config
                         )

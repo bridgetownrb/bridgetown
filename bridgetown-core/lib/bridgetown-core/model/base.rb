@@ -10,16 +10,14 @@ module Bridgetown
       define_model_callbacks :load, :save, :destroy
 
       class << self
-        def find(id)
-          unless Bridgetown::Current.site
-            raise "A Bridgetown site must be initialized and added to Current"
-          end
+        def find(id, site: Bridgetown::Current.site)
+          raise "A Bridgetown site must be initialized and added to Current" unless site
 
-          origin = origin_for_id(id)
+          origin = origin_for_id(id, site: site)
           klass_for_id(id, origin: origin).new(origin.read)
         end
 
-        def origin_for_id(id)
+        def origin_for_id(id, site: Bridgetown::Current.site)
           scheme = URI.parse(id).scheme
           origin_klass = Origin.descendants.find do |klass|
             klass.handle_scheme?(scheme)
@@ -27,7 +25,7 @@ module Bridgetown
 
           raise "No origin could be found for #{id}" unless origin_klass
 
-          origin_klass.new(id)
+          origin_klass.new(id, site: site)
         end
 
         def klass_for_id(id, origin: nil)
@@ -40,14 +38,15 @@ module Bridgetown
           origin ||= origin_for_id(id)
           origin.verify_model?(self)
         end
-      end
 
-      class << self
+        # @param builder [Bridgetown::Builder]
         def build(builder, collection_name, path, data)
+          site = builder.site
           data = Bridgetown::Model::BuilderOrigin.new(
-            Bridgetown::Model::BuilderOrigin.id_for_builder_path(builder, path)
+            Bridgetown::Model::BuilderOrigin.id_for_builder_path(builder, path),
+            site: site
           ).read do
-            data[:_collection_] = Bridgetown::Current.site.collections[collection_name]
+            data[:_collection_] = site.collections[collection_name]
             data
           end
           new(data)
@@ -106,7 +105,7 @@ module Bridgetown
       # override if need be
       # @return [Bridgetown::Site]
       def site
-        Bridgetown::Current.site
+        origin.site
       end
 
       # @return [Bridgetown::Collection]

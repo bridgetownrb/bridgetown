@@ -10,6 +10,7 @@ group :development do
 end
 
 group :test do
+  gem "benchmark-ips"
   gem "cucumber", "~> 3.0"
   gem "memory_profiler"
   gem "minitest"
@@ -22,7 +23,6 @@ group :test do
   gem "rubocop-bridgetown", "~> 0.3.0", require: false
   gem "shoulda"
   gem "simplecov"
-  gem "tomlrb", "~> 1.2"
 end
 
 # Bridgetown

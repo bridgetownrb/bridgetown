@@ -290,7 +290,7 @@ Thankfully, there is a solution for when you want a front matter variable resolv
 This will now show up for the path: /custom/permalink/about-us
 ```
 
-Besides using a simple `Hash`, you can also use the handy `front_matter` DSL. Any valid method call made directly in the block will translate to a front matter key. Let's rewrite the above example:
+Besides using a simple `Hash`, you can also use the handy `front_matter` <abbr title="Domain-Specific Language">DSL</abbr>. Any valid method call made directly in the block will translate to a front matter key. Let's rewrite the above example:
 
 ```md
 ~~~ruby

@@ -20,7 +20,7 @@ module Bridgetown
       read_includes
       sort_files!
       read_collections
-      Bridgetown::PluginManager.source_manifests.select(&:content).each do |manifest|
+      site.config.source_manifests.select(&:content).each do |manifest|
         PluginContentReader.new(site, manifest).read
       end
     end
@@ -90,7 +90,7 @@ module Bridgetown
       entries_dirs.each do |file|
         dir_path = site.in_source_dir(dir, file)
         rel_path = File.join(dir, file)
-        @site.reader.read_directories(rel_path) unless @site.dest.chomp("/") == dir_path
+        read_directories(rel_path) unless @site.destination.chomp("/") == dir_path
       end
     end
 

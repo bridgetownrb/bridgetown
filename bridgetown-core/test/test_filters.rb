@@ -7,8 +7,8 @@ class TestFilters < BridgetownUnitTest
     include Bridgetown::Filters
     attr_accessor :site, :context
 
-    def initialize(opts = {})
-      @site = Bridgetown::Site.new(opts.merge("skip_config_files" => true))
+    def initialize(opts)
+      @site = Bridgetown::Site.new(opts)
       @context = Liquid::Context.new(@site.site_payload, {}, site: @site)
     end
   end
@@ -24,10 +24,7 @@ class TestFilters < BridgetownUnitTest
   end
 
   def make_filter_mock(opts = {})
-    BridgetownFilter.new(site_configuration(opts)).tap do |f|
-      tz = f.site.config["timezone"]
-      Bridgetown.set_timezone(tz) if tz
-    end
+    BridgetownFilter.new(site_configuration(opts.merge("skip_config_files" => true)))
   end
 
   class SelectDummy

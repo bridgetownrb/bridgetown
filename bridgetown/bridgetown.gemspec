@@ -9,11 +9,10 @@ Gem::Specification.new do |s|
   s.author        = "Bridgetown Team"
   s.email         = "maintainers@bridgetownrb.com"
   s.homepage      = "https://www.bridgetownrb.com"
-  s.summary       = "A Webpack-aware, Ruby-powered static site generator for the modern Jamstack era"
-  s.description   = "Bridgetown is a Webpack-aware, Ruby-powered static site generator for the modern Jamstack era"
+  s.summary       = "A next-generation, progressive site generator & fullstack framework, powered by Ruby"
+  s.description   = "Bridgetown is a next-generation, progressive site generator & fullstack framework, powered by Ruby"
 
   s.files        = `git ls-files -z`.split("\0")
-  s.test_files   = `git ls-files -z -- {fixtures,features}/*`.split("\0")
   s.require_path = "lib"
 
   s.metadata      = {
@@ -25,7 +24,8 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version     = ">= 2.7.0"
 
-  s.add_dependency("bridgetown-core", Bridgetown::VERSION)
   s.add_dependency("bridgetown-builder", Bridgetown::VERSION)
+  s.add_dependency("bridgetown-core", Bridgetown::VERSION)
   s.add_dependency("bridgetown-paginate", Bridgetown::VERSION)
+  s.metadata["rubygems_mfa_required"] = "true"
 end

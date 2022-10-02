@@ -1,57 +1,50 @@
 # frozen_string_literal: true
 
-begin
-  # If it's in the Gemfile's :bridgetown_plugins group it's already been required, but we'll try
-  # again just to be on the safe side:
-  require "bridgetown-routes"
-rescue LoadError
-end
-
-class Roda
-  module RodaPlugins
-    module BridgetownSSR
-      module InstanceMethods
-        # Helper shorthand for Bridgetown::Current.site
-        # @return [Bridgetown::Site]
-        def bridgetown_site
-          Bridgetown::Current.site
-        end
-      end
-
-      def self.configure(app, _opts = {}, &block)
-        app.include Bridgetown::Filters::URLFilters
-        app.opts[:bridgetown_site] =
-          Bridgetown::Site.start_ssr!(loaders_manager: Bridgetown::Rack.loaders_manager, &block)
-      end
-    end
-
-    register_plugin :bridgetown_ssr, BridgetownSSR
-
-    module BridgetownBoot
-      Roda::RodaRequest.alias_method :_previous_roda_cookies, :cookies
-
-      module RequestMethods
-        # Monkeypatch Roda/Rack's Request object so it returns a hash which allows for
-        # indifferent access
-        def cookies
-          # TODO: maybe replace with a simpler hash that offers an overloaded `[]` method
-          _previous_roda_cookies.with_indifferent_access
-        end
-
-        # Starts up the Bridgetown routing system
-        def bridgetown
-          Bridgetown::Rack::Routes.start!(scope)
-        end
-      end
-    end
-
-    register_plugin :bridgetown_boot, BridgetownBoot
-  end
+unless Bridgetown::Current.preloaded_configuration
+  raise "You must supply a preloaded configuration before loading Bridgetown's Roda superclass"
 end
 
 module Bridgetown
   module Rack
     class Roda < ::Roda
+      class << self
+        def inherited(klass)
+          super
+          klass.plugin :initializers
+        end
+
+        # rubocop:disable Bridgetown/NoPutsAllowed
+        def print_routes
+          # TODO: this needs to be fully documented
+          routes = begin
+            JSON.parse(
+              File.read(
+                File.join(Bridgetown::Current.preloaded_configuration.root_dir, ".routes.json")
+              )
+            )
+          rescue StandardError
+            []
+          end
+          puts
+          puts "Routes:"
+          puts "======="
+          if routes.blank?
+            puts "No routes found. Have you commented all of your routes?"
+            puts "Documentation: https://github.com/jeremyevans/roda-route_list#basic-usage-"
+          end
+
+          routes.each do |route|
+            puts [
+              route["methods"]&.join("|") || "GET",
+              route["path"],
+              route["file"] ? "\n  File: #{route["file"]}" : nil,
+            ].compact.join(" ")
+          end
+          puts
+        end
+        # rubocop:enable Bridgetown/NoPutsAllowed
+      end
+
       SiteContext = Struct.new(:registers) # for use by Liquid-esque URL helpers
 
       plugin :hooks
@@ -142,7 +135,8 @@ module Bridgetown
       before do
         if self.class.opts[:bridgetown_site]
           # The site had previously been initialized via the bridgetown_ssr plugin
-          Bridgetown::Current.site ||= self.class.opts[:bridgetown_site]
+          Bridgetown::Current.sites[self.class.opts[:bridgetown_site].label] =
+            self.class.opts[:bridgetown_site]
           @context ||= SiteContext.new({ site: self.class.opts[:bridgetown_site] })
         end
         Bridgetown::Current.preloaded_configuration ||=
