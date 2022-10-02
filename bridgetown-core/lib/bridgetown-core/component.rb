@@ -104,10 +104,17 @@ module Bridgetown
       @_content ||= (view_context.capture(self, &@_content_block) if @_content_block)
     end
 
+    # @return [Array<Bridgetown::Slot>]
     def slots
       @slots ||= []
     end
 
+    # Define a new component slot
+    #
+    # @param name [String, Symbol] name of the slot
+    # @param input [String] content if not supplying a block
+    # @param replace [Boolean] set to true to replace any previously defined slot with same name
+    # @return [void]
     def slot(name, input = nil, replace: false, &block)
       content = block.nil? ? input.to_s : view_context.capture(&block)
 
@@ -119,6 +126,11 @@ module Bridgetown
       nil
     end
 
+    # Render out a component slot
+    #
+    # @param name [String, Symbol] name of the slot
+    # @param input [String] default content if slot isn't defined and no block provided
+    # @return [String]
     def slotted(name, default_input = nil, &default_block)
       content # ensure content block is processed
 
@@ -129,9 +141,12 @@ module Bridgetown
 
       return filtered_slots.map(&:content).join.html_safe if filtered_slots.length.positive?
 
-      default_block.nil? ? default_input.to_s : view_context.capture(&default_block)
+      default_block.nil? ? default_input.to_s : capture(&default_block)
     end
 
+    # Check if a component slot has been defined
+    #
+    # @return [Boolean]
     def slotted?(name)
       name = name.to_s
       slots.any? do |slot|

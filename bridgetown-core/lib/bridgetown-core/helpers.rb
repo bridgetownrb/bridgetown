@@ -137,6 +137,13 @@ module Bridgetown
       end
       alias_method :raw, :safe
 
+      # Define a new content slot
+      #
+      # @param name [String, Symbol] name of the slot
+      # @param input [String] content if not supplying a block
+      # @param replace [Boolean] set to true to replace any previously defined slot with same name
+      # @param transform [Boolean] set to false to avoid template-based transforms (Markdown, etc.)
+      # @return [void]
       def slot(name, input = nil, replace: false, transform: true, &block)
         content = Bridgetown::Utils.reindent_for_markdown(
           block.nil? ? input.to_s : view.capture(&block)
@@ -164,6 +171,11 @@ module Bridgetown
         nil
       end
 
+      # Render out a content slot
+      #
+      # @param name [String, Symbol] name of the slot
+      # @param input [String] default content if slot isn't defined and no block provided
+      # @return [String]
       def slotted(name, default_input = nil, &default_block) # rubocop:todo Metrics
         resource = if view.respond_to?(:resource)
                      view.resource
@@ -183,6 +195,9 @@ module Bridgetown
         default_block.nil? ? default_input.to_s : view.capture(&default_block)
       end
 
+      # Check if a content slot has been defined
+      #
+      # @return [Boolean]
       def slotted?(name)
         resource = if view.respond_to?(:resource)
                      view.resource

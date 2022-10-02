@@ -2,7 +2,8 @@
   <header><%= @upcase_title %></header>
   <app-card-inner>
     <%= content %>
-    <%= image %>
+    <%= slotted :image %>
+    <%= slotted :nothing do %>NOTHING<% end %>
   </app-card-inner>
   <footer><%= @footer %></footer>
 </app-card>
