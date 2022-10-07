@@ -63,7 +63,7 @@ module Bridgetown
           return safe(relative_path.relative_url) # new resource engine
         elsif relative_path.respond_to?(:url)
           return safe(relative_url(relative_path.url)) # old legacy engine
-        elsif relative_path.to_s.start_with?("/", "http")
+        elsif relative_path.to_s.start_with?("/", "http", "#", "mailto:", "tel:")
           return safe(relative_path)
         end
 
