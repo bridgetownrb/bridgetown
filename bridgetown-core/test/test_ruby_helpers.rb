@@ -36,6 +36,16 @@ class TestRubyHelpers < BridgetownUnitTest
     should "accept hash attributes" do
       assert_equal "<a href=\"/foo/bar\" class=\"classes\" data-controller=\"test\" data-action=\"test#test\">Label</a>", @helpers.link_to("Label", "/foo/bar", class: "classes", data: { controller: "test", action: "test#test" })
     end
+
+    should "accept block syntax" do
+      assert_equal "<a href=\"/foo/bar\">Label</a>", @helpers.link_to("/foo/bar") { "Label" }
+    end
+
+    should "raise if only one argument was given" do
+      assert_raises ArgumentError do
+        @helpers.link_to("Label")
+      end
+    end
   end
 
   context "attributes_from_options" do
