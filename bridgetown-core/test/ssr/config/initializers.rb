@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Bridgetown.configure do
   init :ssr do
     setup ->(site) do
