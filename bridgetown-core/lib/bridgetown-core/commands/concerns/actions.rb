@@ -63,7 +63,7 @@ module Bridgetown
 
       def add_initializer(name, data = "")
         say_status :add_initializer, name
-        data ||= yield if block_given?
+        data = yield if block_given?
         data = data.indent(2).lstrip
         data += "\n" unless data.chars.last == "\n"
 
@@ -80,7 +80,7 @@ module Bridgetown
 
       def ruby_configure(name, data = "")
         say_status :ruby_configure, name
-        data ||= yield if block_given?
+        data = yield if block_given?
         data += "\n" unless data.chars.last == "\n"
 
         init_file = File.join("config", "initializers.rb")
