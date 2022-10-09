@@ -62,7 +62,7 @@ module Bridgetown
       alias_method :add_gem, :add_bridgetown_plugin
 
       def add_initializer(name, data = "")
-        say_status :add_initializer, name
+        say_status :initializer, name
         data = yield if block_given?
         data = data.indent(2).lstrip
         data += "\n" unless data.chars.last == "\n"
@@ -79,7 +79,7 @@ module Bridgetown
       end
 
       def ruby_configure(name, data = "")
-        say_status :ruby_configure, name
+        say_status :configure, name
         data = yield if block_given?
         data = data.indent(2)
         data += "\n" unless data.chars.last == "\n"
