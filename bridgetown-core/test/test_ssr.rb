@@ -35,6 +35,12 @@ class TestSSR < BridgetownUnitTest
       assert_equal({ hello: "friend world VALUE" }.to_json, last_response.body)
     end
 
+    should "support _method override of POST" do
+      post "/hello/methods", _method: "put"
+      assert last_response.ok?
+      assert_equal({ saved: "methods" }.to_json, last_response.body)
+    end
+
     should "preserve site data between live reloads" do
       assert_equal 1, site.data.iterations
       site.reset(soft: true)
