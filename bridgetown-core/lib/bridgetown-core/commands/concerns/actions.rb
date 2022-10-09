@@ -81,6 +81,7 @@ module Bridgetown
       def ruby_configure(name, data = "")
         say_status :ruby_configure, name
         data = yield if block_given?
+        data = data.indent(2)
         data += "\n" unless data.chars.last == "\n"
 
         init_file = File.join("config", "initializers.rb")
