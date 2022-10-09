@@ -136,7 +136,7 @@ module Bridgetown
     alias_method :env, :environment
 
     def begin!
-      ENV["RACK_ENV"] = ENV["BRIDGETOWN_ENV"]
+      ENV["RACK_ENV"] ||= environment
 
       Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
       Bridgetown::PluginManager.setup_bundler
