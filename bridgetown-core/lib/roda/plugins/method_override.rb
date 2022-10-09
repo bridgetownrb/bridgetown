@@ -10,20 +10,19 @@ class Roda
       end
 
       module RequestMethods
-        HTTP_METHODS = %w[GET HEAD PUT POST DELETE OPTIONS PATCH LINK UNLINK]
+        HTTP_METHODS = %w(GET HEAD PUT POST DELETE OPTIONS PATCH LINK UNLINK).freeze
         HTTP_METHOD_OVERRIDE_HEADER = "HTTP_X_HTTP_METHOD_OVERRIDE"
-        ALLOWED_METHODS = %w[POST]
+        ALLOWED_METHODS = %w(POST).freeze
 
         def initialize(scope, env)
           super
+          return unless _allowed_methods.include?(env[Rack::REQUEST_METHOD])
 
-          if _allowed_methods.include?(env[Rack::REQUEST_METHOD])
-            method = _method_override(env)
-            if HTTP_METHODS.include?(method)
-              env[Rack::RACK_METHODOVERRIDE_ORIGINAL_METHOD] = env[Rack::REQUEST_METHOD]
-              env[Rack::REQUEST_METHOD] = method
-            end
-          end
+          method = _method_override(env)
+          return unless HTTP_METHODS.include?(method)
+
+          env[Rack::RACK_METHODOVERRIDE_ORIGINAL_METHOD] = env[Rack::REQUEST_METHOD]
+          env[Rack::REQUEST_METHOD] = method
         end
 
         private
