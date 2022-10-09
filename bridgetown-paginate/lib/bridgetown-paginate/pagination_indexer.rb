@@ -43,7 +43,7 @@ module Bridgetown
 
           Array(document_data).each do |key|
             key = key.to_s.downcase.strip
-            # If the key is a delimetered list of values
+            # If the key is a delimitered list of values
             # (meaning the user didn't use an array but a string with commas)
             key.split(%r!;|,!).each do |k_split|
               k_split = k_split.to_s.downcase.strip # Clean whitespace and junk
