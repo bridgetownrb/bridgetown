@@ -52,14 +52,16 @@ module Bridgetown
         end
       end
 
-      def add_bridgetown_plugin(gemname, version: nil)
-        version = " -v \"#{version}\"" if version
-        run "bundle add #{gemname}#{version}",
+      def add_gem(gemname, group: nil, version: nil)
+        options = +""
+        options += " -v \"#{version}\"" if version
+        options += " -g #{group}" if group
+        run "bundle add #{gemname}#{options}",
             env: { "BUNDLE_GEMFILE" => File.join(destination_root, "Gemfile") }
       rescue SystemExit
         say_status :run, "Gem not added due to bundler error", :red
       end
-      alias_method :add_gem, :add_bridgetown_plugin
+      alias_method :add_bridgetown_plugin, :add_gem
 
       def add_initializer(name, data = "")
         say_status :initializer, name
