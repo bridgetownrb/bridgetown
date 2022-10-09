@@ -54,10 +54,44 @@ module Bridgetown
 
       def add_bridgetown_plugin(gemname, version: nil)
         version = " -v \"#{version}\"" if version
-        run "bundle add #{gemname}#{version} -g bridgetown_plugins",
+        run "bundle add #{gemname}#{version}",
             env: { "BUNDLE_GEMFILE" => File.join(destination_root, "Gemfile") }
       rescue SystemExit
         say_status :run, "Gem not added due to bundler error", :red
+      end
+      alias_method :add_gem, :add_bridgetown_plugin
+
+      def add_initializer(name, data = "")
+        say_status :add_initializer, name
+        data ||= yield if block_given?
+        data = data.indent(2).lstrip
+        data += "\n" unless data.chars.last == "\n"
+
+        init_file = File.join("config", "initializers.rb")
+        unless File.exist?(init_file)
+          create_file("config/initializers.rb", verbose: true) do
+            File.read(File.expand_path("../../../site_template/config/initializers.rb", __dir__))
+          end
+        end
+
+        inject_into_file init_file, %(  init :"#{name}"#{data}),
+                         before: %r!^end$!, verbose: false, force: false
+      end
+
+      def ruby_configure(name, data = "")
+        say_status :ruby_configure, name
+        data ||= yield if block_given?
+        data += "\n" unless data.chars.last == "\n"
+
+        init_file = File.join("config", "initializers.rb")
+        unless File.exist?(init_file)
+          create_file("config/initializers.rb", verbose: true) do
+            File.read(File.expand_path("../../../site_template/config/initializers.rb", __dir__))
+          end
+        end
+
+        inject_into_file init_file, data,
+                         before: %r!^end$!, verbose: false, force: false
       end
 
       def add_yarn_for_gem(gemname)
