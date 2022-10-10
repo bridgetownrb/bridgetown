@@ -67,6 +67,7 @@ module Bridgetown
         say_status :initializer, name
         data = yield if block_given?
         data = data.indent(2).lstrip
+        data = " #{data}" unless data.start_with?(",")
         data += "\n" unless data.chars.last == "\n"
 
         init_file = File.join("config", "initializers.rb")
