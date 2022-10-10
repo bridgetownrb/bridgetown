@@ -269,9 +269,9 @@ or
 I'm a **Markdown** file.
 ```
 
-For ERB or Serbea files, you can use `---<%` / `%>---` or {% raw %}`---{%` / `%}---`{% endraw %} delimeters respectively. (You can substitute `~` instead of `-` if you prefer.)
+For ERB or Serbea files, you can use `---<%` / `%>---` or {% raw %}`---{%` / `%}---`{% endraw %} delimiters respectively. (You can substitute `~` instead of `-` if you prefer.)
 
-For all-Ruby files, you can use `---ruby` / `---` or `###ruby` / `###` delimeters.
+For all-Ruby files, you can use `---ruby` / `---` or `###ruby` / `###` delimiters.
 
 However you define your rbfm, bear in mind that the front matter code is executed _prior_ to any processing of the template file itself and within a different context. (rbfm will be executed initially within either `Bridgetown::Model::RepoOrigin` or `Bridgetown::Layout`.)
 
