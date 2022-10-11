@@ -1,15 +1,84 @@
 ---
-title: Upgrading from v0.2x
+title: Upgrading from a Previous Version
 top_section: Setup
 category: installation-guides
 back_to: installation
 order: 0
 ---
 
-To upgrade your existing Bridgetown site to 1.0, you’ll need to specify the new version in your Gemfile:
+## Upgrading to Bridgetown 1.2 (Beta)
+
+Bridgetown 1.2 brings with it a whole new initialization system along with a Ruby-based configuration format. Your `bridgetown.config.yml` file will continue to work, but over time you will likely want to migrate a good portion of your configuration over to the new format.
+
+To upgrade a 1.0 or 1.1 site to 1.2, edit your `Gemfile` and add the [latest beta release version](https://github.com/bridgetownrb/bridgetown/releases) in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem and then run `bundle`. We also recommend you add `gem "rack", "~> 2.2"` as while Bridgetown/Roda supports Rack 3, other ecosystem gems such as Active Record don't yet support it.
+
+When you upgrade to v1.2, your site will run in a legacy mode that automatically requires all gems in your Gemfile within the `bridgetown_plugins` group as before. This legacy mode is only triggered by the _absence_ of the new `config/initializers.rb` file. To opt-into the new format, create a `config/initializers.rb` file like so:
 
 ```ruby
-gem "bridgetown", "~> {{ Bridgetown::VERSION }}"
+Bridgetown.configure do |config|
+  # add configuration here
+end
+```
+
+Then you won't need to use the `bridgetown_plugins` Gemfile group any longer.  
+
+{%@ Note type: :warning do %}
+  Do not attempt to upgrade other Bridgetown plugins along with upgrading to v1.2 unless you intend to adopt the new configuration format. The latest version of many Bridgetown plugins expect the initializers file to be in use.
+{% end %}
+
+Once you're using the new configuration format, if you need to use a Bridgetown plugin that's not yet updated to work with v1.2, you can manually add a require statement to your configuration:
+
+```ruby
+Bridgetown.configure do |config|
+  require "my-older-plugin"
+  require "some-other-plugin"
+end
+```
+
+Otherwise, you'll be able to add `init` statements to load in plugins. For example: `init :"bridgetown-lit-renderer"`.
+
+If you've using the Bridgetown SSR and Routes plugins in your Roda server, you can remove the `plugin` statements in your `server/roda_app.rb` and instead use the new initializers:
+
+```ruby
+Bridgetown.configure do |config|
+  init :ssr
+  init :"bridgetown-routes"
+end
+```
+
+Other Roda server configuration can be placed within the file as well:
+
+```ruby
+only :server do
+  roda do |app|
+    app.plugin :default_headers,
+      'Content-Type'=>'text/html',
+      'Strict-Transport-Security'=>'max-age=16070400;',
+      'X-Content-Type-Options'=>'nosniff',
+      'X-Frame-Options'=>'deny',
+      'X-XSS-Protection'=>'1; mode=block'
+  end
+end
+```
+
+If you've installed the [dotenv](https://github.com/bkeepers/dotenv) gem previously to manage environment variables, Bridgetown now has builtin support for the gem. You're free to remove past code which loaded in dotenv and use the new initializer:
+
+```ruby
+init :dotenv
+```
+
+[Read the Initializers documentation](/docs/configuration/initializers) for further details.
+
+For plugin authors, the scoping options for `helper` and `filter` in the Builder Plugin DSL have been deprecated. You're encouraged to write simpler `helper` or `filter` code that calls the `helpers` or the `filters` variables directly to obtain access to the view-specific context. See the [Helpers](/docs/plugins/helpers) and [Filters](/docs/plugsin/filters) plugin documentation for more details.
+
+The Builder DSL also offers new `define_resource_method` ([docs here](/docs/plugins/resource-extensions)) and `permalink_placeholder` ([docs here](/docs/plugins/placeholders)) methods which you can use in lieu of older solutions.
+
+## Upgrading to Bridgetown 1.1
+
+To upgrade your existing 0.2x  Bridgetown site to 1.1, you’ll need to specify the new version in your Gemfile:
+
+```ruby
+gem "bridgetown", "1.1.0"
 ```
 
 You’ll also need to add Puma to your Gemfile:
