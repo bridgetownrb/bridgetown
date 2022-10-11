@@ -37,7 +37,7 @@ end
 
 Otherwise, you'll be able to add `init` statements to load in plugins. For example: `init :"bridgetown-lit-renderer"`.
 
-If you've using the Bridgetown SSR and Routes plugins in your Roda server, you can remove the `plugin` statements in your `server/roda_app.rb` and instead use the new initializers:
+If you've been using the Bridgetown SSR and Routes plugins in your Roda server, you can remove the `plugin` statements in your `server/roda_app.rb` and instead use the new initializers:
 
 ```ruby
 Bridgetown.configure do |config|
@@ -69,7 +69,7 @@ init :dotenv
 
 [Read the Initializers documentation](/docs/configuration/initializers) for further details.
 
-For plugin authors, the scoping options for `helper` and `filter` in the Builder Plugin DSL have been deprecated. You're encouraged to write simpler `helper` or `filter` code that calls the `helpers` or the `filters` variables directly to obtain access to the view-specific context. See the [Helpers](/docs/plugins/helpers) and [Filters](/docs/plugsin/filters) plugin documentation for more details.
+For plugin authors, the scoping options for `helper` and `filter` in the Builder Plugin DSL have been deprecated. You're encouraged to write simpler `helper` or `filter` code that calls the `helpers` or the `filters` variables directly to obtain access to the view-specific context. See the [Helpers](/docs/plugins/helpers) and [Filters](/docs/plugins/filters) plugin documentation for more details.
 
 The Builder DSL also offers new `define_resource_method` ([docs here](/docs/plugins/resource-extensions)) and `permalink_placeholder` ([docs here](/docs/plugins/placeholders)) methods which you can use in lieu of older solutions.
 
