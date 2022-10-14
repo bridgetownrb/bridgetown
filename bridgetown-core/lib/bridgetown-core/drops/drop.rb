@@ -184,7 +184,7 @@ module Bridgetown
           if block_given?
             self[key] = yield key, self[key], other[key]
           else
-            if Utils.mergable?(self[key]) && Utils.mergable?(other[key])
+            if Utils.mergeable?(self[key]) && Utils.mergeable?(other[key])
               self[key] = Utils.deep_merge_hashes(self[key], other[key])
               next
             end

@@ -2,6 +2,7 @@
 
 module Bridgetown
   module Utils # rubocop:todo Metrics/ModuleLength
+    extend Gem::Deprecate
     extend self
     autoload :Ansi, "bridgetown-core/utils/ansi"
     autoload :Aux, "bridgetown-core/utils/aux"
@@ -62,9 +63,11 @@ module Bridgetown
       target
     end
 
-    def mergable?(value)
+    def mergeable?(value)
       value.is_a?(Hash) || value.is_a?(Drops::Drop)
     end
+    alias_method :mergable?, :mergeable?
+    deprecate :mergable?, :mergeable?, 2023, 7
 
     def duplicable?(obj)
       case obj
@@ -508,7 +511,7 @@ module Bridgetown
       target.merge!(overwrite) do |_key, old_val, new_val|
         if new_val.nil?
           old_val
-        elsif mergable?(old_val) && mergable?(new_val)
+        elsif mergeable?(old_val) && mergeable?(new_val)
           deep_merge_hashes(old_val, new_val)
         else
           new_val
