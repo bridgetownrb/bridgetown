@@ -31,6 +31,23 @@ class TestFilters < BridgetownUnitTest
     def select; end
   end
 
+  M = Struct.new(:message) do
+    def to_liquid
+      [message]
+    end
+  end
+
+  T = Struct.new(:name) do
+    def to_liquid
+      {
+        "name" => name,
+        :v     => 1,
+        :thing => M.new(kay: "jewelers"),
+        :stuff => true,
+      }
+    end
+  end
+
   context "filters" do
     setup do
       @sample_time = Time.utc(2013, 3, 27, 11, 22, 33)
@@ -753,24 +770,6 @@ class TestFilters < BridgetownUnitTest
         assert_equal expected, JSON.parse(actual)["bridgetown"]
       end
 
-      # rubocop:disable Style/StructInheritance
-      class M < Struct.new(:message)
-        def to_liquid
-          [message]
-        end
-      end
-
-      class T < Struct.new(:name)
-        def to_liquid
-          {
-            "name" => name,
-            :v     => 1,
-            :thing => M.new(kay: "jewelers"),
-            :stuff => true,
-          }
-        end
-      end
-
       should "call #to_liquid " do
         expected = [
           {
@@ -797,7 +796,6 @@ class TestFilters < BridgetownUnitTest
         result = @filter.jsonify([T.new("Jeremiah"), T.new("Smathers")])
         assert_equal expected, JSON.parse(result)
       end
-      # rubocop:enable Style/StructInheritance
 
       should "handle hashes with all sorts of weird keys and values" do
         my_hash = { "posts" => Array.new(3) { |i| T.new(i) } }

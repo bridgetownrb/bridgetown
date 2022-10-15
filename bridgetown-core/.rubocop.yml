@@ -25,7 +25,6 @@ AllCops:
 
 Lint/ConstantDefinitionInBlock:
   Exclude:
-    - test/test_filters.rb
     - test/test_liquid_extensions.rb
     - test/test_site.rb
 
