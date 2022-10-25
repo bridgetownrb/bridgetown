@@ -36,7 +36,7 @@ append_to_file(File.join(javascript_dir, "index.js")) do
       Object.entries(controllers).forEach(([filename, controller]) => {
         if (filename.includes("_controller.") || filename.includes("-controller.")) {
           const identifier = filename.replace("./controllers/", "")
-            .replace(/[_-]controller\..*$/, "")
+            .replace(/[_-]controller\\..*$/, "")
             .replace("_", "-")
             .replace("/", "--")
 
@@ -48,7 +48,7 @@ append_to_file(File.join(javascript_dir, "index.js")) do
     <<~JS
 
       window.Stimulus = Application.start()
-      const context = require.context("./controllers", true, /\.js$/)
+      const context = require.context("./controllers", true, /\\.js$/)
       Stimulus.load(definitionsFromContext(context))
     JS
   end
