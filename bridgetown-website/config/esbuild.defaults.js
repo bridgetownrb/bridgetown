@@ -6,15 +6,37 @@
 // when an update is applied hence we strongly recommend adding overrides to
 // `esbuild.config.js` instead of editing this file.
 //
-// Shipped with Bridgetown v1.0.0.alpha11
+// Shipped with Bridgetown v1.2.0.beta3
 
 const path = require("path")
 const fsLib = require("fs")
 const fs = fsLib.promises
+const { pathToFileURL, fileURLToPath } = require("url")
 const glob = require("glob")
 const postcss = require("postcss")
 const postCssImport = require("postcss-import")
 const readCache = require("read-cache")
+
+// Detect if an NPM package is available
+const moduleAvailable = name => {
+  try {
+    require.resolve(name)
+    return true
+  } catch (e) { }
+  return false
+}
+
+// Generate a Source Map URL (used by the Sass plugin)
+const generateSourceMappingURL = sourceMap => {
+  const data = Buffer.from(JSON.stringify(sourceMap), "utf-8").toString("base64")
+  return `/*# sourceMappingURL=data:application/json;charset=utf-8;base64,${data} */`
+}
+
+// Import Sass if available
+let sass
+if (moduleAvailable("sass")) {
+  sass = require("sass")
+}
 
 // Glob plugin derived from:
 // https://github.com/thomaschaaf/esbuild-plugin-import-glob
@@ -61,24 +83,23 @@ const importGlobPlugin = () => ({
   },
 })
 
-const postCssPlugin = (options) => ({
+// Plugin for PostCSS
+const importPostCssPlugin = (options, configuration) => ({
   name: "postcss",
   async setup(build) {
     // Process .css files with PostCSS
-    build.onLoad({ filter: /\.(css)$/ }, async (args) => {
+    build.onLoad({ filter: (configuration.filter || /\.css$/) }, async (args) => {
       const additionalFilePaths = []
       const css = await fs.readFile(args.path, "utf8")
 
       // Configure import plugin so PostCSS can properly resolve `@import`ed CSS files
       const importPlugin = postCssImport({
-        filter: itemPath => {
-          // We'll want to track any imports later when in watch mode
-          additionalFilePaths.push(path.resolve(path.dirname(args.path), itemPath))
-          return true
-        },
+        filter: itemPath => !itemPath.startsWith("/"), // ensure it doesn't try to import source-relative paths
         load: async filename => {
           let contents = await readCache(filename, "utf-8")
           const filedir = path.dirname(filename)
+          // We'll want to track any imports later when in watch mode:
+          additionalFilePaths.push(filename)
 
           // We need to transform `url(...)` in imported CSS so the filepaths are properly
           // relative to the entrypoint. Seems icky to have to hack this! C'est la vie...
@@ -106,7 +127,66 @@ const postCssPlugin = (options) => ({
   },
 })
 
-// Set up some nice default for Bridgetown
+// Plugin for Sass
+const sassPlugin = (options) => ({
+  name: "sass",
+  async setup(build) {
+    // Process .scss and .sass files with Sass
+    build.onLoad({ filter: /\.(sass|scss)$/ }, async (args) => {
+      if (!sass) {
+        console.error("error: Sass is not installed. Try running `yarn add sass` and then building again.")
+        return
+      }
+
+      const modulesFolder = pathToFileURL("node_modules/")
+
+      const localOptions = {
+        importers: [{
+          // An importer that redirects relative URLs starting with "~" to
+          // `node_modules`.
+          findFileUrl(url) {
+            if (!url.startsWith('~')) return null
+            return new URL(url.substring(1), modulesFolder)
+          }
+        }],
+        sourceMap: true,
+        ...options
+      }
+      const result = sass.compile(args.path, localOptions)
+
+      const watchPaths = result.loadedUrls
+        .filter((x) => x.protocol === "file:" && !x.pathname.startsWith(modulesFolder.pathname))
+        .map((x) => x.pathname)
+
+      let cssOutput = result.css.toString()
+
+      if (result.sourceMap) {
+        const basedir = process.cwd()
+        const sourceMap = result.sourceMap
+
+        const promises = sourceMap.sources.map(async source => {
+          const sourceFile = await fs.readFile(fileURLToPath(source), "utf8")
+          return sourceFile
+        })
+        sourceMap.sourcesContent = await Promise.all(promises)
+
+        sourceMap.sources = sourceMap.sources.map(source => {
+          return path.relative(basedir, fileURLToPath(source))
+        })
+
+        cssOutput += '\n' + generateSourceMappingURL(sourceMap)
+      }
+
+      return {
+        contents: cssOutput,
+        loader: "css",
+        watchFiles: [args.path, ...watchPaths],
+      }
+    })
+  },
+})
+
+// Set up defaults and generate frontend bundling manifest file
 const bridgetownPreset = (outputFolder) => ({
   name: "bridgetownPreset",
   async setup(build) {
@@ -151,9 +231,10 @@ const bridgetownPreset = (outputFolder) => ({
           // We have an entrypoint!
           manifest[stripPrefix(value.entryPoint)] = outputPath
           entrypoints.push([outputPath, fileSize(key)])
-        } else if (key.match(/index(\.js)?\.[^-.]*\.css/) && inputs.find(item => item.endsWith("index.css"))) {
+        } else if (key.match(/index(\.js)?\.[^-.]*\.css/) && inputs.find(item => item.match(/frontend.*\.(s?css|sass)$/))) {
           // Special treatment for index.css
-          manifest[stripPrefix(inputs.find(item => item.endsWith("index.css")))] = outputPath
+          const input = inputs.find(item => item.match(/frontend.*\.(s?css|sass)$/))
+          manifest[stripPrefix(input)] = outputPath
           entrypoints.push([outputPath, fileSize(key)])
         } else if (inputs.length > 0) {
           // Naive implementation, we'll just grab the first input and hope it's accurate
@@ -177,14 +258,17 @@ const bridgetownPreset = (outputFolder) => ({
 
 // Load the PostCSS config from postcss.config.js or whatever else is a supported location/format
 const postcssrc = require("postcss-load-config")
-const postCssConfig = postcssrc.sync()
 
-module.exports = (outputFolder, esbuildOptions) => {
+module.exports = async (outputFolder, esbuildOptions) => {
   esbuildOptions.plugins = esbuildOptions.plugins || []
   // Add the PostCSS & glob plugins to the top of the plugin stack
-  esbuildOptions.plugins.unshift(postCssPlugin(postCssConfig))
+  const postCssConfig = await postcssrc()
+  esbuildOptions.plugins.unshift(importPostCssPlugin(postCssConfig, esbuildOptions.postCssPluginConfig || {}))
+  if (esbuildOptions.postCssPluginConfig) delete esbuildOptions.postCssPluginConfig
   esbuildOptions.plugins.unshift(importGlobPlugin())
-  // Add the Bridgetown preset to the bottom of the plugin stack
+  // Add the Sass plugin
+  esbuildOptions.plugins.push(sassPlugin(esbuildOptions.sassOptions || {}))
+  // Add the Bridgetown preset
   esbuildOptions.plugins.push(bridgetownPreset(outputFolder))
 
   // esbuild, take it away!
@@ -200,7 +284,7 @@ module.exports = (outputFolder, esbuildOptions) => {
       ".ttf": "file",
       ".eot": "file",
     },
-    resolveExtensions: [".tsx",".ts",".jsx",".js",".css",".json",".js.rb"],
+    resolveExtensions: [".tsx", ".ts", ".jsx", ".js", ".css", ".scss", ".sass", ".json", ".js.rb"],
     nodePaths: ["frontend/javascript", "frontend/styles"],
     watch: process.argv.includes("--watch"),
     minify: process.argv.includes("--minify"),
@@ -209,6 +293,7 @@ module.exports = (outputFolder, esbuildOptions) => {
     entryPoints: ["frontend/javascript/index.js"],
     entryNames: "[dir]/[name].[hash]",
     outdir: path.join(process.cwd(), `${outputFolder}/_bridgetown/static`),
+    publicPath: "/_bridgetown/static",
     metafile: true,
     ...esbuildOptions,
   }).catch(() => process.exit(1))

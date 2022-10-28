@@ -15,7 +15,7 @@
     <%- if frontend_bundling_option == "webpack" -%>
     "css-loader": "^6.7.1",
     <%- end -%>
-    "esbuild": "^0.14.39",
+    "esbuild": "^0.15.12",
     <%- if frontend_bundling_option == "webpack" -%>
     "esbuild-loader": "^2.18.0",
     "mini-css-extract-plugin": "^2.6.0",
@@ -31,7 +31,10 @@
     <%- else -%>
     "postcss-loader": "^6.2.1",
     <%- end -%>
-    "postcss-preset-env": "^7.4.3"<%= "," if frontend_bundling_option == "webpack" || !postcss_option  %>
+    "postcss-preset-env": "^7.4.3",
+    <%- if frontend_bundling_option == "esbuild" -%>
+    "read-cache": "^1.0.0"<%= "," unless postcss_option  %>
+    <%- end -%>
     <%- end -%>
     <%- unless postcss_option -%>
     "sass": "^1.50.1",
