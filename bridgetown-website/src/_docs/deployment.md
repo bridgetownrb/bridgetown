@@ -118,7 +118,7 @@ test:
   - bin/bridgetown build --base_path mysite --url https://bridgetownrb.gitlab.io
   - bin/bridgetown clean
   except:
-    - master
+    - main
 
 pages:
   script:
@@ -141,7 +141,7 @@ pages:
     paths:
     - public
   only:
-  - master
+  - main
 
 ```
 Once this file has been created, add it and the other files and folders to the repository, and then push them to GitLab:
@@ -151,7 +151,7 @@ git add .gitlab-ci.yml
 git remote add origin https://gitlab.com/bridgetownrb/mysite
 git add .
 git commit -am "initial commit"
-git push -u origin master
+git push -u origin main
 ```
 
 After the build the site should be live at https://bridgetownrb.gitlab.io/mysite

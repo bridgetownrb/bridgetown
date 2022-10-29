@@ -452,10 +452,10 @@ module Bridgetown
     def default_github_branch_name(repo_url)
       repo_match = Bridgetown::Commands::Actions::GITHUB_REPO_REGEX.match(repo_url)
       api_endpoint = "https://api.github.com/repos/#{repo_match[1]}"
-      JSON.parse(Faraday.get(api_endpoint).body)["default_branch"] || "master"
+      JSON.parse(Faraday.get(api_endpoint).body)["default_branch"] || "main"
     rescue StandardError => e
       Bridgetown.logger.warn("Unable to connect to GitHub API: #{e.message}")
-      "master"
+      "main"
     end
 
     def live_reload_js(site) # rubocop:disable Metrics/MethodLength
