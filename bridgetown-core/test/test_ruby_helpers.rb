@@ -48,6 +48,16 @@ class TestRubyHelpers < BridgetownUnitTest
     should "accept telephone links" do
       assert_equal "<a href=\"tel:01234\">Label</a>", @helpers.link_to("Label", "tel:01234")
     end
+
+    should "accept block syntax" do
+      assert_equal "<a href=\"/foo/bar\">Label</a>", @helpers.link_to("/foo/bar") { "Label" }
+    end
+
+    should "raise if only one argument was given" do
+      assert_raises ArgumentError do
+        @helpers.link_to("Label")
+      end
+    end
   end
 
   context "attributes_from_options" do

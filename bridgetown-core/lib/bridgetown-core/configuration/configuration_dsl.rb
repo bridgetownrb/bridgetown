@@ -57,7 +57,7 @@ module Bridgetown
       end
 
       def builder(klass = nil, &block)
-        return klass.register if klass.is_a?(Bridgetown::Builder)
+        return klass.register if klass.is_a?(Class) && klass < Bridgetown::Builder
 
         unless klass.is_a?(Symbol)
           raise "You must supply a constant symbol to register an inline builder"

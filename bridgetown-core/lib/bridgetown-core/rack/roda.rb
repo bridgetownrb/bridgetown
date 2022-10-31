@@ -47,6 +47,8 @@ module Bridgetown
 
       SiteContext = Struct.new(:registers) # for use by Liquid-esque URL helpers
 
+      plugin :method_override
+      plugin :all_verbs
       plugin :hooks
       plugin :common_logger, Bridgetown::Rack::Logger.new($stdout), method: :info
       plugin :json

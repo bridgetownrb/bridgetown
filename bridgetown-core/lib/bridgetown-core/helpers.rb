@@ -97,7 +97,13 @@ module Bridgetown
       # @param options [Hash] key-value pairs of HTML attributes to add to the tag
       # @return [String] the anchor tag HTML
       # @raise [ArgumentError] if the file cannot be found
-      def link_to(text, relative_path, options = {})
+      def link_to(text, relative_path = nil, options = {})
+        if block_given?
+          relative_path = text
+          text = yield
+        elsif relative_path.nil?
+          raise ArgumentError, "You must provide a relative path"
+        end
         segments = attributes_from_options({ href: url_for(relative_path) }.merge(options))
 
         safe("<a #{segments}>#{text}</a>")

@@ -9,10 +9,5 @@ class RodaApp < Bridgetown::Rack::Roda
   end)
   # rubocop:enable Lint/EmptyBlock
 
-  plugin :bridgetown_ssr do |site|
-    site.data.iterations ||= 0
-    site.data.iterations += 1
-  end
-
   route(&:bridgetown)
 end

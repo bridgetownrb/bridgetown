@@ -21,7 +21,7 @@ class Roda
         app.plugin :slash_path_empty # now /hello and /hello/ are both matched
         app.plugin :placeholder_string_matchers
         app.plugin :flash
-        app.plugin :route_csrf, check_header: true
+        app.plugin :route_csrf
       end
 
       def self.configure(app, _opts = {})

@@ -147,6 +147,8 @@ module Bridgetown
       dsl.instance_variable_set(:@context, context)
       dsl.instance_exec(dsl, &init_init.block)
 
+      setup_load_paths! appending: true
+
       self
     end
 
@@ -323,16 +325,18 @@ module Bridgetown
       self
     end
 
-    def setup_load_paths! # rubocop:todo Metrics
-      self[:root_dir] = File.expand_path(self[:root_dir])
-      self[:source] = File.expand_path(self[:source], self[:root_dir])
-      self[:destination] = File.expand_path(self[:destination], self[:root_dir])
+    def setup_load_paths!(appending: false) # rubocop:todo Metrics
+      unless appending
+        self[:root_dir] = File.expand_path(self[:root_dir])
+        self[:source] = File.expand_path(self[:source], self[:root_dir])
+        self[:destination] = File.expand_path(self[:destination], self[:root_dir])
 
-      if self[:plugins_use_zeitwerk]
-        autoload_paths.unshift({
-          path: self[:plugins_dir],
-          eager: true,
-        })
+        if self[:plugins_use_zeitwerk]
+          autoload_paths.unshift({
+            path: self[:plugins_dir],
+            eager: true,
+          })
+        end
       end
 
       autoload_paths.map! do |load_path|

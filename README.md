@@ -58,10 +58,15 @@ Say howdy 👋 to our growing list of past & present sponsors of Bridgetown on G
 |<a href="https://github.com/subsevenx">@subsevenx</a>|<a href="https://github.com/coreyaus">@coreyaus</a>|<a href="https://github.com/joelhawksley">@joelhawksley</a>|<a href="https://github.com/onurozer">@onurozer</a>|<a href="https://github.com/oleingemann">@oleingemann</a>|
 ||<a href="https://www.codenation.com">Website</a>|<a href="https://hawksley.org">Website</a>|<a href="https://onurozer.me">Website</a>|<a href="https://www.oleingemann.com">Website</a>|
 
-|<img src="https://avatars.githubusercontent.com/renuo?s=256" alt="renuo" width="128" />|<img src="https://avatars.githubusercontent.com/maxveldink?s=256" alt="maxveldink" width="128" />|<img src="https://avatars.githubusercontent.com/fuzzygroup?s=256" alt="fuzzygroup" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/renuo">@renuo</a>|<a href="https://github.com/maxveldink">@maxveldink</a>|<a href="https://github.com/fuzzygroup">@fuzzygroup</a>|You Next?|
-|<a href="https://www.renuo.ch/">Website</a>|<a href="https://maxveld.ink">Website</a>|<a href="https://fuzzyblog.io/blog/">Website</a>||
+|<img src="https://avatars.githubusercontent.com/renuo?s=256" alt="renuo" width="128" />|<img src="https://avatars.githubusercontent.com/maxveldink?s=256" alt="maxveldink" width="128" />|<img src="https://avatars.githubusercontent.com/fuzzygroup?s=256" alt="fuzzygroup" width="128" />|<img src="https://avatars.githubusercontent.com/monfresh?s=256" alt="monfresh" width="128" />|<img src="https://avatars.githubusercontent.com/posiczko?s=256" alt="posiczko" width="128" />|
+|:---:|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/renuo">@renuo</a>|<a href="https://github.com/maxveldink">@maxveldink</a>|<a href="https://github.com/fuzzygroup">@fuzzygroup</a>|<a href="https://github.com/monfresh">@monfresh</a>|<a href="https://github.com/posiczko">@posiczko</a>|
+|<a href="https://www.renuo.ch/">Website</a>|<a href="https://maxveld.ink">Website</a>|<a href="https://fuzzyblog.io/blog/">Website</a>|<a href="https://www.moncefbelyamani.com">Website</a>|<a href="https://tetrapyloctomy.org">Website</a>|
+
+|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|
+|You Next?|
+||
 
 ## Commercial Support
 

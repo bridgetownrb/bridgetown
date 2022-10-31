@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.2.0.beta3] - 2022-10-09
+
+- Updates to Lit and Tailwind configurations
+- Add new automation actions for v1.2 configurations
+- Fix issues around Roda processing of form submissions
+
+## [1.2.0.beta2] - 2022-10-07
+
+- Fix bug with builder registration in config DSL
+
 ## [1.2.0.beta1] "Bonny Slope" - 2022-10-02
 
 Don't let yourself get distracted by the moonshine!

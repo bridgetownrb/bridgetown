@@ -52,12 +52,50 @@ module Bridgetown
         end
       end
 
-      def add_bridgetown_plugin(gemname, version: nil)
-        version = " -v \"#{version}\"" if version
-        run "bundle add #{gemname}#{version} -g bridgetown_plugins",
+      def add_gem(gemname, group: nil, version: nil)
+        options = +""
+        options += " -v \"#{version}\"" if version
+        options += " -g #{group}" if group
+        run "bundle add #{gemname}#{options}",
             env: { "BUNDLE_GEMFILE" => File.join(destination_root, "Gemfile") }
       rescue SystemExit
         say_status :run, "Gem not added due to bundler error", :red
+      end
+      alias_method :add_bridgetown_plugin, :add_gem
+
+      def add_initializer(name, data = "")
+        say_status :initializer, name
+        data = yield if block_given?
+        data = data.indent(2).lstrip
+        data = " #{data}" unless data.start_with?(",")
+        data += "\n" unless data.chars.last == "\n"
+
+        init_file = File.join("config", "initializers.rb")
+        unless File.exist?(init_file)
+          create_file("config/initializers.rb", verbose: true) do
+            File.read(File.expand_path("../../../site_template/config/initializers.rb", __dir__))
+          end
+        end
+
+        inject_into_file init_file, %(  init :"#{name}"#{data}),
+                         before: %r!^end$!, verbose: false, force: false
+      end
+
+      def ruby_configure(name, data = "")
+        say_status :configure, name
+        data = yield if block_given?
+        data = data.indent(2)
+        data += "\n" unless data.chars.last == "\n"
+
+        init_file = File.join("config", "initializers.rb")
+        unless File.exist?(init_file)
+          create_file("config/initializers.rb", verbose: true) do
+            File.read(File.expand_path("../../../site_template/config/initializers.rb", __dir__))
+          end
+        end
+
+        inject_into_file init_file, data,
+                         before: %r!^end$!, verbose: false, force: false
       end
 
       def add_yarn_for_gem(gemname)

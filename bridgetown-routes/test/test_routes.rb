@@ -7,7 +7,7 @@ class TestRoutes < BridgetownUnitTest
 
   def app
     ENV["RACK_ENV"] = "development"
-    @@ssr_app ||= Rack::Builder.parse_file(File.expand_path("ssr/config.ru", __dir__)).first # rubocop:disable Style/ClassVars
+    @@ssr_app ||= Rack::Builder.parse_file(File.expand_path("ssr/config.ru", __dir__)) # rubocop:disable Style/ClassVars
   end
 
   def site

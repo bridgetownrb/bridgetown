@@ -11,9 +11,9 @@ end
 
 say_status :lit, "Installing Lit + SSR Plugin..."
 
-add_bridgetown_plugin "bridgetown-lit-renderer", version: "2.0.0.beta3"
+add_gem "bridgetown-lit-renderer"
 
-run "yarn add lit esbuild-plugin-lit-css bridgetown-lit-renderer@2.0.0-beta3"
+run "yarn add lit esbuild-plugin-lit-css bridgetown-lit-renderer"
 
 copy_file in_templates_dir("lit-ssr.config.js"), "config/lit-ssr.config.js"
 copy_file in_templates_dir("lit-components-entry.js"), "config/lit-components-entry.js"
@@ -35,7 +35,7 @@ gsub_file "esbuild.config.js", %r{const esbuildOptions = {}\n} do |_match|
     const esbuildOptions = {
       plugins: [...plugins],
       // Uncomment the following to opt into `.global.css` & `.lit.css` nomenclature.
-      // Read https://edge.bridgetownrb.com/docs/components/lit#sidecar-css-files for documentation.
+      // Read https://www.bridgetownrb.com/docs/components/lit#sidecar-css-files for documentation.
       /*
       postCssPluginConfig: {
         filter: /(?:index|\.global)\.css$/,
@@ -56,7 +56,7 @@ unless found_match
       //
       // You might also want to include the following in your esbuild config to opt into
       // `.global.css` & `.lit.css` nomenclature.
-      // Read https://edge.bridgetownrb.com/docs/components/lit#sidecar-css-files for documentation.
+      // Read https://www.bridgetownrb.com/docs/components/lit#sidecar-css-files for documentation.
       /*
       postCssPluginConfig: {
         filter: /(?:index|\.global)\.css$/,
@@ -78,9 +78,11 @@ insert_into_file "frontend/javascript/index.js",
                  before: 'import components from "bridgetownComponents/**/*.{js,jsx,js.rb,css}"' do
   <<~JS
     // To opt into `.global.css` & `.lit.css` nomenclature, change the `css` extension below to `global.css`.
-    // Read https://edge.bridgetownrb.com/docs/components/lit#sidecar-css-files for documentation.
+    // Read https://www.bridgetownrb.com/docs/components/lit#sidecar-css-files for documentation.
   JS
 end
+
+add_initializer :"bridgetown-lit-renderer"
 
 if found_match
   say_status :lit, "Lit is now configured!"
@@ -92,4 +94,4 @@ else
 end
 
 say "Check out the example `happy-days.lit.js` file in `src/_components`", :blue
-say 'For further reading, check out "https://edge.bridgetownrb.com/docs/components/lit"', :blue
+say 'For further reading, check out "https://www.bridgetownrb.com/docs/components/lit"', :blue

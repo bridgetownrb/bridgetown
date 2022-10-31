@@ -10,5 +10,9 @@ class Routes::Hello < Bridgetown::Rack::Routes
     r.get "hello", String do |name|
       { hello: "friend #{name} #{saved_value}" }
     end
+
+    r.put "hello", String do |name|
+      { saved: name }
+    end
   end
 end

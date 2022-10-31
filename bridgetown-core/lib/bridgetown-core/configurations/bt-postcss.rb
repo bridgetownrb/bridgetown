@@ -11,7 +11,7 @@ unless File.exist?("postcss.config.js")
   return
 end
 
-confirm = ask "This configuration will ovewrite your existing #{"postcss.config.js".bold.white}. Would you like to continue? [Yn]"
+confirm = ask "This configuration will overwrite your existing #{"postcss.config.js".bold.white}. Would you like to continue? [Yn]"
 return unless confirm.casecmp?("Y")
 
 plugins = %w(postcss-mixins postcss-color-mod-function cssnano)

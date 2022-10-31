@@ -61,7 +61,7 @@ module Bridgetown
     end
 
     def self.setup_bundler(skip_yarn: false)
-      if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] && File.file?("Gemfile")
+      if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] && (File.file?("Gemfile") || Bridgetown.env.test?)
         require "bundler"
 
         require_relative "utils/initializers"
