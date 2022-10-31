@@ -37,6 +37,18 @@ class TestRubyHelpers < BridgetownUnitTest
       assert_equal "<a href=\"/foo/bar\" class=\"classes\" data-controller=\"test\" data-action=\"test#test\">Label</a>", @helpers.link_to("Label", "/foo/bar", class: "classes", data: { controller: "test", action: "test#test" })
     end
 
+    should "accept anchors" do
+      assert_equal "<a href=\"#foo\">Label</a>", @helpers.link_to("Label", "#foo")
+    end
+
+    should "accept email links" do
+      assert_equal "<a href=\"mailto:a@example.org\">Label</a>", @helpers.link_to("Label", "mailto:a@example.org")
+    end
+
+    should "accept telephone links" do
+      assert_equal "<a href=\"tel:01234\">Label</a>", @helpers.link_to("Label", "tel:01234")
+    end
+
     should "accept block syntax" do
       assert_equal "<a href=\"/foo/bar\">Label</a>", @helpers.link_to("/foo/bar") { "Label" }
     end
