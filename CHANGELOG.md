@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- Add ability to specify locales in "multi locale" mode
+
 ## [1.2.0.beta3] - 2022-10-09
 
 - Updates to Lit and Tailwind configurations
