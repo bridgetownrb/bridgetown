@@ -5,7 +5,7 @@ top_section: Designing Your Site
 category: template-engines
 ---
 
-Bridgetown's default configured template language is **Liquid**. Liquid's simple syntax and safe execution context making it ideal for designer-led template creation.
+Bridgetown's default configured template language is **Liquid**. Liquid's simple syntax and safe execution context make it ideal for designer-led template creation.
 
 However, you can use a variety of different template engines within Bridgetown simply by using the appropriate file extension (aka `.erb`), or by specifying the template engine in your resource's front matter. Out of the box, Bridgetown provides support for both **ERB** and **Serbea**, and you can also use Haml or Slim by installing additional plugins.
 
