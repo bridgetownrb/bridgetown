@@ -8,3 +8,4 @@
 - release
 - feature
 - showcase
+- videos
