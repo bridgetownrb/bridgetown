@@ -36,5 +36,15 @@ class TestRoutes < BridgetownUnitTest
       get "/yello/my-friend"
       assert_equal "<p>So arbitrary!</p>\n", last_response.body
     end
+
+    should "return HTML for a route localized in english" do
+      get "/localized"
+      assert_equal "<h1>Localized for en - en</h1>\n", last_response.body
+    end
+
+    should "return HTML for a route localized in italian" do
+      get "/it/localized"
+      assert_equal "<h1>Localized for it - it</h1>\n", last_response.body
+    end
   end
 end

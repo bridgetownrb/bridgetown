@@ -172,10 +172,10 @@ Bridgetown is built by:
 |<a href="https://github.com/nachoal">@nachoal</a>|<a href="https://github.com/deivid-rodriguez">@deivid-rodriguez</a>|<a href="https://github.com/Eric-Guo">@Eric-Guo</a>|<a href="https://github.com/jacobherrington">@jacobherrington</a>|<a href="https://github.com/fpsvogel">@fpsvogel</a>|
 |CDMX, México|Madrid, Spain|Shanghai, China|Fayetteville, AR|Lexington, KY|
 
-|<img src="https://avatars.githubusercontent.com/vvveebs?s=256" alt="vvveebs" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|
-|<a href="https://github.com/vvveebs">@vvveebs</a>|You Next?|
-|London, UK|Anywhere|
+|<img src="https://avatars.githubusercontent.com/vvveebs?s=256" alt="vvveebs" width="128" />|<img src="https://avatars.githubusercontent.com/tommasongr?s=256" alt="tommasongr" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|
+|<a href="https://github.com/vvveebs">@vvveebs</a>|<a href="https://github.com/tommasongr">@tommasongr</a>|You Next?|
+|London, UK|Milan, IT|Anywhere|
 
 Interested in joining the Bridgetown Core Team? Send a DM to Jared in [Discord](https://discord.gg/4E6hktQGz4) and let's chat!
 
