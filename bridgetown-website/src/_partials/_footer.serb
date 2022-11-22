@@ -8,7 +8,7 @@
 
       <p>
         Version: <strong>v{{ Bridgetown::VERSION }}</strong> (codename “<strong>{{ Bridgetown::CODE_NAME }}</strong>”)<br/>
-        Follow Us: <strong><a href="https://twitter.com/{{ site.metadata.twitter }}" rel="noopener">@{{ site.metadata.twitter }}</strong></a><br/>
+        Follow Us: <strong><a href="{%= site.metadata.mastodon.url %}" rel="noopener">@{{ site.metadata.mastodon.username }}</strong></a><br/>
         Read About Our <strong><a href="/docs/philosophy">Philosophy & Goals</a></strong>
       </p>
 
@@ -23,7 +23,7 @@
     </layout-column>
     <layout-column>
       <h4>
-        <strong>Contribute</strong> on GitHub
+        Contribute on GitHub
       </h4>
 
       <p>
@@ -40,21 +40,22 @@
     </layout-column>
     <layout-column>
       <h4>
-        <strong>Share</strong> on Social Media
+        Stay Updated
       </h4>
 
-      <p>
-        <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbridgetownrb.com&via={{ site.metadata.twitter }}&text=Check%20out%20this%20awesome%20new%20static%20site%20generator%20built%20in%20Ruby%21&hashtags=SpinUpBridgetown%2CJamstack">
-          <sl-button type="primary" size="small">
-            <sl-icon slot="prefix" library="remixicon" name="logos/twitter-fill"></sl-icon>
-            Tweet
-          </sl-button>
-        </a>
-      </p>
+      {%# <p>
+        #<a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbridgetownrb.com&via={{ site.metadata.twitter }}&text=Check%20out%20this%20awesome%20new%20static%20site%20generator%20built%20in%20Ruby%21&hashtags=SpinUpBridgetown%2CJamstack">
+        #  <sl-button type="primary" size="small">
+        #    <sl-icon slot="prefix" library="remixicon" name="logos/mastodon-fill"></sl-icon>
+        #    Toot
+        #  </sl-button>
+        #</a>
+      #</p>
 
-      <p>
-        Use hashtag <strong>#SpinUpBridgetown</strong> <br/>and spread the word! 😃
-      </p>
+      #<p>
+      #  Use hashtag <strong>#SpinUpBridgetown</strong> <br/>and spread the word! 😃
+      #</p>
+      %}
 
       <p>
         <a href="/feed.xml">

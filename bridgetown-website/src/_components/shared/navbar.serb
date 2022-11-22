@@ -26,8 +26,8 @@
         </sl-button>
       </sl-bar-item>
       <sl-bar-item expandable style="font-size:120%; white-space:nowrap">
-        <a href="https://twitter.com/bridgetownrb" aria-label="Twitter">
-          <sl-icon library="remixicon" name="logos/twitter-fill"></sl-icon>
+        <a href="{%= @metadata.mastodon.url  %}" aria-label="Mastodon">
+          <sl-icon library="remixicon" name="logos/mastodon-fill"></sl-icon>
         </a>
 
         <a href="https://github.com/bridgetownrb/bridgetown" aria-label="GitHub">
