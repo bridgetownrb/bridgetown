@@ -105,7 +105,7 @@ As contributors and maintainers of this project, and in the interest of fosterin
 Read our full [code of conduct](https://github.com/bridgetownrb/bridgetown/blob/main/CODE_OF_CONDUCT.md).
 
 {%@ Note do %}
-Want to give us a public shoutout? Check out our [official Twitter account](https://twitter.com/{{ site.metadata.twitter }})!
+Want to give us a public shoutout? Check out our [official Mastodon account]({%= site.metadata.mastodon.url %})!
 {% end %}
 
 <br/>
