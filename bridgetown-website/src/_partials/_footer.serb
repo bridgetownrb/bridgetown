@@ -44,7 +44,7 @@
       </h4>
 
       {%# <p>
-        #<a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbridgetownrb.com&via={{ site.metadata.twitter }}&text=Check%20out%20this%20awesome%20new%20static%20site%20generator%20built%20in%20Ruby%21&hashtags=SpinUpBridgetown%2CJamstack">
+        #<a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbridgetownrb.com&via={ site.metadata.twitter }&text=Check%20out%20this%20awesome%20new%20static%20site%20generator%20built%20in%20Ruby%21&hashtags=SpinUpBridgetown%2CJamstack">
         #  <sl-button variant="primary" size="small">
         #    <sl-icon slot="prefix" library="remixicon" name="logos/mastodon-fill"></sl-icon>
         #    Toot
