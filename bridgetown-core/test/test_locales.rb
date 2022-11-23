@@ -78,6 +78,31 @@ class TestLocales < BridgetownUnitTest
     end
   end
 
+  context "one page which is generated into multiple locales (as specified in locales key)" do
+    setup do
+      reset_i18n_config
+      @site = resources_site
+      @site.process
+      # @type [Bridgetown::Resource::Base]
+      @resources = @site.collections.pages.resources.select do |page|
+        page.relative_path.to_s == "_pages/multi-page-with-specified-locales.multi.md"
+      end
+      @english_resource = @resources.find { |page| page.data.locale == :en }
+      @french_resource = @resources.find { |page| page.data.locale == :fr }
+    end
+
+    should "have the correct permalink and locale in English" do
+      assert_equal "/multi-page/", @english_resource.relative_url
+      assert_includes @english_resource.output, 'lang="en"'
+      assert_includes @english_resource.output, "<title>Multi-locale page</title>"
+      assert_includes @english_resource.output, "<p>English: Multi-locale page</p>"
+    end
+
+    should "have not have a locale in French" do
+      assert_equal @french_resource, nil
+    end
+  end
+
   context "locales and a base_path combined" do
     setup do
       reset_i18n_config
