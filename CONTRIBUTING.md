@@ -37,9 +37,9 @@ If you are the current maintainer of this gem:
 1. Add version heading/entries to `CHANGELOG.md`.
 1. Make sure your local dependencies are up to date: `bundle`
 1. Ensure that tests pass and build/release all monorepo gems: `bundle exec rake release_all`
-1. Push latest master along with new release tag: `git push --follow-tags`
+1. Push latest main along with new release tag: `git push --follow-tags`
 1. Create a GitHub release with the pushed tag (https://github.com/bridgetownrb/bridgetown/releases/new) and populate it with a list of the commits from `git log --pretty=format:"- %s" --reverse refs/tags/[OLD TAG]...refs/tags/[NEW TAG]`
 
 ## Attribution
 
-Special thanks to the **ViewComponent project** for [providing the language comprising most of this document](https://github.com/bridgetownrb/bridgetown/blob/master/CONTRIBUTING.md).
+Special thanks to the **ViewComponent project** for [providing the language comprising most of this document](https://github.com/bridgetownrb/bridgetown/blob/main/CONTRIBUTING.md).
