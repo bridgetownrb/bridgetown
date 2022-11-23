@@ -166,7 +166,7 @@ Bridgetown includes a [bundled configuration to set up GitHub pages](/docs/bundl
 bin/bridgetown configure gh-pages
 ```
 
-The default deployment branch will be `gh-pages`, so you'll need to make sure your repo's GitHub Pages Settings at `https://github.com/<your-account>/<your-site>/settings/pages` have Source set to the `gh-pages` branch. You'll also likely need to set a [`base_path`](/docs/configuration/options#build-command-options) in your Bridgetown configuration unless you're setting up a custom domain.
+Make sure to update your repo's GitHub Pages Settings at `https://github.com/<your-account>/<your-site>/settings/pages` to have the pages Source set to GitHub Actions. You'll also likely need to set a [`base_path`](/docs/configuration/options#build-command-options) in your Bridgetown configuration unless you're setting up a custom domain.
 
 ### Dokku
 
