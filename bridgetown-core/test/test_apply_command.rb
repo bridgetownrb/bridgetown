@@ -64,7 +64,7 @@ class TestApplyCommand < BridgetownUnitTest
         output = capture_stdout do
           @cmd.invoke(:apply_automation, [file])
         end
-        assert_match %r!apply.*?https://raw\.githubusercontent.com/bridgetownrb/bridgetown-automations/master/bridgetown\.automation\.rb!, output
+        assert_match %r!apply.*?https://raw\.githubusercontent.com/bridgetownrb/bridgetown-automations/main/bridgetown\.automation\.rb!, output
         assert_match %r!urltest.*?Works\!!, output
       end
 
