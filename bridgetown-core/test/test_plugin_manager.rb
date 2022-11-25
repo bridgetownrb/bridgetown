@@ -3,13 +3,6 @@
 require "helper"
 
 class TestPluginManager < BridgetownUnitTest
-  def with_no_gemfile
-    FileUtils.mv "../Gemfile", "../Gemfile.old"
-    yield
-  ensure
-    FileUtils.mv "../Gemfile.old", "../Gemfile"
-  end
-
   context "BRIDGETOWN_NO_BUNDLER_REQUIRE set to `nil`" do
     setup do
       FileUtils.cp "../Gemfile", "."
@@ -50,7 +43,7 @@ class TestPluginManager < BridgetownUnitTest
     should "not setup bundler" do
       with_env("BRIDGETOWN_NO_BUNDLER_REQUIRE", nil) do
         with_env("BRIDGETOWN_ENV", nil) do
-          with_no_gemfile do
+          Bundler::SharedHelpers.stub(:in_bundle?, nil) do
             refute Bridgetown::PluginManager.setup_bundler,
                    "Gemfile plugins were required but shouldn't have been"
             assert_nil ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"]

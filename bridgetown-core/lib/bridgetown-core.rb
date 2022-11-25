@@ -16,6 +16,7 @@ end
 
 # rubygems
 require "rubygems"
+require "bundler/shared_helpers"
 
 # stdlib
 require "find"

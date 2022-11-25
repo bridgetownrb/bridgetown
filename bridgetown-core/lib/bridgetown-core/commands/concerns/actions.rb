@@ -56,8 +56,9 @@ module Bridgetown
         options = +""
         options += " -v \"#{version}\"" if version
         options += " -g #{group}" if group
+        # in_bundle? returns the path to the gemfile
         run "bundle add #{gemname}#{options}",
-            env: { "BUNDLE_GEMFILE" => File.join(destination_root, "Gemfile") }
+            env: { "BUNDLE_GEMFILE" => Bundler::SharedHelpers.in_bundle? }
       rescue SystemExit
         say_status :run, "Gem not added due to bundler error", :red
       end
