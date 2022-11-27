@@ -10,7 +10,7 @@ transfer the contents of this directory to almost any hosting provider to make
 your site go live.
 
 Bridgetown's included site template automatically provides a Rake task you can run to
-build both your Webpack bundle and your website. Simply run
+build both your frontend bundle and your static website. Simply run
 
 ```shell
 bin/bridgetown deploy
