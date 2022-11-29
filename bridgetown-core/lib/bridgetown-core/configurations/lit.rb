@@ -38,7 +38,7 @@ gsub_file "esbuild.config.js", %r{const esbuildOptions = {}\n} do |_match|
       // Read https://www.bridgetownrb.com/docs/components/lit#sidecar-css-files for documentation.
       /*
       postCssPluginConfig: {
-        filter: /(?:index|\.global)\.css$/,
+        filter: /(?:index|\\.global)\\.css$/,
       },
       */
     }
@@ -59,7 +59,7 @@ unless found_match
       // Read https://www.bridgetownrb.com/docs/components/lit#sidecar-css-files for documentation.
       /*
       postCssPluginConfig: {
-        filter: /(?:index|\.global)\.css$/,
+        filter: /(?:index|\\.global)\\.css$/,
       },
       */
     JS

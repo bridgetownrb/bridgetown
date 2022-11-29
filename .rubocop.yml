@@ -49,6 +49,7 @@ Metrics/ClassLength:
     - !ruby/regexp /bridgetown-core/test\/.*.rb$/
     - bridgetown-core/lib/bridgetown-core/commands/serve.rb
     - bridgetown-core/lib/bridgetown-core/configuration.rb
+    - bridgetown-core/lib/bridgetown-core/collection.rb
 Metrics/CyclomaticComplexity:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/utils.rb
