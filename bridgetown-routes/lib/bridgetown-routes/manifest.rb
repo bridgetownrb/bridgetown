@@ -33,15 +33,12 @@ module Bridgetown
               end
 
               # generate localized file slugs
-              localized_file_slugs = []
-              site.config.available_locales.each do |locale|
-                localized_file_slugs.push(
-                  if locale == site.config.default_locale && !site.config.prefix_default_locale
-                    file_slug
-                  else
-                    "#{locale}/#{file_slug}"
-                  end
-                )
+              localized_file_slugs = site.config.available_locales.map do |locale|
+                if locale == site.config.default_locale && !site.config.prefix_default_locale
+                  file_slug
+                else
+                  "#{locale}/#{file_slug}"
+                end
               end
 
               [file, localized_file_slugs, segment_keys]
