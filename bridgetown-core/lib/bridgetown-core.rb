@@ -230,11 +230,13 @@ module Bridgetown
 
     def load_tasks
       require "bridgetown-core/commands/base"
+      unless Bridgetown::Current.preloaded_configuration
+        Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
+      end
       Bridgetown::PluginManager.setup_bundler(skip_yarn: true)
+
       if Bridgetown::Current.preloaded_configuration.is_a?(Bridgetown::Configuration::Preflight)
         Bridgetown::Current.preloaded_configuration = Bridgetown.configuration
-      else
-        Bridgetown::Current.preloaded_configuration ||= Bridgetown.configuration
       end
       load File.expand_path("bridgetown-core/tasks/bridgetown_tasks.rake", __dir__)
     end
