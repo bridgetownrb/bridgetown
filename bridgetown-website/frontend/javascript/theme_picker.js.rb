@@ -20,7 +20,7 @@ class ThemePicker < HTMLElement
   def build_template(option_name)
     <<~COMPONENT
       <sl-dropdown>
-        <sl-button slot="trigger" caret size="small">
+        <sl-button slot="trigger" caret size="small" outline>
           <sl-icon id="dropdown-button-icon" name="#{ options_icons()[option_name] }" label="Choose color theme"></sl-icon>
         </sl-button>
 
