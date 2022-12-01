@@ -100,8 +100,12 @@ class ThemePicker < HTMLElement
   def set_theme_classes(option_name)
     if option_name == DARK || (option_name == DEFAULT && self.media_prefers_color_scheme_dark())
       document.document_element.class_list.add("theme-dark", "sl-theme-dark")
+      search_results = document.query_selector("bridgetown-search-results")
+      search_results.set_attribute("theme", "dark") if search_results
     else
       document.document_element.class_list.remove("theme-dark", "sl-theme-dark")
+      search_results = document.query_selector("bridgetown-search-results")
+      search_results.set_attribute("theme", "light") if search_results
     end
   end
 end
