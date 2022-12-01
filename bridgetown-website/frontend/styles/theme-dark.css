@@ -125,6 +125,10 @@
     opacity: 1;
   }
 
+  & body > nav.edge {
+    background: linear-gradient(to bottom, var(--color-darkest-gray) 0%, #492512 90%, var(--color-darkest-gray) 100%);
+  }
+
   & sl-button[variant="primary"]::part(base) {
     color: white;
     border-color: white;
