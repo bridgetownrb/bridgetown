@@ -130,8 +130,8 @@
   }
 
   & sl-button[variant="primary"]::part(base) {
-    color: white;
-    border-color: white;
+    color: var(--color-lighter-green);
+    border-color: var(--color-lighter-green);
     background-color: var(--sl-color-primary-500);
 
     &:hover {
