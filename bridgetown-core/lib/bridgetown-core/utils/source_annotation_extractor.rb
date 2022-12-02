@@ -99,6 +99,14 @@ module Bridgetown
           PatternExtractor.new(/<%\s*#\s*(#{tag}):?\s*(.*?)\s*%>/)
         end
 
+        register_extensions("liquid", "serb") do |tag|
+          PatternExtractor.new(/{%\s*#\s*(#{tag}):?\s*(.*?)\s*%}/)
+        end
+
+        register_extensions("html", "md", "json") do |tag|
+          PatternExtractor.new(/[<|{]%\s*#\s*(#{tag}):?\s*(.*?)\s*%[}|>]/)
+        end
+
         # Returns a representation of the annotation that looks like this:
         #
         #   [126] [TODO] This algorithm is simple and clearly correct, make it faster.
