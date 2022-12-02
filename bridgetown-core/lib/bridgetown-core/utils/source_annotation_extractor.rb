@@ -58,7 +58,7 @@ module Bridgetown
         end
 
         # Registers additional directories to be included
-        #   Rails::SourceAnnotationExtractor::Annotation.register_directories("spec", "another")
+        #   Bridgetown::Utils::SourceAnnotationExtractor::Annotation.register_directories("spec", "another")
         def self.register_directories(*dirs)
           directories.push(*dirs)
         end
@@ -68,7 +68,7 @@ module Bridgetown
         end
 
         # Registers additional tags
-        #   Rails::SourceAnnotationExtractor::Annotation.register_tags("TESTME", "DEPRECATEME")
+        #   Bridgetown::Utils::SourceAnnotationExtractor::Annotation.register_tags("TESTME", "DEPRECATEME")
         def self.register_tags(*additional_tags)
           tags.push(*additional_tags)
         end
@@ -78,7 +78,7 @@ module Bridgetown
         end
 
         # Registers new Annotations File Extensions
-        #   Rails::SourceAnnotationExtractor::Annotation.register_extensions("css", "scss", "sass", "less", "js") { |tag| /\/\/\s*(#{tag}):?\s*(.*)$/ }
+        #   Bridgetown::Utils::SourceAnnotationExtractor::Annotation.register_extensions("css", "scss", "sass", "less", "js") { |tag| /\/\/\s*(#{tag}):?\s*(.*)$/ }
         def self.register_extensions(*exts, &block)
           extensions[/\.(#{exts.join("|")})$/] = block
         end
@@ -127,13 +127,13 @@ module Bridgetown
       #
       # Specific directories can be explicitly set using the <tt>:dirs</tt> key in +options+.
       #
-      #   Rails::SourceAnnotationExtractor.enumerate 'TODO|FIXME', dirs: %w(app lib), tag: true
+      #   Bridgetown::Utils::SourceAnnotationExtractor.enumerate 'TODO|FIXME', dirs: %w(app lib), tag: true
       #
       # If +options+ has a <tt>:tag</tt> flag, it will be passed to each annotation's +to_s+.
       #
       # See SourceAnnotationExtractor#find_in for a list of file extensions that will be taken into account.
       #
-      # This class method is the single entry point for the <tt>rails notes</tt> command.
+      # This class method is the single entry point for the <tt>bin/bridgetown notes</tt> command.
       def self.enumerate(tag = nil, options = {})
         tag ||= Annotation.tags.join("|")
         extractor = new(tag)
@@ -155,7 +155,7 @@ module Bridgetown
 
       # Returns a hash that maps filenames under +dir+ (recursively) to arrays
       # with their annotations. Files with extensions registered in
-      # <tt>Rails::SourceAnnotationExtractor::Annotation.extensions</tt> are
+      # <tt>Bridgetown::Utils::SourceAnnotationExtractor::Annotation.extensions</tt> are
       # taken into account. Only files with annotations are included.
       def find_in(dir)
         results = {}
