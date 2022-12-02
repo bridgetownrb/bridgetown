@@ -12,6 +12,7 @@ module Bridgetown
     autoload :RubyFrontMatter, "bridgetown-core/utils/ruby_front_matter"
     autoload :RubyFrontMatterDSL, "bridgetown-core/utils/ruby_front_matter"
     autoload :SmartyPantsConverter, "bridgetown-core/utils/smarty_pants_converter"
+    autoload :SourceAnnotationExtractor, "bridgetown-core/utils/source_annotation_extractor"
 
     # Constants for use in #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
