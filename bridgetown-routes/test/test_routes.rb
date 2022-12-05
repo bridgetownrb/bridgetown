@@ -14,7 +14,7 @@ class TestRoutes < BridgetownUnitTest
     app.opts[:bridgetown_site]
   end
 
-  context "Roda-powered Bridgetown server" do
+  context "Roda-powered Bridgetown server" do # rubocop:todo Metrics/BlockLength
     should "return the index page" do
       get "/"
       assert last_response.ok?
