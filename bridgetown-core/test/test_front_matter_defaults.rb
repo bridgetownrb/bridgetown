@@ -163,8 +163,7 @@ class TestFrontMatterDefaults < BridgetownUnitTest
     setup do
       @site = fixture_site(
         "defaults" => [{
-          "scope"  => {
-          },
+          "scope"  => {},
           "values" => {
             "key" => "val",
           },

@@ -10,7 +10,7 @@ transfer the contents of this directory to almost any hosting provider to make
 your site go live.
 
 Bridgetown's included site template automatically provides a Rake task you can run to
-build both your Webpack bundle and your website. Simply run
+build both your frontend bundle and your static website. Simply run
 
 ```shell
 bin/bridgetown deploy
@@ -118,7 +118,7 @@ test:
   - bin/bridgetown build --base_path mysite --url https://bridgetownrb.gitlab.io
   - bin/bridgetown clean
   except:
-    - master
+    - main
 
 pages:
   script:
@@ -141,7 +141,7 @@ pages:
     paths:
     - public
   only:
-  - master
+  - main
 
 ```
 Once this file has been created, add it and the other files and folders to the repository, and then push them to GitLab:
@@ -151,7 +151,7 @@ git add .gitlab-ci.yml
 git remote add origin https://gitlab.com/bridgetownrb/mysite
 git add .
 git commit -am "initial commit"
-git push -u origin master
+git push -u origin main
 ```
 
 After the build the site should be live at https://bridgetownrb.gitlab.io/mysite
@@ -166,7 +166,7 @@ Bridgetown includes a [bundled configuration to set up GitHub pages](/docs/bundl
 bin/bridgetown configure gh-pages
 ```
 
-The default deployment branch will be `gh-pages`, so you'll need to make sure your repo's GitHub Pages Settings at `https://github.com/<your-account>/<your-site>/settings/pages` have Source set to the `gh-pages` branch. You'll also likely need to set a [`base_path`](/docs/configuration/options#build-command-options) in your Bridgetown configuration unless you're setting up a custom domain.
+Make sure to update your repo's GitHub Pages Settings at `https://github.com/<your-account>/<your-site>/settings/pages` to have the pages Source set to GitHub Actions. You'll also likely need to set a [`base_path`](/docs/configuration/options#build-command-options) in your Bridgetown configuration unless you're setting up a custom domain.
 
 ### Dokku
 

@@ -3,7 +3,7 @@
   you've done the following:
 
   - I read the Project Goals and Future Roadmap pages at: https://bridgetownrb.com/docs/philosophy/
-  - I read the Code of Conduct: https://github.com/bridgetownrb/bridgetown/blob/master/CODE_OF_CONDUCT.md
+  - I read the Code of Conduct: https://github.com/bridgetownrb/bridgetown/blob/main/CODE_OF_CONDUCT.md
 -->
 
 <!--

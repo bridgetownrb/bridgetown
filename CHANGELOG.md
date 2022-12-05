@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 - Localize file-based dynamic routes ([tommasongr](https://github.com/tommasongr))
+- Update GitHub Pages configuration to use new method of deploying websites.
+- Add ability to specify locales in "multi locale" mode
 
 ## [1.2.0.beta3] - 2022-10-09
 
@@ -657,7 +659,7 @@ Webpack rebuilds the bundles, Bridgetown regenerates the site.
 Going with a new `rendercontent` tag instead of `component`. It is based on
 Shopify's new Render tag which recently got introduced to Liquid. Note that the
 feature hasn't been officially released via the Liquid gem, so we need to use the
-master branch that's been forked on GitHub with a higher version number).
+main branch that's been forked on GitHub with a higher version number).
 
 [#5](https://github.com/bridgetownrb/bridgetown/pull/5)
 

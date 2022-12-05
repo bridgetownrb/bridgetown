@@ -58,7 +58,7 @@ defaults:
 {%@ Note type: :warning do %}
   #### Stop and rerun <code>bridgetown start</code>
 
-  The <code>bridgetown.config.yml</code> master configuration file contains global configurations and variable definitions that are read once at execution time. Changes made to <code>bridgetown.config.yml</code> will not trigger an automatic regeneration.
+  The <code>bridgetown.config.yml</code> main configuration file contains global configurations and variable definitions that are read once at execution time. Changes made to <code>bridgetown.config.yml</code> will not trigger an automatic regeneration.
 
   Use [Data Files](/docs/datafiles) to set up metadata variables and other structured content you can be sure will get reloaded during automatic regeneration.
 {% end %}
