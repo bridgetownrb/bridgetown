@@ -43,6 +43,7 @@ module Bridgetown
       "autoload_paths"             => [],
       "eager_load_paths"           => [],
       "autoloader_collapsed_paths" => [],
+      "additional_watch_paths"     => [],
       "plugins_use_zeitwerk"       => true,
 
       # Handling Reading
@@ -350,6 +351,10 @@ module Bridgetown
       end
 
       autoloader_collapsed_paths.map! do |collapsed_path|
+        File.expand_path(collapsed_path, root_dir)
+      end
+
+      additional_watch_paths.map! do |collapsed_path|
         File.expand_path(collapsed_path, root_dir)
       end
 

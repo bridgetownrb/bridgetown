@@ -132,6 +132,15 @@ class="flag">flags</code> (specified on the command-line) that control them.
     </tr>
     <tr class="setting">
       <td>
+        <p class="name"><strong>Additional Watch Paths</strong></p>
+        <p class="description">Supply additional directories not normally covered by Bridgetown or Zeitwerk's autoloader to the file watcher to trigger a rebuild/reload. The paths are relative to the site root (but you can also provide absolute paths).</p>
+      </td>
+      <td class="has-text-centered">
+        <p><code class="option">additional_watch_paths: [DIR, DIR, ...]</code></p>
+      </td>
+    </tr>
+    <tr class="setting">
+      <td>
         <p class="name"><strong>Time Zone</strong></p>
         <p class="description">
             Set the time zone for site generation. This sets the <code>TZ</code>
@@ -421,6 +430,7 @@ data_dir            : _data
 collections:
   posts:
     output          : true
+additional_watch_paths: []
 
 # Handling Reading
 include             : [".htaccess", "_redirects", ".well-known"],
