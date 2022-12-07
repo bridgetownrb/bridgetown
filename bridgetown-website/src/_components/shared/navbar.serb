@@ -12,7 +12,7 @@
           '>EDGE</edge-label>
         {% end %}
       </sl-bar-item>
-      <sl-bar-item mobileonly>
+      <sl-bar-item mobileonly id="mobile-menu">
         <sl-button menutoggle variant="text" onclick='
           const bar = this.closest("sl-bar")
           if (bar.getAttribute("expanded") != "true") {

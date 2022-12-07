@@ -1,0 +1,141 @@
+:root.theme-dark {
+  --body-background: var(--color-darkest-gray);
+  --body-color: var(--color-light-gray);
+
+  /* Shoelace implements its dark mode by "flipping" color tokens */
+  /* Here we do the same and flip our tokens w.r.t light mode */
+  --sl-color-primary-700: var(--color-light-green);
+  --sl-color-primary-600: var(--color-medium-green);
+  --sl-color-primary-500: var(--color-dark-green);
+
+  & .main-wave {
+    background-color: var(--body-background);
+  }
+
+  & h1,
+  & h2,
+  & h3,
+  & h4,
+  & h5 {
+    color: var(--color-light-gray);
+
+    &.colorful {
+      color: var(--color-light-green);
+    }
+  }
+
+  & #mobile-menu sl-button::part(base) {
+    color: var(--color-light-gray);
+  }
+
+  & sl-breadcrumb-item::part(label) {
+    color: var(--color-light-gray);
+  }
+
+  & sl-alert {
+    --sl-panel-background-color: var(--sl-color-neutral-50);
+  }
+
+  & sl-card [slot="header"] h3 {
+    color: var(--color-orange);
+    text-decoration-color: var(--color-brick);
+  }
+
+  & .info-grid q {
+    color: var(--color-orange);
+  }
+
+  & div.highlight {
+    border-color: var(--color-dark-brick);
+  }
+
+  & a {
+    color: var(--color-orange);
+    text-decoration-color: var(--color-brick);
+  }
+
+  & svg.logo .letter {
+    fill: var(--color-light-gray);
+  }
+
+  & code,
+  & pre {
+    background-color: var(--color-blackish);
+    color: var(--color-light-gray);
+  }
+
+  & .highlight .p {
+    color: var(--color-light-gray);
+  }
+
+  & .highlight .no,
+  & .highlight .nc {
+    color: var(--color-dark-brick);
+  }
+
+  & .highlight .nt {
+    color: #87ace2;
+  }
+
+  & .highlight .n {
+    color: var(--color-wintermint);
+  }
+
+  & .highlight .nf {
+    color: var(--color-light-green);
+  }
+
+  & .highlight .nv {
+    color: var(--color-orange);
+  }
+
+  & .highlight .nb {
+    color: #8aaee3;
+  }
+
+  & .highlight .k {
+    color: var(--color-wintermint);
+  }
+
+  & .highlight .c {
+    color: #c97d03;
+  }
+
+  & .highlight .kn {
+    color: #4b83d4;
+  }
+
+  & p code,
+  & li code,
+  & blockquote code {
+    color: var(--color-light-orange);
+  }
+
+  & .version-text {
+    color: var(--sl-color-neutral-700);
+  }
+
+  & bridgetown-search-form input {
+    opacity: 1;
+    background-color: var(--color-dark-gray);
+    color: var(--color-light-gray);
+  }
+
+  & body > nav kbd {
+    opacity: 1;
+  }
+
+  & body > nav.edge {
+    background: linear-gradient(to bottom, var(--color-darkest-gray) 0%, #492512 90%, var(--color-darkest-gray) 100%);
+  }
+
+  & sl-button[variant="primary"]::part(base) {
+    color: var(--color-lighter-green);
+    border-color: var(--color-lighter-green);
+    background-color: var(--sl-color-primary-500);
+
+    &:hover {
+      background-color: var(--sl-color-primary-600);
+    }
+  }
+}
