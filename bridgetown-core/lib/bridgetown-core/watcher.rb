@@ -42,7 +42,12 @@ module Bridgetown
     #
     # @param (see #watch)
     def load_paths_to_watch(site, options)
-      (site.plugin_manager.plugins_path + options.autoload_paths).uniq.select do |path|
+      additional_paths = options.additional_watch_paths
+      [
+        *site.plugin_manager.plugins_path,
+        *options.autoload_paths,
+        *additional_paths,
+      ].uniq.select do |path|
         Dir.exist?(path)
       end
     end
