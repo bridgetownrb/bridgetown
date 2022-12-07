@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- Localize file-based dynamic routes ([tommasongr](https://github.com/tommasongr))
 - Update GitHub Pages configuration to use new method of deploying websites.
 - Add ability to specify locales in "multi locale" mode
 

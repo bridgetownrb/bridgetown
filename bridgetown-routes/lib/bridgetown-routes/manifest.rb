@@ -32,7 +32,10 @@ module Bridgetown
                 ":#{Regexp.last_match(1)}"
               end
 
-              [file, file_slug, segment_keys]
+              # generate localized file slugs
+              localized_file_slugs = generate_localized_file_slugs(site, file_slug)
+
+              [file, localized_file_slugs, segment_keys]
             end
 
             new_manifest += sort_routes!(routes)
@@ -56,6 +59,28 @@ module Bridgetown
               weight1
             end
           end.reverse!
+        end
+
+        def locale_for(slug, site)
+          possible_locale_segment = slug.split("/").first.to_sym
+
+          if site.config.available_locales.include? possible_locale_segment
+            possible_locale_segment
+          else
+            site.config.default_locale
+          end
+        end
+
+        private
+
+        def generate_localized_file_slugs(site, file_slug)
+          site.config.available_locales.map do |locale|
+            if locale == site.config.default_locale && !site.config.prefix_default_locale
+              file_slug
+            else
+              "#{locale}/#{file_slug}"
+            end
+          end
         end
       end
     end
