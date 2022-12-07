@@ -7,9 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-- Localize file-based dynamic routes ([tommasongr](https://github.com/tommasongr))
-- Update GitHub Pages configuration to use new method of deploying websites.
-- Add ability to specify locales in "multi locale" mode
+## [1.2.0.beta4] - 2022-12-07
+
+- Provide an option for the file watcher to watch additional paths [#668](https://github.com/bridgetownrb/bridgetown/pull/668) ([jaredcwhite](https://github.com/jaredcwhite))
+- Localize file-based dynamic routes [#654](https://github.com/bridgetownrb/bridgetown/pull/654) ([tommasongr](https://github.com/tommasongr))
+- Dark mode [#620](https://github.com/bridgetownrb/bridgetown/pull/620) ([vvveebs](https://github.com/vvveebs))
+- Fix typo in collections.md [#664](https://github.com/bridgetownrb/bridgetown/pull/664) ([fbuys](https://github.com/fbuys))
+- Update GitHub Pages configuration to use new method of deploying websites. [#657](https://github.com/bridgetownrb/bridgetown/pull/657) ([tombruijn](https://github.com/tombruijn))
+- Bump up esbuild version in new template and on the BT site [#646](https://github.com/bridgetownrb/bridgetown/pull/646) ([jaredcwhite](https://github.com/jaredcwhite))
+- fix: ensure Rake tasks can be run directly, and no crashes when Rake isn't available [#656](https://github.com/bridgetownrb/bridgetown/pull/656) ([jaredcwhite](https://github.com/jaredcwhite))
+- Parse using JSON.parse for more resilient parsing [#662](https://github.com/bridgetownrb/bridgetown/pull/662) ([rickychilcott](https://github.com/rickychilcott))
+- Resolve Rubocop offenses [#644](https://github.com/bridgetownrb/bridgetown/pull/644) ([vvveebs](https://github.com/vvveebs))
+- docs: Fix link to Liquid Template Engine [#659](https://github.com/bridgetownrb/bridgetown/pull/659) ([KorbsStudio](https://github.com/KorbsStudio))
+- Specify locales in "multi locale" mode [#651](https://github.com/bridgetownrb/bridgetown/pull/651) ([rickychilcott](https://github.com/rickychilcott))
+- Change from master to main in additional places throughout the code [#648](https://github.com/bridgetownrb/bridgetown/pull/648) ([Dynnammo](https://github.com/Dynnammo))
+- fix Lint/ConstantDefinitionInBlock and Style/StructInheritance [#640](https://github.com/bridgetownrb/bridgetown/pull/640) ([lxxxvi](https://github.com/lxxxvi))
+- docs: Correct Typo in _docs/template-engines.md [#649](https://github.com/bridgetownrb/bridgetown/pull/649) ([jacobdaddario](https://github.com/jacobdaddario))
+- fix: update broken initializers documentation link [#652](https://github.com/bridgetownrb/bridgetown/pull/652) ([andrewmcodes](https://github.com/andrewmcodes))
+- extend url_for helper to accept other link types [#633](https://github.com/bridgetownrb/bridgetown/pull/633) ([alexanderadam](https://github.com/alexanderadam))
+- extend link_to helper to accept blocks [#632](https://github.com/bridgetownrb/bridgetown/pull/632) ([alexanderadam](https://github.com/alexanderadam))
+- docs: Fix typo in confirmation prompt [#645](https://github.com/bridgetownrb/bridgetown/pull/645) ([brandoncc](https://github.com/brandoncc))
+- docs: typo: mergable => mergeable [#635](https://github.com/bridgetownrb/bridgetown/pull/635) ([alexanderadam](https://github.com/alexanderadam))
+- docs: fix typo: delimeters => delimiters [#634](https://github.com/bridgetownrb/bridgetown/pull/634) ([alexanderadam](https://github.com/alexanderadam))
+- Add ability to specify locales in "multi locale" mode [#651](https://github.com/bridgetownrb/bridgetown/pull/651) ([rickychilcott](https://github.com/rickychilcott))
 
 ## [1.2.0.beta3] - 2022-10-09
 
