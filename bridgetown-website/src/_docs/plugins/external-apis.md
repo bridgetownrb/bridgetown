@@ -35,8 +35,10 @@ To make a request, simply call the `get` method inside of `build` in your builde
 
 ```ruby
 def build
-  get url do |data|
-    site.data[:remote_api_info] = data
+  hook :site, :post_read do
+    get url do |data|
+      site.data[:remote_api_info] = data
+    end
   end
 end
 ```
