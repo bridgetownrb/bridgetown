@@ -185,7 +185,7 @@ module Bridgetown
 
     # Returns the type of the collection if present, nil otherwise.
     def type
-      @type ||= @collection.nil? ? nil : @collection.label.to_sym
+      @type ||= @collection&.label&.to_sym
     end
 
     # Returns the front matter defaults defined for the file's URL and/or type
