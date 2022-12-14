@@ -400,7 +400,7 @@ module Bridgetown
 
     DEFAULT_EXCLUDES = %w(
       .sass-cache .bridgetown-cache
-      gemfiles Gemfile Gemfile.lock
+      gemfiles Gemfile Gemfile.lock gems.rb gems.locked
       node_modules
       vendor/bundle/ vendor/cache/ vendor/gems/ vendor/ruby/
     ).freeze
