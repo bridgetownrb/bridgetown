@@ -198,7 +198,7 @@ tell dokku to run the app as a static website using Nginx.
 
 Finally, add the following line to the `scripts` section in your package.json:
 
-```js
+```json
 {
   // ...
   "scripts": {
