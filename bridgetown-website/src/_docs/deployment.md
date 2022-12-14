@@ -93,7 +93,7 @@ A `Dockerfile` like this could be used, for example, to [deploy a static website
 which we suppose is at https://gitlab.com/bridgetownrb/mysite
 Add the following .gitlab-ci.yml file to your project, which we shall suppose is called `mysite` following the documentation setup [instructions](/docs/). The .gitlab-ci.yml file should be in the mysite directory created using `bridgetown new mysite` and should contain
 
-```
+```yaml
 image: ruby:2.6
 
 cache:
@@ -146,7 +146,7 @@ pages:
 ```
 Once this file has been created, add it and the other files and folders to the repository, and then push them to GitLab:
 
-```
+```sh
 git add .gitlab-ci.yml
 git remote add origin https://gitlab.com/bridgetownrb/mysite
 git add .
@@ -181,7 +181,7 @@ and created an app we'll conveniently call `bridgetown`.
 First, add the following environment variables to your app on the server:
 
 ```shell
-$ dokku config:set bridgetown BRIDGETOWN_ENV=production NGINX_ROOT=output
+dokku config:set bridgetown BRIDGETOWN_ENV=production NGINX_ROOT=output
 ```
 
 Next, create a file called `.buildpacks` at the root of your local project with
@@ -215,15 +215,15 @@ time during the deployment process, so there is nothing left to do. You can now
 safely deploy your application:
 
 ```shell
-$ git push dokku
+git push dokku
 ```
 
 ... and watch your site being built on the server.
 
-### nginx
+### NGINX
 
 
-Just upload the `output` folder to somewhere accessible by nginx and configure your server. Below is an example of `conf` file:
+Just upload the `output` folder to somewhere accessible by NGINX and configure your server. Below is an example of `conf` file:
 
 ```nginx
 server {

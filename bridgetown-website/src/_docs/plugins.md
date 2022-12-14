@@ -87,10 +87,10 @@ end
 
 And then reference that data in any template:
 
-```Liquid
+```liquid
 {% raw %}{{ site.data.new_data.new }}{% endraw %}
 
-  output: New stuff
+   output: New stuff
 ```
 
 ### Gem-based Plugins

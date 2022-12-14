@@ -34,7 +34,7 @@ Bundled configurations can also be run while creating a new Bridgetown project u
 
   The insane amount of productivity this toolset will provide you is off the charts!
 
-  `$ bridgetown new born_to_be_wild -t serbea -c turbo,ruby2js,shoelace,lit,bt-postcss,render`
+  `bridgetown new born_to_be_wild -t serbea -c turbo,ruby2js,shoelace,lit,bt-postcss,render`
 
   Keep reading for documentation on all those options.
 {% end %}

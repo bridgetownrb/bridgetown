@@ -195,7 +195,7 @@ In addition to using Liquid helpers, you can also render [Liquid components](/do
 </p>
 ```
 
-```html
+```liquid
 <!-- src/_components/test_component.liquid -->
 <p>{{ param }}</p>
 ```
@@ -220,7 +220,7 @@ somevalue: 123
 ```
 
 `src/page.html`
-```Liquid
+```liquid
 ---
 layout: testing
 ---
@@ -498,7 +498,7 @@ Usage is pretty straightforward:
 <%%= lowercase_string "WAY DOWN LOW" %>
 ```
 
-```Liquid
+```liquid
 {{ "WAY DOWN LOW" | lowercase_string }}
 ```
 

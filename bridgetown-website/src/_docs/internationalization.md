@@ -5,10 +5,6 @@ top_section: Configuration
 category: i18n
 ---
 
-{%@ Note type: "warning" do %}
-During the Bridgetown 1.1 beta cycle, this documentation is still under construction…
-{% end %}
-
 Internationalization, or i18n as it's commonly known, is the process of defining content and templates for your site in such a way as to support multiple languages or locales. Whether that's French vs. Chinese, or American English vs. British English, it gives you the ability reach more diverse audiences and constituencies.
 
 Starting in Bridgetown 1.1, you can configure multiple locales for your website and set which particular locale should be considered "the default". There are a couple of different routing options available:

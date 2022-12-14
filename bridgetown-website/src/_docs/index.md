@@ -25,28 +25,28 @@ Read the [requirements](/docs/installation) for more information on what you'll 
 
 1. Install **Bridgetown** and related gems:
 {%- if site.data.edge_version -%}
-```
-$ gem install bridgetown -N -v {{ Bridgetown::VERSION }}
+```sh
+gem install bridgetown -N -v {{ Bridgetown::VERSION }}
 ```
 {%- else -%}
-```
-$ gem install bridgetown -N
+```sh
+gem install bridgetown -N
 ```
 {%- end -%}
 
 2. Create a new Bridgetown site at `./mysite`.
-```
-$ bridgetown new mysite
+```sh
+bridgetown new mysite
 ```
 
 3. Change into your new directory.
-```
-$ cd mysite
+```sh
+cd mysite
 ```
 
 4. Build the site and run a live-reload development server:
-```
-$ bin/bridgetown start
+```sh
+bin/bridgetown start
 ```
 
 5. Browse to [http://localhost:4000](http://localhost:4000){:target="_blank"}

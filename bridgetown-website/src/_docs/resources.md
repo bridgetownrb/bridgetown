@@ -61,16 +61,12 @@ Let's say you add a new blog post by saving `src/_posts/2021-05-10-super-cool-bl
 The simplest way to access resources in your templates is to use the `collections` variable, available in both Liquid and Ruby-based templates.
 
 ```liquid
-<!-- Liquid -->
-
 Title: {{ collections.genre.title }}
 
 First URL: {{ collections.genre.resources[0].relative_url }}
 ```
 
 ```eruby
-<!-- ERB -->
-
 Title: <%= collections.genre.metadata.title %>
 
 First URL: <%= collections.genre.resources[0].relative_url %>
@@ -91,8 +87,6 @@ You can easily loop through collection resources by name, e.g., `collections.pos
 ```
 
 ```eruby
-<!-- ERB -->
-
 <% collections.posts.resources.each do |post| %>
   <article>
     <a href="<%= post.relative_url %>"><h2><%= post.data.title %></h2></a>
@@ -105,8 +99,6 @@ You can easily loop through collection resources by name, e.g., `collections.pos
 Sometimes you'll likely want to use a paginator:
 
 ```liquid
-<!-- Liquid -->
-
 {% for post in paginator.resources %}
   <article>
     <a href="{{ post.relative_url }}"><h2>{{ post.data.title }}</h2></a>
@@ -117,8 +109,6 @@ Sometimes you'll likely want to use a paginator:
 ```
 
 ```eruby
-<!-- ERB -->
-
 <% paginator.resources.each do |post| %>
   <article>
     <a href="<%= post.relative_url %>"><h2><%= post.data.title %></h2></a>
@@ -172,8 +162,6 @@ genres:
 Accessing taxonomies for resources in your templates is pretty straightforward.
 
 ```liquid
-<!-- Liquid -->
-
 Title: {{ site.taxonomy_types.genres.metadata.title }}
 
 {% for term in resource.taxonomies.genres.terms %}
@@ -182,8 +170,6 @@ Title: {{ site.taxonomy_types.genres.metadata.title }}
 ```
 
 ```eruby
-<!-- ERB -->
-
 Title: <%= site.taxonomy_types.genres.metadata.title %>
 
 <% resource.taxonomies.genres.terms.each do |term| %>
@@ -239,8 +225,6 @@ studio: warner-brothers # _studios/warner-brothers.md
 Thus if you were building a layout for the movies collection, it might look something like this:
 
 ```erb
-<!-- src/_layouts/movies.erb -->
-
 <h1><%= resource.data.name %> (<%= resource.data.year %>)</h1>
 <h2><%= resource.data.description %></h2>
 

@@ -14,7 +14,7 @@ There are three ways you can configure your Bridgetown site and customize aspect
 **CLI:** When you use a command line option, it looks something like this:
 
 ```sh
-$ bin/bridgetown build --future
+bin/bridgetown build --future
 ```
 
 This tells the build process to include posts and other resources which are future-dated.
@@ -72,6 +72,6 @@ The initializer-style config is the most powerful, because you can configure dif
 * [Environments](/docs/configuration/environments)
 * [Markdown Options](/docs/configuration/markdown)
 * [Liquid Options](/docs/configuration/liquid)
-* Puma Configuration (_docs coming soon_)
+* [Puma Configuration](/docs/configuration/puma)
 
 Beyond configuration, the way you'll enhance and extend your site is through writing your own [custom plugins](/docs/plugins). Continue reading for information on how to get started writing your first plugin or installing third-party plugins.
