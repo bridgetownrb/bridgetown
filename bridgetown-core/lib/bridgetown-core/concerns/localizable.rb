@@ -12,7 +12,11 @@ module Bridgetown
                      []
                    end
 
-      result_set.select { |item| item.data.slug == data.slug }.sort_by do |item|
+      matching_resources = result_set.select do |item|
+        item.relative_path.parent == relative_path.parent && item.data.slug == data.slug
+      end
+
+      matching_resources.sort_by do |item|
         site.config.available_locales.index item.data.locale
       end
     end

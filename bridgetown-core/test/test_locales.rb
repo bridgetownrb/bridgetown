@@ -78,6 +78,27 @@ class TestLocales < BridgetownUnitTest
     end
   end
 
+  context "a page with a slug that matches others in this directory and also another directory" do
+    setup do
+      @site = resources_site
+      @site.process
+      # @type [Bridgetown::Resource::Base]
+      @resource = @site.collections.pages.resources.find do |page|
+        page.relative_path.to_s == "_pages/my_directory/third-level-page.en.md"
+      end
+
+      @resource_with_matching_slug_in_same_directory = @site.collections.pages.resources.find do |page|
+        page.relative_path.to_s == "_pages/my_directory/third-level-page.fr.md"
+      end
+    end
+
+    context "#all_locales" do
+      should "list only the resources with the same slug and the same parent directory" do
+        assert_equal([@resource, @resource_with_matching_slug_in_same_directory], @resource.all_locales)
+      end
+    end
+  end
+
   context "one page which is generated into multiple locales (as specified in locales key)" do
     setup do
       reset_i18n_config
