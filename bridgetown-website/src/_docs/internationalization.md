@@ -106,7 +106,7 @@ Create a separate resource file for each locale. You can either use the `locale`
 
 ### Multi-Locale Files
 
-If the same resource should be available to multiple locales, use a single resource file in "multi locale" mode and use special front mater and template syntax to include translated content. You can switch to this mode by setting `locale: multi` in your front matter or using the `.multi` extension within your file name. For example: `about.multi.md`. This will generate resources in all of your `site.config.available_locales`.
+If the same resource should be available to multiple locales, use a single resource file in "multi locale" mode and use special front matter and template syntax to include translated content. You can switch to this mode by setting `locale: multi` in your front matter or using the `.multi` extension within your file name. For example: `about.multi.md`. This will generate resources in all of your `site.config.available_locales`.
 
 If you want to only output a limited set of locales, then use the `locales` front matter key to include only the locales that should be written.
 
