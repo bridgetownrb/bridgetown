@@ -69,7 +69,8 @@
   }
 
   & .highlight .no,
-  & .highlight .nc {
+  & .highlight .nc,
+  & .highlight .nn {
     color: var(--color-dark-brick);
   }
 
