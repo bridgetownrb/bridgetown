@@ -219,6 +219,24 @@ While it's not strictly required that you place a Roda block inside of an `only 
   As mentioned above, you can still add and configure plugins directly in your Roda class file (`server/roda_app.rb`) just like any standard Roda application, but using a Roda configuration block alongside your other initialization steps is a handy way to keep everything consolidated. Bear in mind that the Roda blocks are all executed prior to anything defined within the class-level code of `server/roda_app.rb`, so if you write any code in a Roda block that relies on state having already been defined in the app class directly, it will fail. Best to keep Roda block code self-contained, or reliant only on other settings in the Bridgetown initializers file.
 {% end %}
 
+## Low-level Boot Customization
+
+If you need to run Ruby code at the earliest possible moment, essentially right when the `bridgetown` executable has finished its startup process, you can add a `config/boot.rb` file to your repo. This is particularly useful if you wish to extend `bridgetown` with new commands.
+
+```ruby
+# Normally the following is run automatically, so by adding config/boot.rb, you should include
+# this Bundler setup:
+Bundler.setup(:default, Bridgetown.env)
+
+# Now you can require a gem which adds a command to `bridgetown` via Thor:
+require "some_gem_here"
+
+# Or require your own Ruby file:
+require_relative "../ruby_code_file.rb"
+```
+
+[Read more about defining Thor-based commands here.](/docs/plugins/commands)
+
 ## Built-in Initializers
 
 Bridgetown ships with several initializers you can add to your configuration. In future versions of Bridgetown, we expect to make our overall architecture a little more modular so you can use the initializer system to specify just those key features you need (and by omission which ones you don't!).
