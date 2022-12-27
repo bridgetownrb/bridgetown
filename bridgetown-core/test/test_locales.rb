@@ -29,6 +29,11 @@ class TestLocales < BridgetownUnitTest
       end
     end
 
+    should "return locales as symbols" do
+      assert_equal :en, @english_resource.data.locale
+      assert_equal :fr, @french_resource.data.locale
+    end
+
     should "have the correct permalink and locale in English" do
       assert_equal "/second-level-page/", @english_resource.relative_url
       assert_includes @english_resource.output, "<p>Locale: en</p>"

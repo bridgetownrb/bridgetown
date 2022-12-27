@@ -373,7 +373,7 @@ module Bridgetown
         found_locale = data.language || data.lang || basename_without_ext.split(".")[1..].last
         return unless found_locale && site.config.available_locales.include?(found_locale.to_sym)
 
-        found_locale
+        found_locale.to_sym
       end
 
       def format_url(url)
