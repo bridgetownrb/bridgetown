@@ -113,8 +113,7 @@ class TestLocales < BridgetownUnitTest
       @resources = @site.collections.pages.resources.select do |page|
         page.relative_path.to_s == "_pages/multi-page-with-specified-locales.multi.md"
       end
-      @english_resource = @resources.find { |page| page.data.locale == "en" }
-      @french_resource = @resources.find { |page| page.data.locale == "fr" }
+      @english_resource = @resources.find { |page| page.data.locale == :en }
     end
 
     should "have the correct permalink and locale in English" do
@@ -124,8 +123,8 @@ class TestLocales < BridgetownUnitTest
       assert_includes @english_resource.output, "<p>English: Multi-locale with specified locales page</p>"
     end
 
-    should "have not have a locale in French" do
-      assert_equal @french_resource, nil
+    should "not have generated any locales other than English" do
+      assert_equal 1, @resources.length
     end
   end
 

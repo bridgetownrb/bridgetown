@@ -285,7 +285,7 @@ module Bridgetown
         locales = model.locales || site.config.available_locales
 
         locales.each do |locale|
-          model.locale = locale
+          model.locale = locale.to_sym
           add_resource_from_model model
         end
 
