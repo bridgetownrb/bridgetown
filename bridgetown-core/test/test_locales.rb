@@ -15,7 +15,7 @@ class TestLocales < BridgetownUnitTest
     I18n.fallbacks = nil if I18n.respond_to?(:fallbacks=)
   end
 
-  context "similar pages in different locales" do
+  context "similar pages in different locales as specified in filename" do
     setup do
       reset_i18n_config
       @site = resources_site
@@ -45,7 +45,7 @@ class TestLocales < BridgetownUnitTest
     end
   end
 
-  context "one page which is generated into multiple locales" do
+  context "one page which is generated into all available_locales" do
     setup do
       reset_i18n_config
       @site = resources_site
@@ -99,7 +99,7 @@ class TestLocales < BridgetownUnitTest
     end
   end
 
-  context "one page which is generated into multiple locales (as specified in locales key)" do
+  context "one page which is generated into a subset of available_locales (as specified in locales key)" do
     setup do
       reset_i18n_config
       @site = resources_site
