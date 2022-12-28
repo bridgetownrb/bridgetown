@@ -310,7 +310,8 @@ module Bridgetown
       next_config
     rescue SystemCallError
       if @default_config_file ||= nil
-        Bridgetown.logger.warn "Configuration file:", "none"
+        initializers_file = File.join(root_dir, "config", "initializers.rb")
+        Bridgetown.logger.warn "Configuration file:", "none" unless File.file?(initializers_file)
         {}
       else
         Bridgetown.logger.error "Fatal:", "The configuration file '#{file}' could not be found."
