@@ -15,7 +15,7 @@ class TestLocales < BridgetownUnitTest
     I18n.fallbacks = nil if I18n.respond_to?(:fallbacks=)
   end
 
-  context "similar pages in different locales" do
+  context "similar pages in different locales as specified in filename" do
     setup do
       reset_i18n_config
       @site = resources_site
@@ -27,6 +27,11 @@ class TestLocales < BridgetownUnitTest
       @french_resource = @site.collections.pages.resources.find do |page|
         page.relative_path.to_s == "_pages/second-level-page.fr.md"
       end
+    end
+
+    should "return locales as symbols" do
+      assert_equal :en, @english_resource.data.locale
+      assert_equal :fr, @french_resource.data.locale
     end
 
     should "have the correct permalink and locale in English" do
@@ -45,7 +50,7 @@ class TestLocales < BridgetownUnitTest
     end
   end
 
-  context "one page which is generated into multiple locales" do
+  context "one page which is generated into all available_locales" do
     setup do
       reset_i18n_config
       @site = resources_site
@@ -99,7 +104,7 @@ class TestLocales < BridgetownUnitTest
     end
   end
 
-  context "one page which is generated into multiple locales (as specified in locales key)" do
+  context "one page which is generated into a subset of available_locales (as specified in locales key)" do
     setup do
       reset_i18n_config
       @site = resources_site
@@ -108,8 +113,7 @@ class TestLocales < BridgetownUnitTest
       @resources = @site.collections.pages.resources.select do |page|
         page.relative_path.to_s == "_pages/multi-page-with-specified-locales.multi.md"
       end
-      @english_resource = @resources.find { |page| page.data.locale == "en" }
-      @french_resource = @resources.find { |page| page.data.locale == "fr" }
+      @english_resource = @resources.find { |page| page.data.locale == :en }
     end
 
     should "have the correct permalink and locale in English" do
@@ -119,8 +123,8 @@ class TestLocales < BridgetownUnitTest
       assert_includes @english_resource.output, "<p>English: Multi-locale with specified locales page</p>"
     end
 
-    should "have not have a locale in French" do
-      assert_equal @french_resource, nil
+    should "not have generated any locales other than English" do
+      assert_equal 1, @resources.length
     end
   end
 
