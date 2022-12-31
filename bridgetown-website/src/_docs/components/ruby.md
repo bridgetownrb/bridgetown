@@ -224,10 +224,11 @@ Let's break it down!
 
 ### Quick Tutorial
 
-First, you'll need to add the compatibility gem to your Gemfile (which will also add in ViewComponent as a dependency). In a new Bridgetown site folder, run the following command:
+First, you'll need to add the gems to your Gemfile. In a new Bridgetown site folder, run the following command:
 
 ```
 bundle add bridgetown-view-component
+bundle add view_component --version "< 2.75"
 ```
 
 and then add `init :"bridgetown-view-component"` to `config/initializers.rb`.
@@ -302,12 +303,16 @@ Including `Bridgetown::ViewComponentHelpers` in a ViewComponent provides access 
 ```ruby
 class HeaderComponent < ViewComponent::Base
   Bridgetown::ViewComponentHelpers.allow_rails_helpers :tag
+  include Bridgetown::ViewComponentHelpers
 
   def call
     tag.h1 content, class: "my-8 text-3xl font-bold tracking-tight text-primary-white sm:text-4xl"
   end
 end
 ```
+<%= render Note.new do %>
+The Rails helpers must be included _before_ the Bridgetown View Component helpers, as shown in this example.
+<% end %>
 
 In this example, `Bridgetown::ViewComponentHelpers.allow_rails_helpers :tag` enables `ActionView::Helpers::TagHelper`. We can create an inline ViewComponent that leverages `tag.h1` to create an `<h1>` element with our supplied content.
 
