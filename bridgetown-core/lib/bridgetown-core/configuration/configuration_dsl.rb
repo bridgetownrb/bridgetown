@@ -73,7 +73,7 @@ module Bridgetown
       end
 
       def method_missing(key, *value, &block) # rubocop:disable Style/MissingRespondToMissing
-        return get(key) if value.length.zero? && block.nil?
+        return get(key) if value.empty? && block.nil?
 
         set(key, value[0], &block)
       end

@@ -14,9 +14,9 @@ module Bridgetown
       end
 
       def method_missing(key, *value, &block) # rubocop:disable Metrics/CyclomaticComplexity, Style/MissingRespondToMissing
-        return super if respond_to?(key) || (value.length.zero? && block.nil? && !@data.key?(key))
+        return super if respond_to?(key) || (value.empty? && block.nil? && !@data.key?(key))
 
-        return get(key) if value.length.zero? && block.nil? && @data.key?(key)
+        return get(key) if value.empty? && block.nil? && @data.key?(key)
 
         set(key, value[0], &block)
       end
