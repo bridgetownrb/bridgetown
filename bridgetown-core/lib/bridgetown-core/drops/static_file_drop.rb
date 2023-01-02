@@ -4,7 +4,7 @@ module Bridgetown
   module Drops
     class StaticFileDrop < Drop
       extend Forwardable
-      def_delegators :@obj, :name, :extname, :modified_time, :basename
+      def_delegators :@obj, :name, :extname, :date, :modified_time, :basename
       def_delegator :@obj, :relative_path, :path
       def_delegator :@obj, :type, :collection
 

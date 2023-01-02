@@ -73,6 +73,8 @@ module Bridgetown
       @modified_time ||= File.stat(path).mtime
     end
 
+    alias_method :date, :modified_time
+
     # Returns last modification time for this file.
     def mtime
       modified_time.to_i
@@ -119,11 +121,11 @@ module Bridgetown
       @to_liquid ||= Drops::StaticFileDrop.new(self)
     end
 
-    # Generate "basename without extension" and strip away any trailing periods.
-    # NOTE: `String#gsub` removes all trailing periods (in comparison to `String#chomp`)
     def basename
-      @basename ||= File.basename(name, extname).gsub(%r!\.*\z!, "")
+      @basename ||= File.basename(name, ".*")
     end
+
+    alias_method :basename_without_ext, :basename
 
     def relative_path_basename_without_prefix
       return_path = Pathname.new("")
