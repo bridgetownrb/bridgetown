@@ -33,11 +33,7 @@ module Bridgetown
         end
 
         init = (@page - 1) * @per_page
-        offset = if init + @per_page - 1 >= documents.size
-                   documents.size
-                 else
-                   init + @per_page - 1
-                 end
+        offset = [init + @per_page - 1, documents.size].min
 
         # Ensure that the current page has correct extensions if needed
         this_page_url = Utils.ensure_full_path(
