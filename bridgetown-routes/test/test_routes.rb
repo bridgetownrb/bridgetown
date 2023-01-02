@@ -46,5 +46,15 @@ class TestRoutes < BridgetownUnitTest
       get "/it/localized"
       assert_equal "<h1>Localized for it - it</h1>\n", last_response.body
     end
+
+    should "return HTML for nested index RESTful route" do
+      get "/nested"
+      assert_equal "<h1>Nested Index</h1>\n", last_response.body
+    end
+
+    should "return HTML for nested item RESTful route" do
+      get "/nested/123-abc"
+      assert_equal "<h1>Nested Page with Slug: 123-abc</h1>\n", last_response.body
+    end
   end
 end

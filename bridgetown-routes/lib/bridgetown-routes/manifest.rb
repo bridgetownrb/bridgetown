@@ -40,6 +40,7 @@ module Bridgetown
 
             new_manifest += sort_routes!(routes)
           end
+
           @route_manifest ||= {}
           @route_manifest[site.label] = new_manifest
         end
@@ -47,9 +48,9 @@ module Bridgetown
         def sort_routes!(routes)
           routes.sort! do |route_a, route_b|
             # @type [String]
-            _, slug_a = route_a
+            slug_a = route_a[1][0]
             # @type [String]
-            _, slug_b = route_b
+            slug_b = route_b[1][0]
 
             # @type [Integer]
             weight1 = slug_a.count("/") <=> slug_b.count("/")
