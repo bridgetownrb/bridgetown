@@ -89,6 +89,10 @@ Read our full [Lit Components documentation here](/docs/components/lit).
 
 👟 Installs [Shoelace](https://shoelace.style) for an instant design system and UI component library at your fingertips. Use CSS variables and shadow parts to customize the look and feel of Shoelace components in any way you like. This very website uses Shoelace for example.
 
+Individual components can be imported by adding the `import` statement to the `./frontend/javascript/index.js` file. Refer to Shoelace documentation Importing section for each individual component, and copy the `import` statement under the Bundler tab.
+
+Read more at [Frontend Bundling (CSS/JS/etc.)](/docs/frontend-assets#javascript). 
+
 🛠 **Configure using:**
 
 ```sh
