@@ -283,7 +283,7 @@ description: It's _here_ and it **works**!
 Yay! 😃
 ```
 
-Now run `yarn start`, load your website at localhost:4000, and you should see the new homepage with the `Shared::Header` ViewComponent rendered into the layout!
+Now run `bin/bridgetown start`, load your website at localhost:4000, and you should see the new homepage with the `Shared::Header` ViewComponent rendered into the layout!
 
 ### Helpers
 
