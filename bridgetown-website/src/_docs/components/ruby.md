@@ -224,11 +224,10 @@ Let's break it down!
 
 ### Quick Tutorial
 
-First, you'll need to add the gems to your Gemfile. In a new Bridgetown site folder, run the following command:
+First, you'll need to add the plugin to your Gemfile. In a Bridgetown project folder, run the following command:
 
 ```
 bundle add bridgetown-view-component
-bundle add view_component --version "< 2.75"
 ```
 
 and then add `init :"bridgetown-view-component"` to `config/initializers.rb`.
