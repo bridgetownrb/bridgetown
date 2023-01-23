@@ -178,7 +178,7 @@ Bridgetown is built by:
 |London, UK|Ohio, US|Amsterdam, The Netherlands|Milan, IT|Europe|
 
 |<img src="https://avatars.githubusercontent.com/michaelherold?s=256" alt="michaelherold" width="128" />|<img src="https://avatars.githubusercontent.com/joemasilotti?s=256" alt="joemasilotti" width="128" />|<img src="https://avatars.githubusercontent.com/ikass?s=256" alt="ikass" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|:---:|
+|:---:|:---:|:---:|:---:|
 |<a href="https://github.com/michaelherold">@michaelherold</a>|<a href="https://github.com/joemasilotti">@joemasilotti</a>|<a href="https://github.com/Ikass">@ikass</a>|You Next?|
 |Omaha, NE|Portland, OR|Latvia|Anywhere|
 
