@@ -132,7 +132,7 @@ module Bridgetown
 
         if require_initializer
           init_file_name = File.join(@scope.root_dir, "config", "#{name}.rb")
-          require(init_file_name) if File.exist?(init_file_name)
+          load(init_file_name) if File.exist?(init_file_name)
         end
 
         @scope.initializers[name.to_sym]

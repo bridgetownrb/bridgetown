@@ -134,7 +134,7 @@ module Bridgetown
       initializers_file = File.join(root_dir, "config", "initializers.rb")
       return unless File.file?(initializers_file)
 
-      require initializers_file
+      load initializers_file
 
       return unless initializers # no initializers have been set up
 
