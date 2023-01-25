@@ -152,7 +152,7 @@ class BridgetownUnitTest < Minitest::Test
   end
 
   def site_configuration(overrides = {})
-    Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
+    Bridgetown.reset_configuration!
 
     load_plugin_content(Bridgetown::Current.preloaded_configuration)
 
