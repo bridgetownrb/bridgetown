@@ -23,6 +23,7 @@ group :test do
   gem "rubocop-bridgetown", "~> 0.3.0", require: false
   gem "shoulda"
   gem "simplecov"
+  gem "terminal-table"
 end
 
 # Bridgetown
