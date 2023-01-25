@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.2.0] - 2022-01-25
+
+- Remove terminal-table dependency
+  **Possible breaking change** — if you rely on Liquid template profiling to debug your site, you'll need to add the `terminal-table` gem dependency yourself
+- Add method to reset config for test suites [#702](https://github.com/bridgetownrb/bridgetown/pull/702) ([jaredcwhite](https://github.com/jaredcwhite))
+- Fix: Set timezone from initializer Ruby DSL [#703](https://github.com/bridgetownrb/bridgetown/pull/703) ([ayushn21](https://github.com/ayushn21))
+- Fix a minor typo in the plugins command [#701](https://github.com/bridgetownrb/bridgetown/pull/701) ([ayushn21](https://github.com/ayushn21))
+- Fix: load `initializers.rb` instead of require for working tests [#700](https://github.com/bridgetownrb/bridgetown/pull/700) ([jaredcwhite](https://github.com/jaredcwhite))
+- Docs: Add details for importing Shoelace [#698](https://github.com/bridgetownrb/bridgetown/pull/698) ([ikass](https://github.com/ikass))
+
 ## [1.2.0.beta5] - 2022-01-02
 
 - Add some DX improvements to StaticFile [#677](https://github.com/bridgetownrb/bridgetown/pull/677) ([jaredcwhite](https://github.com/jaredcwhite))
