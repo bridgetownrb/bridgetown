@@ -6,11 +6,11 @@ back_to: installation
 order: 0
 ---
 
-## Upgrading to Bridgetown 1.2 (Beta)
+## Upgrading to Bridgetown 1.2
 
-Bridgetown 1.2 brings with it a whole new initialization system along with a Ruby-based configuration format. Your `bridgetown.config.yml` file will continue to work, but over time you will likely want to migrate a good portion of your configuration over to the new format.
+Bridgetown 1.2 brings with it a whole new initialization system along with a Ruby-based configuration format. Your `bridgetown.config.yml` file will continue to work, but over time you will likely want to migrate a good portion of your configuration over to the new format (and maybe even delete the YAML file).
 
-To upgrade a 1.0 or 1.1 site to 1.2, edit your `Gemfile` and add the [latest beta release version](https://github.com/bridgetownrb/bridgetown/releases) in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem and then run `bundle`. We also recommend you add `gem "rack", "~> 2.2"` as while Bridgetown/Roda supports Rack 3, other ecosystem gems such as Active Record don't yet support it.
+To upgrade a 1.0 or 1.1 site to 1.2, edit your `Gemfile` update the version numbers in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem and then run `bundle`. We also recommend you add `gem "rack", "~> 2.2"` as while Bridgetown/Roda supports Rack 3, other ecosystem gems such as our Active Record pluging don't yet support it.
 
 When you upgrade to v1.2, your site will run in a legacy mode that automatically requires all gems in your Gemfile within the `bridgetown_plugins` group as before. This legacy mode is only triggered by the _absence_ of the new `config/initializers.rb` file. To opt-into the new format, create a `config/initializers.rb` file like so:
 
@@ -20,10 +20,12 @@ Bridgetown.configure do |config|
 end
 ```
 
-Then you won't need to use the `bridgetown_plugins` Gemfile group any longer.  
+Then you won't need to use the `bridgetown_plugins` Gemfile group any longer.
 
 {%@ Note type: :warning do %}
   Do not attempt to upgrade other Bridgetown plugins along with upgrading to v1.2 unless you intend to adopt the new configuration format. The latest version of many Bridgetown plugins expect the initializers file to be in use.
+
+  Also be advised: if you are using the dynamic routes plugin, you _must_ upgrade to the new configuration format. Read more below.
 {% end %}
 
 Once you're using the new configuration format, if you need to use a Bridgetown plugin that's not yet updated to work with v1.2, you can manually add a require statement to your configuration:

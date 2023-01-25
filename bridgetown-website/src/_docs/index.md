@@ -18,7 +18,7 @@ We'll explain much more about what Bridgetown is and what it can do for you in t
 {% end %}
 
 {%@ Note do %}
-  Upgrading from v0.x? [Read our 1.0 upgrade guide here.](/docs/installation/upgrade)
+  Upgrading from an earlier version? [Read our upgrade guide here.](/docs/installation/upgrade)
 {% end %}
 
 Read the [requirements](/docs/installation) for more information on what you'll need to have set up in advance, primarily **Ruby** and **Node**/**Yarn**. Then:

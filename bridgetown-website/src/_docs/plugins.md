@@ -271,7 +271,11 @@ Bridgetown websites. You'll want to make sure you update the `gemspec`,
 plugin to ensure all the necessary metadata and user documentation is present
 and accounted for.
 
-Starting with v1.2, Bridgetown plugins will typically provide an [initializer](/docs/configuration/initializers) so that they can be easily required and configured via the user's configuration block within `config/initializers.rb`. It's a good practice to ensure at least simple configuration options can alternatively be provided using YAML in `bridgetown.config.yml`.
+{%@ Note do %}
+  Starting with Bridgetown 1.2, it's a preferred convention to use underscores for your plugin name, aka `my_plugin` rather than `my-plugin`. Many existing plugins start with a `bridgetown` prefix (such as `bridgetown-seo-tag`), but going forward we recommend that if you choose that prefix you still use underscores (aka `bridgetown_plugin_name_here`). While arguably that doesn't fit neatly with standard gem naming conventions, it solves a number of DX headaches. Which is a good thing!
+{% end %}
+
+Bridgetown plugins should provide an [initializer](/docs/configuration/initializers) so that they can be easily required and configured via the user's configuration block within `config/initializers.rb`. It's a good practice to ensure at least simple configuration options can alternatively be provided using YAML in `bridgetown.config.yml`.
 
 Make sure you [follow these instructions](/docs/plugins/gems-and-frontend/) to integrate your plugin's frontend code with the users' esbuild or Webpack setup. Also read up on [Source Manifests](/docs/plugins/source-manifests/) if you have layouts, components, resources, static files, and other content you would like your plugin to provide.
 
@@ -298,7 +302,7 @@ As always, if you have any questions or need support in creating your plugin,
   As you author your plugin, you'll need a way to _use_ the gem within a live Bridgetown site. The easiest way to do that is to use a relative local path in the test site's `Gemfile`.
 
   ```ruby
-  gem "my-plugin", :path => "../my-plugin"
+  gem "my_plugin", :path => "../my_plugin"
   ```
 
   You would do something similar in your test site's `package.json` as well (be sure to run [yarn link](https://classic.yarnpkg.com/en/docs/cli/link) so Yarn knows not to install your local path into `node_modules`):
@@ -306,7 +310,7 @@ As always, if you have any questions or need support in creating your plugin,
   ```json
   "dependencies": {
     "random-js-package": "2.4.6",
-    "my-plugin": "../my-plugin"
+    "my_plugin": "../my_plugin"
   }
   ```
 
