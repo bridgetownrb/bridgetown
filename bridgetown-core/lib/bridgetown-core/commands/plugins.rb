@@ -126,7 +126,7 @@ module Bridgetown
         Layouts, you'd run:\n
         bridgetown plugins cd SamplePlugin/Layouts
       DOC
-      desc "cd <origin/dir>", "Open folder (content, layouts, etc.) within the plugin origin"
+      desc "cd <origin/dir>", "Open content folder within the plugin origin"
 
       # This is super useful if you want to copy files out of plugins to override.
       #
@@ -177,12 +177,12 @@ module Bridgetown
         end
       end
 
-      desc "new NAME", "Create a new plugin NAME by cloning the sample plugin repo"
+      desc "new NAME", "Create a new plugin NAME (snake_case_name_preferred)"
       def new(name)
         folder_name = name.underscore
         module_name = folder_name.camelize
 
-        run "git clone -b v1.2-initializer https://github.com/bridgetownrb/bridgetown-sample-plugin #{name}"
+        run "git clone https://github.com/bridgetownrb/bridgetown-sample-plugin #{name}"
         new_gemspec = "#{name}.gemspec"
 
         inside name do # rubocop:todo Metrics/BlockLength
@@ -204,11 +204,16 @@ module Bridgetown
 
           FileUtils.mv "lib/sample_plugin", "lib/#{folder_name}"
           gsub_file "lib/#{name}/builder.rb", "SamplePlugin", module_name
+          gsub_file "lib/#{name}/builder.rb", "sample_plugin", folder_name
           gsub_file "lib/#{name}/version.rb", "SamplePlugin", module_name
 
           FileUtils.mv "test/test_sample_plugin.rb", "test/test_#{folder_name}.rb"
           gsub_file "test/test_#{folder_name}.rb", "SamplePlugin", module_name
+          gsub_file "test/test_#{folder_name}.rb", "sample plugin", module_name
           gsub_file "test/helper.rb", "sample-plugin", name
+          gsub_file "test/helper.rb", "sample_plugin", folder_name
+          gsub_file "test/fixtures/src/index.html", "sample_plugin", folder_name
+          gsub_file "test/fixtures/config/initializers.rb", "sample_plugin", folder_name
 
           FileUtils.mv "components/sample_plugin", "components/#{folder_name}"
           FileUtils.mv "content/sample_plugin", "content/#{folder_name}"
@@ -222,6 +227,7 @@ module Bridgetown
 
           gsub_file "frontend/javascript/index.js", "bridgetown-sample-plugin", name
           gsub_file "frontend/javascript/index.js", "SamplePlugin", module_name
+          gsub_file "frontend/styles/index.css", "bridgetown-sample-plugin", name
         end
         say ""
         say_status "Done!", "Have fun writing your new #{name} plugin :)"
