@@ -247,8 +247,6 @@ module TestWEBrick
       server.start
       addr = server.listeners[0].addr
       block.yield([server, addr[3], addr[1]])
-    rescue StandardError => e
-      raise e
     ensure
       server.shutdown
       sleep 0.1 until server.status == :Stop
