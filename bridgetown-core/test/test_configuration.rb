@@ -543,5 +543,16 @@ class TestConfiguration < BridgetownUnitTest
 
       assert @config.init_params.key?("something")
     end
+
+    should "set the global timezone" do
+      dsl = Configuration::ConfigurationDSL.new(scope: @config, data: @config)
+
+      dsl.instance_variable_set(:@context, :testing)
+      dsl.instance_exec(dsl) do
+        timezone "GMT"
+      end
+
+      assert_equal "GMT", Bridgetown.timezone
+    end
   end
 end
