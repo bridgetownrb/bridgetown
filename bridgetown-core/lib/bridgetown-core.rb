@@ -276,6 +276,14 @@ module Bridgetown
     def set_timezone(timezone)
       ENV["TZ"] = timezone
     end
+
+    # Get the current TZ environment variable
+    #
+    # @return [String]
+    def timezone
+      ENV["TZ"]
+    end
+
     # rubocop:enable Naming/AccessorMethodName
 
     # Fetch the logger instance for this Bridgetown process.
