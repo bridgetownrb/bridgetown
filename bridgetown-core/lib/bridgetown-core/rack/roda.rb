@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "roda/plugins/exception_page"
+
 unless Bridgetown::Current.preloaded_configuration
   raise "You must supply a preloaded configuration before loading Bridgetown's Roda superclass"
 end
@@ -10,7 +12,55 @@ module Bridgetown
       class << self
         def inherited(klass)
           super
+          klass.plugin :method_override
+          klass.plugin :all_verbs
+          klass.plugin :hooks
+          klass.plugin :common_logger, Bridgetown::Rack::Logger.new($stdout), method: :info
+          klass.plugin :json
+          klass.plugin :json_parser
+          klass.plugin :indifferent_params
+          klass.plugin :cookies
+          klass.plugin :streaming
+          klass.plugin :bridgetown_boot
+          klass.plugin :public, root: Bridgetown::Current.preloaded_configuration.destination
+          klass.plugin :not_found do
+            output_folder = Bridgetown::Current.preloaded_configuration.destination
+            File.read(File.join(output_folder, "404.html"))
+          rescue Errno::ENOENT
+            "404 Not Found"
+          end
+          klass.plugin :exception_page
+          klass.plugin :error_handler do |e|
+            Bridgetown::Errors.print_build_error(
+              e, logger: Bridgetown::LogAdapter.new(self.class.opts[:common_logger])
+            )
+            next exception_page(e) if ENV.fetch("RACK_ENV", nil) == "development"
+
+            output_folder = Bridgetown::Current.preloaded_configuration.destination
+            File.read(File.join(output_folder, "500.html"))
+          rescue Errno::ENOENT
+            "500 Internal Server Error"
+          end
           klass.plugin :initializers
+
+          klass.before do
+            if self.class.opts[:bridgetown_site]
+              # The site had previously been initialized via the bridgetown_ssr plugin
+              Bridgetown::Current.sites[self.class.opts[:bridgetown_site].label] =
+                self.class.opts[:bridgetown_site]
+              @context ||= SiteContext.new({ site: self.class.opts[:bridgetown_site] })
+            end
+            Bridgetown::Current.preloaded_configuration ||=
+              self.class.opts[:bridgetown_preloaded_config]
+
+            request.root do
+              output_folder = Bridgetown::Current.preloaded_configuration.destination
+              File.read(File.join(output_folder, "index.html"))
+            rescue StandardError
+              response.status = 500
+              "<p>ERROR: cannot find <code>index.html</code> in the output folder.</p>"
+            end
+          end
         end
 
         # rubocop:disable Bridgetown/NoPutsAllowed
@@ -46,36 +96,6 @@ module Bridgetown
       end
 
       SiteContext = Struct.new(:registers) # for use by Liquid-esque URL helpers
-
-      plugin :method_override
-      plugin :all_verbs
-      plugin :hooks
-      plugin :common_logger, Bridgetown::Rack::Logger.new($stdout), method: :info
-      plugin :json
-      plugin :json_parser
-      plugin :indifferent_params
-      plugin :cookies
-      plugin :streaming
-      plugin :bridgetown_boot
-      plugin :public, root: Bridgetown::Current.preloaded_configuration.destination
-      plugin :not_found do
-        output_folder = Bridgetown::Current.preloaded_configuration.destination
-        File.read(File.join(output_folder, "404.html"))
-      rescue Errno::ENOENT
-        "404 Not Found"
-      end
-      plugin :exception_page
-      plugin :error_handler do |e|
-        Bridgetown::Errors.print_build_error(
-          e, logger: Bridgetown::LogAdapter.new(self.class.opts[:common_logger])
-        )
-        next exception_page(e) if ENV.fetch("RACK_ENV", nil) == "development"
-
-        output_folder = Bridgetown::Current.preloaded_configuration.destination
-        File.read(File.join(output_folder, "500.html"))
-      rescue Errno::ENOENT
-        "500 Internal Server Error"
-      end
 
       ::Roda::RodaPlugins::ExceptionPage.class_eval do
         def self.css
@@ -131,25 +151,6 @@ module Bridgetown
             .error { background: #ffc; }
             .specific { color:#cc3300; font-weight:bold; }
           CSS
-        end
-      end
-
-      before do
-        if self.class.opts[:bridgetown_site]
-          # The site had previously been initialized via the bridgetown_ssr plugin
-          Bridgetown::Current.sites[self.class.opts[:bridgetown_site].label] =
-            self.class.opts[:bridgetown_site]
-          @context ||= SiteContext.new({ site: self.class.opts[:bridgetown_site] })
-        end
-        Bridgetown::Current.preloaded_configuration ||=
-          self.class.opts[:bridgetown_preloaded_config]
-
-        request.root do
-          output_folder = Bridgetown::Current.preloaded_configuration.destination
-          File.read(File.join(output_folder, "index.html"))
-        rescue StandardError
-          response.status = 500
-          "<p>ERROR: cannot find <code>index.html</code> in the output folder.</p>"
         end
       end
     end
