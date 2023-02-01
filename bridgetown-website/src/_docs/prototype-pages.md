@@ -52,6 +52,12 @@ prototype:
 
 You'd get `Posts in category Cool Vacation` as the page title.
 
+{%@ Note type: "warning" do %}
+  #### Unspecified Class: Symbol Warning
+
+  If you would like `:prototype-term` or `:prototype-term-titleize` to appear first in the title, you must wrap the _whole_ title in quotes to avoid a parsing error.
+{% end %}
+
 In addition, the search term used for each generated page is placed into a Liquid
 variable, so you can use that as well in your template: `page.data.category`, or `page.data.tag`,
 etc.
