@@ -141,7 +141,7 @@ Initializing: The `insert_gem_name_here' initializer could not be found
 
 No worries! _You can write your own initializer._ 😎
 
-As in the example at the top of the page, you can place an initializer right alongside the configure block in `config/initializers.rb`. You can also place a file named the same as the initializer directly in `config`. In the use case of using the Stripe gem, you could add to `config/stripe.rb`:
+As in the example at the top of the page, you can place an initializer right alongside the configure block in `config/initializers.rb`. You can also place a file named the same as the gem or plugin directly in `config`. In the use case of using the Stripe gem, you could add to `config/stripe.rb`:
 
 ```rb
 Bridgetown.initializer :stripe do |api_key:|
