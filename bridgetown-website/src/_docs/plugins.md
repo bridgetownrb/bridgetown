@@ -108,12 +108,12 @@ module MyNiftyPlugin
   end
 end
 
-# my_nifty_plugin.rb
+# lib/my_nifty_plugin.rb
 Bridgetown.initializer :my_nifty_plugin do |config|
   config.my_nifty_plugin ||= {}
   config.my_nifty_plugin.this_goes_to_11 ||= 11
 
-  builder MyNiftyPlugin::Builder
+  config.builder MyNiftyPlugin::Builder
 end
 ```
 
