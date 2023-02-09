@@ -109,12 +109,28 @@ module MyNiftyPlugin
 end
 
 # lib/my_nifty_plugin.rb
-Bridgetown.initializer :my_nifty_plugin do |config|
+Bridgetown.initializer :my_nifty_plugin do |config, api_key: ''|
   config.my_nifty_plugin ||= {}
   config.my_nifty_plugin.this_goes_to_11 ||= 11
+  config.my_nifty_plugin.api_key = api_key 
 
   config.builder MyNiftyPlugin::Builder
 end
+```
+
+Accepting keyword arguments is optional. The above example shows how you can use a keyword parameter to allow users to pass information from their `initializers.rb` file into your plugin. This example allows users to provide a `api_key` parameter from their `initializer.rb` file, and for this example it defaults to an empty string.
+
+Below shows how a user could set the `api_key` parameter from within their `initializers.rb`.
+[Refer to the initializers documentation for more about initializers.](/docs/configuration/initializers).
+
+```ruby
+# config/initializers.rb
+Bridgetown.configure do |config|
+  init :my_nifty_plugin do
+    api_key "some-api-key"
+  end
+end
+
 ```
 
 [Read further instructions below on how to create and publish a gem.](#creating-a-gem)
