@@ -95,7 +95,7 @@ module Bridgetown
         bufval: "Bridgetown::OutputBuffer.new",
         engine_class: ERBEngine
       )
-      tmpl.render(self, options)
+      tmpl.render(self, **options)
     end
   end
 
