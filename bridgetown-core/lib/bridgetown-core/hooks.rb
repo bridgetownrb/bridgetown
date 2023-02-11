@@ -87,7 +87,7 @@ module Bridgetown
         if Bridgetown.respond_to?(:logger)
           Bridgetown.logger.debug("Registering hook:", @registry[owner].last.to_s)
         else
-          p "Registering hook:", @registry[owner].last.to_s
+          p "Registering hook:", @registry[owner].last.to_s # rubocop:disable Lint/Debugger
         end
       end
 
