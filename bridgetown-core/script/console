@@ -7,20 +7,20 @@ require "bridgetown"
 
 TEST_DIR = File.expand_path("../test", __dir__)
 
-def fixture_site(overrides = {})
-  Bridgetown::Site.new(site_configuration(overrides))
+def fixture_site(**overrides)
+  Bridgetown::Site.new(site_configuration(**overrides))
 end
 
-def build_configs(overrides, base_hash = Bridgetown::Configuration::DEFAULTS)
+def build_configs(base_hash = Bridgetown::Configuration::DEFAULTS, **overrides)
   Bridgetown::Utils.deep_merge_hashes(base_hash, overrides)
 end
 
-def site_configuration(overrides = {})
+def site_configuration(**overrides)
   build_configs({
     "root_dir"    => site_root_dir,
     "source"      => source_dir,
     "destination" => dest_dir,
-  }, build_configs(overrides))
+  }, build_configs(**overrides))
 end
 
 def dest_dir(*subdirs)

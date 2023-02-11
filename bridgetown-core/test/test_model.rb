@@ -17,7 +17,7 @@ class TestModel < BridgetownUnitTest
       model.origin = @origin
       model.save
 
-      new_model = Bridgetown::Model::Base.new(@origin.read)
+      new_model = Bridgetown::Model::Base.new(**@origin.read)
 
       assert_equal model.title, new_model.title
       assert_equal model.layout, new_model.layout.to_sym

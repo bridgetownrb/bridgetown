@@ -33,10 +33,8 @@ module Bridgetown
         Bridgetown::Utils.live_reload_js(site)
       end
 
-      # @param pairs [Hash] A hash of key/value pairs.
-      #
       # @return [String] Space-separated keys where the values are truthy.
-      def class_map(pairs = {})
+      def class_map(**pairs)
         pairs.select { |_key, truthy| truthy }.keys.join(" ")
       end
 
@@ -94,32 +92,30 @@ module Bridgetown
       # @param text [String] the content inside the anchor tag
       # @param relative_path [String, Object] source file path, e.g.
       #   "_posts/2020-10-20-my-post.md", or object that responds to `url`
-      # @param options [Hash] key-value pairs of HTML attributes to add to the tag
       # @return [String] the anchor tag HTML
       # @raise [ArgumentError] if the file cannot be found
-      def link_to(text, relative_path = nil, options = {})
+      def link_to(text, relative_path = nil, **options)
         if block_given?
           relative_path = text
           text = yield
         elsif relative_path.nil?
           raise ArgumentError, "You must provide a relative path"
         end
-        segments = attributes_from_options({ href: url_for(relative_path) }.merge(options))
+        segments = attributes_from_options(href: url_for(relative_path), **options)
 
         safe("<a #{segments}>#{text}</a>")
       end
 
       # Create a set of attributes from a hash.
       #
-      # @param options [Hash] key-value pairs of HTML attributes
       # @return [String]
-      def attributes_from_options(options)
+      def attributes_from_options(**options)
         segments = []
         options.each do |attr, option|
           attr = dashed(attr)
           if option.is_a?(Hash)
             option = option.transform_keys { |key| "#{attr}-#{dashed(key)}" }
-            segments << attributes_from_options(option)
+            segments << attributes_from_options(**option)
           else
             segments << attribute_segment(attr, option)
           end

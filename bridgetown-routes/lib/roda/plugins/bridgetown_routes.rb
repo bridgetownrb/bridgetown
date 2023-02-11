@@ -6,8 +6,8 @@ require_relative "../../bridgetown-routes/flash_additions"
 Roda::RodaPlugins::Flash::FlashHash.include Bridgetown::Routes::FlashHashAdditions,
                                             Bridgetown::Routes::FlashHashIndifferent
 Roda::RodaPlugins::Flash::FlashHash.class_eval do
-  def initialize(hash = {})
-    super(hash || {})
+  def initialize(**hash)
+    super(hash)
     now.singleton_class.include Bridgetown::Routes::FlashHashAdditions,
                                 Bridgetown::Routes::FlashNowHashIndifferent
     @next = {}
@@ -24,7 +24,7 @@ class Roda
         app.plugin :route_csrf
       end
 
-      def self.configure(app, _opts = {})
+      def self.configure(app, **_opts)
         return unless app.opts[:bridgetown_site].nil?
 
         raise "Roda app failure: the bridgetown_ssr plugin must be registered before " \
@@ -55,7 +55,7 @@ class Roda
             data
           end
 
-          Bridgetown::Model::Base.new(data).to_resource.tap do |resource|
+          Bridgetown::Model::Base.new(**data).to_resource.tap do |resource|
             resource.roda_app = self
           end.read!.transform!.output
         end

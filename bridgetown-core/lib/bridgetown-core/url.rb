@@ -4,10 +4,10 @@
 #
 # Examples
 #
-#   URL.new({
+#   URL.new(
 #     :template => /:categories/:title.html",
 #     :placeholders => {:categories => "ruby", :title => "something"}
-#   }).to_s
+#   ).to_s
 #
 module Bridgetown
   # TODO: remove this class in favor of the new Resource permalink processor
@@ -23,7 +23,7 @@ module Bridgetown
     #           :permalink    - If supplied, no URL will be generated from the
     #                           template. Instead, the given permalink will be
     #                           used as URL.
-    def initialize(options)
+    def initialize(**options)
       @template     = options[:template]
       @placeholders = options[:placeholders] || {}
       @permalink    = options[:permalink]

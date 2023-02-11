@@ -29,7 +29,7 @@ module Bridgetown
       # Build your bridgetown site
       # Continuously watch if `watch` is set to true in the config.
       def build
-        Bridgetown.logger.adjust_verbosity(options)
+        Bridgetown.logger.adjust_verbosity(**options)
 
         unless caller_locations.find do |loc|
                  loc.to_s.include?("bridgetown-core/commands/start.rb")

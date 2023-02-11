@@ -232,7 +232,7 @@ class TestResource < BridgetownUnitTest
 
     context "a resource in the posts collection" do
       setup do
-        @site = resources_site({ slugify_mode: "latin" })
+        @site = resources_site(slugify_mode: "latin")
         @site.process
         @resource = @site.collections.posts.resources[0]
         @dest_file = dest_dir("2019/09/09/blog-post/index.html")

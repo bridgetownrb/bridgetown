@@ -202,13 +202,13 @@ class TestFrontMatterDefaults < BridgetownUnitTest
 
   context "A site with front matter defaults with quoted date" do
     setup do
-      @site = fixture_site({
+      @site = fixture_site(
         "defaults" => [{
           "values" => {
             "date" => "2015-01-01 00:00:01",
           },
-        }],
-      })
+        }]
+      )
     end
 
     should "parse date" do

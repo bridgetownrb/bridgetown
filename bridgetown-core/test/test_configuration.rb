@@ -13,7 +13,7 @@ class TestConfiguration < BridgetownUnitTest
     }
   end
 
-  def default_config_fixture(overrides = {})
+  def default_config_fixture(**overrides)
     Bridgetown.configuration(test_config.merge(overrides)).tap do |config|
       config.autoload_paths = config.eager_load_paths = []
       config.plugins_use_zeitwerk = false
@@ -359,7 +359,7 @@ class TestConfiguration < BridgetownUnitTest
           "baseurl" => "http://example.com",
           "config"  => @paths[:other]
         ),
-        default_config_fixture({ "config" => @paths[:other] })
+        default_config_fixture("config" => @paths[:other])
     end
 
     should "load different config if specified with symbol key" do
@@ -374,7 +374,7 @@ class TestConfiguration < BridgetownUnitTest
           "baseurl" => "http://example.com",
           "config"  => @paths[:other]
         ),
-        default_config_fixture({ config: @paths[:other] })
+        default_config_fixture(config: @paths[:other])
     end
 
     should "load default config if path passed is empty" do
@@ -382,7 +382,7 @@ class TestConfiguration < BridgetownUnitTest
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:default]}")
       assert_equal \
         site_configuration("config" => [@paths[:empty]]),
-        default_config_fixture({ "config" => [@paths[:empty]] })
+        default_config_fixture("config" => [@paths[:empty]])
     end
 
     should "load multiple config files" do
@@ -394,7 +394,7 @@ class TestConfiguration < BridgetownUnitTest
         site_configuration(
           "config" => [@paths[:default], @paths[:other]]
         ),
-        default_config_fixture({ "config" => [@paths[:default], @paths[:other]] })
+        default_config_fixture("config" => [@paths[:default], @paths[:other]])
       )
     end
 
@@ -418,7 +418,7 @@ class TestConfiguration < BridgetownUnitTest
           "baseurl" => "http://example.com",
           "config"  => [@paths[:default], @paths[:other]]
         ),
-        default_config_fixture({ "config" => [@paths[:default], @paths[:other]] })
+        default_config_fixture("config" => [@paths[:default], @paths[:other]])
     end
   end
 

@@ -5,7 +5,7 @@ require "helper"
 class TestRelations < BridgetownUnitTest
   context "belongs_to and has_many" do
     setup do
-      @site = resources_site({
+      @site = resources_site(
         "collections" => {
           "noodles" => {
             "output"    => true,
@@ -18,8 +18,8 @@ class TestRelations < BridgetownUnitTest
               "belongs_to" => "noodle",
             },
           },
-        },
-      })
+        }
+      )
       @site.process
       # @type [Bridgetown::Resource::Base]
       @resource = @site.collections.posts.resources[0]

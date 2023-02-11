@@ -23,10 +23,13 @@ class TestHelpers < BridgetownUnitTest
     setup do
       @site = Site.new(site_configuration)
       @builder = HelpersBuilder.new("HelpersBuilder", @site).build_with_callbacks
-      @resource = Bridgetown::Model::Base.build(self, :posts, "im-a-post.md", {
+      @resource = Bridgetown::Model::Base.build(
+        self,
+        :posts,
+        "im-a-post.md",
         title: "I'm a post!",
         date: "2019-05-01",
-      }).as_resource_in_collection
+      ).as_resource_in_collection
       @erb_view = Bridgetown::ERBView.new(@resource)
     end
 

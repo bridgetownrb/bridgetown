@@ -23,8 +23,8 @@ class TestFilters < BridgetownUnitTest
     end
   end
 
-  def make_filter_mock(opts = {})
-    BridgetownFilter.new(site_configuration(opts.merge("skip_config_files" => true)))
+  def make_filter_mock(**opts)
+    BridgetownFilter.new(site_configuration(**{ **opts, "skip_config_files" => true }))
   end
 
   class SelectDummy

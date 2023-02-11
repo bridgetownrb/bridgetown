@@ -7,8 +7,8 @@ class TestTags < BridgetownUnitTest
     FileUtils.mkdir_p("tmp")
   end
 
-  def create_post(content, override = {}, converter_class = Bridgetown::Converters::Markdown) # rubocop:disable Metrics/AbcSize
-    site = fixture_site({ "highlighter" => "rouge" }.merge(override))
+  def create_post(content, converter_class = Bridgetown::Converters::Markdown, **override) # rubocop:disable Metrics/AbcSize
+    site = fixture_site(**{ "highlighter" => "rouge", **override })
 
     site.collections.posts.read if override["read_posts"]
     Reader.new(site).read_collections if override["read_collections"]
@@ -25,7 +25,7 @@ class TestTags < BridgetownUnitTest
     @result = @converter.convert(@result)
   end
 
-  def fill_post(code, override = {})
+  def fill_post(code, **override)
     content = <<~CONTENT
       ---
       title: This is a test
@@ -40,7 +40,7 @@ class TestTags < BridgetownUnitTest
       #{code}
       {% endhighlight %}
     CONTENT
-    create_post(content, override)
+    create_post(content, **override)
   end
 
   def highlight_block_with_opts(options_string)

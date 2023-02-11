@@ -128,15 +128,15 @@ class BridgetownUnitTest < Minitest::Test
     RSpec::Mocks.teardown
   end
 
-  def fixture_site(overrides = {})
-    Bridgetown::Site.new(site_configuration(overrides))
+  def fixture_site(**overrides)
+    Bridgetown::Site.new(site_configuration(**overrides))
   end
 
-  def resources_site(overrides = {})
+  def resources_site(**overrides)
     overrides["content_engine"] = "resource"
     overrides["available_locales"] ||= %w[en fr]
     overrides["plugins_dir"] = resources_root_dir("plugins")
-    new_config = site_configuration(overrides)
+    new_config = site_configuration(**overrides)
     new_config.root_dir = resources_root_dir
     new_config.source = resources_root_dir("src")
     Bridgetown::Site.new new_config
@@ -151,7 +151,7 @@ class BridgetownUnitTest < Minitest::Test
     )
   end
 
-  def site_configuration(overrides = {})
+  def site_configuration(**overrides)
     Bridgetown.reset_configuration!
 
     load_plugin_content(Bridgetown::Current.preloaded_configuration)

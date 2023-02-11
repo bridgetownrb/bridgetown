@@ -11,7 +11,7 @@ module Kramdown
       attr_reader :options, :parser
 
       # The implementation is basically the core logic in +Kramdown::Document#initialize+
-      def setup(options)
+      def setup(**options)
         @cache ||= {}
 
         # reset variables on a subsequent set up with a different options Hash
@@ -44,8 +44,8 @@ module Kramdown
       end
     end
 
-    def initialize(source, options = {}) # rubocop:disable Lint/MissingSuper
-      BridgetownDocument.setup(options)
+    def initialize(source, **options) # rubocop:disable Lint/MissingSuper
+      BridgetownDocument.setup(**options)
 
       @options = BridgetownDocument.options
       @root, @warnings = BridgetownDocument.parser.parse(source, @options)
@@ -63,15 +63,13 @@ module Kramdown
   end
 end
 
-#
-
 module Bridgetown
   module Converters
     class Markdown
       class KramdownParser
         attr_reader :extractions
 
-        def initialize(config)
+        def initialize(**config)
           @config = config["kramdown"] || {}
           @config["syntax_highlighter"] ||= config["highlighter"] || "rouge"
           @config["syntax_highlighter_opts"] ||= {}
@@ -80,7 +78,7 @@ module Bridgetown
         end
 
         def convert(content)
-          document = Kramdown::BridgetownDocument.new(content, @config)
+          document = Kramdown::BridgetownDocument.new(content, **@config)
           html_output = document.to_html
           if @config["show_warnings"]
             document.warnings.each do |warning|

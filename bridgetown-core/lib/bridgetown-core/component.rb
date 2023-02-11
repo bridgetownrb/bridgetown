@@ -157,9 +157,8 @@ module Bridgetown
     # Provide a render helper for evaluation within the component context.
     #
     # @param item [Object] a component supporting `render_in` or a partial name
-    # @param options [Hash] passed to the `partial` helper if needed
     # @return [String]
-    def render(item, options = {}, &block)
+    def render(item, **options, &block)
       if item.respond_to?(:render_in)
         result = ""
         capture do # this ensures no leaky interactions between BT<=>VC blocks
@@ -167,7 +166,7 @@ module Bridgetown
         end
         result&.html_safe
       else
-        partial(item, options, &block)&.html_safe
+        partial(item, **options, &block)&.html_safe
       end
     end
 

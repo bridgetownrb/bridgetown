@@ -21,7 +21,7 @@ class TestComponents < BridgetownUnitTest
   def setup
     refresh_zeitwork do
       Example.send(:remove_const, "OverrideComponent") if defined?(Example::OverrideComponent)
-      @site = fixture_site({ level: "Level" })
+      @site = fixture_site(level: "Level")
     end
 
     @site.process

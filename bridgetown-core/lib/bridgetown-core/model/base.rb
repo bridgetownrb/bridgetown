@@ -14,7 +14,7 @@ module Bridgetown
           raise "A Bridgetown site must be initialized and added to Current" unless site
 
           origin = origin_for_id(id, site: site)
-          klass_for_id(id, origin: origin).new(origin.read)
+          klass_for_id(id, origin: origin).new(**origin.read)
         end
 
         def origin_for_id(id, site: Bridgetown::Current.site)
@@ -49,11 +49,11 @@ module Bridgetown
             data[:_collection_] = site.collections[collection_name]
             data
           end
-          new(data)
+          new(**data)
         end
       end
 
-      def initialize(attributes = {})
+      def initialize(**attributes)
         run_callbacks :load do
           super
         end

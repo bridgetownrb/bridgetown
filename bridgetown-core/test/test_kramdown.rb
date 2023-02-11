@@ -4,15 +4,15 @@ require "helper"
 require "rouge"
 
 class TestKramdown < BridgetownUnitTest
-  def fixture_converter(config)
-    site = fixture_site(
-      Utils.deep_merge_hashes(
-        {
-          "markdown" => "kramdown",
-        },
-        config
-      )
+  def fixture_converter(**config)
+    overrides = Utils.deep_merge_hashes(
+      {
+        "markdown" => "kramdown",
+      },
+      config
     )
+
+    site = fixture_site(**overrides)
     Bridgetown::Cache.clear
     site.find_converter_instance(
       Bridgetown::Converters::Markdown
@@ -44,7 +44,7 @@ class TestKramdown < BridgetownUnitTest
       @syntax_highlighter_opts_config_keys = \
         @config["kramdown"]["syntax_highlighter_opts"].keys
 
-      @converter = fixture_converter(@config)
+      @converter = fixture_converter(**@config)
     end
 
     should "not break kramdown" do
@@ -81,7 +81,7 @@ class TestKramdown < BridgetownUnitTest
 
     context "when asked to convert smart quotes" do
       should "convert" do
-        converter = fixture_converter(@config)
+        converter = fixture_converter(**@config)
         assert_match(
           %r!<p>(&#8220;|“)Pit(&#8217;|’)hy(&#8221;|”)</p>!,
           converter.convert(%("Pit'hy")).strip
@@ -95,7 +95,7 @@ class TestKramdown < BridgetownUnitTest
             "smart_quotes" => "lsaquo,rsaquo,laquo,raquo",
           },
         }
-        converter = fixture_converter(Utils.deep_merge_hashes(@config, override))
+        converter = fixture_converter(**Utils.deep_merge_hashes(@config, override))
         assert_match %r!<p>(&#171;|«)Pit(&#8250;|›)hy(&#187;|»)</p>!, \
                      converter.convert(%("Pit'hy")).strip
       end

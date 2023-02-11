@@ -47,9 +47,9 @@ module Bridgetown
       site.site_payload.site
     end
 
-    def liquid_render(component, options = {}, &block)
+    def liquid_render(component, **options, &block)
       options[:_block_content] = capture(&block) if block && respond_to?(:capture)
-      render_statement = _render_statement(component, options)
+      render_statement = _render_statement(component, **options)
 
       template = site.liquid_renderer.file(
         "#{resource.path}.#{Digest::SHA2.hexdigest(render_statement)}"
@@ -83,7 +83,7 @@ module Bridgetown
 
     private
 
-    def _render_statement(component, options)
+    def _render_statement(component, **options)
       render_statement = if options[:_block_content]
                            ["{% rendercontent \"#{component}\""]
                          else

@@ -24,7 +24,7 @@ module Bridgetown
 
       #
 
-      def initialize(runtime, path_or_io, options)
+      def initialize(runtime, path_or_io, **options)
         @runtime = runtime
         @snippets_input = []
         @io = ensure_io(path_or_io)
@@ -209,7 +209,7 @@ module Bridgetown
 end
 
 AfterConfiguration do |config|
-  f = Bridgetown::Cucumber::Formatter.new(nil, $stdout, {})
+  f = Bridgetown::Cucumber::Formatter.new(nil, $stdout)
 
   config.on_event :test_case_started do |event|
     f.print_feature_element_name(event.test_case)

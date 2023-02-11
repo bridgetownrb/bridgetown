@@ -65,7 +65,7 @@ module Bridgetown
         new_site_path = File.expand_path(args.join(" "), Dir.pwd)
         @site_name = new_site_path.split(File::SEPARATOR).last
 
-        if preserve_source_location?(new_site_path, options)
+        if preserve_source_location?(new_site_path, **options)
           say_status :conflict, "#{new_site_path} exists and is not empty.", :red
           Bridgetown.logger.abort_with(
             "Ensure #{new_site_path} is empty or else try again with `--force` to proceed and " \
@@ -77,14 +77,14 @@ module Bridgetown
 
         say_status :create, new_site_path
         create_site new_site_path
-        after_install new_site_path, args.join(" "), options
+        after_install new_site_path, args.join(" "), **options
       rescue ArgumentError => e
         say_status :alert, e.message, :red
       end
 
       protected
 
-      def preserve_source_location?(path, options)
+      def preserve_source_location?(path, **options)
         !options["force"] && Dir.exist?(path)
       end
 
@@ -179,7 +179,7 @@ module Bridgetown
       # unless the user opts to skip 'bundle install'.
       # rubocop:todo Metrics/CyclomaticComplexity
       # rubocop:disable Metrics/PerceivedComplexity
-      def after_install(path, cli_path, options = {})
+      def after_install(path, cli_path, **options)
         git_init path
 
         @skipped_bundle = true # is set to false if bundle install worked

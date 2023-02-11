@@ -84,10 +84,10 @@ module Bridgetown
       options.merge!(options[:locals]) if options[:locals]
       options[:content] = capture(&block) if block
 
-      _render_partial partial_name, options
+      _render_partial partial_name, **options
     end
 
-    def _render_partial(partial_name, options)
+    def _render_partial(partial_name, **options)
       partial_path = _partial_path(partial_name, "erb")
       tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"] ||= Tilt::ErubiTemplate.new(
         partial_path,

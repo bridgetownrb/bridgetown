@@ -35,7 +35,7 @@ module Bridgetown
       @level = level
     end
 
-    def adjust_verbosity(options = {})
+    def adjust_verbosity(**options)
       # Quiet always wins.
       if options[:quiet]
         self.log_level = :error

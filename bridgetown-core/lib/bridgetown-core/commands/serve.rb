@@ -157,7 +157,7 @@ module Bridgetown
         )
       end
 
-      def server_address(server, options = {})
+      def server_address(server, **options)
         format_url(
           server.config[:SSLEnable],
           server.config[:BindAddress],
