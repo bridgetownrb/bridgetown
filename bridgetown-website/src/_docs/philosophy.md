@@ -5,7 +5,7 @@ top_section: Introduction
 category: philosophy
 ---
 
-Every successful open source project has a certain "vibe", those thought patterns and behaviors which ensure meaningful, constant progress forward and the growth of a vibrant developer community. Our project may be relatively young, yet we feel it's important to lead with a set of basic principles what will help guide the project long into the future.
+Every successful open source project has a certain "vibe", those thought patterns and behaviors which ensure meaningful, constant progress forward and the growth of a vibrant developer community. Our project may be relatively young, yet we feel it's important to lead with a set of basic principles that will help guide the project long into the future.
 
 (This page is lengthy, so [feel free to skip over to the next section of documentation](/docs/installation)!)
 
