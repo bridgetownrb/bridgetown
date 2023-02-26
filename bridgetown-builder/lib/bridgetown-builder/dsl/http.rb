@@ -8,9 +8,9 @@ module Bridgetown
   module Builders
     module DSL
       module HTTP
-        def get(url, headers: {}, parse_json: true)
+        def get(url, headers: {}, parse_json: true, **params)
           body = begin
-            connection(parse_json: parse_json).get(url, nil, headers).body
+            connection(parse_json: parse_json).get(url, params, headers).body
           rescue Faraday::ParsingError
             Bridgetown.logger.error(
               "Faraday::ParsingError",

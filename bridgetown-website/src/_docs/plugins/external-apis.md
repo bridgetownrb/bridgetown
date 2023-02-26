@@ -63,6 +63,18 @@ def build
 end
 ```
 
+### Adding parameters to the request
+
+To make it easier to pass query string parameters to the endpoint you're fetching, you may pass keyword arguments to the `get` method. For example:
+
+```ruby
+def build
+  get "https://example.com", test: 123 do |data|
+    # data from https://example.com?test=123
+  end
+end
+```
+
 ## Customizing the Connection Object
 
 Bridgetown uses the [Faraday gem](https://lostisland.github.io/faraday/) under the hood to make web requests. If you need to customize the default usage of Faraday—perhaps to set additional defaults or inject middleware to adjust the request or response logic—simply override the `connection` method in your builder class.

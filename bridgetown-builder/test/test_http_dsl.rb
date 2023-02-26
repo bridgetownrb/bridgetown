@@ -41,6 +41,12 @@ class HTTPBuilder < Builder
     end
   end
 
+  def test_parameters(**params)
+    get "/test_parameters.json", **params do |data|
+      @site.config[:received_parameters] = data
+    end
+  end
+
   def test_redirect
     get "/test_redirect.json" do |data|
       @site.config[:received_data] = data
@@ -133,6 +139,20 @@ class TestHTTPDSL < BridgetownUnitTest
       @builder.test_headers({ "X-Test" => "hello, world"})
 
       assert_equal "hello, world", @site.config[:received_headers]["X-Test"]
+    end
+
+    should "allows passing parameters to the GET request" do
+      @builder.stubs.get("/test_parameters.json") do |env|
+        [
+          200,
+          { "Content-Type": "application/javascript" },
+          env.params.to_json
+        ]
+      end
+
+      @builder.test_parameters(hello: "world")
+
+      assert_equal "world", @site.config[:received_parameters][:hello]
     end
   end
 end
