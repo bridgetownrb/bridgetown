@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-require "faraday_middleware/redirect_limit_reached"
-require "faraday_middleware/response/follow_redirects"
-require "faraday_middleware/response/parse_json"
+require "faraday/follow_redirects"
 
 module Bridgetown
   module Builders
@@ -25,9 +23,9 @@ module Bridgetown
           headers["Content-Type"] = "application/json" if parse_json
 
           Faraday.new(headers: headers) do |faraday|
-            faraday.use FaradayMiddleware::FollowRedirects
+            faraday.response :follow_redirects
             if parse_json
-              faraday.use FaradayMiddleware::ParseJson, parser_options: {
+              faraday.response :json, parser_options: {
                 object_class: HashWithDotAccess::Hash,
               }
             end
