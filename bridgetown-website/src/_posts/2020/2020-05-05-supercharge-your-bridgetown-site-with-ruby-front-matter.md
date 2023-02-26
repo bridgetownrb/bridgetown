@@ -89,10 +89,11 @@ github_participation: !ruby/string:Rb |
   conn = Faraday.new(
     url: endpoint,
     headers: {"Accept" => "application/vnd.github.v3+json"}
-  )
-  if ENV["BRIDGETOWN_GITHUB_TOKEN"]
-    username, token = ENV["BRIDGETOWN_GITHUB_TOKEN"].split(":")
-    conn.basic_auth(username, token)
+  ) do |faraday|
+    if ENV["BRIDGETOWN_GITHUB_TOKEN"]
+      username, token = ENV["BRIDGETOWN_GITHUB_TOKEN"].split(":")
+      faraday.request(:basic_auth, username, token)
+    end
   end
   json = JSON.parse(conn.get.body)
   json["all"][-4..].sum
