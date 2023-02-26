@@ -29,6 +29,12 @@ class HTTPBuilder < Builder
     end
   end
 
+  def test_headers(headers)
+    get "/test_headers.json", headers: headers do |data|
+      @site.config[:received_headers] = data
+    end
+  end
+
   def test_not_parsing_json
     get "/test_not_parsing.html", parse_json: false do |data|
       @site.config[:received_data] = data
@@ -113,6 +119,20 @@ class TestHTTPDSL < BridgetownUnitTest
       @builder.test_redirect
 
       assert_equal "received", @site.config[:received_data][:data][:was].first
+    end
+
+    should "correctly pass headers to the GET request" do
+      @builder.stubs.get("/test_headers.json") do |env|
+        [
+          200,
+          { "Content-Type": "application/javascript" },
+          env.request_headers
+        ]
+      end
+
+      @builder.test_headers({ "X-Test" => "hello, world"})
+
+      assert_equal "hello, world", @site.config[:received_headers]["X-Test"]
     end
   end
 end
