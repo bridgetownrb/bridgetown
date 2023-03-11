@@ -428,3 +428,17 @@ svg.logo .letter {
 .version-text {
   color: var(--sl-color-neutral-300);
 }
+
+skip-to-main-content-bar {
+  position: absolute;
+  transform: translateY(-150px);
+  padding: 0.7rem 0;
+  background-color: var(--color-lightest-orange);
+  display: flex;
+  justify-content: center;
+
+  &:focus-within {
+    position: static;
+    transform: initial;
+  }
+}
