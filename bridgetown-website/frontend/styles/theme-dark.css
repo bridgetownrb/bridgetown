@@ -87,7 +87,7 @@
   & .highlight .k {
     color: var(--color-syntax-light-beige);
   }
-  
+
   & .highlight .kn {
     color: #4b83d4;
   }
@@ -105,7 +105,7 @@
   & .highlight .ss {
     color: var(--color-syntax-beige);
   }
-  
+
   & .highlight .s {
     color: var(--color-syntax-steel-teal);
   }
@@ -118,15 +118,15 @@
   & .highlight .kp {
     color: var(--color-syntax-steel-teal);
   }
-  
+
   & .highlight .n {
     color: var(--color-syntax-light-green);
   }
-  
+
   & .highlight .nb {
     color: #8aaee3;
   }
-  
+
   & .highlight .nc {
     color: var(--color-syntax-dark-red);
   }
@@ -134,15 +134,15 @@
   & .highlight .nb {
     color: var(--color-syntax-rose-vale);
   }
-  
+
   & .highlight .nf {
     color: var(--color-syntax-mid-green);
   }
-  
+
   & .highlight .nn {
     color: var(--color-dark-brick);
   }
-  
+
   & .highlight .no {
     color: var(--color-syntax-dark-red);
   }
@@ -154,13 +154,17 @@
   & .highlight .nv {
     color: var(--color-syntax-mid-green);
   }
-  
+
   & .highlight .o {
     color: var(--color-syntax-mid-green);
   }
 
   & .highlight .s2 {
     color: var(--color-syntax-steel-teal);
+  }
+
+  & .highlight .gs {
+    color: #4b83d4;
   }
 
   /* highlights end */
