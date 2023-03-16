@@ -99,7 +99,7 @@
   & .highlight .vi,
   & .highlight .si {
     color: var(--color-syntax-dark-beige);
-    color: #568684;
+    color: var(--color-syntax-steel-teal);
   }
 
   & .highlight .ss {
