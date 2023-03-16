@@ -89,7 +89,7 @@
   }
 
   & .highlight .kn {
-    color: #4b83d4;
+    color: var(--color-syntax-mid-blue);
   }
 
   & .highlight .sh {
@@ -164,7 +164,7 @@
   }
 
   & .highlight .gs {
-    color: #4b83d4;
+    color: var(--color-syntax-mid-blue);
   }
 
   /* highlights end */
