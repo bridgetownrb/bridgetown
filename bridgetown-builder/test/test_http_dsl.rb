@@ -53,7 +53,7 @@ class TestHTTPDSL < BridgetownUnitTest
       @builder.stubs.get("/test.json") do |_env|
         [
           200,
-          { "Content-Type": "application/javascript" },
+          { "Content-Type": "application/json" },
           '{"data": {"was": ["received"]}}',
         ]
       end
@@ -66,7 +66,7 @@ class TestHTTPDSL < BridgetownUnitTest
       @builder.stubs.get("/test_bad.json") do |_env|
         [
           200,
-          { "Content-Type": "application/javascript" },
+          { "Content-Type": "application/json" },
           '{something is very #@$!^& wrong}',
         ]
       end
@@ -84,7 +84,7 @@ class TestHTTPDSL < BridgetownUnitTest
       @builder.stubs.get("/test_not_parsing.html") do |_env|
         [
           200,
-          { "Content-Type": "application/javascript" },
+          { "Content-Type": "application/json" },
           '[1, 2, ["three"]]',
         ]
       end
@@ -98,7 +98,7 @@ class TestHTTPDSL < BridgetownUnitTest
       @builder.stubs.get("/test.json") do |_env|
         [
           200,
-          { "Content-Type": "application/javascript" },
+          { "Content-Type": "application/json" },
           '{"data": {"was": ["received"]}}',
         ]
       end
