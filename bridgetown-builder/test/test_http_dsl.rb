@@ -59,8 +59,7 @@ class TestHTTPDSL < BridgetownUnitTest
       end
 
       @builder.test_get
-
-      assert_equal "received", @site.config[:received_data][:data][:was].first
+      assert_equal "received", JSON.parse(@site.config[:received_data])["data"]["was"].first
     end
 
     should "not add data from bad external API" do
@@ -112,7 +111,7 @@ class TestHTTPDSL < BridgetownUnitTest
 
       @builder.test_redirect
 
-      assert_equal "received", @site.config[:received_data][:data][:was].first
+      assert_equal "received", JSON.parse(@site.config[:received_data])["data"]["was"].first
     end
   end
 end
