@@ -49,7 +49,7 @@ module Bridgetown
         priority: Bridgetown::Hooks::DEFAULT_PRIORITY,
         &block
       )
-        Bridgetown::Hooks.register_one(owner, event, priority: priority, &block)
+        Bridgetown::Hooks.register_one(owner, event, priority: priority, reloadable: false, &block)
       end
 
       def source_manifest(**kwargs)
