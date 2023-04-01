@@ -37,7 +37,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("amazing_print",             "~> 1.2")
   s.add_runtime_dependency("colorator",                 "~> 1.0")
   s.add_runtime_dependency("erubi",                     "~> 1.9")
-  s.add_runtime_dependency("faraday",                   [">= 2.0.1", "< 3.0"])
+  s.add_runtime_dependency("faraday",                   "~> 2.0")
   s.add_runtime_dependency("faraday-follow_redirects",  "~> 0.3")
   s.add_runtime_dependency("hash_with_dot_access",      "~> 1.2")
   s.add_runtime_dependency("i18n",                      "~> 1.0")

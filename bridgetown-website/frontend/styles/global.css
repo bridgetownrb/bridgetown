@@ -27,6 +27,7 @@
   --color-syntax-beige: #8A786E;
   --color-syntax-charcoal: #67717E;
   --color-syntax-steel-teal: #568684;
+  --color-syntax-mid-blue: #4b83d4;
   --color-syntax-rose-vale: #b25658;
 
   --body-background: white;
@@ -427,4 +428,18 @@ svg.logo .letter {
 
 .version-text {
   color: var(--sl-color-neutral-300);
+}
+
+skip-to-main-content-bar {
+  position: absolute;
+  transform: translateY(-150px);
+  padding: 0.7rem 0;
+  background-color: var(--color-lightest-orange);
+  display: flex;
+  justify-content: center;
+
+  &:focus-within {
+    position: static;
+    transform: initial;
+  }
 }

@@ -24,11 +24,13 @@ module Bridgetown
 
           Faraday.new(headers: headers) do |faraday|
             faraday.response :follow_redirects
+
             if parse_json
               faraday.response :json, parser_options: {
                 object_class: HashWithDotAccess::Hash,
               }
             end
+
             yield faraday if block_given?
           end
         end
