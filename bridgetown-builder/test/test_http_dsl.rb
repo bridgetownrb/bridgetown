@@ -130,7 +130,7 @@ class TestHTTPDSL < BridgetownUnitTest
       @builder.stubs.get("/test_headers.json") do |env|
         [
           200,
-          { "Content-Type": "application/javascript" },
+          { "Content-Type": "application/json" },
           env.request_headers
         ]
       end
@@ -144,7 +144,7 @@ class TestHTTPDSL < BridgetownUnitTest
       @builder.stubs.get("/test_parameters.json") do |env|
         [
           200,
-          { "Content-Type": "application/javascript" },
+          { "Content-Type": "application/json" },
           env.params.to_json
         ]
       end
