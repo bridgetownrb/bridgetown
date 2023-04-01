@@ -53,21 +53,20 @@ class TestHTTPDSL < BridgetownUnitTest
       @builder.stubs.get("/test.json") do |_env|
         [
           200,
-          { "Content-Type": "application/javascript" },
+          { "Content-Type": "application/json" },
           '{"data": {"was": ["received"]}}',
         ]
       end
 
       @builder.test_get
-
-      assert_equal "received", @site.config[:received_data][:data][:was].first
+      assert_equal "received", JSON.parse(@site.config[:received_data])["data"]["was"].first
     end
 
     should "not add data from bad external API" do
       @builder.stubs.get("/test_bad.json") do |_env|
         [
           200,
-          { "Content-Type": "application/javascript" },
+          { "Content-Type": "application/json" },
           '{something is very #@$!^& wrong}',
         ]
       end
@@ -85,7 +84,7 @@ class TestHTTPDSL < BridgetownUnitTest
       @builder.stubs.get("/test_not_parsing.html") do |_env|
         [
           200,
-          { "Content-Type": "application/javascript" },
+          { "Content-Type": "application/json" },
           '[1, 2, ["three"]]',
         ]
       end
@@ -99,7 +98,7 @@ class TestHTTPDSL < BridgetownUnitTest
       @builder.stubs.get("/test.json") do |_env|
         [
           200,
-          { "Content-Type": "application/javascript" },
+          { "Content-Type": "application/json" },
           '{"data": {"was": ["received"]}}',
         ]
       end
@@ -112,7 +111,7 @@ class TestHTTPDSL < BridgetownUnitTest
 
       @builder.test_redirect
 
-      assert_equal "received", @site.config[:received_data][:data][:was].first
+      assert_equal "received", JSON.parse(@site.config[:received_data])["data"]["was"].first
     end
   end
 end
