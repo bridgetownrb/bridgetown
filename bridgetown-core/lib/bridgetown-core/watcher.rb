@@ -106,7 +106,7 @@ module Bridgetown
         end
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".bold.green} in less than " \
                                           "#{(Time.now - time).ceil(2)} seconds."
-      rescue StandardError => e
+      rescue StandardError, SyntaxError => e
         Bridgetown::Errors.print_build_error(e, trace: options[:trace])
       end
       Bridgetown.logger.info ""
