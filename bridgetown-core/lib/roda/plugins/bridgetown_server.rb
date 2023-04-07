@@ -7,7 +7,8 @@ class Roda
 
       def self.load_dependencies(app) # rubocop:disable Metrics
         unless Bridgetown::Current.preloaded_configuration
-          raise "You must supply a preloaded configuration before loading the Bridgetown Roda plugin"
+          raise "You must supply a preloaded configuration before loading the Bridgetown Roda " \
+                "plugin"
         end
 
         app.plugin :initializers
@@ -40,7 +41,7 @@ class Roda
           "500 Internal Server Error"
         end
 
-        ExceptionPage.class_eval do
+        ExceptionPage.class_eval do # rubocop:disable Metrics/BlockLength
           def self.css
             <<~CSS
               html * { padding:0; margin:0; }

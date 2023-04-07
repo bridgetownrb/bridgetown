@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RodaApp < Roda # < Bridgetown::Rack::Roda
+class RodaApp < Roda
   plugin :bridgetown_server
 
   # rubocop:disable Lint/EmptyBlock

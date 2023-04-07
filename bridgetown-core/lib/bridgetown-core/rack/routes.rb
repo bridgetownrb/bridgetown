@@ -20,7 +20,7 @@ module Bridgetown
       }.freeze
 
       class << self
-        # rubocop:disable Bridgetown/NoPutsAllowed
+        # rubocop:disable Bridgetown/NoPutsAllowed, Metrics/MethodLength
         def print_routes
           # TODO: this needs to be fully documented
           routes = begin
@@ -49,7 +49,7 @@ module Bridgetown
           end
           puts
         end
-        # rubocop:enable Bridgetown/NoPutsAllowed
+        # rubocop:enable Bridgetown/NoPutsAllowed, Metrics/MethodLength
 
         # @return [Hash<String, Class(Routes)>]
         attr_accessor :tracked_subclasses
