@@ -2,7 +2,7 @@
 
 class Roda
   module RodaPlugins
-    module BridgetownStack
+    module BridgetownServer
       SiteContext = Struct.new(:registers) # for use by Liquid-esque URL helpers
 
       def self.load_dependencies(app) # rubocop:disable Metrics
@@ -20,7 +20,6 @@ class Roda
         app.plugin :indifferent_params
         app.plugin :cookies
         app.plugin :streaming
-        app.plugin :bridgetown_boot
         app.plugin :public, root: Bridgetown::Current.preloaded_configuration.destination
         app.plugin :not_found do
           output_folder = Bridgetown::Current.preloaded_configuration.destination
@@ -117,8 +116,24 @@ class Roda
           end
         end
       end
+
+      Roda::RodaRequest.alias_method :_previous_roda_cookies, :cookies
+
+      module RequestMethods
+        # Monkeypatch Roda/Rack's Request object so it returns a hash which allows for
+        # indifferent access
+        def cookies
+          # TODO: maybe replace with a simpler hash that offers an overloaded `[]` method
+          _previous_roda_cookies.with_indifferent_access
+        end
+
+        # Starts up the Bridgetown routing system
+        def bridgetown
+          Bridgetown::Rack::Routes.start!(scope)
+        end
+      end
     end
 
-    register_plugin :bridgetown_stack, BridgetownStack
+    register_plugin :bridgetown_server, BridgetownServer
   end
 end

@@ -17,10 +17,10 @@ module Bridgetown
       def self.inherited(klass)
         Bridgetown::Deprecator.deprecation_message(
           "The `Bridgetown::Rack::Roda' class will be removed in favor of using the " \
-          "`bridgetown_stack' plugin in a future version"
+          "`bridgetown_server' plugin in a future version"
         )
         super
-        klass.plugin :bridgetown_stack
+        klass.plugin :bridgetown_server
       end
     end
 
