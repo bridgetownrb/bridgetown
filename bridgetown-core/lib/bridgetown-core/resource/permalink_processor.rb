@@ -85,8 +85,8 @@ module Bridgetown
         if permalink.ends_with?(".*") || !%r{\.html?$}.match?(final_ext)
           "/#{new_url}#{final_ext}"
         # If permalink includes the file extension, add it back in to the URL
-        elsif permalink =~ %r{\.[^/]*$}
-          "/#{new_url}#{Regexp.last_match[0]}"
+        elsif permalink.match?(%r{\.[^/]*$})
+          "/#{new_url}#{Bridgetown::Filters::URLFilters.extname(permalink)}"
         # Ensure index-style URLs get output correctly
         elsif permalink.ends_with?("/")
           "/#{new_url}/".sub(%r{^/index/$}, "/")

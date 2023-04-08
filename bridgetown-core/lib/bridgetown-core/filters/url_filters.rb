@@ -74,6 +74,14 @@ module Bridgetown
         end.to_s
       end
 
+      # Returns the extension of a path/URL
+      #
+      # @param input [Object] value which responds to `to_s`
+      # @return [String]
+      def extname(input)
+        File.extname(input.to_s)
+      end
+
       private
 
       def compute_absolute_url(input)

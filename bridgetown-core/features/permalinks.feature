@@ -92,6 +92,17 @@ Feature: Fancy permalinks
     And the output/custom/posts directory should exist
     And I should see "bla bla" in "output/custom/posts/some.html"
 
+  Scenario: Use per-post ending in .en.html
+    Given I have a _posts directory
+    And I have the following post:
+      | title     | date       | permalink                  | content |
+      | Some post | 2013-04-14 | /custom/posts/some.en.html | bla bla |
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And the output directory should exist
+    And the output/custom/posts directory should exist
+    And I should see "bla bla" in "output/custom/posts/some.en.html"
+
   Scenario: Use pretty permalink schema with cased file name
     Given I have a _posts directory
     And I have an "_posts/2009-03-27-Pretty-Permalink-Schema.md" page that contains "Totally wordpress"
