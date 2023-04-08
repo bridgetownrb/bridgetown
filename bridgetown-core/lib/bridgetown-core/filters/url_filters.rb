@@ -70,19 +70,28 @@ module Bridgetown
       # @return [String]
       def strip_extname(input)
         Pathname.new(input.to_s).then do |path|
-          path.dirname + path.basename(".*")
+          path.dirname + basename(path)
         end.to_s
       end
 
       # Returns the extension of a path/URL
       #
       # @param input [Object] value which responds to `to_s`
-      # @return [String]
+      # @return [String, nil]
       def extname(input)
-        File.extname(input.to_s)
+        extension = File.extname(input.to_s)
+        return if extension.empty?
+
+        input_without_extension = File.basename(input.to_s, ".*")
+        "#{extname(input_without_extension)}#{extension}"
       end
 
       private
+
+      def basename(input)
+        input = File.basename(input.to_s, ".*")
+        File.extname(input).empty? ? input : basename(input)
+      end
 
       def compute_absolute_url(input)
         return if input.nil?

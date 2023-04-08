@@ -70,6 +70,17 @@ Feature: Fancy permalinks
     And the output directory should exist
     And I should see "Totally custom." in "output/03/27/2009/custom-permalink-schema.html"
 
+  Scenario: Use custom permalink schema with date and multiple file extensions
+    Given I have a _posts directory
+    And I have the following post:
+      | title                   | category | date       | content         |
+      | Custom Permalink Schema | stuff    | 2009-03-27 | Totally custom. |
+    And I have a configuration file with "permalink" set to "/:month/:day/:year/:title.en.html"
+    When I run bridgetown build
+    Then I should get a zero exit status
+    And the output directory should exist
+    And I should see "Totally custom." in "output/03/27/2009/custom-permalink-schema.en.html"
+
   Scenario: Use per-post permalink
     Given I have a _posts directory
     And I have the following post:
