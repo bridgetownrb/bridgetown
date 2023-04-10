@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class RodaApp < Bridgetown::Rack::Roda
+class RodaApp < Roda
+  plugin :bridgetown_server
+
   # rubocop:disable Lint/EmptyBlock
   plugin(:common_logger, StringIO.new.tap do |io| # swallow logs in tests
     io.singleton_class.define_method(:level=) { |*| }

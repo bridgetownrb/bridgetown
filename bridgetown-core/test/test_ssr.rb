@@ -2,6 +2,7 @@
 
 require "helper"
 require "rack"
+require "rack/test"
 
 class TestSSR < BridgetownUnitTest
   include Rack::Test::Methods

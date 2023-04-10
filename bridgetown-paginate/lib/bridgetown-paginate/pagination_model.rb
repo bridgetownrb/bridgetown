@@ -439,7 +439,7 @@ module Bridgetown
 
           # Convert the newpages array into a two dimensional array that has
           # [index, page_url] as items
-          npage.paginator.page_trail = newpages[idx_start...idx_end] \
+          npage.paginator.page_trail = newpages[idx_start...idx_end]
             .each_with_index.map do |ipage, idx|
             PageTrail.new(
               idx_start + idx + 1,

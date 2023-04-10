@@ -8,12 +8,22 @@ require "roda/plugins/public"
 Bridgetown::Current.preloaded_configuration ||= Bridgetown.configuration
 
 require_relative "logger"
-require_relative "roda"
 require_relative "routes"
 require_relative "static_indexes"
 
 module Bridgetown
   module Rack
+    class Roda < ::Roda
+      def self.inherited(klass)
+        Bridgetown::Deprecator.deprecation_message(
+          "The `Bridgetown::Rack::Roda' class will be removed in favor of using the " \
+          "`bridgetown_server' plugin in a future version"
+        )
+        super
+        klass.plugin :bridgetown_server
+      end
+    end
+
     class << self
       # @return [Bridgetown::Utils::LoadersManager]
       attr_accessor :loaders_manager
@@ -56,6 +66,8 @@ module Bridgetown
             loader.reload
             loader.eager_load
             Bridgetown::Rack::Routes.reload_subclasses
+          rescue SyntaxError => e
+            Bridgetown::Errors.print_build_error(e)
           end.start
         end
       end

@@ -41,7 +41,7 @@ class TestKramdown < BridgetownUnitTest
         },
       }
       @kramdown_config_keys = @config["kramdown"].keys
-      @syntax_highlighter_opts_config_keys = \
+      @syntax_highlighter_opts_config_keys =
         @config["kramdown"]["syntax_highlighter_opts"].keys
 
       @converter = fixture_converter(@config)
