@@ -125,7 +125,7 @@ module Bridgetown
       #
 
       # rubocop:disable Metrics/ParameterLists
-      def before_step_result(_keyword, _step_match, _multiline_arg, status, exception, \
+      def before_step_result(_keyword, _step_match, _multiline_arg, status, exception,
                              _source_indent, background, _file_colon_line)
 
         @hide_this_step = false

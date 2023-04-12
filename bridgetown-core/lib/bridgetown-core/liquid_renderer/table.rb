@@ -17,7 +17,9 @@ module Bridgetown
       private
 
       def tabulate(data)
-        require "terminal-table"
+        unless defined?(Terminal::Table)
+          Bridgetown::Utils::RequireGems.require_with_graceful_fail "terminal-table"
+        end
 
         header = data.shift
         footer = data.pop

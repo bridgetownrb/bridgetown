@@ -5,7 +5,7 @@
 # Backports a PR into a release branch:
 #
 #   # backport PR #1023 into 1.1-stable-backport-1023
-#   $ git checkout master
+#   $ git checkout main
 #   $ git pull
 #   $ script/backport-pr 1.1 1023
 
@@ -45,7 +45,7 @@ git clean -q -fdx
 git pull -q
 git checkout -q -f -B $prbranch
 
-commit=`git log -1 --pretty=%H "--grep=Merge pull request $pr" "--grep=Merge branch '.*$headref'" master`
+commit=`git log -1 --pretty=%H "--grep=Merge pull request $pr" "--grep=Merge branch '.*$headref'" main`
 
 echo "Backporting:\n"
 

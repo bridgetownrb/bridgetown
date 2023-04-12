@@ -16,6 +16,7 @@ end
 
 # rubygems
 require "rubygems"
+require "bundler/shared_helpers"
 
 # stdlib
 require "find"
@@ -135,6 +136,8 @@ module Bridgetown
     end
     alias_method :env, :environment
 
+    # Set up the Bridgetown execution environment before attempting to load any
+    # plugins or gems prior to a site build
     def begin!
       ENV["RACK_ENV"] ||= environment
 
@@ -175,6 +178,38 @@ module Bridgetown
 
         Bridgetown::Current.preloaded_configuration = obj
       end
+    end
+
+    # Initialize a preflight configuration object, copying initializers and
+    # source manifests from a previous standard configuration if necessary.
+    # Typically only needed in test suites to reset before a new test.
+    #
+    # @return [Bridgetown::Configuration::Preflight]
+    def reset_configuration! # rubocop:disable Metrics/AbcSize
+      if Bridgetown::Current.preloaded_configuration.nil?
+        return Bridgetown::Current.preloaded_configuration =
+                 Bridgetown::Configuration::Preflight.new
+      end
+
+      return unless Bridgetown::Current.preloaded_configuration.is_a?(Bridgetown::Configuration)
+
+      previous_config = Bridgetown::Current.preloaded_configuration
+      new_config = Bridgetown::Configuration::Preflight.new
+      new_config.initializers = previous_config.initializers
+      new_config.source_manifests = previous_config.source_manifests
+      if new_config.initializers
+        new_config.initializers.delete(:init)
+        new_config.initializers.select! do |_k, initializer|
+          next false if initializer.block.source_location[0].start_with?(
+            File.join(previous_config.root_dir, "config")
+          )
+
+          initializer.completed = false
+          true
+        end
+      end
+
+      Bridgetown::Current.preloaded_configuration = new_config
     end
 
     def initializer(name, prepend: false, replace: false, &block) # rubocop:todo Metrics
@@ -230,11 +265,13 @@ module Bridgetown
 
     def load_tasks
       require "bridgetown-core/commands/base"
+      unless Bridgetown::Current.preloaded_configuration
+        Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
+      end
       Bridgetown::PluginManager.setup_bundler(skip_yarn: true)
+
       if Bridgetown::Current.preloaded_configuration.is_a?(Bridgetown::Configuration::Preflight)
         Bridgetown::Current.preloaded_configuration = Bridgetown.configuration
-      else
-        Bridgetown::Current.preloaded_configuration ||= Bridgetown.configuration
       end
       load File.expand_path("bridgetown-core/tasks/bridgetown_tasks.rake", __dir__)
     end
@@ -273,6 +310,14 @@ module Bridgetown
     def set_timezone(timezone)
       ENV["TZ"] = timezone
     end
+
+    # Get the current TZ environment variable
+    #
+    # @return [String]
+    def timezone
+      ENV["TZ"]
+    end
+
     # rubocop:enable Naming/AccessorMethodName
 
     # Fetch the logger instance for this Bridgetown process.

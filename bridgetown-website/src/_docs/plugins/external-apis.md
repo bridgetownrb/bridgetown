@@ -35,8 +35,10 @@ To make a request, simply call the `get` method inside of `build` in your builde
 
 ```ruby
 def build
-  get url do |data|
-    site.data[:remote_api_info] = data
+  hook :site, :post_read do
+    get url do |data|
+      site.data[:remote_api_info] = data
+    end
   end
 end
 ```
@@ -57,6 +59,18 @@ You can also customize the HTTP headers sent with the request. For example, you 
 def build
   get url, headers: {"Authorization" => "Bearer #{config["api_key"]}"} do |data|
     # data for your eyes only
+  end
+end
+```
+
+### Adding parameters to the request
+
+To make it easier to pass query string parameters to the endpoint you're fetching, you may pass keyword arguments to the `get` method. For example:
+
+```ruby
+def build
+  get "https://example.com", test: 123 do |data|
+    # data from https://example.com?test=123
   end
 end
 ```

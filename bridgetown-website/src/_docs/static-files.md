@@ -38,6 +38,8 @@ following metadata:
       <td><p>
 
         The time the file was last modified, e.g. <code>2016-04-01 16:35:26 +0200</code>
+        <br/>
+        (also available as <code>file.date</code>)
 
       </p></td>
     </tr>

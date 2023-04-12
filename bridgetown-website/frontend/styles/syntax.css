@@ -50,6 +50,62 @@ pre.highlight {
   font-size: 0.95em;
 }
 
+div.highlighter-rouge {
+  position: relative;
+
+  &::before {
+    font-size: 70%;
+    font-weight: 600;
+    border-radius: 1em;
+    background: var(--color-medium-green);
+    color: white;
+    padding: .2em .8em;
+    position: absolute;
+    right: -.6em;
+    top: -.6em;
+    box-shadow: 0px 7px 9px rgba(0, 0, 0, 0.1);
+  }
+
+  &.language-sh::before, &.language-shell::before {
+    content: "Shell";
+  }
+  &.language-rb::before, &.language-ruby::before {
+    content: "Ruby";
+  }
+  &.language-js::before {
+    content: "JavaScript";
+  }
+  &.language-json::before {
+    content: "JSON";
+  }
+  &.language-html::before {
+    content: "HTML";
+  }
+  &.language-css::before {
+    content: "CSS";
+  }
+  &.language-liquid::before {
+    content: "Liquid";
+  }
+  &.language-eruby::before, &.language-erb::before {
+    content: "ERB";
+  }
+  &.language-serb::before {
+    content: "Serbea";
+  }
+  &.language-md::before {
+    content: "Markdown";
+  }
+  &.language-yml::before, &.language-yaml::before {
+    content: "YAML";
+  }
+  &.language-Dockerfile::before {
+    content: "Dockerfile";
+  }
+  &.language-nginx::before {
+    content: "NGINX";
+  }
+}
 
 .highlight .hll {
   background-color: #ffffcc;

@@ -11,13 +11,13 @@ module Bridgetown
 
     def read
       layout_entries.each do |layout_file|
-        @layouts[layout_name(layout_file)] = \
+        @layouts[layout_name(layout_file)] =
           Layout.new(site, layout_directory, layout_file)
       end
 
       site.config.source_manifests.filter_map(&:layouts).each do |plugin_layouts|
         layout_entries(plugin_layouts).each do |layout_file|
-          @layouts[layout_name(layout_file)] ||= \
+          @layouts[layout_name(layout_file)] ||=
             Layout.new(site, plugin_layouts, layout_file, from_plugin: true)
         end
       end

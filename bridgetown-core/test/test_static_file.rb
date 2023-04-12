@@ -176,6 +176,7 @@ class TestStaticFile < BridgetownUnitTest
         "basename"      => "static_file",
         "name"          => "static_file.txt",
         "extname"       => ".txt",
+        "date"          => @static_file.date,
         "modified_time" => @static_file.modified_time,
         "path"          => "/static_file.txt",
         "collection"    => nil,

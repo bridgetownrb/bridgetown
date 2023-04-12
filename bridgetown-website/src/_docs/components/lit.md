@@ -18,13 +18,13 @@ Through the use of Bridgetown's [Lit Renderer](https://www.github.com/bridgetown
 Simply run the Bundled Configuration automation:
 
 ```sh
-$ bin/bridgetown configure lit
+bin/bridgetown configure lit
 ```
 
 Or pass it along to the `new` command:
 
 ```sh
-$ bridgetown new mysite -t erb -c lit
+bridgetown new mysite -t erb -c lit
 ```
 
 This will install both the Lit library itself plus the Lit Renderer plugin.

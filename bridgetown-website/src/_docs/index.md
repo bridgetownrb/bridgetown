@@ -18,35 +18,35 @@ We'll explain much more about what Bridgetown is and what it can do for you in t
 {% end %}
 
 {%@ Note do %}
-  Upgrading from v0.x? [Read our 1.0 upgrade guide here.](/docs/installation/upgrade)
+  Upgrading from an earlier version? [Read our upgrade guide here.](/docs/installation/upgrade)
 {% end %}
 
 Read the [requirements](/docs/installation) for more information on what you'll need to have set up in advance, primarily **Ruby** and **Node**/**Yarn**. Then:
 
 1. Install **Bridgetown** and related gems:
 {%- if site.data.edge_version -%}
-```
-$ gem install bridgetown -N -v {{ Bridgetown::VERSION }}
+```sh
+gem install bridgetown -N -v {{ Bridgetown::VERSION }}
 ```
 {%- else -%}
-```
-$ gem install bridgetown -N
+```sh
+gem install bridgetown -N
 ```
 {%- end -%}
 
 2. Create a new Bridgetown site at `./mysite`.
-```
-$ bridgetown new mysite
+```sh
+bridgetown new mysite
 ```
 
 3. Change into your new directory.
-```
-$ cd mysite
+```sh
+cd mysite
 ```
 
 4. Build the site and run a live-reload development server:
-```
-$ bin/bridgetown start
+```sh
+bin/bridgetown start
 ```
 
 5. Browse to [http://localhost:4000](http://localhost:4000){:target="_blank"}

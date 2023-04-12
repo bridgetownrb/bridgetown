@@ -27,7 +27,7 @@ module Bridgetown
 
       def javascript_import(data = nil, filename: "index.js") # rubocop:todo Metrics/PerceivedComplexity
         data ||= yield if block_given?
-        data += "\n" unless data.chars.last == "\n"
+        data += "\n" unless data[-1] == "\n"
 
         say_status :javascript_import, filename
 
@@ -56,8 +56,9 @@ module Bridgetown
         options = +""
         options += " -v \"#{version}\"" if version
         options += " -g #{group}" if group
+        # in_bundle? returns the path to the gemfile
         run "bundle add #{gemname}#{options}",
-            env: { "BUNDLE_GEMFILE" => File.join(destination_root, "Gemfile") }
+            env: { "BUNDLE_GEMFILE" => Bundler::SharedHelpers.in_bundle? }
       rescue SystemExit
         say_status :run, "Gem not added due to bundler error", :red
       end
@@ -68,7 +69,7 @@ module Bridgetown
         data = yield if block_given?
         data = data.indent(2).lstrip
         data = " #{data}" unless data.start_with?(",")
-        data += "\n" unless data.chars.last == "\n"
+        data += "\n" unless data[-1] == "\n"
 
         init_file = File.join("config", "initializers.rb")
         unless File.exist?(init_file)
@@ -85,7 +86,7 @@ module Bridgetown
         say_status :configure, name
         data = yield if block_given?
         data = data.indent(2)
-        data += "\n" unless data.chars.last == "\n"
+        data += "\n" unless data[-1] == "\n"
 
         init_file = File.join("config", "initializers.rb")
         unless File.exist?(init_file)

@@ -7,9 +7,9 @@ module Bridgetown
       include Bridgetown::Utils::RubyFrontMatterDSL
 
       YAML_FRONT_MATTER_REGEXP = %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m.freeze
-      RUBY_FRONT_MATTER_HEADER = %r!\A[~`#\-]{3,}(?:ruby|<%|{%)\s*\n!.freeze
+      RUBY_FRONT_MATTER_HEADER = %r!\A[~`#-]{3,}(?:ruby|<%|{%)\s*\n!.freeze
       RUBY_FRONT_MATTER_REGEXP =
-        %r!#{RUBY_FRONT_MATTER_HEADER.source}(.*?\n?)^((?:%>|%})?[~`#\-]{3,}\s*$\n?)!m.freeze
+        %r!#{RUBY_FRONT_MATTER_HEADER.source}(.*?\n?)^((?:%>|%})?[~`#-]{3,}\s*$\n?)!m.freeze
 
       # @return [String]
       attr_accessor :content
@@ -111,7 +111,7 @@ module Bridgetown
           collection.data?
       end
 
-      def read_file_data # rubocop:todo Metrics/MethodLength
+      def read_file_data # rubocop:todo Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/AbcSize
         case original_path.extname.downcase
         when ".csv"
           {
@@ -130,6 +130,9 @@ module Bridgetown
           }
         when ".rb"
           process_ruby_data(File.read(original_path), original_path, 1)
+        when ".json"
+          json_data = JSON.parse(File.read(original_path))
+          json_data.is_a?(Array) ? { rows: json_data } : json_data
         else
           yaml_data = YAMLParser.load_file(original_path)
           yaml_data.is_a?(Array) ? { rows: yaml_data } : yaml_data

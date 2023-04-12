@@ -11,6 +11,7 @@ class TestComponents < BridgetownUnitTest
     end
 
     components_loader&.unload
+    components_loader&.setup
 
     yield
 

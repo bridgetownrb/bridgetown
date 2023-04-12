@@ -271,6 +271,7 @@ module Bridgetown
     # Read in resource from repo path
     # @param full_path [String]
     # @param manifest [Bridgetown::Configuration::SourceManifest]
+    # @return [void]
     def read_resource(full_path, manifest: nil)
       model_relative_path = relative_model_path_for(full_path, manifest: manifest)
       model = Bridgetown::Model::Base.find(
@@ -279,14 +280,20 @@ module Bridgetown
       )
 
       if model_is_multi_locale?(model, model_relative_path)
-        site.config.available_locales.each do |locale|
-          model.locale = locale
+        # If the model specifies a locales key, use that to determine the
+        # the locale of each resource, otherwise fall back to `site.config.available_locales`
+        locales = model.locales || site.config.available_locales
+
+        locales.each do |locale|
+          model.locale = locale.to_sym
           add_resource_from_model model
         end
+
         return
       end
 
       add_resource_from_model model
+      nil
     end
 
     # @param model [Bridgetown::Model::Base]

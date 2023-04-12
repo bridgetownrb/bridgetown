@@ -14,10 +14,10 @@ Roda::RodaPlugins::Public::RequestMethods.module_eval do
       seg == ".." ? segments.pop : segments << seg
     end
 
-    path = ::File.join(roda_class.opts[:public_root], *segments)
-    unless ::File.file?(path)
-      path = ::File.join(path, "index.html")
-      if ::File.file?(path)
+    path = File.join(roda_class.opts[:public_root], *segments)
+    unless File.file?(path)
+      path = File.join(path, "index.html")
+      if File.file?(path)
         segments << "index.html"
       else
         segments[segments.size - 1] = "#{segments.last}.html"

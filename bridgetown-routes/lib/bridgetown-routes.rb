@@ -35,11 +35,6 @@ Bridgetown.initializer :"bridgetown-routes" do |config|
       end
 
       define_resource_method :roda_app= do |app|
-        unless app.is_a?(Bridgetown::Rack::Roda)
-          raise Bridgetown::Errors::FatalException,
-                "Resource's assigned Roda app must be of type `Bridgetown::Rack::Roda'"
-        end
-
         @roda_app = app
       end
     end

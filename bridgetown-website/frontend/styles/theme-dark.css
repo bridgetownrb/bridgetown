@@ -1,0 +1,205 @@
+:root.theme-dark {
+  --body-background: var(--color-darkest-gray);
+  --body-color: var(--color-light-gray);
+
+  /* Shoelace implements its dark mode by "flipping" color tokens */
+  /* Here we do the same and flip our tokens w.r.t light mode */
+  --sl-color-primary-700: var(--color-light-green);
+  --sl-color-primary-600: var(--color-medium-green);
+  --sl-color-primary-500: var(--color-dark-green);
+
+  & .main-wave {
+    background-color: var(--body-background);
+  }
+
+  & h1,
+  & h2,
+  & h3,
+  & h4,
+  & h5 {
+    color: var(--color-light-gray);
+
+    &.colorful {
+      color: var(--color-light-green);
+    }
+  }
+
+  & #mobile-menu sl-button::part(base) {
+    color: var(--color-light-gray);
+  }
+
+  & sl-breadcrumb-item::part(label) {
+    color: var(--color-light-gray);
+  }
+
+  & sl-alert {
+    --sl-panel-background-color: var(--sl-color-neutral-50);
+  }
+
+  & sl-card [slot="header"] h3 {
+    color: var(--color-orange);
+    text-decoration-color: var(--color-brick);
+  }
+
+  & .info-grid q {
+    color: var(--color-orange);
+  }
+
+  & div.highlight {
+    border-color: var(--color-dark-brick);
+  }
+
+  & a {
+    color: var(--color-orange);
+    text-decoration-color: var(--color-brick);
+  }
+
+  & svg.logo .letter {
+    fill: var(--color-light-gray);
+  }
+
+  & code,
+  & pre {
+    background-color: var(--color-blackish);
+    color: var(--color-light-gray);
+  }
+
+  /* highlights */
+  & code,
+  & pre {
+    background-color: var(--color-syntax-dark-green);
+    color: var(--color-syntax-light-gray);
+  }
+
+  /* weird underlines */
+  & .highlight .w {
+    color: var(--color-syntax-dark-green);
+  }
+
+  & .highlight .cp,
+  & .highlight .p,
+  & .highlight .s1,
+  & .highlight .na,
+  & .highlight .kc {
+    color: var(--color-syntax-dark-red);
+  }
+
+  & .highlight .k {
+    color: var(--color-syntax-light-beige);
+  }
+
+  & .highlight .kn {
+    color: var(--color-syntax-mid-blue);
+  }
+
+  & .highlight .sh {
+    color: var(--color-syntax-fern-green);
+  }
+
+  & .highlight .vi,
+  & .highlight .si {
+    color: var(--color-syntax-dark-beige);
+    color: var(--color-syntax-steel-teal);
+  }
+
+  & .highlight .ss {
+    color: var(--color-syntax-beige);
+  }
+
+  & .highlight .s {
+    color: var(--color-syntax-steel-teal);
+  }
+
+  & .highlight .c,
+  & .highlight .c1 {
+    color: var(--color-syntax-charcoal);
+  }
+
+  & .highlight .kp {
+    color: var(--color-syntax-steel-teal);
+  }
+
+  & .highlight .n {
+    color: var(--color-syntax-light-green);
+  }
+
+  & .highlight .nb {
+    color: #8aaee3;
+  }
+
+  & .highlight .nc {
+    color: var(--color-syntax-dark-red);
+  }
+
+  & .highlight .nb {
+    color: var(--color-syntax-rose-vale);
+  }
+
+  & .highlight .nf {
+    color: var(--color-syntax-mid-green);
+  }
+
+  & .highlight .nn {
+    color: var(--color-dark-brick);
+  }
+
+  & .highlight .no {
+    color: var(--color-syntax-dark-red);
+  }
+
+  & .highlight .nt {
+    color: var(--color-syntax-beige);
+  }
+
+  & .highlight .nv {
+    color: var(--color-syntax-mid-green);
+  }
+
+  & .highlight .o {
+    color: var(--color-syntax-mid-green);
+  }
+
+  & .highlight .s2 {
+    color: var(--color-syntax-steel-teal);
+  }
+
+  & .highlight .gs {
+    color: var(--color-syntax-mid-blue);
+  }
+
+  /* highlights end */
+
+  & p code,
+  & li code,
+  & blockquote code {
+    color: var(--color-light-orange);
+  }
+
+  & .version-text {
+    color: var(--sl-color-neutral-700);
+  }
+
+  & bridgetown-search-form input {
+    opacity: 1;
+    background-color: var(--color-dark-gray);
+    color: var(--color-light-gray);
+  }
+
+  & body > nav kbd {
+    opacity: 1;
+  }
+
+  & body > nav.edge {
+    background: linear-gradient(to bottom, var(--color-darkest-gray) 0%, #492512 90%, var(--color-darkest-gray) 100%);
+  }
+
+  & sl-button[variant="primary"]::part(base) {
+    color: var(--color-lighter-green);
+    border-color: var(--color-lighter-green);
+    background-color: var(--sl-color-primary-500);
+
+    &:hover {
+      background-color: var(--sl-color-primary-600);
+    }
+  }
+}

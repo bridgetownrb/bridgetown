@@ -14,7 +14,7 @@ class TestRoutes < BridgetownUnitTest
     app.opts[:bridgetown_site]
   end
 
-  context "Roda-powered Bridgetown server" do
+  context "Roda-powered Bridgetown server" do # rubocop:todo Metrics/BlockLength
     should "return the index page" do
       get "/"
       assert last_response.ok?
@@ -35,6 +35,26 @@ class TestRoutes < BridgetownUnitTest
     should "return HTML for a route in an arbitrary folder" do
       get "/yello/my-friend"
       assert_equal "<p>So arbitrary!</p>\n", last_response.body
+    end
+
+    should "return HTML for a route localized in english" do
+      get "/localized"
+      assert_equal "<h1>Localized for en - en</h1>\n", last_response.body
+    end
+
+    should "return HTML for a route localized in italian" do
+      get "/it/localized"
+      assert_equal "<h1>Localized for it - it</h1>\n", last_response.body
+    end
+
+    should "return HTML for nested index RESTful route" do
+      get "/nested"
+      assert_equal "<h1>Nested Index</h1>\n", last_response.body
+    end
+
+    should "return HTML for nested item RESTful route" do
+      get "/nested/123-abc"
+      assert_equal "<h1>Nested Page with Slug: 123-abc</h1>\n", last_response.body
     end
   end
 end

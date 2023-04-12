@@ -27,6 +27,9 @@ init :"bridgetown-routes"
 init :"bridgetown-routes"
 ```
 
+{%@ Note do %}
+For more information on setup, read our documentation on [configuring Roda](/docs/configuration/initializers#adding-roda-blocks) and on [configuring Puma](/docs/configuration/puma).
+{% end %}
 
 ## Bridgetown SSR via Roda
 

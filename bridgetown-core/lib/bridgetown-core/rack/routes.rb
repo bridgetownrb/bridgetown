@@ -20,6 +20,37 @@ module Bridgetown
       }.freeze
 
       class << self
+        # rubocop:disable Bridgetown/NoPutsAllowed, Metrics/MethodLength
+        def print_routes
+          # TODO: this needs to be fully documented
+          routes = begin
+            JSON.parse(
+              File.read(
+                File.join(Bridgetown::Current.preloaded_configuration.root_dir, ".routes.json")
+              )
+            )
+          rescue StandardError
+            []
+          end
+          puts
+          puts "Routes:"
+          puts "======="
+          if routes.blank?
+            puts "No routes found. Have you commented all of your routes?"
+            puts "Documentation: https://github.com/jeremyevans/roda-route_list#basic-usage-"
+          end
+
+          routes.each do |route|
+            puts [
+              route["methods"]&.join("|") || "GET",
+              route["path"],
+              route["file"] ? "\n  File: #{route["file"]}" : nil,
+            ].compact.join(" ")
+          end
+          puts
+        end
+        # rubocop:enable Bridgetown/NoPutsAllowed, Metrics/MethodLength
+
         # @return [Hash<String, Class(Routes)>]
         attr_accessor :tracked_subclasses
 
@@ -80,7 +111,7 @@ module Bridgetown
         # Initialize a new Routes instance and execute the route as part of the
         # Roda app request cycle
         #
-        # @param roda_app [Bridgetown::Rack::Roda]
+        # @param roda_app [Roda]
         def merge(roda_app)
           return unless router_block
 
@@ -90,7 +121,7 @@ module Bridgetown
         # Start the Roda app request cycle. There are two different code paths
         # depending on if there's a site `base_path` configured
         #
-        # @param roda_app [Bridgetown::Rack::Roda]
+        # @param roda_app [Roda]
         # @return [void]
         def start!(roda_app)
           if Bridgetown::Current.preloaded_configuration.base_path == "/"
@@ -112,7 +143,7 @@ module Bridgetown
         # run through all the Routes blocks. If the file-based router plugin
         # is available, kick off that request process next.
         #
-        # @param roda_app [Bridgetown::Rack::Roda]
+        # @param roda_app [Roda]
         # @return [void]
         def load_all_routes(roda_app)
           roda_app.request.public
@@ -127,7 +158,7 @@ module Bridgetown
           end
         end
 
-        # @param app [Bridgetown::Rack::Roda]
+        # @param app [Roda]
         def setup_live_reload(app) # rubocop:disable Metrics/AbcSize
           sleep_interval = 0.2
           file_to_check = File.join(Bridgetown::Current.preloaded_configuration.destination,
@@ -157,7 +188,7 @@ module Bridgetown
         end
       end
 
-      # @param roda_app [Bridgetown::Rack::Roda]
+      # @param roda_app [Roda]
       def initialize(roda_app)
         @_roda_app = roda_app
       end

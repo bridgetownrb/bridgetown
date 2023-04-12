@@ -5,7 +5,7 @@ top_section: Designing Your Site
 order: 0
 ---
 
-By default, templates in Bridgetown websites are powered by the [Liquid template engine](/docs/templates/liquid). You can use Liquid in layouts and HTML pages as well as inside of content such as Markdown text.
+By default, templates in Bridgetown websites are powered by the [Liquid template engine](/docs/template-engines/liquid). You can use Liquid in layouts and HTML pages as well as inside of content such as Markdown text.
 
 A component is a reusable piece of template logic (sometimes referred to as a "partial") that can be included in any part of the site, and a full suite of components can comprise what is often called a "design system".
 

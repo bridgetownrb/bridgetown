@@ -8,6 +8,54 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 - Add new `notes` command to the CLI, mimicking its Rails counterpart
+- Upgrade to [Faraday v2](https://github.com/lostisland/faraday/blob/main/UPGRADING.md) [#721](https://github.com/bridgetownrb/bridgetown/pull/702) ([michaelherold](https://github.com/michaelherold))
+  - Removed dependency on `faraday_middleware`, which was deprecated, and not ported to Faraday v2.
+  - Added dependency on `faraday-follow_redirects` to replace functionality from ^ that was lost
+
+## [1.2.0] - 2022-01-25
+
+- Remove terminal-table dependency
+  **Possible breaking change** — if you rely on Liquid template profiling to debug your site, you'll need to add the `terminal-table` gem dependency yourself
+- Add method to reset config for test suites [#702](https://github.com/bridgetownrb/bridgetown/pull/702) ([jaredcwhite](https://github.com/jaredcwhite))
+- Fix: Set timezone from initializer Ruby DSL [#703](https://github.com/bridgetownrb/bridgetown/pull/703) ([ayushn21](https://github.com/ayushn21))
+- Fix a minor typo in the plugins command [#701](https://github.com/bridgetownrb/bridgetown/pull/701) ([ayushn21](https://github.com/ayushn21))
+- Fix: load `initializers.rb` instead of require for working tests [#700](https://github.com/bridgetownrb/bridgetown/pull/700) ([jaredcwhite](https://github.com/jaredcwhite))
+- Docs: Add details for importing Shoelace [#698](https://github.com/bridgetownrb/bridgetown/pull/698) ([ikass](https://github.com/ikass))
+
+## [1.2.0.beta5] - 2022-01-02
+
+- Add some DX improvements to StaticFile [#677](https://github.com/bridgetownrb/bridgetown/pull/677) ([jaredcwhite](https://github.com/jaredcwhite))
+- Restore localhost URL in development when using initializers config [#686](https://github.com/bridgetownrb/bridgetown/pull/686) ([jaredcwhite](https://github.com/jaredcwhite))
+- Note View Component oddities [#687](https://github.com/bridgetownrb/bridgetown/pull/687) ([joemasilotti](https://github.com/joemasilotti))
+- Fix: dynamic route sorting [#690](https://github.com/bridgetownrb/bridgetown/pull/690) ([jaredcwhite](https://github.com/jaredcwhite))
+- Fix: Enture `resource.data.locale` consistently return symbols [#682](https://github.com/bridgetownrb/bridgetown/pull/682) ([vvveebs](https://github.com/vvveebs))
+- Filter `Bridgetown::Localizable#all_locales` under the source's parent directory [#671](https://github.com/bridgetownrb/bridgetown/pull/671) ([vvveebs](https://github.com/vvveebs))
+- Website: Fix the readability of namespaces in dark mode [#674](https://github.com/bridgetownrb/bridgetown/pull/674) ([michaelherold](https://github.com/michaelherold))
+- Add support for alternative gemfile `gems.rb` to core [#658](https://github.com/bridgetownrb/bridgetown/pull/658) ([svoop](https://github.com/svoop))
+
+## [1.2.0.beta4] - 2022-12-07
+
+- Provide an option for the file watcher to watch additional paths [#668](https://github.com/bridgetownrb/bridgetown/pull/668) ([jaredcwhite](https://github.com/jaredcwhite))
+- Localize file-based dynamic routes [#654](https://github.com/bridgetownrb/bridgetown/pull/654) ([tommasongr](https://github.com/tommasongr))
+- Website: Dark mode [#620](https://github.com/bridgetownrb/bridgetown/pull/620) ([vvveebs](https://github.com/vvveebs))
+- Docs: Fix typo in collections.md [#664](https://github.com/bridgetownrb/bridgetown/pull/664) ([fbuys](https://github.com/fbuys))
+- Update GitHub Pages configuration to use new method of deploying websites. [#657](https://github.com/bridgetownrb/bridgetown/pull/657) ([tombruijn](https://github.com/tombruijn))
+- Bump up esbuild version in new template and on the BT site [#646](https://github.com/bridgetownrb/bridgetown/pull/646) ([jaredcwhite](https://github.com/jaredcwhite))
+- Fix: ensure Rake tasks can be run directly, and no crashes when Rake isn't available [#656](https://github.com/bridgetownrb/bridgetown/pull/656) ([jaredcwhite](https://github.com/jaredcwhite))
+- Parse using JSON.parse for more resilient parsing [#662](https://github.com/bridgetownrb/bridgetown/pull/662) ([rickychilcott](https://github.com/rickychilcott))
+- Resolve Rubocop offenses [#644](https://github.com/bridgetownrb/bridgetown/pull/644) ([vvveebs](https://github.com/vvveebs))
+- Docs: Fix link to Liquid Template Engine [#659](https://github.com/bridgetownrb/bridgetown/pull/659) ([KorbsStudio](https://github.com/KorbsStudio))
+- Specify locales in "multi locale" mode [#651](https://github.com/bridgetownrb/bridgetown/pull/651) ([rickychilcott](https://github.com/rickychilcott))
+- Change from master to main in additional places throughout the code [#648](https://github.com/bridgetownrb/bridgetown/pull/648) ([Dynnammo](https://github.com/Dynnammo))
+- Fix Lint/ConstantDefinitionInBlock and Style/StructInheritance [#640](https://github.com/bridgetownrb/bridgetown/pull/640) ([lxxxvi](https://github.com/lxxxvi))
+- Docs: Correct Typo in _docs/template-engines.md [#649](https://github.com/bridgetownrb/bridgetown/pull/649) ([jacobdaddario](https://github.com/jacobdaddario))
+- Fix: update broken initializers documentation link [#652](https://github.com/bridgetownrb/bridgetown/pull/652) ([andrewmcodes](https://github.com/andrewmcodes))
+- Extend url_for helper to accept other link types [#633](https://github.com/bridgetownrb/bridgetown/pull/633) ([alexanderadam](https://github.com/alexanderadam))
+- Extend link_to helper to accept blocks [#632](https://github.com/bridgetownrb/bridgetown/pull/632) ([alexanderadam](https://github.com/alexanderadam))
+- Docs: Fix typo in confirmation prompt [#645](https://github.com/bridgetownrb/bridgetown/pull/645) ([brandoncc](https://github.com/brandoncc))
+- Docs: typo: mergable => mergeable [#635](https://github.com/bridgetownrb/bridgetown/pull/635) ([alexanderadam](https://github.com/alexanderadam))
+- Docs: fix typo: delimeters => delimiters [#634](https://github.com/bridgetownrb/bridgetown/pull/634) ([alexanderadam](https://github.com/alexanderadam))
+- Add ability to specify locales in "multi locale" mode [#651](https://github.com/bridgetownrb/bridgetown/pull/651) ([rickychilcott](https://github.com/rickychilcott))
 
 ## [1.2.0.beta3] - 2022-10-09
 
@@ -657,7 +705,7 @@ Webpack rebuilds the bundles, Bridgetown regenerates the site.
 Going with a new `rendercontent` tag instead of `component`. It is based on
 Shopify's new Render tag which recently got introduced to Liquid. Note that the
 feature hasn't been officially released via the Liquid gem, so we need to use the
-master branch that's been forked on GitHub with a higher version number).
+main branch that's been forked on GitHub with a higher version number).
 
 [#5](https://github.com/bridgetownrb/bridgetown/pull/5)
 

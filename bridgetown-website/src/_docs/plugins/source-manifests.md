@@ -50,8 +50,8 @@ need to do is use the [plugins command](/docs/commands/plugins) to access a
 folder in the gem and copy a namespaced subfolder over to the site. For example:
 
 ```sh
-$ bridgetown plugins cd AwesomePlugin/Layouts
-$ cp -r awesome_plugin $BRIDGETOWN_SITE/src/_layouts
+bridgetown plugins cd AwesomePlugin/Layouts
+cp -r awesome_plugin $BRIDGETOWN_SITE/src/_layouts
 ```
 
 The `awesome_plugin` folder would get copied over to the site's `_layouts` source

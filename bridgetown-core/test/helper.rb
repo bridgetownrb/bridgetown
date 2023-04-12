@@ -94,10 +94,6 @@ module DirectoryHelpers
   def test_dir(*subdirs)
     root_dir("test", *subdirs)
   end
-
-  def temp_dir(*subdirs)
-    File.join("/tmp", *subdirs)
-  end
 end
 
 class BridgetownUnitTest < Minitest::Test
@@ -112,7 +108,7 @@ class BridgetownUnitTest < Minitest::Test
   end
 
   def mocks_expect(*args)
-    RSpec::Mocks::ExampleMethods::ExpectHost.instance_method(:expect) \
+    RSpec::Mocks::ExampleMethods::ExpectHost.instance_method(:expect)
       .bind_call(self, *args)
   end
 
@@ -123,6 +119,11 @@ class BridgetownUnitTest < Minitest::Test
 
   def after_teardown
     super
+    # Uncomment for debugging purposes:
+    # unless self.class.instance_variable_get(:@already_torn)
+    #   self.class.instance_variable_set(:@already_torn, true)
+    #   puts self.class
+    # end
     RSpec::Mocks.verify
   ensure
     RSpec::Mocks.teardown
@@ -152,7 +153,7 @@ class BridgetownUnitTest < Minitest::Test
   end
 
   def site_configuration(overrides = {})
-    Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
+    Bridgetown.reset_configuration!
 
     load_plugin_content(Bridgetown::Current.preloaded_configuration)
 
@@ -247,8 +248,6 @@ module TestWEBrick
       server.start
       addr = server.listeners[0].addr
       block.yield([server, addr[3], addr[1]])
-    rescue StandardError => e
-      raise e
     ensure
       server.shutdown
       sleep 0.1 until server.status == :Stop

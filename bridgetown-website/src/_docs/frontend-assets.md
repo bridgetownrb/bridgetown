@@ -68,7 +68,7 @@ The starting place for Sass code lives at `frontend/styles/index.scss`.
 Importing common CSS frameworks such as Bootstrap, Foundation, Bulma and so forth is often as easy as running:
 
 ```shell
-$ yarn add name-of-css-framework
+yarn add name-of-css-framework
 ```
 
 And then adding:
@@ -80,7 +80,7 @@ And then adding:
 to `index.scss`. For example, to add [Bulma](https://bulma.io) which is a modern CSS-only (no JavaScript) framework built around Flexbox, you'd simply run:
 
 ```shell
-$ yarn add bulma
+yarn add bulma
 ```
 
 and then add:
@@ -94,7 +94,7 @@ to `index.scss`.
 Or if you'd like to add [Bootstrap](https://getbootstrap.com):
 
 ```shell
-$ yarn add bootstrap
+yarn add bootstrap
 ```
 
 ```css

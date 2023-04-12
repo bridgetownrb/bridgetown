@@ -34,7 +34,7 @@ Bundled configurations can also be run while creating a new Bridgetown project u
 
   The insane amount of productivity this toolset will provide you is off the charts!
 
-  `$ bridgetown new born_to_be_wild -t serbea -c turbo,ruby2js,shoelace,lit,bt-postcss,render`
+  `bridgetown new born_to_be_wild -t serbea -c turbo,ruby2js,shoelace,lit,bt-postcss,render`
 
   Keep reading for documentation on all those options.
 {% end %}
@@ -88,6 +88,10 @@ Read our full [Lit Components documentation here](/docs/components/lit).
 ### Shoelace
 
 👟 Installs [Shoelace](https://shoelace.style) for an instant design system and UI component library at your fingertips. Use CSS variables and shadow parts to customize the look and feel of Shoelace components in any way you like. This very website uses Shoelace for example.
+
+Individual components can be imported by adding the `import` statement to the `./frontend/javascript/index.js` file. Refer to Shoelace documentation Importing section for each individual component, and copy the `import` statement under the Bundler tab.
+
+Read more at [Frontend Bundling (CSS/JS/etc.)](/docs/frontend-assets#javascript). 
 
 🛠 **Configure using:**
 

@@ -41,7 +41,7 @@ collections:
 
 Thus an event saved at `src/_events/2021-12-15-merry-christmas.md` would output to the URL `/events/2021/12/15/merry-christmas/`.
 
-You can control way a collection is sorted by specifying the [front matter](/docs/front-matter) key (default is either filename or date if present) as well as the direction as either ascending (default) or descending.
+You can control the way a collection is sorted by specifying the [front matter](/docs/front-matter) key (default is either filename or date if present) as well as the direction as either ascending (default) or descending.
 
 ```yaml
 collections:

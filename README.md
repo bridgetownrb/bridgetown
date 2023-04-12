@@ -14,7 +14,7 @@ Bridgetown is a next-generation, progressive site generator & fullstack framewor
 [![Gem Version](https://img.shields.io/gem/v/bridgetown.svg)](https://rubygems.org/gems/bridgetown)
 [![Licensed MIT](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](LICENSE)
 [![Join the Discord Chat](https://img.shields.io/discord/711236503493148733?color=forestgreen&logo=discord)](https://discord.gg/4E6hktQGz4)
-[![PRs welcome!](https://img.shields.io/badge/PRs-welcome-blue.svg)](https://github.com/bridgetownrb/bridgetown/blob/master/CONTRIBUTING.md)
+[![PRs welcome!](https://img.shields.io/badge/PRs-welcome-blue.svg)](https://github.com/bridgetownrb/bridgetown/blob/main/CONTRIBUTING.md)
 
 ----
 
@@ -63,10 +63,10 @@ Say howdy 👋 to our growing list of past & present sponsors of Bridgetown on G
 |<a href="https://github.com/renuo">@renuo</a>|<a href="https://github.com/maxveldink">@maxveldink</a>|<a href="https://github.com/fuzzygroup">@fuzzygroup</a>|<a href="https://github.com/monfresh">@monfresh</a>|<a href="https://github.com/posiczko">@posiczko</a>|
 |<a href="https://www.renuo.ch/">Website</a>|<a href="https://maxveld.ink">Website</a>|<a href="https://fuzzyblog.io/blog/">Website</a>|<a href="https://www.moncefbelyamani.com">Website</a>|<a href="https://tetrapyloctomy.org">Website</a>|
 
-|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|
-|You Next?|
-||
+|<img src="https://avatars.githubusercontent.com/skvk?s=256" alt="skvk" width="128" />|<img src="https://avatars.githubusercontent.com/Brem-LLC?s=256" alt="Brem-LLC" width="128" />|<img src="https://avatars.githubusercontent.com/ttilberg?s=256" alt="ttilberg" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/skvk">@skvk</a>|<a href="https://github.com/Brem-LLC">@Brem-LLC</a>|<a href="https://github.com/ttilberg">@ttilberg</a>|You Next?|
+||<a href="https://brem.io">Website</a>|<a href="http://www.timtilberg.com">Website</a>||
 
 ## Commercial Support
 
@@ -172,10 +172,15 @@ Bridgetown is built by:
 |<a href="https://github.com/nachoal">@nachoal</a>|<a href="https://github.com/deivid-rodriguez">@deivid-rodriguez</a>|<a href="https://github.com/Eric-Guo">@Eric-Guo</a>|<a href="https://github.com/jacobherrington">@jacobherrington</a>|<a href="https://github.com/fpsvogel">@fpsvogel</a>|
 |CDMX, México|Madrid, Spain|Shanghai, China|Fayetteville, AR|Lexington, KY|
 
-|<img src="https://avatars.githubusercontent.com/vvveebs?s=256" alt="vvveebs" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|
-|<a href="https://github.com/vvveebs">@vvveebs</a>|You Next?|
-|London, UK|Anywhere|
+|<img src="https://avatars.githubusercontent.com/vvveebs?s=256" alt="vvveebs" width="128" />|<img src="https://avatars.githubusercontent.com/rickychilcott?s=256" alt="rickychilcott" width="128" />|<img src="https://avatars.githubusercontent.com/tommasongr?s=256" alt="tommasongr" width="128" />|<img src="https://avatars.githubusercontent.com/tombruijn?s=256" alt="tombruijn" width="128" />|<img src="https://avatars.githubusercontent.com/svoop?s=256" alt="svoop" width="128" />|
+|:---:|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/vvveebs">@vvveebs</a>|<a href="https://github.com/rickychilcott">@rickychilcott</a>|<a href="https://github.com/tommasongr">@tommasongr</a>|<a href="https://github.com/tombruijn">@tombruijn</a>|<a href="https://github.com/svoop">@svoop</a>|
+|London, UK|Ohio, US|Amsterdam, The Netherlands|Milan, IT|Europe|
+
+|<img src="https://avatars.githubusercontent.com/michaelherold?s=256" alt="michaelherold" width="128" />|<img src="https://avatars.githubusercontent.com/joemasilotti?s=256" alt="joemasilotti" width="128" />|<img src="https://avatars.githubusercontent.com/ikass?s=256" alt="ikass" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/michaelherold">@michaelherold</a>|<a href="https://github.com/joemasilotti">@joemasilotti</a>|<a href="https://github.com/Ikass">@ikass</a>|You Next?|
+|Omaha, NE|Portland, OR|Latvia|Anywhere|
 
 Interested in joining the Bridgetown Core Team? Send a DM to Jared in [Discord](https://discord.gg/4E6hktQGz4) and let's chat!
 

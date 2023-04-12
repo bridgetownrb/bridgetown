@@ -108,6 +108,8 @@ module Bridgetown
             end
           end
         end
+      rescue LoadError
+        nil
       end
     end
   end

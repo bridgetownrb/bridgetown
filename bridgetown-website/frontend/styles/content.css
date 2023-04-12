@@ -134,11 +134,12 @@ article-author {
 
     & [slot="header"] h3 {
       margin: 0;
+      color: var(--color-dark-brick);
     }
 
     & [slot="footer"] {
-      display: flex; 
-      justify-content: space-between; 
+      display: flex;
+      justify-content: space-between;
       align-items: center;
 
       & :only-child {

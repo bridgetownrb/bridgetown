@@ -43,6 +43,7 @@ module Bridgetown
       "autoload_paths"             => [],
       "eager_load_paths"           => [],
       "autoloader_collapsed_paths" => [],
+      "additional_watch_paths"     => [],
       "plugins_use_zeitwerk"       => true,
 
       # Handling Reading
@@ -129,11 +130,11 @@ module Bridgetown
       end
     end
 
-    def run_initializers!(context:)
+    def run_initializers!(context:) # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity
       initializers_file = File.join(root_dir, "config", "initializers.rb")
       return unless File.file?(initializers_file)
 
-      require initializers_file
+      load initializers_file
 
       return unless initializers # no initializers have been set up
 
@@ -143,9 +144,11 @@ module Bridgetown
       Bridgetown.logger.debug "Initializing:", "Running initializers with `#{context}' context in:"
       Bridgetown.logger.debug "", initializers_file
       self.init_params = {}
+      cached_url = url&.include?("//localhost") ? url : nil
       dsl = ConfigurationDSL.new(scope: self, data: self)
       dsl.instance_variable_set(:@context, context)
       dsl.instance_exec(dsl, &init_init.block)
+      self.url = cached_url if cached_url # restore local development URL if need be
 
       setup_load_paths! appending: true
 
@@ -307,7 +310,8 @@ module Bridgetown
       next_config
     rescue SystemCallError
       if @default_config_file ||= nil
-        Bridgetown.logger.warn "Configuration file:", "none"
+        initializers_file = File.join(root_dir, "config", "initializers.rb")
+        Bridgetown.logger.warn "Configuration file:", "none" unless File.file?(initializers_file)
         {}
       else
         Bridgetown.logger.error "Fatal:", "The configuration file '#{file}' could not be found."
@@ -353,6 +357,10 @@ module Bridgetown
         File.expand_path(collapsed_path, root_dir)
       end
 
+      additional_watch_paths.map! do |collapsed_path|
+        File.expand_path(collapsed_path, root_dir)
+      end
+
       self
     end
 
@@ -395,7 +403,7 @@ module Bridgetown
 
     DEFAULT_EXCLUDES = %w(
       .sass-cache .bridgetown-cache
-      gemfiles Gemfile Gemfile.lock
+      gemfiles Gemfile Gemfile.lock gems.rb gems.locked
       node_modules
       vendor/bundle/ vendor/cache/ vendor/gems/ vendor/ruby/
     ).freeze

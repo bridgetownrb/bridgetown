@@ -10,7 +10,7 @@ transfer the contents of this directory to almost any hosting provider to make
 your site go live.
 
 Bridgetown's included site template automatically provides a Rake task you can run to
-build both your Webpack bundle and your website. Simply run
+build both your frontend bundle and your static website. Simply run
 
 ```shell
 bin/bridgetown deploy
@@ -93,7 +93,7 @@ A `Dockerfile` like this could be used, for example, to [deploy a static website
 which we suppose is at https://gitlab.com/bridgetownrb/mysite
 Add the following .gitlab-ci.yml file to your project, which we shall suppose is called `mysite` following the documentation setup [instructions](/docs/). The .gitlab-ci.yml file should be in the mysite directory created using `bridgetown new mysite` and should contain
 
-```
+```yaml
 image: ruby:2.6
 
 cache:
@@ -118,7 +118,7 @@ test:
   - bin/bridgetown build --base_path mysite --url https://bridgetownrb.gitlab.io
   - bin/bridgetown clean
   except:
-    - master
+    - main
 
 pages:
   script:
@@ -141,17 +141,17 @@ pages:
     paths:
     - public
   only:
-  - master
+  - main
 
 ```
 Once this file has been created, add it and the other files and folders to the repository, and then push them to GitLab:
 
-```
+```sh
 git add .gitlab-ci.yml
 git remote add origin https://gitlab.com/bridgetownrb/mysite
 git add .
 git commit -am "initial commit"
-git push -u origin master
+git push -u origin main
 ```
 
 After the build the site should be live at https://bridgetownrb.gitlab.io/mysite
@@ -166,7 +166,7 @@ Bridgetown includes a [bundled configuration to set up GitHub pages](/docs/bundl
 bin/bridgetown configure gh-pages
 ```
 
-The default deployment branch will be `gh-pages`, so you'll need to make sure your repo's GitHub Pages Settings at `https://github.com/<your-account>/<your-site>/settings/pages` have Source set to the `gh-pages` branch. You'll also likely need to set a [`base_path`](/docs/configuration/options#build-command-options) in your Bridgetown configuration unless you're setting up a custom domain.
+Make sure to update your repo's GitHub Pages Settings at `https://github.com/<your-account>/<your-site>/settings/pages` to have the pages Source set to GitHub Actions. You'll also likely need to set a [`base_path`](/docs/configuration/options#build-command-options) in your Bridgetown configuration unless you're setting up a custom domain.
 
 ### Dokku
 
@@ -181,7 +181,7 @@ and created an app we'll conveniently call `bridgetown`.
 First, add the following environment variables to your app on the server:
 
 ```shell
-$ dokku config:set bridgetown BRIDGETOWN_ENV=production NGINX_ROOT=output
+dokku config:set bridgetown BRIDGETOWN_ENV=production NGINX_ROOT=output
 ```
 
 Next, create a file called `.buildpacks` at the root of your local project with
@@ -198,7 +198,7 @@ tell dokku to run the app as a static website using Nginx.
 
 Finally, add the following line to the `scripts` section in your package.json:
 
-```js
+```json
 {
   // ...
   "scripts": {
@@ -215,15 +215,15 @@ time during the deployment process, so there is nothing left to do. You can now
 safely deploy your application:
 
 ```shell
-$ git push dokku
+git push dokku
 ```
 
 ... and watch your site being built on the server.
 
-### nginx
+### NGINX
 
 
-Just upload the `output` folder to somewhere accessible by nginx and configure your server. Below is an example of `conf` file:
+Just upload the `output` folder to somewhere accessible by NGINX and configure your server. Below is an example of `conf` file:
 
 ```nginx
 server {

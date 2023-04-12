@@ -80,6 +80,8 @@ module Bridgetown
         after_install new_site_path, args.join(" "), options
       rescue ArgumentError => e
         say_status :alert, e.message, :red
+      ensure
+        self.class.created_site_dir = nil # reset afterwards, otherwise hanging tmp dirs in test
       end
 
       protected

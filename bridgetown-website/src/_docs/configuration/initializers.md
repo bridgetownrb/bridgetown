@@ -141,7 +141,7 @@ Initializing: The `insert_gem_name_here' initializer could not be found
 
 No worries! _You can write your own initializer._ 😎
 
-As in the example at the top of the page, you can place an initializer right alongside the configure block in `config/initializers.rb`. You can also place a file named the same as the initializer directly in `config`. In the use case of using the Stripe gem, you could add to `config/stripe.rb`:
+As in the example at the top of the page, you can place an initializer right alongside the configure block in `config/initializers.rb`. You can also place a file named the same as the gem or plugin directly in `config`. In the use case of using the Stripe gem, you could add to `config/stripe.rb`:
 
 ```rb
 Bridgetown.initializer :stripe do |api_key:|
@@ -218,6 +218,24 @@ While it's not strictly required that you place a Roda block inside of an `only 
 {%@ Note do %}
   As mentioned above, you can still add and configure plugins directly in your Roda class file (`server/roda_app.rb`) just like any standard Roda application, but using a Roda configuration block alongside your other initialization steps is a handy way to keep everything consolidated. Bear in mind that the Roda blocks are all executed prior to anything defined within the class-level code of `server/roda_app.rb`, so if you write any code in a Roda block that relies on state having already been defined in the app class directly, it will fail. Best to keep Roda block code self-contained, or reliant only on other settings in the Bridgetown initializers file.
 {% end %}
+
+## Low-level Boot Customization
+
+If you need to run Ruby code at the earliest possible moment, essentially right when the `bridgetown` executable has finished its startup process, you can add a `config/boot.rb` file to your repo. This is particularly useful if you wish to extend `bridgetown` with new commands.
+
+```ruby
+# Normally the following is run automatically, so by adding config/boot.rb, you should include
+# this Bundler setup:
+Bundler.setup(:default, Bridgetown.env)
+
+# Now you can require a gem which adds a command to `bridgetown` via Thor:
+require "some_gem_here"
+
+# Or require your own Ruby file:
+require_relative "../ruby_code_file.rb"
+```
+
+[Read more about defining Thor-based commands here.](/docs/plugins/commands)
 
 ## Built-in Initializers
 

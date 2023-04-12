@@ -31,7 +31,7 @@ create_builder "purgecss.rb" do
             manifest = JSON.parse(File.read(manifest_file))
 
             if Bridgetown::Utils.frontend_bundler_type == :esbuild
-              css_file = manifest["styles/index.css"].split("/").last
+              css_file = (manifest["styles/index.css"] || manifest["styles/index.scss"]).split("/").last
               css_path = ["output", "_bridgetown", "static", css_file].join("/")
             else
               css_file = manifest["main.css"].split("/").last

@@ -42,6 +42,7 @@ module Bridgetown
         # Load Bridgetown configuration into thread memory
         bt_options = configuration_with_overrides(options)
 
+        # Set a local site URL in the config if one is not available
         if Bridgetown.env.development? && !options["url"]
           scheme = bt_options.bind&.split("://")&.first == "ssl" ? "https" : "http"
           port = bt_options.bind&.split(":")&.last || ENV["BRIDGETOWN_PORT"] || 4000

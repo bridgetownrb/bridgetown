@@ -87,10 +87,10 @@ end
 
 And then reference that data in any template:
 
-```Liquid
+```liquid
 {% raw %}{{ site.data.new_data.new }}{% endraw %}
 
-  output: New stuff
+   output: New stuff
 ```
 
 ### Gem-based Plugins
@@ -108,13 +108,29 @@ module MyNiftyPlugin
   end
 end
 
-# my_nifty_plugin.rb
-Bridgetown.initializer :my_nifty_plugin do |config|
+# lib/my_nifty_plugin.rb
+Bridgetown.initializer :my_nifty_plugin do |config, api_key: ''|
   config.my_nifty_plugin ||= {}
   config.my_nifty_plugin.this_goes_to_11 ||= 11
+  config.my_nifty_plugin.api_key = api_key 
 
-  builder MyNiftyPlugin::Builder
+  config.builder MyNiftyPlugin::Builder
 end
+```
+
+Accepting keyword arguments is optional. The above example shows how you can use a keyword parameter to allow users to pass information from their `initializers.rb` file into your plugin. This example allows users to provide a `api_key` parameter from their `initializer.rb` file, and for this example it defaults to an empty string.
+
+Below shows how a user could set the `api_key` parameter from within their `initializers.rb`.
+[Refer to the initializers documentation for more about initializers.](/docs/configuration/initializers).
+
+```ruby
+# config/initializers.rb
+Bridgetown.configure do |config|
+  init :my_nifty_plugin do
+    api_key "some-api-key"
+  end
+end
+
 ```
 
 [Read further instructions below on how to create and publish a gem.](#creating-a-gem)
@@ -271,7 +287,11 @@ Bridgetown websites. You'll want to make sure you update the `gemspec`,
 plugin to ensure all the necessary metadata and user documentation is present
 and accounted for.
 
-Starting with v1.2, Bridgetown plugins will typically provide an [initializer](/docs/configuration/initializers) so that they can be easily required and configured via the user's configuration block within `config/initializers.rb`. It's a good practice to ensure at least simple configuration options can alternatively be provided using YAML in `bridgetown.config.yml`.
+{%@ Note do %}
+  Starting with Bridgetown 1.2, it's a preferred convention to use underscores for your plugin name, aka `my_plugin` rather than `my-plugin`. Many existing plugins start with a `bridgetown` prefix (such as `bridgetown-seo-tag`), but going forward we recommend that if you choose that prefix you still use underscores (aka `bridgetown_plugin_name_here`). While arguably that doesn't fit neatly with standard gem naming conventions, it solves a number of DX headaches. Which is a good thing!
+{% end %}
+
+Bridgetown plugins should provide an [initializer](/docs/configuration/initializers) so that they can be easily required and configured via the user's configuration block within `config/initializers.rb`. It's a good practice to ensure at least simple configuration options can alternatively be provided using YAML in `bridgetown.config.yml`.
 
 Make sure you [follow these instructions](/docs/plugins/gems-and-frontend/) to integrate your plugin's frontend code with the users' esbuild or Webpack setup. Also read up on [Source Manifests](/docs/plugins/source-manifests/) if you have layouts, components, resources, static files, and other content you would like your plugin to provide.
 
@@ -298,7 +318,7 @@ As always, if you have any questions or need support in creating your plugin,
   As you author your plugin, you'll need a way to _use_ the gem within a live Bridgetown site. The easiest way to do that is to use a relative local path in the test site's `Gemfile`.
 
   ```ruby
-  gem "my-plugin", :path => "../my-plugin"
+  gem "my_plugin", :path => "../my_plugin"
   ```
 
   You would do something similar in your test site's `package.json` as well (be sure to run [yarn link](https://classic.yarnpkg.com/en/docs/cli/link) so Yarn knows not to install your local path into `node_modules`):
@@ -306,7 +326,7 @@ As always, if you have any questions or need support in creating your plugin,
   ```json
   "dependencies": {
     "random-js-package": "2.4.6",
-    "my-plugin": "../my-plugin"
+    "my_plugin": "../my_plugin"
   }
   ```
 

@@ -11,6 +11,10 @@ Commands are built using the [Thor](https://github.com/erikhuda/thor) CLI
 toolkit, which powers many popular Ruby libraries and frameworks including
 Rails, Bundler, and Middleman.
 
+{%@ Note type: :warning do %}
+  In Bridgetown 1.2, plugin gems which provide new commands won't work unless they're required within a boot file (aka `config/boot.rb`). This is likely to change in a future version of Bridgetown. In the meantime, you'll want to clarify that fact in your plugin gem's README. [More information is available here.](/docs/configuration/initializers#low-level-boot-customization)
+{% end %}
+
 Simply subclass `Thor` in your plugin and use a registration block to notify
 Bridgetown how to include your command. Commands are written in a `command [subcommand]`
 format, so if your base command is `river`, your logic will be contained

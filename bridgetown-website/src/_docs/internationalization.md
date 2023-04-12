@@ -5,10 +5,6 @@ top_section: Configuration
 category: i18n
 ---
 
-{%@ Note type: "warning" do %}
-During the Bridgetown 1.1 beta cycle, this documentation is still under construction…
-{% end %}
-
 Internationalization, or i18n as it's commonly known, is the process of defining content and templates for your site in such a way as to support multiple languages or locales. Whether that's French vs. Chinese, or American English vs. British English, it gives you the ability reach more diverse audiences and constituencies.
 
 Starting in Bridgetown 1.1, you can configure multiple locales for your website and set which particular locale should be considered "the default". There are a couple of different routing options available:
@@ -110,7 +106,23 @@ Create a separate resource file for each locale. You can either use the `locale`
 
 ### Multi-Locale Files
 
-Use a single resource file in "multi locale" mode and use special front mater and template syntax to include translated content. You can switch to this mode by setting `locale: multi` in your front matter or using the `.multi` extension within your file name. For example: `about.multi.md`. Then you use the `locale_overrides` front matter key to include keys which will overwrite the default keys for all locales other than the default. Here's an example:
+If the same resource should be available to multiple locales, use a single resource file in "multi locale" mode and use special front matter and template syntax to include translated content. You can switch to this mode by setting `locale: multi` in your front matter or using the `.multi` extension within your file name. For example: `about.multi.md`. This will generate resources in all of your `site.config.available_locales`.
+
+If you want to only output a limited set of locales, then use the `locales` front matter key to include only the locales that should be written.
+
+
+```yaml
+---
+title: My Title
+locale: multi
+locales:
+  - en
+  - es
+  - de
+---
+```
+
+If you want to override front matter values per-locale, then you use the `locale_overrides` front matter key to include keys which will overwrite the default keys for all locales other than the default. Here's an example:
 
 ```yaml
 ---
