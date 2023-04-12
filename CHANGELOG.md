@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- Upgrade to [Faraday v2](https://github.com/lostisland/faraday/blob/main/UPGRADING.md) [#721](https://github.com/bridgetownrb/bridgetown/pull/702) ([michaelherold](https://github.com/michaelherold))
+  - Removed dependency on `faraday_middleware`, which was deprecated, and not ported to Faraday v2.
+  - Added dependency on `faraday-follow_redirects` to replace functionality from ^ that was lost
+
 ## [1.2.0] - 2022-01-25
 
 - Remove terminal-table dependency
