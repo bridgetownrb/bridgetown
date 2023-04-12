@@ -94,10 +94,6 @@ module DirectoryHelpers
   def test_dir(*subdirs)
     root_dir("test", *subdirs)
   end
-
-  def temp_dir(*subdirs)
-    File.join("/tmp", *subdirs)
-  end
 end
 
 class BridgetownUnitTest < Minitest::Test
@@ -123,6 +119,11 @@ class BridgetownUnitTest < Minitest::Test
 
   def after_teardown
     super
+    # Uncomment for debugging purposes:
+    # unless self.class.instance_variable_get(:@already_torn)
+    #   self.class.instance_variable_set(:@already_torn, true)
+    #   puts self.class
+    # end
     RSpec::Mocks.verify
   ensure
     RSpec::Mocks.teardown
