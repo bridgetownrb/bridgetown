@@ -12,9 +12,6 @@ Bridgetown/NoPutsAllowed:
   Exclude:
     - rake/*.rake
 
-AllCops:
-  TargetRubyVersion: 2.7
-
 Lint/NestedPercentLiteral:
   Exclude:
     - bridgetown-core/test/test_site.rb
