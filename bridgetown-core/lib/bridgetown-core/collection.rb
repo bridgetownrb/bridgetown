@@ -282,7 +282,7 @@ module Bridgetown
       if model_is_multi_locale?(model, model_relative_path)
         # If the model specifies a locales key, use that to determine the
         # the locale of each resource, otherwise fall back to `site.config.available_locales`
-        locales = model.locales || site.config.available_locales
+        locales = model.attributes[:locales] || site.config.available_locales
 
         locales.each do |locale|
           model.locale = locale.to_sym
