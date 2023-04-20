@@ -121,4 +121,46 @@ class TestInspectors < BridgetownUnitTest
       assert_includes resource.output, "<title>ATOM-POWERED ROBOTS RUN AMOK</title>"
     end
   end
+
+  context "a resource to transform using Nokolexbor" do
+    setup do
+      @site = Site.new(site_configuration({ "html_inspector_parser" => "nokolexbor" }))
+      @_test_functions = []
+
+      inspect_html do |document|
+        document.query_selector_all("h1").each do |heading|
+          heading.content = heading.content.sub("World", "Universe")
+          heading.add_class "universal"
+        end
+      end
+
+      inspect_xml "atom" do |document, resource|
+        title = document.query_selector("entry > title")
+        title.content = title.content.upcase
+
+        assert_equal ".atom", resource.extname
+      end
+    end
+
+    teardown do
+      @_html_inspectors = nil
+      @_xml_inspectors = nil
+    end
+
+    should "allow manipulation via Nokolexbor" do
+      add_resource :posts, "html-inspectors.md" do
+        title "I'm a Markdown post!"
+        content <<~MARKDOWN
+          # Hello World!
+        MARKDOWN
+      end
+
+      resource = @site.collections.posts.resources.first
+      assert_equal 1, @site.collections.posts.resources.length
+      assert_equal "# Hello World!", resource.content.strip
+      resource.transform!
+      assert_equal %(<html><head></head><body><h1 id="hello-world" class="universal">Hello Universe!</h1>\n</body></html>),
+                   resource.output.strip
+    end
+  end
 end
