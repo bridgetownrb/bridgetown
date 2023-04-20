@@ -54,7 +54,7 @@ register_icon_library('remixicon',
   resolver: -> name do
     match = name.match(/^(.*?)\/(.*?)(-(fill))?$/)
     match[1] = match[1].char_at(0).upcase() + match[1].slice(1)
-    "https://cdn.jsdelivr.net/npm/remixicon@2.5.0/icons/#{match[1]}/#{match[2]}#{match[3] || '-line'}.svg";
+    "https://cdn.jsdelivr.net/npm/remixicon@3.2.0/icons/#{match[1]}/#{match[2]}#{match[3] || '-line'}.svg";
   end,
   mutator: -> svg { svg.set_attribute('fill', 'currentColor') }
 )

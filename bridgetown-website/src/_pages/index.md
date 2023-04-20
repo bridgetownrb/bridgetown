@@ -46,7 +46,7 @@ Looking for [0.2x documentation](https://bridgetown-v0.onrender.com/)?
   <section markdown="1">
 
 <p class="heading-icon">
-  <sl-icon library="remixicon" name="logos/twitter-fill"></sl-icon>
+  <sl-icon library="remixicon" name="business/megaphone-fill"></sl-icon>
 </p>
 
 ## Listen to what they're saying about Bridgetown:
