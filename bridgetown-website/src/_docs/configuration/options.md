@@ -329,83 +329,6 @@ class="flag">flags</code> (specified on the command-line) that control them.
   </tbody>
 </table>
 
-### Webrick Options
-
-{%@ Note type: :warning do %}
-The Webrick server is deprecated and will be removed in a future version of Bridgetown.
-{% end %}
-
-In addition to the options below, the `serve` sub-command can accept any of the options
-for the `build` sub-command, which are then applied to the site build which occurs right
-before your site is served.
-
-<table class="settings">
-  <thead>
-    <tr>
-      <th>Setting</th>
-      <th class="has-text-centered"><ui-label class="option">Options</ui-label> and <ui-label class="flag">Flags</ui-label></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="setting">
-      <td>
-        <p class="name"><strong>Local Server Port</strong></p>
-        <p class="description">Listen on the given port.</p>
-      </td>
-      <td class="has-text-centered">
-        <p><code class="option">port: PORT</code></p>
-        <p><code class="flag">--port PORT</code></p>
-      </td>
-    </tr>
-    <tr class="setting">
-      <td>
-        <p class="name"><strong>Local Server Hostname</strong></p>
-        <p class="description">Listen at the given hostname.</p>
-      </td>
-      <td class="has-text-centered">
-        <p><code class="option">host: HOSTNAME</code></p>
-        <p><code class="flag">--host HOSTNAME</code></p>
-      </td>
-    </tr>
-    <tr class="setting">
-      <td>
-        <p class="name"><strong>Detach</strong></p>
-        <p class="description">Detach the server from the terminal.</p>
-      </td>
-      <td class="has-text-centered">
-        <p><code class="flag">-B, --detach</code></p>
-      </td>
-    </tr>
-    <tr class="setting">
-      <td>
-        <p class="name"><strong>Skips the initial site build</strong></p>
-        <p class="description">Skips the initial site build which occurs before the server is started.</p>
-      </td>
-      <td class="has-text-centered">
-        <p><code class="flag">--skip-initial-build</code></p>
-      </td>
-    </tr>
-    <tr class="setting">
-      <td>
-        <p class="name"><strong>X.509 (SSL) Private Key</strong></p>
-        <p class="description">SSL Private Key, stored or symlinked in the site source.</p>
-      </td>
-      <td class="has-text-centered">
-        <p><code class="flag">--ssl-key</code></p>
-      </td>
-    </tr>
-    <tr class="setting">
-      <td>
-        <p class="name"><strong>X.509 (SSL) Certificate</strong></p>
-        <p class="description">SSL Public certificate, stored or symlinked in the site source.</p>
-      </td>
-      <td class="has-text-centered">
-        <p><code class="flag">--ssl-cert</code></p>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
 {%@ Note type: :warning do %}
   #### Do not use tabs in configuration files
 
@@ -446,13 +369,6 @@ unpublished         : false
 # Conversion
 markdown            : kramdown
 highlighter         : rouge
-
-# Serving
-detach              : false
-port                : 4000
-host                : 127.0.0.1
-base_path           : "/"
-show_dir_listing    : false
 
 # System
 timezone            : null # e.g. America/Los_Angeles

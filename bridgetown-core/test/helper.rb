@@ -33,8 +33,6 @@ require "shoulda"
 
 include Bridgetown
 
-require "bridgetown-core/commands/serve/servlet"
-
 # Report with color. ::DefaultReporter
 # Switch to Minitest::Reporters::SpecReporter if you want detailed
 # test output!
@@ -232,50 +230,5 @@ module Bridgetown
         end
       end
     end
-  end
-end
-
-module TestWEBrick
-  module_function
-
-  def mount_server(&block)
-    server = WEBrick::HTTPServer.new(config)
-
-    begin
-      server.mount("/", Bridgetown::Commands::Serve::Servlet, document_root,
-                   document_root_options)
-
-      server.start
-      addr = server.listeners[0].addr
-      block.yield([server, addr[3], addr[1]])
-    ensure
-      server.shutdown
-      sleep 0.1 until server.status == :Stop
-    end
-  end
-
-  def config
-    logger = FakeLogger.new
-    {
-      BindAddress: "127.0.0.1", Port: 0,
-      ShutdownSocketWithoutClose: true,
-      ServerType: Thread,
-      Logger: WEBrick::Log.new(logger),
-      AccessLog: [[logger, ""]],
-      BridgetownOptions: {},
-    }
-  end
-
-  def document_root
-    "#{File.dirname(__FILE__)}/fixtures/webrick"
-  end
-
-  def document_root_options
-    WEBrick::Config::FileHandler.merge(
-      FancyIndexing: true,
-      NondisclosureName: [
-        ".ht*", "~*",
-      ]
-    )
   end
 end
