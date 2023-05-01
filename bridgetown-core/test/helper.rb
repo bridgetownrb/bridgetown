@@ -17,6 +17,7 @@ elsif !ENV["SKIP_COV"]
 end
 
 require "nokogiri"
+require "nokolexbor"
 require "rubygems"
 require "ostruct"
 require "minitest/autorun"

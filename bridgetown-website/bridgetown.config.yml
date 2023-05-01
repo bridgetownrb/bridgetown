@@ -13,6 +13,8 @@ collections:
 pagination:
   enabled: true
 
+html_inspector_parser: nokolexbor
+
 # Environment-specific settings
 development:
   unpublished: true

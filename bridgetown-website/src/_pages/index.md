@@ -6,7 +6,7 @@ page_class: homepage
 
 <main-content>
   <section-wrapper size="large" class="fade-in-animation" invert style="margin-top:-0.5rem">
-  <svg-wrapper class="main-wave">{{ svg "/images/waves/wave_1.svg" }}</svg-wrapper>
+  <svg-wrapper class="main-wave" style="box-shadow: inset 0px -1px 0px #131e1b">{{ svg "/images/waves/wave_1.svg" }}</svg-wrapper>
   <section style="padding-top:2rem; padding-bottom:2rem" markdown="1">
 
 
@@ -46,7 +46,7 @@ Looking for [0.2x documentation](https://bridgetown-v0.onrender.com/)?
   <section markdown="1">
 
 <p class="heading-icon">
-  <sl-icon library="remixicon" name="logos/twitter-fill"></sl-icon>
+  <sl-icon library="remixicon" name="business/megaphone-fill"></sl-icon>
 </p>
 
 ## Listen to what they're saying about Bridgetown:

@@ -28,7 +28,11 @@ module Bridgetown
           #
           # @return [String] transformed HTML
           def self.call(resource, inspectors)
-            doc = Nokogiri.HTML5(resource.output)
+            doc = if resource.site.config.html_inspector_parser == "nokolexbor"
+                    Nokolexbor::HTML(resource.output)
+                  else
+                    Nokogiri.HTML5(resource.output)
+                  end
 
             inspectors.each do |block|
               block.call(doc, resource)
@@ -73,9 +77,16 @@ module Bridgetown
               Bridgetown::Utils::RequireGems.require_with_graceful_fail "nokogiri"
             end
 
-            return if Nokogiri::XML::Node <= QuerySelection
+            Nokogiri::XML::Node.include QuerySelection unless Nokogiri::XML::Node <= QuerySelection
+          end
 
-            Nokogiri::XML::Node.include QuerySelection
+          # Require the Nokolexbor gem if necessary and add the `QuerySelection` mixin
+          def setup_nokolexbor
+            unless defined?(Nokolexbor)
+              Bridgetown::Utils::RequireGems.require_with_graceful_fail "nokolexbor"
+            end
+
+            Nokolexbor::Node.include QuerySelection unless Nokolexbor::Node <= QuerySelection
           end
 
           # Shorthand for `HTML.call`
@@ -91,12 +102,17 @@ module Bridgetown
 
         # Set up an inspector to review or manipulate HTML resources
         # @yield the block to be called after the resource has been rendered
-        # @yieldparam [Nokogiri::HTML5::Document] the Nokogiri document
+        # @yieldparam [Nokogiri::HTML5::Document, Nokolexbor::Document]
+        #   the Nokogiri or Nokolexbor document
         def inspect_html(&block)
           unless @_html_inspectors
             @_html_inspectors = []
 
-            Inspectors.setup_nokogiri
+            if site.config.html_inspector_parser == "nokolexbor"
+              Inspectors.setup_nokolexbor
+            else
+              Inspectors.setup_nokogiri
+            end
 
             hook :resources, :post_render do |resource|
               next unless HTML.can_run?(resource, @_html_inspectors)

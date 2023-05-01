@@ -12,7 +12,7 @@
       ) do |faraday|
         if ENV["BRIDGETOWN_GITHUB_TOKEN"]
           username, token = ENV["BRIDGETOWN_GITHUB_TOKEN"].split(":")
-          faraday.request(:basic_auth, username, token)
+          faraday.request :authorization, :basic, username, token
         end
       end
       items = JSON.parse(conn.get.body)["items"].sort_by {|item| item["name"]}
