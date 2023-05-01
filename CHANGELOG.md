@@ -7,9 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-- Upgrade to [Faraday v2](https://github.com/lostisland/faraday/blob/main/UPGRADING.md) [#721](https://github.com/bridgetownrb/bridgetown/pull/702) ([michaelherold](https://github.com/michaelherold))
+## [1.3.0.beta1] - 2023-05-01
+
+- Add support for Nokolexbor & Puma 6.x [#752](https://github.com/bridgetownrb/bridgetown/pull/752) ([jaredcwhite](https://github.com/jaredcwhite))
+- Display build error on the page in a dialog in dev [#747](https://github.com/bridgetownrb/bridgetown/pull/747) ([jaredcwhite](https://github.com/jaredcwhite))
+- Remove deprecated serve command and WEBrick [#750](https://github.com/bridgetownrb/bridgetown/pull/750) ([jaredcwhite](https://github.com/jaredcwhite))
+- Fix locales warning bug [#748](https://github.com/bridgetownrb/bridgetown/pull/748) ([sandstrom](https://github.com/sandstrom))
+- Fix hanging tmp dir when running test suite ([jaredcwhite](https://github.com/jaredcwhite))
+- Relocate all Bridgetown Roda logic to new bridgetown_server plugin [#737](https://github.com/bridgetownrb/bridgetown/pull/737) ([jaredcwhite](https://github.com/jaredcwhite))
+- Fix passing headers and add passing parameters to HTTP DSL [#722](https://github.com/bridgetownrb/bridgetown/pull/722) ([michaelherold](https://github.com/michaelherold))
+- Fix: ensure hooks defined in initializers config are marked `reloadable: false` ([jaredcwhite](https://github.com/jaredcwhite))
+- Fix purgecss plugin crashing when using scss [#733](https://github.com/bridgetownrb/bridgetown/pull/733) ([goulvench](https://github.com/goulvench))
+- Upgrade to [Faraday v2](https://github.com/lostisland/faraday/blob/main/UPGRADING.md) [#721](https://github.com/bridgetownrb/bridgetown/pull/721) ([michaelherold](https://github.com/michaelherold)) & [#713](https://github.com/bridgetownrb/bridgetown/pull/713) ([alison-acuna](https://github.com/alison-acuna))
   - Removed dependency on `faraday_middleware`, which was deprecated, and not ported to Faraday v2.
   - Added dependency on `faraday-follow_redirects` to replace functionality from ^ that was lost
+- Thanks to @dcr8898, @fbuys, @beeburrt, @neilvanbeinum, and @pboling for documentation improvements
 
 ## [1.2.0] - 2022-01-25
 

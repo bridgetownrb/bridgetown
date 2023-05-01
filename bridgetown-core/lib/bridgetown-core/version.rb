@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  VERSION = "1.2.0"
-  CODE_NAME = "Bonny Slope"
+  VERSION = "1.3.0.beta1"
+  CODE_NAME = "Kelly Butte"
 end
