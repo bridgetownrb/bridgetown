@@ -377,6 +377,18 @@ module Bridgetown
         File.join(base_directory, clean_path)
       end
     end
+
+    # When there's a build error, error details will be logged to a file which the dev server
+    #   can read and pass along to the browser.
+    #
+    # @return [String] the path to the cached errors file
+    def build_errors_path
+      File.join(
+        (Bridgetown::Current.site&.config || Bridgetown::Current.preloaded_configuration).root_dir,
+        ".bridgetown-cache",
+        "build_errors.txt"
+      )
+    end
   end
 end
 

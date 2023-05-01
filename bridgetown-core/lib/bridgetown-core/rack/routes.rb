@@ -159,10 +159,11 @@ module Bridgetown
         end
 
         # @param app [Roda]
-        def setup_live_reload(app) # rubocop:disable Metrics/AbcSize
+        def setup_live_reload(app) # rubocop:disable Metrics
           sleep_interval = 0.2
           file_to_check = File.join(Bridgetown::Current.preloaded_configuration.destination,
                                     "index.html")
+          errors_file = Bridgetown.build_errors_path
 
           app.request.get "_bridgetown/live_reload" do
             app.response["Content-Type"] = "text/event-stream"
@@ -177,6 +178,8 @@ module Bridgetown
                 if @_mod < new_mod
                   out << "data: reloaded!\n\n"
                   break
+                elsif File.exist?(errors_file)
+                  out << "event: builderror\ndata: #{File.read(errors_file).to_json}\n\n"
                 else
                   out << "data: #{new_mod}\n\n"
                 end

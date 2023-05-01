@@ -466,6 +466,7 @@ module Bridgetown
         function startReloadConnection() {
           const evtSource = new EventSource("#{site.base_path(strip_slash_only: true)}/_bridgetown/live_reload")
           evtSource.onmessage = event => {
+            if (document.querySelector("#bridgetown-build-error")) document.querySelector("#bridgetown-build-error").close()
             if (event.data == "reloaded!") {
               location.reload()
             } else {
@@ -477,6 +478,23 @@ module Bridgetown
               }
             }
           }
+          evtSource.addEventListener("builderror", event => {
+            let dialog = document.querySelector("#bridgetown-build-error")
+            if (!dialog) {
+              dialog = document.createElement("dialog")
+              dialog.id = "bridgetown-build-error"
+              dialog.style.borderColor = "red"
+              dialog.style.fontSize = "110%"
+              dialog.innerHTML = `
+                <p style="color:red">There was an error when building the site:</p>
+                <output><pre></pre></output>
+                <p><small>Check your Bridgetown logs for further details.</small></p>
+              `
+              document.body.appendChild(dialog)
+              dialog.showModal()
+            }
+            dialog.querySelector("pre").textContent = JSON.parse(event.data)
+          })
           evtSource.onerror = event => {
             if (evtSource.readyState === 2) {
               // reconnect with new object

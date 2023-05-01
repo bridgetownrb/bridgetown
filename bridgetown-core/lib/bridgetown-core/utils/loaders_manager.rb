@@ -13,6 +13,8 @@ module Bridgetown
         @config = config
         @loaders = {}
         @root_dir = config.root_dir
+
+        FileUtils.rm_f(Bridgetown.build_errors_path)
       end
 
       def unload_loaders
@@ -75,6 +77,8 @@ module Bridgetown
       end
 
       def reload_loaders
+        FileUtils.rm_f(Bridgetown.build_errors_path)
+
         @loaders.each do |load_path, loader|
           next unless reloading_enabled?(load_path)
 

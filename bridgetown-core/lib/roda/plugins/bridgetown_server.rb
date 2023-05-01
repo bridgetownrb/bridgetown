@@ -31,7 +31,7 @@ class Roda
         app.plugin :exception_page
         app.plugin :error_handler do |e|
           Bridgetown::Errors.print_build_error(
-            e, logger: Bridgetown::LogAdapter.new(self.class.opts[:common_logger])
+            e, logger: Bridgetown::LogAdapter.new(self.class.opts[:common_logger]), server: true
           )
           next exception_page(e) if ENV.fetch("RACK_ENV", nil) == "development"
 
