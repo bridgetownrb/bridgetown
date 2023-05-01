@@ -5,11 +5,11 @@ top_section: Configuration
 category: plugins
 ---
 
-The Inspectors API provides a useful way to review or manipulate the output of your HTML or XML resources. The API utilizes [Nokogiri](https://nokogiri.org), a Ruby gem which lets you work with a DOM-like API directly on the nodes of a document tree.
+The Inspectors API provides a useful way to review or manipulate the output of your HTML or XML resources. It allows for a safer approach of modifying HTML/XML content than alternatives such as string manipulation or regular expressions which can be prone to error or fail on unexpected input.
 
-This is a safer approach of modifying HTML/XML content than alternatives such as string manipulation or regular expressions which can be prone to error or fail on unexpected input.
+The API utilizes [Nokogiri](https://nokogiri.org) or [Nokolexbor](https://github.com/serpapi/nokolexbor), Ruby gems which lets you work with a DOM-like API directly on the nodes of a document tree. Nokogiri supports both HTML & XML files, whereas Nokolexbor only supports HTML (but is noticeably faster with most CSS-style querying).
 
-Bridgetown doesn't directly install the Nokogiri gem, so be sure to run `bundle add nokogiri` if it isn't already part of your bundle.
+Bridgetown doesn't directly install the Nokogiri or Nokolexbor gems, so be sure to update your `Gemfile` to uncomment out your gem(s) of choice and then run `bundle install` (if it isn't already part of your bundle). If using Nokolexbor, be sure to add `html_inspector_parser: nokolexbor` to your [Bridgetown configuration](/docs/configuration).
 
 {%@ Note type: :warning do %}
   Inspectors will only apply to files Bridgetown considers [Resources](/docs/resources). Thus any HTML or XML file in your project lacking front matter won't get processed through your Inspectors. Make sure you add two lines of triple dashes `---` to the top of any file to indicate it's a Resource.
@@ -19,7 +19,7 @@ Bridgetown doesn't directly install the Nokogiri gem, so be sure to run `bundle 
 
 Let's add an oft-requested feature to our site: automatic `target="_blank"` attributes on all outgoing links. It's easy with an HTML Inspector.
 
-We'll create a new builder plugin and use the `inspect_html` method to access the Nokogiri document and update all the relevant links.
+We'll create a new builder plugin and use the `inspect_html` method to access the document and update all the relevant links.
 
 ```ruby
 class Builders::Inspectors < SiteBuilder
@@ -38,7 +38,7 @@ end
 ```
 
 {%@ Note do %}
-Note that `query_selector_all` is an alias for Nokogiri's `css` method. We also provide `query_selector` as an alias for `at_css`.
+Note that `query_selector_all` is an alias for Nokogiri/Nokolexbor's `css` method. We also provide `query_selector` as an alias for `at_css`.
 {% end %}
 
 In the example above, we loop through all `a` tags, skip the tag if it already has a target or is not a true external link, otherwise we set the target attribute to `_blank`.
@@ -86,10 +86,12 @@ end
 
 ## Performance Considerations
 
-All resources which result in HTML or XML output (rather than JSON or some other format) will be processed through any defined Inspectors. For greater performance and fidelity, the Nokogiri document for a single resource will be the same across all Inspectors (rather than instantiating a new Nokogiri document for each Inspector).
+All resources which result in HTML or XML output (rather than JSON or some other format) will be processed through any defined Inspectors. For greater performance and fidelity, the Nokogiri/Nokolexbor document for a single resource will be the same across all Inspectors (rather than instantiating a new document for each Inspector).
 
 {%@ Note type: :warning do %}
-Nokogiri [relies on a C extension](https://nokogiri.org/#guiding-principles_1) which in turn uses `libxml2`. You should see fast performance unless the number of resources in your project is quite extensive.
+Nokogiri [relies on a C extension](https://nokogiri.org/#guiding-principles_1) which in turn uses `libxml2`. You should see pretty good performance unless the number of resources in your project is quite extensive.
+
+Nokolexbor [utilizes a C-based library called Lexbor](https://github.com/lexbor/lexbor/) which in some benchmarks shows a noticeable improvement over Nokogiri. Nokolexbor may also in some cases provide greater browser-like fidelity of HTML5 document trees as compared to Nokogiri.
 {% end %}
 
-If you find yourself needing to bypass Inspectors for certain, large resources to avoid the overhead of using Nokogiri, you can set the [front matter](/docs/front-matter) variable `bypass_inspectors: true` to instruct Nokogiri not to parse that resource. To apply this to a whole array of resources, make it a default with [front matter defaults](/docs/content/front-matter-defaults).
+If you find yourself needing to bypass Inspectors for certain, large resources to avoid the overhead of using Nokogiri/Nokolexbor, you can set the [front matter](/docs/front-matter) variable `bypass_inspectors: true` to instruct Bridgetown not to parse that resource. To apply this to a whole array of resources, make it a default with [front matter defaults](/docs/content/front-matter-defaults).
