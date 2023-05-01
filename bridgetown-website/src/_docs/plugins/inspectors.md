@@ -9,7 +9,7 @@ The Inspectors API provides a useful way to review or manipulate the output of y
 
 The API utilizes [Nokogiri](https://nokogiri.org) or [Nokolexbor](https://github.com/serpapi/nokolexbor), Ruby gems which lets you work with a DOM-like API directly on the nodes of a document tree. Nokogiri supports both HTML & XML files, whereas Nokolexbor only supports HTML (but is noticeably faster with most CSS-style querying).
 
-Bridgetown doesn't directly install the Nokogiri or Nokolexbor gems, so be sure to update your `Gemfile` to uncomment out your gem(s) of choice and then run `bundle install` (if it isn't already part of your bundle). If using Nokolexbor, be sure to add `html_inspector_parser: nokolexbor` to your [Bridgetown configuration](/docs/configuration).
+Bridgetown doesn't directly install the Nokogiri or Nokolexbor gems, so if that isn't already part of your bundle, be sure to update your `Gemfile` to uncomment your gem(s) of choice and then run `bundle install`. If using Nokolexbor, be sure to add `html_inspector_parser: nokolexbor` to your [Bridgetown configuration](/docs/configuration).
 
 {%@ Note type: :warning do %}
   Inspectors will only apply to files Bridgetown considers [Resources](/docs/resources). Thus any HTML or XML file in your project lacking front matter won't get processed through your Inspectors. Make sure you add two lines of triple dashes `---` to the top of any file to indicate it's a Resource.
