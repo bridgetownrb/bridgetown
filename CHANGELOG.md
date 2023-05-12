@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.3.0.beta1] - 2023-05-01
 
+- Fix missing word in `resources.md`
 - Add support for Nokolexbor & Puma 6.x [#752](https://github.com/bridgetownrb/bridgetown/pull/752) ([jaredcwhite](https://github.com/jaredcwhite))
 - Display build error on the page in a dialog in dev [#747](https://github.com/bridgetownrb/bridgetown/pull/747) ([jaredcwhite](https://github.com/jaredcwhite))
 - Remove deprecated serve command and WEBrick [#750](https://github.com/bridgetownrb/bridgetown/pull/750) ([jaredcwhite](https://github.com/jaredcwhite))

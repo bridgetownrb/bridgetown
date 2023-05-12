@@ -177,10 +177,15 @@ Bridgetown is built by:
 |<a href="https://github.com/vvveebs">@vvveebs</a>|<a href="https://github.com/rickychilcott">@rickychilcott</a>|<a href="https://github.com/tommasongr">@tommasongr</a>|<a href="https://github.com/tombruijn">@tombruijn</a>|<a href="https://github.com/svoop">@svoop</a>|
 |London, UK|Ohio, US|Amsterdam, The Netherlands|Milan, IT|Europe|
 
-|<img src="https://avatars.githubusercontent.com/michaelherold?s=256" alt="michaelherold" width="128" />|<img src="https://avatars.githubusercontent.com/joemasilotti?s=256" alt="joemasilotti" width="128" />|<img src="https://avatars.githubusercontent.com/ikass?s=256" alt="ikass" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|<img src="https://avatars.githubusercontent.com/michaelherold?s=256" alt="michaelherold" width="128" />|<img src="https://avatars.githubusercontent.com/joemasilotti?s=256" alt="joemasilotti" width="128" />|<img src="https://avatars.githubusercontent.com/ikass?s=256" alt="ikass" width="128" />|<img src="https://avatars.githubusercontent.com/jw81?s=256" alt="jw81" width="128" />|
 |:---:|:---:|:---:|:---:|
-|<a href="https://github.com/michaelherold">@michaelherold</a>|<a href="https://github.com/joemasilotti">@joemasilotti</a>|<a href="https://github.com/Ikass">@ikass</a>|You Next?|
-|Omaha, NE|Portland, OR|Latvia|Anywhere|
+|<a href="https://github.com/michaelherold">@michaelherold</a>|<a href="https://github.com/joemasilotti">@joemasilotti</a>|<a href="https://github.com/Ikass">@ikass</a>|<a href="https://github.com/jw81">@jw81</a>|
+|Omaha, NE|Portland, OR|Latvia|Kansas City, MO|
+
+|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|
+|You Next?|
+|Anywhere|
 
 Interested in joining the Bridgetown Core Team? Send a DM to Jared in [Discord](https://discord.gg/4E6hktQGz4) and let's chat!
 
