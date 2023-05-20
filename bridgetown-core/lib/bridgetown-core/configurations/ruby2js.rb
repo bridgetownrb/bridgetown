@@ -11,6 +11,7 @@ end
 
 say_status :ruby2js, "Installing Ruby2JS..."
 
+add_gem "ruby2js"
 run "yarn add -D @ruby2js/esbuild-plugin"
 
 found_match = false
@@ -22,12 +23,7 @@ gsub_file "esbuild.config.js", %r{const esbuildOptions = {}\n} do |_match|
 
     const esbuildOptions = {
       plugins: [
-        // See docs on Ruby2JS options here: https://www.ruby2js.com/docs/options
-        ruby2js({
-          eslevel: 2022,
-          autoexports: "default",
-          filters: ["camelCase", "functions", "lit", "esm", "return"]
-        })
+        ruby2js()
       ]
     }
   JS
@@ -42,18 +38,13 @@ unless found_match
 
       // TODO: Uncomment and move the following into your plugins array:
       //
-      //  ruby2js({
-      //    eslevel: 2022,
-      //    autoexports: "default",
-      //    filters: ["camelCase", "functions", "lit", "esm", "return"]
-      //  })
-      //
-      // See docs on Ruby2JS options here: https://www.ruby2js.com/docs/options
+      //  ruby2js()
 
     JS
   end
 end
 
+copy_file in_templates_dir("ruby2js.rb"), "config/ruby2js.rb"
 copy_file in_templates_dir("hello_world.js.rb"), "src/_components/hello_world.js.rb"
 
 if found_match
@@ -64,4 +55,5 @@ else
 end
 
 say "Check out the example `hello_world.js.rb` file in `src/_components`", :blue
+say "Ruby2JS configuration options are saved in `config/ruby2js.rb`", :blue
 say 'For further reading, check out "https://www.ruby2js.com"', :blue
