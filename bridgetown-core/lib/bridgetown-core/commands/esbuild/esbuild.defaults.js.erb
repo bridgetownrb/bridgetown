@@ -307,5 +307,6 @@ module.exports = async (outputFolder, esbuildOptions) => {
         context.dispose()
       })
     }
+    process.on('SIGINT', () => process.exit())
   }).catch(() => process.exit(1))
 }
