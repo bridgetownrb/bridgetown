@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+        "$styles/*": ["./frontend/styles/*"],
+        "$scripts/*": ["./frontend/javascript/*"],
+        "$components/*": ["./src/_components/*"]
+    }
+  }, 
+}
