@@ -152,13 +152,9 @@ For instance, you could add [Ruby2JS](https://www.ruby2js.com/) support and swit
 const ruby2js = require("@ruby2js/esbuild-plugin")
 
 const esbuildOptions = {
-  entryPoints: ["frontend/javascript/index.js.rb"],
-  target: "es2020",
+  entryPoints: ["./frontend/javascript/index.js.rb"],
   plugins: [
-    ruby2js({
-      eslevel: 2020,
-      filters: ["camelCase", "functions", "lit", "esm", "return"]
-    }),
+    ruby2js(),
   ]
 }
 ```
@@ -167,6 +163,22 @@ const esbuildOptions = {
 
 {%@ Note do %}
   Check out the [Ruby2JS Bundled Configuration](/docs/bundled-configurations#ruby2js) for an automated way to install Ruby2JS.
+{% end %}
+
+### Path Aliases
+
+Starting in Bridgetown 1.3, there are several path aliases defined in the esbuild integration as well as `jsconfig.json` in your repo root. These are:
+
+```
+$styles: frontend/styles
+$javascript: frontend/javascript
+$components: src/_components
+```
+
+This allows you to conveniently write import statements such as `import "$styles/index.css"`. You can add additional path aliases if you'd like to import from other folders you've created in your project while maintaining terse paths.
+
+{%@ Note type: :warning do %}
+  When upgrading from older projects, make sure you've run `bin/bridgetown esbuild update` and then add `$styles/` in front of any CSS import statements in your main JavaScript files. You can also update the `bridgetownComponents/**` glob to `$components/**`.
 {% end %}
 
 ### Multiple Entry Points
@@ -179,8 +191,8 @@ You can specify multiple entry points (which result in multiple output bundles) 
 
 const esbuildOptions = {
   entryPoints: [
-    "frontend/javascript/index.js",
-    "frontend/javascript/pages/contact_form.js"
+    "./frontend/javascript/index.js",
+    "./frontend/javascript/pages/contact_form.js"
   ],
   format: "esm"
 }
@@ -226,7 +238,7 @@ Now you can dynamically and asynchronously import JavaScript code within any fun
 
 ```js
 const loadStuff = async () => {
-  const importantStuff = await import("important_stuff.js")
+  const importantStuff = await import("./important_stuff.js")
   return importantStuff.default()
 }
 
