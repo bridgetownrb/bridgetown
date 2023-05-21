@@ -221,6 +221,12 @@ module Bridgetown
         end
       end
 
+      def dsd(input = nil, &block)
+        tmpl_content = block.nil? ? input.to_s : view.capture(&block)
+
+        Bridgetown::Utils.dsd_tag(tmpl_content)
+      end
+
       private
 
       # Covert an underscored value into a dashed string.

@@ -523,6 +523,10 @@ module Bridgetown
       end
     end
 
+    def dsd_tag(input)
+      %(<template shadowrootmode="open">#{input}</template>).html_safe
+    end
+
     private
 
     def merge_values(target, overwrite)
