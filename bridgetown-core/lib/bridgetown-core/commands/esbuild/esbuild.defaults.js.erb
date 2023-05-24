@@ -41,7 +41,7 @@ if (moduleAvailable("sass")) {
 // Glob plugin derived from:
 // https://github.com/thomaschaaf/esbuild-plugin-import-glob
 // https://github.com/xiaohui-zhangxh/jsbundling-rails/commit/b15025dcc20f664b2b0eb238915991afdbc7cb58
-const importGlobPlugin = () => ({
+const importGlobPlugin = (options) => ({
   name: "import-glob",
   setup: (build) => {
     build.onResolve({ filter: /\*/ }, async (args) => {
@@ -64,7 +64,7 @@ const importGlobPlugin = () => ({
     build.onLoad({ filter: /.*/, namespace: "import-glob" }, async (args) => {
       const files = glob.sync(args.pluginData.path, {
         cwd: args.pluginData.resolveDir,
-      }).sort()
+      }).filter(module => options.excludeFilter ? !options.excludeFilter.test(module) : true).sort()
 
       const importerCode = `
         ${files
@@ -265,9 +265,12 @@ module.exports = async (outputFolder, esbuildOptions) => {
   const postCssConfig = await postcssrc()
   esbuildOptions.plugins.unshift(importPostCssPlugin(postCssConfig, esbuildOptions.postCssPluginConfig || {}))
   if (esbuildOptions.postCssPluginConfig) delete esbuildOptions.postCssPluginConfig
-  esbuildOptions.plugins.unshift(importGlobPlugin())
+  // Add the Glob plugin
+  esbuildOptions.plugins.unshift(importGlobPlugin(esbuildOptions.globOptions || {}))
+  if (esbuildOptions.globOptions) delete esbuildOptions.globOptions
   // Add the Sass plugin
   esbuildOptions.plugins.push(sassPlugin(esbuildOptions.sassOptions || {}))
+  if (esbuildOptions.sassOptions) delete esbuildOptions.sassOptions
   // Add the Bridgetown preset
   esbuildOptions.plugins.push(bridgetownPreset(outputFolder))
 

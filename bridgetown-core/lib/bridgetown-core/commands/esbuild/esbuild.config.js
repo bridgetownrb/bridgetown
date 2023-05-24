@@ -31,6 +31,10 @@ const outputFolder = "output"
  * @typedef { import("esbuild").BuildOptions } BuildOptions
  * @type {BuildOptions}
  */
-const esbuildOptions = {}
+const esbuildOptions = {
+  globOptions: {
+    excludeFilter: /\.(dsd|lit)\.(css|js)$/
+  }
+}
 
 build(outputFolder, esbuildOptions)
