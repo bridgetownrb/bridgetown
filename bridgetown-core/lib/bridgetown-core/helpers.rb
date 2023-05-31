@@ -135,6 +135,14 @@ module Bridgetown
         I18n.send :t, *args, **kwargs
       end
 
+      # Forward all arguments to I18n.l method
+      #
+      # @return [String] the localized string
+      # @see I18n
+      def l(*args, **kwargs)
+        I18n.send :l, *args, **kwargs
+      end
+
       # For template contexts where ActiveSupport's output safety is loaded, we
       # can ensure a string has been marked safe
       #
