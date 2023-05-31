@@ -1,1 +1,1 @@
-import components from "bridgetownComponents/**/*.{lit.js,lit.js.rb}"
+import components from "$components/**/*.{lit.js,lit.js.rb}"

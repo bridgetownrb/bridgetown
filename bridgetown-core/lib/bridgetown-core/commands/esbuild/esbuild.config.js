@@ -24,7 +24,10 @@ const outputFolder = "output"
 // You can also support custom base_path deployments via changing `publicPath`.
 //
 // ```
-// const esbuildOptions = { publicPath: "/my_subfolder/_bridgetown/static" }
+// const esbuildOptions = {
+//   publicPath: "/my_subfolder/_bridgetown/static",
+//   ...
+// }
 // ```
 
 /**
@@ -32,6 +35,9 @@ const outputFolder = "output"
  * @type {BuildOptions}
  */
 const esbuildOptions = {
+  plugins: [
+    // add new plugins here...
+  ],
   globOptions: {
     excludeFilter: /\.(dsd|lit)\.(css|js)$/
   }
