@@ -1,13 +1,22 @@
+<%- if frontend_bundling_option == "esbuild" -%>
+<%- if postcss_option -%>
+import "$styles/index.css"
+<%- else -%>
+import "$styles/index.scss"
+<%- end -%>
+import "$styles/syntax-highlighting.css"
+<%- else -%>
 <%- if postcss_option -%>
 import "index.css"
 <%- else -%>
 import "index.scss"
 <%- end -%>
 import "syntax-highlighting.css"
+<%- end -%>
 
 // Import all JavaScript & CSS files from src/_components
 <%- if frontend_bundling_option == "esbuild" -%>
-import components from "bridgetownComponents/**/*.{js,jsx,js.rb,css}"
+import components from "$components/**/*.{js,jsx,js.rb,css}"
 <%- else -%>
 const componentsContext = require.context("bridgetownComponents", true, /\.(js|css)$/)
 componentsContext.keys().forEach(componentsContext)

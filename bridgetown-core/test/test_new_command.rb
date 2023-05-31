@@ -61,7 +61,7 @@ class TestNewCommand < BridgetownUnitTest
   end
 
   def esbuild_config_files
-    ["/esbuild.config.js", "/config/esbuild.defaults.js"]
+    ["/esbuild.config.js", "/jsconfig.json", "/config/esbuild.defaults.js"]
   end
 
   def webpack_config_files
