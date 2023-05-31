@@ -49,7 +49,9 @@ const importGlobPlugin = () => ({
         return; // Ignore unresolvable paths
       }
 
-      const adjustedPath = args.path.replace(/^bridgetownComponents\//, "../../src/_components/")
+      const adjustedPath = args.path
+        .replace(/^\$components\/\*\*/, "../../src/_components/**")
+        .replace(/^bridgetownComponents\//, "../../src/_components/") // legacy
 
       return {
         path: adjustedPath,
@@ -64,7 +66,7 @@ const importGlobPlugin = () => ({
     build.onLoad({ filter: /.*/, namespace: "import-glob" }, async (args) => {
       const files = glob.sync(args.pluginData.path, {
         cwd: args.pluginData.resolveDir,
-      }).sort()
+      }).sort().map(module => module.replace("../../src/_components/", "$components/"))
 
       const importerCode = `
         ${files
@@ -72,7 +74,7 @@ const importGlobPlugin = () => ({
           .join(';')}
         const modules = {${files
           .map((module, index) => `
-            "${module.replace("../../src/_components/", "")}": module${index},`)
+            "${module.replace("$components/", "")}": module${index},`)
           .join("")}
         };
         export default modules;
@@ -271,8 +273,9 @@ module.exports = async (outputFolder, esbuildOptions) => {
   // Add the Bridgetown preset
   esbuildOptions.plugins.push(bridgetownPreset(outputFolder))
 
-  // esbuild, take it away!
-  require("esbuild").build({
+  const esbuild = require("esbuild")
+
+  esbuild.context({
     bundle: true,
     loader: {
       ".jpg": "file",
@@ -285,16 +288,25 @@ module.exports = async (outputFolder, esbuildOptions) => {
       ".eot": "file",
     },
     resolveExtensions: [".tsx", ".ts", ".jsx", ".js", ".css", ".scss", ".sass", ".json", ".js.rb"],
-    nodePaths: ["frontend/javascript", "frontend/styles"],
-    watch: process.argv.includes("--watch"),
     minify: process.argv.includes("--minify"),
     sourcemap: true,
-    target: "es2016",
+    target: "es2020",
     entryPoints: ["./frontend/javascript/index.js"],
     entryNames: "[dir]/[name].[hash]",
     outdir: path.join(process.cwd(), `${outputFolder}/_bridgetown/static`),
     publicPath: "/_bridgetown/static",
     metafile: true,
     ...esbuildOptions,
+  }).then(context => {
+    if (process.argv.includes("--watch")) {
+      // Enable watch mode
+      context.watch()
+    } else {
+      // Build once and exit if not in watch mode
+      context.rebuild().then(result => {
+        context.dispose()
+      })
+    }
+    process.on('SIGINT', () => process.exit())
   }).catch(() => process.exit(1))
 }

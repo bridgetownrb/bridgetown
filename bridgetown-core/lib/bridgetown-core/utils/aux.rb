@@ -29,6 +29,8 @@ module Bridgetown
           loop do
             line = rd.gets
             line.to_s.lines.map(&:chomp).each do |message|
+              next if name == "Frontend" && %r{ELIFECYCLE.*?Command failed}.match?(message)
+
               output = +""
               output << with_color(color, "[#{name}] ") if color
               output << message
