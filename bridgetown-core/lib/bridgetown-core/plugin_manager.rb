@@ -206,30 +206,6 @@ module Bridgetown
         sorted_plugin_files.each do |plugin_file|
           self.class.add_registered_plugin plugin_file
         end
-        next if site.config[:plugins_use_zeitwerk]
-
-        Deprecator.deprecation_message(
-          "The `plugins_use_zeitwerk' configuration option will be removed in the next version " \
-          "of Bridgetown (aka will be permanently set to \"true\")"
-        )
-        Bridgetown::Utils::RequireGems.require_with_graceful_fail(sorted_plugin_files)
-      end
-    end
-
-    # Reloads .rb plugin files via the watcher
-    # DEPRECATED (not necessary with Zeitwerk)
-    #
-    # @return [void]
-    def reload_plugin_files
-      return if site.config[:plugins_use_zeitwerk]
-
-      plugins_path.each do |plugin_search_path|
-        plugin_files = Utils.safe_glob(plugin_search_path, File.join("**", "*.rb"))
-        Array(plugin_files).each do |name|
-          Bridgetown.logger.debug "Reloading:", name.to_s
-          self.class.add_registered_plugin name
-          load name
-        end
       end
     end
 

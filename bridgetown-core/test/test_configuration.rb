@@ -14,10 +14,7 @@ class TestConfiguration < BridgetownUnitTest
   end
 
   def default_config_fixture(overrides = {})
-    Bridgetown.configuration(test_config.merge(overrides)).tap do |config|
-      config.autoload_paths = config.eager_load_paths = []
-      config.plugins_use_zeitwerk = false
-    end
+    Bridgetown.configuration(test_config.merge(overrides))
   end
 
   context ".from" do
@@ -539,7 +536,7 @@ class TestConfiguration < BridgetownUnitTest
       end
 
       assert_equal "http://www.testdomain.com", @config.url
-      assert_equal "stuff", @config.autoload_paths[1]
+      assert_equal "stuff", @config.autoload_paths.last
 
       assert @config.init_params.key?("something")
     end

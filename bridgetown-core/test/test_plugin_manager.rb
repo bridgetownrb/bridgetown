@@ -138,17 +138,6 @@ class TestPluginManager < BridgetownUnitTest
     end
   end
 
-  context "site containing plugins" do
-    should "require plugin files" do
-      site = double(config: { "plugins_dir" => "_plugins" },
-                    in_source_dir: "/tmp/")
-      plugin_manager = PluginManager.new(site)
-
-      expect(Bridgetown::Utils::RequireGems).to receive(:require_with_graceful_fail)
-      plugin_manager.require_plugin_files
-    end
-  end
-
   context "plugins_dir is set to the default" do
     should "call site's in_source_dir" do
       site = double(
