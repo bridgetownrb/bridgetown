@@ -35,7 +35,7 @@ Feature: AssetPath Tag
     And I should see "/_bridgetown/static/all.hashgoeshere.css" in "output/index.html"
     And I should not see "//_bridgetown/static/all.hashgoeshere.js" in "output/index.html"
     And I should not see "MISSING_FRONTEND_BUNDLING_CONFIG" in "output/index.html"
-    And I should not see "MISSING_ESBUILD_MANIFEST_FILE" in "output/index.html"
+    And I should not see "MISSING_ESBUILD_ASSET" in "output/index.html"
 
   Scenario: Use custom filename in frontend manifest
     Given I have a _layouts directory
@@ -238,7 +238,7 @@ Feature: AssetPath Tag
     And I should see "/_bridgetown/static/js/all.hashgoeshere.js" in "output/index.html"
     And I should see "/_bridgetown/static/css/all.hashgoeshere.css" in "output/index.html"
     And I should not see "//_bridgetown/static/js/all.hashgoeshere.js" in "output/index.html"
-    And I should not see "MISSING_WEBPACK_MANIFEST_FILE" in "output/index.html"
+    And I should not see "MISSING_WEBPACK_ASSET" in "output/index.html"
 
   Scenario: Missing Webpack manifest
     Given I have a _layouts directory
@@ -260,4 +260,4 @@ Feature: AssetPath Tag
       """
     When I run bridgetown build
     Then the "output/index.html" file should exist
-    And I should see "MISSING_WEBPACK_MANIFEST_FILE" in "output/index.html"
+    And I should see "MISSING_WEBPACK_ASSET" in "output/index.html"
