@@ -523,8 +523,9 @@ module Bridgetown
       end
     end
 
-    def dsd_tag(input)
-      %(<template shadowrootmode="open">#{input}</template>).html_safe
+    def dsd_tag(input, shadow_root_mode: :open)
+      raise ArgumentError unless [:open, :closed].contains? shadow_root_mode
+      %(<template shadowrootmode="#{shadow_root_mode}">#{input}</template>).html_safe
     end
 
     private
