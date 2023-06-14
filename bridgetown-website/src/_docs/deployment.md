@@ -172,6 +172,8 @@ This can be achieved by including a `script:` command like this in your
 pages:
   # Other directives
   script:
+    # Add this ligne just after apt update
+    - apt-get install -y brotli
     # Build the public/ directory first
     - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
     - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec brotli -f -k {} \;
