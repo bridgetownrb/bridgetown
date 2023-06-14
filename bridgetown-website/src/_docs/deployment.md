@@ -114,8 +114,7 @@ test:
   - gem install bridgetown -N
   - bundle install
   - yarn install
-  - yarn webpack --mode production
-  - bin/bridgetown build --base_path mysite --url https://bridgetownrb.gitlab.io
+  - bin/bridgetown deploy
   - bin/bridgetown clean
   except:
     - main
@@ -134,8 +133,7 @@ pages:
   - gem install bridgetown -N
   - bundle install
   - yarn install
-  - yarn webpack --mode production
-  - bin/bridgetown build --base_path mysite --url https://bridgetownrb.gitlab.io
+  - bin/bridgetown deploy
   - mv output public
   artifacts:
     paths:
