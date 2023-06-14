@@ -156,6 +156,27 @@ git push -u origin main
 
 After the build the site should be live at https://bridgetownrb.gitlab.io/mysite
 
+#### Enable GZip & Brotli compression for GitLab Pages
+
+Most modern browsers support downloading files in a compressed format. This
+speeds up downloads by reducing the size of files.
+
+Before serving an uncompressed file, Gitlab Pages checks if the same file exists
+with a `.br` or `.gz` extension. If it does, and the browser supports receiving
+compressed files, it serves that version instead of the uncompressed one.
+
+This can be achieved by including a `script:` command like this in your
+`.gitlab-ci.yml` pages job:
+
+```yaml
+pages:
+  # Other directives
+  script:
+    # Build the public/ directory first
+    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
+    - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec brotli -f -k {} \;
+```
+
 ### GitHub Pages
 
 Much like with GitLab, you can also deploy static sites to [GitHub Pages](https://pages.github.com/). You can make use of [GitHub Actions](https://github.com/features/actions) to automate building and deploying your site to GitHub Pages. 
