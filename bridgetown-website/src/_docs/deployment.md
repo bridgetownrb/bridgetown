@@ -177,6 +177,8 @@ pages:
     - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec brotli -f -k {} \;
 ```
 
+For more details, [see the documentation](https://docs.gitlab.com/ee/user/project/pages/introduction.html#serving-compressed-assets).
+
 ### GitHub Pages
 
 Much like with GitLab, you can also deploy static sites to [GitHub Pages](https://pages.github.com/). You can make use of [GitHub Actions](https://github.com/features/actions) to automate building and deploying your site to GitHub Pages. 
