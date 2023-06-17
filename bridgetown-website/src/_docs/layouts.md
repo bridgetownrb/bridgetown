@@ -7,11 +7,9 @@ category: layouts
 
 Layouts are templates that wrap around your [resource's content](/docs/resources). They allow you to have the source code for your template in one place so you don't have to repeat things like your navigation and footer on every page.
 
-Layouts live in the `_layouts` folder. The convention is to have a base template called `default.html` and have other layouts [inherit](#inheritance) from this as needed.
+Layouts live in the `_layouts` folder. The convention is to have a base template called `default.{erb,liquid,etc.}` and have other layouts [inherit](#inheritance) from this as needed.
 
-{%@ Note do %}
-  While you can configure the folder name in which your layouts can reside by setting the `layouts_dir` key in your config file, the folder itself should be located at the root of your site's `source` folder.
-{% end %}
+{{ toc }}
 
 ## Usage
 
@@ -104,6 +102,10 @@ layout: default
 {% endraw %}
 
 Now posts can use this layout while the rest of the resources use the default.
+
+## New! Declarative Shadow DOM
+
+An emerging technology which has the potential to change how we approach development of layout and modular composition on the web is called [Declarative Shadow DOM (DSD)](/docs/content/dsd). Starting in Bridgetown 1.3, you can utilize DSD in your layouts and components for increased separate between presentation logic and content, scoped styles which won't inadvertently affect other parts of the page (or other templates), and many other benefits. Check out our [documentation on DSD](/docs/content/dsd) for further details.
 
 ## Variables
 
