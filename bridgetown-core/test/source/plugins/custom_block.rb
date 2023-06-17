@@ -2,7 +2,7 @@
 
 # For testing excerpt handling of custom tags
 
-module Bridgetown
+module CustomBlock
   class DoNothingBlock < Liquid::Block
   end
 
@@ -10,5 +10,5 @@ module Bridgetown
   end
 end
 
-Liquid::Template.register_tag("do_nothing", Bridgetown::DoNothingBlock)
-Liquid::Template.register_tag("do_nothing_other", Bridgetown::DoNothingOther)
+Liquid::Template.register_tag("do_nothing", CustomBlock::DoNothingBlock)
+Liquid::Template.register_tag("do_nothing_other", CustomBlock::DoNothingOther)
