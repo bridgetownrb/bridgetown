@@ -255,26 +255,6 @@ module Bridgetown
         style_tag.html_safe
       end
 
-      def dsd_script
-        tmpl_path = caller_locations(1, 2).find do |loc|
-                      loc.label.include?("method_missing").!
-                    end&.path
-
-        return unless tmpl_path # virtually guaranteed not to happen
-
-        tmpl_basename = File.basename(tmpl_path, ".*")
-        js_path = File.join(File.dirname(tmpl_path), "#{tmpl_basename}.dsd.js")
-
-        unless File.file?(js_path)
-          raise Bridgetown::Errors::FatalException, "Missing JavaScript file at #{js_path}"
-        end
-
-        script_tag = site.tmp_cache["dsd_js:#{js_path}"] ||=
-          "<script type=\"module\">#{File.read(js_path).gsub("</script", "</scr\\ipt")}</script>"
-
-        script_tag.html_safe
-      end
-
       private
 
       # Covert an underscored value into a dashed string.
