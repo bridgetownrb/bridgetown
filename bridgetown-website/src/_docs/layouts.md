@@ -84,6 +84,10 @@ You can also use [front matter defaults](/docs/content/front-matter-defaults/) t
   If you you're using ERB or another Ruby template language for your layout, try using the more idiomatic `yield` instead of `content`. Refer to the [ERB and Beyond](/docs/template-engines/erb-and-beyond) docs for further details.
 {% end %}
 
+## New! Declarative Shadow DOM
+
+An emerging technology which has the potential to change how we approach development of layout and modular composition on the web is called [Declarative Shadow DOM (DSD)](/docs/content/dsd). Starting in Bridgetown 1.3, you can utilize DSD in your layouts and components for increased separation between presentation logic and content, scoped styles which won't inadvertently affect other parts of the page (or other templates), and many other benefits. Check out our [documentation on DSD](/docs/content/dsd) for further details.
+
 ## Inheritance
 
 Layout inheritance is useful when you want to add something to an existing layout for a portion of resources on your site. A common example of this is blog posts, you might want a post to display the date and author but otherwise be identical to your base layout.
@@ -102,10 +106,6 @@ layout: default
 {% endraw %}
 
 Now posts can use this layout while the rest of the resources use the default.
-
-## New! Declarative Shadow DOM
-
-An emerging technology which has the potential to change how we approach development of layout and modular composition on the web is called [Declarative Shadow DOM (DSD)](/docs/content/dsd). Starting in Bridgetown 1.3, you can utilize DSD in your layouts and components for increased separate between presentation logic and content, scoped styles which won't inadvertently affect other parts of the page (or other templates), and many other benefits. Check out our [documentation on DSD](/docs/content/dsd) for further details.
 
 ## Variables
 
