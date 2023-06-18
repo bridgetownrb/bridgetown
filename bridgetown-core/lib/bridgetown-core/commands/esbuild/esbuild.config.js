@@ -1,8 +1,5 @@
 const build = require("./config/esbuild.defaults.js")
 
-// Update this if you need to configure a destination folder other than `output`
-const outputFolder = "output"
-
 // You can customize this as you wish, perhaps to add new esbuild plugins.
 //
 // ```
@@ -39,8 +36,8 @@ const esbuildOptions = {
     // add new plugins here...
   ],
   globOptions: {
-    excludeFilter: /\.(dsd|lit)\.(css|js)$/
+    excludeFilter: /\.(dsd|lit)\.css$/
   }
 }
 
-build(outputFolder, esbuildOptions)
+build(esbuildOptions)

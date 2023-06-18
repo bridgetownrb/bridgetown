@@ -283,11 +283,11 @@ const bridgetownConfigured = (bridgetownConfig, outputFolder) => {
 // Load the PostCSS config from postcss.config.js or whatever else is a supported location/format
 const postcssrc = require("postcss-load-config")
 
-module.exports = async (esbuildOptions) => {
+module.exports = async (esbuildOptions, ...args) => {
   let outputFolder;
   if (typeof esbuildOptions === "string") { // legacy syntax where first argument is output folder
-    esbuildOptions = arguments[1]
-    outputFolder = arguments[0]
+    outputFolder = esbuildOptions
+    esbuildOptions = args[0]
   }
   const bridgetownConfig = bridgetownConfigured(esbuildOptions.bridgetownConfig, outputFolder)
 

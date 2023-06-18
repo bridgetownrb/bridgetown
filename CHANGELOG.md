@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.3.0.beta3] - 2023-06-18
+
+- Lit configuration bug fixes based on QA
+
 ## [1.3.0.beta2] - 2023-06-18
 
 - Declarative Shadow DOM integration [#763](https://github.com/bridgetownrb/bridgetown/pull/763) ([jaredcwhite](https://github.com/jaredcwhite))
