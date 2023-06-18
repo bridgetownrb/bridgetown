@@ -162,6 +162,8 @@ Sidecar CSS files processed through the `dsd_style` helper do not get run throug
 There are certain "gotchas" when working with scoped styles inside a shadow root. Only a small number of global styles get inherited within a DSD template. For example, you may be surprised if you add an `<a href>` tag inside your DSD template and it looks like a browser's default link style, not your site's link style! There are all sorts of workarounds for issues that may arise, and we hope to refer to helpful educational resources as time passes and DSD becomes more widespread. In the meantime…[try asking the community](/community) for assistance!
 {% end %}
 
-## Working with DSD in JavaScript
+## Working with DSD in JavaScript and Hydrating Islands
 
 _coming soon…_
+
+[Documentation on Islands Architecture](/docs/islands)
