@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.3.0.beta2] - 2023-06-18
+
+- Declarative Shadow DOM integration [#763](https://github.com/bridgetownrb/bridgetown/pull/763) ([jaredcwhite](https://github.com/jaredcwhite))
+- Retool esbuild configuration and add "Islands Architecture" [#765](https://github.com/bridgetownrb/bridgetown/pull/765) ([jaredcwhite](https://github.com/jaredcwhite))
+- Add I18n localization shortcut "l" alongside "t" [#759](https://github.com/bridgetownrb/bridgetown/pull/759) ([goulvench](https://github.com/goulvench))
+- Update to esbuild 0.17 [#762](https://github.com/bridgetownrb/bridgetown/pull/762) ([jaredcwhite](https://github.com/jaredcwhite))
+- docs: update gitlab pages deploy configuration [#767](https://github.com/bridgetownrb/bridgetown/pull/767) ([akarzim](https://github.com/akarzim))
+- docs: GitLab Pages serving compressed assets [#768](https://github.com/bridgetownrb/bridgetown/pull/768) ([akarzim](https://github.com/akarzim))
+- docs: remove trailing comma in configuration options [#766](https://github.com/bridgetownrb/bridgetown/pull/766) ([akarzim](https://github.com/akarzim))
+
 ## [1.3.0.beta1] - 2023-05-01
 
 - Fix missing word in `resources.md`
