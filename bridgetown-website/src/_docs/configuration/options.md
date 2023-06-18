@@ -349,7 +349,9 @@ plugins_dir         : plugins
 collections_dir     : .
 layouts_dir         : _layouts
 components_dir      : _components
-data_dir            : _data
+islands_dir         : _islands
+partials_dir        : _partials
+cache_dir           : .bridgetown-cache
 collections:
   posts:
     output          : true

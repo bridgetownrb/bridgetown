@@ -63,4 +63,23 @@ class TestERB < BridgetownUnitTest
       assert_includes @process_output, "rails-style.html.erb"
     end
   end
+
+  # rubocop:disable Layout/TrailingWhitespace
+  context "Declarative Shadow DOM" do
+    should "render via helpers" do
+      assert_includes @erb_page.output, <<~HTML
+        <dsd-component>
+          <template shadowrootmode="open">
+            <slot></slot>
+            <style>:host {
+          display: block;
+        }</style>
+        </template>  
+          <p>Default slot content.</p>
+        
+        </dsd-component>
+      HTML
+    end
+  end
+  # rubocop:enable Layout/TrailingWhitespace
 end

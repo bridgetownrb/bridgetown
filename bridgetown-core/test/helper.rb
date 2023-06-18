@@ -158,7 +158,6 @@ class BridgetownUnitTest < Minitest::Test
 
     full_overrides = Utils.deep_merge_hashes({ "destination" => dest_dir,
                                                "plugins_dir" => site_root_dir("plugins"), }, overrides)
-    full_overrides["plugins_use_zeitwerk"] = false if overrides["plugins_use_zeitwerk"].nil?
 
     Bridgetown.configuration(full_overrides.merge(
                                "root_dir"          => site_root_dir,

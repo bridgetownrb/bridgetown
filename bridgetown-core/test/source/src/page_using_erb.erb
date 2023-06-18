@@ -47,3 +47,7 @@ Oats, <%= array_to_sentence_string ["peas", "beans", "barley"] %> grow.
 <%= item[:value] %>
 <% end %>
 ---
+
+<%= render DsdComponent.new do %>
+  <p>Default slot content.</p>
+<% end %>

@@ -55,7 +55,7 @@ module Bridgetown
     # Start a listener to watch for changes and call {#reload_site}
     #
     # @param (see #watch)
-    def listen(site, options)
+    def listen(site, options) # rubocop:disable Metrics/MethodLength
       bundling_path = site.frontend_bundling_path
       FileUtils.mkdir_p(bundling_path)
       Listen.to(
@@ -66,12 +66,17 @@ module Bridgetown
         force_polling: options["force_polling"]
       ) do |modified, added, removed|
         c = modified + added + removed
+
+        # NOTE: inexplicably, this matcher doesn't work with the Listen gem, so
+        # we have to run it here manually
+        c.reject! { component_frontend_matcher(options).match? _1 }
         n = c.length
+        next if n.zero?
 
         unless site.ssr?
           Bridgetown.logger.info(
             "Reloading…",
-            "#{n} file#{"s" if c.length > 1} changed at #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
+            "#{n} file#{"s" if n > 1} changed at #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
           )
           c.each { |path| Bridgetown.logger.info "", "- #{path["#{site.root_dir}/".length..]}" }
         end
@@ -93,7 +98,6 @@ module Bridgetown
         catch :halt do
           Bridgetown::Hooks.trigger :site, :pre_reload, site, paths
           Bridgetown::Hooks.clear_reloadable_hooks
-          site.plugin_manager.reload_plugin_files
           site.loaders_manager.reload_loaders
           Bridgetown::Hooks.trigger :site, :post_reload, site, paths
 
@@ -124,12 +128,15 @@ module Bridgetown
     end
 
     def custom_excludes(options)
-      Array(options["exclude"]).map { |e| Bridgetown.sanitized_path(options["source"], e) }
+      Array(options["exclude"]).map { |e| Bridgetown.sanitized_path(options["root_dir"], e) }
     end
 
-    def component_frontend_matcher
-      %r{_components/.*?(\.js|\.jsx|\.js\.rb|\.css)$}
+    # rubocop:disable Layout/LineLength
+    def component_frontend_matcher(options)
+      @fematcher ||=
+        %r{(#{options[:components_dir]}|#{options[:islands_dir]})/(?:[^.]+|\.(?!dsd))+(\.js|\.jsx|\.js\.rb|\.css)$}
     end
+    # rubocop:enable Layout/LineLength
 
     def to_exclude(options)
       [
@@ -162,7 +169,7 @@ module Bridgetown
         rescue ArgumentError
           # Could not find a relative path
         end
-      end + [component_frontend_matcher] + [%r!^\.bridgetown-metadata!]
+      end
     end
 
     def sleep_forever

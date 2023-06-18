@@ -27,6 +27,10 @@ After installing the Lit Renderer plugin, you can write "hybrid" components whic
 
 So pick your flavor and dive in, or keep reading for more conceptual overview of Bridgetown's component architecture.
 
+## New! Declarative Shadow DOM
+
+An emerging technology which has the potential to change how we approach development of layout and modular composition on the web is called [Declarative Shadow DOM (DSD)](/docs/content/dsd). Starting in Bridgetown 1.3, you can utilize DSD in your layouts and components for increased separation between presentation logic and content, scoped styles which won't inadvertently affect other parts of the page (or other templates), and many other benefits. Check out our [documentation on DSD](/docs/content/dsd) for further details.
+
 ## The Subtle Interplay of HTML, CSS, & JavaScript
 
 As previously mentioned, a component will often encompass not just the output HTML coming from the component's logic/template, but styling via CSS, and client-side interactivity via JavaScript.

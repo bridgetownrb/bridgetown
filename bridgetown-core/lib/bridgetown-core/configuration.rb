@@ -33,8 +33,8 @@ module Bridgetown
       "collections_dir"            => "",
       "cache_dir"                  => ".bridgetown-cache",
       "layouts_dir"                => "_layouts",
-      "data_dir"                   => "_data",
       "components_dir"             => "_components",
+      "islands_dir"                => "_islands",
       "partials_dir"               => "_partials",
       "collections"                => {},
       "taxonomies"                 => {
@@ -44,7 +44,6 @@ module Bridgetown
       "eager_load_paths"           => [],
       "autoloader_collapsed_paths" => [],
       "additional_watch_paths"     => [],
-      "plugins_use_zeitwerk"       => true,
 
       # Handling Reading
       "include"                    => [".htaccess", "_redirects", ".well-known"],
@@ -335,30 +334,32 @@ module Bridgetown
         self[:source] = File.expand_path(self[:source], self[:root_dir])
         self[:destination] = File.expand_path(self[:destination], self[:root_dir])
 
-        if self[:plugins_use_zeitwerk]
-          autoload_paths.unshift({
-            path: self[:plugins_dir],
-            eager: true,
-          })
-        end
+        autoload_paths.unshift({
+          path: self[:plugins_dir],
+          eager: true,
+        })
+        autoload_paths.unshift({
+          path: File.expand_path(self[:islands_dir], self[:source]),
+          eager: true,
+        })
       end
 
       autoload_paths.map! do |load_path|
         if load_path.is_a?(Hash)
-          expanded = File.expand_path(load_path[:path], root_dir)
+          expanded = File.expand_path(load_path[:path], self[:root_dir])
           self[:eager_load_paths] << expanded if load_path[:eager]
           next expanded
         end
 
-        File.expand_path(load_path, root_dir)
+        File.expand_path(load_path, self[:root_dir])
       end
 
       autoloader_collapsed_paths.map! do |collapsed_path|
-        File.expand_path(collapsed_path, root_dir)
+        File.expand_path(collapsed_path, self[:root_dir])
       end
 
       additional_watch_paths.map! do |collapsed_path|
-        File.expand_path(collapsed_path, root_dir)
+        File.expand_path(collapsed_path, self[:root_dir])
       end
 
       self

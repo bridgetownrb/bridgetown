@@ -229,6 +229,32 @@ module Bridgetown
         end
       end
 
+      def dsd(input = nil, &block)
+        tmpl_content = block.nil? ? input.to_s : view.capture(&block)
+
+        Bridgetown::Utils.dsd_tag(tmpl_content)
+      end
+
+      def dsd_style
+        tmpl_path = caller_locations(1, 2).find do |loc|
+                      loc.label.include?("method_missing").!
+                    end&.path
+
+        return unless tmpl_path # virtually guaranteed not to happen
+
+        tmpl_basename = File.basename(tmpl_path, ".*")
+        style_path = File.join(File.dirname(tmpl_path), "#{tmpl_basename}.dsd.css")
+
+        unless File.file?(style_path)
+          raise Bridgetown::Errors::FatalException, "Missing stylesheet at #{style_path}"
+        end
+
+        style_tag = site.tmp_cache["dsd_style:#{style_path}"] ||=
+          "<style>#{File.read(style_path)}</style>"
+
+        style_tag.html_safe
+      end
+
       private
 
       # Covert an underscored value into a dashed string.

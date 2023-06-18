@@ -341,7 +341,7 @@ Finally, if you pass a Ruby object (i.e., it responds to `url`), it will work as
 
 ## Slotted Content
 
-New in Bridgetown 1.2, you can now contain portions of content in a template file (whether for pages, layouts, or another resources) within "slots". These content slots can then be rendered higher up the rendering pipeline. For example, a resource can define a slot, and its layout can render it. Or a layout itself can define a slot and its parent layout can render it. You can render slots within partials as well.
+You can contain portions of content in a template file (whether for pages, layouts, or another resources) within "slots". These content slots can then be rendered higher up the rendering pipeline. For example, a resource can define a slot, and its layout can render it. Or a layout itself can define a slot and its parent layout can render it. You can render slots within partials as well.
 
 Bridgetown's [Ruby components](/docs/components/ruby#slotted-content) also has its own slotting mechanism.
 
@@ -398,7 +398,7 @@ Within the hook, you can call `slot.context` to access the definition context fo
 <% end %>
 
 <%= render Note.new(type: :warning) do %>
-  Don't let the naming fool you…Bridgetown's slotted content feature is not related to the concept of slots in custom elements and shadow DOM (aka web components). But there are some surface-level similarities. Many view-related frameworks provide some notion of slots (perhaps called something else like content or layout blocks), as it's helpful to be able to render named "child" content within "parent" views.
+  Don't let the naming fool you…Bridgetown's slotted content feature is not related to the concept of slots in custom elements and shadow DOM (aka web components). But there are some surface-level similarities. Many view-related frameworks provide some notion of slots (perhaps called something else like content or layout blocks), as it's helpful to be able to render named "child" content within "parent" views. If you're looking for information on using actual HTML slots, check out our new [Declarative Shadow DOM documentation](/docs/content/dsd).
 <% end %>
 
 ## Other HTML Helpers
