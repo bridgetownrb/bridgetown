@@ -63,10 +63,14 @@ Say howdy 👋 to our growing list of past & present sponsors of Bridgetown on G
 |<a href="https://github.com/renuo">@renuo</a>|<a href="https://github.com/maxveldink">@maxveldink</a>|<a href="https://github.com/fuzzygroup">@fuzzygroup</a>|<a href="https://github.com/monfresh">@monfresh</a>|<a href="https://github.com/posiczko">@posiczko</a>|
 |<a href="https://www.renuo.ch/">Website</a>|<a href="https://maxveld.ink">Website</a>|<a href="https://fuzzyblog.io/blog/">Website</a>|<a href="https://www.moncefbelyamani.com">Website</a>|<a href="https://tetrapyloctomy.org">Website</a>|
 
-|<img src="https://avatars.githubusercontent.com/skvk?s=256" alt="skvk" width="128" />|<img src="https://avatars.githubusercontent.com/Brem-LLC?s=256" alt="Brem-LLC" width="128" />|<img src="https://avatars.githubusercontent.com/ttilberg?s=256" alt="ttilberg" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/skvk">@skvk</a>|<a href="https://github.com/Brem-LLC">@Brem-LLC</a>|<a href="https://github.com/ttilberg">@ttilberg</a>|You Next?|
-||<a href="https://brem.io">Website</a>|<a href="http://www.timtilberg.com">Website</a>||
+|<img src="https://avatars.githubusercontent.com/skvk?s=256" alt="skvk" width="128" />|<img src="https://avatars.githubusercontent.com/Brem-LLC?s=256" alt="Brem-LLC" width="128" />|<img src="https://avatars.githubusercontent.com/ttilberg?s=256" alt="ttilberg" width="128" />|<img src="https://avatars.githubusercontent.com/swilgosz?s=256" alt="swilgosz" width="128" />|<img src="https://avatars.githubusercontent.com/karloscarweber?s=256" alt="karloscarweber" width="128" />|
+|:---:|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/skvk">@skvk</a>|<a href="https://github.com/Brem-LLC">@Brem-LLC</a>|<a href="https://github.com/ttilberg">@ttilberg</a>|<a href="https://github.com/swilgosz">@swilgosz</a>|<a href="https://github.com/karloscarweber">@karloscarweber</a>|
+||<a href="https://brem.io">Website</a>|<a href="http://www.timtilberg.com">Website</a>|<a href="https://hanamimastery.com/">Website</a>|<a href="https://kow.fm/">Website</a>|
+
+|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|
+|You Next?|
 
 ## Commercial Support
 
