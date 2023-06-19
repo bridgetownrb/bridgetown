@@ -183,7 +183,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   <p><a href="/docs/core-concepts"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
-    <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+    <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
 
 - <sl-card markdown="block">
@@ -196,7 +196,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   <p><a href="/docs/resources"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
-    <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+    <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
 
 - <sl-card markdown="block">
@@ -209,7 +209,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   <p><a href="/docs/template-engines"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
-    <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+    <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
 
 - <sl-card markdown="block">
@@ -222,7 +222,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   <p><a href="/docs/components"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
-    <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+    <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
 
 - <sl-card markdown="block">
@@ -235,7 +235,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   <p><a href="/docs/routes"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
-    <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+    <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
 
 - <sl-card markdown="block">
@@ -248,7 +248,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   <p><a href="/docs/frontend-assets"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
-    <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+    <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
 
 - <sl-card markdown="block">
@@ -261,7 +261,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   <p><a href="/docs/plugins"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
-    <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+    <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
 
 - <sl-card markdown="block">
@@ -274,7 +274,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   <p><a href="/docs/deployment"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
-    <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+    <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
   </sl-button></a></p>
 
 
@@ -284,7 +284,7 @@ Then when you're ready, [bundled configurations](/docs/bundled-configurations) a
 <p>
   <a href="/docs"><sl-button variant="primary" pill size="large">
     Start Your Build Today
-    <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+    <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
   </sl-button></a>
 </p>
 {:style="text-align:center; margin-top:3rem"}

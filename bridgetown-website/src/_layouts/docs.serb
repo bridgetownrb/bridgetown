@@ -5,7 +5,7 @@ layout: default
 {% url_sections = resource.relative_url.split "/" %}
 <main-content><article>
   <sl-breadcrumb style="display:block; margin-bottom:2.1em">
-    <sl-icon library="remixicon" name="system/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></sl-icon>
+    <sl-icon library="remixicon" name="arrows/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></sl-icon>
 
     <sl-breadcrumb-item href="/docs">Documentation</sl-breadcrumb-item>
     <sl-breadcrumb-item href="#sidebar-{{ resource.data.top_section | slugify }}">{{ resource.data.top_section }}</sl-breadcrumb-item>
@@ -25,7 +25,7 @@ layout: default
     <p style="text-align:center; margin-top:4rem">
       <a href="/docs/{{ resource.data.back_to || resource.data.category }}"><sl-button variant="primary" size="small" outline>
         Back to {{ resource.data.category | titleize }}
-        <sl-icon slot="prefix" library="remixicon" name="system/arrow-up-s-fill"></sl-icon>
+        <sl-icon slot="prefix" library="remixicon" name="arrows/arrow-up-s-fill"></sl-icon>
       </sl-button></a>
     </p>
   {% else %}
@@ -39,7 +39,7 @@ layout: default
       <p style="text-align:right; margin-top:4rem">
         <a href="{{ next_page.relative_url }}"><sl-button variant="primary" size="small" outline>
           {{ next_page.data.title }}
-          <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+          <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
         </sl-button></a>
       </p>
     {% end %}

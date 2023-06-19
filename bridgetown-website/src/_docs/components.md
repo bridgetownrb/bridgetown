@@ -76,19 +76,19 @@ Ready to dive more into a particular component flavor? Let's go!
   <a href="/docs/components/liquid">
     <sl-button variant="primary" outline>
       Liquid
-      <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
     </sl-button>
   </a>
   <a href="/docs/components/ruby">
     <sl-button variant="primary" outline>
       Ruby
-      <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
     </sl-button>
   </a>
   <a href="/docs/components/lit">
     <sl-button variant="primary" outline>
       Lit
-      <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
     </sl-button>
   </a>
 </p>

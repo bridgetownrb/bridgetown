@@ -6,7 +6,7 @@ layout: default
   <section-wrapper><section>
 
   <sl-breadcrumb style="display:block; margin-bottom:2.1em">
-    <sl-icon library="remixicon" name="system/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></sl-icon>
+    <sl-icon library="remixicon" name="arrows/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></sl-icon>
 
     <sl-breadcrumb-item href="/blog">Blog</sl-breadcrumb-item>
     <sl-breadcrumb-item href="/blog/{{ data.category }}">Category: {{ data.category | titleize }}</sl-breadcrumb-item>

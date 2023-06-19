@@ -17,13 +17,13 @@ For documentation on how to use Liquid or Ruby-based syntax in Bridgetown conten
   <a href="/docs/template-engines/liquid">
     <sl-button variant="primary" outline>
       Liquid
-      <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
     </sl-button>
   </a>
   <a href="/docs/template-engines/erb-and-beyond">
     <sl-button variant="primary" outline>
       ERB, Serbea, & More
-      <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
     </sl-button>
   </a>
 </p>

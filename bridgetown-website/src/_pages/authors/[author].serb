@@ -10,7 +10,7 @@ prototype:
 
 {% data.breadcrumbs_for_layout = capture do %}
   <sl-breadcrumb style="display:block; margin-bottom:2.1em">
-    <sl-icon library="remixicon" name="system/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></sl-icon>
+    <sl-icon library="remixicon" name="arrows/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></sl-icon>
 
     <sl-breadcrumb-item href="/blog">Blog</sl-breadcrumb-item>
     <sl-breadcrumb-item></sl-breadcrumb-item>
@@ -45,13 +45,13 @@ prototype:
   {% if paginator.previous_page %}
     <a href="{{ paginator.previous_page_path }}"><sl-button variant="primary" size="small" outline>
       Previous Page
-      <sl-icon slot="prefix" library="remixicon" name="system/arrow-left-s-fill"></sl-icon>
+      <sl-icon slot="prefix" library="remixicon" name="arrows/arrow-left-s-fill"></sl-icon>
     </sl-button></a>
   {% end %}
   {% if paginator.next_page %}
     <a href="{{ paginator.next_page_path }}"><sl-button variant="primary" size="small" outline>
       Next Page
-      <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
     </sl-button></a>
   {% end %}
 </p>

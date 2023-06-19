@@ -21,13 +21,13 @@ In addition to Liquid's standard suite of filters and tags, Bridgetown provides 
   <a href="/docs/liquid/filters">
     <sl-button variant="primary" outline>
       Filters List
-      <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
     </sl-button>
   </a>
   <a href="/docs/liquid/tags">
     <sl-button variant="primary" outline>
       Tags List
-      <sl-icon slot="suffix" library="remixicon" name="system/arrow-right-s-fill"></sl-icon>
+      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
     </sl-button>
   </a>
 </p>
