@@ -65,6 +65,14 @@ module Bridgetown
         HEADER = %r!\A[~`#-]{3,}(?:ruby|<%|{%)\s*\n!.freeze
         BLOCK = %r!#{HEADER.source}(.*?\n?)^((?:%>|%})?[~`#-]{3,}\s*$\n?)!m.freeze
 
+        # Determines whether a given file has Ruby front matter
+        #
+        # @param file [Pathname, String] the path to the file
+        # @return [Boolean] true if the file has Ruby front matter, false otherwise
+        def self.header?(file)
+          File.open(file, "rb", &:gets)&.match?(HEADER) || false
+        end
+
         # @see {Base#read}
         def read(file_contents, file_path:)
           if (ruby_content = file_contents.match(BLOCK)) && should_execute_inline_ruby?
@@ -73,7 +81,7 @@ module Bridgetown
               front_matter: process_ruby_data(ruby_content[1], file_path, 2),
               line_count: ruby_content[1].lines.size
             )
-          elsif Bridgetown::Utils.has_rbfm_header?(file_path)
+          elsif self.class.header?(file_path)
             Result.new(
               front_matter: process_ruby_data(
                 File.read(file_path).lines[1..].join("\n"),

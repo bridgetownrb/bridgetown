@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  module Utils
-    module RubyFrontMatterDSL
+  module FrontMatter
+    module RubyDSL
       def front_matter(scope: nil, &block)
         RubyFrontMatter.new(scope: scope).tap { |fm| fm.instance_exec(&block) }
       end

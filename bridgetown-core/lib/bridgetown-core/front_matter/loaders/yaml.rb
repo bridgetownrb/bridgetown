@@ -18,6 +18,14 @@ module Bridgetown
         HEADER = %r!\A---\s*\n!.freeze
         BLOCK = %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m.freeze
 
+        # Determines whether a given file has YAML front matter
+        #
+        # @param file [String] the path to the file
+        # @return [Boolean] true if the file has YAML front matter, false otherwise
+        def self.header?(file)
+          File.open(file, "rb", &:gets)&.match?(HEADER) || false
+        end
+
         # @see {Base#read}
         def read(file_contents, **)
           yaml_content = file_contents.match(BLOCK) or return
