@@ -82,6 +82,7 @@ module Bridgetown
   autoload :EntryFilter,         "bridgetown-core/entry_filter"
   # TODO: we have too many errors! This is silly
   autoload :Errors,              "bridgetown-core/errors"
+  autoload :FrontMatter,         "bridgetown-core/front_matter"
   autoload :FrontmatterDefaults, "bridgetown-core/frontmatter_defaults"
   autoload :FrontMatterImporter, "bridgetown-core/concerns/front_matter_importer"
   autoload :GeneratedPage,       "bridgetown-core/generated_page"

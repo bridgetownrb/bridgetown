@@ -129,7 +129,12 @@ module Bridgetown
                        encoding: site.config["encoding"]).map(&:to_hash),
           }
         when ".rb"
-          process_ruby_data(File.read(original_path), original_path, 1)
+          Bridgetown::Utils::RubyExec.process_ruby_data(
+            self,
+            File.read(original_path),
+            original_path,
+            1
+          )
         when ".json"
           json_data = JSON.parse(File.read(original_path))
           json_data.is_a?(Array) ? { rows: json_data } : json_data
