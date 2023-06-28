@@ -6,11 +6,6 @@ module Bridgetown
       include Bridgetown::FrontMatterImporter
       include Bridgetown::Utils::RubyFrontMatterDSL
 
-      YAML_FRONT_MATTER_REGEXP = %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m.freeze
-      RUBY_FRONT_MATTER_HEADER = %r!\A[~`#-]{3,}(?:ruby|<%|{%)\s*\n!.freeze
-      RUBY_FRONT_MATTER_REGEXP =
-        %r!#{RUBY_FRONT_MATTER_HEADER.source}(.*?\n?)^((?:%>|%})?[~`#-]{3,}\s*$\n?)!m.freeze
-
       # @return [String]
       attr_accessor :content
 
