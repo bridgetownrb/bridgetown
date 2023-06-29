@@ -4,7 +4,6 @@ module Bridgetown
   module Model
     class RepoOrigin < Origin
       include Bridgetown::FrontMatter::Importer
-      include Bridgetown::FrontMatter::RubyDSL
 
       # @return [String]
       attr_accessor :content
