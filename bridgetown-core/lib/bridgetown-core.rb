@@ -77,7 +77,6 @@ module Bridgetown
   autoload :Cleaner,             "bridgetown-core/cleaner"
   autoload :Collection,          "bridgetown-core/collection"
   autoload :Component,           "bridgetown-core/component"
-  autoload :Configuration,       "bridgetown-core/configuration"
   autoload :DefaultsReader,      "bridgetown-core/readers/defaults_reader"
   autoload :Deprecator,          "bridgetown-core/deprecator"
   autoload :EntryFilter,         "bridgetown-core/entry_filter"
@@ -119,6 +118,7 @@ module Bridgetown
   require "bridgetown-core/liquid_extensions"
   require "bridgetown-core/filters"
 
+  require "bridgetown-core/configuration"
   require "bridgetown-core/drops/drop"
   require "bridgetown-core/drops/resource_drop"
   require_all "bridgetown-core/converters"
