@@ -139,6 +139,7 @@ You can use the `asset_path` Liquid tag/Ruby helper to reference assets within t
 ```liquid
 <img src="{% asset_path images/folder/somefile.png %}" />
 ```
+{% endraw %}
 
 will look for `frontend/images/folder/somefile.png`.
 
@@ -166,8 +167,6 @@ const esbuildOptions = {
   ]
 }
 ```
-
-{% endraw %}
 
 {%@ Note do %}
   Check out the [Ruby2JS Bundled Configuration](/docs/bundled-configurations#ruby2js) for an automated way to install Ruby2JS.
