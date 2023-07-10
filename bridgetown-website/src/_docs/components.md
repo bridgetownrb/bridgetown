@@ -53,7 +53,7 @@ Here's an example file structure showing all three environments in use:
             ├── navbar.erb
             ├── navbar.js
             ├── navbar.rb
-            └── navbar.global.css
+            └── navbar.css
 ```
 
 A rundown of the various component types:

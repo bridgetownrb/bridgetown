@@ -133,6 +133,7 @@ module Bridgetown
 
     # rubocop:disable Layout/LineLength
     def component_frontend_matcher(options)
+      # TODO: maybe a negative lookbehind would make this regex cleaner?
       @fematcher ||=
         %r{(#{options[:components_dir]}|#{options[:islands_dir]})/(?:[^.]+|\.(?!dsd))+(\.js|\.jsx|\.js\.rb|\.css)$}
     end

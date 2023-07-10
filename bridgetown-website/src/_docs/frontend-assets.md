@@ -144,6 +144,14 @@ will look for `frontend/images/folder/somefile.png`.
 
 ## esbuild Setup
 
+{%@ Note do %}
+If you're upgrading from a prior version of Bridgetown and have run `bin/bridgetown esbuild update`, you'll need to modify your `frontend/javascript/index.js` file so the CSS import is `$styles/index.css` instead of just `index.css`.
+
+If you want to be super thorough, also search and replace `bridgetownComponents` with `$components`, as the former is deprecated.
+
+These path aliases are explained in further detail below.
+{% end %}
+
 The default configuration is defined in `config/esbuild.defaults.js`. However, you should add or override your own config options in the top-level `esbuild.config.js` file. By modifying the `esbuildOptions` object (blank by default), it adds to or overrides default config options. This provides a straightforward way of adding esbuild plugins and other esbuild features unique to your frontend.
 
 For instance, you could add [Ruby2JS](https://www.ruby2js.com/) support and switch to using a `.js.rb` file for your entrypoint:
@@ -176,10 +184,6 @@ $components: src/_components
 ```
 
 This allows you to conveniently write import statements such as `import "$styles/index.css"`. You can add additional path aliases if you'd like to import from other folders you've created in your project while maintaining terse paths.
-
-{%@ Note type: :warning do %}
-  When upgrading from older projects, make sure you've run `bin/bridgetown esbuild update` and then add `$styles/` in front of any CSS import statements in your main JavaScript files. You can also update the `bridgetownComponents/**` glob to `$components/**`.
-{% end %}
 
 ### Multiple Entry Points
 
@@ -254,6 +258,10 @@ You can learn more about [dynamic imports on MDN](https://developer.mozilla.org/
 {%@ Note type: :warning do %}
   ES Module imports have been supported in all modern browsers since 2019, but if you wish to preserve backwards compatibility with older browsers, you'll need to avoid using this technique. 
 {% end %}
+
+### Islands Architecture
+
+Starting in Bridgetown 1.3, there's an additional "convention over configuration" option for spreading JavaScript modules across various pages and keeping most code out of the main bundle. [Check out our dedicated Islands documentation](/docs/islands) for how to set this up.
 
 ## Webpack Setup
 

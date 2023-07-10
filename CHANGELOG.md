@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.3.0] - 2023-06-18
+
+- esbuild and bundled configurations fixes
+
 ## [1.3.0.beta3] - 2023-06-18
 
 - Lit configuration bug fixes based on QA

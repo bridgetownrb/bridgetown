@@ -5,7 +5,29 @@ top_section: Designing Your Site
 category: layouts
 ---
 
-_Welcome to the future!_ Declarative Shadow DOM ([DSD](https://developer.chrome.com/articles/declarative-shadow-dom/)) represents a huge shift in the way we architect and promote modularity on a web page. You can use DSD in your [layouts](/docs/layouts), [components](/docs/components), and generally anywhere it would be beneficial to increase the separation between presentation logic & content and work with advanced scoped styling APIs.
+_Welcome to the future!_ Declarative Shadow DOM ([DSD](https://konnorrogers.com/posts/2023/what-is-declarative-shadow-dom/)) represents a huge shift in the way we architect and promote modularity on a web page. You can use DSD in your [layouts](/docs/layouts), [components](/docs/components), and generally anywhere it would be beneficial to increase the separation between presentation logic & content and work with advanced scoped styling APIs.
+
+Heads up: if you're upgrading from Bridgetown 1.2 or previous, you'll need to be using esbuild (not Webpack) and must update your base esbuild configuration. It's a snap! Just run:
+
+```shell
+bin/bridgetown esbuild update
+```
+
+See the [esbuild setup documentation](/docs/frontend-assets#esbuild-setup) for further upgrade instructions.
+
+{%@ Note type: :warning do %}
+  You may also need to update your `esbuild.config.js file` so it includes the following configuration option:
+
+  ```js
+    globOptions: {
+      excludeFilter: /\.(dsd|lit)\.css$/
+    }
+  ```
+{% end %}
+
+{{ toc }}
+
+## Intro to DSD
 
 It's helpful to describe the power and flexibility of DSD by comparing it to what has come before. Let's look at a typical web page layout and how we might style it. (We'll only concern ourselves with `<body>` for this example.)
 
@@ -60,6 +82,8 @@ article.boldest > header {
 ```
 
 Wouldn't it be great if we could separate the internal styling from outward-facing styling of each modular building block of a website? Wouldn't it be great if we could define "styling APIs" for our components? Wouldn't it be great if we could simplify the markup of our actual content by ensuring it's not locked inside of all the presentational/structural minutiae of a layout?
+
+## The `dsd` Helper
 
 Enter **Declarative Shadow DOM**.
 
@@ -164,6 +188,7 @@ There are certain "gotchas" when working with scoped styles inside a shadow root
 
 ## Working with DSD in JavaScript and Hydrating Islands
 
-_coming soon…_
+_Further documentation coming soon…_
 
-[Documentation on Islands Architecture](/docs/islands)
+Meanwhile, you may be interested in our [documentation on Islands Architecture](/docs/islands).
+

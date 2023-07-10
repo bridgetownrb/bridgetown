@@ -11,17 +11,27 @@ Starting in Bridgetown 1.3, **we're bringing islands architecture to you** with 
 
 This is an early step forward for the framework, so your feedback is crucial as we increasingly align our best practices with the latest improvements across the industry.
 
+{{ toc }}
+
 ## Creating Your First Island
 
-If you've just created a new Bridgetown project, you're ready to take it to the next level. If you're upgrading from Bridgetown 1.2 or previous, you'll need be using esbuild (not Webpack) and will need to update your base esbuild configuration. It's a snap! Just run:
+If you've just created a new Bridgetown project, you're ready to take it to the next level. If you're upgrading from Bridgetown 1.2 or previous, you'll need to be using esbuild (not Webpack) and must update your base esbuild configuration. It's a snap! Just run:
 
 ```shell
 bin/bridgetown esbuild update
 ```
 
-There's a small change you'll need to make to your `frontend/javascript/index.js` as well (namely to change the CSS import to `$styles/index.(s)css`).
+See the [esbuild setup documentation](/docs/frontend-assets#esbuild-setup) for further upgrade instructions.
 
-==say something about customized entrypoints here==
+{%@ Note type: :warning do %}
+  You may also need to update your `esbuild.config.js file` so it includes the following configuration option:
+
+  ```js
+    globOptions: {
+      excludeFilter: /\.(dsd|lit)\.css$/
+    }
+  ```
+{% end %}
 
 Next, in the `src/_islands` folder (please create one if it's not already present), add your first island "entrypoint" which we'll call `breezy.js`:
 

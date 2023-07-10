@@ -103,6 +103,8 @@ const importPostCssPlugin = (options, configuration) => ({
   async setup(build) {
     // Process .css files with PostCSS
     build.onLoad({ filter: (configuration.filter || /\.css$/) }, async (args) => {
+      if (args.path.endsWith(".lit.css")) return;
+
       const additionalFilePaths = []
       const css = await fs.readFile(args.path, "utf8")
 
@@ -307,6 +309,9 @@ module.exports = async (esbuildOptions, ...args) => {
   if (esbuildOptions.bridgetownConfig) delete esbuildOptions.bridgetownConfig
 
   const esbuild = require("esbuild")
+  const entryPoints = esbuildOptions.entryPoints || ["./frontend/javascript/index.js"]
+  if (esbuildOptions.entryPoints) delete esbuildOptions.entryPoints
+
   const islands = glob.sync(`./${bridgetownConfig.source}/${bridgetownConfig.islandsDir}/*.{js,js.rb}`).map(item => `./${item}`)
 
   esbuild.context({
@@ -325,7 +330,7 @@ module.exports = async (esbuildOptions, ...args) => {
     minify: process.argv.includes("--minify"),
     sourcemap: true,
     target: "es2020",
-    entryPoints: ["./frontend/javascript/index.js", ...islands],
+    entryPoints: [...entryPoints, ...islands],
     entryNames: "[dir]/[name].[hash]",
     outdir: path.join(process.cwd(), `${bridgetownConfig.destination}/_bridgetown/static`),
     publicPath: "/_bridgetown/static",

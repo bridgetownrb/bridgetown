@@ -23,7 +23,7 @@ insert_into_file "esbuild.config.js",
 end
 
 insert_into_file "esbuild.config.js",
-                 after: "  plugins: [" do
+                 after: "\n  plugins: [\n" do
   <<-JS
     ruby2js(),
   JS
