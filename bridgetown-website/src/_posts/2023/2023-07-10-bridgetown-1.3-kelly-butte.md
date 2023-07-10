@@ -33,7 +33,7 @@ Now on to the good stuff. ;-P
 
 ### Introducing Islands Architecture
 
-**Old and busted:** putting all your JavaScript, web components, and other frontend libraries in a single bundle that applies to every page on your website.
+**Old and busted:** putting all your JavaScript, web components, and other frontend libraries in a single bundle that applies to every page on your website.  
 **New hotness:** only bundling the bare minimum (if anything) for your website as a whole, and instead using "islands" on individual pages as needed.
 
 [As it says in the documentation](/docs/islands), the term [Islands Architecture](https://jasonformat.com/islands-architecture) was coined a few years ago by frontend architect Katie Sylor-Miller and further popularized by Preact creator Jason Miller. It describes a way of architecting website frontends around independent component trees, all rendered server-side initially as HTML but then "hydrated" on the frontend independently of one another.  
