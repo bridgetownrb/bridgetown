@@ -221,7 +221,7 @@ module Bridgetown
                      view.view_context.resource
                    end
 
-        return unless resource
+        return false unless resource
 
         name = name.to_s
         resource.slots.any? do |slot|

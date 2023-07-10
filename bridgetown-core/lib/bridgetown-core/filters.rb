@@ -102,7 +102,7 @@ module Bridgetown
     def obfuscate_link(input, prefix = "mailto")
       link = "<a href=\"#{prefix}:#{input}\">#{input}</a>"
       script = "<script type=\"text/javascript\">document.currentScript.insertAdjacentHTML('"
-      script += "beforebegin', '#{rot47(link).gsub(%r!\\!, '\\\\\\')}'.replace(/[!-~]/g," # rubocop:disable Style/StringLiteralsInInterpolation
+      script += "beforebegin', '#{rot47(link).gsub(%r!\\!, '\\\\\\')}'.replace(/[!-~]/g," # rubocop:disable Style/StringLiteralsInInterpolation, Style/RedundantRegexpArgument
       script += "function(c){{var j=c.charCodeAt(0);if((j>=33)&&(j<=126)){"
       script += "return String.fromCharCode(33+((j+ 14)%94));}"
       script += "else{return String.fromCharCode(j);}}}));</script>"
