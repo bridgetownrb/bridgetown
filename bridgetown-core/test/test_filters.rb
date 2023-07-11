@@ -59,6 +59,7 @@ class TestFilters < BridgetownUnitTest
       )
       @sample_date = Date.parse("2013-03-02")
       @time_as_string = "September 11, 2001 12:46:30 -0000"
+      @date_as_string = "1995-12-21"
       @time_as_numeric = 1_399_680_607
       @integer_as_string = "142857"
       @array_of_objects = [
@@ -370,6 +371,204 @@ class TestFilters < BridgetownUnitTest
         should "return input" do
           assert_nil(@filter.date_to_xmlschema(nil))
           assert_equal("", @filter.date_to_xmlschema(""))
+        end
+      end
+    end
+
+    context "localization filters" do
+      setup do
+        eo_translations = {
+          date: {
+            abbr_month_names: [
+              "",
+              "jan.",
+              "feb.",
+              "mar.",
+              "apr.",
+              "majo",
+              "jun.",
+              "jul.",
+              "aŭg.",
+              "sep.",
+              "okt.",
+              "nov.",
+              "dec.",
+            ],
+            formats: {
+              default: "%d-%m-%Y",
+              short: "%-d %b",
+            },
+            month_names: [
+              "",
+              "januaro",
+              "februaro",
+              "marto",
+              "aprilo",
+              "majo",
+              "junio",
+              "julio",
+              "aŭgusto",
+              "septembro",
+              "oktobro",
+              "novembro",
+              "decembro",
+            ],
+          },
+          time: {
+            formats: {
+              default: "%d %B %Y %H:%M:%S",
+              short: "%d %b %H:%M",
+            },
+          },
+        }
+
+        fr_translations = {
+          date: {
+            abbr_month_names: [
+              "",
+              "jan.",
+              "fév.",
+              "mars",
+              "avr.",
+              "mai",
+              "juin",
+              "juil.",
+              "août",
+              "sept.",
+              "oct.",
+              "nov.",
+              "déc.",
+            ],
+            formats: {
+              default: "%d/%m/%Y",
+              short: "%-d %b",
+            },
+            month_names: [
+              "",
+              "janvier",
+              "février",
+              "mars",
+              "avril",
+              "mai",
+              "juin",
+              "juillet",
+              "août",
+              "septembre",
+              "octobre",
+              "novembre",
+              "décembre",
+            ],
+          },
+          time: {
+            formats: {
+              default: "%e %B %Y %Hh %Mmin %Ss",
+              short: "%d %b %Hh%M",
+            },
+          },
+        }
+
+        @filter.site.config.available_locales = I18n.available_locales = [:eo, :fr]
+        @filter.site.config.default_locale = I18n.locale = :eo
+        store_translations(:eo, eo_translations)
+        store_translations(:fr, fr_translations)
+      end
+
+      context "with Time object" do
+        should "format a datetime with default format" do
+          assert_equal "27 marto 2013 11:22:33", @filter.l(@sample_time)
+        end
+
+        should "format a datetime with short format" do
+          assert_equal "27 mar. 11:22", @filter.l(@sample_time, "short")
+        end
+
+        should "format a datetime with short format in french locale" do
+          assert_equal "27 mars 11h22", @filter.l(@sample_time, "short", "fr")
+        end
+
+        should "format a datetime with default format in french locale" do
+          assert_equal "27 mars 2013 11h 22min 33s", @filter.l(@sample_time, "fr")
+        end
+      end
+
+      context "with Date object" do
+        should "format a date with default format" do
+          assert_equal "2013/03/02", @filter.l(@sample_date)
+        end
+
+        should "format a date with short format" do
+          assert_equal "2 mar.", @filter.l(@sample_date, "short")
+        end
+
+        should "format a date with short format in french locale" do
+          assert_equal "2 mars", @filter.l(@sample_date, "short", "fr")
+        end
+
+        should "format a date with default format in french locale" do
+          assert_equal "02/03/2013", @filter.l(@sample_date, "fr")
+        end
+      end
+
+      context "with String object" do
+        context "representing a time" do
+          should "format a datetime with default format" do
+            assert_equal "11 septembro 2001 12:46:30", @filter.l(@time_as_string)
+          end
+
+          should "format a datetime with short format" do
+            assert_equal "11 sep. 12:46", @filter.l(@time_as_string, "short")
+          end
+
+          should "format a datetime with short format in french locale" do
+            assert_equal "11 sept. 12h46", @filter.l(@time_as_string, "short", "fr")
+          end
+
+          should "format a datetime with default format in french locale" do
+            assert_equal "11 septembre 2001 12h 46min 30s", @filter.l(@time_as_string, "fr")
+          end
+        end
+
+        context "representing a date" do
+          should "format a date with default format" do
+            assert_equal "21 decembro 1995 00:00:00", @filter.l(@date_as_string)
+          end
+
+          should "format a date with short format" do
+            assert_equal "21 dec. 00:00", @filter.l(@date_as_string, "short")
+          end
+
+          should "format a date with short format in french locale" do
+            assert_equal "21 déc. 00h00", @filter.l(@date_as_string, "short", "fr")
+          end
+
+          should "format a date with default format in french locale" do
+            assert_equal "21 décembre 1995 00h 00min 00s", @filter.l(@date_as_string, "fr")
+          end
+        end
+      end
+
+      context "with a Numeric object" do
+        should "format a datetime with default format" do
+          assert_equal "10 majo 2014 00:10:07", @filter.l(@time_as_numeric)
+        end
+
+        should "format a datetime with short format" do
+          assert_equal "10 majo 00:10", @filter.l(@time_as_numeric, "short")
+        end
+
+        should "format a datetime with short format in french locale" do
+          assert_equal "10 mai 00h10", @filter.l(@time_as_numeric, "short", "fr")
+        end
+
+        should "format a datetime with default format in french locale" do
+          assert_equal "10 mai 2014 00h 10min 07s", @filter.l(@time_as_numeric, "fr")
+        end
+      end
+
+      context "without input" do
+        should "return input" do
+          assert_nil(@filter.l(nil))
+          assert_equal("", @filter.l(""))
         end
       end
     end

@@ -7,6 +7,7 @@ module Bridgetown
     include URLFilters
     include GroupingFilters
     include DateFilters
+    include LocalizationFilters
     include ConditionHelpers
 
     # Convert a Markdown string into HTML output.

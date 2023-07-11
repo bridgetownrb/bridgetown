@@ -111,6 +111,10 @@ class BridgetownUnitTest < Minitest::Test
       .bind_call(self, *args)
   end
 
+  def store_translations(locale, data, options = I18n::EMPTY_HASH)
+    I18n.backend.store_translations(locale, data, options)
+  end
+
   def before_setup
     RSpec::Mocks.setup
     super
