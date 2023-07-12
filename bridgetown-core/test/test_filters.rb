@@ -375,6 +375,102 @@ class TestFilters < BridgetownUnitTest
       end
     end
 
+    context "translation filters" do
+      setup do
+        eo_translations = {
+          datetime: {
+            distance_in_words: {
+              about_x_hours: {
+                one: "ĉirkaŭ unu horo",
+                other: "ĉirkaŭ %<count>s horoj",
+              },
+            },
+          },
+          errors: {
+            messages: {
+              not_a_number: "ne estas nombro",
+            },
+          },
+        }
+
+        fr_translations = {
+          datetime: {
+            distance_in_words: {
+              about_x_hours: {
+                one: "environ une heure",
+                other: "environ %<count>s heures",
+              },
+            },
+          },
+          errors: {
+            messages: {
+              not_a_number: "n'est pas un nombre",
+            },
+          },
+        }
+
+        @filter.site.config.available_locales = I18n.available_locales = [:eo, :fr]
+        @filter.site.config.default_locale = I18n.locale = :eo
+        store_translations(:eo, eo_translations)
+        store_translations(:fr, fr_translations)
+      end
+
+      context "lookup" do
+        should "translate error message with default locale" do
+          assert_equal "ne estas nombro", @filter.t("errors.messages.not_a_number")
+        end
+
+        should "translate error message with french locale" do
+          assert_equal "n'est pas un nombre", @filter.t("errors.messages.not_a_number", "locale:fr")
+        end
+      end
+
+      context "pluralization" do
+        should "translate distance message with default locale" do
+          assert_equal "ĉirkaŭ unu horo", @filter.t("datetime.distance_in_words.about_x_hours", "count:1")
+        end
+
+        should "translate pluralized distance message with default locale" do
+          assert_equal "ĉirkaŭ 3 horoj", @filter.t("datetime.distance_in_words.about_x_hours", "count:3")
+        end
+
+        should "translate distance message with french locale" do
+          assert_equal "environ une heure", @filter.t("datetime.distance_in_words.about_x_hours", "count:1, locale:fr")
+        end
+
+        should "translate pluralized distance message with french locale" do
+          assert_equal "environ 3 heures", @filter.t("datetime.distance_in_words.about_x_hours", "locale:fr,  count:3")
+        end
+      end
+
+      context "defaults" do
+        should "translate missing message with default locale" do
+          assert_equal "foo", @filter.t("missing", "default:foo")
+        end
+
+        should "translate missing message with french locale" do
+          assert_equal "foo", @filter.t("missing", "locale:fr, default:foo")
+        end
+      end
+
+      context "scope" do
+        should "translate error message with default locale" do
+          assert_equal "ne estas nombro", @filter.t("messages.not_a_number", "scope:errors")
+        end
+
+        should "translate error message with french locale" do
+          assert_equal "n'est pas un nombre", @filter.t("messages.not_a_number", "locale:fr, scope:errors")
+        end
+      end
+
+      context "without input" do
+        should "return input" do
+          assert_nil(@filter.t(nil))
+          assert_equal("", @filter.t(""))
+        end
+      end
+    end
+
     context "localization filters" do
       setup do
         eo_translations = {
