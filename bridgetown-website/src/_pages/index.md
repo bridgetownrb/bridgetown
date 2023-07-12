@@ -14,7 +14,7 @@ page_class: homepage
   <img src="/images/ruby-plain.svg" width="45" style="padding-bottom:10px" />
 </p>
 
-## A next-generation, progressive site generator & fullstack framework, powered by Ruby.
+## A next-generation, progressive site generator & fullstack framework, powered by Ruby
 {:style="color:var(--color-brick);"}
 
 Built upon venerated open source technologies such as **Ruby**, **Puma**, and **Roda** — and grown on the fertile soil of **Rails** & **Jekyll** — **Bridgetown** puts power back in the hands of individuals to create extraordinary things.
@@ -34,7 +34,7 @@ While your competitors are wrestling with complicated build tools, limited progr
 {% if site.data.edge_version %}
 Looking for [stable release documentation](https://www.bridgetownrb.com/)?
 {% else %}
-Looking for [0.2x documentation](https://bridgetown-v0.onrender.com/)?
+Looking for [0.x documentation](https://bridgetown-v0.onrender.com/)?
 {% end %}</small>
 
 
@@ -49,7 +49,7 @@ Looking for [0.2x documentation](https://bridgetown-v0.onrender.com/)?
   <sl-icon library="remixicon" name="business/megaphone-fill"></sl-icon>
 </p>
 
-## Listen to what they're saying about Bridgetown:
+## What others are saying about Bridgetown
 {:style="font-size:2.3rem"}
 
 {:.info-grid}
@@ -128,7 +128,7 @@ Looking for [0.2x documentation](https://bridgetown-v0.onrender.com/)?
 ## Build fast. Deploy fast. Serve fast.
 {:.serif .colorful}
 
-Like the Ruby language itself, **Bridgetown** is optimized for [web developer happiness](/docs/philosophy). Express yourself in code which is elegant and maintainable. Bundled configurations and community resources like our [Discord Chat](https://discord.gg/4E6hktQGz4) and [Bridgetown Cards](https://bridgetown.cards) help you quickly get a leg up. Go from zero to hero in no time with HTML-first build artifacts and rapid Git-based deployment on services like [Render](https://www.render.com).
+Like the Ruby language, **Bridgetown** is optimized for [developer happiness](/docs/philosophy). Write code that is elegant and maintainable. Bundled configurations and community resources like our [Discord Chat](https://discord.gg/4E6hktQGz4) and [Bridgetown Cards](https://bridgetown.cards) help you get a leg up. Go from zero to hero in no time, with HTML-first build artifacts and rapid Git-based deployment on services like [Render](https://www.render.com).
 
 
 <p>
@@ -153,7 +153,7 @@ Like the Ruby language itself, **Bridgetown** is optimized for [web developer ha
 
   {%@ Note type: :warning, icon: "map/map-pin-user" do %}
 
-    Bridgetown is made possible by the generous contributions of our [GitHub sponsors](https://github.com/bridgetownrb/bridgetown#special-thanks-to-our-founding-members--). Please [consider becoming a sponsor](https://github.com/sponsors/jaredcwhite) today and support the ongoing development of open source, Ruby-first & HTML-first software projects.
+    Bridgetown is made possible by the generous contributions of our [GitHub sponsors](https://github.com/bridgetownrb/bridgetown#special-thanks-to-our-founding-members--). Please [consider becoming a sponsor](https://github.com/sponsors/jaredcwhite) today and support the ongoing development of this open source project.
 
   {% end %}
 
@@ -167,10 +167,10 @@ Like the Ruby language itself, **Bridgetown** is optimized for [web developer ha
   <sl-icon library="remixicon" name="business/stack-fill"></sl-icon>
 </p>
 
-## Super-dee-dooper features galore.
+## Features Galore
 {:.serif .colorful}
 
-Bridgetown's philosophy is if we take the time to build what you'll actually need, you won't have to. Without having to hunt for any additional add-ons or extra recipes, **Bridgetown** gives you right out of the box from day one:
+Bridgetown's philosophy is to bundle what most people need. With less hunting for add-ons or extra recipes, **Bridgetown** is ready from day one.
 
 {:.info-grid.highlighted-cards}
 - <sl-card markdown="block">
@@ -179,7 +179,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   ### Static Site Generator
 
-  All of the features you’ve grown to love from the world of static site generation. Front Matter. Markdown. Easy permalinks. File-based content deployment with Git history and atomic builds. Data transformation pipelines. Paginated archives. It's all here and ready to roll.
+  All of the features you’d expect from static site generation. Front Matter. Markdown. Easy permalinks. File-based content deployment with Git history and atomic builds. Data transformation pipelines. Paginated archives. It's all here and ready to roll.
 
   <p><a href="/docs/core-concepts"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
@@ -203,9 +203,9 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   <sl-icon library="remixicon" name="development/braces-fill"></sl-icon>
 
-  ### World-Class Template Engine
+  ### World-class Template Engine
 
-  Actually more than one. Actually three! Liquid. ERB. Serbea. Increasing levels of power and sophistication with each step. Liquid, created by Shopify, is easy to get started with. Upgrade to ERB for the same syntax Ruby on Rails employs. Or choose Serbea, a superset of ERB which brings the best of Ruby and Liquid templates together.
+  Actually more than one. Actually three! Liquid. ERB. Serbea. Increasing levels of power and sophistication with each step. Liquid, created by Shopify, is easy to get started with. Upgrade to ERB for the same syntax Ruby on Rails uses. Or choose Serbea, a superset of ERB which brings the best of Ruby and Liquid templates together.
 
   <p><a href="/docs/template-engines"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
@@ -231,7 +231,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   ### Fullstack Framework
 
-  Some projects don't need an SSR backend. But for the ones that do, Bridgetown's got you covered. It comes with Roda baked-in, one of the fastest Ruby web frameworks in the biz. And when we say "baked-in", we literally mean it. Create a regular view template and add a dynamic route block at the top which can handle all the requests you'll throw at it. Need even more power? Mount a Rails API using Rack. All in one monorepo. Now that's a stack.
+  Some projects don't need an SSR backend. But for the ones that do, Bridgetown's got you covered. It comes with Roda baked-in, one of the fastest Ruby web frameworks around. Create a regular view template and add a dynamic route block at the top, which can handle all the requests you'll throw at it. Need even more power? Mount a Rails API using Rack. All in one monorepo. Now that's a stack.
 
   <p><a href="/docs/routes"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
@@ -255,9 +255,9 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   <sl-icon library="remixicon" name="business/service-fill"></sl-icon>
 
-  ### Sky-High Plugin Architecture
+  ### Sky-high Plugin Architecture
 
-  Bridgetown might just be the easiest way to get started learning and writing Ruby code. Craft custom plugins to enhance your site build and content with a straightforward DSL and make huge strides in only a few lines! If you already have experience writing Rails apps, you should feel right at home. (Yes, we love Active Support too!)
+  Bridgetown might just be the easiest way to get started learning and writing Ruby code. Craft custom plugins to enhance your site. With a straightforward DSL, you will make huge strides in only a few lines! If you already have experience writing Rails apps, you should feel right at home. (Yes, we love Active Support too!)
 
   <p><a href="/docs/plugins"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
@@ -278,7 +278,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
   </sl-button></a></p>
 
 
-Then when you're ready, [bundled configurations](/docs/bundled-configurations) and [plugins](/plugins) can take you even farther. Add SEO/social graph support, news feeds, inlined SVGs, asset management integration, headless CMS integration, automated testing, Hotwire, TailwindCSS, Lit SSR + Hydration, and a whole lot more.
+Then when you're ready, [bundled configurations](/docs/bundled-configurations) and [plugins](/plugins) can take you even farther. Add SEO/social graph support, news feeds, inlined SVGs, asset management integration, headless CMS integration, automated testing, Hotwire, Tailwind CSS, Lit SSR + Hydration, and a whole lot more.
 {:style="text-align:center; margin-top:3rem; margin-left:auto; margin-right:auto; max-width:50em"}
 
 <p>
