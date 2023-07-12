@@ -377,42 +377,8 @@ class TestFilters < BridgetownUnitTest
 
     context "translation filters" do
       setup do
-        eo_translations = {
-          datetime: {
-            distance_in_words: {
-              about_x_hours: {
-                one: "ĉirkaŭ unu horo",
-                other: "ĉirkaŭ %<count>s horoj",
-              },
-            },
-          },
-          errors: {
-            messages: {
-              not_a_number: "ne estas nombro",
-            },
-          },
-        }
-
-        fr_translations = {
-          datetime: {
-            distance_in_words: {
-              about_x_hours: {
-                one: "environ une heure",
-                other: "environ %<count>s heures",
-              },
-            },
-          },
-          errors: {
-            messages: {
-              not_a_number: "n'est pas un nombre",
-            },
-          },
-        }
-
         @filter.site.config.available_locales = I18n.available_locales = [:eo, :fr]
         @filter.site.config.default_locale = I18n.locale = :eo
-        store_translations(:eo, eo_translations)
-        store_translations(:fr, fr_translations)
       end
 
       context "lookup" do
@@ -473,100 +439,8 @@ class TestFilters < BridgetownUnitTest
 
     context "localization filters" do
       setup do
-        eo_translations = {
-          date: {
-            abbr_month_names: [
-              "",
-              "jan.",
-              "feb.",
-              "mar.",
-              "apr.",
-              "majo",
-              "jun.",
-              "jul.",
-              "aŭg.",
-              "sep.",
-              "okt.",
-              "nov.",
-              "dec.",
-            ],
-            formats: {
-              default: "%d-%m-%Y",
-              short: "%-d %b",
-            },
-            month_names: [
-              "",
-              "januaro",
-              "februaro",
-              "marto",
-              "aprilo",
-              "majo",
-              "junio",
-              "julio",
-              "aŭgusto",
-              "septembro",
-              "oktobro",
-              "novembro",
-              "decembro",
-            ],
-          },
-          time: {
-            formats: {
-              default: "%d %B %Y %H:%M:%S",
-              short: "%d %b %H:%M",
-            },
-          },
-        }
-
-        fr_translations = {
-          date: {
-            abbr_month_names: [
-              "",
-              "jan.",
-              "fév.",
-              "mars",
-              "avr.",
-              "mai",
-              "juin",
-              "juil.",
-              "août",
-              "sept.",
-              "oct.",
-              "nov.",
-              "déc.",
-            ],
-            formats: {
-              default: "%d/%m/%Y",
-              short: "%-d %b",
-            },
-            month_names: [
-              "",
-              "janvier",
-              "février",
-              "mars",
-              "avril",
-              "mai",
-              "juin",
-              "juillet",
-              "août",
-              "septembre",
-              "octobre",
-              "novembre",
-              "décembre",
-            ],
-          },
-          time: {
-            formats: {
-              default: "%e %B %Y %Hh %Mmin %Ss",
-              short: "%d %b %Hh%M",
-            },
-          },
-        }
-
         @filter.site.config.available_locales = I18n.available_locales = [:eo, :fr]
         @filter.site.config.default_locale = I18n.locale = :eo
-        store_translations(:eo, eo_translations)
-        store_translations(:fr, fr_translations)
       end
 
       context "with Time object" do
