@@ -279,7 +279,7 @@ Thus no files directly in `top_level` as well as any of its immediate subfolders
 ## Creating a Gem
 
 The `bridgetown plugins new NAME` command will create an entire gem scaffold
-for you to customize and publish to the [RubyGems.org](https://rubyplugins.org)
+for you to customize and publish to the [RubyGems.org](https://rubygems.org)
 and [NPM](https://www.npmjs.com) registries. This is a great way to provide
 [themes](/docs/themes), builders, and other sorts of add-on functionality to
 Bridgetown websites. You'll want to make sure you update the `gemspec`,
