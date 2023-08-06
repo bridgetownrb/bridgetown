@@ -9,7 +9,6 @@ output/
 .byebug_history
 .ruby-gemset
 *.gem
-Gemfile.lock
 
 # Files
 .analysis
