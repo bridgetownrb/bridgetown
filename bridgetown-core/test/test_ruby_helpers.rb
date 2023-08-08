@@ -31,6 +31,7 @@ class TestRubyHelpers < BridgetownUnitTest
 
     should "accept additional attributes" do
       assert_equal "<a href=\"/foo/bar\" class=\"classes\" data-test=\"abc123\">Label</a>", @helpers.link_to("Label", "/foo/bar", class: "classes", data_test: "abc123")
+      assert_equal "<a href=\"/foo/bar\" class=\"classes\" data-test=\"abc123\">Label</a>", @helpers.link_to("/foo/bar", class: "classes", data_test: "abc123") { "Label" }
     end
 
     should "accept hash attributes" do
