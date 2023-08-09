@@ -270,8 +270,7 @@ Now anywhere in your Ruby plugins, templates, etc., you can access environment v
 
 ### Inflector
 
-Zeitwerk's inflector can be configured to use ActiveSupport::Inflector. This
-will become the default in v2.0.
+Zeitwerk's inflector is configured to use ActiveSupport::Inflector by default.
 
 ```ruby
 config.inflector = ActiveSupport::Inflector

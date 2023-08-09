@@ -41,7 +41,7 @@ module Bridgetown
         category: { key: "categories", title: "Category" }, tag: { key: "tags", title: "Tag" },
       },
       "autoload_paths"             => [],
-      "inflector"                  => nil,
+      "inflector"                  => ActiveSupport::Inflector,
       "eager_load_paths"           => [],
       "autoloader_collapsed_paths" => [],
       "additional_watch_paths"     => [],

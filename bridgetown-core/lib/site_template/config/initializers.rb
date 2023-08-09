@@ -10,8 +10,8 @@ Bridgetown.configure do |config|
   # config.autoload_paths << "models"
   #
 
-  # You can configure the inflector used by Zeitwerk. In v2.0,
-  # ActiveSupport::Inflector will become the default.
+  # You can configure the inflector used by Zeitwerk. By default it is
+  # configured to use ActiveSupport::Inflector.
   #
   # config.inflector = ActiveSupport::Inflector
   #
