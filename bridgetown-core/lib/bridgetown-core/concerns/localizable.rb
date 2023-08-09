@@ -13,11 +13,7 @@ module Bridgetown
                    end
 
       matching_resources = result_set.select do |item|
-        if item.relative_path.is_a?(String)
-          item.localeless_path == localeless_path
-        else
-          item.relative_path.parent == relative_path.parent
-        end && item.data.slug == data.slug
+        matches_resource?(item)
       end
 
       matching_resources.sort_by do |item|
@@ -25,9 +21,16 @@ module Bridgetown
       end
     end
 
-    def localeless_path
-      relative_path.gsub("#{data.locale}/", '')
+    def matches_resource?(item)
+      if item.relative_path.is_a?(String)
+        item.localeless_path == localeless_path
+      else
+        item.relative_path.parent == relative_path.parent
+      end && item.data.slug == data.slug
     end
 
+    def localeless_path
+      relative_path.gsub("#{data.locale}/", "")
+    end
   end
 end
