@@ -47,7 +47,7 @@ module Bridgetown
       end
 
       def setup_loaders(autoload_paths = []) # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
-        (autoload_paths.presence || config.autoload_paths).each do |load_path|
+        (autoload_paths.presence || config.autoload_paths).each do |load_path| # rubocop:todo Metrics/BlockLength
           if @loaders.key?(load_path)
             raise "Zeitwerk loader already added for `#{load_path}'. Please check your config"
           end
