@@ -55,6 +55,7 @@ module Bridgetown
           next unless Dir.exist? load_path
 
           loader = Zeitwerk::Loader.new
+          loader.inflector = ActiveSupport::Inflector
           begin
             loader.push_dir(load_path)
           rescue Zeitwerk::Error
