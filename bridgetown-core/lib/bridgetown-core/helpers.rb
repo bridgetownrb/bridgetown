@@ -98,10 +98,10 @@ module Bridgetown
       # @return [String] the anchor tag HTML
       # @raise [ArgumentError] if the file cannot be found
       def link_to(text, relative_path = nil, options = {}, &block)
-        if block_given?
+        if block.present?
           options = relative_path || {}
           relative_path = text
-          text = view.respond_to?(:capture) ? view.capture(&block) : block.call
+          text = view.respond_to?(:capture) ? view.capture(&block) : yield
         elsif relative_path.nil?
           raise ArgumentError, "You must provide a relative path"
         end
