@@ -100,6 +100,7 @@ module Bridgetown
       def link_to(text, relative_path = nil, options = {})
         if block_given?
           relative_path = text
+          options = relative_path
           text = yield
         elsif relative_path.nil?
           raise ArgumentError, "You must provide a relative path"
