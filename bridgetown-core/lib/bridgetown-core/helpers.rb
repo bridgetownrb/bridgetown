@@ -99,8 +99,8 @@ module Bridgetown
       # @raise [ArgumentError] if the file cannot be found
       def link_to(text, relative_path = nil, options = {})
         if block_given?
-          relative_path = text
           options = relative_path
+          relative_path = text
           text = yield
         elsif relative_path.nil?
           raise ArgumentError, "You must provide a relative path"
