@@ -50,7 +50,7 @@ class TestRubyHelpers < BridgetownUnitTest
     end
 
     should "accept block syntax" do
-      assert_equal "<a href=\"/foo/bar\">Label</a>", @helpers.link_to("/foo/bar") { "Label" }
+      assert_equal "<a href=\"/foo/bar\" classe=\"classes\">Label</a>", @helpers.link_to("/foo/bar", class: "classes") { "Label" }
     end
 
     should "raise if only one argument was given" do
