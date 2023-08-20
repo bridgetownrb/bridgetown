@@ -7,6 +7,8 @@ module Bridgetown
     include URLFilters
     include GroupingFilters
     include DateFilters
+    include LocalizationFilters
+    include TranslationFilters
     include ConditionHelpers
 
     # Convert a Markdown string into HTML output.
@@ -432,7 +434,4 @@ end
 
 Liquid::Template.register_filter(
   Bridgetown::Filters
-)
-Liquid::Template.register_filter(
-  Bridgetown::Filters::TranslationFilters
 )

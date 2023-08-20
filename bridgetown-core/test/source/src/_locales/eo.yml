@@ -1,0 +1,69 @@
+eo:
+  date:
+    abbr_day_names:
+    - dim
+    - lun
+    - mar
+    - mer
+    - ĵaŭ
+    - ven
+    - sab
+    abbr_month_names:
+    -
+    - jan.
+    - feb.
+    - mar.
+    - apr.
+    - majo
+    - jun.
+    - jul.
+    - aŭg.
+    - sep.
+    - okt.
+    - nov.
+    - dec.
+    day_names:
+    - dimanĉo
+    - lundo
+    - mardo
+    - merkredo
+    - ĵaŭdo
+    - vendredo
+    - sabato
+    formats:
+      default: "%Y/%m/%d"
+      long: "%d %B %Y"
+      short: "%-d %b"
+    month_names:
+    -
+    - januaro
+    - februaro
+    - marto
+    - aprilo
+    - majo
+    - junio
+    - julio
+    - aŭgusto
+    - septembro
+    - oktobro
+    - novembro
+    - decembro
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: "ĉirkaŭ unu horo"
+        other: "ĉirkaŭ %{count} horoj"
+  errors:
+    messages:
+      not_a_number: "ne estas nombro"
+  time:
+    am: am
+    formats:
+      default: "%d %B %Y %H:%M:%S"
+      long: "%A %d %B %Y %H:%M"
+      short: "%d %b %H:%M"
+    pm: pm

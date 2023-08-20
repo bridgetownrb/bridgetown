@@ -1,0 +1,69 @@
+fr:
+  date:
+    abbr_day_names:
+    - dim
+    - lun
+    - mar
+    - mer
+    - jeu
+    - ven
+    - sam
+    abbr_month_names:
+    -
+    - jan.
+    - fév.
+    - mars
+    - avr.
+    - mai
+    - juin
+    - juil.
+    - août
+    - sept.
+    - oct.
+    - nov.
+    - déc.
+    day_names:
+    - dimanche
+    - lundi
+    - mardi
+    - mercredi
+    - jeudi
+    - vendredi
+    - samedi
+    formats:
+      default: "%d/%m/%Y"
+      long: "%e %B %Y"
+      short: "%-d %b"
+    month_names:
+    -
+    - janvier
+    - février
+    - mars
+    - avril
+    - mai
+    - juin
+    - juillet
+    - août
+    - septembre
+    - octobre
+    - novembre
+    - décembre
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: "environ une heure"
+        other: "environ %{count} heures"
+  errors:
+    messages:
+      not_a_number: "n'est pas un nombre"
+  time:
+    am: am
+    formats:
+      default: "%e %B %Y %Hh %Mmin %Ss"
+      long: "%A %e %B %Y %Hh%M"
+      short: "%d %b %Hh%M"
+    pm: pm

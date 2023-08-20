@@ -3,9 +3,11 @@
 module Bridgetown
   module Tags
     class LocalizationTag < Liquid::Tag
+      include Bridgetown::Filters::LocalizationFilters
+
       def render(_context)
-        key = @markup.strip
-        I18n.l(key)
+        input, format, locale = @markup.split.map(&:strip)
+        l(input, format, locale)
       end
     end
   end
