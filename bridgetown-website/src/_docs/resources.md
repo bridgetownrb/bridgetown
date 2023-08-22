@@ -245,14 +245,7 @@ The three types of relations you can configure are:
 * **has_one**: a single resource you want to reference will define the slug of the current resource in _its_ front matter
 * **has_many**: multiple resources you want to reference will define the slug of the current resource in their front matter
 
-The "inflector" loaded in from Rails' ActiveSupport is used to convert between singular and plural collection names automatically. If you need to customize the inflector with words it doesn't specifically recognize, create a plugin and add your own:
-
-```ruby
-ActiveSuport::Inflector.inflections(:en) do |inflect|
-  inflect.plural /^(ox)$/i, '\1\2en'
-  inflect.singular /^(ox)en/i, '\1'
-end
-```
+The "inflector" is loaded from Rails' ActiveSupport and is used to convert between singular and plural collection names automatically. If you need to customize the inflector with words it doesn't specifically recognize, see configuring ActiveSupport::Inflector in the [`config/initializers.rb`](/docs/configuration/initializers#inflector) file.
 
 ## Configuring Permalinks
 
