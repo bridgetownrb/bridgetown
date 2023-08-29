@@ -109,6 +109,7 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     memory_profiler (1.0.1)
+    mini_portile2 (2.8.4)
     minitest (5.18.1)
     minitest-profile (0.0.2)
     minitest-reporters (1.6.0)
@@ -118,10 +119,14 @@ GEM
       ruby-progressbar
     multi_json (1.15.0)
     multi_test (1.1.0)
+    nokogiri (1.15.2)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.15.2-x86_64-darwin)
       racc (~> 1.4)
     nokogiri (1.15.2-x86_64-linux)
       racc (~> 1.4)
+    nokolexbor (0.5.0)
     nokolexbor (0.5.0-x86_64-darwin)
     nokolexbor (0.5.0-x86_64-linux)
     parallel (1.23.0)
@@ -222,6 +227,7 @@ GEM
     zeitwerk (2.6.8)
 
 PLATFORMS
+  ruby
   x86_64-darwin-21
   x86_64-linux
 
