@@ -74,6 +74,7 @@ task :environment do # rubocop:todo Metrics/BlockLength
   end
 end
 
+# rubocop:disable Bridgetown/NoPutsAllowed
 desc "Provides a time zone-aware date string you can use in front matter"
 task date: :environment do
   run_initializers
@@ -82,3 +83,4 @@ task date: :environment do
   puts
   puts "➡️  #{Time.now.strftime("%a, %d %b %Y %T %z")}"
 end
+# rubocop:enable Bridgetown/NoPutsAllowed
