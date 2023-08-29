@@ -144,9 +144,10 @@ module Bridgetown
     end
 
     def process_prototype_page_data(collection, search_term, term)
+      pagination_key = prototyped_page.data.key?("paginate") ? "paginate" : "pagination"
       # Fill in pagination details to be handled later by Bridgetown::Paginate
       data["pagination"] = Bridgetown::Utils.deep_merge_hashes(
-        prototyped_page.data["pagination"].to_h, {
+        prototyped_page.data[pagination_key].to_h, {
           "enabled"     => true,
           "collection"  => collection,
           "where_query" => [search_term, term],

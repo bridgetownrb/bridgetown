@@ -17,3 +17,5 @@ gem "bridgetown-svg-inliner", "~> 1.0", group: :bridgetown_plugins
 
 gem "gems", "~> 1.2"
 gem "nokolexbor", "~> 0.4"
+
+gem "ruby2js", "~> 5.1"

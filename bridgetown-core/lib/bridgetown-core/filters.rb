@@ -7,6 +7,8 @@ module Bridgetown
     include URLFilters
     include GroupingFilters
     include DateFilters
+    include LocalizationFilters
+    include TranslationFilters
     include ConditionHelpers
 
     # Convert a Markdown string into HTML output.
@@ -102,7 +104,7 @@ module Bridgetown
     def obfuscate_link(input, prefix = "mailto")
       link = "<a href=\"#{prefix}:#{input}\">#{input}</a>"
       script = "<script type=\"text/javascript\">document.currentScript.insertAdjacentHTML('"
-      script += "beforebegin', '#{rot47(link).gsub(%r!\\!, '\\\\\\')}'.replace(/[!-~]/g," # rubocop:disable Style/StringLiteralsInInterpolation, Style/RedundantRegexpArgument
+      script += "beforebegin', '#{rot47(link).gsub("\\", '\\\\\\')}'.replace(/[!-~]/g," # rubocop:disable Style/StringLiteralsInInterpolation
       script += "function(c){{var j=c.charCodeAt(0);if((j>=33)&&(j<=126)){"
       script += "return String.fromCharCode(33+((j+ 14)%94));}"
       script += "else{return String.fromCharCode(j);}}}));</script>"
@@ -432,7 +434,4 @@ end
 
 Liquid::Template.register_filter(
   Bridgetown::Filters
-)
-Liquid::Template.register_filter(
-  Bridgetown::Filters::TranslationFilters
 )

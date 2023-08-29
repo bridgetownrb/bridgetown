@@ -202,7 +202,8 @@ module Bridgetown
         return self[key] if key?(key)
         raise KeyError, %(key not found: "#{key}") if default.nil? && block.nil?
         return yield(key) unless block.nil?
-        return default unless default.nil?
+
+        default unless default.nil?
       end
 
       private

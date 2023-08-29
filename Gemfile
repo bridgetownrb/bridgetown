@@ -11,7 +11,7 @@ end
 
 group :test do
   gem "benchmark-ips"
-  gem "cucumber", "~> 3.0"
+  gem "cucumber", "~> 8.0"
   gem "memory_profiler"
   gem "minitest"
   gem "minitest-profile"

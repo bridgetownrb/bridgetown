@@ -3,9 +3,13 @@
 module Bridgetown
   module Tags
     class TranslationTag < Liquid::Tag
+      include Bridgetown::Filters::TranslationFilters
+
       def render(_context)
-        key = @markup.strip
-        I18n.t(key)
+        input, options = @markup.split.map(&:strip)
+        options ||= ""
+
+        t(input, options).to_s
       end
     end
   end

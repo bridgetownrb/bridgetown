@@ -3,6 +3,8 @@
 require "helper"
 
 class TestTags < BridgetownUnitTest
+  include ActiveSupport::Testing::TimeHelpers
+
   def setup
     FileUtils.mkdir_p("tmp")
   end
@@ -818,6 +820,253 @@ class TestTags < BridgetownUnitTest
         expected = "POST: Special Characters"
         assert_match(expected, @result)
       end
+    end
+  end
+
+  context "translate tag" do
+    setup do
+      I18n.available_locales = [:eo, :fr]
+      I18n.locale = :eo
+
+      content = <<~EOS
+        ---
+        title: this is a test
+        ---
+
+        1. LOOKUP MESSAGE: {% t errors.messages.not_a_number %}
+        2. LOCALIZED MESSAGE: {% t errors.messages.not_a_number locale:fr %}
+        3. SCOPED MESSAGE: {% t messages.not_a_number scope:errors %}
+        4. SCOPED LOCALIZED MESSAGE: {% t messages.not_a_number scope:errors,locale:fr %}
+        5. DEFAULT MESSAGE: {% t missing default:oops %}
+        6. PLURALIZED MESSAGE: {% t datetime.distance_in_words.about_x_hours count:3 %}
+        7. SINGULARIZED MESSAGE: {% t datetime.distance_in_words.about_x_hours count:1 %}
+        8. PLURALIZED LOCALIZED MESSAGE: {% t datetime.distance_in_words.about_x_hours locale:fr,count:3 %}
+        9. SINGULARIZED LOCALIZED MESSAGE: {% t datetime.distance_in_words.about_x_hours count:1,locale:fr %}
+      EOS
+
+      create_post(content,
+                  "available_locales" => I18n.available_locales,
+                  "default_locale"    => I18n.locale)
+    end
+
+    should "lookup simple message with default locale" do
+      expected = "LOOKUP MESSAGE: ne estas nombro"
+      assert_match(expected, @result)
+    end
+
+    should "localize simple message with french locale" do
+      expected = "LOCALIZED MESSAGE: n’est pas un nombre"
+      assert_match(expected, @result)
+    end
+
+    should "scope simple message with default locale" do
+      expected = "SCOPED MESSAGE: ne estas nombro"
+      assert_match(expected, @result)
+    end
+
+    should "scope simple message with french locale" do
+      expected = "SCOPED LOCALIZED MESSAGE: n’est pas un nombre"
+      assert_match(expected, @result)
+    end
+
+    should "fallback to default message" do
+      expected = "DEFAULT MESSAGE: oops"
+      assert_match(expected, @result)
+    end
+
+    should "pluralize simple message with default locale" do
+      expected = "PLURALIZED MESSAGE: ĉirkaŭ 3 horoj"
+      assert_match(expected, @result)
+    end
+
+    should "singuralize simple message with default locale" do
+      expected = "SINGULARIZED MESSAGE: ĉirkaŭ unu horo"
+      assert_match(expected, @result)
+    end
+
+    should "pluralize simple message with french locale" do
+      expected = "PLURALIZED LOCALIZED MESSAGE: environ 3 heures"
+      assert_match(expected, @result)
+    end
+
+    should "singuralize simple message with french locale" do
+      expected = "SINGULARIZED LOCALIZED MESSAGE: environ une heure"
+      assert_match(expected, @result)
+    end
+  end
+
+  context "localize tag" do
+    setup do
+      I18n.available_locales = [:eo, :fr]
+      I18n.locale = :eo
+
+      date = "1995-12-21"
+      time = "11:22:33"
+      datetime = "#{date}T#{time}"
+      timestamp = Time.utc(2009, 2, 13, 23, 31, 30).to_i # 1234567890
+
+      content = <<~EOS
+        ---
+        title: this is a test
+        ---
+
+        1. LOOKUP NOW MESSAGE: {% l now %}
+        2. LOOKUP NOW SHORT MESSAGE: {% l now short %}
+        3. LOCALIZE NOW SHORT MESSAGE: {% l now short fr %}
+        4. LOCALIZE NOW MESSAGE: {% l now fr %}
+
+        1. LOOKUP TODAY MESSAGE: {% l today %}
+        2. LOOKUP TODAY SHORT MESSAGE: {% l today short %}
+        3. LOCALIZE TODAY SHORT MESSAGE: {% l today short fr %}
+        4. LOCALIZE TODAY MESSAGE: {% l today fr %}
+
+        1. LOOKUP DATE MESSAGE: {% l #{date} %}
+        2. LOOKUP DATE SHORT MESSAGE: {% l #{date} short %}
+        3. LOCALIZE DATE SHORT MESSAGE: {% l #{date} short fr %}
+        4. LOCALIZE DATE MESSAGE: {% l #{date} fr %}
+
+        1. LOOKUP TIME MESSAGE: {% l #{time} %}
+        2. LOOKUP TIME SHORT MESSAGE: {% l #{time} short %}
+        3. LOCALIZE TIME SHORT MESSAGE: {% l #{time} short fr %}
+        4. LOCALIZE TIME MESSAGE: {% l #{time} fr %}
+
+        1. LOOKUP DATETIME MESSAGE: {% l #{datetime} %}
+        2. LOOKUP DATETIME SHORT MESSAGE: {% l #{datetime} short %}
+        3. LOCALIZE DATETIME SHORT MESSAGE: {% l #{datetime} short fr %}
+        4. LOCALIZE DATETIME MESSAGE: {% l #{datetime} fr %}
+
+        1. LOOKUP NUMERIC MESSAGE: {% l #{timestamp} %}
+        2. LOOKUP NUMERIC SHORT MESSAGE: {% l #{timestamp} short %}
+        3. LOCALIZE NUMERIC SHORT MESSAGE: {% l #{timestamp} short fr %}
+        4. LOCALIZE NUMERIC MESSAGE: {% l #{timestamp} fr %}
+      EOS
+
+      travel_to Time.utc(2023, 7, 12, 11, 22, 33) do
+        create_post(content,
+                    "timezone"          => "UTC",
+                    "available_locales" => I18n.available_locales,
+                    "default_locale"    => I18n.locale)
+      end
+    end
+
+    should "lookup now message with default locale" do
+      expected = "LOOKUP NOW MESSAGE: 12 julio 2023 11:22:33"
+      assert_match(expected, @result)
+    end
+
+    should "lookup now short message with default locale" do
+      expected = "LOOKUP NOW SHORT MESSAGE: 12 jul. 11:22"
+      assert_match(expected, @result)
+    end
+
+    should "localize now message with french locale" do
+      expected = "LOCALIZE NOW MESSAGE: 12 juillet 2023 11h 22min 33s"
+      assert_match(expected, @result)
+    end
+
+    should "localize now short message with french locale" do
+      expected = "LOCALIZE NOW SHORT MESSAGE: 12 juil. 11h22"
+      assert_match(expected, @result)
+    end
+
+    should "lookup today message with default locale" do
+      expected = "LOOKUP TODAY MESSAGE: 12 julio 2023 11:22:33"
+      assert_match(expected, @result)
+    end
+
+    should "lookup today short message with default locale" do
+      expected = "LOOKUP TODAY SHORT MESSAGE: 12 jul. 11:22"
+      assert_match(expected, @result)
+    end
+
+    should "localize today message with french locale" do
+      expected = "LOCALIZE TODAY MESSAGE: 12 juillet 2023 11h 22min 33s"
+      assert_match(expected, @result)
+    end
+
+    should "localize today short message with french locale" do
+      expected = "LOCALIZE TODAY SHORT MESSAGE: 12 juil. 11h22"
+      assert_match(expected, @result)
+    end
+
+    should "lookup date message with default locale" do
+      expected = "LOOKUP DATE MESSAGE: 21 decembro 1995 00:00:00"
+      assert_match(expected, @result)
+    end
+
+    should "lookup date short message with default locale" do
+      expected = "LOOKUP DATE SHORT MESSAGE: 21 dec. 00:00"
+      assert_match(expected, @result)
+    end
+
+    should "localize date message with french locale" do
+      expected = "LOCALIZE DATE MESSAGE: 21 décembre 1995 00h 00min 00s"
+      assert_match(expected, @result)
+    end
+
+    should "localize date short message with french locale" do
+      expected = "LOCALIZE DATE SHORT MESSAGE: 21 déc. 00h00"
+      assert_match(expected, @result)
+    end
+
+    should "lookup time message with default locale" do
+      expected = "LOOKUP TIME MESSAGE: 12 julio 2023 11:22:33"
+      assert_match(expected, @result)
+    end
+
+    should "lookup time short message with default locale" do
+      expected = "LOOKUP TIME SHORT MESSAGE: 12 jul. 11:22"
+      assert_match(expected, @result)
+    end
+
+    should "localize time message with french locale" do
+      expected = "LOCALIZE TIME MESSAGE: 12 juillet 2023 11h 22min 33s"
+      assert_match(expected, @result)
+    end
+
+    should "localize time short message with french locale" do
+      expected = "LOCALIZE TIME SHORT MESSAGE: 12 juil. 11h22"
+      assert_match(expected, @result)
+    end
+
+    should "lookup datetime message with default locale" do
+      expected = "LOOKUP DATETIME MESSAGE: 21 decembro 1995 11:22:33"
+      assert_match(expected, @result)
+    end
+
+    should "lookup datetime short message with default locale" do
+      expected = "LOOKUP DATETIME SHORT MESSAGE: 21 dec. 11:22"
+      assert_match(expected, @result)
+    end
+
+    should "localize datetime message with french locale" do
+      expected = "LOCALIZE DATETIME MESSAGE: 21 décembre 1995 11h 22min 33s"
+      assert_match(expected, @result)
+    end
+
+    should "localize datetime short message with french locale" do
+      expected = "LOCALIZE DATETIME SHORT MESSAGE: 21 déc. 11h22"
+      assert_match(expected, @result)
+    end
+
+    should "lookup numeric message with default locale" do
+      expected = "LOOKUP NUMERIC MESSAGE: 13 februaro 2009 23:31:30"
+      assert_match(expected, @result)
+    end
+
+    should "lookup numeric short message with default locale" do
+      expected = "LOOKUP NUMERIC SHORT MESSAGE: 13 feb. 23:31"
+      assert_match(expected, @result)
+    end
+
+    should "localize numeric message with french locale" do
+      expected = "LOCALIZE NUMERIC MESSAGE: 13 février 2009 23h 31min 30s"
+      assert_match(expected, @result)
+    end
+
+    should "localize numeric short message with french locale" do
+      expected = "LOCALIZE NUMERIC SHORT MESSAGE: 13 fév. 23h31"
+      assert_match(expected, @result)
     end
   end
 end

@@ -143,6 +143,29 @@ You can use the `asset_path` Liquid tag/Ruby helper to reference assets within t
 
 will look for `frontend/images/folder/somefile.png`.
 
+### Globbing multiple assets
+
+If you need to import an entire folder through the frontend pipeline for example with images, here's how to do it:
+
+###### Esbuild
+
+```js
+// frontend/javascript/index.js
+
+import images from '../images/**/*.{jpg,jpeg,png,svg}'
+Object.entries(images).forEach(image => image)
+```
+
+
+##### Webpack
+
+```js
+// frontend/javascript/index.js
+
+require.context('../images', true)
+```
+
+
 ## esbuild Setup
 
 {%@ Note do %}
