@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.3.1] - 2023-08-29
+
+- Fix bug with prototype page pagination not working for paginate [#804](https://github.com/bridgetownrb/bridgetown/pull/804) ([jaredcwhite](https://github.com/jaredcwhite))
+- Upgrade Cucumber to v8.0 [#800](https://github.com/bridgetownrb/bridgetown/pull/800) ([michaelherold](https://github.com/michaelherold))
+- Fix `link_to` when passed block [#791](https://github.com/bridgetownrb/bridgetown/pull/791) ([jclusso](https://github.com/jclusso))
+- Add configurable inflector with examples for `ActiveSupport::Inflector` [#796](https://github.com/bridgetownrb/bridgetown/pull/796) ([jclusso](https://github.com/jclusso))
+- esbuild & webpack version bumps [#802](https://github.com/bridgetownrb/bridgetown/pull/802) ([jaredcwhite](https://github.com/jaredcwhite))
+- Add `date` task for generating a front matter friendly date ([jaredcwhite](https://github.com/jaredcwhite))
+- Eager load to make DEFAULTS deterministic [#776](https://github.com/bridgetownrb/bridgetown/pull/776) ([michaelherold](https://github.com/michaelherold))
+- Feature improvements to i18n localize [#783](https://github.com/bridgetownrb/bridgetown/pull/783) ([akarzim](https://github.com/michaelherold))
+- Lock Rubocop to latest version that passes [#779](https://github.com/bridgetownrb/bridgetown/pull/779) ([michaelherold](https://github.com/michaelherold))
+- Upgraded docs website to latest Ruby2JS and esbuild
+- Thanks to @jclusso and @mtomov for improvements to documentation
+
 ## [1.3.0] - 2023-06-18
 
 - esbuild and bundled configurations fixes
