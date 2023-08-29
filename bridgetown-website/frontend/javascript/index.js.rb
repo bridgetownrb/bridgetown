@@ -26,7 +26,7 @@ hotkeys "cmd+k,ctrl+k" do |event|
   document.query_selector("bridgetown-search-form > input").focus()
 end
 
-import "turbo_transitions"
+import "./turbo_transitions.js.rb"
 
 async def import_additional_dependencies()
   await import("bridgetown-quick-search/dist")
@@ -39,13 +39,13 @@ async def import_additional_dependencies()
     event.target.closest("sl-bar-item").query_selector("kbd").style.display = "none"
   end
 
-  await import("wiggle_note")
-  await import("theme_picker")
+  await import("./wiggle_note.js.rb")
+  await import("./theme_picker.js.rb")
 end
 
 import_additional_dependencies()
 
-import "index.css"
+import "$styles/index.css"
 
 import components from "bridgetownComponents/**/*.{js,jsx,js.rb,css}"
 Object.entries(components)

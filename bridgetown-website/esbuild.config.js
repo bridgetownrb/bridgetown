@@ -9,10 +9,7 @@ const esbuildOptions = {
   entryPoints: ["./frontend/javascript/index.js.rb"],
   target: "es2020",
   plugins: [
-    ruby2js({
-      eslevel: 2020,
-      filters: ["camelCase", "functions", "lit", "esm", "return"]
-    }),
+    ruby2js(),
   ],
   format: "esm",
   splitting: true
