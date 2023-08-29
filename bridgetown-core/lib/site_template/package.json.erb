@@ -13,17 +13,17 @@
   },
   "devDependencies": {
     <%- if frontend_bundling_option == "webpack" -%>
-    "css-loader": "^6.7.1",
+    "css-loader": "^6.8.1",
     <%- end -%>
-    "esbuild": "^0.17.19",
+    "esbuild": "^0.19.2",
     <%- if frontend_bundling_option == "webpack" -%>
-    "esbuild-loader": "^2.18.0",
-    "mini-css-extract-plugin": "^2.6.0",
+    "esbuild-loader": "^4.0.2",
+    "mini-css-extract-plugin": "^2.7.6",
     <%- else -%>
-    "glob": "^10.2.6",
+    "glob": "^10.3.3",
     <%- end -%>
     <%- unless disable_postcss? -%>
-    "postcss": "^8.4.23",
+    "postcss": "^8.4.29",
     "postcss-flexbugs-fixes": "^5.0.2",
     <%- if frontend_bundling_option == "esbuild" -%>
     "postcss-import": "^15.1.0",
@@ -31,20 +31,20 @@
     <%- else -%>
     "postcss-loader": "^6.2.1",
     <%- end -%>
-    "postcss-preset-env": "^8.4.1",
+    "postcss-preset-env": "^9.1.2",
     <%- if frontend_bundling_option == "esbuild" -%>
     "read-cache": "^1.0.0"<%= "," unless postcss_option  %>
     <%- end -%>
     <%- end -%>
     <%- unless postcss_option -%>
-    "sass": "^1.62.1",
-    "sass-loader": "^12.6.0"<%= "," if frontend_bundling_option == "webpack" %>
+    "sass": "^1.66.1",
+    "sass-loader": "^13.3.2"<%= "," if frontend_bundling_option == "webpack" %>
     <%- end -%>
     <%- if frontend_bundling_option == "webpack" -%>
-    "webpack": "^5.72.0",
-    "webpack-cli": "^4.9.2",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
     "webpack-manifest-plugin": "^5.0.0",
-    "webpack-merge": "^5.8.0"
+    "webpack-merge": "^5.9.0"
     <%- end -%>
   }
 }
