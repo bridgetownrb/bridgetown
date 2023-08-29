@@ -24,13 +24,13 @@ module Bridgetown
 
       #
 
-      def initialize(runtime, path_or_io, options)
-        @runtime = runtime
+      def initialize(config)
+        @runtime = nil
         @snippets_input = []
-        @io = ensure_io(path_or_io)
-        @prefixes = options[:prefixes] || {}
+        @io = ensure_io(config.out_stream, config.error_stream)
+        @prefixes = {}
         @delayed_messages = []
-        @options = options
+        @options = {}
         @exceptions = []
         @indent = 0
         @timings = {}
@@ -208,8 +208,8 @@ module Bridgetown
   end
 end
 
-AfterConfiguration do |config|
-  f = Bridgetown::Cucumber::Formatter.new(nil, $stdout, {})
+InstallPlugin do |config|
+  f = Bridgetown::Cucumber::Formatter.new(config)
 
   config.on_event :test_case_started do |event|
     f.print_feature_element_name(event.test_case)
