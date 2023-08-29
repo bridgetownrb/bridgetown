@@ -140,8 +140,8 @@ class TestCollections < BridgetownUnitTest
     end
 
     should "not include the underscored files in the list of docs" do
-      refute_includes @collection.resources.map(&:relative_path).map(&:to_s), "_methods/_do_not_read_me.md"
-      refute_includes @collection.resources.map(&:relative_path).map(&:to_s),
+      refute_includes @collection.resources.map { _1.relative_path.to_s }, "_methods/_do_not_read_me.md"
+      refute_includes @collection.resources.map { _1.relative_path.to_s },
                       "_methods/site/_dont_include_me_either.md"
     end
   end
@@ -182,7 +182,7 @@ class TestCollections < BridgetownUnitTest
       @site.process
       @tutorials_collection = @site.collections["tutorials"]
 
-      @actual_array = @tutorials_collection.resources.map(&:relative_path).map(&:to_s)
+      @actual_array = @tutorials_collection.resources.map { _1.relative_path.to_s }
     end
 
     should "sort documents in a collection with 'sort_by' metadata set to a " \
