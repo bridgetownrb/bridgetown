@@ -268,6 +268,23 @@ init :dotenv
 
 Now anywhere in your Ruby plugins, templates, etc., you can access environment variables via `ENV` once you've defined your `.env` file. Our integration also supports specially-named files such as `.env.development`, `.env.test`, etc.
 
+### Inflector
+
+Zeitwerk's inflector can be configured to use ActiveSupport::Inflector. This
+will become the default in v2.0.
+
+```ruby
+config.inflector = ActiveSupport::Inflector
+```
+
+To add new inflection rules, use the following format.
+
+```ruby
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+  inflect.acronym "RESTful"
+end
+```
+
 ### Parse Roda Routes
 
 Because of how Roda works via its dynamic routing tree, there's no straightforward way to programmatically list out all the routes in your application.
