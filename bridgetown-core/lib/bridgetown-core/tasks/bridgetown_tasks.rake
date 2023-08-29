@@ -73,3 +73,10 @@ task :environment do # rubocop:todo Metrics/BlockLength
     end
   end
 end
+
+desc "Provides a time zone-aware date string you can use in front matter"
+task date: :environment do
+  puts "🗓️  Today's date & time in your site's timezone (#{ENV["TZ"]}):"
+  puts
+  puts "➡️  #{Time.now.strftime("%a, %d %b %Y %T %z")}"
+end
