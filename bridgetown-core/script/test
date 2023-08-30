@@ -16,8 +16,6 @@ then
   set -x
   ruby -S bundle exec ruby -I test \
     "test/test_resource.rb"
-  ruby -S bundle exec ruby -I test \
-    "test/test_ssr.rb"
   time BYPASS_RESOURCE_TEST=true SEED=5678 ruby -S bundle exec \
     rake TESTOPTS=$testopts test
 else
