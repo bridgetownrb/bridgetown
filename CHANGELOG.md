@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix bug with prototype page pagination not working for paginate [#804](https://github.com/bridgetownrb/bridgetown/pull/804) ([jaredcwhite](https://github.com/jaredcwhite))
 - Upgrade Cucumber to v8.0 [#800](https://github.com/bridgetownrb/bridgetown/pull/800) ([michaelherold](https://github.com/michaelherold))
-- Fix `link_to` when passed block [#791](https://github.com/bridgetownrb/bridgetown/pull/791) ([jclusso](https://github.com/jclusso))
+- Fix `link_to` when passed block [#791](https://github.com/bridgetownrb/bridgetown/pull/791) ([jclusso](https://github.com/jclusso)) …thanks also to [fabionl](https://github.com/fabionl) for looking at this issue
 - Add configurable inflector with examples for `ActiveSupport::Inflector` [#796](https://github.com/bridgetownrb/bridgetown/pull/796) ([jclusso](https://github.com/jclusso))
 - esbuild & webpack version bumps [#802](https://github.com/bridgetownrb/bridgetown/pull/802) ([jaredcwhite](https://github.com/jaredcwhite))
 - Add `date` task for generating a front matter friendly date ([jaredcwhite](https://github.com/jaredcwhite))
