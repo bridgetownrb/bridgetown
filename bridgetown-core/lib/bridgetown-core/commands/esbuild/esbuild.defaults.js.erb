@@ -128,14 +128,19 @@ const importPostCssPlugin = (options, configuration) => ({
       })
 
       // Process the file through PostCSS
-      const result = await postcss([importPlugin, ...options.plugins]).process(css, {
-        map: true,
-        ...options.options,
-        from: args.path,
-      });
-
+      let outputCSS = ""
+      try {
+        const result = await postcss([importPlugin, ...options.plugins]).process(css, {
+          map: true,
+          ...options.options,
+          from: args.path,
+        })
+        outputCSS = result.css
+      } catch(err) {
+        console.error(`\nerror: "${err.reason}" while processing CSS file:\n${err.file}:${err.line}:${err.column}\n`)
+      }
       return {
-        contents: result.css,
+        contents: outputCSS,
         loader: "css",
         watchFiles: [args.path, ...additionalFilePaths],
       }
