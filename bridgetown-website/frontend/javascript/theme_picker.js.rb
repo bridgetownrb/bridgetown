@@ -5,35 +5,35 @@ class ThemePicker < HTMLElement
   DARK = "dark"
   DEFAULT = "default"
 
-  def options_icons()
+  def options_icons
     @_options_icons ||= {
-      LIGHT => "sun",
-      DARK => "moon",
-      DEFAULT => media_prefers_color_scheme_dark() ? "moon" : "sun"
+      LIGHT   => "sun",
+      DARK    => "moon",
+      DEFAULT => media_prefers_color_scheme_dark ? "moon" : "sun",
     }
   end
 
-  def media_prefers_color_scheme_dark()
-    window.matchMedia("(prefers-color-scheme: #{ DARK })").matches
+  def media_prefers_color_scheme_dark
+    window.matchMedia("(prefers-color-scheme: #{DARK})").matches
   end
 
   def build_template(option_name)
     <<~COMPONENT
       <sl-dropdown>
         <sl-button slot="trigger" caret size="small" outline>
-          <sl-icon id="dropdown-button-icon" name="#{ options_icons()[option_name] }" label="Choose color theme"></sl-icon>
+          <sl-icon id="dropdown-button-icon" name="#{options_icons[option_name]}" label="Choose color theme"></sl-icon>
         </sl-button>
 
         <sl-menu>
           #{
-            Object.entries(options_icons()).map do |entry|
+            Object.entries(options_icons).map do |entry|
               option, icon = entry
 
               <<~MENU_ITEM
-                #{ option == DEFAULT ? "<sl-divider></sl-divider>" : "" }
-                <sl-menu-item #{ "checked" if option_name == option } value="#{ option }">
-                  #{ option }
-                  <sl-icon slot="prefix" name="#{ icon }"></sl-icon>
+                #{option == DEFAULT ? "<sl-divider></sl-divider>" : ""}
+                <sl-menu-item #{"checked" if option_name == option} value="#{option}">
+                  #{option}
+                  <sl-icon slot="prefix" name="#{icon}"></sl-icon>
                 </sl-menu-item>
               MENU_ITEM
             end.join("")
@@ -43,16 +43,16 @@ class ThemePicker < HTMLElement
     COMPONENT
   end
 
-  def initialize()
+  def initialize
     super()
 
     option_name = local_storage.get_item(THEME_STORAGE_KEY)
 
-    unless option_name
-      if self.media_prefers_color_scheme_dark()
-        option_name = DEFAULT
+    option_name ||= begin # fixes Ruby2JS issue # rubocop:disable Style/RedundantBegin
+      if media_prefers_color_scheme_dark
+        DEFAULT
       else
-        option_name = LIGHT
+        LIGHT
       end
     end
 
@@ -94,11 +94,11 @@ class ThemePicker < HTMLElement
 
     set_theme_classes(option_name)
 
-    @dropdown_button_icon.set_attribute("name", options_icons()[option_name])
+    @dropdown_button_icon.set_attribute("name", options_icons[option_name])
   end
 
   def set_theme_classes(option_name)
-    if option_name == DARK || (option_name == DEFAULT && self.media_prefers_color_scheme_dark())
+    if option_name == DARK || (option_name == DEFAULT && media_prefers_color_scheme_dark)
       document.document_element.class_list.add("theme-dark", "sl-theme-dark")
       search_results = document.query_selector("bridgetown-search-results")
       search_results.set_attribute("theme", "dark") if search_results

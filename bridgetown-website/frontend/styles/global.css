@@ -23,12 +23,12 @@
   --color-syntax-fern-green: #2f772b;
   --color-syntax-dark-beige: #8a7f6e;
   --color-syntax-dark-green: #101916;
-  --color-syntax-dark-red: #923538;
-  --color-syntax-beige: #8A786E;
-  --color-syntax-charcoal: #67717E;
+  --color-syntax-dark-red: #b44e51;
+  --color-syntax-beige: #b2998c;
+  --color-syntax-charcoal: #818e9e;
   --color-syntax-steel-teal: #568684;
   --color-syntax-mid-blue: #4b83d4;
-  --color-syntax-rose-vale: #b25658;
+  --color-syntax-rose-vale: #ce6163;
 
   --body-background: white;
   --body-color: var(--color-dark-gray);

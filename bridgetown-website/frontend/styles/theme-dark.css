@@ -17,10 +17,10 @@
   & h3,
   & h4,
   & h5 {
-    color: var(--color-light-gray);
+    color: var(--color-lighter-green);
 
     &.colorful {
-      color: var(--color-light-green);
+      color: var(--color-brick);
     }
   }
 
@@ -42,7 +42,7 @@
   }
 
   & .info-grid q {
-    color: var(--color-orange);
+    color: var(--color-wintermint);
   }
 
   & div.highlight {
@@ -84,7 +84,7 @@
     color: var(--color-syntax-dark-red);
   }
 
-  & .highlight .k {
+  & .highlight :is(.k, .mi) {
     color: var(--color-syntax-light-beige);
   }
 
@@ -110,8 +110,7 @@
     color: var(--color-syntax-steel-teal);
   }
 
-  & .highlight .c,
-  & .highlight .c1 {
+  & .highlight :is(.c, .c1, .nx) {
     color: var(--color-syntax-charcoal);
   }
 
@@ -140,7 +139,7 @@
   }
 
   & .highlight .nn {
-    color: var(--color-dark-brick);
+    color: var(--color-syntax-dark-red);
   }
 
   & .highlight .no {
@@ -163,7 +162,7 @@
     color: var(--color-syntax-steel-teal);
   }
 
-  & .highlight .gs {
+  & .highlight :is(.gs, .kd) {
     color: var(--color-syntax-mid-blue);
   }
 
@@ -201,5 +200,9 @@
     &:hover {
       background-color: var(--sl-color-primary-600);
     }
+  }
+
+  & table.settings p.default code {
+    color: var(--color-light-orange);
   }
 }
