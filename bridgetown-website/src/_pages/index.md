@@ -278,7 +278,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
   </sl-button></a></p>
 
 
-Then when you're ready, [bundled configurations](/docs/bundled-configurations) and [plugins](/plugins) can take you even farther. Add SEO/social graph support, news feeds, inlined SVGs, asset management integration, headless CMS integration, automated testing, Hotwire, TailwindCSS, Lit SSR + Hydration, and a whole lot more.
+Then when you're ready, [bundled configurations](/docs/bundled-configurations) and [plugins](/plugins) can take you even farther. Add SEO/social graph support, news feeds, inlined SVGs, asset management integration, headless CMS integration, automated testing, islands architecture, Turbo, Shoelace, Lit SSR + Hydration, and a whole lot more.
 {:style="text-align:center; margin-top:3rem; margin-left:auto; margin-right:auto; max-width:50em"}
 
 <p>
