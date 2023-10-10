@@ -48,7 +48,7 @@ module Bridgetown
     end
 
     # @param root [String] root of Bridgetown site, defaults to config value
-    def self.autoload_server_folder( # rubocop:todo Metrics/MethodLength
+    def self.autoload_server_folder( # rubocop:todo Metrics
       root: Bridgetown::Current.preloaded_configuration.root_dir
     )
       server_folder = File.join(root, "server")
@@ -62,7 +62,18 @@ module Bridgetown
         loader.do_not_eager_load(File.join(server_folder, "roda_app.rb"))
 
         unless ENV["BRIDGETOWN_ENV"] == "production"
-          Listen.to(server_folder) do |_modified, _added, _removed|
+          Listen.to(server_folder) do |modified, added, removed|
+            c = modified + added + removed
+            n = c.length
+
+            Bridgetown.logger.info(
+              "Reloading…",
+              "#{n} file#{"s" if n > 1} changed at #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
+            )
+            c.each do |path|
+              Bridgetown.logger.info "", "- #{path["#{File.dirname(server_folder)}/".length..]}"
+            end
+
             loader.reload
             loader.eager_load
             Bridgetown::Rack::Routes.reload_subclasses
