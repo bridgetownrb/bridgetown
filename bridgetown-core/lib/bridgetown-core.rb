@@ -60,11 +60,21 @@ require "zeitwerk"
 # Ensure we can set up fallbacks so the default locale gets used
 I18n::Backend::Simple.include I18n::Backend::Fallbacks
 
+# Monkey patches:
+
 module HashWithDotAccess
   class Hash # :nodoc:
     def to_liquid
       to_h.to_liquid
     end
+  end
+end
+
+class Enumerator
+  def html_map(&block)
+    results = map.each(&block)
+
+    results.join.html_safe
   end
 end
 

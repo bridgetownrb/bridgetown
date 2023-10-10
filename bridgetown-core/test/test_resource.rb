@@ -316,14 +316,27 @@ class TestResource < BridgetownUnitTest
         @site = resources_site
         @site.process
         @dest_file = File.read(dest_dir("i-am-ruby/index.html"))
+        Serbea::Pipeline.raise_on_missing_filters = true
 
+        # rubocop:disable Layout/TrailingWhitespace
         assert_includes @dest_file, <<~HTML
           <body>
+            <p>Hello &lt;p&gt;world&lt;/p&gt;</p>
+            <output>DOES THIS WORK? 123</output>
+
+            <output>Does this work? 456</output>
           <blockquote>
             <p>Well, <em>this</em> is quite interesting! =)</p>
-          </blockquote>
+          </blockquote>  <ul>
+                <li>0</li>
+              <li>1</li>
+              <li>2</li>
+          
+            </ul>
+          
           </body>
         HTML
+        # rubocop:enable Layout/TrailingWhitespace
       end
     end
 

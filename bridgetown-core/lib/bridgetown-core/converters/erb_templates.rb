@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "tilt/erubi"
+require "serbea/pipeline"
 
 module Bridgetown
   class OutputBuffer < ActiveSupport::SafeBuffer
@@ -74,6 +75,7 @@ module Bridgetown
 
   class ERBView < RubyTemplateView
     include ERBCapture
+    include Serbea::Pipeline::Helper
 
     def h(input)
       Erubi.h(input)

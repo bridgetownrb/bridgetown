@@ -25,7 +25,7 @@ PATH
       rake (>= 13.0)
       roda (~> 3.46)
       rouge (~> 3.0)
-      serbea (~> 1.0)
+      serbea (~> 2.0)
       thor (~> 1.1)
       tilt (~> 2.0)
       zeitwerk (~> 2.5)
@@ -119,7 +119,7 @@ GEM
     ruby2js (5.1.0)
       parser
       regexp_parser (~> 2.1.1)
-    serbea (1.0.1)
+    serbea (2.0.0)
       activesupport (>= 6.0)
       erubi (>= 1.10)
       tilt (~> 2.0)
