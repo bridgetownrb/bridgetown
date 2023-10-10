@@ -30,7 +30,7 @@ module Bridgetown
     end
 
     def localeless_path
-      relative_path.gsub(/\A#{data.locale}\//, "")
+      relative_path.gsub(%r{\A#{data.locale}/}, "")
     end
   end
 end
