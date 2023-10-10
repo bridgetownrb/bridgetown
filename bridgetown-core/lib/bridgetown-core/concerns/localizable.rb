@@ -13,12 +13,24 @@ module Bridgetown
                    end
 
       matching_resources = result_set.select do |item|
-        item.relative_path.parent == relative_path.parent && item.data.slug == data.slug
+        matches_resource?(item)
       end
 
       matching_resources.sort_by do |item|
         site.config.available_locales.index item.data.locale
       end
+    end
+
+    def matches_resource?(item)
+      if item.relative_path.is_a?(String)
+        item.localeless_path == localeless_path
+      else
+        item.relative_path.parent == relative_path.parent
+      end && item.data.slug == data.slug
+    end
+
+    def localeless_path
+      relative_path.gsub(/\A#{data.locale}\//, "")
     end
   end
 end
