@@ -7,10 +7,11 @@ module RuboCop
       class HTMLEscapedHeredoc < Cop
         include Heredoc
 
-        MSG = "Insecure HEREDOC detected. Use `html`, `html_map`, `text`, or `render` inside interpolation."
+        MSG = "Insecure heredoc detected. Use `html`, `html_map`, `text`, or `render` inside interpolation."
 
         def on_heredoc(node)
-          return unless node.source.match?(%r!HTML$!) && heredoc_body(node).match?(%r%[^\\]#\{(?!\s*?(html|html_map|text|render)[ \-])%)
+          return unless node.source.match?(%r!(HTML|MARKDOWN)$!) &&
+            heredoc_body(node).match?(%r%[^\\]#\{(?!\s*?(html|html_map|text|render)[ \-])%)
 
           add_offense(node, message: MSG)
         end

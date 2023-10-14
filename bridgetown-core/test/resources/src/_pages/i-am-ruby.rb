@@ -24,11 +24,12 @@ if data.include_markdown
   render do
     str = "interesting"
 
-    markdownify <<~MARKDOWN
+    html-> { markdownify <<~MARKDOWN
 
-      > Well, _this_ is quite #{str}! =)
+      > Well, _this_ is quite #{text->{ str }}! =)
 
     MARKDOWN
+    }
   end
 end
 
