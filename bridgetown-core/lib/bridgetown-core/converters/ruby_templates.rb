@@ -1,21 +1,49 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  class PureRubyView < ERBView
-    # @yield a block which should be HTML escaped
-    def text(input, &blk)
-      if blk
-        h(pipe(input, &blk))
-      else
-        h(input)
+  module HTMLinRuby
+    include Serbea::Pipeline::Helper
+    include ERBCapture
+
+    module HTMLProc
+      include Serbea::Pipeline::Helper
+      attr_accessor :pipe_input
+
+      def to_s
+        return pipe(pipe_input, &self).to_s if pipe_input
+
+        self.().to_s
       end
     end
 
-    def render(item = nil, **options, &block) # rubocop:disable Metrics
-      return @_erbout if !block && item.nil? && !options.key?(:html)
+    def text(input = nil, callback = nil)
+      if input && callback
+        Erubi.h(pipe(input, &callback))
+      else
+        Erubi.h(input.())
+      end
+    end
 
-      if options.key?(:html) || (block && item.nil?)
-        result = options.key?(:html) ? options[:html].presence : yield
+    def html(input = nil, callback = nil)
+      (callback || input).singleton_class.include HTMLProc
+      callback.pipe_input = input unless callback.nil?
+
+      callback || input
+    end
+
+    def html_map(input, callback)
+      input.map(&callback).join
+    end
+  end
+
+  class PureRubyView < ERBView
+    include HTMLinRuby
+
+    def render(item = nil, **options, &block) # rubocop:disable Metrics
+      return @_erbout if !block && options.empty? && item.nil?
+
+      if item.is_a?(Proc) || (block && item.nil?)
+        result = item.is_a?(Proc) ? item.() : yield
         return result if result.is_a?(OutputBuffer)
 
         @_erbout ||= OutputBuffer.new
@@ -26,7 +54,7 @@ module Bridgetown
 
       if item.respond_to?(:render_in)
         result = item.render_in(self, &block)
-        result&.html_safe
+        result&.to_s&.html_safe
       else
         partial(item, **options, &block)&.html_safe
       end

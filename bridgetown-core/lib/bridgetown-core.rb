@@ -70,14 +70,6 @@ module HashWithDotAccess
   end
 end
 
-class Enumerator
-  def html_map(&block)
-    results = map.each(&block)
-
-    results.join.html_safe
-  end
-end
-
 # Create our little String subclass for Ruby Front Matter
 class Rb < String; end
 

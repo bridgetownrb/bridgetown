@@ -6,27 +6,38 @@ front_matter do
 end
 ###
 
-render html: <<-HTML
-  <p>Hello #{text "<p>world</p>"}</p>
+render html->{ <<-HTML
+  <p>Hello #{text "<u>woRld</u>", ->{ downcase | upcase }}</p>
   #{ render "a_partial", abc: 123 }
   #{ render "an_erb_partial", abc: 456 }
-HTML
+  #{ html-> do
+    if data.title.include?("Ruby")
+      render RubyHtmlText.new
+    else
+      nil
+    end
+  end }
+  HTML
+}
 
 if data.include_markdown
   render do
+    str = "interesting"
+
     markdownify <<~MARKDOWN
 
-      > Well, _this_ is quite interesting! =)
+      > Well, _this_ is quite #{str}! =)
 
     MARKDOWN
   end
 end
 
-render html: <<-HTML
+render html->{ <<-HTML
   <ul>
-  #{3.times.html_map do |i| <<-HTML
-    <li>#{text i}</li>
+  #{html_map 3.times, ->(i) { <<-HTML
+    <li>#{text->{i}}</li>
   HTML
-  end}
+  }}
   </ul>
 HTML
+}
