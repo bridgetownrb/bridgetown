@@ -2,7 +2,6 @@
 
 module Bridgetown
   module HTMLinRuby
-    include Serbea::Pipeline::Helper
     include ERBCapture
 
     module HTMLProc

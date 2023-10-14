@@ -62,6 +62,8 @@ module Bridgetown
   end
 
   module ERBCapture
+    include Serbea::Pipeline::Helper
+
     def capture(*args)
       previous_buffer_state = @_erbout
       @_erbout = OutputBuffer.new
@@ -75,7 +77,6 @@ module Bridgetown
 
   class ERBView < RubyTemplateView
     include ERBCapture
-    include Serbea::Pipeline::Helper
 
     def h(input)
       Erubi.h(input)
