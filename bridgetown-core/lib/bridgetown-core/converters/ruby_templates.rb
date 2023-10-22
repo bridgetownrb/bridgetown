@@ -4,35 +4,53 @@ module Bridgetown
   module HTMLinRuby
     include ERBCapture
 
-    module HTMLProc
+    module PipeableProc
       include Serbea::Pipeline::Helper
-      attr_accessor :pipe_input
+
+      attr_accessor :pipe_block, :touched
+
+      def pipe(&block)
+        return super(self.(), &pipe_block) if pipe_block && !block
+
+        self.touched = true
+        return self unless block
+
+        tap { _1.pipe_block = block }
+      end
 
       def to_s
-        return pipe(pipe_input, &self).to_s if pipe_input
+        return self.().to_s if touched
 
-        self.().to_s
+        super
+      end
+
+      def encode(...)
+        to_s.encode(...)
       end
     end
 
-    def text(input = nil, callback = nil)
-      if input && callback
-        Erubi.h(pipe(input, &callback))
-      else
-        Erubi.h(input.())
-      end
+    Proc.prepend PipeableProc
+
+    def text(callback)
+      (callback.is_a?(Proc) ? html(callback) : callback.to_s)
+        .encode(xml: :attr)
+        .gsub(%r!\A"|"\Z!, "")
     end
 
-    def html(input = nil, callback = nil)
-      (callback || input).singleton_class.include HTMLProc
-      callback.pipe_input = input unless callback.nil?
-
-      callback || input
+    def html(callback)
+      callback.pipe
     end
 
-    def html_map(input, callback)
+    def html_map(input, &callback)
       input.map(&callback).join
     end
+
+    def helper(name, &helper_block)
+      self.class.define_method(name) do |*args, **kwargs, &block|
+        helper_block.call(*args, **kwargs, &block)
+      end
+    end
+    alias_method :macro, :helper
   end
 
   class PureRubyView < ERBView
