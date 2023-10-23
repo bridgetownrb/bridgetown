@@ -329,7 +329,7 @@ class TestResource < BridgetownUnitTest
                 <p><em>yay</em></p>
 
           <blockquote>
-            <p>Well, <em>this</em> is quite interesting &lt;script&gt;alert(‘bad!’)&lt;/script&gt;! =)</p>
+            <p>Well, <em>this</em> is quite interesting &lt;script&gt;alert('bad!')&lt;/script&gt;! =)</p>
           </blockquote>  <ul>
                 <li>0</li>
               <li>1</li>
