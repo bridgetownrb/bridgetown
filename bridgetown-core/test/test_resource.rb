@@ -313,6 +313,10 @@ class TestResource < BridgetownUnitTest
 
     context "a PORT (Plain Ol' Ruby Template)" do
       should "render out as HTML" do
+        # Ruby 2.7.2 has a different XML encoding output for single quotes, so
+        # we'll just skip this unless we're on v3+
+        next if RUBY_VERSION.to_i < 3
+
         @site = resources_site
         @site.process
         @dest_file = File.read(dest_dir("i-am-ruby/index.html"))
