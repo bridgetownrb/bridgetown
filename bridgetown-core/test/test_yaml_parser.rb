@@ -34,6 +34,21 @@ class TestYAMLParser < BridgetownUnitTest
       assert_equal Rb, parsed_yaml["rb"].class
     end
 
+    should "allows passing other permitted classes" do
+      parsed_yaml = Bridgetown::YAMLParser.load(<<~YAML, permitted_classes: [Symbol])
+        date: 2020-05-14
+        time: 2019-07-14 19:22:00 +0100
+        rb: !ruby/string:Rb |
+          21 * 2
+        symbol: :symbol
+      YAML
+
+      assert_equal Date, parsed_yaml["date"].class
+      assert_equal Time, parsed_yaml["time"].class
+      assert_equal Rb, parsed_yaml["rb"].class
+      assert_equal :symbol, parsed_yaml["symbol"]
+    end
+
     should "error when trying to parse types not on the allowlist" do
       assert_raises(Psych::DisallowedClass) do
         Bridgetown::YAMLParser.load(CustomYAMLSerializable.new.to_yaml)
@@ -49,6 +64,16 @@ class TestYAMLParser < BridgetownUnitTest
       assert_equal Date, parsed_yaml["date"].class
       assert_equal Time, parsed_yaml["time"].class
       assert_equal Rb, parsed_yaml["rb"].class
+    end
+
+    should "allows passing other permitted classes" do
+      yaml_file = test_dir("fixtures", "extra_yaml.yml")
+      parsed_yaml = Bridgetown::YAMLParser.load_file(yaml_file, permitted_classes: [Symbol])
+
+      assert_equal Date, parsed_yaml["date"].class
+      assert_equal Time, parsed_yaml["time"].class
+      assert_equal Rb, parsed_yaml["rb"].class
+      assert_equal :symbol, parsed_yaml["symbol"]
     end
 
     should "error when trying to parse types not on the allowlist" do
