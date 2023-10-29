@@ -138,6 +138,7 @@ module Bridgetown
 
       package_json = JSON.parse(File.read("package.json"))
 
+
       gems_to_search = if name
                          required_gems.select do |loaded_gem|
                            loaded_gem.to_spec&.name == name.to_s
@@ -146,24 +147,24 @@ module Bridgetown
                          required_gems
                        end
 
+      # all right, time to install the package
+      package_manager = if File.exist?("yarn.lock")
+                          "yarn"
+                        elsif File.exist?("package-lock.json")
+                          "npm"
+                        elsif File.exist?("pnpm-lock.yaml")
+                          "pnpm"
+                        else
+                          nil
+                        end
+
+      break if package_manager.nil?
+
+      command = package_manager == "npm" ? "install" : "add"
+
       gems_to_search.each do |loaded_gem|
         yarn_dependency = find_yarn_dependency(loaded_gem)
         next unless add_yarn_dependency?(yarn_dependency, package_json)
-
-        # all right, time to install the package
-        package_manager = if File.exist?("yarn.lock")
-                            "yarn"
-                          elsif File.exist?("package-lock.json")
-                            "npm"
-                          elsif File.exist?("pnpm-lock.yaml")
-                            "pnpm"
-                          else
-                            nil
-                          end
-
-        return if package_manager.nil?
-
-        command = package_manager === "npm" ? "install" : "add"
 
         cmd = "#{package_manager} #{command} #{yarn_dependency.join("@")}"
         system cmd
