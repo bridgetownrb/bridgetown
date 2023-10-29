@@ -130,13 +130,15 @@ module Bridgetown
     end
 
     def self.package_manager
-      if File.exist?("yarn.lock")
-        "yarn"
-      elsif File.exist?("package-lock.json")
-        "npm"
-      elsif File.exist?("pnpm-lock.yaml")
-        "pnpm"
-      end
+      @package_manager ||= if File.exist?("yarn.lock")
+                              "yarn"
+                            elsif File.exist?("package-lock.json")
+                              "npm"
+                            elsif File.exist?("pnpm-lock.yaml")
+                              "pnpm"
+                            else
+                              ""
+                            end
     end
 
     def self.package_manager_install_command
@@ -167,7 +169,7 @@ module Bridgetown
         yarn_dependency = find_yarn_dependency(loaded_gem)
         next unless add_yarn_dependency?(yarn_dependency, package_json)
 
-        next if package_manager.nil?
+        next if package_manager.empty?
 
         cmd = "#{package_manager} #{package_manager_install_command} #{yarn_dependency.join("@")}"
         system cmd
