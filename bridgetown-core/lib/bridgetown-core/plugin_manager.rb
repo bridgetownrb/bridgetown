@@ -129,6 +129,22 @@ module Bridgetown
                               "Required #{required_gems.map(&:name).join(", ")}")
     end
 
+    def self.package_manager
+      if File.exist?("yarn.lock")
+        "yarn"
+      elsif File.exist?("package-lock.json")
+        "npm"
+      elsif File.exist?("pnpm-lock.yaml")
+        "pnpm"
+      end
+    end
+
+    def self.package_manager_install_command
+      package_manager == "npm" ? "install" : "add"
+    end
+
+    # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+
     # Iterates through loaded gems and finds yard-add gemspec metadata.
     # If that exact package hasn't been installed, execute yarn add
     #
@@ -137,7 +153,6 @@ module Bridgetown
       return required_gems unless File.exist?("package.json")
 
       package_json = JSON.parse(File.read("package.json"))
-
 
       gems_to_search = if name
                          required_gems.select do |loaded_gem|
@@ -148,30 +163,20 @@ module Bridgetown
                        end
 
       # all right, time to install the package
-      package_manager = if File.exist?("yarn.lock")
-                          "yarn"
-                        elsif File.exist?("package-lock.json")
-                          "npm"
-                        elsif File.exist?("pnpm-lock.yaml")
-                          "pnpm"
-                        else
-                          nil
-                        end
-
-      break if package_manager.nil?
-
-      command = package_manager == "npm" ? "install" : "add"
-
       gems_to_search.each do |loaded_gem|
         yarn_dependency = find_yarn_dependency(loaded_gem)
         next unless add_yarn_dependency?(yarn_dependency, package_json)
 
-        cmd = "#{package_manager} #{command} #{yarn_dependency.join("@")}"
+        next if package_manager.nil?
+
+        cmd = "#{package_manager} #{package_manager_install_command} #{yarn_dependency.join("@")}"
         system cmd
       end
 
       gems_to_search
     end
+
+    # rubocop:enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
     def self.find_yarn_dependency(loaded_gem)
       yarn_dependency = loaded_gem.to_spec&.metadata&.dig("yarn-add")&.match(YARN_DEPENDENCY_REGEXP)
