@@ -151,7 +151,21 @@ module Bridgetown
         next unless add_yarn_dependency?(yarn_dependency, package_json)
 
         # all right, time to install the package
-        cmd = "yarn add #{yarn_dependency.join("@")}"
+        package_manager = if File.exist?("yarn.lock")
+                            "yarn"
+                          elsif File.exist?("package-lock.json")
+                            "npm"
+                          elsif File.exist?("pnpm-lock.yaml")
+                            "pnpm"
+                          else
+                            nil
+                          end
+
+        return if package_manager.nil?
+
+        command = package_manager === "npm" ? "install" : "add"
+
+        cmd = "#{package_manager} #{command} #{yarn_dependency.join("@")}"
         system cmd
       end
 
