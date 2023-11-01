@@ -131,14 +131,14 @@ module Bridgetown
 
     def self.package_manager
       @package_manager ||= if File.exist?("yarn.lock")
-                              "yarn"
-                            elsif File.exist?("package-lock.json")
-                              "npm"
-                            elsif File.exist?("pnpm-lock.yaml")
-                              "pnpm"
-                            else
-                              ""
-                            end
+                             "yarn"
+                           elsif File.exist?("package-lock.json")
+                             "npm"
+                           elsif File.exist?("pnpm-lock.yaml")
+                             "pnpm"
+                           else
+                             ""
+                           end
     end
 
     def self.package_manager_install_command
