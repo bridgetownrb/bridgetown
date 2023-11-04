@@ -8,9 +8,9 @@ class RubyHtmlText < Bridgetown::Component
       input.sub str, replace_str
     end
 
-    html->{ <<-HTML
-      <p>This is #{text->{"<b>escaped!</b>"}}</p>
-      #{html->{markdownify { "_yipee_" }}.pipe { flub("yipee", "yay") }}
+    html->{ <<~HTML
+      <p>This is #{text->{ "<b>escaped!</b>" }}</p>
+      #{text->{ markdownify { "_yipee_" } }.pipe { flub("yipee", "yay") | html_safe }}
     HTML
     }
   end

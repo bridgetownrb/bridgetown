@@ -325,21 +325,21 @@ class TestResource < BridgetownUnitTest
         # rubocop:disable Layout/TrailingWhitespace
         assert_includes @dest_file, <<~HTML
           <body>
-            <p>Hello &lt;U&gt;WORLD&lt;/U&gt;</p>
-              <output>DOES THIS WORK? 123</output>
+          <p>Hello &lt;U&gt;WORLD&lt;/U&gt;</p>
+          <output>DOES THIS WORK? 123</output>
 
-            <output>Does this work? 456</output>
-                  <p>This is &lt;b&gt;escaped!&lt;/b&gt;</p>
-                <p><em>yay</em></p>
+          <output>Does this work? 456</output>
+          <p>This is &lt;b&gt;escaped!&lt;/b&gt;</p>
+          <p><em>yay</em></p>
 
           <blockquote>
             <p>Well, <em>this</em> is quite interesting &lt;script&gt;alert('bad!')&lt;/script&gt;! =)</p>
-          </blockquote>  <ul>
-                <li>0</li>
-              <li>1</li>
-              <li>2</li>
+          </blockquote><ul>
+          <li>0</li>
+          <li>1</li>
+          <li>2</li>
           
-            </ul>
+          </ul>
           
           </body>
         HTML
