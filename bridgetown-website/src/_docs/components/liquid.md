@@ -155,7 +155,7 @@ Normally content inside of `with` tags is not processed as Markdown (unlike the 
 You can use the `liquid_render` helper from Ruby-based templates to render Liquid components.
 
 ```erb
-<%%= liquid_render "test_component", param: "Liquid FTW!" %>
+<%= liquid_render "test_component", param: "Liquid FTW!" %>
 ```
 
 If you pass a block to `liquid_render`, it will utilize the `rendercontent` Liquid tag and the block contents will be captured and made available via the `content` variable.
