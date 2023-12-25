@@ -377,7 +377,7 @@ module Bridgetown
       end
 
       def format_url(url)
-        url.to_s.sub(%r{index\.html?$}, "").sub(%r{\.html?$}, "")
+        url.to_s.sub(%r{index\.html?$}, "")
       end
     end
   end
