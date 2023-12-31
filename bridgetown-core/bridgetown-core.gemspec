@@ -36,6 +36,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("addressable",               "~> 2.4")
   s.add_runtime_dependency("amazing_print",             "~> 1.2")
   s.add_runtime_dependency("colorator",                 "~> 1.0")
+  s.add_runtime_dependency("csv",                       "~> 3.2")
   s.add_runtime_dependency("erubi",                     "~> 1.9")
   s.add_runtime_dependency("faraday",                   "~> 2.0")
   s.add_runtime_dependency("faraday-follow_redirects",  "~> 0.3")
