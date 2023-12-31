@@ -2,18 +2,12 @@
 
 module Bridgetown
   class LogWriter < ::Logger
-    def initialize # rubocop:disable Lint/MissingSuper
-      @progname = nil
-      @level = DEBUG
-      @default_formatter = Formatter.new
-      @logdev = $stdout
-      @formatter = proc do |_, _, _, msg|
-        msg.to_s
-      end
+    def initialize
+      super $stdout, formatter: proc { |_, _, _, msg| msg.to_s }
     end
 
     def enable_prefix
-      @formatter = proc do |_, _, _, msg|
+      self.formatter = proc do |_, _, _, msg|
         "\e[32m[Bridgetown]\e[0m #{msg}"
       end
     end
