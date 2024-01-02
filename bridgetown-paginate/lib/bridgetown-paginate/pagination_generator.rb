@@ -80,14 +80,14 @@ module Bridgetown
               doc.data.key?("pagination") || doc.data.key?("paginate")
             end
           end
-          return coll
+          coll
         end
 
         # Create the proc that constructs the real-life site page
         # This is necessary to decouple the code from the Bridgetown site object
         page_add_lambda = ->(newpage) do
           site.add_generated_page newpage
-          return newpage # Return the site to the calling code
+          newpage # Return the site to the calling code
         end
 
         # lambda that removes a page from the site pages list

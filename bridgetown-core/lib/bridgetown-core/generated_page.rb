@@ -168,7 +168,7 @@ module Bridgetown
     #
     # @return [String]
     def output_ext
-      @output_ext ||= (permalink_ext || converter_output_ext)
+      @output_ext ||= permalink_ext || converter_output_ext
     end
 
     def permalink_ext

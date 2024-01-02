@@ -3,7 +3,7 @@
 module Bridgetown
   class LogWriter < ::Logger
     def initialize
-      super $stdout, formatter: proc { |_, _, _, msg| msg.to_s }
+      super($stdout, formatter: proc { |_, _, _, msg| msg.to_s })
     end
 
     def enable_prefix
