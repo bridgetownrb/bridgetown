@@ -20,9 +20,7 @@ module Bridgetown
       def unload_loaders
         return if @loaders.keys.empty?
 
-        @loaders.each do |_path, loader|
-          loader.unload
-        end
+        @loaders.each_value(&:unload)
         @loaders = {}
       end
 

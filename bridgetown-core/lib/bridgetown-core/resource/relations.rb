@@ -24,7 +24,7 @@ module Bridgetown
       def relation_types
         @relation_types ||= begin
           types = []
-          relation_schema&.each do |_relation_type, collections|
+          relation_schema&.each_value do |collections|
             types << collections
             types << Array(collections).map { |item| ActiveSupport::Inflector.pluralize(item) }
           end
