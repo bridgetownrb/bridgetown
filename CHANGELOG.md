@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.3.2] - 2024-01-01
+
+- Fix logs and console for Ruby 3.3 [#834](https://github.com/bridgetownrb/bridgetown/pull/834) ([jaredcwhite](https://github.com/jaredcwhite))
+- Auto-detect package manager in the plugin manager [#821](https://github.com/bridgetownrb/bridgetown/pull/821) ([KonnorRogers](https://github.com/KonnorRogers))
+  This allows for support of non-Yarn package managers such as npm and pnpm
+- Allow consistent permitting classes [#795](https://github.com/bridgetownrb/bridgetown/pull/795) ([michaelherold](https://github.com/michaelherold))
+- Show a reloading log for Roda routes in the server folder [#818](https://github.com/bridgetownrb/bridgetown/pull/818) ([jaredcwhite](https://github.com/jaredcwhite))
+- Fixed localization of paginated resources error [#790](https://github.com/bridgetownrb/bridgetown/pull/790) ([jclusso](https://github.com/jclusso))
+- Catch error and log when PostCSS conversion fails [#812](https://github.com/bridgetownrb/bridgetown/pull/812) ([jaredcwhite](https://github.com/jaredcwhite))
+- Thanks to @bkjohnson, @jaredmoody, and @jclusso for improvements to documentation
+
 ## [1.3.1] - 2023-08-29
 
 - Fix bug with prototype page pagination not working for paginate [#804](https://github.com/bridgetownrb/bridgetown/pull/804) ([jaredcwhite](https://github.com/jaredcwhite))

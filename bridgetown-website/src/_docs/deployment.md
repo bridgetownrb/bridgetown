@@ -100,47 +100,39 @@ cache:
   paths:
   - vendor
 
+.setup:
+  script:
+    - apt-get update -yqqq
+    - curl -sL https://deb.nodesource.com/setup_12.x | bash -
+    - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+    - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+    - apt update
+    - apt-get install -y nodejs yarn
+    - export GEM_HOME=$PWD/gems
+    - export PATH=$PWD/gems/bin:$PATH
+    - gem install bundler
+    - gem install bridgetown -N
+    - bundle install
+    - yarn install
+
 test:
   script:
-  - apt-get update -yqqq
-  - curl -sL https://deb.nodesource.com/setup_12.x | bash -
-  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-  - apt update
-  - apt-get install -y nodejs yarn
-  - export GEM_HOME=$PWD/gems
-  - export PATH=$PWD/gems/bin:$PATH
-  - gem install bundler
-  - gem install bridgetown -N
-  - bundle install
-  - yarn install
-  - bin/bridgetown deploy
-  - bin/bridgetown clean
+    - !reference [.setup, script]
+    - bin/bridgetown deploy
+    - bin/bridgetown clean
   except:
     - main
 
 pages:
   script:
-  - apt-get update -yqqq
-  - curl -sL https://deb.nodesource.com/setup_12.x | bash -
-  - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-  - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-  - apt update
-  - apt-get install -y nodejs yarn
-  - export GEM_HOME=$PWD/gems
-  - export PATH=$PWD/gems/bin:$PATH
-  - gem install bundler
-  - gem install bridgetown -N
-  - bundle install
-  - yarn install
-  - bin/bridgetown deploy
-  - mv output public
+    - !reference [.setup, script]
+    - bin/bridgetown deploy
+    - mv output public
   artifacts:
     paths:
-    - public
+      - public
   only:
-  - main
-
+    - main
 ```
 Once this file has been created, add it and the other files and folders to the repository, and then push them to GitLab:
 

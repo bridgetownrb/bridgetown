@@ -11,7 +11,7 @@
     "@linthtml/linthtml": "^0.8.4",
     "esbuild": "^0.19.2",
     "glob": "^7.2.0",
-    "postcss": "^8.4.4",
+    "postcss": "^8.4.31",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^14.0.2",
     "postcss-load-config": "^3.1.0",

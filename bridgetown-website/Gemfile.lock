@@ -13,6 +13,7 @@ PATH
       addressable (~> 2.4)
       amazing_print (~> 1.2)
       colorator (~> 1.0)
+      csv (~> 3.2)
       erubi (~> 1.9)
       faraday (~> 2.0)
       faraday-follow_redirects (~> 0.3)
@@ -69,6 +70,7 @@ GEM
       nokogiri
     colorator (1.1.0)
     concurrent-ruby (1.2.2)
+    csv (3.2.6)
     erubi (1.12.0)
     faraday (2.7.10)
       faraday-net_http (>= 2.0, < 3.1)

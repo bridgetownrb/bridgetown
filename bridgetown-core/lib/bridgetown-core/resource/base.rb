@@ -349,7 +349,7 @@ module Bridgetown
       end
 
       def import_taxonomies_from_data
-        taxonomies.each do |_label, metadata|
+        taxonomies.each_value do |metadata|
           Array(data[metadata.type.key]).each do |term|
             metadata.terms << TaxonomyTerm.new(
               resource: self, label: term, type: metadata.type
