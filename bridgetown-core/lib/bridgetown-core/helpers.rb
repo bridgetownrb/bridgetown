@@ -1,11 +1,13 @@
 # frozen_string_literal: true
 
+require "streamlined/helpers"
+
 module Bridgetown
   class RubyTemplateView
     class Helpers
       include Bridgetown::Filters
       include Bridgetown::Filters::FromLiquid
-      include Streamlined::Helpers
+      include ::Streamlined::Helpers
 
       # @return [Bridgetown::RubyTemplateView]
       attr_reader :view

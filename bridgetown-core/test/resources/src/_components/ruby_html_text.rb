@@ -1,6 +1,4 @@
 class RubyHtmlText < Bridgetown::Component
-  include Bridgetown::Streamlined
-
   def template
     # blub = ->(input, str, replace_str) { input.sub(str, replace_str) }
 

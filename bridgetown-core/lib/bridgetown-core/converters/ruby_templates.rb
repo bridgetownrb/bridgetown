@@ -1,21 +1,9 @@
 # frozen_string_literal: true
 
+require "streamlined/renderable"
+
 module Bridgetown
-  module Streamlined
-    include ::Streamlined::Renderable
-    include ERBCapture
-
-    def helper(name, &helper_block)
-      self.class.define_method(name) do |*args, **kwargs, &block|
-        helper_block.call(*args, **kwargs, &block)
-      end
-    end
-    alias_method :macro, :helper
-  end
-
   class PureRubyView < ERBView
-    include Bridgetown::Streamlined
-
     def render(item = nil, **options, &block) # rubocop:disable Metrics
       return @_erbout if !block && options.empty? && item.nil?
 
