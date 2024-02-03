@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 require "digest"
+require "serbea/pipeline"
 require "streamlined/helpers"
 require "streamlined/renderable"
 
 module Bridgetown
   module Streamlined
     include ::Streamlined::Renderable
+    include Serbea::Pipeline::Helper
     include ERBCapture
 
     def helper(name, &helper_block)
