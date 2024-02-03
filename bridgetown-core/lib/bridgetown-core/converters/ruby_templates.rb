@@ -1,51 +1,9 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  module HTMLinRuby
+  module Streamlined
+    include ::Streamlined::Renderable
     include ERBCapture
-
-    module PipeableProc
-      include Serbea::Pipeline::Helper
-
-      attr_accessor :pipe_block, :touched
-
-      def pipe(&block)
-        return super(self.(), &pipe_block) if pipe_block && !block
-
-        self.touched = true
-        return self unless block
-
-        tap { _1.pipe_block = block }
-      end
-
-      def to_s
-        return self.().to_s if touched
-
-        super
-      end
-
-      def encode(...)
-        to_s.encode(...)
-      end
-    end
-
-    Proc.prepend PipeableProc
-
-    def text(callback)
-      (callback.is_a?(Proc) ? html(callback) : callback).to_s.then do |str|
-        next str if str.respond_to?(:html_safe) && str.html_safe?
-
-        str.encode(xml: :attr).gsub(%r!\A"|"\Z!, "")
-      end
-    end
-
-    def html(callback)
-      callback.pipe
-    end
-
-    def html_map(input, &callback)
-      input.map(&callback).join
-    end
 
     def helper(name, &helper_block)
       self.class.define_method(name) do |*args, **kwargs, &block|
@@ -56,7 +14,7 @@ module Bridgetown
   end
 
   class PureRubyView < ERBView
-    include HTMLinRuby
+    include Bridgetown::Streamlined
 
     def render(item = nil, **options, &block) # rubocop:disable Metrics
       return @_erbout if !block && options.empty? && item.nil?

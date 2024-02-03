@@ -49,6 +49,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("roda",                      "~> 3.46")
   s.add_runtime_dependency("rouge",                     "~> 3.0")
   s.add_runtime_dependency("serbea",                    "~> 2.0")
+  s.add_runtime_dependency("streamlined",               "~> 0.3")
   s.add_runtime_dependency("thor",                      "~> 1.1")
   s.add_runtime_dependency("tilt",                      "~> 2.0")
   s.add_runtime_dependency("zeitwerk",                  "~> 2.5")
