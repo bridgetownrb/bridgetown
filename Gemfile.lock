@@ -142,16 +142,19 @@ GEM
       ruby-progressbar
     multi_test (1.1.0)
     mutex_m (0.2.0)
-    nokogiri (1.16.0)
+    nokogiri (1.16.2)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.16.0-arm64-darwin)
+    nokogiri (1.16.2-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.0-x86_64-darwin)
+    nokogiri (1.16.2-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.0-x86_64-linux)
+    nokogiri (1.16.2-x86_64-linux)
       racc (~> 1.4)
     nokolexbor (0.5.2)
+    nokolexbor (0.5.2-arm64-darwin)
+    nokolexbor (0.5.2-x86_64-darwin)
+    nokolexbor (0.5.2-x86_64-linux)
     parallel (1.24.0)
     parser (3.2.2.4)
       ast (~> 2.4.1)
@@ -269,7 +272,7 @@ DEPENDENCIES
   minitest
   minitest-profile
   minitest-reporters
-  nokogiri (~> 1.7)
+  nokogiri (~> 1.16)
   nokolexbor
   rack-test
   rake (~> 13.0)
