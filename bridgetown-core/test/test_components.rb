@@ -43,7 +43,7 @@ class TestComponents < BridgetownUnitTest
       # lots of funky whitespace from all the erb captures!
       spaces = "  "
       morespaces = "      "
-      assert_includes @erb_page.output, <<~HTML
+      assert_includes @erb_page.output, <<~HTML # rubocop:disable Bridgetown/HTMLEscapedHeredoc
         <app-card>
           <header>I&#39;M A CARD</header>
           <app-card-inner>
