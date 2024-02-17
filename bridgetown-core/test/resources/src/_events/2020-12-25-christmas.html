@@ -6,4 +6,4 @@ front_matter do
 end
 %>---
 
-Fa <%= 8.times.map { "la" }.join(" ") %>!
+Fa <%= pipe(8) { times | map(->(_) { "la" }) | join(" ") | concat("!") } %>

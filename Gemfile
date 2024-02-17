@@ -21,7 +21,7 @@ group :test do
   gem "rack-test"
   gem "rspec"
   gem "rspec-mocks"
-  gem "rubocop-bridgetown", "~> 0.3.0", require: false
+  gem "rubocop-bridgetown", "~> 0.4", require: false
   gem "shoulda"
   gem "simplecov"
   gem "terminal-table"

@@ -73,8 +73,6 @@ module Bridgetown
   end
 
   class ERBView < RubyTemplateView
-    include ERBCapture
-
     def h(input)
       Erubi.h(input)
     end

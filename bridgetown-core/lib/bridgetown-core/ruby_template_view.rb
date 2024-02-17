@@ -1,10 +1,28 @@
 # frozen_string_literal: true
 
 require "digest"
+require "serbea/pipeline"
+require "streamlined/helpers"
+require "streamlined/renderable"
 
 module Bridgetown
+  module Streamlined
+    include ::Streamlined::Renderable
+    include Serbea::Pipeline::Helper
+    include ERBCapture
+
+    def helper(name, &helper_block)
+      self.class.define_method(name) do |*args, **kwargs, &block|
+        helper_block.call(*args, **kwargs, &block)
+      end
+    end
+    alias_method :macro, :helper
+  end
+
   class RubyTemplateView
     require "bridgetown-core/helpers"
+
+    include Bridgetown::Streamlined
 
     attr_reader :layout, :resource, :paginator, :site, :content
     alias_method :page, :resource
