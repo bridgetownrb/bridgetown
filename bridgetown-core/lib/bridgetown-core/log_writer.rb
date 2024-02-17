@@ -34,13 +34,13 @@ module Bridgetown
     end
 
     # Log a `WARN` message
-    def warn(progname = nil, &block)
-      add(WARN, nil, progname.yellow, &block)
+    def warn(progname = nil, &)
+      add(WARN, nil, progname.yellow, &)
     end
 
     # Log an `ERROR` message
-    def error(progname = nil, &block)
-      add(ERROR, nil, progname.red, &block)
+    def error(progname = nil, &)
+      add(ERROR, nil, progname.red, &)
     end
 
     def close

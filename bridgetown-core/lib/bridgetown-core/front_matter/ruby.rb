@@ -4,7 +4,7 @@ module Bridgetown
   module FrontMatter
     module RubyDSL
       def front_matter(scope: nil, &block)
-        RubyFrontMatter.new(scope: scope).tap { |fm| fm.instance_exec(&block) }
+        RubyFrontMatter.new(scope:).tap { |fm| fm.instance_exec(&block) }
       end
     end
 
@@ -21,8 +21,8 @@ module Bridgetown
         set(key, value[0], &block)
       end
 
-      def each(&block)
-        @data.each(&block)
+      def each(&)
+        @data.each(&)
       end
 
       def get(key)

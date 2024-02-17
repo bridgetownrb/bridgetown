@@ -9,7 +9,7 @@ module Bridgetown
         count = options.delete(:count)
         options[:count] = count.to_i unless count.nil?
 
-        I18n.t(input.to_s, locale: locale, **options)
+        I18n.t(input.to_s, locale:, **options)
       rescue ArgumentError
         input
       end

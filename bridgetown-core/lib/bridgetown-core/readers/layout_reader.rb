@@ -47,10 +47,10 @@ module Bridgetown
       Layout.label_for_file(file)
     end
 
-    def within(directory, &block)
+    def within(directory, &)
       return unless File.exist?(directory)
 
-      Dir.chdir(directory, &block)
+      Dir.chdir(directory, &)
     end
   end
 end

@@ -63,7 +63,7 @@ class TestGeneratedPage < BridgetownUnitTest
     context "with a path outside site.source" do
       should "not access its contents" do
         base = "../../../"
-        page = setup_page("pwd", base: base)
+        page = setup_page("pwd", base:)
 
         assert_equal "pwd", page.path
         assert_nil page.content

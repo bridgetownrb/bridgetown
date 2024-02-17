@@ -27,7 +27,7 @@ module Bridgetown
       # @return [String]
       attr_accessor :content, :untransformed_content, :output
 
-      DATE_FILENAME_MATCHER = %r!^(?>.+/)*?(\d{2,4}-\d{1,2}-\d{1,2})-([^/]*)(\.[^.]+)$!.freeze
+      DATE_FILENAME_MATCHER = %r!^(?>.+/)*?(\d{2,4}-\d{1,2}-\d{1,2})-([^/]*)(\.[^.]+)$!
 
       # @param site [Bridgetown::Site]
       # @param origin [Bridgetown::Resource::Origin]
@@ -245,16 +245,16 @@ module Bridgetown
 
       def to_h
         {
-          id: id,
-          absolute_url: absolute_url,
-          relative_path: relative_path,
-          relative_url: relative_url,
-          date: date,
-          data: data,
-          taxonomies: taxonomies,
-          untransformed_content: untransformed_content,
-          content: content,
-          output: output,
+          id:,
+          absolute_url:,
+          relative_path:,
+          relative_url:,
+          date:,
+          data:,
+          taxonomies:,
+          untransformed_content:,
+          content:,
+          output:,
         }
       end
 

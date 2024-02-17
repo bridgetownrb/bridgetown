@@ -8,14 +8,14 @@ module Bridgetown
           @resource # could be nil
         end
 
-        def add_resource(collection_name, path, &block) # rubocop:todo Metrics/AbcSize
+        def add_resource(collection_name, path, &) # rubocop:todo Metrics/AbcSize
           data = Bridgetown::FrontMatter::RubyFrontMatter.new(scope: self).tap do |fm|
             fm.define_singleton_method(:___) do |hsh|
               hsh.each do |k, v|
                 fm.set k, v
               end
             end
-            fm.instance_exec(&block)
+            fm.instance_exec(&)
           end.to_h
           if data[:content]
             data[:_content_] = data[:content]

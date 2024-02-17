@@ -205,9 +205,9 @@ module Bridgetown
       end
 
       # Any missing methods are passed along to the underlying Roda app if possible
-      def method_missing(method_name, *args, **kwargs, &block)
+      def method_missing(method_name, ...)
         if @_roda_app.respond_to?(method_name.to_sym)
-          @_roda_app.send method_name.to_sym, *args, **kwargs, &block
+          @_roda_app.send(method_name.to_sym, ...)
         else
           super
         end

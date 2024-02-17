@@ -129,7 +129,7 @@ module Bridgetown
     #
     # Returns the Array of filtered entries.
     def filter_entries(entries, base_directory = nil)
-      EntryFilter.new(site, base_directory: base_directory).filter(entries)
+      EntryFilter.new(site, base_directory:).filter(entries)
     end
 
     # Read the entries from a particular directory for processing

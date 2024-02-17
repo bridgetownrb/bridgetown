@@ -8,15 +8,15 @@ class Bridgetown::Site
 
     module ClassMethods
       # Establish an SSR pipeline for a persistent backend process
-      def start_ssr!(loaders_manager: nil, &block)
+      def start_ssr!(loaders_manager: nil, &)
         if Bridgetown::Current.site
           raise Bridgetown::Errors::FatalException, "Bridgetown SSR already started! " \
                                                     "Check your Rack app for threading issues"
         end
 
-        site = new(Bridgetown::Current.preloaded_configuration, loaders_manager: loaders_manager)
+        site = new(Bridgetown::Current.preloaded_configuration, loaders_manager:)
         site.enable_ssr
-        site.ssr_setup(&block)
+        site.ssr_setup(&)
 
         site
       end

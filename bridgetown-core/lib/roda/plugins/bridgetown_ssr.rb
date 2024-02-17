@@ -11,10 +11,10 @@ class Roda
         end
       end
 
-      def self.configure(app, _opts = {}, &block)
+      def self.configure(app, _opts = {}, &)
         app.include Bridgetown::Filters::URLFilters
         app.opts[:bridgetown_site] =
-          Bridgetown::Site.start_ssr!(loaders_manager: Bridgetown::Rack.loaders_manager, &block)
+          Bridgetown::Site.start_ssr!(loaders_manager: Bridgetown::Rack.loaders_manager, &)
       end
     end
 

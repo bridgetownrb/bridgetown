@@ -29,7 +29,7 @@ module Bridgetown
           site.generators << anon_generator.new(site.config)
           site.generators.sort!
 
-          functions << { name: name, generator: anon_generator }
+          functions << { name:, generator: anon_generator }
         end
       end
     end

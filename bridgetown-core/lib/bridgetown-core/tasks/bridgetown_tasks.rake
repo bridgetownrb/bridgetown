@@ -55,7 +55,7 @@ task :environment do # rubocop:todo Metrics/BlockLength
     def site(context: :rake)
       @site ||= begin
         config = Bridgetown::Current.preloaded_configuration
-        config.run_initializers! context: context
+        config.run_initializers!(context:)
         Bridgetown::Site.new(config)
       end
     end

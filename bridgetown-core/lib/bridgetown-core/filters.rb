@@ -40,7 +40,7 @@ module Bridgetown
     # See Utils.slugify for more detail.
     def slugify(input, mode = nil)
       mode = @context.registers[:site].config.slugify_mode if mode.nil?
-      Utils.slugify(input, mode: mode)
+      Utils.slugify(input, mode:)
     end
 
     # Titleize a slug or identifier string.
@@ -395,8 +395,8 @@ module Bridgetown
       end
     end
 
-    FLOAT_LIKE   = %r!\A\s*-?(?:\d+\.?\d*|\.\d+)\s*\Z!.freeze
-    INTEGER_LIKE = %r!\A\s*-?\d+\s*\Z!.freeze
+    FLOAT_LIKE   = %r!\A\s*-?(?:\d+\.?\d*|\.\d+)\s*\Z!
+    INTEGER_LIKE = %r!\A\s*-?\d+\s*\Z!
     private_constant :FLOAT_LIKE, :INTEGER_LIKE
 
     # return numeric values as numbers for proper sorting

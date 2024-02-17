@@ -3,10 +3,10 @@
 module Bridgetown
   module Commands
     module Actions
-      GITHUB_REGEX = %r!https://github\.com!.freeze
-      GITHUB_TREE_REGEX = %r!#{GITHUB_REGEX}/.*/.*/tree/.*/?!.freeze
-      GITHUB_BLOB_REGEX = %r!#{GITHUB_REGEX}/.*/.*/blob/!.freeze
-      GITHUB_REPO_REGEX = %r!github\.com/(.*?/[^/]*)!.freeze
+      GITHUB_REGEX = %r!https://github\.com!
+      GITHUB_TREE_REGEX = %r!#{GITHUB_REGEX}/.*/.*/tree/.*/?!
+      GITHUB_BLOB_REGEX = %r!#{GITHUB_REGEX}/.*/.*/blob/!
+      GITHUB_REPO_REGEX = %r!github\.com/(.*?/[^/]*)!
 
       def create_builder(filename, data = nil)
         say_status :create_builder, filename

@@ -52,8 +52,8 @@ module Bridgetown
     # message - the message detail
     #
     # Returns nothing
-    def debug(topic, message = nil, &block)
-      write(:debug, topic, message, &block)
+    def debug(topic, message = nil, &)
+      write(:debug, topic, message, &)
     end
 
     # Public: Print a message
@@ -62,8 +62,8 @@ module Bridgetown
     # message - the message detail
     #
     # Returns nothing
-    def info(topic, message = nil, &block)
-      write(:info, topic, message, &block)
+    def info(topic, message = nil, &)
+      write(:info, topic, message, &)
     end
 
     # Public: Print a message
@@ -72,8 +72,8 @@ module Bridgetown
     # message - the message detail
     #
     # Returns nothing
-    def warn(topic, message = nil, &block)
-      write(:warn, topic, message, &block)
+    def warn(topic, message = nil, &)
+      write(:warn, topic, message, &)
     end
 
     # Public: Print an error message
@@ -82,8 +82,8 @@ module Bridgetown
     # message - the message detail
     #
     # Returns nothing
-    def error(topic, message = nil, &block)
-      write(:error, topic, message, &block)
+    def error(topic, message = nil, &)
+      write(:error, topic, message, &)
     end
 
     # Public: Print an error message and immediately abort the process
@@ -92,8 +92,8 @@ module Bridgetown
     # message - the message detail (can be omitted)
     #
     # Returns nothing
-    def abort_with(topic, message = nil, &block)
-      error(topic, message, &block)
+    def abort_with(topic, message = nil, &)
+      error(topic, message, &)
       abort
     end
 
@@ -142,10 +142,10 @@ module Bridgetown
     #
     # Returns false if the message was not written, otherwise returns the value of calling
     # the appropriate writer method, e.g. writer.info.
-    def write(level_of_message, topic, message = nil, &block)
+    def write(level_of_message, topic, message = nil, &)
       return false unless write_message?(level_of_message)
 
-      writer.public_send(level_of_message, message(topic, message, &block))
+      writer.public_send(level_of_message, message(topic, message, &))
     end
   end
 end

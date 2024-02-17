@@ -50,7 +50,7 @@ end
 #
 
 def file_content_from_hash(input_hash)
-  matter_hash = input_hash.reject { |k, _v| k == "content" }
+  matter_hash = input_hash.except("content")
   matter = matter_hash.map { |k, v| "#{k}: #{v}\n" }.join
   matter.chomp!
   content = if input_hash["input"] && input_hash["filter"]

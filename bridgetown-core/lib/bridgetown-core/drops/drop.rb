@@ -159,8 +159,8 @@ module Bridgetown
       # block - a block which accepts one argument, the key
       #
       # Returns nothing.
-      def each_key(&block)
-        keys.each(&block)
+      def each_key(&)
+        keys.each(&)
       end
 
       def each

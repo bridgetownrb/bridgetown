@@ -5,8 +5,8 @@ require "kramdown-parser-gfm"
 module Kramdown
   module Parser
     class GFM
-      MARK_DELIMITER = %r{(==|::)+}.freeze
-      MARK_MATCH = %r{#{MARK_DELIMITER}(?!\s|=|:).*?[^\s=:]#{MARK_DELIMITER}}m.freeze
+      MARK_DELIMITER = %r{(==|::)+}
+      MARK_MATCH = %r{#{MARK_DELIMITER}(?!\s|=|:).*?[^\s=:]#{MARK_DELIMITER}}m
 
       # Monkey-patch GFM initializer to add our new mark parser
       alias_method :_old_initialize, :initialize

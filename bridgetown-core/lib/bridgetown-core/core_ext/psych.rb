@@ -6,7 +6,7 @@ module Bridgetown
       module SafeLoadFile
         def safe_load_file(filename, **kwargs)
           File.open(filename, "r:bom|utf-8") do |f|
-            safe_load f, filename: filename, **kwargs
+            safe_load f, filename:, **kwargs
           end
         end
       end

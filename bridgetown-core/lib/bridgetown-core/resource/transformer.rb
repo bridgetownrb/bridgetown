@@ -38,7 +38,7 @@ module Bridgetown
           resource.content = transform_content(resource) do |converter, index, output|
             conversions[index] = {
               type: :content,
-              converter: converter,
+              converter:,
               output: Bridgetown.env.production? ? nil : output,
               output_ext: conversions[index]&.dig(:output_ext) ||
                 converter.output_ext(resource.extname),
@@ -81,7 +81,7 @@ module Bridgetown
       def output_ext_from_converters
         @conversions = converters.map do |converter|
           {
-            converter: converter,
+            converter:,
             output_ext: converter.output_ext(resource.extname),
           }
         end
@@ -102,8 +102,8 @@ module Bridgetown
           output = transform_with_layout(layout, output, resource) do |converter, layout_output|
             conversions << {
               type: :layout,
-              layout: layout,
-              converter: converter,
+              layout:,
+              converter:,
               output: Bridgetown.env.production? ? nil : layout_output,
             }
           end
