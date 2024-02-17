@@ -184,6 +184,10 @@ Define lambdas which will be run for any matching placeholders within a permalin
 
 Add new functionality to the resource objects in your site build.
 
+### [Front Matter Loaders](/docs/plugins/front-matter-loaders)
+
+Add new types of front matter to the resource objects and layouts in your site.
+
 ### [Commands](/docs/plugins/commands)
 
 Commands extend the `bridgetown` executable using the Thor CLI toolkit.

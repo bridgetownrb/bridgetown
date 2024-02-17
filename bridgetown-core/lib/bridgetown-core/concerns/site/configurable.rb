@@ -55,13 +55,13 @@ class Bridgetown::Site
       @defaults_reader ||= Bridgetown::DefaultsReader.new(self)
     end
 
-    # Returns the current instance of {FrontmatterDefaults} or
-    #   creates a new instance {FrontmatterDefaults} if it doesn't already exist.
+    # Returns the current instance of {FrontMatter::Defaults} or
+    #   creates a new instance {FrontMatter::Defaults} if it doesn't already exist.
     #
-    # @return [FrontmatterDefaults]
-    #   Returns an instance of {FrontmatterDefaults}
+    # @return [FrontMatter::Defaults]
+    #   Returns an instance of {FrontMatter::Defaults}
     def frontmatter_defaults
-      @frontmatter_defaults ||= Bridgetown::FrontmatterDefaults.new(self)
+      @frontmatter_defaults ||= Bridgetown::FrontMatter::Defaults.new(self)
     end
 
     # Prefix a path or paths with the {#root_dir} directory.

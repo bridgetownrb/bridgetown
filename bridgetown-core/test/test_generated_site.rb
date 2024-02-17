@@ -16,7 +16,7 @@ class TestGeneratedSite < BridgetownUnitTest
     end
 
     should "ensure post count is as expected" do
-      assert_equal 51, @site.collections.posts.resources.size
+      assert_equal 52, @site.collections.posts.resources.size
     end
 
     should "insert site.posts into the index" do
