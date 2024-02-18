@@ -84,27 +84,27 @@ class TestRubyHelpers < BridgetownUnitTest
   end
 
   context "translate" do
-    should "return translation key when given a string" do
+    should "return translation when given a string" do
       assert_equal "foo", @helpers.translate("about.foo")
     end
 
-    should "return translation keys when given an array" do
-      assert_equal %w[foo bar], @helpers.translate(["about.foo", "about.bar"])
+    should "return translations when given an array" do
+      assert_equal %w[foo bar], @helpers.translate(%w[about.foo about.bar])
     end
 
     should "return html safe string when key ends with _html" do
       assert @helpers.translate("about.foo_html").html_safe?
     end
 
-    should "return not return html safe string when key does not end with _html" do
+    should "not return html safe string when key does not end with _html" do
       refute @helpers.translate("about.foo").html_safe?
     end
 
-    should "return relative translation key when key starts with period" do
+    should "return relative translation when key starts with period" do
       assert_equal "foo", @helpers.translate(".foo")
     end
 
-    should "return relative translation key when key starts with period and path contains a folder" do
+    should "return relative translation when key starts with period and view is in a folder" do
       helpers = Bridgetown::RubyTemplateView::Helpers.new(
         Bridgetown::ERBView.new(
           @site.collections.pages.resources.find { |p| p.basename_without_ext == "bar" }
