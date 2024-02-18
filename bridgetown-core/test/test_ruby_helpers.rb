@@ -8,7 +8,7 @@ class TestRubyHelpers < BridgetownUnitTest
     @site.read
     @helpers = Bridgetown::RubyTemplateView::Helpers.new(
       Bridgetown::ERBView.new(
-        @site.collections.pages.resources.find { |p| p.basename_without_ext == 'about' }
+        @site.collections.pages.resources.find { |p| p.basename_without_ext == "about" }
       ),
       @site
     )
@@ -85,37 +85,37 @@ class TestRubyHelpers < BridgetownUnitTest
 
   context "translate" do
     should "return translation key when given a string" do
-      assert_equal 'foo', @helpers.translate('about.foo')
+      assert_equal "foo", @helpers.translate("about.foo")
     end
 
     should "return translation keys when given an array" do
-      assert_equal ['foo', 'bar'], @helpers.translate(['about.foo', 'about.bar'])
+      assert_equal %w[foo bar], @helpers.translate(["about.foo", "about.bar"])
     end
 
     should "return html safe string when key ends with _html" do
-      assert @helpers.translate('about.foo_html').html_safe?
+      assert @helpers.translate("about.foo_html").html_safe?
     end
 
     should "return not return html safe string when key does not end with _html" do
-      refute @helpers.translate('about.foo').html_safe?
+      refute @helpers.translate("about.foo").html_safe?
     end
 
     should "return relative translation key when key starts with period" do
-      assert_equal 'foo', @helpers.translate('.foo')
+      assert_equal "foo", @helpers.translate(".foo")
     end
 
     should "return relative translation key when key starts with period and path contains a folder" do
       helpers = Bridgetown::RubyTemplateView::Helpers.new(
         Bridgetown::ERBView.new(
-          @site.collections.pages.resources.find { |p| p.basename_without_ext == 'bar' }
+          @site.collections.pages.resources.find { |p| p.basename_without_ext == "bar" }
         ),
         @site
       )
-      assert_equal 'foo', helpers.translate('.foo')
+      assert_equal "foo", helpers.translate(".foo")
     end
 
     should "return translation missing if key doesn't exist" do
-      assert_equal 'Translation missing: en.about.not_here', @helpers.translate('.not_here')
+      assert_equal "Translation missing: en.about.not_here", @helpers.translate(".not_here")
     end
 
     should "have alias method t" do
@@ -133,5 +133,4 @@ class TestRubyHelpers < BridgetownUnitTest
       assert_equal @helpers.method(:localize), @helpers.method(:l)
     end
   end
-
 end

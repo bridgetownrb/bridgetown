@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'active_support/html_safe_translation'
+require "active_support/html_safe_translation"
 
 module Bridgetown
   class RubyTemplateView
@@ -151,18 +151,19 @@ module Bridgetown
       #
       # @return [String] the translated string
       # @see I18n
-      def translate(key, **options)
+      def translate(key, **options) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
         return key.map { |k| translate(k, **options) } if key.is_a?(Array)
+
         key = key&.to_s
 
         if key&.start_with?(".")
-          view_path = view&.page&.relative_path&.to_s&.split('.')&.first
-          key = "#{view_path.gsub('/', '.')}#{key}" if view_path.present?
+          view_path = view&.page&.relative_path&.to_s&.split(".")&.first
+          key = "#{view_path.tr("/", ".")}#{key}" if view_path.present?
         end
 
         ActiveSupport::HtmlSafeTranslation.translate(key, **options)
       end
-      alias :t :translate
+      alias_method :t, :translate
 
       # Delegates to <tt>I18n.localize</tt> with no additional functionality.
       #
@@ -171,7 +172,7 @@ module Bridgetown
       def localize(...)
         I18n.localize(...)
       end
-      alias :l :localize
+      alias_method :l, :localize
 
       # For template contexts where ActiveSupport's output safety is loaded, we
       # can ensure a string has been marked safe
