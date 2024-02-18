@@ -1,0 +1,8 @@
+en:
+  about:
+    foo: foo
+    bar: bar
+    foo_html: <strong>foo</strong>
+  contacts:
+    bar:
+      foo: foo

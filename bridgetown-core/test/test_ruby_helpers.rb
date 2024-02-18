@@ -6,7 +6,12 @@ class TestRubyHelpers < BridgetownUnitTest
   def setup
     @site = fixture_site
     @site.read
-    @helpers = Bridgetown::RubyTemplateView::Helpers.new(self, @site)
+    @helpers = Bridgetown::RubyTemplateView::Helpers.new(
+      Bridgetown::ERBView.new(
+        @site.collections.pages.resources.find { |p| p.basename_without_ext == 'about' }
+      ),
+      @site
+    )
   end
 
   context "link_to" do
@@ -77,4 +82,56 @@ class TestRubyHelpers < BridgetownUnitTest
       assert_includes "<p class=\"#{@helpers.class_map blank: !"".empty?, truthy: true, "more-truthy" => yes_var == "yes", falsy: nil, "more-falsy" => "no" == "yes"}\">classes!</p>", "<p class=\"truthy more-truthy\">"
     end
   end
+
+  context "translate" do
+    should "return translation key when given a string" do
+      assert_equal 'foo', @helpers.translate('about.foo')
+    end
+
+    should "return translation keys when given an array" do
+      assert_equal ['foo', 'bar'], @helpers.translate(['about.foo', 'about.bar'])
+    end
+
+    should "return html safe string when key ends with _html" do
+      assert @helpers.translate('about.foo_html').html_safe?
+    end
+
+    should "return not return html safe string when key does not end with _html" do
+      refute @helpers.translate('about.foo').html_safe?
+    end
+
+    should "return relative translation key when key starts with period" do
+      assert_equal 'foo', @helpers.translate('.foo')
+    end
+
+    should "return relative translation key when key starts with period and path contains a folder" do
+      helpers = Bridgetown::RubyTemplateView::Helpers.new(
+        Bridgetown::ERBView.new(
+          @site.collections.pages.resources.find { |p| p.basename_without_ext == 'bar' }
+        ),
+        @site
+      )
+      assert_equal 'foo', helpers.translate('.foo')
+    end
+
+    should "return translation missing if key doesn't exist" do
+      assert_equal 'Translation missing: en.about.not_here', @helpers.translate('.not_here')
+    end
+
+    should "have alias method t" do
+      assert_equal @helpers.method(:translate), @helpers.method(:t)
+    end
+  end
+
+  context "localize" do
+    should "return same output as I18n.localize" do
+      time = Time.now
+      assert_equal I18n.localize(time), @helpers.localize(time)
+    end
+
+    should "have alias method l" do
+      assert_equal @helpers.method(:localize), @helpers.method(:l)
+    end
+  end
+
 end
