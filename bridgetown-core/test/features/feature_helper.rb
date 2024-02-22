@@ -28,6 +28,7 @@ class BridgetownFeatureTest < BridgetownUnitTest
         "bridgetown.config.yml",
         "webpack.config.js",
         "esbuild.config.js",
+        "config",
         "plugins",
         "plugins/nested",
         "plugins/nested/subnested",
@@ -111,5 +112,12 @@ class BridgetownFeatureTest < BridgetownUnitTest
     time = time.strftime("%H:%M:%S") if time.is_a?(Time)
     hour, minutes, = time.split(":")
     "#{hour}:#{minutes}"
+  end
+
+  def setup_collections_fixture(directory)
+    collections_dir = File.join(Paths.test_dir, "src", directory.to_s)
+    FileUtils.cp_r Paths.source_dir.join("test", "source", "src", "_methods"), collections_dir
+    FileUtils.cp_r Paths.source_dir.join("test", "source", "src", "_thanksgiving"), collections_dir
+    FileUtils.cp_r Paths.source_dir.join("test", "source", "src", "_tutorials"), collections_dir
   end
 end

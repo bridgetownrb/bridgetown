@@ -11,8 +11,8 @@ class TestCache < BridgetownFeatureTest
 
       run_bridgetown "build"
 
-      assert Dir.exist?(".bridgetown-cache")
-      assert Dir.exist?(".bridgetown-cache/Bridgetown/Cache/Bridgetown--Cache")
+      assert_exist ".bridgetown-cache"
+      assert_exist ".bridgetown-cache/Bridgetown/Cache/Bridgetown--Cache"
       assert_file_contains "<p>Hello World</p>", "output/index.html"
     end
 
@@ -22,9 +22,9 @@ class TestCache < BridgetownFeatureTest
       create_configuration cache_dir: ".foo-cache"
       run_bridgetown "build"
 
-      refute Dir.exist?(".bridgetown-cache")
-      assert Dir.exist?(".foo-cache")
-      assert Dir.exist?(".foo-cache/Bridgetown/Cache/Bridgetown--Cache")
+      refute_exist ".bridgetown-cache"
+      assert_exist ".foo-cache"
+      assert_exist ".foo-cache/Bridgetown/Cache/Bridgetown--Cache"
       assert_file_contains "<p>Hello World</p>", "output/index.html"
     end
 
@@ -33,7 +33,7 @@ class TestCache < BridgetownFeatureTest
 
       run_bridgetown "build", "--disable-disk-cache"
 
-      refute Dir.exist?(".bridgetown-cache")
+      refute_exist ".bridgetown-cache"
       assert_file_contains "<p>Hello World</p>", "output/index.html"
     end
   end
