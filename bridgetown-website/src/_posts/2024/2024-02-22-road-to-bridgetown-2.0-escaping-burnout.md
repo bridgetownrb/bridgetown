@@ -86,3 +86,6 @@ So that is merely one aspect of the work that’s ongoing as we head towards Bri
 The big takeaway is that I’m feeling more pumped about the future of Bridgetown than I have in many months. Between sorting out feelings of disappointment around past events, and coming up with a list of improvements to the project and the ecosystem I’m very excited to be moving forward on, a new day has dawned. 🌞
 
 **Bridgetown 2.0 represents a sort of clean break**, not just because we can remove deprecated APIs, streamline aspects of the codebase, and improve features in ways that will help make the framework faster and more stable, but because version 0.x represents an experiment, 1.0 represents something stable yet still new, and 2.0 represents _longevity_. Bridgetown is here to stay. We have a full major version bump looming. And we hope you’ll stick around to see what comes next. 🤓
+
+_Want to discuss this post? [Jump over to our Community site and add your comment](https://community.bridgetown.pub/post/11)_ 🔗
+{: style="text-align:center; margin-block-start: 1.5lh"}
