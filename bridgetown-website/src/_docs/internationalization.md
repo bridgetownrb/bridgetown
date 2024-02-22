@@ -76,7 +76,11 @@ and in ERB:
 <%= t("welcome.intro") %>
 ```
 
-The Ruby helper in particular also supports variable interpolation. If you store a translation like this:
+The Ruby helper in particular also supports some additional functionality.
+
+#### Variable Interpolation
+
+If you store a translation like this:
 
 ```yml
 en:
@@ -88,6 +92,41 @@ Then you can pass that variable to the `t` helper:
 
 ```erb
 <%= t("products.price", price: resource.data.price) %>
+```
+
+#### Relative page keys
+
+If you start your translation key starts with a period, we'll automatically scope the key to the page. For example, if the page is `about.html`:
+
+```erb
+<%= t(".foo") %>
+```
+
+Will retrieve the key from:
+
+```yml
+en:
+  about:
+    foo: Foo
+```
+
+Or if the page is `contact/about.html`:
+
+```yml
+en:
+  contact:
+    about:
+      foo: Foo
+```
+
+#### Automatic HTML key safety
+
+If your translation key ends with `_html` or is `html`, it will automatically be marked `html_safe`.
+
+```yml
+en:
+  products:
+    tagline_html: The <storng>best</strong> product!
 ```
 
 There are many other useful features of the **i18n** gem, so feel free to peruse the [Rails Guide to Internationalization](https://guides.rubyonrails.org/i18n.html) for additional documentation.
