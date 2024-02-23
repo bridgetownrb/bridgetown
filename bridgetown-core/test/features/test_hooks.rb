@@ -227,5 +227,26 @@ class TestHooks < BridgetownFeatureTest
 
       assert_file_contains "4 3 1 2 WRAP ME", "output/index.html"
     end
+
+    should "alter a document right after it is initialized" do
+      create_file "config/initializers.rb", <<~RUBY
+        Bridgetown.configure do |config|
+          # Log all post filesystem writes
+          hook :resources, :pre_render do |doc, payload|
+            doc.data['text'] = doc.data['text'] << ' are belong to us' if doc.data['text']
+          end
+        end
+      RUBY
+
+      create_directory "_memes"
+      create_page "_memes/doc1.md", "", text: "all your base"
+      create_page "index.md", "{{ collections.memes.resources.first.text }}", title: "Simple test"
+
+      create_configuration collections: ["memes"]
+
+      run_bridgetown "build"
+
+      assert_file_contains "all your base are belong to us", "output/index.html"
+    end
   end
 end

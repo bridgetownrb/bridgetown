@@ -97,7 +97,7 @@ class BridgetownFeatureTest < BridgetownUnitTest
     FileUtils.mkdir_p("src")
 
     File.write(File.join("src", file), <<~DATA)
-      #{front_matter.transform_keys(&:to_s).to_yaml}
+      #{front_matter.deep_stringify_keys.to_yaml}
       ---
 
       #{text}
