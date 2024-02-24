@@ -6,3 +6,5 @@ en:
   contacts:
     bar:
       foo: foo
+  deal_with_dashes:
+    foo: foo

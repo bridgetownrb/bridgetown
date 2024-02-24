@@ -158,7 +158,7 @@ module Bridgetown
 
         if key&.start_with?(".")
           view_path = view&.page&.relative_path&.to_s&.split(".")&.first
-          key = "#{view_path.tr("/", ".")}#{key}" if view_path.present?
+          key = "#{view_path.tr("/", ".").tr("-", "_")}#{key}" if view_path.present?
         end
 
         ActiveSupport::HtmlSafeTranslation.translate(key, **options)

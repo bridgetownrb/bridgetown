@@ -114,6 +114,16 @@ class TestRubyHelpers < BridgetownUnitTest
       assert_equal "foo", helpers.translate(".foo")
     end
 
+    should "return relative translation when key starts with period and view has a dash in it" do
+      helpers = Bridgetown::RubyTemplateView::Helpers.new(
+        Bridgetown::ERBView.new(
+          @site.collections.pages.resources.find { |p| p.basename_without_ext == "deal-with-dashes" }
+        ),
+        @site
+      )
+      assert_equal "foo", helpers.translate(".foo")
+    end
+
     should "return translation missing if key doesn't exist" do
       assert_equal "Translation missing: en.about.not_here", @helpers.translate(".not_here")
     end
