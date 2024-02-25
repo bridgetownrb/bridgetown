@@ -44,6 +44,10 @@ Some popular services include:
 
 [Netlify](https://www.netlify.com) is a web developer platform which focuses on productivity and global scale without requiring costly infrastructure. Get set up with continuous deployment, lead gen forms, one click HTTPS, and so much more.
 
+### Fly.io
+
+[Fly.io](https://fly.io) is a platform that focuses on container based deployment. Their service transforms containers into micro-VMs that run on hardware all across the globe. The section below on [Docker](/docs/deployment#docker) has some examples that can be used with Fly.
+
 ## Manual Deployment
 
 For a simple method of deployment, you can simply transfer the contents of your `output` folder to any web server. You can use something like `scp` to securely copy the folder, or you can use a more advanced tool:
@@ -56,7 +60,11 @@ rsync in the [Digital Ocean tutorial](https://www.digitalocean.com/community/tut
 
 ### Docker
 
-Many modern hosting solutions support deploying a `Dockerfile`. Building a Bridgetown site for one of these services is as easy as adding this file to a `Dockerfile` in the root directory of your project:
+Many modern hosting solutions support deploying with a `Dockerfile`. Building a Bridgetown site for one of these services is as easy as creating a `Dockerfile` in the root directory of your project. See the examples below.
+
+#### Static Site
+
+If you're simply looking to deploy a static version of your site.
 
 ```Dockerfile
 # Build frontend JS and CSS assets using ESbuild
@@ -85,11 +93,45 @@ FROM pierrezemb/gostatic
 COPY --from=bridgetown_builder /app/output /srv/http/
 ```
 
-A `Dockerfile` like this could be used, for example, to [deploy a static website to Fly.io](https://fly.io/docs/languages-and-frameworks/static/).
+#### Dynamic Site
+
+If you're looking to use things like [Dynamic Routes & SSR](/docs/routes).
+
+```Dockerfile
+ARG RUBY_VERSION=3.2.2
+FROM ruby:$RUBY_VERSION-slim as base
+
+ENV VOLTA_HOME=/usr/local
+
+RUN apt-get update &&\
+    apt-get install --yes build-essential git curl
+
+RUN curl https://get.volta.sh | bash &&\
+    volta install node@lts yarn@latest
+
+WORKDIR /app
+
+FROM base as gems
+COPY Gemfile* .
+RUN bundle install
+
+FROM base
+COPY . .
+COPY --from=base $VOLTA_HOME/bin $VOLTA_HOME/bin
+COPY --from=base $VOLTA_HOME/tools $VOLTA_HOME/tools
+COPY --from=base /app /app
+COPY --from=gems /usr/local/bundle /usr/local/bundle
+
+RUN yarn install
+RUN bundle exec bridgetown frontend:build
+
+EXPOSE 4000
+CMD bundle exec bridgetown start
+```
 
 ### GitLab Pages
 
-[GitLab pages](https://docs.gitlab.com/ee/user/project/pages/) can host static websites. Create a repository on GitLab, 
+[GitLab pages](https://docs.gitlab.com/ee/user/project/pages/) can host static websites. Create a repository on GitLab,
 which we suppose is at https://gitlab.com/bridgetownrb/mysite
 Add the following .gitlab-ci.yml file to your project, which we shall suppose is called `mysite` following the documentation setup [instructions](/docs/). The .gitlab-ci.yml file should be in the mysite directory created using `bridgetown new mysite` and should contain
 
@@ -173,7 +215,7 @@ For more details, [see the documentation](https://docs.gitlab.com/ee/user/projec
 
 ### GitHub Pages
 
-Much like with GitLab, you can also deploy static sites to [GitHub Pages](https://pages.github.com/). You can make use of [GitHub Actions](https://github.com/features/actions) to automate building and deploying your site to GitHub Pages. 
+Much like with GitLab, you can also deploy static sites to [GitHub Pages](https://pages.github.com/). You can make use of [GitHub Actions](https://github.com/features/actions) to automate building and deploying your site to GitHub Pages.
 
 Bridgetown includes a [bundled configuration to set up GitHub pages](/docs/bundled-configurations#github-pages-configuration). You can apply it with the following command:
 
