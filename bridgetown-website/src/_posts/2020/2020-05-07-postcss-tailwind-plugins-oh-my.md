@@ -7,7 +7,7 @@ category: news
 
 {%@ Note type: :warning do %}
   #### This post is a bit outdated!
-  Since writing this post, bundled configurations were added to Bridgetown. To start using Tailwind CSS with Bridgetown, check out the [community-maintained bundled configuration](https://github.com/bridgetownrb/tailwindcss-automation).
+  Since writing this post, automations were added to Bridgetown. To start using Tailwind CSS with Bridgetown, check out the [community-maintained automation](https://github.com/bridgetownrb/tailwindcss-automation).
 {% end %}
 
 Personally, [I'm a Bulma man myself](https://bulma.io), but I understand there are a ton of you out there who love [Tailwind CSS](https://tailwindcss.com) and won't give it up until they pry it out of your cold, dead hands.
