@@ -30,6 +30,109 @@ class TestLiquidRendering < BridgetownFeatureTest
 
       assert_file_contains "Snippet: <p>Hello World</p>", "output/test/index.html"
     end
+
+    should "render various variables and front matter" do
+      create_directory "_layouts"
+      create_file "_layouts/simple.liquid", <<~LIQUID
+        Post url: {{ page.relative_url }}
+        Post date: {{ page.date | date_to_string }}
+        Post id: {{ page.id }}
+        Post content: {{ content }}
+      LIQUID
+
+      create_directory "_posts"
+      create_page "_posts/2023-03-27-star-wars.md", "Luke, I am your father.", layout: "simple", title: "Star Wars", date: "2023-03-27"
+
+      run_bridgetown "build"
+
+      assert_file_contains "Post url: /2023/03/27/star-wars/", "output/2023/03/27/star-wars/index.html"
+      assert_file_contains "Post date: 27 Mar 2023", "output/2023/03/27/star-wars/index.html"
+      assert_file_contains "Post id: repo://posts.collection/_posts/2023-03-27-star-wars.md", "output/2023/03/27/star-wars/index.html"
+      assert_file_contains "Post content: <p>Luke, I am your father.</p>", "output/2023/03/27/star-wars/index.html"
+    end
+  end
+
+  context "taxonomies" do
+    setup do
+      create_directory "_layouts"
+      create_directory "_posts"
+    end
+
+    should "render tags via post.tags" do
+      create_page "_posts/2023-05-18-star-wars.md", "Luke, I am your father.", layout: "simple", tags: "twist"
+      create_file "_layouts/simple.liquid", "Post tags: {{ page.tags }}"
+
+      run_bridgetown "build"
+
+      assert_file_contains "Post tags: twist", "output/2023/05/18/star-wars/index.html"
+    end
+
+    should "render categories via post.categories" do
+      create_page "_posts/2023-05-18-star-wars.md", "Luke, I am your father.", layout: "simple", category: "movies"
+      create_file "_layouts/simple.liquid", "Post category: {{ page.categories }}"
+
+      run_bridgetown "build"
+
+      assert_file_contains "Post category: movies", "output/movies/2023/05/18/star-wars/index.html"
+    end
+
+    should "render categories de-duped via post.categories" do
+      create_page "_posts/2023-05-18-star-wars.md", "Luke, I am your father.", layout: "simple", category: %w[movies movies]
+      create_file "_layouts/simple.liquid", "Post category: {{ page.categories }}."
+
+      run_bridgetown "build"
+
+      assert_file_contains "Post category: movies.", "output/movies/2023/05/18/star-wars/index.html"
+    end
+
+    should "render multiple categories in a human-readable way" do
+      create_page "_posts/2023-05-18-star-wars.md", "Luke, I am your father.", layout: "simple", categories: %w[scifi movies]
+      create_file "_layouts/simple.liquid", "Post categories: {{ resource.categories | array_to_sentence_string }}"
+
+      run_bridgetown "build"
+
+      assert_file_contains "Post categories: scifi and movies", "output/scifi/movies/2023/05/18/star-wars/index.html"
+    end
+  end
+
+  context "other Liquid and front matter features" do
+    setup do
+      create_directory "_layouts"
+      create_directory "_posts"
+    end
+
+    should "not process Liquid when render_with_liquid: false" do
+      create_page "_posts/unrendered-post.md", "Hello {{ page.title }}", date: "2017-07-06", render_with_liquid: false
+      create_page "_posts/rendered-post.md", "Hello {{ page.title }}", date: "2017-07-06", render_with_liquid: true
+
+      run_bridgetown "build"
+
+      refute_file_contains "Hello Unrendered Post", "output/2017/07/06/unrendered-post/index.html"
+      assert_file_contains "Hello {{ page.title }}", "output/2017/07/06/unrendered-post/index.html"
+      assert_file_contains "Hello Rendered Post", "output/2017/07/06/rendered-post/index.html"
+    end
+
+    should "not render posts with published: false" do
+      create_page "index.html", "Published!", title: "Published page"
+      create_page "_posts/the-princess-bride.md", "Inconceivable!", date: "2024-03-02", published: false
+
+      run_bridgetown "build"
+
+      refute_exist "output/2024/03/02/the-princess-bride/index.html"
+      assert_file_contains "Published!", "output/index.html"
+    end
+
+    should "render previous and next posts title" do
+      create_file "_layouts/ordered.liquid", "Previous post: {{ page.previous.title }} and next post: {{ page.next.title }}"
+
+      create_page "_posts/star-wars.md", "Luke, I am your father.", title: "Star Wars", date: "2009-03-27", layout: "ordered"
+      create_page "_posts/some-like-it-hot.md", "Nobody is perfect.", title: "Some like it hot", date: "2009-04-27", layout: "ordered"
+      create_page "_posts/terminator.md", "Sayonara, baby", title: "Terminator", date: "2009-05-27", layout: "ordered"
+
+      run_bridgetown "build"
+      assert_file_contains "Previous post: Some like it hot", "output/2009/03/27/star-wars/index.html"
+      assert_file_contains "next post: Some like it hot", "output/2009/05/27/terminator/index.html"
+    end
   end
 
   context "bad Liquid" do
@@ -57,7 +160,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       process, output = run_bridgetown "build", skip_status_check: true
 
       refute process.exitstatus.zero?
-      assert_includes output, "Liquid syntax error \(line 1\): Unknown tag 'INVALID'"
+      assert_includes output, "Liquid syntax error (line 1): Unknown tag 'INVALID'"
     end
 
     should "component with weird filter throws exception" do
@@ -81,6 +184,26 @@ class TestLiquidRendering < BridgetownFeatureTest
       _, output = run_bridgetown "build"
 
       refute_includes output, "Liquid Exception:"
+    end
+
+    should "not build when there's a bad date in frontmatter" do
+      create_directory "_posts"
+      create_page "_posts/2016-01-01-test.md", "invalid date", date: "tuesday"
+
+      process, output = run_bridgetown "build", skip_status_check: true
+
+      refute process.exitstatus.zero?
+      assert_includes output, "Invalid date 'tuesday': Resource '_posts/2016-01-01-test.md' does not have a valid date."
+    end
+
+    should "not build when there's a bad date in filename" do
+      create_directory "_posts"
+      create_page "_posts/2016-22-01-test.md", "invalid date", title: "bad date"
+
+      process, output = run_bridgetown "build", skip_status_check: true
+
+      refute process.exitstatus.zero?
+      assert_includes output, "Invalid date '2016-22-01': Resource '_posts/2016-22-01-test.md' does not have a valid date."
     end
   end
 
