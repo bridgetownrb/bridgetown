@@ -114,8 +114,10 @@ class BridgetownFeatureTest < BridgetownUnitTest
     "#{hour}:#{minutes}"
   end
 
-  def setup_collections_fixture(directory)
+  def setup_collections_fixture(directory = "")
     collections_dir = File.join(Paths.test_dir, "src", directory.to_s)
+    FileUtils.mkdir_p(collections_dir)
+
     FileUtils.cp_r Paths.source_dir.join("test", "source", "src", "_methods"), collections_dir
     FileUtils.cp_r Paths.source_dir.join("test", "source", "src", "_thanksgiving"), collections_dir
     FileUtils.cp_r Paths.source_dir.join("test", "source", "src", "_tutorials"), collections_dir

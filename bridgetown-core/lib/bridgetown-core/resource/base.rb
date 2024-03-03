@@ -222,11 +222,7 @@ module Bridgetown
       end
       alias_method :write?, :requires_destination?
 
-      # Write the generated Document file to the destination directory.
-      #
-      # dest - The String path to the destination dir.
-      #
-      # Returns nothing.
+      # Write the generated resource file to the destination directory.
       def write(_dest = nil)
         destination.write(output)
         trigger_hooks(:post_write)

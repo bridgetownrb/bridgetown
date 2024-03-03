@@ -24,7 +24,7 @@ module Bridgetown
 
       # Create a new Drop
       #
-      # obj - the Bridgetown Site, Collection, or Document required by the
+      # obj - the Bridgetown Site, Collection, or Resource required by the
       # drop.
       #
       # Returns nothing

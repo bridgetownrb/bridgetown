@@ -86,6 +86,21 @@ class TestSiteConfiguration < BridgetownFeatureTest
       assert_file_contains "<p>content for entry 1</p>", "output/2017/12/31/entry1/index.html"
       assert_file_contains "<p>content for entry 2</p>", "output/2027/01/31/entry2/index.html"
     end
+
+    should "output past site time with future CLI flag" do
+      create_directory "_posts"
+      create_page "index.html", "site time: {{ site.time | date: '%Y-%m-%d' }}", title: "Simple test"
+      create_page "_posts/entry1.md", "content for entry 1", date: "2017-12-31", title: "entry1"
+      create_page "_posts/entry2.md", "content for entry 2", date: "2027-01-31", title: "entry2"
+
+      create_configuration time: "2021-01-01"
+
+      run_bridgetown "build", "--future"
+
+      assert_file_contains "site time: 2021-01-01", "output/index.html"
+      assert_file_contains "<p>content for entry 1</p>", "output/2017/12/31/entry1/index.html"
+      assert_file_contains "<p>content for entry 2</p>", "output/2027/01/31/entry2/index.html"
+    end
   end
 
   context "post-specific timezones" do

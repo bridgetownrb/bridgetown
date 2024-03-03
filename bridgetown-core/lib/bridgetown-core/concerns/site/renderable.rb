@@ -85,7 +85,7 @@ class Bridgetown::Site
     end
 
     # Renders a content item while ensuring site locale is set if the data is available.
-    # @param item [Document, Page, Bridgetown::Resource::Base] The item to render
+    # @param item [Bridgetown::Resource::Base] The item to render
     # @yield Runs the block in between locale setting and resetting
     # @return [void]
     def render_with_locale(item)
