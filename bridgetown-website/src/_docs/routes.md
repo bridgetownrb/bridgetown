@@ -154,7 +154,7 @@ This is a contrived example of course, but you can easily imagine loading a spec
 
 You can even use placeholders in folder names! A route saved to `src/_routes/books/[id]/chapter/[chapter_id].erb` would match to something like `/books/234259/chapter/5` and let you access `r.params[:id]` and `r.params[:chapter_id]`. Pretty nifty.
 
-Testing is straightforward as well. Simply place `.test.rb` files alongside your routes, and you’ll be able to use Capybara to write **fast** integration tests including interactions requiring Javascript (assuming Cupite is also installed). (_docs coming soon_)
+Testing is straightforward as well. Simply place `.test.rb` files alongside your routes, and you’ll be able to use Capybara to write **fast** integration tests including interactions requiring Javascript (assuming Cuprite is also installed). (_docs coming soon_)
 
 To opt-into the `bridgetown-routes` gem, make sure it's enabled in your `Gemfile`:
 
