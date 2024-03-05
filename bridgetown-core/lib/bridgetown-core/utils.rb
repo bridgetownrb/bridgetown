@@ -462,11 +462,13 @@ module Bridgetown
     def live_reload_js(site) # rubocop:disable Metrics/MethodLength
       return "" unless Bridgetown.env.development? && !site.config.skip_live_reload
 
+      path = File.join(site.base_path, "/_bridgetown/live_reload")
       code = <<~JAVASCRIPT
         let lastmod = 0
-        function startReloadConnection() {
-          const evtSource = new EventSource("#{site.base_path(strip_slash_only: true)}/_bridgetown/live_reload")
-          evtSource.onmessage = event => {
+        function startLiveReload() {
+          const connection = new EventSource("#{path}")
+
+          connection.addEventListener("message", event => {
             if (document.querySelector("#bridgetown-build-error")) document.querySelector("#bridgetown-build-error").close()
             if (event.data == "reloaded!") {
               location.reload()
@@ -478,8 +480,9 @@ module Bridgetown
                 lastmod = newmod
               }
             }
-          }
-          evtSource.addEventListener("builderror", event => {
+          })
+
+          connection.addEventListener("builderror", event => {
             let dialog = document.querySelector("#bridgetown-build-error")
             if (!dialog) {
               dialog = document.createElement("dialog")
@@ -496,19 +499,9 @@ module Bridgetown
             }
             dialog.querySelector("pre").textContent = JSON.parse(event.data)
           })
-          evtSource.onerror = event => {
-            if (evtSource.readyState === 2) {
-              // reconnect with new object
-              evtSource.close()
-              console.warn("Live reload: attempting to reconnect in 3 seconds...")
-
-              setTimeout(() => startReloadConnection(), 3000)
-            }
-          }
         }
-        setTimeout(() => {
-          startReloadConnection()
-        }, 500)
+
+        startLiveReload()
       JAVASCRIPT
 
       %(<script type="module">#{code}</script>).html_safe
