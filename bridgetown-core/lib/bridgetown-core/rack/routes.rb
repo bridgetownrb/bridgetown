@@ -162,22 +162,26 @@ module Bridgetown
           app.request.get "_bridgetown/live_reload" do
             @_mod = File.exist?(file_to_check) ? File.stat(file_to_check).mtime.to_i : 0
             event_stream = proc do |stream|
-              loop
-                new_mod = File.exist?(file_to_check) ? File.stat(file_to_check).mtime.to_i : 0
+              Thread.new do
+                loop do
+                  new_mod = File.exist?(file_to_check) ? File.stat(file_to_check).mtime.to_i : 0
 
-                if @_mod < new_mod
-                  stream.write "data: reloaded!\n\n"
+                  if @_mod < new_mod
+                    stream.write "data: reloaded!\n\n"
+                    break
+                  elsif File.exist?(errors_file)
+                    stream.write "event: builderror\ndata: #{File.read(errors_file).to_json}\n\n"
+                  else
+                    stream.write "data: #{new_mod}\n\n"
+                  end
+
+                  sleep sleep_interval
+                rescue Errno::EPIPE # User refreshed the page
                   break
-                elsif File.exist?(errors_file)
-                  stream.write "event: builderror\ndata: #{File.read(errors_file).to_json}\n\n"
-                else
-                  stream.write "data: #{new_mod}\n\n"
                 end
-
-                sleep sleep_interval
+              ensure
+                stream.close
               end
-            ensure
-              stream.close
             end
 
             app.request.halt [200, {
