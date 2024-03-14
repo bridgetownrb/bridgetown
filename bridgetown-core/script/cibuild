@@ -8,7 +8,6 @@ if [[ -z "$TEST_SUITE" ]]
 then
   script/fmt
   script/test
-  script/cucumber
 elif [[ -x "script/$TEST_SUITE" ]]
 then
   script/$TEST_SUITE
