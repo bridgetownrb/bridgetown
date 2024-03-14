@@ -154,7 +154,7 @@ module Bridgetown
 
         # @param app [Roda]
         def setup_live_reload(app) # rubocop:disable Metrics
-          sleep_interval = 1
+          sleep_interval = 0.5
           file_to_check = File.join(Bridgetown::Current.preloaded_configuration.destination,
                                     "index.html")
           errors_file = Bridgetown.build_errors_path
@@ -185,8 +185,8 @@ module Bridgetown
             end
 
             app.request.halt [200, {
-              "Content-Type" =>   "text/event-stream",
-              "cache-control" =>  "no-cache"
+              "Content-Type"  => "text/event-stream",
+              "cache-control" => "no-cache",
             }, event_stream,]
           end
         end
