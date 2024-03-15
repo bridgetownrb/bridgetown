@@ -116,7 +116,7 @@ GEM
     rexml (3.2.6)
     roda (3.71.0)
       rack
-    rouge (3.30.0)
+    rouge (4.2.0)
     ruby2_keywords (0.0.5)
     ruby2js (5.1.0)
       parser
