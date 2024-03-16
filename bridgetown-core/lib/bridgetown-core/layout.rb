@@ -2,7 +2,7 @@
 
 module Bridgetown
   class Layout
-    include FrontMatter::Importer
+    include FrontMatterImporter
     include LiquidRenderable
 
     # Gets the Site object.

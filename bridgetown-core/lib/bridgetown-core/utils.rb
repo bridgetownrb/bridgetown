@@ -9,17 +9,9 @@ module Bridgetown
     autoload :LoadersManager, "bridgetown-core/utils/loaders_manager"
     autoload :RequireGems, "bridgetown-core/utils/require_gems"
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
+    autoload :RubyFrontMatter, "bridgetown-core/utils/ruby_front_matter"
+    autoload :RubyFrontMatterDSL, "bridgetown-core/utils/ruby_front_matter"
     autoload :SmartyPantsConverter, "bridgetown-core/utils/smarty_pants_converter"
-
-    RubyFrontMatter = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
-      "RubyFrontMatter",
-      "Bridgetown::FrontMatter::RubyFrontMatter"
-    )
-
-    RubyFrontMatterDSL = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
-      "RubyFrontMatterDSL",
-      "Bridgetown::FrontMatter::RubyDSL"
-    )
 
     # Constants for use in #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
@@ -133,19 +125,11 @@ module Bridgetown
     # @return [Boolean] if the YAML front matter is present.
     # rubocop: disable Naming/PredicateName
     def has_yaml_header?(file)
-      Bridgetown::Deprecator.deprecation_message(
-        "Bridgetown::Utils.has_yaml_header? is deprecated, use " \
-        "Bridgetown::FrontMatter::Loaders::YAML.header? instead"
-      )
-      FrontMatter::Loaders::YAML.header?(file)
+      File.open(file, "rb", &:gets)&.match?(Bridgetown::FrontMatterImporter::YAML_HEADER) || false
     end
 
     def has_rbfm_header?(file)
-      Bridgetown::Deprecator.deprecation_message(
-        "Bridgetown::Utils.has_rbfm_header? is deprecated, use " \
-        "Bridgetown::FrontMatter::Loaders::Ruby.header? instead"
-      )
-      FrontMatter::Loaders::Ruby.header?(file)
+      File.open(file, "rb", &:gets)&.match?(Bridgetown::FrontMatterImporter::RUBY_HEADER) || false
     end
 
     # Determine whether the given content string contains Liquid Tags or Vaiables

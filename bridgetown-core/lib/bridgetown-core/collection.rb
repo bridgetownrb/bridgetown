@@ -77,7 +77,8 @@ module Bridgetown
 
         next if File.basename(file_path).starts_with?("_")
 
-        if label == "data" || FrontMatter::Loaders.front_matter?(full_path)
+        if label == "data" || Utils.has_yaml_header?(full_path) ||
+            Utils.has_rbfm_header?(full_path)
           read_resource(full_path)
         else
           read_static_file(file_path, full_path)

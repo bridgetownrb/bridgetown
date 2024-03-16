@@ -2,7 +2,7 @@
 
 module Bridgetown
   class Configuration
-    class ConfigurationDSL < Bridgetown::FrontMatter::RubyFrontMatter
+    class ConfigurationDSL < Bridgetown::Utils::RubyFrontMatter
       attr_reader :context
 
       # @yieldself [ConfigurationDSL]

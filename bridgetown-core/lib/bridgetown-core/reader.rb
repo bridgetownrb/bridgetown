@@ -69,7 +69,7 @@ module Bridgetown
         file_path = @site.in_source_dir(base, entry)
         if File.directory?(file_path)
           entries_dirs << entry
-        elsif FrontMatter::Loaders.front_matter?(file_path)
+        elsif Utils.has_yaml_header?(file_path) || Utils.has_rbfm_header?(file_path)
           entries_pages << entry
         else
           entries_static_files << entry

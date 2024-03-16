@@ -26,7 +26,7 @@ class TestRubyHelpers < BridgetownUnitTest
     end
 
     should "return accept objects which respond to url" do
-      assert_equal "<a href=\"/2023/06/30/ruby-front-matter/\">Label</a>", @helpers.link_to("Label", @site.collections.posts.resources.first)
+      assert_equal "<a href=\"/2020/09/10/further-nested/\">Label</a>", @helpers.link_to("Label", @site.collections.posts.resources.first)
     end
 
     should "pass through relative/absolute URLs" do

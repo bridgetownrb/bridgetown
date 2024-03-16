@@ -387,26 +387,20 @@ class TestUtils < BridgetownUnitTest
   end
 
   context "The `Utils.has_yaml_header?` method" do
-    should "outputs a deprecation message" do
+    should "accept files with YAML front matter" do
       file = source_dir("_posts", "2008-10-18-foo-bar.markdown")
-
-      output = capture_output do
-        Utils.has_yaml_header?(file)
-      end
-
-      assert_match ".has_yaml_header? is deprecated", output
+      assert_equal "---\n", File.open(file, "rb") { |f| f.read(4) }
+      assert Utils.has_yaml_header?(file)
     end
-  end
-
-  context "The `Utils.has_rbfm_header?` method" do
-    should "outputs a deprecation message" do
-      file = source_dir("_posts", "2008-10-18-foo-bar.markdown")
-
-      output = capture_output do
-        Utils.has_rbfm_header?(file)
-      end
-
-      assert_match ".has_rbfm_header? is deprecated", output
+    should "accept files with extraneous spaces after YAML front matter" do
+      file = source_dir("_posts", "2015-12-27-extra-spaces.markdown")
+      assert_equal "---  \n", File.open(file, "rb") { |f| f.read(6) }
+      assert Utils.has_yaml_header?(file)
+    end
+    should "reject pgp files and the like which resemble front matter" do
+      file = source_dir("pgp.key")
+      assert_equal "-----B", File.open(file, "rb") { |f| f.read(6) }
+      refute Utils.has_yaml_header?(file)
     end
   end
 

@@ -3,7 +3,13 @@
 module Bridgetown
   module Model
     class RepoOrigin < Origin
-      include Bridgetown::FrontMatter::Importer
+      include Bridgetown::FrontMatterImporter
+      include Bridgetown::Utils::RubyFrontMatterDSL
+
+      YAML_FRONT_MATTER_REGEXP = %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m.freeze
+      RUBY_FRONT_MATTER_HEADER = %r!\A[~`#-]{3,}(?:ruby|<%|{%)\s*\n!.freeze
+      RUBY_FRONT_MATTER_REGEXP =
+        %r!#{RUBY_FRONT_MATTER_HEADER.source}(.*?\n?)^((?:%>|%})?[~`#-]{3,}\s*$\n?)!m.freeze
 
       # @return [String]
       attr_accessor :content
@@ -123,12 +129,7 @@ module Bridgetown
                        encoding: site.config["encoding"]).map(&:to_hash),
           }
         when ".rb"
-          Bridgetown::Utils::RubyExec.process_ruby_data(
-            self,
-            File.read(original_path),
-            original_path,
-            1
-          )
+          process_ruby_data(File.read(original_path), original_path, 1)
         when ".json"
           json_data = JSON.parse(File.read(original_path))
           json_data.is_a?(Array) ? { rows: json_data } : json_data

@@ -82,7 +82,8 @@ module Bridgetown
   autoload :EntryFilter,         "bridgetown-core/entry_filter"
   # TODO: we have too many errors! This is silly
   autoload :Errors,              "bridgetown-core/errors"
-  autoload :FrontMatter,         "bridgetown-core/front_matter"
+  autoload :FrontmatterDefaults, "bridgetown-core/frontmatter_defaults"
+  autoload :FrontMatterImporter, "bridgetown-core/concerns/front_matter_importer"
   autoload :GeneratedPage,       "bridgetown-core/generated_page"
   autoload :Hooks,               "bridgetown-core/hooks"
   autoload :Layout,              "bridgetown-core/layout"
@@ -108,16 +109,6 @@ module Bridgetown
   autoload :VERSION,             "bridgetown-core/version"
   autoload :Watcher,             "bridgetown-core/watcher"
   autoload :YAMLParser,          "bridgetown-core/yaml_parser"
-
-  FrontmatterDefaults = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
-    "FrontmatterDefaults",
-    "Bridgetown::FrontMatter::Defaults"
-  )
-
-  FrontMatterImporter = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
-    "FrontMatterImporter",
-    "Bridgetown::FrontMatter::Importer"
-  )
 
   # extensions
   require "bridgetown-core/commands/registrations"
