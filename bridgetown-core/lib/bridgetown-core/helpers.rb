@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "active_support/html_safe_translation"
+
 module Bridgetown
   class RubyTemplateView
     class Helpers
@@ -128,21 +130,49 @@ module Bridgetown
         safe(segments.join(" "))
       end
 
-      # Forward all arguments to I18n.t method
+      # Delegates to <tt>I18n#translate</tt> but also performs two additional
+      # functions.
+      #
+      # First, if the key starts with a period <tt>translate</tt> will scope
+      # the key by the current view. Calling <tt>translate(".foo")</tt> from
+      # the <tt>people/index.html.erb</tt> template is equivalent to calling
+      # <tt>translate("people.index.foo")</tt>. This makes it less
+      # repetitive to translate many keys within the same view and provides
+      # a convention to scope keys consistently.
+      #
+      # Second, the translation will be marked as <tt>html_safe</tt> if the key
+      # has the suffix "_html" or the last element of the key is "html". Calling
+      # <tt>translate("footer_html")</tt> or <tt>translate("footer.html")</tt>
+      # will return an HTML safe string that won't be escaped by other HTML
+      # helper methods. This naming convention helps to identify translations
+      # that include HTML tags so that you know what kind of output to expect
+      # when you call translate in a template and translators know which keys
+      # they can provide HTML values for.
       #
       # @return [String] the translated string
       # @see I18n
-      def t(*args, **kwargs)
-        I18n.send :t, *args, **kwargs
-      end
+      def translate(key, **options) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+        return key.map { |k| translate(k, **options) } if key.is_a?(Array)
 
-      # Forward all arguments to I18n.l method
+        key = key&.to_s
+
+        if key&.start_with?(".")
+          view_path = view&.page&.relative_path&.to_s&.split(".")&.first
+          key = "#{view_path.tr("/", ".")}#{key}" if view_path.present?
+        end
+
+        ActiveSupport::HtmlSafeTranslation.translate(key, **options)
+      end
+      alias_method :t, :translate
+
+      # Delegates to <tt>I18n.localize</tt> with no additional functionality.
       #
       # @return [String] the localized string
       # @see I18n
-      def l(*args, **kwargs)
-        I18n.send :l, *args, **kwargs
+      def localize(...)
+        I18n.localize(...)
       end
+      alias_method :l, :localize
 
       # For template contexts where ActiveSupport's output safety is loaded, we
       # can ensure a string has been marked safe

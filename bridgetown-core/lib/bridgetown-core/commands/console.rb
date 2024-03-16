@@ -2,16 +2,10 @@
 
 module Bridgetown
   module ConsoleMethods
-    def site
-      Bridgetown::Current.site
-    end
-
-    def collections
-      site.collections
-    end
-
     def reload!
       Bridgetown.logger.info "Reloading site..."
+
+      site = Bridgetown::Current.site
 
       I18n.reload! # make sure any locale files get read again
       Bridgetown::Hooks.trigger :site, :pre_reload, site
@@ -99,6 +93,8 @@ module Bridgetown
         IRB::ExtendCommandBundle.include ConsoleMethods
         IRB.setup(nil)
         workspace = IRB::WorkSpace.new
+        workspace.main.define_singleton_method(:site) { Bridgetown::Current.site }
+        workspace.main.define_singleton_method(:collections) { site.collections }
         irb = IRB::Irb.new(workspace)
         IRB.conf[:IRB_RC]&.call(irb.context)
         IRB.conf[:MAIN_CONTEXT] = irb.context
