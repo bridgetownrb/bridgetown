@@ -39,9 +39,11 @@ module Bridgetown
         end
 
         # TODO: this could probably be refactored to work like the above
-        ActiveSupport::DescendantsTracker.class_variable_get(
-          :@@direct_descendants
-        )[value.superclass]&.reject! { _1 == value }
+        if ActiveSupport::DescendantsTracker.class_variables.include?(:@@direct_descendants)
+          ActiveSupport::DescendantsTracker.class_variable_get(
+            :@@direct_descendants
+          )[value.superclass]&.reject! { _1 == value }
+        end
       end
 
       def setup_loaders(autoload_paths = []) # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
