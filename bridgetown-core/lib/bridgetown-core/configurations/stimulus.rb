@@ -38,7 +38,7 @@ append_to_file(File.join(javascript_dir, "index.js")) do
           const identifier = filename.replace("./controllers/", "")
             .replace(/[_-]controller\\..*$/, "")
             .replace(/_/g, "-")
-            .replace(/\//g, "--")
+            .replace(/\\//g, "--")
 
           Stimulus.register(identifier, controller.default)
         }
