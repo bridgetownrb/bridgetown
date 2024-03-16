@@ -6,7 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
-- Use global regex for Stimulus Configuration
+
+## [1.3.3] - 2024-03-16
+
+- Use global regex for Stimulus Configuration [#865](https://github.com/bridgetownrb/bridgetown/pull/865) ([@MSILycanthropy](https://github.com/MSILycanthropy))
+- Move site and collections console commands to locals [#853](https://github.com/bridgetownrb/bridgetown/pull/853) ([@mpace965](https://github.com/mpace965))
+- Relax the Rouge version requirement [#864](https://github.com/bridgetownrb/bridgetown/pull/864) ([@matiaskorhonen](https://github.com/matiaskorhonen))
+- esbuild: Add webp (and some others) to the file endings loaded as files [#863](https://github.com/bridgetownrb/bridgetown/pull/863) ([@moonglum](https://github.com/moonglum))
+- Improve Netlify bundled configuration [#839](https://github.com/bridgetownrb/bridgetown/pull/839) ([@jclusso](https://github.com/jclusso))
+- Improve localization helpers [#842](https://github.com/bridgetownrb/bridgetown/pull/842) ([@jclusso](https://github.com/jclusso))
+- Remove trailing whitespace from template resource [#838](https://github.com/bridgetownrb/bridgetown/pull/838) ([@unasuke](https://github.com/unasuke))
+- Thanks to @jclusso & @ayushn21 for docs improvements!
 
 ## [1.3.2] - 2024-01-01
 
