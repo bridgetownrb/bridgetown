@@ -29,7 +29,7 @@ module Bridgetown
         def new_with_collection_path(collection, relative_path, site: Bridgetown::Current.site)
           collection = collection.label if collection.is_a?(Bridgetown::Collection)
 
-          new("repo://#{collection}.collection/#{relative_path}", site: site)
+          new("repo://#{collection}.collection/#{relative_path}", site:)
         end
       end
 

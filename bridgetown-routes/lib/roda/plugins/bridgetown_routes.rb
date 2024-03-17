@@ -66,7 +66,7 @@ class Roda
 
         def view(view_class: Bridgetown::ERBView)
           response._fake_resource_view(
-            view_class: view_class, roda_app: self, bridgetown_site: bridgetown_site
+            view_class:, roda_app: self, bridgetown_site:
           )
         end
       end
@@ -83,7 +83,7 @@ class Roda
             # TODO: use a Stuct for better performance...?
             HashWithDotAccess::Hash.new({
               data: {},
-              roda_app: roda_app,
+              roda_app:,
               site: bridgetown_site,
             })
           )

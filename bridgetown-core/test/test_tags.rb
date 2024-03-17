@@ -16,7 +16,7 @@ class TestTags < BridgetownUnitTest
     Reader.new(site).read_collections if override["read_collections"]
     site.read if override["read_all"]
 
-    info = { filters: [Bridgetown::Filters], registers: { site: site } }
+    info = { filters: [Bridgetown::Filters], registers: { site: } }
     @converter = site.converters.find { |c| c.instance_of?(converter_class) }
     payload = {}
     if site.collections.posts.resources

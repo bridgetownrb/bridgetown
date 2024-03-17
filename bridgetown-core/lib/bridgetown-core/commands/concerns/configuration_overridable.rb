@@ -7,7 +7,7 @@ module Bridgetown
         desc = "The environment used for this command (aka development, test, production, etc.)"
         klass.class_option :environment,
                            aliases: "-e",
-                           desc: desc
+                           desc:
       end
 
       # Create a full Bridgetown configuration with the options passed in as overrides

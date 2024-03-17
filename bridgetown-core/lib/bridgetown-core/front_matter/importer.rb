@@ -14,7 +14,7 @@ module Bridgetown
         )
         fm_result = nil
         Loaders.for(self).each do |loader|
-          fm_result = loader.read(file_contents, file_path: file_path) and break
+          fm_result = loader.read(file_contents, file_path:) and break
         end
 
         if fm_result

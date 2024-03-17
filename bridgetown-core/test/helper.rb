@@ -100,12 +100,6 @@ class BridgetownUnitTest < Minitest::Test
   include DirectoryHelpers
   extend DirectoryHelpers
 
-  def mu_pp(obj)
-    s = obj.is_a?(Hash) ? JSON.pretty_generate(obj) : obj.inspect
-    s = s.encode Encoding.default_external if defined? Encoding
-    s
-  end
-
   def mocks_expect(*args)
     RSpec::Mocks::ExampleMethods::ExpectHost.instance_method(:expect)
       .bind_call(self, *args)

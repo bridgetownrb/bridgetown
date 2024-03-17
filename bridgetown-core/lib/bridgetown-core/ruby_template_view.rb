@@ -30,12 +30,12 @@ module Bridgetown
       raise "Must be implemented in a subclass"
     end
 
-    def render(item, **options, &block)
+    def render(item, **options, &)
       if item.respond_to?(:render_in)
-        result = item.render_in(self, &block)
+        result = item.render_in(self, &)
         result&.html_safe
       else
-        partial(item, **options, &block)&.html_safe
+        partial(item, **options, &)&.html_safe
       end
     end
 
@@ -65,9 +65,9 @@ module Bridgetown
       @helpers ||= Helpers.new(self, site)
     end
 
-    def method_missing(method_name, *args, **kwargs, &block)
+    def method_missing(method_name, ...)
       if helpers.respond_to?(method_name.to_sym)
-        helpers.send method_name.to_sym, *args, **kwargs, &block
+        helpers.send(method_name.to_sym, ...)
       else
         super
       end
@@ -103,7 +103,7 @@ module Bridgetown
     def _liquid_context
       {
         registers: {
-          site: site,
+          site:,
           page: resource.to_liquid,
           cached_partials: Bridgetown::Converters::LiquidTemplates.cached_partials,
         },

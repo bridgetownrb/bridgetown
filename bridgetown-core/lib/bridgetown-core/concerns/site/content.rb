@@ -77,7 +77,7 @@ class Bridgetown::Site
                        end
 
         [label, Bridgetown::Resource::TaxonomyType.new(
-          site: self, label: label, key: key, metadata: tax_metadata
+          site: self, label:, key:, metadata: tax_metadata
         ),]
       end.with_dot_access
     end

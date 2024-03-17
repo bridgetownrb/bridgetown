@@ -11,7 +11,6 @@ end
 
 group :test do
   gem "benchmark-ips"
-  gem "cucumber", "~> 8.0"
   gem "memory_profiler"
   gem "minitest"
   gem "minitest-profile"
@@ -19,9 +18,8 @@ group :test do
   gem "nokogiri", "~> 1.7"
   gem "nokolexbor"
   gem "rack-test"
-  gem "rspec"
   gem "rspec-mocks"
-  gem "rubocop-bridgetown", "~> 0.3.0", require: false
+  gem "rubocop-bridgetown", "~> 0.4", require: false
   gem "shoulda"
   gem "simplecov"
   gem "terminal-table"

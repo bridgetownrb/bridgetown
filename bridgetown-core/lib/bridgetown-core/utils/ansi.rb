@@ -6,7 +6,7 @@ module Bridgetown
       extend self
 
       ESCAPE = format("%c", 27)
-      MATCH = %r!#{ESCAPE}\[(?:\d+)(?:;\d+)*(j|k|m|s|u|A|B|G)|\e\(B\e\[m!ix.freeze
+      MATCH = %r!#{ESCAPE}\[(?:\d+)(?:;\d+)*(j|k|m|s|u|A|B|G)|\e\(B\e\[m!ix
       COLORS = {
         red: 31,
         green: 32,

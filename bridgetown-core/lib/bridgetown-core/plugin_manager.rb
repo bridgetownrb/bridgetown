@@ -3,7 +3,7 @@
 module Bridgetown
   class PluginManager
     LEGACY_PLUGINS_GROUP = :bridgetown_plugins
-    YARN_DEPENDENCY_REGEXP = %r!(.+)@([^@]*)$!.freeze
+    YARN_DEPENDENCY_REGEXP = %r!(.+)@([^@]*)$!
 
     attr_reader :site, :loaders_manager
 
@@ -66,7 +66,7 @@ module Bridgetown
         require "bundler"
 
         require_relative "utils/initializers"
-        load_determined_bundler_environment(skip_yarn: skip_yarn)
+        load_determined_bundler_environment(skip_yarn:)
 
         ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] = "true"
         true
@@ -91,13 +91,13 @@ module Bridgetown
         Bundler.setup(:default, Bridgetown.env)
       else
         # Only setup and require :bridgetown_plugins
-        legacy_yarn_and_register(legacy_require, skip_yarn: skip_yarn)
+        legacy_yarn_and_register(legacy_require, skip_yarn:)
       end
     end
 
     def self.require_gem(name)
       Bridgetown::Utils::RequireGems.require_with_graceful_fail(name)
-      plugins = Bridgetown::PluginManager.install_yarn_dependencies(name: name)
+      plugins = Bridgetown::PluginManager.install_yarn_dependencies(name:)
 
       plugin_to_register = if plugins.length == 1
                              plugins.first
@@ -114,7 +114,7 @@ module Bridgetown
 
     def self.legacy_require
       Bundler.require(LEGACY_PLUGINS_GROUP).select do |dep|
-        (dep.groups & [LEGACY_PLUGINS_GROUP]).any? && dep.should_include?
+        dep.groups.intersect?([LEGACY_PLUGINS_GROUP]) && dep.should_include?
       end
     end
 

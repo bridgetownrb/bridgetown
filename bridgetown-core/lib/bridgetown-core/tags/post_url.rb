@@ -3,7 +3,7 @@
 module Bridgetown
   module Tags
     class PostComparer
-      MATCHER = %r!^(.+/)*(\d+-\d+-\d+)-(.*)$!.freeze
+      MATCHER = %r!^(.+/)*(\d+-\d+-\d+)-(.*)$!
 
       attr_reader :path, :date, :slug, :name
 

@@ -11,7 +11,7 @@ module Bridgetown
         locale ||= maybe_locale(format)
         format = nil if locale == format
 
-        I18n.l(date, format: format, locale: locale)
+        I18n.l(date, format:, locale:)
       end
 
       private

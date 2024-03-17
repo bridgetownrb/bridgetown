@@ -115,9 +115,9 @@ module Bridgetown
     # @return [String]
     def url
       @url ||= URL.new(
-        template: template,
+        template:,
         placeholders: url_placeholders,
-        permalink: permalink
+        permalink:
       ).to_s
     end
     alias_method :relative_url, :url
@@ -128,7 +128,7 @@ module Bridgetown
       {
         path: @dir,
         basename: @basename,
-        output_ext: output_ext,
+        output_ext:,
       }
     end
 

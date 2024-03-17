@@ -13,8 +13,8 @@ module Bridgetown
         def find(id, site: Bridgetown::Current.site)
           raise "A Bridgetown site must be initialized and added to Current" unless site
 
-          origin = origin_for_id(id, site: site)
-          klass_for_id(id, origin: origin).new(origin.read)
+          origin = origin_for_id(id, site:)
+          klass_for_id(id, origin:).new(origin.read)
         end
 
         def origin_for_id(id, site: Bridgetown::Current.site)
@@ -25,12 +25,12 @@ module Bridgetown
 
           raise "No origin could be found for #{id}" unless origin_klass
 
-          origin_klass.new(id, site: site)
+          origin_klass.new(id, site:)
         end
 
         def klass_for_id(id, origin: nil)
           Bridgetown::Model::Base.descendants.find do |klass|
-            klass.will_load_id?(id, origin: origin)
+            klass.will_load_id?(id, origin:)
           end || Bridgetown::Model::Base
         end
 
@@ -44,7 +44,7 @@ module Bridgetown
           site = builder.site
           data = Bridgetown::Model::BuilderOrigin.new(
             Bridgetown::Model::BuilderOrigin.id_for_builder_path(builder, path),
-            site: site
+            site:
           ).read do
             data[:_collection_] = site.collections[collection_name]
             data

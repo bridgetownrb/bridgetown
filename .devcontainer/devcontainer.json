@@ -6,7 +6,7 @@
 		"dockerfile": "Dockerfile",
 		"args": { 
 			// Update 'VARIANT' to pick a Ruby version: 3, 3.0, 2, 2.7, 2.6
-			"VARIANT": "3",
+			"VARIANT": "3.1",
 			// Options
 			"INSTALL_NODE": "true",
 			"NODE_VERSION": "lts/*"

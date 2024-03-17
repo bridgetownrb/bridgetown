@@ -210,7 +210,7 @@ module Bridgetown
         set["scope"]["collection"] = set["scope"]["type"]
       end
 
-      SANITIZATION_REGEX = %r!\A/|(?<=[^/])\z!.freeze
+      SANITIZATION_REGEX = %r!\A/|(?<=[^/])\z!
 
       # Sanitizes the given path by removing a leading and adding a trailing slash
       def sanitize_path(path)

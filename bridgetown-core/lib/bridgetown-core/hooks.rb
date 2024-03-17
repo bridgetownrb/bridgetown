@@ -55,7 +55,7 @@ module Bridgetown
     # @yieldparam obj the object which triggered the event hook
     def self.register(owners, event, priority: DEFAULT_PRIORITY, reloadable: true, &block)
       Array(owners).each do |owner|
-        register_one(owner, event, priority: priority, reloadable: reloadable, &block)
+        register_one(owner, event, priority:, reloadable:, &block)
       end
     end
 
@@ -77,11 +77,11 @@ module Bridgetown
       raise Uncallable, "Hooks must respond to :call" unless block.respond_to? :call
 
       @registry[owner] << HookRegistration.new(
-        owner: owner,
-        event: event,
+        owner:,
+        event:,
         priority: priority_value(priority),
-        reloadable: reloadable,
-        block: block
+        reloadable:,
+        block:
       )
       if ENV["BRIDGETOWN_LOG_LEVEL"] == "debug"
         if Bridgetown.respond_to?(:logger)

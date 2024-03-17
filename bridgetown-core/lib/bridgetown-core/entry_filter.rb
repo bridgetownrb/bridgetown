@@ -4,8 +4,8 @@ module Bridgetown
   class EntryFilter
     attr_reader :site
 
-    SPECIAL_LEADING_CHAR_REGEX = %r!\A#{Regexp.union([".", "_", "#", "~"])}!o.freeze
-    SPECIAL_LEADING_CHAR_NO_UNDERSCORES_REGEX = %r!\A#{Regexp.union([".", "#", "~"])}!o.freeze
+    SPECIAL_LEADING_CHAR_REGEX = %r!\A#{Regexp.union([".", "_", "#", "~"])}!o
+    SPECIAL_LEADING_CHAR_NO_UNDERSCORES_REGEX = %r!\A#{Regexp.union([".", "#", "~"])}!o
 
     def initialize(site, base_directory: nil, include_underscores: false)
       @site = site

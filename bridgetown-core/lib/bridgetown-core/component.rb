@@ -29,20 +29,20 @@ module Bridgetown
       # TODO: make this extensible
       #
       # @param ext [String] erb, slim, etc.
-      def renderer_for_ext(ext, &block)
+      def renderer_for_ext(ext, &)
         @_tmpl ||= case ext.to_s
                    when "erb"
                      Tilt::ErubiTemplate.new(component_template_path,
                                              outvar: "@_erbout",
                                              bufval: "Bridgetown::OutputBuffer.new",
                                              engine_class: Bridgetown::ERBEngine,
-                                             &block)
+                                             &)
                    when "serb"
-                     Tilt::SerbeaTemplate.new(component_template_path, &block)
+                     Tilt::SerbeaTemplate.new(component_template_path, &)
                    when "slim" # requires bridgetown-slim
-                     Slim::Template.new(component_template_path, &block)
+                     Slim::Template.new(component_template_path, &)
                    when "haml" # requires bridgetown-haml
-                     Tilt::HamlTemplate.new(component_template_path, &block)
+                     Tilt::HamlTemplate.new(component_template_path, &)
                    else
                      raise NameError
                    end
@@ -121,7 +121,7 @@ module Bridgetown
       name = name.to_s
       slots.reject! { _1.name == name } if replace
 
-      slots << Slot.new(name: name, content: content, context: self, transform: false)
+      slots << Slot.new(name:, content:, context: self, transform: false)
 
       nil
     end
@@ -159,6 +159,7 @@ module Bridgetown
     # @param item [Object] a component supporting `render_in` or a partial name
     # @param options [Hash] passed to the `partial` helper if needed
     # @return [String]
+    # rubocop:disable Naming/BlockForwarding
     def render(item, options = {}, &block)
       if item.respond_to?(:render_in)
         result = ""
@@ -170,6 +171,7 @@ module Bridgetown
         partial(item, options, &block)&.html_safe
       end
     end
+    # rubocop:enable Naming/BlockForwarding
 
     # This is where the magic happens. Render the component within a view context.
     #
@@ -226,9 +228,9 @@ module Bridgetown
       )
     end
 
-    def method_missing(method, *args, **kwargs, &block)
+    def method_missing(method, ...)
       if helpers.respond_to?(method.to_sym)
-        helpers.send method.to_sym, *args, **kwargs, &block
+        helpers.send(method.to_sym, ...)
       else
         super
       end

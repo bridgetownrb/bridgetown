@@ -23,7 +23,7 @@ module Bridgetown
         @site = site
 
         # duck typing for Liquid context
-        @context = Context.new({ site: site })
+        @context = Context.new({ site: })
       end
 
       def asset_path(asset_type)
@@ -209,10 +209,10 @@ module Bridgetown
         name = name.to_s
         resource.slots.reject! { _1.name == name } if replace
         resource.slots << Slot.new(
-          name: name,
-          content: content,
+          name:,
+          content:,
           context: resource,
-          transform: transform
+          transform:
         )
 
         nil

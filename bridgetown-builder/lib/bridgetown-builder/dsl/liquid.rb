@@ -41,7 +41,7 @@ module Bridgetown
 
           ::Liquid::Template.register_filter(m)
 
-          functions << { name: name, filter: m }
+          functions << { name:, filter: m }
         end
 
         def liquid_tag(tag_name, method_name = nil, as_block: false, &block)
@@ -68,7 +68,7 @@ module Bridgetown
           end
 
           ::Liquid::Template.register_tag tag_name, tag
-          functions << { name: name, tag: [tag_name, tag] }
+          functions << { name:, tag: [tag_name, tag] }
         end
       end
     end

@@ -11,16 +11,6 @@ module Bridgetown
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
     autoload :SmartyPantsConverter, "bridgetown-core/utils/smarty_pants_converter"
 
-    RubyFrontMatter = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
-      "RubyFrontMatter",
-      "Bridgetown::FrontMatter::RubyFrontMatter"
-    )
-
-    RubyFrontMatterDSL = ActiveSupport::Deprecation::DeprecatedConstantProxy.new(
-      "RubyFrontMatterDSL",
-      "Bridgetown::FrontMatter::RubyDSL"
-    )
-
     # Constants for use in #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
     SLUGIFY_RAW_REGEXP = Regexp.new("\\s+").freeze
@@ -217,7 +207,7 @@ module Bridgetown
         string = I18n.transliterate(string)
       end
 
-      slug = replace_character_sequence_with_hyphen(string, mode: mode)
+      slug = replace_character_sequence_with_hyphen(string, mode:)
 
       # Remove leading/trailing hyphen
       slug.gsub!(%r!^-|-$!i, "")
