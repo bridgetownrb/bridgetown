@@ -219,6 +219,39 @@ While it's not strictly required that you place a Roda block inside of an `only 
   As mentioned above, you can still add and configure plugins directly in your Roda class file (`server/roda_app.rb`) just like any standard Roda application, but using a Roda configuration block alongside your other initialization steps is a handy way to keep everything consolidated. Bear in mind that the Roda blocks are all executed prior to anything defined within the class-level code of `server/roda_app.rb`, so if you write any code in a Roda block that relies on state having already been defined in the app class directly, it will fail. Best to keep Roda block code self-contained, or reliant only on other settings in the Bridgetown initializers file.
 {% end %}
 
+### SSR & Dynamic Routes
+
+The SSR features of Bridgetown, along with its companion file-based routing features, are now configurable via initializers.
+
+```rb
+init :ssr
+
+# optional:
+init :"bridgetown-routes"
+
+# …or you can just init the routes, which will init :ssr automatically:
+
+init :"bridgetown-routes"
+```
+
+If you want to run some specific site setup code on first boot, or any time there's a file refresh in development, provide a `setup` block inside of the SSR initializer.
+
+```rb
+init :ssr do
+  setup -> site do
+    # access the site object, add data with `site.data`, whatever
+  end
+end
+```
+
+For the file-based routing plugin, you can provide additional configuration options to add new source paths (relative to the `src` folder, unless you specify an absolute file path) or add other routable extensions (for example to support a custom template engine):
+
+```rb
+init :"bridgetown-routes", additional_source_paths: ["some_more_routes"], additional_extensions: ["tmpl"]
+```
+
+For more on how SSR works in Bridgetown, check out our [Routes documentation here](/docs/routes).
+
 ## Low-level Boot Customization
 
 If you need to run Ruby code at the earliest possible moment, essentially right when the `bridgetown` executable has finished its startup process, you can add a `config/boot.rb` file to your repo. This is particularly useful if you wish to extend `bridgetown` with new commands.
@@ -240,23 +273,6 @@ require_relative "../ruby_code_file.rb"
 ## Built-in Initializers
 
 Bridgetown ships with several initializers you can add to your configuration. In future versions of Bridgetown, we expect to make our overall architecture a little more modular so you can use the initializer system to specify just those key features you need (and by omission which ones you don't!).
-
-### SSR & Dynamic Routes
-
-The SSR features of Bridgetown, along with its companion file-based routing features, are now configurable via initializers.
-
-```rb
-init :ssr
-
-# optional:
-init :"bridgetown-routes"
-
-# …or you can just init the routes, which will init :ssr automatically:
-
-init :"bridgetown-routes"
-```
-
-Check out our [Routes documentation here](/docs/routes).
 
 ### Dotenv
 

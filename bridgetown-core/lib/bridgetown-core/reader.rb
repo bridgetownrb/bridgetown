@@ -38,7 +38,7 @@ module Bridgetown
       site.collections.each_value do |collection|
         next if collection.data?
 
-        collection.read
+        collection.read unless site.ssr? && collection.metadata.skip_for_ssr
       end
     end
 
@@ -78,7 +78,7 @@ module Bridgetown
 
       retrieve_dirs(dir, entries_dirs)
       retrieve_pages(dir, entries_pages)
-      retrieve_static_files(dir, entries_static_files)
+      retrieve_static_files(dir, entries_static_files) unless site.ssr?
     end
 
     # Recursively traverse directories with the read_directories function.
@@ -101,6 +101,8 @@ module Bridgetown
     # @param entries_pages [Array<String>] page paths in the directory
     # @return [void]
     def retrieve_pages(dir, entries_pages)
+      return if site.ssr? && site.collections.pages.metadata.skip_for_ssr
+
       entries_pages.each do |page_path|
         site.collections.pages.read_resource(site.in_source_dir(dir, page_path))
       end
