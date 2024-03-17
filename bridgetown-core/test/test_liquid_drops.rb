@@ -14,7 +14,7 @@ class DropFixture < Bridgetown::Drops::Drop
   end
 end
 
-class TestDrop < BridgetownUnitTest
+class TestLiquidDrops < BridgetownUnitTest
   context "Drops" do
     setup do
       @site = fixture_site(
@@ -114,6 +114,24 @@ class TestDrop < BridgetownUnitTest
           assert @resource_drop.key? "title"
         end
       end
+    end
+  end
+
+  context "a site drop" do
+    setup do
+      @site = fixture_site(
+        "collections" => ["thanksgiving"]
+      )
+      @site.process
+      @drop = @site.to_liquid.site
+    end
+
+    should "respond to `key?`" do
+      assert @drop.respond_to?(:key?)
+    end
+
+    should "find a key if it's in the collection of the drop" do
+      assert @drop["collections"].key?("thanksgiving")
     end
   end
 end
