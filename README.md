@@ -87,7 +87,7 @@ Bridgetown development is spearheaded by Portland-based web studio [Whitefusion]
 * [Install](https://www.bridgetownrb.com/docs/) the Bridgetown gem
 * Familiarize yourself with the [Command Line Usage](https://www.bridgetownrb.com/docs/command-line-usage/) and [Site Configuration](https://bridgetownrb.com/docs/configuration/)
 * Explore the best options for [Deploying Your Site](https://www.bridgetownrb.com/docs/deployment) when it's ready to go live
-* Have questions? Check out our new [Bridgetown Discussions on GitHub](https://github.com/bridgetownrb/bridgetown/discussions) or [chat on Discord](https://discord.gg/4E6hktQGz4)
+* Have questions? Check out our new [Community discussion site](https://community.bridgetown.pub) or [chat on Discord](https://discord.gg/4E6hktQGz4)
 * [Fork Bridgetown](https://github.com/bridgetownrb/bridgetown/fork) and contribute your own improvements!
 
 ## Get Up to Speed
@@ -112,25 +112,20 @@ $ bundle # install development gems
 $ bundle exec rake # run the full test suite
 ```
 
-After making changes in `bridgetown-core`, if you want to run a single unit test, you can use the command:
+After making changes in one of the gems, say `bridgetown-core`, if you want to run a single unit test, you can use the command:
 
 ```shell
 $ script/test test/test_foo.rb
 ```
 
-If you are only updating a Cucumber .feature file, you can use the command:
+Or run `script/test` to run the full test suite. You can also run `script/cibuild` to include Rubocop linting, etc., and at the root level of the repo, run `bundle exec rake test_all` to test the entire monorepo.
 
-```shell
-$ script/cucumber features/foo.feature
-```
-
-Both `script/test` and `script/cucumber` can be run without arguments to run its entire respective suite.
-
-To switch one of your website repos to using the local gem, add the local gem path to
+To switch one of your own website repos to using the local gem, add the local gem path to
 the site's Gemfile as follows:
 
 ```ruby
 gem "bridgetown-core", path: "/path/to/bridgetown/bridgetown-core"
+# additional gems as needed
 ```
 
 ## Need help?
