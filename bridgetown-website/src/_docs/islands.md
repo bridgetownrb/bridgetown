@@ -53,7 +53,7 @@ With `<is-land>`, of course!
 
 ## Installing the Island
 
-Bridgetown comes with a [bundled configuration][/docs/bundled-configurations] to set up the `<is-land>` web component, [a tiny package](https://is-land.11ty.dev) which lets you _lazy-load_ islands just as they become visible on-screen or are interacted with (aka clicked).
+Bridgetown comes with a [bundled configuration](/docs/bundled-configurations) to set up the `<is-land>` web component, [a tiny package](https://is-land.11ty.dev) which lets you _lazy-load_ islands just as they become visible on-screen or are interacted with (aka clicked).
 
 Run this command to add it to your main JavaScript bundle:
 

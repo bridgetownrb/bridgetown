@@ -71,7 +71,7 @@ Oops, this isn't what we want. By simply styling the `header` tag, we've affecte
 
 This is better, but our page layout styles and our "component" styles are still too intermingled. We could remedy this by creating components for things like the article tag, but in more advanced components keeping styles of a component's "internals" and its public-facing child content from colliding with each other can get tricky. And what if you wanted each layout also to have some unique styles but you don't want to add override `<style>` tags or mess around with scoping to body IDs which can land you in specificity wars. Which of these would win?
 
-```style
+```css
 body#fancy-layout article > header {
   font-weight: 600;
 }

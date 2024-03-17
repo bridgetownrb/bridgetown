@@ -114,7 +114,7 @@
     color: var(--color-syntax-light-gray);
   }
 
-  & .highlight :is(.c, .c1, .nx, .nl) {
+  & .highlight :is(.c, .c1, .nx, .nl, .py) {
     color: var(--color-syntax-charcoal);
   }
 
