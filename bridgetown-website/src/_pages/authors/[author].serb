@@ -18,7 +18,7 @@ prototype:
 {% end %}
 
 <p class="heading-icon">
-  <sl-icon library="remixicon" name="user/user-fill"></sl-icon>
+  <sl-icon library="remixicon" name="User & Faces/user-fill"></sl-icon>
 </p>
 
 {% author = page.data.author_data %}
@@ -28,8 +28,8 @@ prototype:
   on the
   <strong><a href="{{ author.website }}">Web</a></strong>
   or on
-  {% if author.twitter %}
-    <strong><a href="https://twitter.com/{{ author.twitter }}">Twitter</a></strong>
+  {% if author.mastodon %}
+    <strong><a href="https://{{ author.mastodon }}">Mastodon</a></strong>
   {% elsif author.github %}
     <strong><a href="https://github.com/{{ author.github }}">GitHub</a></strong>
   {% end %}

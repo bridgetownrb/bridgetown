@@ -23,7 +23,7 @@
     </layout-column>
     <layout-column>
       <h4>
-        Contribute on GitHub
+        Contribute & Participate
       </h4>
 
       <p>
@@ -34,7 +34,7 @@
       </p>
 
       <p>
-        <a href="https://github.com/{{ site.metadata.github }}/discussions">Discussions on GitHub</a><br/>
+        <a href="https://community.bridgetown.pub">Community Site Discussions</a><br/>
         <a href="https://discord.gg/4E6hktQGz4">Discord Chat</a>
       </p>
     </layout-column>

@@ -28,6 +28,7 @@ Available commands are:
 * [`bin/bridgetown plugins [list|cd]`](/docs/commands/plugins) - Display information about installed plugins or allow you to copy content out of gem-based plugins into your site folders.
 * `bin/bridgetown apply` - Run an [automation script](/docs/automations) for your existing site.
 * `bin/bridgetown configure CONFIGURATION` - Run a [bundled configuration](/docs/bundled-configurations) for your existing site. Invoke without arguments to see all available configurations.
+* `bin/bridgetown date` - Displays the current date and time so you can copy'n'paste it into your front matter.
 * `bin/bridgetown help` - Shows help, optionally for a given subcommand, e.g. `bridgetown help build`.
 * `bin/bridgetown doctor` - Outputs any deprecation or configuration issues.
 * `bin/bridgetown clean` - Removes all generated files: destination folder, metadata file, and Bridgetown caches.

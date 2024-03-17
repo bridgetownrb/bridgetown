@@ -17,7 +17,7 @@ page_class: homepage
 ## A next-generation, progressive site generator & fullstack framework, powered by Ruby.
 {:style="color:var(--color-brick);"}
 
-Built upon venerated open source technologies such as **Ruby**, **Puma**, and **Roda** — and grown on the fertile soil of **Rails** & **Jekyll** — **Bridgetown** puts power back in the hands of individuals to create extraordinary things.
+Built upon venerated open source languages & technologies such as **Ruby**, **Puma**, **Roda**, and **esbuild**, **Bridgetown**&nbsp;puts&nbsp;power back in the hands of individuals to create extraordinary things.
 
 While your competitors are wrestling with complicated build tools, limited programming idioms, and mountains of boilerplate, **you’re out changing the world**.
 {:style="margin-left:auto; margin-right:auto; max-width:43em"}
@@ -128,7 +128,7 @@ Looking for [0.2x documentation](https://bridgetown-v0.onrender.com/)?
 ## Build fast. Deploy fast. Serve fast.
 {:.serif .colorful}
 
-Like the Ruby language itself, **Bridgetown** is optimized for [web developer happiness](/docs/philosophy). Express yourself in code which is elegant and maintainable. Bundled configurations and community resources like our [Discord Chat](https://discord.gg/4E6hktQGz4) and [Bridgetown Cards](https://bridgetown.cards) help you quickly get a leg up. Go from zero to hero in no time with HTML-first build artifacts and rapid Git-based deployment on services like [Render](https://www.render.com).
+Like the Ruby language itself, **Bridgetown** is optimized for [web developer happiness](/docs/philosophy). Express yourself in code which is elegant and maintainable. Bundled configurations and resources like our [Bridgetown Community Site](https://community.bridgetown.pub) and [Discord Chat](https://discord.gg/4E6hktQGz4) help you quickly get a leg up. Go from zero to hero in no time with HTML-first build artifacts and rapid Git-based deployment on services like [Render](https://www.render.com).
 
 
 <p>
@@ -244,7 +244,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   ### Modern Frontend Build System
 
-  Bridgetown sets you up with blazing-fast, zero-config esbuild & PostCSS. Or pick Webpack if you prefer. Either way, add modern JavaScript libraries like Turbo, Stimulus, Lit, even Preact with a simple command. Install comprehensive component libraries such as Shoelace for rapid UI development. Go big with interactive functionality or stay minimalist for that “zero JS" experience. It's totally your choice.
+  Bridgetown sets you up with blazing-fast, zero-config esbuild & PostCSS. Add modern CSS starter kits and JavaScript libraries in a performant way with a few simple commands. Install comprehensive component libraries such as Shoelace for rapid UI development. Go big with interactive functionality or stay minimalist for that “zero JS" experience. It's totally your choice.
 
   <p><a href="/docs/frontend-assets"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
@@ -257,7 +257,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   ### Sky-High Plugin Architecture
 
-  Bridgetown might just be the easiest way to get started learning and writing Ruby code. Craft custom plugins to enhance your site build and content with a straightforward DSL and make huge strides in only a few lines! If you already have experience writing Rails apps, you should feel right at home. (Yes, we love Active Support too!)
+  Bridgetown might just be the easiest way to get started learning and writing Ruby code. Craft custom plugins to enhance your site build and content with a straightforward DSL and make huge strides in only a few lines! And if you already have experience writing Ruby apps in other frameworks, you should feel right at home.
 
   <p><a href="/docs/plugins"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
@@ -278,7 +278,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
   </sl-button></a></p>
 
 
-Then when you're ready, [bundled configurations](/docs/bundled-configurations) and [plugins](/plugins) can take you even farther. Add SEO/social graph support, news feeds, inlined SVGs, asset management integration, headless CMS integration, automated testing, islands architecture, Turbo, Shoelace, Lit SSR + Hydration, and a whole lot more.
+Then when you're ready, [bundled configurations](/docs/bundled-configurations) and [plugins](/plugins) can take you even farther. Add SEO/social graph support, news feeds, inlined SVGs, asset management integration, headless CMS integration, automated testing, islands architecture, Shoelace, Lit SSR + Hydration, and a whole lot more.
 {:style="text-align:center; margin-top:3rem; margin-left:auto; margin-right:auto; max-width:50em"}
 
 <p>

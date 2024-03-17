@@ -318,9 +318,13 @@ module.exports = async (esbuildOptions, ...args) => {
     bundle: true,
     loader: {
       ".jpg": "file",
+      ".jpeg": "file",
       ".png": "file",
       ".gif": "file",
       ".svg": "file",
+      ".avif": "file",
+      ".jxl": "file",
+      ".webp": "file",
       ".woff": "file",
       ".woff2": "file",
       ".ttf": "file",
