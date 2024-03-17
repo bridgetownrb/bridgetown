@@ -21,7 +21,7 @@ We'll explain much more about what Bridgetown is and what it can do for you in t
   Upgrading from an earlier version? [Read our upgrade guide here.](/docs/installation/upgrade)
 {% end %}
 
-Read the [requirements](/docs/installation) for more information on what you'll need to have set up in advance, primarily **Ruby** and **Node**/**Yarn**. Then:
+Read the [requirements](/docs/installation) for more information on what you'll need to have set up in advance, primarily **Ruby** and **Node**. Then:
 
 1. Install **Bridgetown** and related gems:
 {%- if site.data.edge_version -%}
@@ -65,7 +65,7 @@ Detailed installation instructions for macOS, Ubuntu Linux, Fedora Linux and Win
 Still stuck? [Please reach out to the Bridgetown community for support](/community). What might take you three hours to eventually figure out could take a mere 10 minutes with the right pointers!
 {% end %}
 
-Bridgetown comes with the `bridgetown` CLI tool as well as a few Rake tasks and Yarn scripts,
+Bridgetown comes with the `bridgetown` CLI tool as well as a few Rake tasks and NPM scripts,
 so be sure to read up on the [command line usage documentation](/docs/command-line-usage).
 
 ## More About the Tech Specs

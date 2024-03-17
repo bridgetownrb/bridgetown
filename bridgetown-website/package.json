@@ -5,7 +5,7 @@
   "scripts": {
     "esbuild": "node esbuild.config.js --minify",
     "esbuild-dev": "node esbuild.config.js --watch",
-    "lint:html": "yarn linthtml \"src/**/*.{html,erb,serb,liquid,md}\""
+    "lint:html": "npm run linthtml \"src/**/*.{html,erb,serb,liquid,md}\""
   },
   "devDependencies": {
     "@linthtml/linthtml": "^0.8.4",

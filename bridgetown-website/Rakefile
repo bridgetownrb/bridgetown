@@ -27,12 +27,12 @@ end
 namespace :frontend do
   desc "Build the frontend with esbuild for deployment"
   task :build do
-    sh "yarn run esbuild"
+    sh "npm run esbuild"
   end
 
   desc "Watch the frontend with esbuild during development"
   task :dev do
-    sh "yarn run esbuild-dev"
+    sh "npm run esbuild-dev"
   rescue Interrupt
   end
 end

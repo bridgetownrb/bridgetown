@@ -4,7 +4,7 @@
 
 say_status :purgecss, "Installing PurgeCSS"
 
-run "yarn add -D purgecss"
+add_npm_package "-D purgecss"
 
 create_builder "purgecss.rb" do
   <<~RUBY

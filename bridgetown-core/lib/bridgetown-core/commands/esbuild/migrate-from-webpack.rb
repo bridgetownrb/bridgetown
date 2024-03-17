@@ -18,7 +18,7 @@ unless Bridgetown.environment.test?
 
   gsub_file "package.json", %r!    "postcss-focus-within": "^4.0.0",?!, ""
 
-  run "yarn add -D #{required_packages.join(" ")}"
+  add_npm_package "-D #{required_packages.join(" ")}"
 
   packages_to_remove = package_json["devDependencies"].slice(*redundant_packages).keys
   unless packages_to_remove.empty?

@@ -78,27 +78,24 @@ gem install bundler
 
 And that's it! 
 
-## Install Node & Yarn {#node}
+## Install Node {#node}
 
-Node is a JavaScript runtime that can execute on a server or development machine. Yarn
-is a package manager for Node packages. You'll need Node and Yarn in order to install
+Node is a JavaScript runtime that can execute on a server or development machine. NPM
+is a package manager for JavaScript packages. You'll need Node in order to install
 and use esbuild, the frontend asset compiler that runs alongside Bridgetown.
 
-The easiest way to install Node and Yarn is via the package manager dnf.
+The easiest way to install Node is via the package manager dnf.
 
 ```sh
 sudo dnf update
 sudo dnf install nodejs nodejs-devel
-sudo dnf install nodejs-yarn
 ```
 
 Then verify your installed versions:
 
 ```sh
 node -v
-> v12.19.0
-yarn -v
-> 1.21.1
+> v20.x
 ```
 
 

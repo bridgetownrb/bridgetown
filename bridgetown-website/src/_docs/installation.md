@@ -6,7 +6,7 @@ top_section: Setup
 category: installation-guides
 ---
 
-Bridgetown is software written in Ruby, a friendly programming language that maximizes programmer happiness and makes it easy to build and customize open source projects. You will need to install Bridgetown as a Gem after you set up your Ruby language environment. You will also need to install Node and Yarn to manage your website's frontend assets.
+Bridgetown is software written in Ruby, a friendly programming language that maximizes programmer happiness and makes it easy to build and customize open source projects. You will need to install Bridgetown as a Gem after you set up your Ruby language environment. You will also need to install Node to manage your website's frontend assets.
 
 {%@ Note do %}
 For a quick summary of how to install Bridgetown, read [Getting Started](/docs/). What follows are more in-depth guides to setting up your developer or server environments.
@@ -26,8 +26,6 @@ Ubuntu Linux, and Ubuntu for Windows will help you install them.
 
 * [Node](https://nodejs.org) version **{{ site.data.requirements.min_node }}** or
   above (which you can check by running `node -v`)
-
-* [Yarn](https://yarnpkg.com) (which you can check by running `yarn -v`)
 
 ## Guides
 

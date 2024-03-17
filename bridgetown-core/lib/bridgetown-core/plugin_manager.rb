@@ -3,7 +3,7 @@
 module Bridgetown
   class PluginManager
     LEGACY_PLUGINS_GROUP = :bridgetown_plugins
-    YARN_DEPENDENCY_REGEXP = %r!(.+)@([^@]*)$!
+    NPM_DEPENDENCY_REGEXP = %r!(.+)@([^@]*)$!
 
     attr_reader :site, :loaders_manager
 
@@ -60,13 +60,13 @@ module Bridgetown
       end
     end
 
-    def self.setup_bundler(skip_yarn: false)
+    def self.setup_bundler(skip_npm: false)
       if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] &&
           (Bundler::SharedHelpers.in_bundle? || Bridgetown.env.test?)
         require "bundler"
 
         require_relative "utils/initializers"
-        load_determined_bundler_environment(skip_yarn:)
+        load_determined_bundler_environment(skip_npm:)
 
         ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] = "true"
         true
@@ -78,7 +78,7 @@ module Bridgetown
       alias_method :require_from_bundler, :setup_bundler
     end
 
-    def self.load_determined_bundler_environment(skip_yarn: false)
+    def self.load_determined_bundler_environment(skip_npm: false)
       boot_file = File.join("config", "boot.rb")
 
       if File.file?(boot_file)
@@ -91,13 +91,13 @@ module Bridgetown
         Bundler.setup(:default, Bridgetown.env)
       else
         # Only setup and require :bridgetown_plugins
-        legacy_yarn_and_register(legacy_require, skip_yarn:)
+        legacy_npm_and_register(legacy_require, skip_npm:)
       end
     end
 
     def self.require_gem(name)
       Bridgetown::Utils::RequireGems.require_with_graceful_fail(name)
-      plugins = Bridgetown::PluginManager.install_yarn_dependencies(name:)
+      plugins = Bridgetown::PluginManager.install_npm_dependencies(name:)
 
       plugin_to_register = if plugins.length == 1
                              plugins.first
@@ -118,8 +118,8 @@ module Bridgetown
       end
     end
 
-    def self.legacy_yarn_and_register(required_gems, skip_yarn: false)
-      install_yarn_dependencies(required_gems) unless skip_yarn
+    def self.legacy_npm_and_register(required_gems, skip_npm: false)
+      install_npm_dependencies(required_gems) unless skip_npm
 
       required_gems.each do |installed_gem|
         add_registered_plugin installed_gem
@@ -130,10 +130,10 @@ module Bridgetown
     end
 
     def self.package_manager
-      @package_manager ||= if File.exist?("yarn.lock")
-                             "yarn"
-                           elsif File.exist?("package-lock.json")
+      @package_manager ||= if File.exist?("package-lock.json")
                              "npm"
+                           elsif File.exist?("yarn.lock")
+                             "yarn"
                            elsif File.exist?("pnpm-lock.yaml")
                              "pnpm"
                            else
@@ -147,11 +147,11 @@ module Bridgetown
 
     # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
-    # Iterates through loaded gems and finds yard-add gemspec metadata.
-    # If that exact package hasn't been installed, execute yarn add
+    # Iterates through loaded gems and finds npm-add gemspec metadata.
+    # If that exact package hasn't been installed, execute npm i
     #
     # @return [Bundler::SpecSet]
-    def self.install_yarn_dependencies(required_gems = bundler_specs, name: nil)
+    def self.install_npm_dependencies(required_gems = bundler_specs, name: nil)
       return required_gems unless File.exist?("package.json")
 
       package_json = JSON.parse(File.read("package.json"))
@@ -166,34 +166,37 @@ module Bridgetown
 
       # all right, time to install the package
       gems_to_search.each do |loaded_gem|
-        yarn_dependency = find_yarn_dependency(loaded_gem)
-        next unless add_yarn_dependency?(yarn_dependency, package_json)
+        npm_dependency = find_npm_dependency(loaded_gem)
+        next unless add_npm_dependency?(npm_dependency, package_json)
 
         next if package_manager.empty?
 
-        cmd = "#{package_manager} #{package_manager_install_command} #{yarn_dependency.join("@")}"
+        cmd = "#{package_manager} #{package_manager_install_command} #{npm_dependency.join("@")}"
         system cmd
       end
 
       gems_to_search
     end
 
-    # rubocop:enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+    def self.find_npm_dependency(loaded_gem)
+      npm_metadata = loaded_gem.to_spec&.metadata&.dig("npm-add") ||
+        loaded_gem.to_spec&.metadata&.dig("yarn-add")
+      npm_dependency = npm_metadata&.match(NPM_DEPENDENCY_REGEXP)
+      return nil if npm_dependency&.length != 3 || npm_dependency[2] == ""
 
-    def self.find_yarn_dependency(loaded_gem)
-      yarn_dependency = loaded_gem.to_spec&.metadata&.dig("yarn-add")&.match(YARN_DEPENDENCY_REGEXP)
-      return nil if yarn_dependency&.length != 3 || yarn_dependency[2] == ""
-
-      yarn_dependency[1..2]
+      npm_dependency[1..2]
     end
 
-    def self.add_yarn_dependency?(yarn_dependency, package_json)
-      return false if yarn_dependency.nil?
+    # rubocop:enable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
+
+    def self.add_npm_dependency?(npm_dependency, package_json)
+      return false if npm_dependency.nil?
 
       # check matching version number is see if it's already installed
       if package_json["dependencies"]
-        current_version = package_json["dependencies"][yarn_dependency.first]
-        package_requires_updating?(current_version, yarn_dependency.last)
+        current_version = package_json["dependencies"][npm_dependency.first]
+        current_version = current_version.delete_prefix("^") if current_version
+        package_requires_updating?(current_version, npm_dependency.last)
       else
         true
       end

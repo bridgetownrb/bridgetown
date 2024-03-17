@@ -53,42 +53,42 @@ class TestPluginManager < BridgetownUnitTest
     end
   end
 
-  context "find yarn dependencies" do
+  context "find npm dependencies" do
     should "work if the metadata exists and is in the right format" do
       gem_mock = OpenStruct.new(to_spec: OpenStruct.new(metadata: {
-        "yarn-add" => "my-plugin@0.1.0",
+        "npm-add" => "my-plugin@0.1.0",
       }))
-      assert_equal ["my-plugin", "0.1.0"], Bridgetown::PluginManager.find_yarn_dependency(gem_mock)
+      assert_equal ["my-plugin", "0.1.0"], Bridgetown::PluginManager.find_npm_dependency(gem_mock)
     end
 
     should "work if the metadata package starts with an @ symbol" do
       gem_mock = OpenStruct.new(to_spec: OpenStruct.new(metadata: {
         "yarn-add" => "@my-org/my-plugin@0.1.0",
       }))
-      assert_equal ["@my-org/my-plugin", "0.1.0"], Bridgetown::PluginManager.find_yarn_dependency(gem_mock)
+      assert_equal ["@my-org/my-plugin", "0.1.0"], Bridgetown::PluginManager.find_npm_dependency(gem_mock)
     end
 
     should "not work if the metadata doesn't exist" do
       gem_mock = OpenStruct.new(to_spec: OpenStruct.new)
-      assert_equal nil, Bridgetown::PluginManager.find_yarn_dependency(gem_mock)
+      assert_equal nil, Bridgetown::PluginManager.find_npm_dependency(gem_mock)
     end
 
     should "not work if the metadata isn't in the right format" do
       gem_mock = OpenStruct.new(to_spec: OpenStruct.new(metadata: {
-        "yarn-add" => "gobbledeegook",
+        "npm-add" => "gobbledeegook",
       }))
-      assert_equal nil, Bridgetown::PluginManager.find_yarn_dependency(gem_mock)
+      assert_equal nil, Bridgetown::PluginManager.find_npm_dependency(gem_mock)
 
       gem_mock2 = OpenStruct.new(to_spec: OpenStruct.new(metadata: {
-        "yarn-add" => "gobbledee@gook@",
+        "npm-add" => "gobbledee@gook@",
       }))
-      assert_equal nil, Bridgetown::PluginManager.find_yarn_dependency(gem_mock2)
+      assert_equal nil, Bridgetown::PluginManager.find_npm_dependency(gem_mock2)
     end
   end
 
   context "check package.json for dependency information" do
     setup do
-      @yarn_dep = ["@my-org/my-plugin", "0.2.0"]
+      @npm_dep = ["@my-org/my-plugin", "0.2.0"]
       @package_json = {
         "dependencies" => {
           "@my-org/my-plugin" => "0.1.0",
@@ -96,30 +96,30 @@ class TestPluginManager < BridgetownUnitTest
       }
     end
 
-    should "do nothing if there's no yarn dependency" do
-      refute Bridgetown::PluginManager.add_yarn_dependency?(nil, @package_json)
+    should "do nothing if there's no npm dependency" do
+      refute Bridgetown::PluginManager.add_npm_dependency?(nil, @package_json)
     end
 
     should "green-light if package_json dependencies is missing" do
-      assert Bridgetown::PluginManager.add_yarn_dependency?(@yarn_dep, {})
+      assert Bridgetown::PluginManager.add_npm_dependency?(@npm_dep, {})
     end
 
     should "green-light if package_json dependency is old" do
-      assert Bridgetown::PluginManager.add_yarn_dependency?(@yarn_dep, @package_json)
+      assert Bridgetown::PluginManager.add_npm_dependency?(@npm_dep, @package_json)
     end
 
     should "do nothing if package_json dependency is the same" do
-      @yarn_dep[1] = "0.1.0"
-      refute Bridgetown::PluginManager.add_yarn_dependency?(@yarn_dep, @package_json)
+      @npm_dep[1] = "0.1.0"
+      refute Bridgetown::PluginManager.add_npm_dependency?(@npm_dep, @package_json)
     end
 
     should "green-light if package_json dependency wasn't included" do
       @package_json["dependencies"].delete("my-plugin")
-      assert Bridgetown::PluginManager.add_yarn_dependency?(@yarn_dep, @package_json)
+      assert Bridgetown::PluginManager.add_npm_dependency?(@npm_dep, @package_json)
     end
   end
 
-  context "verify yarn package" do
+  context "verify npm package" do
     should "install if entry in package.json is blank" do
       assert Bridgetown::PluginManager.package_requires_updating?(nil, "1.0.0")
     end
