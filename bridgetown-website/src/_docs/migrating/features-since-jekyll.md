@@ -22,7 +22,7 @@ Here's a rundown of some **40 features** Bridgetown has implemented since the fo
 * Ruby-based automation scripts & Rake tasks.
 * A console command for interacting and testing with your site via IRB.
 * Customizable console methods.
-* Fast, integrated frontend building via esbuild (or Webpack).
+* Fast, integrated frontend building via esbuild.
 * PostCSS support by default (Dart Sass support also available).
 * A Rack & Puma-based web server to supersede WEBrick.
 * A next-gen plugin API via Builders.

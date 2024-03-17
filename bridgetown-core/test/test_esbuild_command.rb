@@ -11,14 +11,6 @@ class TestEsbuildCommand < BridgetownUnitTest
     File.join(@full_path, "esbuild.config.js")
   end
 
-  def webpack_defaults
-    File.join(@full_path, "config", "webpack.defaults.js")
-  end
-
-  def webpack_config
-    File.join(@full_path, "webpack.config.js")
-  end
-
   def package_json_file
     File.join(@full_path, "package.json")
   end
@@ -78,39 +70,6 @@ class TestEsbuildCommand < BridgetownUnitTest
 
       assert_file_contains %r!module.exports!, esbuild_defaults
       refute_file_contains %r!OLD_VERSION!, esbuild_defaults
-    end
-  end
-
-  context "existing webpack project" do
-    setup do
-      @path = SecureRandom.alphanumeric
-      FileUtils.mkdir_p(File.expand_path("../tmp", __dir__))
-      @full_path = File.join(File.expand_path("../tmp", __dir__), @path)
-
-      capture_stdout { Bridgetown::Commands::Base.start(["new", @full_path, "-e", "webpack"]) }
-      @cmd = Bridgetown::Commands::Esbuild.new
-    end
-
-    teardown do
-      FileUtils.rm_r @full_path if File.directory?(@full_path)
-    end
-
-    should "migrate to esbuild" do
-      @cmd.inside(@full_path) do
-        capture_stdout { @cmd.invoke(:esbuild, ["migrate-from-webpack"]) }
-      end
-
-      assert_exist esbuild_defaults
-      assert_exist esbuild_config
-
-      refute_exist webpack_defaults
-      refute_exist webpack_config
-
-      refute_file_contains %r!"webpack-dev": "webpack --mode development -w"!, package_json_file
-      assert_file_contains %r!"esbuild": "node esbuild.config.js --minify"!, package_json_file
-      assert_file_contains %r!"esbuild-dev": "node esbuild.config.js --watch"!, package_json_file
-
-      assert_file_contains %r!sh "yarn run esbuild-dev"!, rakefile
     end
   end
 end

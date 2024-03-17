@@ -10,7 +10,7 @@ The typical folder structure for a Bridgetown site usually looks something like 
 ```shell
 .
 ├── config # this is where frontend and server defaults are stored
-├── frontend # this is where you put your CSS and JS for esbuild/Webpack
+├── frontend # this is where you put your CSS and JS for esbuild
 │   ├── javascript
 │   │   ├── index.js
 │   │   └── widget.js
@@ -202,7 +202,7 @@ The location of pages in your source folder structure will by default be mirrore
       </td>
       <td>
         <p>
-          Manifest used by Yarn to install frontend assets and set up commands you can run to compile your JavaScript, CSS, etc. via esbuild/Webpack.
+          Manifest used by Yarn to install frontend assets and set up commands you can run to compile your JavaScript, CSS, etc. via esbuild.
         </p>
       </td>
     </tr>

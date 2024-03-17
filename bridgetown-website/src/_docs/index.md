@@ -58,7 +58,7 @@ Detailed installation instructions for macOS, Ubuntu Linux, Fedora Linux and Win
 {% end %}
 
 {%@ Note do %}
-Prefer ERB or Serbea over Liquid? Prefer Webpack over esbuild? Prefer Sass over vanilla CSS? [Read about the available `new` options here](/docs/command-line-usage).
+[Read about additional options available via `new` here](/docs/command-line-usage).
 {% end %}
 
 {%@ Note type: :warning do %}

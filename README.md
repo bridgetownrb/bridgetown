@@ -99,7 +99,7 @@ Bridgetown development is spearheaded by Portland-based web studio [Whitefusion]
 * Customize the [Permalinks](https://www.bridgetownrb.com/docs/content/permalinks/) your resources are generated with
 * Use [Template Engines](https://www.bridgetownrb.com/docs/template-engines) like Liquid, ERB, and Serbea to author sophisticated template designs
 * Extend with [Custom Plugins](https://www.bridgetownrb.com/docs/plugins/) to generate and manipulate content specific to your site
-* Discover how to add [Frontend Assets](https://www.bridgetownrb.com/docs/frontend-assets/) using esbuild or Webpack for a modern Javascript & CSS build pipeline
+* Discover how to add [Frontend Assets](https://www.bridgetownrb.com/docs/frontend-assets/) using esbuild for a modern Javascript & CSS build pipeline
 
 ## Testing Locally
 

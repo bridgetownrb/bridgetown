@@ -2,7 +2,7 @@
 
 module Bridgetown
   module Tags
-    # A helper class to help find the path to assets inside of a webpack or esbuild
+    # A helper class to help find the path to assets inside of an esbuild
     # manifest file.
     class AssetPath < Liquid::Tag
       # @param tag_name [String] Name of the tag
@@ -20,7 +20,7 @@ module Bridgetown
       # Render an asset path based on the frontend manifest file
       # @param context [Liquid::Context] Context passed to the tag
       #
-      # @return [String] Returns "MISSING_WEBPACK_MANIFEST" if the manifest
+      # @return [String] Returns "MISSING_ESBUILD_MANIFEST" if the manifest
       #   file isn't found
       # @return [String] Returns a blank string if the asset isn't found
       # @return [String] Returns the path to the asset if no issues parsing
@@ -34,4 +34,3 @@ module Bridgetown
 end
 
 Liquid::Template.register_tag("asset_path", Bridgetown::Tags::AssetPath)
-Liquid::Template.register_tag("webpack_path", Bridgetown::Tags::AssetPath)

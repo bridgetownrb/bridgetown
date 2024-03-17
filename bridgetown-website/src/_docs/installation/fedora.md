@@ -82,7 +82,7 @@ And that's it!
 
 Node is a JavaScript runtime that can execute on a server or development machine. Yarn
 is a package manager for Node packages. You'll need Node and Yarn in order to install
-and use Webpack, the frontend asset compiler that runs alongside Bridgetown.
+and use esbuild, the frontend asset compiler that runs alongside Bridgetown.
 
 The easiest way to install Node and Yarn is via the package manager dnf.
 

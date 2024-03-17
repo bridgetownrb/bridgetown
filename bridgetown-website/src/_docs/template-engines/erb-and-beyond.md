@@ -184,7 +184,7 @@ Bridgetown includes access to some helpful [Liquid filters](/docs/liquid/filters
 
 These helpers are actually methods of the `helper` object which is an instance of `Bridgetown::RubyTemplateView::Helpers`.
 
-A few Liquid tags are also available as helpers too, such as [`class_map`](/docs/liquid/tags#class-map-tag){:data-no-swup="true"} and [`webpack_path`](/docs/frontend-assets#linking-to-the-output-bundles){:data-no-swup="true"}.
+A few Liquid tags are also available as helpers too, such as [`class_map`](/docs/liquid/tags#class-map-tag){:data-no-swup="true"} and [`asset_path`](/docs/frontend-assets#linking-to-the-output-bundles){:data-no-swup="true"}.
 
 In addition to using Liquid helpers, you can also render [Liquid components](/docs/components/liquid) from within your ERB templates via the `liquid_render` helper.
 
@@ -228,11 +228,11 @@ layout: testing
 A standard Liquid page. {{ resource.data.layout }}
 ```
 
-If in your layout or a layout partial you need to output the paths to your Webpack assets, you can do so with a `webpack_path` helper just like with Liquid layouts:
+If in your layout or a layout partial you need to output the paths to your frontend assets, you can do so with a `asset_path` helper just like with Liquid layouts:
 
 ```eruby
-<link rel="stylesheet" href="<%%= webpack_path :css %>" />
-<script src="<%%= webpack_path :js %>" defer></script>
+<link rel="stylesheet" href="<%%= asset_path :css %>" />
+<script src="<%%= asset_path :js %>" defer></script>
 ```
 
 ## Markdown

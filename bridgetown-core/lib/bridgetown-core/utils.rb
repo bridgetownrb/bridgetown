@@ -356,8 +356,6 @@ module Bridgetown
     # @return [String, nil]
     def parse_frontend_manifest_file(site, asset_type)
       case frontend_bundler_type(site.root_dir)
-      when :webpack
-        parse_webpack_manifest_file(site, asset_type)
       when :esbuild
         parse_esbuild_manifest_file(site, asset_type)
       else
@@ -369,35 +367,11 @@ module Bridgetown
       end
     end
 
-    # Return an asset path based on the Webpack manifest file
-    # @param site [Bridgetown::Site] The current site object
-    # @param asset_type [String] js or css, or filename in manifest
-    #
-    # @return [String] Returns "MISSING_WEBPACK_MANIFEST" if the manifest
-    #   file isnt found
-    # @return [nil] Returns nil if the asset isnt found
-    # @return [String] Returns the path to the asset if no issues parsing
-    def parse_webpack_manifest_file(site, asset_type)
-      return log_frontend_asset_error(site, "Webpack manifest") if site.frontend_manifest.nil?
-
-      asset_path = if %w(js css).include?(asset_type)
-                     site.frontend_manifest["main.#{asset_type}"]
-                   else
-                     site.frontend_manifest.find do |item, _|
-                       item.sub(%r{^../(frontend/|src/)?}, "") == asset_type
-                     end&.last
-                   end
-
-      return log_frontend_asset_error(site, asset_type) if asset_path.nil?
-
-      static_frontend_path site, ["js", asset_path]
-    end
-
     # Return an asset path based on the esbuild manifest file
     # @param site [Bridgetown::Site] The current site object
     # @param asset_type [String] js or css, or filename in manifest
     #
-    # @return [String] Returns "MISSING_WEBPACK_MANIFEST" if the manifest
+    # @return [String] Returns "MISSING_ESBUILD_MANIFEST" if the manifest
     #   file isnt found
     # @return [nil] Returns nil if the asset isnt found
     # @return [String] Returns the path to the asset if no issues parsing
@@ -448,9 +422,7 @@ module Bridgetown
     end
 
     def frontend_bundler_type(cwd = Dir.pwd)
-      if File.exist?(File.join(cwd, "webpack.config.js"))
-        :webpack
-      elsif File.exist?(File.join(cwd, "esbuild.config.js"))
+      if File.exist?(File.join(cwd, "esbuild.config.js"))
         :esbuild
       else
         :unknown

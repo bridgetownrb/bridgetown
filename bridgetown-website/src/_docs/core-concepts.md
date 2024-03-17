@@ -45,9 +45,9 @@ compressing, and bundling of [frontend assets](/docs/frontend-assets) like
 JavaScript, CSS, web fonts, and so forth.
 
 When using Bridgetown's built-in `start` or `deploy` commands,
-essentially _two_ build processes are kicked off: the frontend build process (either esbuild or Webpack) and the Bridgetown build process. The two align when something magical happens.
+essentially _two_ build processes are kicked off: the frontend build process (using esbuild) and the Bridgetown build process. The two align when something magical happens.
 
-1. esbuild/Webpack will conclude its build process by exporting a `manifest.json` file to the hidden `.bridgetown-cache` folder. This manifest lists the exact, fingerprinted filenames of the compiled and bundled JS and CSS output files.
+1. esbuild will conclude its build process by exporting a `manifest.json` file to the hidden `.bridgetown-cache` folder. This manifest lists the exact, fingerprinted filenames of the compiled and bundled JS and CSS output files.
 1. Bridgetown, using the `asset_path` Liquid tag/Ruby helper, monitors that manifest, and whenever it detects a change it will regenerate the site to point to those bundled output files.
 1. This way, your website frontend and the HTML of your generated static site are always kept in sync.
 

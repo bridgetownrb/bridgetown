@@ -29,7 +29,6 @@ module Bridgetown
       def asset_path(asset_type)
         Bridgetown::Utils.parse_frontend_manifest_file(site, asset_type.to_s)
       end
-      alias_method :webpack_path, :asset_path
 
       def live_reload_dev_js
         Bridgetown::Utils.live_reload_js(site)

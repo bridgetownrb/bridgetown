@@ -93,7 +93,7 @@ module Bridgetown
           sleep 0.5
           raise e
         ensure
-          # Shut down webpack, browsersync, etc. if they're running
+          # Shut down esbuild, etc. if they're running
           Bridgetown::Utils::Aux.kill_processes
         end
 
