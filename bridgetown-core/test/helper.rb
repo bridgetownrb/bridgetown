@@ -206,6 +206,18 @@ class BridgetownUnitTest < Minitest::Test
   rescue NotImplementedError => e
     skip e.to_s.magenta
   end
+
+  def reset_i18n_config
+    I18n.enforce_available_locales = false
+    I18n.locale = nil
+    I18n.default_locale = nil
+    I18n.load_path = Gem.find_files_from_load_path("active_support/locale/en.*") # restore basic translations
+    I18n.available_locales = nil
+    I18n.backend = nil
+    I18n.default_separator = nil
+    I18n.enforce_available_locales = true
+    I18n.fallbacks = nil if I18n.respond_to?(:fallbacks=)
+  end
 end
 
 class FakeLogger

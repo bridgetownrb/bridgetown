@@ -4,6 +4,7 @@ require "helper"
 
 class TestRubyHelpers < BridgetownUnitTest
   def setup
+    reset_i18n_config
     @site = fixture_site
     @site.read
     @helpers = Bridgetown::RubyTemplateView::Helpers.new(
