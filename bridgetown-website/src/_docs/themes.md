@@ -46,7 +46,7 @@ To design a theme to distribute to others, simply [create a standard gem-based p
 You'll need to use a [Source Manifest](/docs/plugins/source-manifests/) to
 instruct the Bridgetown build process where to find your theme files.
 
-To provide frontend assets via esbuild or Webpack, [follow these instructions](/docs/plugins/gems-and-frontend).
+To provide frontend assets via esbuild, [follow these instructions](/docs/plugins/gems-and-frontend).
 
 To aid your users in installing your plugin and setting up configuration
 options and so forth, add a `bridgetown.automation.rb` [automation script](/docs/automations)

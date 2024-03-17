@@ -30,8 +30,8 @@ module Bridgetown
                    desc: "Preferred template engine (defaults to Liquid)"
       class_option :"frontend-bundling",
                    aliases: "-e",
-                   banner: "esbuild|webpack",
-                   desc: "Choose your frontend bundling stack (defaults to esbuild)"
+                   banner: "esbuild",
+                   desc: "Choose frontend bundling stack (defaults to esbuild)"
       class_option :force,
                    type: :boolean,
                    desc: "Force creation even if PATH already exists"
@@ -91,7 +91,7 @@ module Bridgetown
       end
 
       def frontend_bundling_option
-        options["frontend-bundling"] == "webpack" ? "webpack" : "esbuild"
+        "esbuild"
       end
 
       def postcss_option
@@ -99,7 +99,8 @@ module Bridgetown
       end
 
       def disable_postcss?
-        options["use-sass"] && options["frontend-bundling"] == "webpack"
+        # TODO: add option not to use postcss/sass at all
+        false
       end
 
       def create_site(new_site_path)
@@ -130,11 +131,9 @@ module Bridgetown
 
         postcss_option ? configure_postcss : configure_sass
 
-        if frontend_bundling_option == "esbuild"
-          invoke(Esbuild, ["setup"], {})
-        else
-          invoke(Webpack, ["setup"], {})
-        end
+        return unless frontend_bundling_option == "esbuild"
+
+        invoke(Esbuild, ["setup"], {})
       end
 
       def setup_erb_templates
@@ -172,7 +171,7 @@ module Bridgetown
       end
 
       def configure_postcss
-        template("postcss.config.js.erb", "postcss.config.js")
+        template("postcss.config.js.erb", "postcss.config.js") unless disable_postcss?
         copy_file("frontend/styles/index.css")
       end
 

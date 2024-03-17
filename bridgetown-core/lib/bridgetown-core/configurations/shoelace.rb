@@ -37,26 +37,14 @@ end
 
 say "Updating frontend build commands...", :magenta
 
-if Bridgetown::Utils.frontend_bundler_type == :esbuild
-  insert_into_file "package.json", before: '    "esbuild": "node' do
-    <<-JS
-    "shoelace:copy-assets": "mkdir -p src/shoelace-assets && cp -r node_modules/@shoelace-style/shoelace/dist/assets src/shoelace-assets",
-    JS
-  end
-  gsub_file "package.json", %r{"esbuild": "node}, '"esbuild": "yarn shoelace:copy-assets && node'
-  gsub_file "package.json", %r{"esbuild-dev": "node},
-            '"esbuild-dev": "yarn shoelace:copy-assets && node'
-else
-  insert_into_file "package.json", before: '    "webpack-build": "webpack' do
-    <<-JS
-    "shoelace:copy-assets": "mkdir -p src/shoelace-assets && cp -r node_modules/@shoelace-style/shoelace/dist/assets src/shoelace-assets",
-    JS
-  end
-  gsub_file "package.json", %r{"webpack-build": "webpack},
-            '"webpack-build": "yarn shoelace:copy-assets && webpack'
-  gsub_file "package.json", %r{"webpack-dev": "webpack},
-            '"webpack-dev": "yarn shoelace:copy-assets && webpack'
+insert_into_file "package.json", before: '    "esbuild": "node' do
+  <<-JS
+  "shoelace:copy-assets": "mkdir -p src/shoelace-assets && cp -r node_modules/@shoelace-style/shoelace/dist/assets src/shoelace-assets",
+  JS
 end
+gsub_file "package.json", %r{"esbuild": "node}, '"esbuild": "yarn shoelace:copy-assets && node'
+gsub_file "package.json", %r{"esbuild-dev": "node},
+          '"esbuild-dev": "yarn shoelace:copy-assets && node'
 
 if File.exist?(".gitignore")
   append_to_file ".gitignore" do

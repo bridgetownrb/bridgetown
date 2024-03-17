@@ -18,7 +18,6 @@ Available commands are:
   * Use the `--apply=` or `-a` option to [apply an automation](/docs/automations) to the new site.
   * Use the `--configure=` or `-c` option to [apply one or more bundled configurations](/docs/bundled-configurations) to the new site.
   * Use the `-t` option to choose ERB or Serbea templates instead of Liquid (aka `-t erb`).
-  * Use the `-e` option to choose Webpack instead of esbuild for your frontend bundler (aka `-e webpack`).
   * Use the `--use-sass` option to configure your project to support Sass.
 * `bin/bridgetown start` or `s` - Boots the Rack-based server (using Puma) at `localhost:4000`. In development, you'll get live reload functionality as long as `{% live_reload_dev_js %}` or `<%= live_reload_dev_js %>` is in your HTML head.
 * `bin/bridgetown deploy` - Ensures that all frontend assets get built alongside the published Bridgetown output. This is the command you'll want to use for [deployment](/docs/deployment).
@@ -33,7 +32,6 @@ Available commands are:
 * `bin/bridgetown doctor` - Outputs any deprecation or configuration issues.
 * `bin/bridgetown clean` - Removes all generated files: destination folder, metadata file, and Bridgetown caches.
 * `bin/bridgetown esbuild ACTION` - Allows you to perform actions such as `update` on your project's esbuild configuration. Invoke without arguments to see all available actions.
-* `bin/bridgetown webpack ACTION` - Allows you to perform actions such as `update` on your project's Webpack configuration. Invoke without arguments to see all available actions.
 {% endraw %}
 
 To change Bridgetown's default build behavior have a look through the [configuration options](/docs/configuration). You'll also want to read up on [how to set your Bridgetown environment](/docs/configuration/environments) for different use cases.
@@ -50,14 +48,14 @@ In the default `Rakefile` which comes with a new Bridgetown site project, you'll
 
 ```ruby
 namespace :frontend do
-  desc "Build the frontend with Webpack for deployment"
+  desc "Build the frontend with esbuild for deployment"
   task :build do
-    sh "yarn run webpack-build"
+    sh "yarn run esbuild"
   end
 
-  desc "Watch the frontend with Webpack during development"
+  desc "Watch the frontend with esbuild during development"
   task :dev do
-    sh "yarn run webpack-dev --color"
+    sh "yarn run esbuild-dev"
   rescue Interrupt
   end
 end

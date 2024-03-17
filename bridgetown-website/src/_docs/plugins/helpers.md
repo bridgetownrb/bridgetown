@@ -123,4 +123,4 @@ Now just call that helper in your template and use the `label` argument:
 
 ## Helpers vs. Filters vs. Tags
 
-Filters and tags are aspects of the [Liquid](/docs/template-engines/liquid) template engine which comes installed by default. The behavior of both filters and tags are roughly analogous to helpers in [Tilt-based templates](/docs/template-engines/erb-and-beyond). Specialized Bridgetown filters are also made available as helpers, as are a few tags such as `webpack_path`.
+Filters and tags are aspects of the [Liquid](/docs/template-engines/liquid) template engine which comes installed by default. The behavior of both filters and tags are roughly analogous to helpers in [Tilt-based templates](/docs/template-engines/erb-and-beyond). Specialized Bridgetown filters are also made available as helpers, as are a few tags such as `asset_path`.

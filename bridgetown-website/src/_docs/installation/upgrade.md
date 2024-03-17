@@ -10,7 +10,9 @@ order: 0
 
 Bridgetown 1.2 brings with it a whole new initialization system along with a Ruby-based configuration format. Your `bridgetown.config.yml` file will continue to work, but over time you will likely want to migrate a good portion of your configuration over to the new format (and maybe even delete the YAML file).
 
-To upgrade a 1.0 or 1.1 site to 1.2, edit your `Gemfile` update the version numbers in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem and then run `bundle`. We also recommend you add `gem "rack", "~> 2.2"` as while Bridgetown/Roda supports Rack 3, other ecosystem gems such as our Active Record pluging don't yet support it.
+To upgrade a 1.0 or 1.1 site to 1.2, edit your `Gemfile` update the version numbers in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem and then run `bundle`.
+
+We also recommend you run `bin/bridgetown esbuild update` so you get the latest default esbuild configuration Bridgetown provides.
 
 When you upgrade to v1.2, your site will run in a legacy mode that automatically requires all gems in your Gemfile within the `bridgetown_plugins` group as before. This legacy mode is only triggered by the _absence_ of the new `config/initializers.rb` file. To opt-into the new format, create a `config/initializers.rb` file like so:
 
