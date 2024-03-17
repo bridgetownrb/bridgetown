@@ -56,5 +56,15 @@ class TestRoutes < BridgetownUnitTest
       get "/nested/123-abc"
       assert_equal "<h1>Nested Page with Slug: 123-abc</h1>\n", last_response.body
     end
+
+    should "return the proper route within an island" do
+      get "/paradise" do
+        assert_equal "Living in paradise =)", last_response.body
+      end
+
+      get "/paradise/dreamy" do
+        assert_equal "Ah, island life… =)", last_response.body
+      end
+    end
   end
 end

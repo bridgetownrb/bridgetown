@@ -57,7 +57,7 @@ class Roda
 
           Bridgetown::Model::Base.new(data).to_resource.tap do |resource|
             resource.roda_app = self
-          end.read!.transform!.output
+          end.read!
         end
 
         def render(...)
@@ -65,6 +65,7 @@ class Roda
         end
 
         def view(view_class: Bridgetown::ERBView)
+          # TODO: support user choosing templates by extension rather than class
           response._fake_resource_view(
             view_class:, roda_app: self, bridgetown_site:
           )

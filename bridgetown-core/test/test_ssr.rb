@@ -71,5 +71,19 @@ class TestSSR < BridgetownUnitTest
       assert last_response.ok?
       assert_equal("Redirected!", last_response.body)
     end
+
+    should "return rendered resource" do
+      get "/render_resource"
+
+      assert last_response.ok?
+      assert_includes last_response.body, "<p>Hello <strong>world</strong>!</p>"
+    end
+
+    should "return model as rendered resource" do
+      get "/render_model"
+
+      assert last_response.ok?
+      assert_includes last_response.body, "<p class=\"test\">THIS IS A <em>TEST</em>.</p>"
+    end
   end
 end

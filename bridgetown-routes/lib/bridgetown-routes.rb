@@ -11,12 +11,19 @@ module Bridgetown
 end
 
 # @param config [Bridgetown::Configuration::ConfigurationDSL]
-Bridgetown.initializer :"bridgetown-routes" do |config|
+Bridgetown.initializer :"bridgetown-routes" do |
+  config,
+  additional_source_paths: [],
+  additional_extensions: []
+|
   config.init :ssr # ensure we already have touchdown!
 
   config.routes ||= {}
-  config.routes.source_paths ||= ["_routes", "#{config.islands_dir}/routes"]
+  config.routes.source_paths ||= ["_routes"]
   config.routes.extensions ||= %w(rb md serb erb liquid)
+
+  config.routes.source_paths += Array(additional_source_paths)
+  config.routes.extensions += Array(additional_extensions)
 
   config.only :server do
     require_relative "bridgetown-routes/manifest_router"
