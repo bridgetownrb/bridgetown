@@ -146,7 +146,6 @@ module Bridgetown
       }
     end
 
-    # Similar to Bridgetown::Document#cleaned_relative_path.
     # Generates a relative path with the collection's directory removed when applicable
     #   and additionally removes any multiple periods in the string.
     #

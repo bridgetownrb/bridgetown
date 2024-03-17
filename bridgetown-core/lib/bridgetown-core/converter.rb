@@ -35,7 +35,7 @@ module Bridgetown
     # Logic to do the content conversion.
     #
     # @param content [String] content of file (without front matter).
-    # @param convertible [Bridgetown::Document, Bridgetown::Layout, Bridgetown::Resource::Base]
+    # @param convertible [Bridgetown::Layout, Bridgetown::Resource::Base]
     #
     # @return [String] the converted content.
     def convert(content, convertible = nil) # rubocop:disable Lint/UnusedMethodArgument
