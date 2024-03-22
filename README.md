@@ -8,7 +8,7 @@
   <a href="https://www.bridgetownrb.com">Bridgetown</a>
 </h1>
 
-Bridgetown is a next-generation, progressive site generator & fullstack framework, powered by Ruby. Bridgetown takes your content, API data, and frontend assets; renders templates in Markdown, Liquid, ERB, and many other formats; and exports a complete website ready to be served by fast CDNs like Render or traditional web servers like Caddy or Nginx.
+Bridgetown is a next-generation, progressive site generator & fullstack framework, powered by Ruby. Bridgetown takes your local content and external data loaded from APIs; renders templates in Markdown, ERB, and many other formats; automatically compiles frontend assets via esbuild; and exports a complete website ready to be served by fast CDNs like Render or traditional web servers. Bridgetown also integrates closely with Roda for fullstack, dynamic web application functionality—but only when and where you need it.
 
 [![Build Status](https://github.com/bridgetownrb/bridgetown/workflows/build/badge.svg)](https://github.com/bridgetownrb/bridgetown/actions?query=workflow%3Abuild+branch%3Amain)
 [![Gem Version](https://img.shields.io/gem/v/bridgetown.svg)](https://rubygems.org/gems/bridgetown)
@@ -20,57 +20,58 @@ Bridgetown is a next-generation, progressive site generator & fullstack framewor
 
 ## Special Thanks to Our GitHub Sponsors! 🙏 🎉
 
-Say howdy 👋 to our growing list of past & present sponsors of Bridgetown on GitHub!
-[You too can join this list and sponsor Bridgetown.](https://github.com/sponsors/jaredcwhite)
+Say howdy 👋 to our blossoming list of current and past sponsors of Bridgetown on GitHub!
+[You too can join this list and sponsor open source "alt" Ruby development.](https://github.com/sponsors/jaredcwhite)
 
-|<img src="https://avatars.githubusercontent.com/pilotcph?s=256" alt="pilotcph" width="128" />|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://avatars.githubusercontent.com/miatrinity?s=256" alt="miatrinity" width="128" />|<img src="https://avatars.githubusercontent.com/marcoroth?s=256" alt="marcoroth" width="128" />|<img src="https://avatars.githubusercontent.com/mtomov?s=256" alt="mtomov" width="128" />|
+|<img src="https://avatars.githubusercontent.com/svoop?s=256" alt="svoop" width="128" />|<img src="https://avatars.githubusercontent.com/rahoulb?s=256" alt="rahoulb" width="128" />|<img src="https://avatars.githubusercontent.com/joshuap?s=256" alt="joshuap" width="128" />|<img src="https://avatars.githubusercontent.com/skvk?s=256" alt="skvk" width="128" />|<img src="https://avatars.githubusercontent.com/monfresh?s=256" alt="monfresh" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|<a href="https://twitter.com/cabgfx">@cabgfx</a>|<a href="https://twitter.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/miatrinity">@miatrinity</a>|<a href="https://www.twitter.com/marcoroth_">@marcoroth_</a>|<a href="https://github.com/mtomov">@mtomov</a>|
-|<a href="http://www.pilotcph.dk">Website</a>|<a href="https://andrewm.codes">Website</a>||<a href="https://marcoroth.dev">Website</a>||
+|<a href="https://github.com/svoop">@svoop</a>|<a href="https://github.com/rahoulb">@rahoulb</a>|<a href="https://github.com/joshuap">@joshuap</a>|<a href="https://github.com/skvk">@skvk</a>|<a href="https://github.com/monfresh">@monfresh</a>|
+|<a href="https://bitcetera.com/">Website</a>|<a href="https://theartandscienceofruby.com/">Website</a>|<a href="https://joshuawood.net/">Website</a>||<a href="https://www.moncefbelyamani.com/">Website</a>|
 
-|<img src="https://avatars.githubusercontent.com/johnchambers?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/pascalwengerter?s=256" alt="pascalwengerter" width="128" />|<img src="https://avatars.githubusercontent.com/DRBragg?s=256" alt="DRBragg" width="128" />|<img src="https://avatars.githubusercontent.com/jasoncharnes?s=256" alt="jasoncharnes" width="128" />|
+|<img src="https://avatars.githubusercontent.com/renuo?s=256" alt="renuo" width="128" />|<img src="https://avatars.githubusercontent.com/subsevenx?s=256" alt="subsevenx" width="128" />|<img src="https://avatars.githubusercontent.com/collindonnell?s=256" alt="collindonnell" width="128" />|<img src="https://avatars.githubusercontent.com/nbkkb7x?s=256" alt="nbkkb7x" width="128" />|<img src="https://avatars.githubusercontent.com/bpo?s=256" alt="bpo" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/johnchambers">@johnchambers</a>|<a href="https://github.com/wout">@wout</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/DRBragg">@DRBragg</a>|<a href="https://github.com/jasoncharnes">@jasoncharnes</a>|
-||<a href="https://tilishop.com">Website</a>|<a href="https://pascal.rocks">Website</a>|<a href="https://www.drbragg.ninja/">Website</a>|<a href="http://www.jasoncharnes.com">Website</a>|
+|<a href="https://github.com/renuo">@renuo</a>|<a href="https://github.com/subsevenx">@subsevenx</a>|<a href="https://github.com/collindonnell">@collindonnell</a>|<a href="https://github.com/nbkkb7x">@nbkkb7x</a>|<a href="https://github.com/bpo">@bpo</a>|
+|<a href="https://www.renuo.ch/">Website</a>||<a href="http://collindonnell.com/">Website</a>|<a href="https://somethingkiller.com">Website</a>|<a href="https://brian.orourke.io">Website</a>|
 
-|<img src="https://avatars.githubusercontent.com/leastbad?s=256" alt="leastbad" width="128" />|<img src="https://avatars.githubusercontent.com/asaaki?s=256" alt="asaaki" width="128" />|<img src="https://avatars.githubusercontent.com/scoutapm-sponsorships?s=256" alt="scoutapm-sponsorships" width="128" />|<img src="https://avatars.githubusercontent.com/adrianvalenz?s=256" alt="adrianvalenz" width="128" />|<img src="https://avatars.githubusercontent.com/bpo?s=256" alt="bpo" width="128" />|
+|<img src="https://avatars.githubusercontent.com/DRBragg?s=256" alt="DRBragg" width="128" />|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://avatars.githubusercontent.com/karloscarweber?s=256" alt="karloscarweber" width="128" />|<img src="https://avatars.githubusercontent.com/swilgosz?s=256" alt="swilgosz" width="128" />|<img src="https://avatars.githubusercontent.com/ttilberg?s=256" alt="ttilberg" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/leastbad">@leastbad</a>|<a href="https://github.com/asaaki">@asaaki</a>|<a href="https://github.com/scoutapm-sponsorships">@scoutapm-sponsorships</a>|<a href="https://github.com/adrianvalenz">@adrianvalenz</a>|<a href="https://github.com/bpo">@bpo</a>|
-||<a href="https://markentier.tech/">Website</a>|<a href="https://scoutapm.com">Website</a>||<a href="https://brian.orourke.io/">Website</a>|
+|<a href="https://github.com/DRBragg">@DRBragg</a>|<a href="https://github.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/karloscarweber">@karloscarweber</a>|<a href="https://github.com/swilgosz">@swilgosz</a>|<a href="https://github.com/ttilberg">@ttilberg</a>|
+|<a href="https://www.drbragg.dev">Website</a>|<a href="https://andrewm.codes">Website</a>|<a href="https://kow.fm/">Website</a>|<a href="https://hanamimastery.com/">Website</a>|<a href="http://www.timtilberg.com">Website</a>|
 
-|<img src="https://avatars.githubusercontent.com/williamkennedy?s=256" alt="williamkennedy" width="128" />|<img src="https://avatars.githubusercontent.com/eclectic-coding?s=256" alt="eclectic-coding" width="128" />|<img src="https://avatars.githubusercontent.com/nbkkb7x?s=256" alt="nbkkb7x" width="128" />|<img src="https://avatars.githubusercontent.com/jr180180?s=256" alt="jr180180" width="128" />|<img src="https://avatars.githubusercontent.com/existentialmutt?s=256" alt="existentialmutt" width="128" />|
+|<img src="https://avatars.githubusercontent.com/Brem-LLC?s=256" alt="Brem-LLC" width="128" />|<img src="https://avatars.githubusercontent.com/posiczko?s=256" alt="posiczko" width="128" />|<img src="https://avatars.githubusercontent.com/fuzzygroup?s=256" alt="fuzzygroup" width="128" />|<img src="https://avatars.githubusercontent.com/maxveldink?s=256" alt="maxveldink" width="128" />|<img src="https://avatars.githubusercontent.com/oleingemann?s=256" alt="oleingemann" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/williamkennedy">@williamkennedy</a>|<a href="https://github.com/eclectic-coding">@eclectic-coding</a>|<a href="https://github.com/nbkkb7x">@nbkkb7x</a>|<a href="https://github.com/jr180180">@jr180180</a>|<a href="https://github.com/existentialmutt">@existentialmutt</a>|
-|<a href="http://williamkennedy.ninja/">Website</a>|<a href="https://www.eclecticsaddlebag.com">Website</a>|<a href="https://somethingkiller.com">Website</a>|<a href="http://johnsanchez.me/">Website</a>||
+|<a href="https://github.com/Brem-LLC">@Brem-LLC</a>|<a href="https://github.com/posiczko">@posiczko</a>|<a href="https://github.com/fuzzygroup">@fuzzygroup</a>|<a href="https://github.com/maxveldink">@maxveldink</a>|<a href="https://github.com/oleingemann">@oleingemann</a>|
+|<a href="https://brem.io">Website</a>|<a href="https://tetrapyloctomy.org">Website</a>|<a href="https://fuzzyblog.io/blog/">Website</a>|<a href="https://maxveld.ink">Website</a>|<a href="https://www.oleingemann.com">Website</a>|
 
-|<img src="https://avatars.githubusercontent.com/MikeRogers0?s=256" alt="MikeRogers0" width="128" />|<img src="https://avatars.githubusercontent.com/jespr?s=256" alt="jespr" width="128" />|<img src="https://avatars.githubusercontent.com/jc00ke?s=256" alt="jc00ke" width="128" />|<img src="https://avatars.githubusercontent.com/matoni109?s=256" alt="matoni109" width="128" />|<img src="https://avatars.githubusercontent.com/rootnoob?s=256" alt="rootnoob" width="128" />|
+|<img src="https://avatars.githubusercontent.com/onurozer?s=256" alt="onurozer" width="128" />|<img src="https://avatars.githubusercontent.com/joelhawksley?s=256" alt="joelhawksley" width="128" />|<img src="https://avatars.githubusercontent.com/coreyaus?s=256" alt="coreyaus" width="128" />|<img src="https://avatars.githubusercontent.com/johlym?s=256" alt="johlym" width="128" />|<img src="https://avatars.githubusercontent.com/pascallaliberte?s=256" alt="pascallaliberte" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/MikeRogers0">@MikeRogers0</a>|<a href="https://github.com/jespr">@jespr</a>|<a href="https://github.com/jc00ke">@jc00ke</a>|<a href="https://github.com/matoni109">@matoni109</a>|<a href="https://github.com/rootnoob">@rootnoob</a>|
-|<a href="https://mikerogers.io">Website</a>||<a href="https://relativepath.io/">Website</a>|||
+|<a href="https://github.com/onurozer">@onurozer</a>|<a href="https://github.com/joelhawksley">@joelhawksley</a>|<a href="https://github.com/coreyaus">@coreyaus</a>|<a href="https://github.com/johlym">@johlym</a>|<a href="https://github.com/pascallaliberte">@pascallaliberte</a>|
+|<a href="https://onurozer.me">Website</a>|<a href="https://hawksley.org">Website</a>|<a href="https://www.codenation.com">Website</a>|<a href="https://johnathan.org">Website</a>|<a href="https://pascal.works">Website</a>|
 
-|<img src="https://avatars.githubusercontent.com/collindonnell?s=256" alt="collindonnell" width="128" />|<img src="https://avatars.githubusercontent.com/AbuMareBear?s=256" alt="AbuMareBear" width="128" />|<img src="https://avatars.githubusercontent.com/luctus?s=256" alt="luctus" width="128" />|<img src="https://avatars.githubusercontent.com/pascallaliberte?s=256" alt="pascallaliberte" width="128" />|<img src="https://avatars.githubusercontent.com/johlym?s=256" alt="" width="128" />|
+|<img src="https://avatars.githubusercontent.com/luctus?s=256" alt="luctus" width="128" />|<img src="https://avatars.githubusercontent.com/AbuMareBear?s=256" alt="AbuMareBear" width="128" />|<img src="https://avatars.githubusercontent.com/rootnoob?s=256" alt="rootnoob" width="128" />|<img src="https://avatars.githubusercontent.com/matoni109?s=256" alt="matoni109" width="128" />|<img src="https://avatars.githubusercontent.com/jc00ke?s=256" alt="jc00ke" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/collindonnell">@collindonnell</a>|<a href="https://github.com/AbuMareBear">@AbuMareBear</a>|<a href="https://github.com/luctus">@luctus</a>|<a href="https://github.com/pascallaliberte">@pascallaliberte</a>|<a href="https://github.com/johlym">@johlym</a>|
-|<a href="https://keyandnib.com">Website</a>||<a href="https://dailytics.com">Website</a>|<a href="https://pascal.works">Website</a>|<a href="https://johnathan.org">Website</a>|
+|<a href="https://github.com/luctus">@luctus</a>|<a href="https://github.com/AbuMareBear">@AbuMareBear</a>|<a href="https://github.com/rootnoob">@rootnoob</a>|<a href="https://github.com/matoni109">@matoni109</a>|<a href="https://github.com/jc00ke">@jc00ke</a>|
+|<a href="https://dailytics.com">Website</a>||||<a href="https://relativepath.io/">Website</a>|
 
-|<img src="https://avatars.githubusercontent.com/subsevenx?s=256" alt="subsevenx" width="128" />|<img src="https://avatars.githubusercontent.com/coreyaus?s=256" alt="coreyaus" width="128" />|<img src="https://avatars.githubusercontent.com/joelhawksley?s=256" alt="joelhawksley" width="128" />|<img src="https://avatars.githubusercontent.com/onurozer?s=256" alt="onurozer" width="128" />|<img src="https://avatars.githubusercontent.com/oleingemann?s=256" alt="oleingemann" width="128" />|
+|<img src="https://avatars.githubusercontent.com/jespr?s=256" alt="jespr" width="128" />|<img src="https://avatars.githubusercontent.com/MikeRogers0?s=256" alt="MikeRogers0" width="128" />|<img src="https://avatars.githubusercontent.com/existentialmutt?s=256" alt="existentialmutt" width="128" />|<img src="https://avatars.githubusercontent.com/jr180180?s=256" alt="jr180180" width="128" />|<img src="https://avatars.githubusercontent.com/eclectic-coding?s=256" alt="eclectic-coding" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/subsevenx">@subsevenx</a>|<a href="https://github.com/coreyaus">@coreyaus</a>|<a href="https://github.com/joelhawksley">@joelhawksley</a>|<a href="https://github.com/onurozer">@onurozer</a>|<a href="https://github.com/oleingemann">@oleingemann</a>|
-||<a href="https://www.codenation.com">Website</a>|<a href="https://hawksley.org">Website</a>|<a href="https://onurozer.me">Website</a>|<a href="https://www.oleingemann.com">Website</a>|
+|<a href="https://github.com/jespr">@jespr</a>|<a href="https://github.com/MikeRogers0">@MikeRogers0</a>|<a href="https://github.com/existentialmutt">@existentialmutt</a>|<a href="https://github.com/jr180180">@jr180180</a>|<a href="https://github.com/eclectic-coding">@eclectic-coding</a>|
+||||<a href="http://johnsanchez.me/">Website</a>|<a href="https://www.eclecticcoding.com/">Website</a>|
 
-|<img src="https://avatars.githubusercontent.com/renuo?s=256" alt="renuo" width="128" />|<img src="https://avatars.githubusercontent.com/maxveldink?s=256" alt="maxveldink" width="128" />|<img src="https://avatars.githubusercontent.com/fuzzygroup?s=256" alt="fuzzygroup" width="128" />|<img src="https://avatars.githubusercontent.com/monfresh?s=256" alt="monfresh" width="128" />|<img src="https://avatars.githubusercontent.com/posiczko?s=256" alt="posiczko" width="128" />|
+|<img src="https://avatars.githubusercontent.com/williamkennedy?s=256" alt="williamkennedy" width="128" />|<img src="https://avatars.githubusercontent.com/adrianvalenz?s=256" alt="adrianvalenz" width="128" />|<img src="https://avatars.githubusercontent.com/scoutapm-sponsorships?s=256" alt="scoutapm-sponsorships" width="128" />|<img src="https://avatars.githubusercontent.com/asaaki?s=256" alt="asaaki" width="128" />|<img src="https://avatars.githubusercontent.com/leastbad?s=256" alt="leastbad" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/renuo">@renuo</a>|<a href="https://github.com/maxveldink">@maxveldink</a>|<a href="https://github.com/fuzzygroup">@fuzzygroup</a>|<a href="https://github.com/monfresh">@monfresh</a>|<a href="https://github.com/posiczko">@posiczko</a>|
-|<a href="https://www.renuo.ch/">Website</a>|<a href="https://maxveld.ink">Website</a>|<a href="https://fuzzyblog.io/blog/">Website</a>|<a href="https://www.moncefbelyamani.com">Website</a>|<a href="https://tetrapyloctomy.org">Website</a>|
+|<a href="https://github.com/williamkennedy">@williamkennedy</a>|<a href="https://github.com/adrianvalenz">@adrianvalenz</a>|<a href="https://github.com/scoutapm-sponsorships">@scoutapm-sponsorships</a>|<a href="https://github.com/asaaki">@asaaki</a>|<a href="https://github.com/leastbad">@leastbad</a>|
+|<a href="https://williamkennedy.ninja">Website</a>|<a href="https://adrianvalenz.com">Website</a>|<a href="https://scoutapm.com">Website</a>|<a href="https://markentier.tech/">Website</a>||
 
-|<img src="https://avatars.githubusercontent.com/skvk?s=256" alt="skvk" width="128" />|<img src="https://avatars.githubusercontent.com/Brem-LLC?s=256" alt="Brem-LLC" width="128" />|<img src="https://avatars.githubusercontent.com/ttilberg?s=256" alt="ttilberg" width="128" />|<img src="https://avatars.githubusercontent.com/swilgosz?s=256" alt="swilgosz" width="128" />|<img src="https://avatars.githubusercontent.com/karloscarweber?s=256" alt="karloscarweber" width="128" />|
+|<img src="https://avatars.githubusercontent.com/jasoncharnes?s=256" alt="jasoncharnes" width="128" />|<img src="https://avatars.githubusercontent.com/pascalwengerter?s=256" alt="pascalwengerter" width="128" />|<img src="https://avatars.githubusercontent.com/wout?s=256" alt="wout" width="128" />|<img src="https://avatars.githubusercontent.com/johnchambers?s=256" alt="johnchambers" width="128" />|<img src="https://avatars.githubusercontent.com/mtomov?s=256" alt="mtomov" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
-|<a href="https://github.com/skvk">@skvk</a>|<a href="https://github.com/Brem-LLC">@Brem-LLC</a>|<a href="https://github.com/ttilberg">@ttilberg</a>|<a href="https://github.com/swilgosz">@swilgosz</a>|<a href="https://github.com/karloscarweber">@karloscarweber</a>|
-||<a href="https://brem.io">Website</a>|<a href="http://www.timtilberg.com">Website</a>|<a href="https://hanamimastery.com/">Website</a>|<a href="https://kow.fm/">Website</a>|
+|<a href="https://github.com/jasoncharnes">@jasoncharnes</a>|<a href="https://github.com/pascalwengerter">@pascalwengerter</a>|<a href="https://github.com/wout">@wout</a>|<a href="https://github.com/johnchambers">@johnchambers</a>|<a href="https://github.com/mtomov">@mtomov</a>|
+|<a href="http://www.jasoncharnes.com">Website</a>|<a href="https://pascal.rocks">Website</a>|||<a href="https://www.howtoruby.com/">Website</a>|
 
-|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|
-|You Next?|
+|<img src="https://avatars.githubusercontent.com/marcoroth?s=256" alt="marcoroth" width="128" />|<img src="https://avatars.githubusercontent.com/miatrinity?s=256" alt="miatrinity" width="128" />|<img src="https://avatars.githubusercontent.com/pilotcph?s=256" alt="pilotcph" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|:---:|
+|<a href="https://github.com/marcoroth">@marcoroth</a>|<a href="https://github.com/miatrinity">@miatrinity</a>|<a href="https://github.com/pilotcph">@pilotcph</a>|<a href="https://github.com/sponsors/jaredcwhite">You Next?</a>|
+|<a href="https://marcoroth.dev">Website</a>||<a href="http://www.pilotcph.dk">Website</a>||
 
 ## Commercial Support
 
