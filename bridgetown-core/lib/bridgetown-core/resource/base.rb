@@ -24,6 +24,9 @@ module Bridgetown
       # @return [Array<Bridgetown::Slot>]
       attr_reader :slots
 
+      # @return [Boolean]
+      attr_reader :fast_refresh_order
+
       # @return [String]
       attr_accessor :content, :untransformed_content, :output
 
@@ -95,6 +98,8 @@ module Bridgetown
       # @param new_data [HashWithDotAccess::Hash]
       def data=(new_data)
         @data = @data.merge(new_data)
+
+        mark_for_fast_refresh! if site.config.fast_refresh && write?
       end
 
       # @return [Bridgetown::Resource::Base]
@@ -225,6 +230,7 @@ module Bridgetown
       # Write the generated resource file to the destination directory.
       def write(_dest = nil)
         destination.write(output)
+        @fast_refresh_order = nil
         trigger_hooks(:post_write)
       end
 
@@ -297,6 +303,11 @@ module Bridgetown
       alias_method :previous, :previous_resource
 
       private
+
+      def mark_for_fast_refresh!
+        @fast_refresh_order = site.fast_refresh_ordering
+        site.fast_refresh_ordering += 1
+      end
 
       def ensure_default_data
         determine_locale

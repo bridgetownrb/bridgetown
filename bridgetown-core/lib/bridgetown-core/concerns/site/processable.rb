@@ -20,6 +20,23 @@ class Bridgetown::Site
       print_stats if config["profile"]
     end
 
+    def fast_refresh(paths)
+      @fast_refresh_ordering = 0
+      paths.each do |path|
+        res = resources.find do |resource|
+          resource.id.start_with?("repo://") && in_source_dir(resource.relative_path) == path
+        end
+        next unless res
+
+        res.model.attributes = res.model.origin.read
+        res.read!
+      end
+
+      marked_resources = resources.select(&:fast_refresh_order).sort_by(&:fast_refresh_order)
+      marked_resources.each { _1.transform!.write }
+      FileUtils.touch(in_destination_dir("index.html"))
+    end
+
     # Reset all in-memory data and content.
     #
     # @param soft [Boolean] if true, persist some state and do a light refresh of layouts and data
@@ -35,6 +52,7 @@ class Bridgetown::Site
       self.generated_pages = []
       self.static_files = []
       self.data = HashWithDotAccess::Hash.new unless soft
+      @fast_refresh_ordering = 0 if config.fast_refresh
       @frontend_manifest = nil
       @collections = nil
       @documents = nil

@@ -81,7 +81,7 @@ module Bridgetown
           c.each { |path| Bridgetown.logger.info "", "- #{path["#{site.root_dir}/".length..]}" }
         end
 
-        reload_site(site, options, paths: c)
+        reload_site(site, options, paths: c, fast_refreshable: (added + removed).empty?)
       end.start
     end
 
@@ -90,7 +90,7 @@ module Bridgetown
     # @param site [Bridgetown::Site] the current site instance
     # @param options [Bridgetown::Configuration] the site configuration
     # @param paths Array<String>
-    def reload_site(site, options, paths: []) # rubocop:todo Metrics/MethodLength
+    def reload_site(site, options, paths: [], fast_refreshable: false) # rubocop:todo Metrics/MethodLength
       begin
         time = Time.now
         I18n.reload! # make sure any locale files get read again
@@ -106,7 +106,11 @@ module Bridgetown
             return
           end
 
-          site.process
+          if fast_refreshable && site.config.fast_refresh
+            site.fast_refresh(paths)
+          else
+            site.process
+          end
         end
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".bold.green} in less than " \
                                           "#{(Time.now - time).ceil(2)} seconds."

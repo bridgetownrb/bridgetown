@@ -36,7 +36,7 @@ module Bridgetown
 
     attr_accessor :permalink_style, :time, :data,
                   :file_read_opts, :plugin_manager, :converters,
-                  :generators, :reader
+                  :generators, :reader, :fast_refresh_ordering
 
     # Initialize a new Site.
     #
