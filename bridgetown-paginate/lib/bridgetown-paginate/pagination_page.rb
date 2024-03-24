@@ -11,7 +11,10 @@ module Bridgetown
     # not read from disk
     #
     class PaginationPage < Bridgetown::GeneratedPage
+      attr_reader :page_to_copy
+
       def initialize(page_to_copy, cur_page_nr, total_pages, index_pageandext, template_ext) # rubocop:disable Lint/MissingSuper
+        @page_to_copy = page_to_copy
         @site = page_to_copy.site
         @base = ""
         @url = ""
@@ -19,6 +22,8 @@ module Bridgetown
         @path = page_to_copy.path
         @basename = File.basename(@path, ".*")
         @ext = File.extname(@name)
+        @cur_page_r = cur_page_nr
+        @total_pages = total_pages
 
         # Only need to copy the data part of the page as it already contains the
         # layout information
@@ -29,6 +34,15 @@ module Bridgetown
         data["pagination_info"] = { "curr_page" => cur_page_nr, "total_pages" => total_pages }
 
         Bridgetown::Hooks.trigger :generated_pages, :post_init, self
+      end
+
+      def fast_refresh!
+        page_to_copy.fast_refresh! if page_to_copy.respond_to?(:prototyped_page)
+
+        self.data = Bridgetown::Utils.deep_merge_hashes page_to_copy.data, {}
+        self.content = page_to_copy.content
+        # Store the current page and total page numbers in the pagination_info construct
+        data["pagination_info"] = { "curr_page" => @cur_page_nr, "total_pages" => @total_pages }
       end
 
       # rubocop:disable Naming/AccessorMethodName

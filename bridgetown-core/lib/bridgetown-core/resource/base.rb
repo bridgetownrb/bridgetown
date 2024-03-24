@@ -9,9 +9,6 @@ module Bridgetown
       include Bridgetown::LiquidRenderable
       include Bridgetown::Localizable
 
-      # @return [HashWithDotAccess::Hash]
-      attr_reader :data
-
       # @return [Destination]
       attr_reader :destination
 
@@ -37,7 +34,9 @@ module Bridgetown
       def initialize(model:)
         @model = model
         @site = model.site
-        @data = collection.data? ? HashWithDotAccess::Hash.new : front_matter_defaults
+        @data = Signalize.signal(
+          collection.data? ? HashWithDotAccess::Hash.new : front_matter_defaults
+        )
         @slots = []
 
         trigger_hooks :post_init
@@ -93,13 +92,17 @@ module Bridgetown
         ).with_dot_access
       end
 
+      # @return [HashWithDotAccess::Hash]
+      def data
+        @data.value
+      end
+
       # Merges new data into the existing data hash.
       #
       # @param new_data [HashWithDotAccess::Hash]
       def data=(new_data)
-        @data = @data.merge(new_data)
-
         mark_for_fast_refresh! if site.config.fast_refresh && write?
+        @data.value = @data.value.merge(new_data)
       end
 
       # @return [Bridgetown::Resource::Base]
@@ -124,8 +127,23 @@ module Bridgetown
       end
       alias_method :read, :read! # TODO: eventually use the bang version only
 
-      def transform!
-        transformer.process! unless collection.data?
+      def transform! # rubocop:todo Metrics/CyclomaticComplexity
+        internal_error = nil
+        Signalize.effect do
+          if !@fast_refresh_order && @previously_transformed
+            self.content = untransformed_content
+            @transformer = nil
+            mark_for_fast_refresh! if site.config.fast_refresh && write?
+            next
+          end
+
+          transformer.process! unless collection.data?
+          @previously_transformed = true
+        rescue StandardError, SyntaxError => e
+          internal_error = e
+        end
+
+        raise internal_error if internal_error
 
         self
       end
@@ -230,7 +248,7 @@ module Bridgetown
       # Write the generated resource file to the destination directory.
       def write(_dest = nil)
         destination.write(output)
-        @fast_refresh_order = nil
+        unmark_for_fast_refresh!
         trigger_hooks(:post_write)
       end
 
@@ -302,12 +320,16 @@ module Bridgetown
       alias_method :previous_doc, :previous_resource
       alias_method :previous, :previous_resource
 
-      private
-
       def mark_for_fast_refresh!
         @fast_refresh_order = site.fast_refresh_ordering
         site.fast_refresh_ordering += 1
       end
+
+      def unmark_for_fast_refresh!
+        @fast_refresh_order = nil
+      end
+
+      private
 
       def ensure_default_data
         determine_locale

@@ -81,7 +81,12 @@ module Bridgetown
           c.each { |path| Bridgetown.logger.info "", "- #{path["#{site.root_dir}/".length..]}" }
         end
 
-        reload_site(site, options, paths: c, fast_refreshable: (added + removed).empty?)
+        reload_site(
+          site,
+          options,
+          paths: c,
+          fast_refreshable: site.config.fast_refresh && (added + removed).empty?
+        )
       end.start
     end
 
@@ -96,18 +101,20 @@ module Bridgetown
         I18n.reload! # make sure any locale files get read again
         Bridgetown::Current.sites[site.label] = site # needed in SSR mode apparently
         catch :halt do
-          Bridgetown::Hooks.trigger :site, :pre_reload, site, paths
-          Bridgetown::Hooks.clear_reloadable_hooks
-          site.loaders_manager.reload_loaders
-          Bridgetown::Hooks.trigger :site, :post_reload, site, paths
+          unless fast_refreshable
+            Bridgetown::Hooks.trigger :site, :pre_reload, site, paths
+            Bridgetown::Hooks.clear_reloadable_hooks
+            site.loaders_manager.reload_loaders
+            Bridgetown::Hooks.trigger :site, :post_reload, site, paths
+          end
 
           if site.ssr?
             site.reset(soft: true)
             return
           end
 
-          if fast_refreshable && site.config.fast_refresh
-            site.fast_refresh(paths)
+          if fast_refreshable
+            site.fast_refresh(paths, reload_if_needed: true)
           else
             site.process
           end
