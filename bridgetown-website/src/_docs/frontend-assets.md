@@ -19,7 +19,7 @@ Files to be processed by esbuild are placed in the top-level `frontend` folder w
 Wondering where to save images? Look at the `src/images` folder. You can reference them from both markup and CSS simply using a relative URL (for example, `/images/logo.svg`). Optionally, you can bundle images through esbuild and reference them with the `asset_path` helper (more information below). If you're interested in a full-featured image management solution with the ability to resize and optimize your media sizes, check out [Cloudinary](https://www.cloudinary.com) and the [bridgetown-cloudinary plugin](https://github.com/bridgetownrb/bridgetown-cloudinary).
 {% end %}
 
-Bridgetown uses [Yarn](https://yarnpkg.com) to install and manage frontend NPM-based packages and dependencies. [Gem-based plugins can instruct Bridgetown](/docs/plugins/gems-and-frontend/) to add a related NPM package whenever Bridgetown first loads the gem.
+Bridgetown uses NPM to install and manage frontend-based packages and dependencies. [Gem-based plugins can instruct Bridgetown](/docs/plugins/gems-and-frontend/) to add a related NPM package whenever Bridgetown first loads the gem.
 
 ## JavaScript
 
@@ -64,7 +64,7 @@ The starting place for Sass code lives at `frontend/styles/index.scss`.
 Importing common CSS frameworks such as Bootstrap, Foundation, Bulma and so forth is often as easy as running:
 
 ```shell
-yarn add name-of-css-framework
+npm install name-of-css-framework
 ```
 
 And then adding:
@@ -76,7 +76,7 @@ And then adding:
 to `index.scss`. For example, to add [Bulma](https://bulma.io) which is a modern CSS-only (no JavaScript) framework built around Flexbox, you'd simply run:
 
 ```shell
-yarn add bulma
+npm install bulma
 ```
 
 and then add:
@@ -90,7 +90,7 @@ to `index.scss`.
 Or if you'd like to add [Bootstrap](https://getbootstrap.com):
 
 ```shell
-yarn add bootstrap
+npm install bootstrap
 ```
 
 ```css

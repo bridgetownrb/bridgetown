@@ -26,7 +26,7 @@ Here's a rundown of some **40 features** Bridgetown has implemented since the fo
 * PostCSS support by default (Dart Sass support also available).
 * A Rack & Puma-based web server to supersede WEBrick.
 * A next-gen plugin API via Builders.
-* Plugin source manifests & frontend integration with Yarn auto-install.
+* Plugin source manifests & frontend integration with NPM auto-install.
 * A clearer, modern  file & folder structure.
 * A powerful external API DSL for generating new content.
 * Support for pagination and prototype (aka archive) pages available out of the box.

@@ -13,7 +13,7 @@ gem install bridgetown -N
 {%- end %}
 
 Create a new Bridgetown site at `./mysite`, as well as run `bundle install` and
-`yarn install` automatically:
+`npm install` automatically:
 
 ```sh
 bridgetown new mysite

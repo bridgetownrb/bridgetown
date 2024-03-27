@@ -4,7 +4,7 @@ require "fileutils"
 
 say "Installing Stimulus...", :green
 
-run("yarn add @hotwired/stimulus")
+add_npm_package "@hotwired/stimulus"
 
 say 'Adding Stimulus to "frontend/javascript/index.js"...', :magenta
 

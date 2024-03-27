@@ -99,14 +99,19 @@ module Bridgetown
                          before: %r!^end$!, verbose: false, force: false
       end
 
-      def add_yarn_for_gem(gemname)
-        say_status :add_yarn, gemname
+      def add_npm_for_gem(gemname)
+        say_status :add_npm, gemname
 
         Bundler.reset!
         Bridgetown::PluginManager.load_determined_bundler_environment
-        Bridgetown::PluginManager.install_yarn_dependencies(name: gemname)
+        Bridgetown::PluginManager.install_npm_dependencies(name: gemname)
       rescue SystemExit
-        say_status :add_yarn, "Package not added due to yarn error", :red
+        say_status :add_npm, "Package not added due to NPM error", :red
+      end
+      alias_method :add_yarn_for_gem, :add_npm_for_gem
+
+      def add_npm_package(package_details)
+        run "#{Bridgetown::PluginManager.package_manager} #{Bridgetown::PluginManager.package_manager_install_command} #{package_details}" # rubocop:disable Layout
       end
 
       def apply_from_url(url)

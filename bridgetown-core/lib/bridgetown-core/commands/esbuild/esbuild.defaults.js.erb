@@ -155,7 +155,7 @@ const sassPlugin = (options) => ({
     // Process .scss and .sass files with Sass
     build.onLoad({ filter: /\.(sass|scss)$/ }, async (args) => {
       if (!sass) {
-        console.error("error: Sass is not installed. Try running `yarn add sass` and then building again.")
+        console.error("error: Sass is not installed. Try running `npm i sass -D` and then building again.")
         return
       }
 

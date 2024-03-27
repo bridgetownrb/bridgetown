@@ -2,7 +2,7 @@
 
 say_status :shoelace, "Installing Shoelace..."
 
-run "yarn add @shoelace-style/shoelace"
+add_npm_package "@shoelace-style/shoelace"
 
 stylesheet_import = <<~CSS
   /* Import the base Shoelace stylesheet: */
@@ -42,9 +42,9 @@ insert_into_file "package.json", before: '    "esbuild": "node' do
   "shoelace:copy-assets": "mkdir -p src/shoelace-assets && cp -r node_modules/@shoelace-style/shoelace/dist/assets src/shoelace-assets",
   JS
 end
-gsub_file "package.json", %r{"esbuild": "node}, '"esbuild": "yarn shoelace:copy-assets && node'
+gsub_file "package.json", %r{"esbuild": "node}, '"esbuild": "npm run shoelace:copy-assets && node'
 gsub_file "package.json", %r{"esbuild-dev": "node},
-          '"esbuild-dev": "yarn shoelace:copy-assets && node'
+          '"esbuild-dev": "npm run shoelace:copy-assets && node'
 
 if File.exist?(".gitignore")
   append_to_file ".gitignore" do

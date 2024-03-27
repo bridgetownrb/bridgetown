@@ -2,8 +2,7 @@
 
 say_status :turbo, "Installing Turbo..."
 
-run("yarn add @hotwired/turbo")
-run("yarn add turbo-shadow")
+add_npm_package "@hotwired/turbo turbo-shadow"
 
 say_status :turbo, 'Adding Turbo to "frontend/javascript/index.js"...', :magenta
 

@@ -267,7 +267,7 @@ module Bridgetown
       unless Bridgetown::Current.preloaded_configuration
         Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
       end
-      Bridgetown::PluginManager.setup_bundler(skip_yarn: true)
+      Bridgetown::PluginManager.setup_bundler(skip_npm: true)
 
       if Bridgetown::Current.preloaded_configuration.is_a?(Bridgetown::Configuration::Preflight)
         Bridgetown::Current.preloaded_configuration = Bridgetown.configuration

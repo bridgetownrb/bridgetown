@@ -1,14 +1,11 @@
-## Install Node and Yarn
+## Install Node
 
-Node is a JavaScript runtime that can execute on a server or development machine. Yarn
-is a package manager for Node packages. You'll need Node and Yarn in order to install
+Node is a JavaScript runtime that can execute on a server or development machine. NPM
+is a package manager for JavaScript packages. You'll need Node in order to install
 and use esbuild, the frontend asset compiler that runs alongside Bridgetown.
 
 ```shell
-curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-sudo apt remove cmdtest # this is so we can install Yarn
-curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
 sudo apt-get update
-sudo apt-get install -y nodejs yarn
+sudo apt-get install -y nodejs
 ```
