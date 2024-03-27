@@ -23,6 +23,7 @@ PATH
       kramdown-parser-gfm (~> 1.0)
       liquid (~> 5.0)
       listen (~> 3.0)
+      rack (>= 3.0)
       rake (>= 13.0)
       roda (~> 3.46)
       rouge (>= 3.0, < 5.0)
