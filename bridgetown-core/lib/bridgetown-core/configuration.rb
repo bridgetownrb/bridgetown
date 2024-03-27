@@ -101,6 +101,10 @@ module Bridgetown
         "include_extraction_tags" => false,
         "mark_highlighting"       => true,
       },
+
+      "development"                => {
+        "fast_refresh" => true,
+      },
     }.each_with_object(Configuration.new) { |(k, v), hsh| hsh[k] = v.freeze }.freeze
 
     # TODO: Deprecated. Remove support for _config as well as toml in the next release.
