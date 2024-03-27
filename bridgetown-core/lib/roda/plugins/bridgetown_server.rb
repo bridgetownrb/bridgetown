@@ -20,7 +20,6 @@ class Roda
         app.plugin :json_parser
         app.plugin :indifferent_params
         app.plugin :cookies
-        app.plugin :streaming
         app.plugin :public, root: Bridgetown::Current.preloaded_configuration.destination
         app.plugin :not_found do
           output_folder = Bridgetown::Current.preloaded_configuration.destination
