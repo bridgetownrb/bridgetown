@@ -1,13 +1,13 @@
 PATH
   remote: bridgetown-builder
   specs:
-    bridgetown-builder (1.3.3)
-      bridgetown-core (= 1.3.3)
+    bridgetown-builder (1.3.4)
+      bridgetown-core (= 1.3.4)
 
 PATH
   remote: bridgetown-core
   specs:
-    bridgetown-core (1.3.3)
+    bridgetown-core (1.3.4)
       activemodel (>= 6.0, < 8.0)
       activesupport (>= 6.0, < 8.0)
       addressable (~> 2.4)
@@ -34,16 +34,16 @@ PATH
 PATH
   remote: bridgetown-paginate
   specs:
-    bridgetown-paginate (1.3.3)
-      bridgetown-core (= 1.3.3)
+    bridgetown-paginate (1.3.4)
+      bridgetown-core (= 1.3.4)
 
 PATH
   remote: bridgetown
   specs:
-    bridgetown (1.3.3)
-      bridgetown-builder (= 1.3.3)
-      bridgetown-core (= 1.3.3)
-      bridgetown-paginate (= 1.3.3)
+    bridgetown (1.3.4)
+      bridgetown-builder (= 1.3.4)
+      bridgetown-core (= 1.3.4)
+      bridgetown-paginate (= 1.3.4)
 
 GEM
   remote: https://rubygems.org/
