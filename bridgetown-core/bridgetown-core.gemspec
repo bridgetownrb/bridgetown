@@ -44,7 +44,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("i18n",                      "~> 1.0")
   s.add_runtime_dependency("kramdown",                  "~> 2.1")
   s.add_runtime_dependency("kramdown-parser-gfm",       "~> 1.0")
-  s.add_runtime_dependency("liquid",                    "~> 5.0")
+  s.add_runtime_dependency("liquid",                    [">= 5.0", "< 5.5"])
   s.add_runtime_dependency("listen",                    "~> 3.0")
   s.add_runtime_dependency("rake",                      ">= 13.0")
   s.add_runtime_dependency("roda",                      "~> 3.46")
