@@ -32,7 +32,7 @@ namespace :roda do
   task :routes do
     require "bridgetown-core/rack/boot"
 
-    Bridgetown::Rack::Roda.print_routes
+    Bridgetown::Rack::Routes.print_routes
   end
 end
 

@@ -43,12 +43,6 @@ module Bridgetown
         end
       end
 
-      def self.group(&)
-        Bridgetown::Deprecator.deprecation_message "Bridgetown::Aux.group method will be removed" \
-                                                   "in a future version, use run_process"
-        instance_exec(&)
-      end
-
       def self.kill_processes
         Bridgetown.logger.info "Stopping auxiliary processes..."
         running_pids.each do |pid|

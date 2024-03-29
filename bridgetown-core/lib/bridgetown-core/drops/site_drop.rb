@@ -8,7 +8,6 @@ module Bridgetown
       mutable false
 
       def_delegators :@obj,
-                     :baseurl, # deprecated
                      :base_path,
                      :data,
                      :locale,
@@ -23,10 +22,6 @@ module Bridgetown
       private def_delegator :@obj, :config, :fallback_data
 
       attr_writer :current_document
-
-      def uses_resource
-        @obj.uses_resource?
-      end
 
       def resources
         @resources ||= @obj.resources

@@ -2,43 +2,11 @@
 
 module Bridgetown
   class PluginManager
-    LEGACY_PLUGINS_GROUP = :bridgetown_plugins
     YARN_DEPENDENCY_REGEXP = %r!(.+)@([^@]*)$!
 
     attr_reader :site, :loaders_manager
 
     @registered_plugins = Set.new
-
-    # @param source_manifest [Bridgetown::Configuration::SourceManifest]
-    def self.add_source_manifest(source_manifest)
-      unless source_manifest.is_a?(Bridgetown::Configuration::SourceManifest)
-        raise "You must add a SourceManifest instance"
-      end
-
-      unless Bridgetown::Current.preloaded_configuration
-        raise "A preloaded configuration must be present before adding source manifests"
-      end
-
-      Bridgetown::Deprecator.deprecation_message(
-        "The #{source_manifest.origin} plugin should switch from using `add_source_manifest' to " \
-        "the `source_manifest` initializer method"
-      )
-
-      Bridgetown::Current.preloaded_configuration.source_manifests << source_manifest
-    end
-
-    def self.new_source_manifest(*_args, **kwargs)
-      unless Bridgetown::Current.preloaded_configuration
-        raise "A preloaded configuration must be present before adding source manifests"
-      end
-
-      Bridgetown::Deprecator.deprecation_message(
-        "The #{kwargs[:origin]} plugin should switch from using `new_source_manifest' to the " \
-        "`source_manifest` initializer method"
-      )
-
-      add_source_manifest(Bridgetown::Configuration::SourceManifest.new(**kwargs))
-    end
 
     def self.add_registered_plugin(gem_or_plugin_file)
       @registered_plugins << gem_or_plugin_file
@@ -50,23 +18,15 @@ module Bridgetown
       def bundler_specs
         @bundler_specs ||= Bundler.load.requested_specs
       end
-
-      def source_manifests
-        Bridgetown::Deprecator.deprecation_message(
-          "Use the configuration's `source_manifests` method instead of the plugin manager"
-        )
-
-        Bridgetown::Current.preloaded_configuration.source_manifests
-      end
     end
 
-    def self.setup_bundler(skip_yarn: false)
+    def self.setup_bundler
       if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] &&
           (Bundler::SharedHelpers.in_bundle? || Bridgetown.env.test?)
         require "bundler"
 
         require_relative "utils/initializers"
-        load_determined_bundler_environment(skip_yarn:)
+        load_determined_bundler_environment
 
         ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] = "true"
         true
@@ -78,7 +38,7 @@ module Bridgetown
       alias_method :require_from_bundler, :setup_bundler
     end
 
-    def self.load_determined_bundler_environment(skip_yarn: false)
+    def self.load_determined_bundler_environment
       boot_file = File.join("config", "boot.rb")
 
       if File.file?(boot_file)
@@ -89,9 +49,6 @@ module Bridgetown
         # Note: the default Bundler config will set up all gem groups,
         #   see: https://bundler.io/guides/groups.html
         Bundler.setup(:default, Bridgetown.env)
-      else
-        # Only setup and require :bridgetown_plugins
-        legacy_yarn_and_register(legacy_require, skip_yarn:)
       end
     end
 
@@ -110,23 +67,6 @@ module Bridgetown
 
       Bridgetown.logger.debug("PluginManager:",
                               "Registered #{plugin_to_register.name}")
-    end
-
-    def self.legacy_require
-      Bundler.require(LEGACY_PLUGINS_GROUP).select do |dep|
-        dep.groups.intersect?([LEGACY_PLUGINS_GROUP]) && dep.should_include?
-      end
-    end
-
-    def self.legacy_yarn_and_register(required_gems, skip_yarn: false)
-      install_yarn_dependencies(required_gems) unless skip_yarn
-
-      required_gems.each do |installed_gem|
-        add_registered_plugin installed_gem
-      end
-
-      Bridgetown.logger.debug("PluginManager:",
-                              "Required #{required_gems.map(&:name).join(", ")}")
     end
 
     def self.package_manager

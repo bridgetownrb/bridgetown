@@ -62,11 +62,6 @@ module Bridgetown
       @static_files ||= []
     end
 
-    def files
-      Bridgetown::Deprecator.deprecation_message "Collection#files is now Collection#static_files"
-      static_files
-    end
-
     # Read the allowed resources into the collection's array of resources.
     #
     # @return [Bridgetown::Collection] self

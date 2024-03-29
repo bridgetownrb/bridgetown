@@ -28,27 +28,15 @@ class Bridgetown::Site
     end
     alias_method :dest, :destination
 
-    def uses_resource?
-      Bridgetown::Deprecator.deprecation_message(
-        "The Site#uses_resource? method will be removed in the next version"
-      )
-      true
-    end
-
     # Returns a base path from which the site is served (aka `/cool-site`) or
     # `/` if served from root.
     #
     # @param strip_slash_only [Boolean] set to true if you wish "/" to be returned as ""
     # @return [String]
     def base_path(strip_slash_only: false)
-      (config[:base_path] || config[:baseurl]).then do |path|
+      config[:base_path].then do |path|
         strip_slash_only ? path.to_s.sub(%r{^/$}, "") : path
       end
-    end
-
-    def baseurl
-      Bridgetown::Deprecator.deprecation_message "Site#baseurl is now Site#base_path"
-      base_path(strip_slash_only: true).presence
     end
 
     def defaults_reader

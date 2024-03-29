@@ -121,17 +121,17 @@ class TestConfiguration < BridgetownUnitTest
   context "#stringify_keys" do
     setup do
       @mixed_keys = Configuration[{
-        "markdown" => "kramdown",
-        :permalink => "date",
-        "baseurl"  => "/",
-        :include   => [".htaccess"],
-        :source    => "./",
+        "markdown"  => "kramdown",
+        :permalink  => "date",
+        "base_path" => "/",
+        :include    => [".htaccess"],
+        :source     => "./",
       }]
 
       @string_keys = Configuration[{
         "markdown"  => "kramdown",
         "permalink" => "date",
-        "baseurl"   => "/",
+        "base_path" => "/",
         "include"   => [".htaccess"],
         "source"    => "./",
       }]
@@ -349,12 +349,12 @@ class TestConfiguration < BridgetownUnitTest
       allow(Bridgetown::YAMLParser)
         .to receive(:load_file)
         .with(@paths[:other])
-        .and_return("baseurl" => "http://example.com")
+        .and_return("base_path" => "http://example.com")
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:other]}")
       assert_equal \
         site_configuration(
-          "baseurl" => "http://example.com",
-          "config"  => @paths[:other]
+          "base_path" => "http://example.com",
+          "config"    => @paths[:other]
         ),
         default_config_fixture({ "config" => @paths[:other] })
     end
@@ -364,12 +364,12 @@ class TestConfiguration < BridgetownUnitTest
       allow(Bridgetown::YAMLParser)
         .to receive(:load_file)
         .with(@paths[:other])
-        .and_return("baseurl" => "http://example.com")
+        .and_return("base_path" => "http://example.com")
       allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:other]}")
       assert_equal \
         site_configuration(
-          "baseurl" => "http://example.com",
-          "config"  => @paths[:other]
+          "base_path" => "http://example.com",
+          "config"    => @paths[:other]
         ),
         default_config_fixture({ config: @paths[:other] })
     end
@@ -399,11 +399,11 @@ class TestConfiguration < BridgetownUnitTest
       allow(Bridgetown::YAMLParser)
         .to receive(:load_file)
         .with(@paths[:default])
-        .and_return("baseurl" => "http://example.dev")
+        .and_return("base_path" => "http://example.dev")
       allow(Bridgetown::YAMLParser)
         .to receive(:load_file)
         .with(@paths[:other])
-        .and_return("baseurl" => "http://example.com")
+        .and_return("base_path" => "http://example.com")
       allow($stdout)
         .to receive(:puts)
         .with("Configuration file: #{@paths[:default]}")
@@ -412,8 +412,8 @@ class TestConfiguration < BridgetownUnitTest
         .with("Configuration file: #{@paths[:other]}")
       assert_equal \
         site_configuration(
-          "baseurl" => "http://example.com",
-          "config"  => [@paths[:default], @paths[:other]]
+          "base_path" => "http://example.com",
+          "config"    => [@paths[:default], @paths[:other]]
         ),
         default_config_fixture({ "config" => [@paths[:default], @paths[:other]] })
     end
