@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.3.4] - 2024-03-28
+
+- Fix: Lock Liquid to version < 5.5 (unresolved data leakage and generation errors otherwise)
+- Fix: esbuild file endings from previous release
+
 ## [1.3.3] - 2024-03-16
 
 - Use global regex for Stimulus Configuration [#865](https://github.com/bridgetownrb/bridgetown/pull/865) ([@MSILycanthropy](https://github.com/MSILycanthropy))
