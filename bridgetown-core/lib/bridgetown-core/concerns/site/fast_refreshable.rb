@@ -15,6 +15,8 @@ class Bridgetown::Site
         layouts_to_reload = Set.new
         locate_resource_layouts_and_partials_for_fash_refresh(path, layouts_to_reload) unless res
 
+        locate_components_for_fast_refresh(path) unless res
+
         pages = locate_layouts_and_pages_for_fast_refresh(path, layouts_to_reload)
 
         layouts_to_reload.each do |layout|
@@ -82,6 +84,23 @@ class Bridgetown::Site
         tmp_cache[key].template = nil
         tmp_cache[key].signal.value += 1
       end
+    end
+
+    def locate_components_for_fast_refresh(path)
+      comp = Bridgetown::Component.subclasses.find do |item|
+        item.component_template_path == path || item.source_location == path
+      end
+      return unless comp
+
+      tmp_cache["comp-signal:#{comp.source_location}"]&.value += 1
+
+      # brute force reload all components for now
+      load_path = config.components_load_paths.last
+      loader = loaders_manager.loaders[load_path]
+      Bridgetown::Hooks.trigger :loader, :pre_reload, loader, load_path
+      loader.reload
+      loader.eager_load if config.eager_load_paths.include?(load_path)
+      Bridgetown::Hooks.trigger :loader, :post_reload, loader, load_path
     end
 
     def locate_layouts_and_pages_for_fast_refresh(path, layouts_to_reload) # rubocop:todo Metrics/AbcSize
