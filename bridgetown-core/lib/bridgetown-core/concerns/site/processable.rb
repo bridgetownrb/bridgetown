@@ -21,6 +21,8 @@ class Bridgetown::Site
     end
 
     def fast_refresh(paths = [], reload_if_needed: false)
+      FileUtils.rm_f(Bridgetown.build_errors_path)
+
       @fast_refresh_ordering = 0
       found_gen_pages = false
       paths.each do |path|
