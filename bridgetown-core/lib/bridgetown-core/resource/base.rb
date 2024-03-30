@@ -129,7 +129,7 @@ module Bridgetown
 
       def transform! # rubocop:todo Metrics/CyclomaticComplexity
         internal_error = nil
-        Signalize.effect do
+        @transform_effect_disposal = Signalize.effect do
           if !@fast_refresh_order && @previously_transformed
             self.content = untransformed_content
             @transformer = nil
@@ -327,6 +327,16 @@ module Bridgetown
 
       def unmark_for_fast_refresh!
         @fast_refresh_order = nil
+      end
+
+      def prepare_for_fast_refresh!
+        dispose_of_transform_effect
+        model.attributes = model.origin.read
+        read!
+      end
+
+      def dispose_of_transform_effect
+        @transform_effect_disposal&.()
       end
 
       private

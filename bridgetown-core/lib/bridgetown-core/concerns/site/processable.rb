@@ -48,19 +48,14 @@ class Bridgetown::Site
                     page.page_to_copy
                   end
 
-            unless res.fast_refresh_order
-              res.model.attributes = res.model.origin.read
-              res.read!
-            end
-
+            res.prepare_for_fast_refresh! unless res.fast_refresh_order
             page.mark_for_fast_refresh!
           end
 
           next
         end
 
-        res.model.attributes = res.model.origin.read
-        res.read!
+        res.prepare_for_fast_refresh!
         next unless res.collection.data?
 
         res.collection.merge_data_resources.each do |k, v|
@@ -107,7 +102,7 @@ class Bridgetown::Site
 
       FileUtils.touch(in_destination_dir("index.html"))
 
-      Bridgetown::Hooks.trigger :site, :post_write
+      Bridgetown::Hooks.trigger :site, :post_write, self
     end
 
     # Reset all in-memory data and content.

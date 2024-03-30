@@ -10,7 +10,6 @@ class Builders::Versions < SiteBuilder
   def build
     helper :current_version_date do
       self.class.cache.getset("bridgetown-release-date") do
-        puts "VERSION!?!"
         versions = Gems.versions("bridgetown")
         version = versions.find { _1["number"] == Bridgetown::VERSION }&.dig("created_at")
         version ? Date.parse(version).strftime("%b %-d, %Y") : "(unknown)"
