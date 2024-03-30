@@ -30,14 +30,44 @@ class Bridgetown::Site
           resource.id.start_with?("repo://") && in_source_dir(resource.relative_path) == path
         end
 
+        layouts_to_reload = Set.new
+        unless res
+          resources.each do |resource|
+            next unless resource.data.layout
+
+            res_layouts = validated_layouts_for(resource, resource.data.layout)
+              .select { _1.path == path }
+            next unless res_layouts.length.positive?
+
+            res_layouts.each { layouts_to_reload << _1 }
+            resource.mark_for_fast_refresh!
+          end
+        end
+
         pages = generated_pages.select do |pg|
           next unless pg.respond_to?(:page_to_copy)
 
-          if pg.page_to_copy.respond_to?(:prototyped_page)
-            in_source_dir(pg.page_to_copy.prototyped_page.relative_path) == path
-          else
-            in_source_dir(pg.page_to_copy.relative_path) == path
-          end
+          found =
+            if pg.page_to_copy.respond_to?(:prototyped_page)
+              in_source_dir(pg.page_to_copy.prototyped_page.relative_path) == path
+            else
+              in_source_dir(pg.page_to_copy.relative_path) == path
+            end
+          next true if found
+          next false unless pg.data.layout
+
+          pg_layouts = validated_layouts_for(pg, pg.data.layout)
+            .select { _1.path == path }
+          next false unless pg_layouts.length.positive?
+
+          pg_layouts.each { layouts_to_reload << _1 }
+          true
+        end
+
+        layouts_to_reload.each do |layout|
+          layouts[layout.label] = Bridgetown::Layout.new(
+            self, layout.instance_variable_get(:@base), layout.name
+          )
         end
         next unless res || !pages.empty?
 
