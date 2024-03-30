@@ -202,7 +202,7 @@ module Bridgetown
       @converters ||= site.matched_converters_for_convertible(self)
     end
 
-    def transform!
+    def transform! # rubocop:todo Metrics
       Bridgetown.logger.debug "Transforming:", relative_path
 
       internal_error = nil

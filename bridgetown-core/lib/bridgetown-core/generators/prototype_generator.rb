@@ -43,7 +43,7 @@ module Bridgetown
     end
 
     # @param site [Bridgetown::Site]
-    def generate(site)
+    def generate(site) # rubocop:todo Metrics/CyclomaticComplexity
       @site = site
       page_list = site.collections.pages.resources
 

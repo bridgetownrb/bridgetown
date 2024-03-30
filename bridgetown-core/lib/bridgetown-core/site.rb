@@ -7,6 +7,7 @@ module Bridgetown
     include Configurable
     include Content
     include Extensible
+    include FastRefreshable
     include Localizable
     include Processable
     include Renderable
@@ -74,7 +75,7 @@ module Bridgetown
       @data = new_data
       data_hash = @data.to_h.transform_keys(&:to_sym)
       @signals = Bridgetown::Signals.define(*data_hash.keys) do
-        def inspect
+        def inspect # rubocop:disable Lint/NestedMethodDefinition
           var_peeks = instance_variables.filter_map do |var_name|
             var = instance_variable_get(var_name)
             if var.is_a?(Signalize::Signal)
