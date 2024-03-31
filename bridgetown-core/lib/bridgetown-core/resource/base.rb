@@ -331,6 +331,7 @@ module Bridgetown
 
       def prepare_for_fast_refresh!
         dispose_of_transform_effect
+        FileUtils.rm(destination.output_path, force: true) if requires_destination?
         model.attributes = model.origin.read
         read!
       end
@@ -389,6 +390,7 @@ module Bridgetown
 
       def import_taxonomies_from_data
         taxonomies.each_value do |metadata|
+          metadata.terms.reject! { _1.resource == self } # clear out for Fash Refresh
           Array(data[metadata.type.key]).each do |term|
             metadata.terms << TaxonomyTerm.new(
               resource: self, label: term, type: metadata.type
