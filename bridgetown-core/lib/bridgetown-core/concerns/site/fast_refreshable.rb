@@ -24,6 +24,7 @@ class Bridgetown::Site
             self, layout.instance_variable_get(:@base), layout.name
           )
         end
+        liquid_renderer.reset unless layouts_to_reload.empty?
         next unless res || !pages.empty?
 
         unless pages.empty?
