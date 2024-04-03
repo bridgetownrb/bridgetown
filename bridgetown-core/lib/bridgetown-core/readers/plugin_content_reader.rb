@@ -31,8 +31,8 @@ module Bridgetown
       dir = File.dirname(path.sub("#{content_dir}/", ""))
       name = File.basename(path)
 
-      @content_files << if Utils.has_yaml_header?(path) || Utils.has_rbfm_header?(path)
-                          site.collections.pages.read_resource(path, manifest: manifest)
+      @content_files << if FrontMatter::Loaders.front_matter?(path)
+                          site.collections.pages.read_resource(path, manifest:)
                         else
                           Bridgetown::StaticFile.new(site, content_dir, "/#{dir}", name)
                         end

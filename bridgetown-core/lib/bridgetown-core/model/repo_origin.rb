@@ -3,13 +3,7 @@
 module Bridgetown
   module Model
     class RepoOrigin < Origin
-      include Bridgetown::FrontMatterImporter
-      include Bridgetown::Utils::RubyFrontMatterDSL
-
-      YAML_FRONT_MATTER_REGEXP = %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m.freeze
-      RUBY_FRONT_MATTER_HEADER = %r!\A[~`#-]{3,}(?:ruby|<%|{%)\s*\n!.freeze
-      RUBY_FRONT_MATTER_REGEXP =
-        %r!#{RUBY_FRONT_MATTER_HEADER.source}(.*?\n?)^((?:%>|%})?[~`#-]{3,}\s*$\n?)!m.freeze
+      include Bridgetown::FrontMatter::Importer
 
       # @return [String]
       attr_accessor :content
@@ -35,7 +29,7 @@ module Bridgetown
         def new_with_collection_path(collection, relative_path, site: Bridgetown::Current.site)
           collection = collection.label if collection.is_a?(Bridgetown::Collection)
 
-          new("repo://#{collection}.collection/#{relative_path}", site: site)
+          new("repo://#{collection}.collection/#{relative_path}", site:)
         end
       end
 
@@ -129,7 +123,12 @@ module Bridgetown
                        encoding: site.config["encoding"]).map(&:to_hash),
           }
         when ".rb"
-          process_ruby_data(File.read(original_path), original_path, 1)
+          Bridgetown::Utils::RubyExec.process_ruby_data(
+            self,
+            File.read(original_path),
+            original_path,
+            1
+          )
         when ".json"
           json_data = JSON.parse(File.read(original_path))
           json_data.is_a?(Array) ? { rows: json_data } : json_data

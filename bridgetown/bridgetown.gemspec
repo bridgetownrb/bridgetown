@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
     "homepage_uri"    => s.homepage,
   }
 
-  s.required_ruby_version     = ">= 2.7.0"
+  s.required_ruby_version     = ">= 3.1.0"
 
   s.add_dependency("bridgetown-builder", Bridgetown::VERSION)
   s.add_dependency("bridgetown-core", Bridgetown::VERSION)

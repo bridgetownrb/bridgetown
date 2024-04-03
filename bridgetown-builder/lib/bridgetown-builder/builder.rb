@@ -13,16 +13,16 @@ module Bridgetown
         Bridgetown::Builders::PluginBuilder.plugin_registrations << self
       end
 
-      def before_build(*args, **kwargs, &block)
-        set_callback :build, :before, *args, **kwargs, &block
+      def before_build(...)
+        set_callback(:build, :before, ...)
       end
 
-      def after_build(*args, **kwargs, &block)
-        set_callback :build, :after, *args, **kwargs, &block
+      def after_build(...)
+        set_callback(:build, :after, ...)
       end
 
-      def around_build(*args, **kwargs, &block)
-        set_callback :build, :around, *args, **kwargs, &block
+      def around_build(...)
+        set_callback(:build, :around, ...)
       end
     end
 

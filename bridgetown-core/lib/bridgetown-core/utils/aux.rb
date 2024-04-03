@@ -43,10 +43,10 @@ module Bridgetown
         end
       end
 
-      def self.group(&block)
+      def self.group(&)
         Bridgetown::Deprecator.deprecation_message "Bridgetown::Aux.group method will be removed" \
                                                    "in a future version, use run_process"
-        instance_exec(&block)
+        instance_exec(&)
       end
 
       def self.kill_processes

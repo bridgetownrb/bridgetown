@@ -95,7 +95,7 @@ module Bridgetown
       def liquid_context
         {
           registers: {
-            site: site,
+            site:,
             page: payload["page"],
             cached_partials: self.class.cached_partials,
           },

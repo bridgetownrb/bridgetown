@@ -64,10 +64,6 @@ class TestNewCommand < BridgetownUnitTest
     ["/esbuild.config.js", "/jsconfig.json", "/config/esbuild.defaults.js"]
   end
 
-  def webpack_config_files
-    ["/webpack.config.js", "/config/webpack.defaults.js"]
-  end
-
   def static_template_files
     dir_contents(site_template).reject do |f|
       f.include?("TEMPLATE") || File.extname(f) =~ %r!\.erb|\.(s[ac]|c)ss!
@@ -137,21 +133,6 @@ class TestNewCommand < BridgetownUnitTest
       end
 
       assert_same_elements postcss_template_files, new_site_files
-    end
-
-    should "copy the static files for sass configuration in site template to the new directory" do
-      sass_config_files = ["/frontend/styles/index.scss"]
-      sass_template_files = static_template_files + sass_config_files + template_config_files + liquid_config_files + webpack_config_files
-
-      capture_output do
-        Bridgetown::Commands::Base.start(argumentize("#{@args} -e webpack --use-sass"))
-      end
-
-      new_site_files = dir_contents(@full_path).reject do |f|
-        f.end_with?("welcome-to-bridgetown.md")
-      end
-
-      assert_same_elements sass_template_files, new_site_files
     end
 
     should "process any ERB files" do

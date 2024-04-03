@@ -20,7 +20,6 @@ class Roda
         app.plugin :json_parser
         app.plugin :indifferent_params
         app.plugin :cookies
-        app.plugin :streaming
         app.plugin :public, root: Bridgetown::Current.preloaded_configuration.destination
         app.plugin :not_found do
           output_folder = Bridgetown::Current.preloaded_configuration.destination
@@ -39,6 +38,17 @@ class Roda
           File.read(File.join(output_folder, "500.html"))
         rescue Errno::ENOENT
           "500 Internal Server Error"
+        end
+
+        # This lets us return models or resources directly in Roda response blocks
+        app.plugin :custom_block_results
+
+        app.handle_block_result Bridgetown::Model::Base do |result|
+          result.render_as_resource.output
+        end
+
+        app.handle_block_result Bridgetown::Resource::Base do |result|
+          result.transform!.output
         end
 
         ExceptionPage.class_eval do # rubocop:disable Metrics/BlockLength

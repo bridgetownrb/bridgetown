@@ -314,3 +314,7 @@ As you can see, literally any valid Ruby code has the potential to be transforme
 {%@ Note type: "warning" do %}
 For security reasons, please _do not allow_ untrusted content into your repository to be executed in an unsafe environment (aka outside of a Docker container or similar). Just like with custom plugins, a malicious content contributor could potentially introduce harmful code into your site and thus any computer system used to build that site. Enable Ruby Front Matter _only_ if you feel confident in your ability to control and monitor all on-going updates to repository files and data.
 {% end %}
+
+## Define custom front matter loaders
+
+If you're moving your site to Bridgetown from another static site generator, you may already have your front matter in another format. To ease the transition, you can define a new front matter loader using [the front matter loader API](/docs/plugins/front-matter-loaders).

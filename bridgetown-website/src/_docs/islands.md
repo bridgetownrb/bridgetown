@@ -1,15 +1,15 @@
 ---
 title: Islands Architecture
 order: 260
-top_section: Experimental
+top_section: Architecture
 category: islands
 ---
 
 The term [Islands Architecture](https://jasonformat.com/islands-architecture) was coined a few years ago by frontend architect Katie Sylor-Miller and further popularized by Preact creator Jason Miller. It describes a way of architecting website frontends around independent component trees, all rendered server-side initially as HTML but then "hydrated" on the frontend independently of one another.  
 
-Starting in Bridgetown 1.3, **we're bringing islands architecture to you** with a seamless integration between our [view components](/docs/components) and our [esbuild frontend bundling system](/docs/frontend-assets). And for even more flexibility, you can even orient your Roda routes around "islands" for a truly modular, full-stack approach to web development.
+In Bridgetown, **we've brought islands architecture to you** with a seamless integration between our [view components](/docs/components) and our [esbuild frontend bundling system](/docs/frontend-assets). And for even more flexibility, you can orient your Roda routes around "islands" for a truly modular, full-stack approach to web development.
 
-This is an early step forward for the framework, so your feedback is crucial as we increasingly align our best practices with the latest improvements across the industry.
+Islands architecture is constantly evolving, so your feedback is crucial as we increasingly align our best practices with the latest improvements across the industry.
 
 {{ toc }}
 
@@ -53,7 +53,7 @@ With `<is-land>`, of course!
 
 ## Installing the Island
 
-Bridgetown comes with a [bundled configuration][/docs/bundled-configurations] to set up the `<is-land>` web component, [a tiny package](https://is-land.11ty.dev) which lets you _lazy-load_ islands just as they become visible on-screen or are interacted with (aka clicked).
+Bridgetown comes with a [bundled configuration](/docs/bundled-configurations) to set up the `<is-land>` web component, [a tiny package](https://is-land.11ty.dev) which lets you _lazy-load_ islands just as they become visible on-screen or are interacted with (aka clicked).
 
 Run this command to add it to your main JavaScript bundle:
 
@@ -113,7 +113,7 @@ You can of course render shared components from `src/_components` from  your isl
 
 ## Scoped Styling via Declarative Shadow DOM (DSD)
 
-For many (most?) islands, you'll want to provide styles as part of your markup. We strongly recommend using shadow DOM inside your web components, and the [native DSD support](/docs/content/dsd)) in Bridgetown 1.3+ makes this a breeze! (Pardon the pun!)
+For many (most?) islands, you'll want to provide styles as part of your markup. We strongly recommend using shadow DOM inside your web components, and our [native DSD support](/docs/content/dsd) makes this a breeze! (Pardon the pun!)
 
 Let's add some styling to our `<breezy-day>` component via DSD. Edit your `element.erb` as so:
 
@@ -142,10 +142,13 @@ Now when you view the page, your island element will appear with the styled colo
 What's great about this approach is (a) only this element is affected by your stylesheet and nothing else on your page, and (b) these styles aren't loaded _until_ the page containing your island is viewed, keeping your main CSS bundle size low. For more general information on how to use and style your HTML templates and components using shadow DOM, check out our [documentation on DSD](/docs/content/dsd).
 
 {%@ Note do %}
-The `<is-land>` web component automatically polyfills DSD, which is an added benefit of using it. Otherwise, the Turbo bundled configuration also includes a site-wide polyfill for DSD. As of the time of this writing, only Firefox (and some older versions of Safari) do not offer built-in DSD support.
+The `<is-land>` web component automatically polyfills DSD, which is an added benefit of using it. Otherwise, the Turbo bundled configuration also includes a site-wide polyfill for DSD. As of the time of this writing, only some older versions of Safari and Firefox do not offer built-in DSD support.
 {% end %}
 
 {%@ Note type: :warning do %}
 Sidecar CSS files processed through the `dsd_style` helper do not get run through PostCSS—aka they must be 100% "vanilla" CSS. Don't be surprised if you try using a feature that's uniquely enabled by your PostCSS config and it's not available within the DSD template.
 {% end %}
 
+## Routes in Islands
+
+When using the `bridgetown-routes` plugin for server rendering, you can put file-based routes inside of islands. Just add a `routes` folder inside of an island folder (like the `src/_islands/breezy_day` example above), and then any routes inside will resolve to a URL of the island name plus the route name. Read our [Routes documentation](/docs/routes) for more information.

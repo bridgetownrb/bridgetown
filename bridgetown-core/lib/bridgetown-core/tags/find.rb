@@ -6,7 +6,7 @@ module Bridgetown
       include Bridgetown::Filters::ConditionHelpers
       include Bridgetown::LiquidExtensions
 
-      SYNTAX = %r!^(.*?) (where|in) (.*?),(.*)$!.freeze
+      SYNTAX = %r!^(.*?) (where|in) (.*?),(.*)$!
       CONDITIONS_SEP = "~FINDSEP~"
 
       def initialize(tag_name, markup, tokens)

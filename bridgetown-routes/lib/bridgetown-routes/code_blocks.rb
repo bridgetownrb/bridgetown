@@ -30,7 +30,7 @@ module Bridgetown
 
           code = File.read(file)
           code_postmatch = nil
-          ruby_content = code.match(Bridgetown::FrontMatterImporter::RUBY_BLOCK)
+          ruby_content = code.match(Bridgetown::FrontMatter::Loaders::Ruby::BLOCK)
           if ruby_content
             code = ruby_content[1]
             code_postmatch = ruby_content.post_match

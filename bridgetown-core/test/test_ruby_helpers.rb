@@ -4,9 +4,15 @@ require "helper"
 
 class TestRubyHelpers < BridgetownUnitTest
   def setup
+    reset_i18n_config
     @site = fixture_site
     @site.read
-    @helpers = Bridgetown::RubyTemplateView::Helpers.new(self, @site)
+    @helpers = Bridgetown::RubyTemplateView::Helpers.new(
+      Bridgetown::ERBView.new(
+        @site.collections.pages.resources.find { |p| p.basename_without_ext == "about" }
+      ),
+      @site
+    )
   end
 
   context "link_to" do
@@ -21,7 +27,7 @@ class TestRubyHelpers < BridgetownUnitTest
     end
 
     should "return accept objects which respond to url" do
-      assert_equal "<a href=\"/2020/09/10/further-nested/\">Label</a>", @helpers.link_to("Label", @site.collections.posts.resources.first)
+      assert_equal "<a href=\"/2023/06/30/ruby-front-matter/\">Label</a>", @helpers.link_to("Label", @site.collections.posts.resources.first)
     end
 
     should "pass through relative/absolute URLs" do
@@ -75,6 +81,57 @@ class TestRubyHelpers < BridgetownUnitTest
     should "provide a classes string" do
       yes_var = "yes"
       assert_includes "<p class=\"#{@helpers.class_map blank: !"".empty?, truthy: true, "more-truthy" => yes_var == "yes", falsy: nil, "more-falsy" => "no" == "yes"}\">classes!</p>", "<p class=\"truthy more-truthy\">"
+    end
+  end
+
+  context "translate" do
+    should "return translation when given a string" do
+      assert_equal "foo", @helpers.translate("about.foo")
+    end
+
+    should "return translations when given an array" do
+      assert_equal %w[foo bar], @helpers.translate(%w[about.foo about.bar])
+    end
+
+    should "return html safe string when key ends with _html" do
+      assert @helpers.translate("about.foo_html").html_safe?
+    end
+
+    should "not return html safe string when key does not end with _html" do
+      refute @helpers.translate("about.foo").html_safe?
+    end
+
+    should "return relative translation when key starts with period" do
+      assert_equal "foo", @helpers.translate(".foo")
+    end
+
+    should "return relative translation when key starts with period and view is in a folder" do
+      helpers = Bridgetown::RubyTemplateView::Helpers.new(
+        Bridgetown::ERBView.new(
+          @site.collections.pages.resources.find { |p| p.basename_without_ext == "bar" }
+        ),
+        @site
+      )
+      assert_equal "foo", helpers.translate(".foo")
+    end
+
+    should "return translation missing if key doesn't exist" do
+      assert_equal "Translation missing: en.about.not_here", @helpers.translate(".not_here")
+    end
+
+    should "have alias method t" do
+      assert_equal @helpers.method(:translate), @helpers.method(:t)
+    end
+  end
+
+  context "localize" do
+    should "return same output as I18n.localize" do
+      time = Time.now
+      assert_equal I18n.localize(time), @helpers.localize(time)
+    end
+
+    should "have alias method l" do
+      assert_equal @helpers.method(:localize), @helpers.method(:l)
     end
   end
 end

@@ -4,3 +4,4 @@ inherit_from: ../.rubocop.yml
 AllCops:
   Exclude:
     - "*.gemspec"
+    - "test/ssr/src/_islands/**/*.rb"

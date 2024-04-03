@@ -191,7 +191,7 @@ class="flag">flags</code> (specified on the command-line) that control them.
   Files or folders that are not created by your site will be removed. If you need to
   retain certain files/folders, specify them within the `keep_files` configuration
   directive. (For instance, Bridgetown automatically keeps compiled frontend assets
-  from esbuild/Webpack.)
+  from esbuild.)
 
   Do not use an important location for `destination` instead, use it as
   a staging area and copy files from there to your web server.

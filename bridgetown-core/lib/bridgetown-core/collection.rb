@@ -50,8 +50,8 @@ module Bridgetown
     end
 
     # Iterate over Resources
-    def each(&block)
-      resources.each(&block)
+    def each(&)
+      resources.each(&)
     end
 
     # Fetch the static files in this collection.
@@ -77,8 +77,7 @@ module Bridgetown
 
         next if File.basename(file_path).starts_with?("_")
 
-        if label == "data" || Utils.has_yaml_header?(full_path) ||
-            Utils.has_rbfm_header?(full_path)
+        if label == "data" || FrontMatter::Loaders.front_matter?(full_path)
           read_resource(full_path)
         else
           read_static_file(file_path, full_path)
@@ -273,10 +272,10 @@ module Bridgetown
     # @param manifest [Bridgetown::Configuration::SourceManifest]
     # @return [void]
     def read_resource(full_path, manifest: nil)
-      model_relative_path = relative_model_path_for(full_path, manifest: manifest)
+      model_relative_path = relative_model_path_for(full_path, manifest:)
       model = Bridgetown::Model::Base.find(
-        model_id_from_relative_path(model_relative_path, manifest: manifest),
-        site: site
+        model_id_from_relative_path(model_relative_path, manifest:),
+        site:
       )
 
       if model_is_multi_locale?(model, model_relative_path)

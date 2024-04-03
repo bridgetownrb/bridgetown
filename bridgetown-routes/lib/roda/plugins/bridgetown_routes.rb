@@ -57,7 +57,7 @@ class Roda
 
           Bridgetown::Model::Base.new(data).to_resource.tap do |resource|
             resource.roda_app = self
-          end.read!.transform!.output
+          end.read!
         end
 
         def render(...)
@@ -65,8 +65,9 @@ class Roda
         end
 
         def view(view_class: Bridgetown::ERBView)
+          # TODO: support user choosing templates by extension rather than class
           response._fake_resource_view(
-            view_class: view_class, roda_app: self, bridgetown_site: bridgetown_site
+            view_class:, roda_app: self, bridgetown_site:
           )
         end
       end
@@ -83,7 +84,7 @@ class Roda
             # TODO: use a Stuct for better performance...?
             HashWithDotAccess::Hash.new({
               data: {},
-              roda_app: roda_app,
+              roda_app:,
               site: bridgetown_site,
             })
           )

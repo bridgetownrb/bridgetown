@@ -9,8 +9,6 @@ module Bridgetown
     autoload :LoadersManager, "bridgetown-core/utils/loaders_manager"
     autoload :RequireGems, "bridgetown-core/utils/require_gems"
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
-    autoload :RubyFrontMatter, "bridgetown-core/utils/ruby_front_matter"
-    autoload :RubyFrontMatterDSL, "bridgetown-core/utils/ruby_front_matter"
     autoload :SmartyPantsConverter, "bridgetown-core/utils/smarty_pants_converter"
 
     # Constants for use in #slugify
@@ -125,11 +123,19 @@ module Bridgetown
     # @return [Boolean] if the YAML front matter is present.
     # rubocop: disable Naming/PredicateName
     def has_yaml_header?(file)
-      File.open(file, "rb", &:gets)&.match?(Bridgetown::FrontMatterImporter::YAML_HEADER) || false
+      Bridgetown::Deprecator.deprecation_message(
+        "Bridgetown::Utils.has_yaml_header? is deprecated, use " \
+        "Bridgetown::FrontMatter::Loaders::YAML.header? instead"
+      )
+      FrontMatter::Loaders::YAML.header?(file)
     end
 
     def has_rbfm_header?(file)
-      File.open(file, "rb", &:gets)&.match?(Bridgetown::FrontMatterImporter::RUBY_HEADER) || false
+      Bridgetown::Deprecator.deprecation_message(
+        "Bridgetown::Utils.has_rbfm_header? is deprecated, use " \
+        "Bridgetown::FrontMatter::Loaders::Ruby.header? instead"
+      )
+      FrontMatter::Loaders::Ruby.header?(file)
     end
 
     # Determine whether the given content string contains Liquid Tags or Vaiables
@@ -201,7 +207,7 @@ module Bridgetown
         string = I18n.transliterate(string)
       end
 
-      slug = replace_character_sequence_with_hyphen(string, mode: mode)
+      slug = replace_character_sequence_with_hyphen(string, mode:)
 
       # Remove leading/trailing hyphen
       slug.gsub!(%r!^-|-$!i, "")
@@ -350,8 +356,6 @@ module Bridgetown
     # @return [String, nil]
     def parse_frontend_manifest_file(site, asset_type)
       case frontend_bundler_type(site.root_dir)
-      when :webpack
-        parse_webpack_manifest_file(site, asset_type)
       when :esbuild
         parse_esbuild_manifest_file(site, asset_type)
       else
@@ -363,35 +367,11 @@ module Bridgetown
       end
     end
 
-    # Return an asset path based on the Webpack manifest file
-    # @param site [Bridgetown::Site] The current site object
-    # @param asset_type [String] js or css, or filename in manifest
-    #
-    # @return [String] Returns "MISSING_WEBPACK_MANIFEST" if the manifest
-    #   file isnt found
-    # @return [nil] Returns nil if the asset isnt found
-    # @return [String] Returns the path to the asset if no issues parsing
-    def parse_webpack_manifest_file(site, asset_type)
-      return log_frontend_asset_error(site, "Webpack manifest") if site.frontend_manifest.nil?
-
-      asset_path = if %w(js css).include?(asset_type)
-                     site.frontend_manifest["main.#{asset_type}"]
-                   else
-                     site.frontend_manifest.find do |item, _|
-                       item.sub(%r{^../(frontend/|src/)?}, "") == asset_type
-                     end&.last
-                   end
-
-      return log_frontend_asset_error(site, asset_type) if asset_path.nil?
-
-      static_frontend_path site, ["js", asset_path]
-    end
-
     # Return an asset path based on the esbuild manifest file
     # @param site [Bridgetown::Site] The current site object
     # @param asset_type [String] js or css, or filename in manifest
     #
-    # @return [String] Returns "MISSING_WEBPACK_MANIFEST" if the manifest
+    # @return [String] Returns "MISSING_ESBUILD_MANIFEST" if the manifest
     #   file isnt found
     # @return [nil] Returns nil if the asset isnt found
     # @return [String] Returns the path to the asset if no issues parsing
@@ -442,9 +422,7 @@ module Bridgetown
     end
 
     def frontend_bundler_type(cwd = Dir.pwd)
-      if File.exist?(File.join(cwd, "webpack.config.js"))
-        :webpack
-      elsif File.exist?(File.join(cwd, "esbuild.config.js"))
+      if File.exist?(File.join(cwd, "esbuild.config.js"))
         :esbuild
       else
         :unknown
@@ -484,11 +462,15 @@ module Bridgetown
     def live_reload_js(site) # rubocop:disable Metrics/MethodLength
       return "" unless Bridgetown.env.development? && !site.config.skip_live_reload
 
+      path = File.join(site.base_path, "/_bridgetown/live_reload")
       code = <<~JAVASCRIPT
         let lastmod = 0
-        function startReloadConnection() {
-          const evtSource = new EventSource("#{site.base_path(strip_slash_only: true)}/_bridgetown/live_reload")
-          evtSource.onmessage = event => {
+        let reconnectAttempts = 0
+        function startLiveReload() {
+          const connection = new EventSource("#{path}")
+
+          connection.addEventListener("message", event => {
+            reconnectAttempts = 0
             if (document.querySelector("#bridgetown-build-error")) document.querySelector("#bridgetown-build-error").close()
             if (event.data == "reloaded!") {
               location.reload()
@@ -500,8 +482,9 @@ module Bridgetown
                 lastmod = newmod
               }
             }
-          }
-          evtSource.addEventListener("builderror", event => {
+          })
+
+          connection.addEventListener("builderror", event => {
             let dialog = document.querySelector("#bridgetown-build-error")
             if (!dialog) {
               dialog = document.createElement("dialog")
@@ -518,19 +501,23 @@ module Bridgetown
             }
             dialog.querySelector("pre").textContent = JSON.parse(event.data)
           })
-          evtSource.onerror = event => {
-            if (evtSource.readyState === 2) {
-              // reconnect with new object
-              evtSource.close()
-              console.warn("Live reload: attempting to reconnect in 3 seconds...")
 
-              setTimeout(() => startReloadConnection(), 3000)
+          connection.addEventListener("error", () => {
+            if (connection.readyState === 2) {
+              // reconnect with new object
+              connection.close()
+              reconnectAttempts++
+              if (reconnectAttempts < 25) {
+                console.warn("Live reload: attempting to reconnect in 3 seconds...")
+                setTimeout(() => startLiveReload(), 3000)
+              } else {
+                console.error("Too many live reload connections failed. Refresh the page to try again.")
+              }
             }
-          }
+          })
         }
-        setTimeout(() => {
-          startReloadConnection()
-        }, 500)
+
+        startLiveReload()
       JAVASCRIPT
 
       %(<script type="module">#{code}</script>).html_safe

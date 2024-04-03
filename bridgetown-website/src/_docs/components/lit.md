@@ -131,7 +131,7 @@ You also have the option of choosing a different entry point (aka your JS file t
 <% end %>
 ```
 
-This would typically coincide with a strategy of having multiple esbuild/Webpack entry points, and loading different entry points on different parts of your site. An exercise left for the reader…
+This would typically coincide with a strategy of having multiple esbuild entry points, and loading different entry points on different parts of your site. An exercise left for the reader…
 
 ## Sidecar CSS Files
 

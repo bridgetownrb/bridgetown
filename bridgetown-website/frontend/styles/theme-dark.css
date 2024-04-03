@@ -58,6 +58,10 @@
     fill: var(--color-light-gray);
   }
 
+  & abbr[title] {
+    color: var(--color-light-gray);
+  }
+
   & code,
   & pre {
     background-color: var(--color-blackish);
@@ -85,10 +89,10 @@
   }
 
   & .highlight :is(.k, .mi) {
-    color: var(--color-syntax-light-beige);
+    color: var(--color-syntax-beige);
   }
 
-  & .highlight .kn {
+  & .highlight :is(.kn, .m) {
     color: var(--color-syntax-mid-blue);
   }
 
@@ -107,10 +111,10 @@
   }
 
   & .highlight .s {
-    color: var(--color-syntax-steel-teal);
+    color: var(--color-syntax-light-gray);
   }
 
-  & .highlight :is(.c, .c1, .nx) {
+  & .highlight :is(.c, .c1, .nx, .nl, .py) {
     color: var(--color-syntax-charcoal);
   }
 
@@ -118,12 +122,8 @@
     color: var(--color-syntax-steel-teal);
   }
 
-  & .highlight .n {
+  & .highlight :is(.n, .nd) {
     color: var(--color-syntax-light-green);
-  }
-
-  & .highlight .nb {
-    color: #8aaee3;
   }
 
   & .highlight .nc {
@@ -147,7 +147,7 @@
   }
 
   & .highlight .nt {
-    color: var(--color-syntax-beige);
+    color: var(--color-syntax-light-beige);
   }
 
   & .highlight .nv {
@@ -159,11 +159,11 @@
   }
 
   & .highlight .s2 {
-    color: var(--color-syntax-steel-teal);
+    color: var(--color-syntax-light-gray);
   }
 
   & .highlight :is(.gs, .kd) {
-    color: var(--color-syntax-mid-blue);
+    color: var(--color-syntax-light-green);
   }
 
   /* highlights end */
@@ -189,7 +189,12 @@
   }
 
   & body > nav.edge {
-    background: linear-gradient(to bottom, var(--color-darkest-gray) 0%, #492512 90%, var(--color-darkest-gray) 100%);
+    background: linear-gradient(
+      to bottom,
+      var(--color-darkest-gray) 0%,
+      #492512 90%,
+      var(--color-darkest-gray) 100%
+    );
   }
 
   & sl-button[variant="primary"]::part(base) {

@@ -9,7 +9,7 @@ $LOAD_PATH.unshift __dir__ # For use/testing when no gem is installed
 # Returns nothing.
 def require_all(path)
   glob = File.join(__dir__, path, "*.rb")
-  Dir[glob].sort.each do |f|
+  Dir[glob].each do |f|
     require f
   end
 end
@@ -84,8 +84,7 @@ module Bridgetown
   autoload :EntryFilter,         "bridgetown-core/entry_filter"
   # TODO: we have too many errors! This is silly
   autoload :Errors,              "bridgetown-core/errors"
-  autoload :FrontmatterDefaults, "bridgetown-core/frontmatter_defaults"
-  autoload :FrontMatterImporter, "bridgetown-core/concerns/front_matter_importer"
+  autoload :FrontMatter,         "bridgetown-core/front_matter"
   autoload :GeneratedPage,       "bridgetown-core/generated_page"
   autoload :Hooks,               "bridgetown-core/hooks"
   autoload :Layout,              "bridgetown-core/layout"
@@ -248,21 +247,21 @@ module Bridgetown
       Bridgetown::Current.preloaded_configuration.initializers[name.to_sym] =
         Bridgetown::Configuration::Initializer.new(
           name: name.to_sym,
-          block: block,
+          block:,
           completed: false
         )
     end
 
     # @yieldself [Bridgetown::Configuration::ConfigurationDSL]
-    def configure(&block)
-      initializer :init, &block
+    def configure(&)
+      initializer(:init, &)
     end
 
     # Convenience method to register a new Thor command
     #
     # @see Bridgetown::Commands::Registrations.register
-    def register_command(&block)
-      Bridgetown::Commands::Registrations.register(&block)
+    def register_command(&)
+      Bridgetown::Commands::Registrations.register(&)
     end
 
     def load_tasks
@@ -295,11 +294,11 @@ module Bridgetown
     # the block on to it.
     #
     # @return [void]
-    def with_unbundled_env(&block)
+    def with_unbundled_env(&)
       if Bundler.bundler_major_version >= 2
-        Bundler.method(:with_unbundled_env).call(&block)
+        Bundler.method(:with_unbundled_env).call(&)
       else
-        Bundler.method(:with_clean_env).call(&block)
+        Bundler.method(:with_clean_env).call(&)
       end
     end
 

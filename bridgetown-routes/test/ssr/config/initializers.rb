@@ -2,9 +2,8 @@
 
 Bridgetown.configure do |config|
   require "bridgetown-routes"
-  init :"bridgetown-routes", require_gem: false
-
-  routes.source_paths << File.expand_path("alt_routes", "#{root_dir}/../")
+  init :"bridgetown-routes", require_gem: false, additional_source_paths:
+    File.expand_path("alt_routes", "#{root_dir}/..")
 
   config.available_locales = [:en, :it]
   config.default_locale = :en

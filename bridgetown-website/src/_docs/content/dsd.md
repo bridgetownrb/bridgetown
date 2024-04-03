@@ -71,7 +71,7 @@ Oops, this isn't what we want. By simply styling the `header` tag, we've affecte
 
 This is better, but our page layout styles and our "component" styles are still too intermingled. We could remedy this by creating components for things like the article tag, but in more advanced components keeping styles of a component's "internals" and its public-facing child content from colliding with each other can get tricky. And what if you wanted each layout also to have some unique styles but you don't want to add override `<style>` tags or mess around with scoping to body IDs which can land you in specificity wars. Which of these would win?
 
-```style
+```css
 body#fancy-layout article > header {
   font-weight: 600;
 }
@@ -136,7 +136,7 @@ What's great about this approach is:
 In addition to the benefits above, you also have the ability to leverage [CSS Shadow Parts](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) (which only work when you have, er, shadow DOM—hence the name!). What's a shadow part? It's when you use the `part=` attribute on an element inside your DSD template, and by doing so it makes it styleable from the "outside". Defining parts and labeling them appropriately is a fantastic way to build up a true "style API" for each layout or component.
 
 {%@ Note do %}
-Declarative Shadow DOM is a fairly new specification. As of the time of this writing, Firefox (and some older versions of Safari) do not offer built-in DSD support. The `<is-land>` web component automatically polyfills DSD, which is an added benefit of using it. Otherwise, the Turbo bundled configuration also includes a site-wide polyfill for DSD.
+Declarative Shadow DOM is a fairly new specification. As of the time of this writing, some older versions of Safari and Firefox do not offer built-in DSD support. The `<is-land>` web component automatically polyfills DSD, which is an added benefit of using it. Otherwise, the Turbo bundled configuration also includes a site-wide polyfill for DSD.
 {% end %}
 
 ## Components with Sidecar CSS

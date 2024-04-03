@@ -43,7 +43,7 @@ module Bridgetown
     end
 
     # pulled from Rails' ActionView
-    BLOCK_EXPR = %r!\s*((\s+|\))do|\{)(\s*\|[^|]*\|)?\s*\Z!.freeze
+    BLOCK_EXPR = %r!\s*((\s+|\))do|\{)(\s*\|[^|]*\|)?\s*\Z!
 
     def add_expression(indicator, code)
       src << bufvar << if (indicator == "==") || @escape

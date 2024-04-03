@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
 
   s.rdoc_options = ["--charset=UTF-8"]
 
-  s.required_ruby_version     = ">= 2.7.0"
+  s.required_ruby_version     = ">= 3.1.0"
 
   s.add_runtime_dependency("activemodel",               [">= 6.0", "< 8.0"])
   s.add_runtime_dependency("activesupport",             [">= 6.0", "< 8.0"])
@@ -44,11 +44,12 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("i18n",                      "~> 1.0")
   s.add_runtime_dependency("kramdown",                  "~> 2.1")
   s.add_runtime_dependency("kramdown-parser-gfm",       "~> 1.0")
-  s.add_runtime_dependency("liquid",                    "~> 5.0")
+  s.add_runtime_dependency("liquid",                    [">= 5.0", "< 5.5"])
   s.add_runtime_dependency("listen",                    "~> 3.0")
+  s.add_runtime_dependency("rack",                      ">= 3.0")
   s.add_runtime_dependency("rake",                      ">= 13.0")
   s.add_runtime_dependency("roda",                      "~> 3.46")
-  s.add_runtime_dependency("rouge",                     "~> 3.0")
+  s.add_runtime_dependency("rouge",                     [">= 3.0", "< 5.0"])
   s.add_runtime_dependency("serbea",                    "~> 2.1")
   s.add_runtime_dependency("streamlined",               "~> 0.3")
   s.add_runtime_dependency("thor",                      "~> 1.1")

@@ -24,7 +24,7 @@ module Bridgetown
 
       # Create a new Drop
       #
-      # obj - the Bridgetown Site, Collection, or Document required by the
+      # obj - the Bridgetown Site, Collection, or Resource required by the
       # drop.
       #
       # Returns nothing
@@ -159,8 +159,8 @@ module Bridgetown
       # block - a block which accepts one argument, the key
       #
       # Returns nothing.
-      def each_key(&block)
-        keys.each(&block)
+      def each_key(&)
+        keys.each(&)
       end
 
       def each

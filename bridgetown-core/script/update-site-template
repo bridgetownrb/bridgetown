@@ -1,9 +1,0 @@
-#! /usr/bin/env bash
-
-set -e
-
-# Copy files from the website to update the CLI site template
-cp ../bridgetown-website/start.js ../bridgetown-website/sync.js ../bridgetown-website/webpack.config.js lib/site_template
-cat ../bridgetown-website/package.json | sed "s/bridgetown-website/new-bridgetown-site/" > lib/site_template/package.json
-echo "$0: Done!"
-echo "$0: ***Don't forget to strip out extra Yarn dependencies in package.json!!!"

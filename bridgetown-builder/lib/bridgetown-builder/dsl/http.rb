@@ -8,7 +8,7 @@ module Bridgetown
       module HTTP
         def get(url, headers: {}, parse_json: true, **params)
           body = begin
-            connection(parse_json: parse_json).get(url, params, headers).body
+            connection(parse_json:).get(url, params, headers).body
           rescue Faraday::ParsingError
             Bridgetown.logger.error(
               "Faraday::ParsingError",
@@ -22,7 +22,7 @@ module Bridgetown
         def connection(headers: {}, parse_json: true)
           headers["Content-Type"] = "application/json" if parse_json
 
-          Faraday.new(headers: headers) do |faraday|
+          Faraday.new(headers:) do |faraday|
             faraday.response :follow_redirects
 
             if parse_json

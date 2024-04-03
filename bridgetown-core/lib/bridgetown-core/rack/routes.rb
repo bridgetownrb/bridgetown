@@ -2,12 +2,6 @@
 
 module Bridgetown
   module Rack
-    @interrupted = false
-
-    class << self
-      attr_accessor :interrupted
-    end
-
     class Routes
       include Bridgetown::Prioritizable
 
@@ -160,33 +154,40 @@ module Bridgetown
 
         # @param app [Roda]
         def setup_live_reload(app) # rubocop:disable Metrics
-          sleep_interval = 0.2
+          sleep_interval = 0.5
           file_to_check = File.join(Bridgetown::Current.preloaded_configuration.destination,
                                     "index.html")
           errors_file = Bridgetown.build_errors_path
 
           app.request.get "_bridgetown/live_reload" do
-            app.response["Content-Type"] = "text/event-stream"
-
             @_mod = File.exist?(file_to_check) ? File.stat(file_to_check).mtime.to_i : 0
-            app.stream async: true do |out|
-              # 5 second intervals so Puma's threads aren't all exausted
-              (5 / sleep_interval).to_i.times do
-                break if Bridgetown::Rack.interrupted
+            event_stream = proc do |stream|
+              Thread.new do
+                loop do
+                  new_mod = File.exist?(file_to_check) ? File.stat(file_to_check).mtime.to_i : 0
 
-                new_mod = File.exist?(file_to_check) ? File.stat(file_to_check).mtime.to_i : 0
-                if @_mod < new_mod
-                  out << "data: reloaded!\n\n"
+                  if @_mod < new_mod
+                    stream.write "data: reloaded!\n\n"
+                    break
+                  elsif File.exist?(errors_file)
+                    stream.write "event: builderror\ndata: #{File.read(errors_file).to_json}\n\n"
+                  else
+                    stream.write "data: #{new_mod}\n\n"
+                  end
+
+                  sleep sleep_interval
+                rescue Errno::EPIPE # User refreshed the page
                   break
-                elsif File.exist?(errors_file)
-                  out << "event: builderror\ndata: #{File.read(errors_file).to_json}\n\n"
-                else
-                  out << "data: #{new_mod}\n\n"
                 end
-
-                sleep sleep_interval
+              ensure
+                stream.close
               end
             end
+
+            app.request.halt [200, {
+              "Content-Type"  => "text/event-stream",
+              "cache-control" => "no-cache",
+            }, event_stream,]
           end
         end
       end
@@ -205,9 +206,9 @@ module Bridgetown
       end
 
       # Any missing methods are passed along to the underlying Roda app if possible
-      def method_missing(method_name, *args, **kwargs, &block)
+      def method_missing(method_name, ...)
         if @_roda_app.respond_to?(method_name.to_sym)
-          @_roda_app.send method_name.to_sym, *args, **kwargs, &block
+          @_roda_app.send(method_name.to_sym, ...)
         else
           super
         end
@@ -216,18 +217,6 @@ module Bridgetown
       def respond_to_missing?(method_name, include_private = false)
         @_roda_app.respond_to?(method_name.to_sym, include_private) || super
       end
-    end
-  end
-end
-
-if defined?(Puma) && Bridgetown.env.development? &&
-    !Bridgetown::Current.preloaded_configuration.skip_live_reload
-  Puma::Launcher.class_eval do
-    alias_method :_old_stop, :stop
-    def stop
-      Bridgetown::Rack.interrupted = true
-
-      _old_stop
     end
   end
 end

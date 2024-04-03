@@ -2,7 +2,7 @@
 
 module Bridgetown
   class Configuration
-    class ConfigurationDSL < Bridgetown::Utils::RubyFrontMatter
+    class ConfigurationDSL < Bridgetown::FrontMatter::RubyFrontMatter
       attr_reader :context
 
       # @yieldself [ConfigurationDSL]
@@ -11,7 +11,7 @@ module Bridgetown
           @scope.initializers[name.to_sym].completed
 
         initializer = _setup_initializer(
-          name: name, require_gem: require_gem, require_initializer: require_initializer
+          name:, require_gem:, require_initializer:
         )
 
         return unless initializer.nil? || initializer.completed == false
@@ -31,32 +31,32 @@ module Bridgetown
         initializer.completed = true
       end
 
-      def only(*context, &block)
+      def only(*context, &)
         return unless context.any? { _1 == @context }
 
-        instance_exec(&block)
+        instance_exec(&)
       end
 
-      def except(*context, &block)
+      def except(*context, &)
         return if context.any? { _1 == @context }
 
-        instance_exec(&block)
+        instance_exec(&)
       end
 
       def hook(
         owner,
         event,
         priority: Bridgetown::Hooks::DEFAULT_PRIORITY,
-        &block
+        &
       )
-        Bridgetown::Hooks.register_one(owner, event, priority: priority, reloadable: false, &block)
+        Bridgetown::Hooks.register_one(owner, event, priority:, reloadable: false, &)
       end
 
       def source_manifest(**kwargs)
         @scope.source_manifests << SourceManifest.new(**kwargs)
       end
 
-      def builder(klass = nil, &block)
+      def builder(klass = nil, &)
         return klass.register if klass.is_a?(Class) && klass < Bridgetown::Builder
 
         unless klass.is_a?(Symbol)
@@ -64,7 +64,7 @@ module Bridgetown
         end
 
         Object.const_set(
-          klass, Class.new(Bridgetown::Builder, &block).tap(&:register)
+          klass, Class.new(Bridgetown::Builder, &).tap(&:register)
         )
       end
 
@@ -109,7 +109,7 @@ module Bridgetown
 
       def reflect(name, require_gem: true, require_initializer: true)
         initializer = _setup_initializer(
-          name: name, require_gem: require_gem, require_initializer: require_initializer
+          name:, require_gem:, require_initializer:
         )
 
         if initializer.nil?

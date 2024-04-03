@@ -10,7 +10,7 @@ module Bridgetown
           new_manifest = []
           routable_extensions = site.config.routes.extensions.join(",")
 
-          site.config.routes.source_paths.each do |routes_dir|
+          expand_source_paths_with_islands(site.config).each do |routes_dir|
             routes_dir = File.expand_path(routes_dir, site.config.source)
 
             # @type [Array]
@@ -66,13 +66,26 @@ module Bridgetown
 
         private
 
-        def file_slug_and_segments(site, routes_dir, file)
+        # Add any `routes` folders that may be living within islands
+        def expand_source_paths_with_islands(config)
+          @islands_dir ||= File.expand_path(config.islands_dir, config.source)
+
+          # clear out any past islands folders
+          config.routes.source_paths.reject! { _1.start_with?(@islands_dir) }
+
+          Dir.glob("#{@islands_dir}/**/routes").each do |route_folder|
+            config.routes.source_paths << route_folder
+          end
+
+          config.routes.source_paths
+        end
+
+        def file_slug_and_segments(_site, routes_dir, file)
           # @type [String]
           file_slug = file.delete_prefix("#{routes_dir}/").then do |f|
-            if routes_dir.start_with?(
-              File.expand_path(site.config[:islands_dir], site.config.source)
-            )
-              f = "#{site.config[:islands_dir].delete_prefix("_")}/#{f}"
+            if routes_dir.start_with?(@islands_dir)
+              # convert _islands/foldername/routes/someroute.rb to foldername/someroute.rb
+              f = routes_dir.delete_prefix("#{@islands_dir}/").sub(%r!/routes$!, "/") + f
             end
             [File.dirname(f), File.basename(f, ".*")].join("/").delete_prefix("./")
           end.delete_suffix("/index")

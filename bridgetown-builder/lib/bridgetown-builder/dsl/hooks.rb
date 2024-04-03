@@ -13,8 +13,8 @@ module Bridgetown
         )
           block = method(method_name) if method_name.is_a?(Symbol)
 
-          hook_block = Bridgetown::Hooks.register_one(owner, event, priority: priority, &block)
-          functions << { name: name, hook: [owner, event, priority, hook_block] }
+          hook_block = Bridgetown::Hooks.register_one(owner, event, priority:, &block)
+          functions << { name:, hook: [owner, event, priority, hook_block] }
         end
 
         def add_data(data_key)

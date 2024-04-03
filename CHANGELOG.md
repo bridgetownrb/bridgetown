@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.3.4] - 2024-03-28
+
+- Fix: Lock Liquid to version < 5.5 (unresolved data leakage and generation errors otherwise)
+- Fix: esbuild file endings from previous release
+
+## [1.3.3] - 2024-03-16
+
+- Use global regex for Stimulus Configuration [#865](https://github.com/bridgetownrb/bridgetown/pull/865) ([@MSILycanthropy](https://github.com/MSILycanthropy))
+- Move site and collections console commands to locals [#853](https://github.com/bridgetownrb/bridgetown/pull/853) ([@mpace965](https://github.com/mpace965))
+- Relax the Rouge version requirement [#864](https://github.com/bridgetownrb/bridgetown/pull/864) ([@matiaskorhonen](https://github.com/matiaskorhonen))
+- esbuild: Add webp (and some others) to the file endings loaded as files [#863](https://github.com/bridgetownrb/bridgetown/pull/863) ([@moonglum](https://github.com/moonglum))
+- Improve Netlify bundled configuration [#839](https://github.com/bridgetownrb/bridgetown/pull/839) ([@jclusso](https://github.com/jclusso))
+- Improve localization helpers [#842](https://github.com/bridgetownrb/bridgetown/pull/842) ([@jclusso](https://github.com/jclusso))
+- Remove trailing whitespace from template resource [#838](https://github.com/bridgetownrb/bridgetown/pull/838) ([@unasuke](https://github.com/unasuke))
+- Thanks to @jclusso & @ayushn21 for docs improvements!
+
 ## [1.3.2] - 2024-01-01
 
 - Fix logs and console for Ruby 3.3 [#834](https://github.com/bridgetownrb/bridgetown/pull/834) ([jaredcwhite](https://github.com/jaredcwhite))
@@ -705,7 +721,7 @@ Final release of 0.21.0! See below for full changelog.
 ## 0.11.1 - 2020-04-24
 
 * Add a git init step to `bridgetown new` command [#18](https://github.com/bridgetownrb/bridgetown/pull/18)
-* Update sass-loader webpack config to support .sass [#14](https://github.com/bridgetownrb/bridgetown/pull/14) ([jaredmoody](https://github.com/jaredmoody)) 
+* Update sass-loader webpack config to support .sass [#14](https://github.com/bridgetownrb/bridgetown/pull/14) ([jaredmoody](https://github.com/jaredmoody))
 * Add customizable permalinks to Prototype Pages (aka `/path/to/:term/and/beyond`). Use hooks and in-memory caching to speed up Pagination. _Inspired by [use cases like this](https://annualbeta.com/blog/dynamic-social-sharing-images-with-eleventy/)…_ [#12](https://github.com/bridgetownrb/bridgetown/pull/12)
 
 ## 0.11.0 - 2020-04-21

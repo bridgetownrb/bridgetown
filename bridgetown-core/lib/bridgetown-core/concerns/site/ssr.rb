@@ -8,15 +8,15 @@ class Bridgetown::Site
 
     module ClassMethods
       # Establish an SSR pipeline for a persistent backend process
-      def start_ssr!(loaders_manager: nil, &block)
+      def start_ssr!(loaders_manager: nil, &)
         if Bridgetown::Current.site
           raise Bridgetown::Errors::FatalException, "Bridgetown SSR already started! " \
                                                     "Check your Rack app for threading issues"
         end
 
-        site = new(Bridgetown::Current.preloaded_configuration, loaders_manager: loaders_manager)
+        site = new(Bridgetown::Current.preloaded_configuration, loaders_manager:)
         site.enable_ssr
-        site.ssr_setup(&block)
+        site.ssr_setup(&)
 
         site
       end
@@ -33,6 +33,19 @@ class Bridgetown::Site
 
     def ssr_setup(&block)
       config.serving = true
+
+      Bridgetown::Hooks.trigger :site, :pre_read, self
+      ssr_first_read
+      Bridgetown::Hooks.trigger :site, :post_read, self
+
+      block&.call(self) # provide additional setup hook
+
+      return if Bridgetown.env.production?
+
+      Bridgetown::Watcher.watch(self, config, &block)
+    end
+
+    def ssr_first_read
       Bridgetown::Hooks.trigger :site, :pre_read, self
       defaults_reader.tap do |d|
         d.path_defaults.clear
@@ -43,12 +56,13 @@ class Bridgetown::Site
         coll.read
         self.data = coll.merge_data_resources
       end
-      Bridgetown::Hooks.trigger :site, :post_read, self
 
-      block&.call(self) # provide additional setup hook
-      return if Bridgetown.env.production?
-
-      Bridgetown::Watcher.watch(self, config, &block)
+      # This part is handled via a hook so it is supported by the SSR "soft reset"
+      Bridgetown::Hooks.register_one :site, :post_read, reloadable: false, priority: :high do
+        reader.read_directories
+        reader.sort_files!
+        reader.read_collections
+      end
     end
 
     def disable_ssr
