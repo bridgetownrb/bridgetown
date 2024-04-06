@@ -330,6 +330,7 @@ class TestResource < BridgetownUnitTest
 
           <output>Does this work? 456</output>
           <p>This is &lt;b&gt;escaped!&lt;/b&gt;</p>
+          <p>piping &lt;i&gt;bad&lt;/i&gt; <b>good</b></p>
           <p><em>yay</em></p>
 
           <blockquote>

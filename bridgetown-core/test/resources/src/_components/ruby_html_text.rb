@@ -9,7 +9,8 @@ class RubyHtmlText < Bridgetown::Component
     html -> {
       <<~HTML
         <p>This is #{text -> { "<b>escaped!</b>" }}</p>
-        #{text(-> { markdownify { "_yipee_" } }.pipe { flub("yipee", "yay") | html_safe })}
+        #{html "piping <i>bad</i>", -> { text | concat(" <b>good</b>") | markdownify }}
+        #{text "_yipee_", -> { markdownify | flub("yipee", "yay") | html_safe }}
       HTML
     }
   end

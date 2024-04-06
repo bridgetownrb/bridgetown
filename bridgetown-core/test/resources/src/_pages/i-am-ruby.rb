@@ -11,7 +11,7 @@ helper :strup do |input|
 end
 
 render html->{ <<~HTML
-  <p>Hello #{text->{"<u>woRld</u>"}.pipe { downcase | strup }}</p>
+  <p>Hello #{text "<u>woRld</u>", -> { downcase | strup }}</p>
   #{ render "a_partial", abc: 123 }
   #{ render "an_erb_partial", abc: 456 }
   #{ html-> do
@@ -21,7 +21,7 @@ render html->{ <<~HTML
       nil
     end
   end }
-  HTML
+HTML
 }
 
 if data.include_markdown
