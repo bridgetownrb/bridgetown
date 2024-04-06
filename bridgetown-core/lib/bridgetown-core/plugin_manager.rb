@@ -67,6 +67,7 @@ module Bridgetown
 
         require_relative "utils/initializers"
         load_determined_bundler_environment(skip_yarn:)
+        require_plugin_features
 
         ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] = "true"
         true
@@ -92,6 +93,16 @@ module Bridgetown
       else
         # Only setup and require :bridgetown_plugins
         legacy_yarn_and_register(legacy_require, skip_yarn:)
+      end
+    end
+
+    def self.require_plugin_features
+      bundler_specs.select do |loaded_gem|
+        loaded_gem.to_spec.metadata["bridgetown_features"] == "true"
+      end.each do |plugin_gem|
+        Bridgetown::Utils::RequireGems.require_with_graceful_fail(
+          "bridgetown/features/#{plugin_gem.name}"
+        )
       end
     end
 
