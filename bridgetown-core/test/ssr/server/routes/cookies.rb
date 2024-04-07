@@ -12,7 +12,6 @@ class Routes::Cookies < Bridgetown::Rack::Routes
       response.set_cookie :test_key, {
         value: r.params[:value],
         httponly: true,
-        secure: false, # default is true, so we have to turn this off for tests
       }
 
       { value: r.cookies[:test_key] }
