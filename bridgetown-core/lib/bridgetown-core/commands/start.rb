@@ -1,11 +1,30 @@
 # frozen_string_literal: true
 
+require "rackup/server"
+
 module Bridgetown
+  class Server < Rackup::Server
+    def start(after_stop_callback = nil)
+      trap(:INT) { exit }
+      super()
+    ensure
+      after_stop_callback.call if after_stop_callback
+    end
+
+    def serveable?
+      server
+      true
+    rescue LoadError, NameError
+      false
+    end
+  end
+
   module Commands
     class Start < Thor::Group
       extend BuildOptions
       extend Summarizable
       include ConfigurationOverridable
+      include Bridgetown::Utils::PidTracker
 
       Registrations.register do
         register(Start, "start", "start", Start.summary)
@@ -30,11 +49,6 @@ module Bridgetown
         Bridgetown::Commands::Build.print_startup_message
         sleep 0.25
 
-        begin
-          require("puma/detect")
-        rescue LoadError
-          raise "** Puma server gem not found. Check your Gemfile and Bundler env? **"
-        end
 
         options = Thor::CoreExt::HashWithIndifferentAccess.new(self.options)
         options[:using_puma] = true
@@ -49,55 +63,33 @@ module Bridgetown
           bt_options.url = "#{scheme}://localhost:#{port}"
         end
 
-        puma_pid =
-          Process.fork do
-            require "puma/cli"
+        Bridgetown::Server.new({
+          Host: "localhost",
+          Port: 4000,
+          config: "config.ru"
+        }).tap do |server|
+          if server.serveable?
+            create_pid_dir
 
-            Puma::Runner.class_eval do
-              def output_header(mode)
-                log "* Puma version: #{Puma::Const::PUMA_VERSION} (#{ruby_engine}) (\"#{Puma::Const::CODE_NAME}\")" # rubocop:disable Layout/LineLength
-                if mode == "cluster"
-                  log "* Cluster Master PID: #{Process.pid}"
-                else
-                  log "* PID: #{Process.pid}"
-                end
-              end
-            end
+            build_args = ["-w"] + ARGV.reject { |arg| arg == "start" }
+            build_pid = Process.fork { Bridgetown::Commands::Build.start(build_args) }
+            add_pid(build_pid, file: :bridgetown)
 
-            puma_args = []
-            if bt_options[:bind]
-              puma_args << "--bind"
-              puma_args << bt_options[:bind]
-            end
-
-            cli = Puma::CLI.new puma_args
-            cli.launcher.events.on_stopped do
+            after_stop_callback = -> {
+              say "Stopping Bridgetown server..."
               Bridgetown::Hooks.trigger :site, :server_shutdown
-            end
-            cli.run
+              Process.kill "SIGINT", build_pid
+              remove_pidfile :bridgetown
+
+              # Shut down webpack, browsersync, etc. if they're running
+              Bridgetown::Utils::Aux.kill_processes
+            }
+
+            server.start(after_stop_callback)
+          else
+            say "Unable to find a Rack server."
           end
-
-        begin
-          Signal.trap("TERM") do
-            Process.kill "SIGINT", puma_pid
-            sleep 0.5 # let it breathe
-            exit 0 # this runs the ensure block below
-          end
-
-          Process.setproctitle("bridgetown #{Bridgetown::VERSION} [#{File.basename(Dir.pwd)}]")
-
-          build_args = ["-w"] + ARGV.reject { |arg| arg == "start" }
-          Bridgetown::Commands::Build.start(build_args)
-        rescue StandardError => e
-          Process.kill "SIGINT", puma_pid
-          sleep 0.5
-          raise e
-        ensure
-          # Shut down esbuild, etc. if they're running
-          Bridgetown::Utils::Aux.kill_processes
         end
-
-        sleep 0.5 # finish cleaning up
       end
     end
   end

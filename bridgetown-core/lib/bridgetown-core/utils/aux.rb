@@ -3,18 +3,12 @@
 module Bridgetown
   module Utils
     module Aux
+      extend Bridgetown::Utils::PidTracker
+
       def self.with_color(name, message)
         return message unless !name.nil? && Bridgetown::Utils::Ansi::COLORS[name.to_sym]
 
         Bridgetown::Utils::Ansi.send(name, message)
-      end
-
-      def self.running_pids
-        @running_pids ||= []
-      end
-
-      def self.add_pid(pid)
-        running_pids << pid
       end
 
       def self.run_process(name, color, cmd, env: {})
@@ -24,7 +18,7 @@ module Bridgetown
           rd, wr = IO.pipe("BINARY")
           pid = Process.spawn({ "BRIDGETOWN_NO_BUNDLER_REQUIRE" => nil }.merge(env),
                               cmd, out: wr, err: wr, pgroup: true)
-          @mutex.synchronize { add_pid(pid) }
+          @mutex.synchronize { add_pid(pid, file: :aux) }
 
           loop do
             line = rd.gets
@@ -45,9 +39,12 @@ module Bridgetown
 
       def self.kill_processes
         Bridgetown.logger.info "Stopping auxiliary processes..."
-        running_pids.each do |pid|
-          Process.kill("SIGTERM", -Process.getpgid(pid))
+
+        read_pidfile(:aux).each do |pid|
+          Process.kill("SIGTERM", -Process.getpgid(pid.to_i))
         rescue Errno::ESRCH, Errno::EPERM, Errno::ECHILD # rubocop:disable Lint/SuppressedException
+        ensure
+          remove_pidfile :aux
         end
       end
     end

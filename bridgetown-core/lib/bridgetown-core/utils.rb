@@ -10,6 +10,7 @@ module Bridgetown
     autoload :RequireGems, "bridgetown-core/utils/require_gems"
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
     autoload :SmartyPantsConverter, "bridgetown-core/utils/smarty_pants_converter"
+    autoload :PidTracker, "bridgetown-core/utils/pid_tracker"
 
     # Constants for use in #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
