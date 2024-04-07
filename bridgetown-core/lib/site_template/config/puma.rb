@@ -19,6 +19,8 @@ max_threads_count = ENV.fetch("BRIDGETOWN_MAX_THREADS") { 5 }
 min_threads_count = ENV.fetch("BRIDGETOWN_MIN_THREADS") { max_threads_count }
 threads min_threads_count, max_threads_count
 
+pidfile ENV["PIDFILE"] || "tmp/pids/server.pid"
+
 # Preload the application for maximum performance
 #
 preload_app!
