@@ -13,9 +13,9 @@ module Bridgetown
     attr_writer :resources
 
     # Delegate lots of Enumerables to the resources array
-    def_delegator :@resources,
-                  :each, :each_with_index, :map, :select, :filter, :find_all, :reject,
-                  :any?, :none?, :one?
+    def_delegators :@resources,
+                   :each, :each_with_index, :map, :select, :filter, :find_all, :reject,
+                   :any?, :none?, :one?
 
     # Create a new Collection.
     #
