@@ -6,6 +6,7 @@ class Bridgetown::Site
       FileUtils.rm_f(Bridgetown.build_errors_path)
 
       @fast_refresh_ordering = 0
+      full_abort = false
       found_gen_pages = false
       paths.each do |path|
         res = resources.find do |resource|
@@ -33,7 +34,7 @@ class Bridgetown::Site
           next
         end
 
-        res.prepare_for_fast_refresh!
+        res.prepare_for_fast_refresh!.tap { full_abort = true unless _1 }
         next unless res.collection.data?
 
         res.collection.merge_data_resources.each do |k, v|
@@ -43,7 +44,7 @@ class Bridgetown::Site
       end
 
       marked_resources = resources.select(&:fast_refresh_order).sort_by(&:fast_refresh_order)
-      if marked_resources.empty? && !found_gen_pages
+      if full_abort || (marked_resources.empty? && !found_gen_pages)
         # Darn, a full reload is needed (unless we're on a super-fast track)
         if reload_if_needed
           Bridgetown::Hooks.trigger :site, :pre_reload, self, paths

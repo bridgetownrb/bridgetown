@@ -196,7 +196,7 @@ class TestFastRefresh < BridgetownFeatureTest
 
             Concurrent::ScheduledTask.execute(0.1) do
               Bridgetown::Current.site = site
-              site.fast_refresh([page_path])
+              site.fast_refresh([page_path], reload_if_needed: true)
             end.value
           end
         end
@@ -208,6 +208,37 @@ class TestFastRefresh < BridgetownFeatureTest
 
       assert_includes output, "1 resource fast refreshed"
       assert_file_contains "<p>Value: <em>Right</em></p>", "output/index.html"
+    end
+
+    should "not fast refresh because page taxonomy changed" do
+      create_file "config/initializers.rb", <<~RUBY
+        Bridgetown.configure do |config|
+          template_engine "erb"
+          hook_ran = false
+
+          # This will refresh:
+          hook :site, :post_write do |site|
+            next if hook_ran
+
+            hook_ran = true
+            page_path = site.in_source_dir("index.md")
+            page_text = File.read(page_path)
+            File.write(page_path, page_text.sub("tag1", "tag2"))
+
+            Concurrent::ScheduledTask.execute(0.1) do
+              Bridgetown::Current.site = site
+              site.fast_refresh([page_path], reload_if_needed: true)
+            end.value
+          end
+        end
+      RUBY
+
+      create_page "index.md", "Content <%= data.tags %>", title: "test", tags: "tag1"
+
+      _, output = run_bridgetown "build"
+
+      refute_includes output, "1 resource fast refreshed"
+      assert_file_contains "<p>Content [\"tag2\"]</p>", "output/index.html"
     end
   end
 

@@ -101,7 +101,11 @@ module Bridgetown
       #
       # @param new_data [HashWithDotAccess::Hash]
       def data=(new_data)
-        mark_for_fast_refresh! if site.config.fast_refresh && write?
+        if site.config.fast_refresh && write?
+          # TODO: investigate if this would be better:
+          # @data.value = front_matter_defaults
+          mark_for_fast_refresh!
+        end
         @data.value = @data.value.merge(new_data)
       end
 
@@ -329,11 +333,23 @@ module Bridgetown
         @fast_refresh_order = nil
       end
 
-      def prepare_for_fast_refresh!
+      def prepare_for_fast_refresh! # rubocop:todo Metrics
         dispose_of_transform_effect
         FileUtils.rm(destination.output_path, force: true) if requires_destination?
+        past_values = @data.peek.select do |key|
+          key == "categories" || key == "tags" || site.taxonomy_types.keys.any?(key)
+        end
         model.attributes = model.origin.read
         read!
+        tax_diff = past_values.any? { |k, v| @data.peek[k] != v }
+
+        if tax_diff && !collection.data?
+          # If the taxonomy values are different, we should just abort the fast refresh process.
+          unmark_for_fast_refresh!
+          false
+        else
+          true
+        end
       end
 
       def dispose_of_transform_effect
