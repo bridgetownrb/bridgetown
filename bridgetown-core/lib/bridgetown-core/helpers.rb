@@ -30,6 +30,14 @@ module Bridgetown
         Bridgetown::Utils.parse_frontend_manifest_file(site, asset_type.to_s)
       end
 
+      def webpack_path(*)
+        source_file = caller_locations.find { _1.path.start_with?(site.source) }.path
+        raise(
+          Bridgetown::Errors::FatalException,
+          "🚨 Oops, you'll need to change `webpack_path' to `asset_path' in:\n#{source_file}\n"
+        )
+      end
+
       def live_reload_dev_js
         Bridgetown::Utils.live_reload_js(site)
       end
