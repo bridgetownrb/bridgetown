@@ -14,7 +14,7 @@ module Bridgetown
 
     # Delegate lots of Enumerables to the resources array
     def_delegators :@resources,
-                   :each, :each_with_index, :map, :select, :filter, :find_all, :reject,
+                   :each, :each_with_index, :map, :select, :filter, :find, :find_all, :reject,
                    :any?, :none?, :one?
 
     # Create a new Collection.
