@@ -181,8 +181,8 @@ module Bridgetown
       @_content_block = block
 
       if render?
-        if view_context.site.config.fast_refresh
-          signal = view_context.site.tmp_cache["comp-signal:#{self.class.source_location}"] ||=
+        if helpers.site.config.fast_refresh
+          signal = helpers.site.tmp_cache["comp-signal:#{self.class.source_location}"] ||=
             Signalize.signal(1)
           # subscribe so resources are attached to this component within effect
           signal.value
