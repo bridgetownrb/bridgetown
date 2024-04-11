@@ -267,12 +267,14 @@ module Bridgetown
         end
       end
 
+      # TODO: docu
       def dsd(input = nil, &block)
         tmpl_content = block.nil? ? input.to_s : view.capture(&block)
 
         Bridgetown::Utils.dsd_tag(tmpl_content)
       end
 
+      # TODO: docu
       def dsd_style
         tmpl_path = caller_locations(1, 2).find do |loc|
                       loc.label.include?("method_missing").!
@@ -292,6 +294,9 @@ module Bridgetown
 
         style_tag.html_safe
       end
+
+      # TODO: docu
+      def bypass_tracking(...) = Signalize.untracked(...)
 
       private
 

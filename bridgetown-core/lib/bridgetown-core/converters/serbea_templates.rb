@@ -36,8 +36,10 @@ module Bridgetown
         return content if convertible.data[:template_engine].to_s != "serbea"
 
         serb_view = Bridgetown::SerbeaView.new(convertible)
-
-        serb_renderer = Tilt::SerbeaTemplate.new(convertible.path) { content }
+        serb_renderer = Tilt::SerbeaTemplate.new(
+          convertible.path,
+          line_start(convertible)
+        ) { content }
 
         if convertible.is_a?(Bridgetown::Layout)
           serb_renderer.render(serb_view) do
