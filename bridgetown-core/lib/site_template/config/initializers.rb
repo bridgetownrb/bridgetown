@@ -10,6 +10,11 @@ Bridgetown.configure do |config|
   # config.autoload_paths << "models"
   #
 
+  # If you find you're having trouble using the new Fast Refresh feature in development,
+  # you can disable it to force full rebuilds instead:
+  #
+  # fast_refresh false
+
   # You can configure the inflector used by Zeitwerk. In v2.0,
   # ActiveSupport::Inflector will become the default.
   #
