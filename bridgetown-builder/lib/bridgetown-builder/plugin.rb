@@ -41,7 +41,6 @@ module Bridgetown
         self.functions = Set.new
         self.name = name || self.class.name
         self.site = current_site || Bridgetown::Current.site
-
         self.config = site.config
       end
     end

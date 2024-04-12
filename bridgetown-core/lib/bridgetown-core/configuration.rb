@@ -101,6 +101,10 @@ module Bridgetown
         "include_extraction_tags" => false,
         "mark_highlighting"       => true,
       },
+
+      "development"                => {
+        "fast_refresh" => true,
+      },
     }.each_with_object(Configuration.new) { |(k, v), hsh| hsh[k] = v.freeze }.freeze
 
     # TODO: Deprecated. Remove support for _config as well as toml in the next release.
@@ -148,6 +152,7 @@ module Bridgetown
       dsl = ConfigurationDSL.new(scope: self, data: self)
       dsl.instance_variable_set(:@context, context)
       dsl.instance_exec(dsl, &init_init.block)
+      dsl._run_builtins!
       self.url = cached_url if cached_url # restore local development URL if need be
 
       setup_load_paths! appending: true

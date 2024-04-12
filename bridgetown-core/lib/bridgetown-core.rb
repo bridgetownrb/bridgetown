@@ -54,11 +54,14 @@ require "colorator"
 require "i18n"
 require "i18n/backend/fallbacks"
 require "faraday"
+require "signalize"
 require "thor"
 require "zeitwerk"
 
 # Ensure we can set up fallbacks so the default locale gets used
 I18n::Backend::Simple.include I18n::Backend::Fallbacks
+
+# Monkey patches:
 
 module HashWithDotAccess
   class Hash # :nodoc:
@@ -99,6 +102,7 @@ module Bridgetown
   autoload :Reader,              "bridgetown-core/reader"
   autoload :RubyTemplateView,    "bridgetown-core/ruby_template_view"
   autoload :LogWriter,           "bridgetown-core/log_writer"
+  autoload :Signals,             "bridgetown-core/signals"
   autoload :Site,                "bridgetown-core/site"
   autoload :Slot,                "bridgetown-core/slot"
   autoload :StaticFile,          "bridgetown-core/static_file"

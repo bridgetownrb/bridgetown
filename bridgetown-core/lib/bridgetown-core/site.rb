@@ -7,6 +7,7 @@ module Bridgetown
     include Configurable
     include Content
     include Extensible
+    include FastRefreshable
     include Localizable
     include Processable
     include Renderable
@@ -22,7 +23,7 @@ module Bridgetown
     # @return [Bridgetown::Utils::LoadersManager]
     attr_reader :loaders_manager
 
-    attr_reader :cache_dir, :liquid_renderer
+    attr_reader :cache_dir, :liquid_renderer, :data, :signals
 
     # All files not pages/documents or structured data in the source folder
     # @return [Array<StaticFile>]
@@ -34,9 +35,9 @@ module Bridgetown
     # @return [Array<GeneratedPage>]
     attr_accessor :generated_pages
 
-    attr_accessor :permalink_style, :time, :data,
+    attr_accessor :permalink_style, :time,
                   :file_read_opts, :plugin_manager, :converters,
-                  :generators, :reader
+                  :generators, :reader, :fast_refresh_ordering
 
     # Initialize a new Site.
     #
@@ -68,6 +69,23 @@ module Bridgetown
 
       reset   # Processable
       setup   # Extensible
+    end
+
+    def data=(new_data)
+      @data = new_data
+      data_hash = @data.to_h.transform_keys(&:to_sym)
+      @signals = Bridgetown::Signals.define(*data_hash.keys) do
+        def inspect # rubocop:disable Lint/NestedMethodDefinition
+          var_peeks = instance_variables.filter_map do |var_name|
+            var = instance_variable_get(var_name)
+            if var.is_a?(Signalize::Signal)
+              "#{var_name.to_s.delete_prefix("@")}=#{var.peek.inspect}"
+            end
+          end.join(", ")
+
+          "#<Bridgetown::Site::Signals#{object_id}>#{var_peeks.empty? ? nil : " #{var_peeks}"}>"
+        end
+      end.new(**data_hash)
     end
 
     # Check that the destination dir isn't the source dir or a directory

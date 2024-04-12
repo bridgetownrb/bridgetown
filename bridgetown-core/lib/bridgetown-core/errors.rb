@@ -15,7 +15,7 @@ module Bridgetown
     InvalidURLError             = Class.new(FatalException)
     InvalidConfigurationError   = Class.new(FatalException)
 
-    def self.print_build_error(exc, trace: false, logger: Bridgetown.logger, server: false) # rubocop:disable Metrics
+    def self.print_build_error(exc, trace: false, logger: Bridgetown.logger, server: false) # rubocop:todo Metrics
       logger.error "Exception raised:", exc.class.to_s.bold
       logger.error exc.message.reset_ansi
 
@@ -28,7 +28,7 @@ module Bridgetown
                  print_trace_msg = false
                  exc.backtrace
                else
-                 exc.backtrace[0..4]
+                 exc.backtrace.grep_v(%r!bridgetown-core.+method_missing!)[0..4]
                end
       traces.each_with_index do |backtrace_line, index|
         logger.error "#{index + 1}:", backtrace_line.reset_ansi

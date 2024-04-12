@@ -322,7 +322,7 @@ In order to simplify more complex lists of HTML attributes you may also pass a h
 <a href="/events/livestream" data-controller="testable" data-action="testable#test">Join our livestream!</a>
 ```
 
-`link_to` uses [`attributes_from_options`](#attributes_from_options) under the hood to handle this converstion.
+`link_to` uses [`html_attributes`](#html_attributes) under the hood to handle this converstion.
 
 You can also pass relative or aboslute URLs to `link_to` and they'll just pass-through to the anchor tag without change:
 
@@ -403,18 +403,20 @@ Within the hook, you can call `slot.context` to access the definition context fo
 
 ## Other HTML Helpers
 
-### `attributes_from_options`
+### `html_attributes`
 
-`attributes_from_options` allows you to pass a hash and have it converted to a string of HTML attributes:
+_Available as part of the bundled Streamlined gem._
+
+`html_attributes` allows you to pass a hash and have it converted to a string of HTML attributes:
 ```eruby
-<p <%%= attributes_from_options({ class: "my-class", id: "some-id" }) %>>Hello, World!</p>
+<p <%%= html_attributes({ class: "my-class", id: "some-id" }) %>>Hello, World!</p>
 
 <!-- output: -->
 <p class="my-class" id="some-id">Hello, World!</p>
 ```
-`attributes_from_options` also allows for any value of the passed hash to itself be a hash. This will result in individual attributes being created from each pair in the hash. When doing this, the key the hash was paired with will be prepended to each attribute name:
+`html_attributes` also allows for any value of the passed hash to itself be a hash. This will result in individual attributes being created from each pair in the hash. When doing this, the key the hash was paired with will be prepended to each attribute name:
 ```eruby
-<button <%%= attributes_from_options({ data: { controller: "clickable", action: "click->clickable#test" } }) %>>Click Me!</button>
+<button <%%= html_attributes({ data: { controller: "clickable", action: "click->clickable#test" } }) %>>Click Me!</button>
 
 <!-- output: -->
 <button data-controller="clickable" data-action="click->clickable#test">Click Me!</button>

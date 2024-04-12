@@ -73,8 +73,6 @@ module Bridgetown
   end
 
   class ERBView < RubyTemplateView
-    include ERBCapture
-
     def h(input)
       Erubi.h(input)
     end
@@ -89,13 +87,18 @@ module Bridgetown
 
     def _render_partial(partial_name, options)
       partial_path = _partial_path(partial_name, "erb")
-      tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"] ||= Tilt::ErubiTemplate.new(
+      site.tmp_cache["partial-tmpl:#{partial_path}"] ||= {
+        signal: site.config.fast_refresh ? Signalize.signal(1) : nil,
+      }
+      tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"]
+      tmpl.template ||= Tilt::ErubiTemplate.new(
         partial_path,
         outvar: "@_erbout",
         bufval: "Bridgetown::OutputBuffer.new",
         engine_class: ERBEngine
       )
-      tmpl.render(self, options)
+      tmpl.signal&.value # subscribe so resources are attached to this partial within effect
+      tmpl.template.render(self, options)
     end
   end
 

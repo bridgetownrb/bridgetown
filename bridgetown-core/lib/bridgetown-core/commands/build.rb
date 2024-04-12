@@ -67,6 +67,7 @@ module Bridgetown
           build_site(config_options)
         end
 
+        # TODO: remove this logic…I can't find "detach" anywhere
         if config_options.fetch("detach", false)
           Bridgetown.logger.info "Auto-regeneration:",
                                  "disabled when running server detached."
