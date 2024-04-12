@@ -32,7 +32,20 @@ class Roda
       end
 
       module InstanceMethods
-        def render_with(data: {}) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+        def front_matter(&block)
+          b = block.binding
+          denylisted = %i(r app code ruby_content code_postmatch)
+          data = b.local_variables.filter_map do |key|
+            next if denylisted.any? key
+
+            [key, b.local_variable_get(key)]
+          end.to_h
+
+          Bridgetown::FrontMatter::RubyFrontMatter.new(data:).tap { _1.instance_exec(&block) }.to_h
+        end
+
+        def render_with(data: {}, &) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
+          data = front_matter(&) if data.empty? && block_given?
           path = Kernel.caller_locations(1, 1).first.path
           source_path = Pathname.new(path).relative_path_from(
             bridgetown_site.in_source_dir("_routes")

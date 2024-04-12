@@ -2,6 +2,7 @@
 
 module Bridgetown
   class Component
+    include Bridgetown::Streamlined
     extend Forwardable
 
     def_delegators :@view_context, :liquid_render, :partial

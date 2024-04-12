@@ -67,13 +67,13 @@ class TestRubyHelpers < BridgetownUnitTest
     end
   end
 
-  context "attributes_from_options" do
+  context "html_attributes" do
     should "return an attribute string from a hash" do
-      assert_equal "class=\"classes\" data-test=\"abc123\"", @helpers.attributes_from_options(class: "classes", data_test: "abc123")
+      assert_equal "class=\"classes\" data-test=\"abc123\"", @helpers.html_attributes(class: "classes", data_test: "abc123")
     end
 
     should "handle nested hashes" do
-      assert_equal "class=\"classes\" data-controller=\"test\" data-action=\"test#test\" data-test-target=\"test_value\" data-test-index-value=\"1\"", @helpers.attributes_from_options(class: "classes", data: { controller: "test", action: "test#test", test: { target: "test_value", index_value: "1" } })
+      assert_equal "class=\"classes\" data-controller=\"test\" data-action=\"test#test\" data-test-target=\"test_value\" data-test-index-value=\"1\"", @helpers.html_attributes(class: "classes", data: { controller: "test", action: "test#test", test: { target: "test_value", index_value: "1" } })
     end
   end
 

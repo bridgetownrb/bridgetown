@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "streamlined/helpers"
 require "active_support/html_safe_translation"
 
 module Bridgetown
@@ -7,6 +8,7 @@ module Bridgetown
     class Helpers
       include Bridgetown::Filters
       include Bridgetown::Filters::FromLiquid
+      include ::Streamlined::Helpers
 
       # @return [Bridgetown::RubyTemplateView]
       attr_reader :view
@@ -114,28 +116,13 @@ module Bridgetown
         elsif relative_path.nil?
           raise ArgumentError, "You must provide a relative path"
         end
-        segments = attributes_from_options({ href: url_for(relative_path) }.merge(options))
+        segments = html_attributes({ href: url_for(relative_path) }.merge(options))
 
         safe("<a #{segments}>#{text}</a>")
       end
 
-      # Create a set of attributes from a hash.
-      #
-      # @param options [Hash] key-value pairs of HTML attributes
-      # @return [String]
-      def attributes_from_options(options)
-        segments = []
-        options.each do |attr, option|
-          attr = dashed(attr)
-          if option.is_a?(Hash)
-            option = option.transform_keys { |key| "#{attr}-#{dashed(key)}" }
-            segments << attributes_from_options(option)
-          else
-            segments << attribute_segment(attr, option)
-          end
-        end
-        safe(segments.join(" "))
-      end
+      # Provide backwards compatibility via Streamlined helper
+      alias_method :attributes_from_options, :html_attributes
 
       # Delegates to <tt>I18n#translate</tt> but also performs two additional
       # functions.
@@ -294,30 +281,9 @@ module Bridgetown
 
         style_tag.html_safe
       end
-
+        
       # TODO: docu
       def bypass_tracking(...) = Signalize.untracked(...)
-
-      private
-
-      # Covert an underscored value into a dashed string.
-      #
-      # @example "foo_bar_baz" => "foo-bar-baz"
-      #
-      # @param value [String|Symbol]
-      # @return [String]
-      def dashed(value)
-        value.to_s.tr("_", "-")
-      end
-
-      # Create an attribute segment for a tag.
-      #
-      # @param attr [String] the HTML attribute name
-      # @param value [String] the attribute value
-      # @return [String]
-      def attribute_segment(attr, value)
-        "#{attr}=\"#{Utils.xml_escape(value)}\""
-      end
     end
   end
 end

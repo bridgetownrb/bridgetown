@@ -145,6 +145,12 @@ module Bridgetown
       def _in_require_denylist?(name)
         REQUIRE_DENYLIST.include?(name.to_sym)
       end
+
+      # Initializers that are part of the Bridgetown boot sequence. Site owners can override
+      # defaults by running any of these manually…init is no-op if the initializer was already run.
+      def _run_builtins!
+        init :streamlined
+      end
     end
   end
 end

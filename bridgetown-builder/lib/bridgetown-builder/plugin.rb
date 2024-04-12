@@ -57,7 +57,7 @@ module Bridgetown
 
       def doc(*)
         raise Bridgetown::Errors::FatalException,
-              "The `doc' method has been removed. Please use the `new_resource' builder DSL instead"
+              "The `doc' method has been removed. Please use the `add_resource' builder DSL instead"
       end
     end
   end
