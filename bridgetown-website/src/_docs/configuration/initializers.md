@@ -8,12 +8,6 @@ back_to: configuration
 
 In addition to setting some basic options in your [`bridgetown.config.yml` configuration file](/docs/configuration/options), you can use your site's `config/initializers.rb` file to set options, instantiate gem-based plugins, and write initializer blocks to configure third-party gems.
 
-{%@ Note type: :warning do %}
-  #### Heads up: the `bridgetown_plugins` Bundler group has been deprecated
-
-  In previous versions of Bridgetown, plugins were automatically required as long as they were added to the `bridgetown_plugins` group. We've changed that behavior in sites which feature a `config/initializers.rb` file. Now you can simply add gems to your `Gemfile` in any named or default group, and then load them into your codebase using `init`.
-{% end %}
-
 Here's a sample `config/initializers.rb` file showcasing many features of the configuration <abbr title="Domain-Specific Language">DSL</abbr>:
 
 ```ruby

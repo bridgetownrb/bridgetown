@@ -13,17 +13,6 @@ require_relative "static_indexes"
 
 module Bridgetown
   module Rack
-    class Roda < ::Roda
-      def self.inherited(klass)
-        Bridgetown::Deprecator.deprecation_message(
-          "The `Bridgetown::Rack::Roda' class will be removed in favor of using the " \
-          "`bridgetown_server' plugin in a future version"
-        )
-        super
-        klass.plugin :bridgetown_server
-      end
-    end
-
     class << self
       # @return [Bridgetown::Utils::LoadersManager]
       attr_accessor :loaders_manager

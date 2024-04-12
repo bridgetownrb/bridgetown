@@ -271,7 +271,7 @@ module Bridgetown
       unless Bridgetown::Current.preloaded_configuration
         Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
       end
-      Bridgetown::PluginManager.setup_bundler(skip_yarn: true)
+      Bridgetown::PluginManager.setup_bundler
 
       if Bridgetown::Current.preloaded_configuration.is_a?(Bridgetown::Configuration::Preflight)
         Bridgetown::Current.preloaded_configuration = Bridgetown.configuration
@@ -338,17 +338,6 @@ module Bridgetown
     # @return [LogAdapter]
     def logger=(writer)
       @logger = LogAdapter.new(writer, (ENV["BRIDGETOWN_LOG_LEVEL"] || :info).to_sym)
-    end
-
-    # Deprecated. Now using the Current site.
-    #
-    # @return [Array<Bridgetown::Site>] the Bridgetown sites created.
-    def sites
-      Deprecator.deprecation_message(
-        "Bridgetown.sites will be removed in the next version. Use Bridgetown::Current.sites" \
-        "instead"
-      )
-      [Bridgetown::Current.site].compact
     end
 
     # Ensures the questionable path is prefixed with the base directory
