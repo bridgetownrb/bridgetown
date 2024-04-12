@@ -202,7 +202,7 @@ The location of pages in your source folder structure will by default be mirrore
       </td>
       <td>
         <p>
-          Manifest used by Yarn to install frontend assets and set up commands you can run to compile your JavaScript, CSS, etc. via esbuild.
+          Manifest used by NPM to install frontend assets and set up commands you can run to compile your JavaScript, CSS, etc. via esbuild.
         </p>
       </td>
     </tr>

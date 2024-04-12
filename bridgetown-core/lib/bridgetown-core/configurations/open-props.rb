@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-run "yarn add open-props"
+add_npm_package "open-props"
 
 variables_import = <<~CSS
   @import "variables.css";
