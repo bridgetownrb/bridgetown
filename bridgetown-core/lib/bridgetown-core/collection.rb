@@ -2,20 +2,12 @@
 
 module Bridgetown
   class Collection
-    extend Forwardable
-
     # @return [Bridgetown::Site]
     attr_reader :site
 
     attr_reader :label, :metadata
 
-    # @return [Array<Bridgetown::Resource::Base>]
     attr_writer :resources
-
-    # Delegate lots of Enumerables to the resources array
-    def_delegators :@resources,
-                   :each, :each_with_index, :map, :select, :filter, :find, :find_all, :reject,
-                   :any?, :none?, :one?
 
     # Create a new Collection.
     #
@@ -55,6 +47,11 @@ module Bridgetown
     # @return [Hash<String, Bridgetown::Resource::Base>]
     def resources_by_relative_url
       resources.group_by(&:relative_url).transform_values(&:first)
+    end
+
+    # Iterate over Resources
+    def each(&)
+      resources.each(&)
     end
 
     # Fetch the static files in this collection.
