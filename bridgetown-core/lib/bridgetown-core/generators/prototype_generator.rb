@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# Handles Generated Pages
-Bridgetown::Hooks.register_one :generated_pages, :post_init, reloadable: false do |page|
-  if page.class != Bridgetown::PrototypePage && page.data["prototype"].is_a?(Hash)
-    Bridgetown::PrototypeGenerator.add_matching_template(page)
+# Handles Resources
+Bridgetown::Hooks.register_one :resources, :post_read, reloadable: false do |resource|
+  if resource.data["prototype"].is_a?(Hash)
+    Bridgetown::PrototypeGenerator.add_matching_template(resource)
   end
 end
 
@@ -11,13 +11,6 @@ end
 Bridgetown::Hooks.register_one :generated_pages, :pre_render, reloadable: false do |page|
   if page.class != Bridgetown::PrototypePage && page.data["prototype"].is_a?(Hash)
     page.data.data_signal&.value
-  end
-end
-
-# Handles Resources
-Bridgetown::Hooks.register_one :resources, :post_read, reloadable: false do |resource|
-  if resource.data["prototype"].is_a?(Hash)
-    Bridgetown::PrototypeGenerator.add_matching_template(resource)
   end
 end
 
@@ -127,15 +120,14 @@ module Bridgetown
   end
 
   class PrototypePage < GeneratedPage
-    # @return [Bridgetown::GeneratedPage, Bridgetown::Resource::Base]
-    attr_reader :prototyped_page
+    alias_method :prototyped_page, :original_resource
 
     # @param prototyped_page [Bridgetown::Page, Bridgetown::Resource::Base]
     # @param collection [Bridgetown::Collection]
     # @param search_term [String]
     # @param term [String]
     def initialize(prototyped_page, collection, search_term, term) # rubocop:disable Lint/MissingSuper
-      @prototyped_page = prototyped_page
+      self.original_resource = prototyped_page
       @site = prototyped_page.site
       @url = ""
       @name = "index.html"

@@ -14,6 +14,11 @@ module Bridgetown
       attr_reader :page_to_copy
 
       def initialize(page_to_copy, cur_page_nr, total_pages, index_pageandext, template_ext) # rubocop:disable Lint/MissingSuper
+        self.original_resource = if page_to_copy.is_a?(Bridgetown::Resource::Base)
+                                   page_to_copy
+                                 elsif page_to_copy.original_resource
+                                   page_to_copy.original_resource
+                                 end
         @page_to_copy = page_to_copy
         @site = page_to_copy.site
         @base = ""
@@ -37,12 +42,17 @@ module Bridgetown
       end
 
       def fast_refresh!
-        page_to_copy.fast_refresh! if page_to_copy.respond_to?(:prototyped_page)
+        page_to_copy.fast_refresh! if page_to_copy.respond_to?(:fast_refresh!)
 
         self.data = Bridgetown::Utils.deep_merge_hashes page_to_copy.data, {}
         self.content = page_to_copy.content
         # Store the current page and total page numbers in the pagination_info construct
         data["pagination_info"] = { "curr_page" => @cur_page_nr, "total_pages" => @total_pages }
+      end
+
+      def unmark_for_fast_refresh!
+        super
+        page_to_copy.unmark_for_fast_refresh! if page_to_copy.is_a?(Bridgetown::GeneratedPage)
       end
 
       # rubocop:disable Naming/AccessorMethodName

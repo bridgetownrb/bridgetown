@@ -105,16 +105,11 @@ class Bridgetown::Site
       Bridgetown::Hooks.trigger :loader, :post_reload, loader, load_path
     end
 
-    def locate_layouts_and_pages_for_fast_refresh(path, layouts_to_reload) # rubocop:todo Metrics/AbcSize
+    def locate_layouts_and_pages_for_fast_refresh(path, layouts_to_reload)
       generated_pages.select do |pg|
         next unless pg.respond_to?(:page_to_copy)
 
-        found =
-          if pg.page_to_copy.respond_to?(:prototyped_page)
-            in_source_dir(pg.page_to_copy.prototyped_page.relative_path) == path
-          else
-            in_source_dir(pg.page_to_copy.relative_path) == path
-          end
+        found = in_source_dir(pg.original_resource.relative_path) == path
         next true if found
         next false unless pg.data.layout
 
@@ -129,12 +124,7 @@ class Bridgetown::Site
 
     def mark_original_page_resources_for_fast_refresh(pages)
       pages.each do |page|
-        res = if page.page_to_copy.respond_to?(:prototyped_page)
-                page.page_to_copy.prototyped_page
-              else
-                page.page_to_copy
-              end
-
+        res = page.original_resource
         res.prepare_for_fast_refresh! unless res.fast_refresh_order
         page.mark_for_fast_refresh!
       end

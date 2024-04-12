@@ -9,7 +9,8 @@ module Bridgetown
     include Transformable
 
     attr_writer :dir
-    attr_accessor :site, :paginator, :name, :ext, :basename, :data, :content, :output
+    attr_accessor :site, :paginator, :name, :ext, :basename,
+                  :data, :content, :output, :original_resource
 
     # @return [Boolean]
     attr_reader :fast_refresh_order
@@ -296,11 +297,7 @@ module Bridgetown
 
     def unmark_for_fast_refresh!
       @fast_refresh_order = nil
-      if respond_to?(:page_to_copy)
-        page_to_copy.unmark_for_fast_refresh!
-      elsif respond_to?(:prototyped_page)
-        prototyped_page.unmark_for_fast_refresh!
-      end
+      original_resource&.unmark_for_fast_refresh!
     end
   end
 end

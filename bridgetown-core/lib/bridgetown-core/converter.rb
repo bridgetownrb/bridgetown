@@ -67,8 +67,7 @@ module Bridgetown
           convertible.model.origin.respond_to?(:front_matter_line_count)
         convertible.model.origin.front_matter_line_count + 4
       elsif convertible.is_a?(Bridgetown::Paginate::PaginationPage)
-        res = convertible.page_to_copy
-        res = res.prototyped_page if res.is_a?(Bridgetown::PrototypePage)
+        res = convertible.original_resource
         if res.model.origin.respond_to?(:front_matter_line_count)
           res.model.origin.front_matter_line_count + 4
         else
