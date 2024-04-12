@@ -24,11 +24,10 @@ class Bridgetown::Site
       taxonomies.category
     end
 
-    # Returns the value of `data["site_metadata"]` or creates a new instance of
-    #   `HashWithDotAccess::Hash`
-    # @return [Hash] Returns a hash of site metadata
+    # Returns the contents of the site metadata file or a blank hash
+    # @return [HashWithDotAccess::Hash] Returns a hash of site metadata
     def metadata
-      data["site_metadata"] ||= HashWithDotAccess::Hash.new
+      signals["site_metadata"] ||= HashWithDotAccess::Hash.new
     end
 
     # The Hash payload containing site-wide data.

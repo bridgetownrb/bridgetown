@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-# Handles Generated Pages
-Bridgetown::Hooks.register_one :generated_pages, :post_init, reloadable: false do |page|
-  if page.class != Bridgetown::PrototypePage && page.data["prototype"].is_a?(Hash)
-    Bridgetown::PrototypeGenerator.add_matching_template(page)
-  end
-end
-
 # Handles Resources
 Bridgetown::Hooks.register_one :resources, :post_read, reloadable: false do |resource|
   if resource.data["prototype"].is_a?(Hash)
     Bridgetown::PrototypeGenerator.add_matching_template(resource)
+  end
+end
+
+# For data file updates, establish subscription for fast refresh
+Bridgetown::Hooks.register_one :generated_pages, :pre_render, reloadable: false do |page|
+  if page.class != Bridgetown::PrototypePage && page.data["prototype"].is_a?(Hash)
+    page.data.data_signal&.value
   end
 end
 
@@ -36,7 +36,7 @@ module Bridgetown
     end
 
     # @param site [Bridgetown::Site]
-    def generate(site)
+    def generate(site) # rubocop:todo Metrics/CyclomaticComplexity
       @site = site
       page_list = site.collections.pages.resources
 
@@ -49,7 +49,9 @@ module Bridgetown
       ensure_pagination_enabled
 
       page_list.reject! do |page|
-        prototype_pages.include? page
+        prototype_pages.include?(page).tap do |answer|
+          page.unmark_for_fast_refresh! if answer
+        end
       end
 
       prototype_pages.each do |prototype_page|
@@ -118,15 +120,14 @@ module Bridgetown
   end
 
   class PrototypePage < GeneratedPage
-    # @return [Bridgetown::GeneratedPage, Bridgetown::Resource::Base]
-    attr_reader :prototyped_page
+    alias_method :prototyped_page, :original_resource
 
     # @param prototyped_page [Bridgetown::Page, Bridgetown::Resource::Base]
     # @param collection [Bridgetown::Collection]
     # @param search_term [String]
     # @param term [String]
     def initialize(prototyped_page, collection, search_term, term) # rubocop:disable Lint/MissingSuper
-      @prototyped_page = prototyped_page
+      self.original_resource = prototyped_page
       @site = prototyped_page.site
       @url = ""
       @name = "index.html"
@@ -134,13 +135,20 @@ module Bridgetown
       @basename = "index"
       @dir = Pathname.new(prototyped_page.relative_path).dirname.to_s.sub(%r{^_pages}, "")
       @path = site.in_source_dir(@dir, @name)
+      @collection = collection
+      @search_term = search_term
+      @term = term
 
-      self.data = Bridgetown::Utils.deep_merge_hashes prototyped_page.data, {}
-      self.content = prototyped_page.content
-
-      process_prototype_page_data(collection, search_term, term)
+      fast_refresh!
 
       Bridgetown::Hooks.trigger :generated_pages, :post_init, self
+    end
+
+    def fast_refresh!
+      self.data = Bridgetown::Utils.deep_merge_hashes prototyped_page.data, {}
+      self.content = prototyped_page.content
+      @original_title = data["title"]
+      process_prototype_page_data(@collection, @search_term, @term)
     end
 
     def process_prototype_page_data(collection, search_term, term)
@@ -163,16 +171,20 @@ module Bridgetown
 
     def process_title_data_placeholder(search_term, term) # rubocop:todo Metrics/AbcSize
       unless prototyped_page.data["prototype"]["data"] &&
-          data["title"]&.include?(":prototype-data-label")
+          @original_title&.include?(":prototype-data-label")
         return
       end
 
       related_data = site.data[prototyped_page.data["prototype"]["data"]][term]
       return unless related_data
 
+      data["data_signal"] = site.signals.send(
+        :"#{prototyped_page.data["prototype"]["data"]}_signal"
+      )
+      data["#{search_term}_term"] = term
       data["#{search_term}_data"] = related_data
       data_label = related_data[prototyped_page.data["prototype"]["data_label"]]
-      data["title"] = data["title"].gsub(
+      data["title"] = @original_title.gsub(
         ":prototype-data-label", data_label
       )
     end

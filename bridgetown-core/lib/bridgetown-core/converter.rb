@@ -66,6 +66,13 @@ module Bridgetown
       if convertible.is_a?(Bridgetown::Resource::Base) &&
           convertible.model.origin.respond_to?(:front_matter_line_count)
         convertible.model.origin.front_matter_line_count + 4
+      elsif convertible.is_a?(Bridgetown::GeneratedPage) && convertible.original_resource
+        res = convertible.original_resource
+        if res.model.origin.respond_to?(:front_matter_line_count)
+          res.model.origin.front_matter_line_count + 4
+        else
+          1
+        end
       else
         1
       end

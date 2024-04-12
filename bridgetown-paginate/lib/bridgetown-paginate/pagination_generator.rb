@@ -97,6 +97,7 @@ module Bridgetown
           else
             site.generated_pages.delete(page_to_remove)
           end
+          page_to_remove.unmark_for_fast_refresh!
         end
 
         # Create a proc that will delegate logging

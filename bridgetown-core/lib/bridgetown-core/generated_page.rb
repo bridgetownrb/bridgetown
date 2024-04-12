@@ -9,7 +9,11 @@ module Bridgetown
     include Transformable
 
     attr_writer :dir
-    attr_accessor :site, :paginator, :name, :ext, :basename, :data, :content, :output
+    attr_accessor :site, :paginator, :name, :ext, :basename,
+                  :data, :content, :output, :original_resource
+
+    # @return [Boolean]
+    attr_reader :fast_refresh_order
 
     alias_method :extname, :ext
 
@@ -199,13 +203,27 @@ module Bridgetown
       @converters ||= site.matched_converters_for_convertible(self)
     end
 
-    def transform!
+    def transform! # rubocop:todo Metrics
       Bridgetown.logger.debug "Transforming:", relative_path
 
-      trigger_hooks :pre_render
-      self.content = transform_content(self)
-      place_in_layout? ? place_into_layouts : self.output = content.dup
-      trigger_hooks :post_render
+      internal_error = nil
+      Signalize.effect do
+        if !@fast_refresh_order && @previously_transformed_content
+          self.content = @previously_transformed_content
+          mark_for_fast_refresh! if site.config.fast_refresh && write?
+          next
+        end
+
+        trigger_hooks :pre_render
+        @previously_transformed_content ||= content
+        self.content = transform_content(self)
+        place_in_layout? ? place_into_layouts : self.output = content.dup
+        trigger_hooks :post_render
+      rescue StandardError, SyntaxError => e
+        internal_error = e
+      end
+
+      raise internal_error if internal_error
 
       self
     end
@@ -241,6 +259,7 @@ module Bridgetown
       FileUtils.mkdir_p(File.dirname(path))
       Bridgetown.logger.debug "Writing:", path
       File.write(path, output, mode: "wb")
+      unmark_for_fast_refresh!
       Bridgetown::Hooks.trigger :generated_pages, :post_write, self
     end
 
@@ -269,6 +288,16 @@ module Bridgetown
 
     def write?
       true
+    end
+
+    def mark_for_fast_refresh!
+      @fast_refresh_order = site.fast_refresh_ordering
+      site.fast_refresh_ordering += 1
+    end
+
+    def unmark_for_fast_refresh!
+      @fast_refresh_order = nil
+      original_resource&.unmark_for_fast_refresh!
     end
   end
 end
