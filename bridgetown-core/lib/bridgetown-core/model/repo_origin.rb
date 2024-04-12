@@ -82,11 +82,9 @@ module Bridgetown
       def collection
         return @collection if @collection
 
-        collection_name = if url.host.ends_with?(".collection")
-                            url.host.chomp(".collection")
-                          else
+        collection_name = url.host.ends_with?(".collection") ?
+                            url.host.chomp(".collection") :
                             "pages"
-                          end
         @collection = site.collections[collection_name]
       end
 

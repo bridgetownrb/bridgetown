@@ -38,11 +38,9 @@ module Bridgetown
         end.join(" and ")
         @liquid_condition = parse_condition(expression)
 
-        context[@new_var_name] = if @single_or_group == "where"
-                                   group_evaluate(context)
-                                 else
+        context[@new_var_name] = @single_or_group == "where" ?
+                                   group_evaluate(context) :
                                    single_evaluate(context)
-                                 end
 
         ""
       end

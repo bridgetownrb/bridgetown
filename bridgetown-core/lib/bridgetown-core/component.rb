@@ -160,7 +160,6 @@ module Bridgetown
     # @param item [Object] a component supporting `render_in` or a partial name
     # @param options [Hash] passed to the `partial` helper if needed
     # @return [String]
-    # rubocop:disable Naming/BlockForwarding
     def render(item, options = {}, &block)
       if item.respond_to?(:render_in)
         result = ""
@@ -172,7 +171,6 @@ module Bridgetown
         partial(item, options, &block)&.html_safe
       end
     end
-    # rubocop:enable Naming/BlockForwarding
 
     # This is where the magic happens. Render the component within a view context.
     #

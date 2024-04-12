@@ -1,7 +1,7 @@
 ---<%
-render_with data: {
-  title: "Localized"
-}
+render_with do
+  title "Localized"
+end
 %>---
 
-<h1>Localized for <%= r.params[:locale] %> - <%= I18n.locale %></h1>
+<h1><%= data.title %> for <%= r.params[:locale] %> - <%= I18n.locale %></h1>

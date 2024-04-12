@@ -41,11 +41,7 @@ module Bridgetown
       @name = name
       @ext = File.extname(name)
       @basename = File.basename(name, ".*")
-      @path = if from_plugin
-                File.join(base, dir, name)
-              else
-                site.in_source_dir(base, dir, name)
-              end
+      @path = from_plugin ? File.join(base, dir, name) : site.in_source_dir(base, dir, name)
 
       process
 

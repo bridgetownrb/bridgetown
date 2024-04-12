@@ -281,7 +281,7 @@ module Bridgetown
 
         style_tag.html_safe
       end
-        
+
       # TODO: docu
       def bypass_tracking(...) = Signalize.untracked(...)
     end

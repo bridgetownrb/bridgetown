@@ -97,11 +97,9 @@ module Bridgetown
 
       def collect_urls(urls, things, destination)
         things.each do |thing|
-          dest = if thing.method(:destination).arity == 1
-                   thing.destination(destination)
-                 else
+          dest = thing.method(:destination).arity == 1 ?
+                   thing.destination(destination) :
                    thing.destination
-                 end
           if urls[dest]
             urls[dest] << thing.path
           else

@@ -102,11 +102,9 @@ module Bridgetown
     private
 
     def _render_statement(component, options)
-      render_statement = if options[:_block_content]
-                           ["{% rendercontent \"#{component}\""]
-                         else
+      render_statement = options[:_block_content] ?
+                           ["{% rendercontent \"#{component}\""] :
                            ["{% render \"#{component}\""]
-                         end
       unless options.empty?
         render_statement << ", #{options.keys.map { |k| "#{k}: #{k}" }.join(", ")}"
       end

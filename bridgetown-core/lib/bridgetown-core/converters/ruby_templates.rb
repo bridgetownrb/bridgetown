@@ -25,7 +25,7 @@ module Bridgetown
       end
     end
 
-    def _render_partial(partial_name, options)
+    def _render_partial(partial_name, options) # rubocop:todo Metrics
       partial_path = _partial_path(partial_name, "rb")
       return super unless File.exist?(partial_path)
 
@@ -33,12 +33,16 @@ module Bridgetown
       (@_buffer_stack ||= []).push(@_erbout)
       @_erbout = OutputBuffer.new
 
-      tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"] ||=
-        options.keys.map do |k|
-          "#{k}=locals[:#{k}];"
-        end.push(File.read(partial_path)).join
+      site.tmp_cache["partial-tmpl:#{partial_path}"] ||= {
+        signal: site.config.fast_refresh ? Signalize.signal(1) : nil,
+      }
+      tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"]
+      tmpl.template ||= options.keys.map do |k|
+        "#{k}=locals[:#{k}];"
+      end.push(File.read(partial_path)).join
+      tmpl.signal&.value # subscribe so resources are attached to this partial within effect
 
-      instance_eval(tmpl).to_s.tap do
+      instance_eval(tmpl.template).to_s.tap do
         @_locals_stack.pop
         @_erbout = @_buffer_stack.pop
       end

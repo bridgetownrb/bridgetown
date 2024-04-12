@@ -55,7 +55,7 @@ class Bridgetown::Site
         return
       end
 
-      index_html = <<~HTML # rubocop:disable Bridgetown/HTMLEscapedHeredoc
+      index_html = <<~HTML # rubocop:disable Bridgetown/InsecureHeredoc
         <!DOCTYPE html>
         <html>
           <head>
