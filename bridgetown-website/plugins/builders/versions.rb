@@ -4,14 +4,12 @@ require "gems"
 
 class Builders::Versions < SiteBuilder
   def self.cache
-    @@cache
+    @@cache ||= Bridgetown::Cache.new("builders")
   end
 
   def build
-    @@cache ||= Bridgetown::Cache.new("builders")
-
     helper :current_version_date do
-      @@cache.getset("bridgetown-release-date") do
+      self.class.cache.getset("bridgetown-release-date") do
         versions = Gems.versions("bridgetown")
         version = versions.find { _1["number"] == Bridgetown::VERSION }&.dig("created_at")
         version ? Date.parse(version).strftime("%b %-d, %Y") : "(unknown)"

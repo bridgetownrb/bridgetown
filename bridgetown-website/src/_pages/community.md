@@ -24,22 +24,22 @@ There's also a growing number of companies which provide commercial support for 
 ## Say Hello to the Core Team
 
 <avatar-group style="margin:2em 0">
-  <sl-avatar 
+  <sl-avatar
     image="https://avatars.githubusercontent.com/u/658496?v=4"
     label="Jared White"
   ></sl-avatar>
 
-  <sl-avatar 
+  <sl-avatar
     image="https://avatars.githubusercontent.com/u/26425882?v=4"
     label="Konnor Rogers"
   ></sl-avatar>
 
-  <sl-avatar 
+  <sl-avatar
     image="https://avatars.githubusercontent.com/u/4924039?v=4"
     label="Ayush Newatia"
   ></sl-avatar>
 
-  <sl-avatar 
+  <sl-avatar
     image="https://avatars.githubusercontent.com/u/4756285?v=4"
     label="Adrian Valenzuela"
   ></sl-avatar>
@@ -70,6 +70,7 @@ There's also a growing number of companies which provide commercial support for 
 * [Helena's Nursery](https://helenas-nursery.com){:target="_blank"}
 * [Open Source KnowledgeBase](https://knowledgebase.redwebtigers.com){:target="_blank"}
 * [APAC Agencies](https://www.apacagencies.com){:target="_blank"}
+* [Emailable](https://emailable.com){:target="_blank"}
 
 In addition, members of the Bridgetown Core Team have appeared in podcasts and presentations across the web promoting Bridgetown! Check it out:
 

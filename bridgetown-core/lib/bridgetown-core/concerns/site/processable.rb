@@ -35,6 +35,7 @@ class Bridgetown::Site
       self.generated_pages = []
       self.static_files = []
       self.data = HashWithDotAccess::Hash.new unless soft
+      @fast_refresh_ordering = 0 if config.fast_refresh
       @frontend_manifest = nil
       @collections = nil
       @documents = nil

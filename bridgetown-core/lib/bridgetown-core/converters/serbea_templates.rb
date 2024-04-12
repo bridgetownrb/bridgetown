@@ -9,9 +9,13 @@ module Bridgetown
 
     def _render_partial(partial_name, options)
       partial_path = _partial_path(partial_name, "serb")
-      tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"] ||=
-        Tilt::SerbeaTemplate.new(partial_path)
-      tmpl.render(self, options)
+      site.tmp_cache["partial-tmpl:#{partial_path}"] ||= {
+        signal: site.config.fast_refresh ? Signalize.signal(1) : nil,
+      }
+      tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"]
+      tmpl.template ||= Tilt::SerbeaTemplate.new(partial_path)
+      tmpl.signal&.value # subscribe so resources are attached to this partial within effect
+      tmpl.template.render(self, options)
     end
   end
 
@@ -32,8 +36,10 @@ module Bridgetown
         return content if convertible.data[:template_engine].to_s != "serbea"
 
         serb_view = Bridgetown::SerbeaView.new(convertible)
-
-        serb_renderer = Tilt::SerbeaTemplate.new(convertible.path) { content }
+        serb_renderer = Tilt::SerbeaTemplate.new(
+          convertible.path,
+          line_start(convertible)
+        ) { content }
 
         if convertible.is_a?(Bridgetown::Layout)
           serb_renderer.render(serb_view) do

@@ -11,12 +11,7 @@ class MethodSymbolsBuilder < Builder
   end
 
   def set_title
-    # TODO: had a weird testing issue where the data was missing :site_metadata
-    # even after setting it the test before generation. Spent a long time trying
-    # to track this down…seemed to be a non-determinisitic artifact of the testing
-    # process itself. Finally gave up on it. Hoping something odd like that
-    # doesn't come up in actual CLI usage! -JW
-    site.data[:site_metadata] = { title: "Test Title in Method Symbols" }
+    site.signals[:site_metadata] = { title: "Test Title in Method Symbols" }
   end
 
   def upcase_tag(attributes, tag)
@@ -41,7 +36,7 @@ class TestMethodSymbols < BridgetownUnitTest
 
     should "load generator on site generate" do
       @site.reset
-      @site.data[:site_metadata] = { title: "Initial Value in Method Symbols" }
+      @site.signals[:site_metadata] = { title: "Initial Value in Method Symbols" }
       @site.loaders_manager.unload_loaders
       @site.setup
 

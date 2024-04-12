@@ -81,7 +81,12 @@ module Bridgetown
           c.each { |path| Bridgetown.logger.info "", "- #{path["#{site.root_dir}/".length..]}" }
         end
 
-        reload_site(site, options, paths: c)
+        reload_site(
+          site,
+          options,
+          paths: c,
+          fast_refreshable: site.config.fast_refresh && (added + removed).empty?
+        )
       end.start
     end
 
@@ -90,23 +95,29 @@ module Bridgetown
     # @param site [Bridgetown::Site] the current site instance
     # @param options [Bridgetown::Configuration] the site configuration
     # @param paths Array<String>
-    def reload_site(site, options, paths: []) # rubocop:todo Metrics/MethodLength
+    def reload_site(site, options, paths: [], fast_refreshable: false) # rubocop:todo Metrics/MethodLength
       begin
         time = Time.now
         I18n.reload! # make sure any locale files get read again
         Bridgetown::Current.sites[site.label] = site # needed in SSR mode apparently
         catch :halt do
-          Bridgetown::Hooks.trigger :site, :pre_reload, site, paths
-          Bridgetown::Hooks.clear_reloadable_hooks
-          site.loaders_manager.reload_loaders
-          Bridgetown::Hooks.trigger :site, :post_reload, site, paths
+          unless fast_refreshable
+            Bridgetown::Hooks.trigger :site, :pre_reload, site, paths
+            Bridgetown::Hooks.clear_reloadable_hooks
+            site.loaders_manager.reload_loaders
+            Bridgetown::Hooks.trigger :site, :post_reload, site, paths
+          end
 
           if site.ssr?
             site.reset(soft: true)
             return
           end
 
-          site.process
+          if fast_refreshable
+            site.fast_refresh(paths, reload_if_needed: true)
+          else
+            site.process
+          end
         end
         Bridgetown.logger.info "Done! 🎉", "#{"Completed".bold.green} in less than " \
                                           "#{(Time.now - time).ceil(2)} seconds."

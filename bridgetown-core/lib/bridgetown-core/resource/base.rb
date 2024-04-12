@@ -9,9 +9,6 @@ module Bridgetown
       include Bridgetown::LiquidRenderable
       include Bridgetown::Localizable
 
-      # @return [HashWithDotAccess::Hash]
-      attr_reader :data
-
       # @return [Destination]
       attr_reader :destination
 
@@ -24,6 +21,9 @@ module Bridgetown
       # @return [Array<Bridgetown::Slot>]
       attr_reader :slots
 
+      # @return [Boolean]
+      attr_reader :fast_refresh_order
+
       # @return [String]
       attr_accessor :content, :untransformed_content, :output
 
@@ -34,7 +34,9 @@ module Bridgetown
       def initialize(model:)
         @model = model
         @site = model.site
-        @data = collection.data? ? HashWithDotAccess::Hash.new : front_matter_defaults
+        @data = Signalize.signal(
+          collection.data? ? HashWithDotAccess::Hash.new : front_matter_defaults
+        )
         @slots = []
 
         trigger_hooks :post_init
@@ -90,11 +92,21 @@ module Bridgetown
         ).with_dot_access
       end
 
+      # @return [HashWithDotAccess::Hash]
+      def data
+        @data.value
+      end
+
       # Merges new data into the existing data hash.
       #
       # @param new_data [HashWithDotAccess::Hash]
       def data=(new_data)
-        @data = @data.merge(new_data)
+        if site.config.fast_refresh && write?
+          # TODO: investigate if this would be better:
+          # @data.value = front_matter_defaults
+          mark_for_fast_refresh!
+        end
+        @data.value = @data.value.merge(new_data)
       end
 
       # @return [Bridgetown::Resource::Base]
@@ -119,8 +131,23 @@ module Bridgetown
       end
       alias_method :read, :read! # TODO: eventually use the bang version only
 
-      def transform!
-        transformer.process! unless collection.data?
+      def transform! # rubocop:todo Metrics/CyclomaticComplexity
+        internal_error = nil
+        @transform_effect_disposal = Signalize.effect do
+          if !@fast_refresh_order && @previously_transformed
+            self.content = untransformed_content
+            @transformer = nil
+            mark_for_fast_refresh! if site.config.fast_refresh && write?
+            next
+          end
+
+          transformer.process! unless collection.data?
+          @previously_transformed = true
+        rescue StandardError, SyntaxError => e
+          internal_error = e
+        end
+
+        raise internal_error if internal_error
 
         self
       end
@@ -225,6 +252,7 @@ module Bridgetown
       # Write the generated resource file to the destination directory.
       def write(_dest = nil)
         destination.write(output)
+        unmark_for_fast_refresh!
         trigger_hooks(:post_write)
       end
 
@@ -296,6 +324,38 @@ module Bridgetown
       alias_method :previous_doc, :previous_resource
       alias_method :previous, :previous_resource
 
+      def mark_for_fast_refresh!
+        @fast_refresh_order = site.fast_refresh_ordering
+        site.fast_refresh_ordering += 1
+      end
+
+      def unmark_for_fast_refresh!
+        @fast_refresh_order = nil
+      end
+
+      def prepare_for_fast_refresh! # rubocop:todo Metrics
+        dispose_of_transform_effect
+        FileUtils.rm(destination.output_path, force: true) if requires_destination?
+        past_values = @data.peek.select do |key|
+          key == "categories" || key == "tags" || site.taxonomy_types.keys.any?(key)
+        end
+        model.attributes = model.origin.read
+        read!
+        tax_diff = past_values.any? { |k, v| @data.peek[k] != v }
+
+        if tax_diff && !collection.data?
+          # If the taxonomy values are different, we should just abort the fast refresh process.
+          unmark_for_fast_refresh!
+          false
+        else
+          true
+        end
+      end
+
+      def dispose_of_transform_effect
+        @transform_effect_disposal&.()
+      end
+
       private
 
       def ensure_default_data
@@ -346,6 +406,7 @@ module Bridgetown
 
       def import_taxonomies_from_data
         taxonomies.each_value do |metadata|
+          metadata.terms.reject! { _1.resource == self } # clear out for Fash Refresh
           Array(data[metadata.type.key]).each do |term|
             metadata.terms << TaxonomyTerm.new(
               resource: self, label: term, type: metadata.type
