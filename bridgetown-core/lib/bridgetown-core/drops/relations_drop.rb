@@ -6,13 +6,13 @@ module Bridgetown
       mutable false
 
       def [](type)
-        return nil unless type.to_s.in?(@obj.relation_types)
+        return nil unless type.to_s.within?(@obj.relation_types)
 
         @obj.resources_for_type(type)
       end
 
       def key?(type)
-        type.to_s.in?(@obj.relation_types)
+        type.to_s.within?(@obj.relation_types)
       end
 
       def fallback_data

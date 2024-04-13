@@ -49,13 +49,13 @@ module Bridgetown
       end
 
       def method_missing(type, *args)
-        return super unless type.to_s.in?(relation_types)
+        return super unless type.to_s.within?(relation_types)
 
         resources_for_type(type)
       end
 
       def respond_to_missing?(type, *_args)
-        type.to_s.in?(relation_types)
+        type.to_s.within?(relation_types)
       end
 
       def to_liquid
@@ -109,7 +109,7 @@ module Bridgetown
         label, singular_label = collection_labels
 
         other_collection_for_type(type).resources.select do |other_resource|
-          resource.data.slug.in?(
+          resource.data.slug.within?(
             Array(other_resource.data[label] || other_resource.data[singular_label])
           )
         end
@@ -121,7 +121,7 @@ module Bridgetown
         label, singular_label = collection_labels
 
         other_collection_for_type(type).resources.find do |other_resource|
-          resource.data.slug.in?(
+          resource.data.slug.within?(
             Array(other_resource.data[label] || other_resource.data[singular_label])
           )
         end

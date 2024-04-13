@@ -64,8 +64,6 @@ module Bridgetown
     def mergeable?(value)
       value.is_a?(Hash) || value.is_a?(Drops::Drop)
     end
-    alias_method :mergable?, :mergeable?
-    deprecate :mergable?, :mergeable?, 2023, 7
 
     def duplicable?(obj)
       case obj

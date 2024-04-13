@@ -22,7 +22,7 @@ module Bridgetown
     end
 
     def builtin?
-      @is_builtin ||= label.in?(%w(posts pages data).freeze)
+      @is_builtin ||= label.within?(%w(posts pages data).freeze)
     end
 
     def data?
