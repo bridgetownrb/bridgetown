@@ -44,7 +44,6 @@ require "active_support/core_ext/string/inquiry"
 require "active_support/core_ext/string/output_safety"
 require "active_support/core_ext/string/starts_ends_with"
 require "active_support/current_attributes"
-require "active_support/descendants_tracker"
 require "hash_with_dot_access"
 require "addressable/uri"
 require "liquid"
@@ -129,7 +128,6 @@ module Bridgetown
   require_all "bridgetown-core/drops"
   require_all "bridgetown-core/generators"
   require_all "bridgetown-core/tags"
-  require_all "bridgetown-core/core_ext"
 
   class << self
     # Tells you which Bridgetown environment you are building in so
@@ -385,6 +383,7 @@ module Bridgetown
 end
 
 module Bridgetown
+  module CoreExt; end
   module Model; end
 
   module Resource
@@ -399,11 +398,15 @@ module Bridgetown
   end
 end
 
-# This method is available in Ruby 3, monkey patching for older versions
-Psych.extend Bridgetown::CoreExt::Psych::SafeLoadFile unless Psych.respond_to?(:safe_load_file)
+Zeitwerk::Loader.new.tap do |loader|
+  loader.push_dir File.join(__dir__, "bridgetown-core/core_ext"), namespace: Bridgetown::CoreExt
+  loader.setup
+  loader.eager_load
+end
 
-loader = Zeitwerk::Loader.new
-loader.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model
-loader.push_dir File.join(__dir__, "bridgetown-core/resource"), namespace: Bridgetown::Resource
-loader.setup # ready!
+Zeitwerk::Loader.new.tap do |loader|
+  loader.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model
+  loader.push_dir File.join(__dir__, "bridgetown-core/resource"), namespace: Bridgetown::Resource
+  loader.setup # ready!
+end
 Bridgetown::Model::Origin # this needs to load first

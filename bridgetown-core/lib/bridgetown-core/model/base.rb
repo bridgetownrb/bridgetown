@@ -6,7 +6,7 @@ module Bridgetown
   module Model
     class Base
       include ActiveModel::Model
-      extend ActiveModel::Callbacks # also extends with DescendantsTracker
+      extend ActiveModel::Callbacks
       define_model_callbacks :load, :save, :destroy
 
       class << self

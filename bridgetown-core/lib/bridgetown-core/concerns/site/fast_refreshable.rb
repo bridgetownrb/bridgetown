@@ -88,11 +88,10 @@ class Bridgetown::Site
       end
     end
 
-    def locate_components_for_fast_refresh(path) # rubocop:todo Metrics/AbcSize
-      comp = Bridgetown::Component.subclasses.find do |item|
+    def locate_components_for_fast_refresh(path)
+      comp = Bridgetown::Component.descendants.find do |item|
         item.component_template_path == path || item.source_location == path
-      rescue StandardError
-        Bridgetown.logger.debug "Fast refresh:", "couldn't locate component for #{path}"
+      rescue StandardError # rubocop:disable Lint/SuppressedException
       end
       return unless comp
 

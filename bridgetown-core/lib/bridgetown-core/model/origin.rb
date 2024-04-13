@@ -4,8 +4,6 @@ module Bridgetown
   module Model
     # Abstract Superclass
     class Origin
-      extend ActiveSupport::DescendantsTracker
-
       EAGER_LOAD_DESCENDANTS = %i(BuilderOrigin RepoOrigin PluginOrigin).freeze
 
       # @return [String]
