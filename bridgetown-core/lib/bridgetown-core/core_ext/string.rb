@@ -10,12 +10,14 @@ module Bridgetown
         end
       end
 
-      module Inquiry
-        def inquiry = CoreExt::QuestionableString.new(self)
+      module Questionable
+        def questionable = CoreExt::QuestionableString.new(self)
+        alias_method :inquiry, :questionable
+        gem_deprecate :inquiry, :questionable, 2024, 12
       end
 
-      ::String.include StartsWithAndEndsWith unless ::String.respond_to?(:starts_with?)
-      ::String.include Inquiry unless ::String.respond_to?(:inquiry)
+      ::String.include StartsWithAndEndsWith
+      ::String.include Questionable
     end
   end
 end

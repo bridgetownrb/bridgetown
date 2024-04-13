@@ -32,19 +32,14 @@ module Bridgetown
         rescue NoMethodError
           false
         end
+
+        # NOTE: if you _really_ need to preserve Active Support's `in?` functionality, you can just
+        #   require "active_support/core_ext/object/inclusion"
+        alias_method :in?, :within?
+        gem_deprecate :in?, :within?, 2024, 12
       end
 
-      ::Object.include WithinOther unless ::Object.respond_to?(:within?)
-
-      # NOTE: if you _really_ need to preserve Active Support's `in?` functionality, you can just
-      #   require "active_support/core_ext/object/inclusion"
-      unless ::Object.respond_to?(:in)
-        ::Object.class_eval do
-          extend Gem::Deprecate
-          alias_method :in?, :within?
-          deprecate :in?, :within?, 2024, 12
-        end
-      end
+      ::Object.include WithinOther
     end
   end
 end

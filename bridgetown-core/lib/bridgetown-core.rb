@@ -31,6 +31,46 @@ require "csv"
 require "json"
 require "yaml"
 
+# Initial Zeitwerk setup
+require "zeitwerk"
+
+module Bridgetown
+  module CoreExt; end
+end
+
+class Module
+  # Due to Active Support incompatibility, we can't extend Gem::Deprecate in Object
+  # So we're pulling this in from:
+  # https://github.com/rubygems/rubygems/blob/v3.5.9/lib/rubygems/deprecate.rb
+  def gem_deprecate(name, repl, year, month)
+    # rubocop:disable Style/FormatStringToken
+    class_eval do
+      old = "_deprecated_#{name}"
+      alias_method old, name
+      define_method name do |*args, &block|
+        klass = is_a? Module
+        target = klass ? "#{self}." : "#{self.class}#"
+        msg = [
+          "NOTE: #{target}#{name} is deprecated",
+          repl == :none ? " with no replacement" : "; use #{repl} instead",
+          format(". It will be removed on or after %4d-%02d.", year, month),
+          "\n#{target}#{name} called from #{Gem.location_of_caller.join(":")}",
+        ]
+        warn "#{msg.join}." unless Gem::Deprecate.skip
+        send old, *args, &block
+      end
+      ruby2_keywords name if respond_to?(:ruby2_keywords, true)
+    end
+    # rubocop:enable Style/FormatStringToken
+  end
+end
+
+Zeitwerk::Loader.new.tap do |loader|
+  loader.push_dir File.join(__dir__, "bridgetown-core/core_ext"), namespace: Bridgetown::CoreExt
+  loader.setup
+  loader.eager_load
+end
+
 # 3rd party
 require "active_support"
 require "active_support/core_ext/class/attribute"
@@ -52,7 +92,6 @@ require "i18n/backend/fallbacks"
 require "faraday"
 require "signalize"
 require "thor"
-require "zeitwerk"
 
 # Ensure we can set up fallbacks so the default locale gets used
 I18n::Backend::Simple.include I18n::Backend::Fallbacks
@@ -130,7 +169,7 @@ module Bridgetown
     # Tells you which Bridgetown environment you are building in so
     #   you can skip tasks if you need to.
     def environment
-      (ENV["BRIDGETOWN_ENV"] || "development").inquiry
+      (ENV["BRIDGETOWN_ENV"] || "development").questionable
     end
     alias_method :env, :environment
 
@@ -380,7 +419,6 @@ module Bridgetown
 end
 
 module Bridgetown
-  module CoreExt; end
   module Model; end
 
   module Resource
@@ -393,12 +431,6 @@ module Bridgetown
       end
     end
   end
-end
-
-Zeitwerk::Loader.new.tap do |loader|
-  loader.push_dir File.join(__dir__, "bridgetown-core/core_ext"), namespace: Bridgetown::CoreExt
-  loader.setup
-  loader.eager_load
 end
 
 Zeitwerk::Loader.new.tap do |loader|

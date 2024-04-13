@@ -15,7 +15,7 @@ module Bridgetown
         end
       end
 
-      ::Class.include Descendants unless ::Class.respond_to?(:descendants)
+      ::Class.include Descendants
     end
   end
 end
