@@ -67,7 +67,6 @@ module Bridgetown
         sleep 0.25
 
         options = Thor::CoreExt::HashWithIndifferentAccess.new(self.options)
-        options[:using_puma] = true
 
         # Load Bridgetown configuration into thread memory
         bt_options = configuration_with_overrides(options)

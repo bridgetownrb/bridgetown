@@ -27,8 +27,6 @@ module Bridgetown
         end
       end
 
-      Bridgetown.logger.info "Watcher:", "enabled." unless options[:using_puma]
-
       trap("INT") do
         self.shutdown = true
       end
