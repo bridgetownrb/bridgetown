@@ -20,17 +20,18 @@ module Bridgetown
       end
 
       private
-        def root_dir
-          Dir.pwd
-        end
 
-        def pids_dir
-          File.join(root_dir, "tmp", "pids")
-        end
+      def root_dir
+        Dir.pwd
+      end
 
-        def pidfile_for(file)
-          File.join(pids_dir, "#{file}.pid")
-        end
+      def pids_dir
+        File.join(root_dir, "tmp", "pids")
+      end
+
+      def pidfile_for(file)
+        File.join(pids_dir, "#{file}.pid")
+      end
     end
   end
 end

@@ -8,7 +8,7 @@ module Bridgetown
       trap(:INT) { exit }
       super()
     ensure
-      after_stop_callback.call if after_stop_callback
+      after_stop_callback&.call
     end
 
     def name
@@ -61,7 +61,7 @@ module Bridgetown
       end
       summary "Start the web server, frontend bundler, and Bridgetown watcher"
 
-      def start # rubocop:todo Metrics/PerceivedComplexity
+      def start
         Bridgetown.logger.writer.enable_prefix
         Bridgetown::Commands::Build.print_startup_message
         sleep 0.25
@@ -81,7 +81,7 @@ module Bridgetown
         Bridgetown::Server.new({
           Host: server_uri.host,
           Port: server_uri.port,
-          config: "config.ru"
+          config: "config.ru",
         }).tap do |server|
           if server.serveable?
             create_pid_dir
@@ -103,7 +103,7 @@ module Bridgetown
             }
 
             Bridgetown.logger.info ""
-            Bridgetown.logger.info "Booting #{server.name} at:", "#{server_uri}".magenta
+            Bridgetown.logger.info "Booting #{server.name} at:", server_uri.to_s.magenta
             Bridgetown.logger.info ""
 
             server.start(after_stop_callback)
