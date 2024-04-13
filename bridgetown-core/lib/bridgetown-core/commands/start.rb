@@ -11,6 +11,14 @@ module Bridgetown
       after_stop_callback.call if after_stop_callback
     end
 
+    def name
+      server.to_s.split("::").last
+    end
+
+    def using_puma?
+      name == "Puma"
+    end
+
     def serveable?
       server
       true
@@ -31,24 +39,32 @@ module Bridgetown
         register(Start, "dev", "dev", "Alias of start")
       end
 
-      class_option :bind, aliases: "-B", desc: "URI for Puma to bind to (start with tcp://)"
+      class_option :port,
+                   aliases: "-P",
+                   type: :numeric,
+                   default: 4000,
+                   desc: "Serve your site on the specified port. Defaults to 4000."
+      class_option :bind,
+                   aliases: "-B",
+                   type: :string,
+                   default: "localhost",
+                   desc: "URL for the server to bind to."
       class_option :skip_frontend,
                    type: :boolean,
-                   desc: "Don't load the frontend bundler (always true for production)"
+                   desc: "Don't load the frontend bundler (always true for production)."
       class_option :skip_live_reload,
                    type: :boolean,
-                   desc: "Don't use the live reload functionality (always true for production)"
+                   desc: "Don't use the live reload functionality (always true for production)."
 
       def self.banner
         "bridgetown start [options]"
       end
-      summary "Start the Puma server, frontend bundler, and Bridgetown watcher"
+      summary "Start the web server, frontend bundler, and Bridgetown watcher"
 
       def start # rubocop:todo Metrics/PerceivedComplexity
         Bridgetown.logger.writer.enable_prefix
         Bridgetown::Commands::Build.print_startup_message
         sleep 0.25
-
 
         options = Thor::CoreExt::HashWithIndifferentAccess.new(self.options)
         options[:using_puma] = true
@@ -58,18 +74,20 @@ module Bridgetown
 
         # Set a local site URL in the config if one is not available
         if Bridgetown.env.development? && !options["url"]
-          scheme = bt_options.bind&.split("://")&.first == "ssl" ? "https" : "http"
-          port = bt_options.bind&.split(":")&.last || ENV["BRIDGETOWN_PORT"] || 4000
-          bt_options.url = "#{scheme}://localhost:#{port}"
+          port = ENV["BRIDGETOWN_PORT"] || bt_options.port
+          bt_options.url = "http://#{bt_options.bind}:#{port}"
         end
 
+        server_uri = URI(bt_options.url)
         Bridgetown::Server.new({
-          Host: "localhost",
-          Port: 4000,
+          Host: server_uri.host,
+          Port: server_uri.port,
           config: "config.ru"
         }).tap do |server|
           if server.serveable?
             create_pid_dir
+
+            bt_options.skip_live_reload = !server.using_puma?
 
             build_args = ["-w"] + ARGV.reject { |arg| arg == "start" }
             build_pid = Process.fork { Bridgetown::Commands::Build.start(build_args) }
@@ -81,9 +99,13 @@ module Bridgetown
               Process.kill "SIGINT", build_pid
               remove_pidfile :bridgetown
 
-              # Shut down webpack, browsersync, etc. if they're running
+              # Shut down the frontend bundler etc. if they're running
               Bridgetown::Utils::Aux.kill_processes
             }
+
+            Bridgetown.logger.info ""
+            Bridgetown.logger.info "Booting #{server.name} at:", "#{server_uri}".magenta
+            Bridgetown.logger.info ""
 
             server.start(after_stop_callback)
           else
