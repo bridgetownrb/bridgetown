@@ -133,14 +133,13 @@ module Bridgetown
           nil
         end
 
-        # Run the Roda public plugin first, set up live reload if allowed, then
-        # run through all the Routes blocks. If the file-based router plugin
-        # is available, kick off that request process next.
+        # Run the SSG plugin first, then set up live reload if allowed, then run through all the
+        # Routes blocks.
         #
         # @param roda_app [Roda]
         # @return [void]
         def load_all_routes(roda_app)
-          roda_app.request.public
+          roda_app.request.ssg
 
           if Bridgetown.env.development? &&
               !Bridgetown::Current.preloaded_configuration.skip_live_reload

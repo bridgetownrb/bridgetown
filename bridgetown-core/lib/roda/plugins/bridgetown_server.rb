@@ -21,7 +21,7 @@ class Roda
         app.plugin :json_parser
         app.plugin :indifferent_params
         app.plugin :cookies, path: "/"
-        app.plugin :public, root: Bridgetown::Current.preloaded_configuration.destination
+        app.plugin :ssg, root: Bridgetown::Current.preloaded_configuration.destination
         app.plugin :not_found do
           output_folder = Bridgetown::Current.preloaded_configuration.destination
           File.read(File.join(output_folder, "404.html"))
@@ -128,13 +128,18 @@ class Roda
             self.class.opts[:bridgetown_preloaded_config]
         end
 
-        def initialize_bridgetown_root
+        def initialize_bridgetown_root # rubocop:todo Metrics/AbcSize
           request.root do
             hook_result = instance_exec(&self.class.opts[:root_hook]) if self.class.opts[:root_hook]
             next hook_result if hook_result
 
-            output_folder = Bridgetown::Current.preloaded_configuration.destination
-            File.read(File.join(output_folder, "index.html"))
+            status, headers, body = self.class.opts[:ssg_server].serving(
+              request, File.join(self.class.opts[:ssg_root], "index.html")
+            )
+            response_headers = response.headers
+            response_headers.replace(headers)
+
+            request.halt [status, response_headers, body]
           rescue StandardError => e
             Bridgetown.logger.debug("Root handler error: #{e.message}")
             response.status = 500
