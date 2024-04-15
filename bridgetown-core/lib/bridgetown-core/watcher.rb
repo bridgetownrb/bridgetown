@@ -25,9 +25,10 @@ module Bridgetown
           Bridgetown::Hooks.trigger :site, :post_read, site
           block&.call(site)
         end
+        return if site.ssr?
       end
 
-      return if site.ssr?
+      Bridgetown.logger.info "Watcher:", "enabled." unless options[:start_command]
 
       trap("INT") do
         self.shutdown = true

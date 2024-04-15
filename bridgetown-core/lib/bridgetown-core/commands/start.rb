@@ -47,7 +47,7 @@ module Bridgetown
       class_option :bind,
                    aliases: "-B",
                    type: :string,
-                   default: "localhost",
+                   default: "0.0.0.0",
                    desc: "URL for the server to bind to."
       class_option :skip_frontend,
                    type: :boolean,
@@ -67,6 +67,7 @@ module Bridgetown
         sleep 0.25
 
         options = Thor::CoreExt::HashWithIndifferentAccess.new(self.options)
+        options[:start_command] = true
 
         # Load Bridgetown configuration into thread memory
         bt_options = configuration_with_overrides(options)
@@ -99,7 +100,9 @@ module Bridgetown
               remove_pidfile :bridgetown
 
               # Shut down the frontend bundler etc. if they're running
-              Bridgetown::Utils::Aux.kill_processes
+              unless Bridgetown.env.production? || bt_options[:skip_frontend]
+                Bridgetown::Utils::Aux.kill_processes
+              end
             }
 
             Bridgetown.logger.info ""
