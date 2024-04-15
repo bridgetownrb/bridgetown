@@ -11,6 +11,7 @@ class Roda
                 "plugin"
         end
 
+        app.extend ClassMethods # we need to do this here because Roda hasn't done it yet
         app.plugin :initializers
         app.plugin :method_override
         app.plugin :all_verbs
@@ -107,8 +108,16 @@ class Roda
             CSS
           end
         end
+      end
 
-        app.before do
+      module ClassMethods
+        def root_hook(&block)
+          opts[:root_hook] = block
+        end
+      end
+
+      module InstanceMethods
+        def initialize_bridgetown_context
           if self.class.opts[:bridgetown_site]
             # The site had previously been initialized via the bridgetown_ssr plugin
             Bridgetown::Current.sites[self.class.opts[:bridgetown_site].label] =
@@ -117,11 +126,17 @@ class Roda
           end
           Bridgetown::Current.preloaded_configuration ||=
             self.class.opts[:bridgetown_preloaded_config]
+        end
 
+        def initialize_bridgetown_root
           request.root do
+            hook_result = instance_exec(&self.class.opts[:root_hook]) if self.class.opts[:root_hook]
+            next hook_result if hook_result
+
             output_folder = Bridgetown::Current.preloaded_configuration.destination
             File.read(File.join(output_folder, "index.html"))
-          rescue StandardError
+          rescue StandardError => e
+            Bridgetown.logger.debug("Root handler error: #{e.message}")
             response.status = 500
             "<p>ERROR: cannot find <code>index.html</code> in the output folder.</p>"
           end
@@ -140,6 +155,9 @@ class Roda
 
         # Starts up the Bridgetown routing system
         def bridgetown
+          scope.initialize_bridgetown_context
+          scope.initialize_bridgetown_root
+
           Bridgetown::Rack::Routes.start!(scope)
         end
       end

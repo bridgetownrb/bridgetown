@@ -15,10 +15,19 @@ class TestRoutes < BridgetownUnitTest
   end
 
   context "Roda-powered Bridgetown server" do # rubocop:todo Metrics/BlockLength
-    should "return the index page" do
+    should "return the static index page" do
       get "/"
       assert last_response.ok?
       assert_equal "<h1>Index</h1>", last_response.body
+    end
+
+    should "return the dynamic index page if present" do
+      index_file = File.expand_path("ssr/src/_routes/test_index.erb", __dir__)
+      FileUtils.cp(index_file, index_file.sub("test_index.erb", "index.erb"))
+      get "/"
+      assert last_response.ok?
+      assert_equal "<h1>Dynamic Index</h1>", last_response.body
+      FileUtils.remove_file(index_file.sub("test_index.erb", "index.erb"))
     end
 
     should "return JSON for the hello route" do
