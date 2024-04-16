@@ -155,9 +155,16 @@ module Bridgetown
           key = "#{view_path.tr("/", ".")}#{key}" if view_path.present?
         end
 
-        ActiveSupport::HtmlSafeTranslation.translate(key, **options)
+        return I18n.translate(key, **options) unless %r{(?:_|\b)html\z}.match?(key)
+
+        translate_with_html(key, **options)
       end
       alias_method :t, :translate
+
+      def translate_with_html(key, **options)
+        escaper = ->(input) { input.to_s.encode(xml: :attr).gsub(%r{\A"|"\Z}, "") }
+        Bridgetown::Foundation::SafeTranslations.translate(key, escaper, **options)
+      end
 
       # Delegates to <tt>I18n.localize</tt> with no additional functionality.
       #

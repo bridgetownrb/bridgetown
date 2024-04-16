@@ -65,7 +65,6 @@ module Bridgetown
 
             loader.reload
             loader.eager_load
-            Bridgetown::Rack::Routes.reload_subclasses
           rescue SyntaxError => e
             Bridgetown::Errors.print_build_error(e)
           end.start
@@ -78,7 +77,6 @@ module Bridgetown
         next unless load_path == server_folder
 
         loader.eager_load
-        Bridgetown::Rack::Routes.reload_subclasses
       end
 
       loaders_manager.setup_loaders([server_folder])
