@@ -61,7 +61,7 @@ module Bridgetown
       end
       summary "Start the web server, frontend bundler, and Bridgetown watcher"
 
-      def start
+      def start # rubocop:todo Metrics/PerceivedComplexity
         Bridgetown.logger.writer.enable_prefix
         Bridgetown::Commands::Build.print_startup_message
         sleep 0.25
