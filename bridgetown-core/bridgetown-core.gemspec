@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("activesupport",             [">= 6.0", "< 8.0"])
   s.add_runtime_dependency("addressable",               "~> 2.4")
   s.add_runtime_dependency("amazing_print",             "~> 1.2")
+  s.add_runtime_dependency("bridgetown-foundation",     Bridgetown::VERSION)
   s.add_runtime_dependency("colorator",                 "~> 1.0")
   s.add_runtime_dependency("csv",                       "~> 3.2")
   s.add_runtime_dependency("erubi",                     "~> 1.9")

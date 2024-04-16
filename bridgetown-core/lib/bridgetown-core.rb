@@ -31,45 +31,8 @@ require "csv"
 require "json"
 require "yaml"
 
-# Initial Zeitwerk setup
-require "zeitwerk"
-
-module Bridgetown
-  module CoreExt; end
-end
-
-class Module
-  # Due to Active Support incompatibility, we can't extend Gem::Deprecate in Object
-  # So we're pulling this in from:
-  # https://github.com/rubygems/rubygems/blob/v3.5.9/lib/rubygems/deprecate.rb
-  def gem_deprecate(name, repl, year, month)
-    # rubocop:disable Style/FormatStringToken
-    class_eval do
-      old = "_deprecated_#{name}"
-      alias_method old, name
-      define_method name do |*args, &block|
-        klass = is_a? Module
-        target = klass ? "#{self}." : "#{self.class}#"
-        msg = [
-          "NOTE: #{target}#{name} is deprecated",
-          repl == :none ? " with no replacement" : "; use #{repl} instead",
-          format(". It will be removed on or after %4d-%02d.", year, month),
-          "\n#{target}#{name} called from #{Gem.location_of_caller.join(":")}",
-        ]
-        warn "#{msg.join}." unless Gem::Deprecate.skip
-        send old, *args, &block
-      end
-      ruby2_keywords name if respond_to?(:ruby2_keywords, true)
-    end
-    # rubocop:enable Style/FormatStringToken
-  end
-end
-
-Zeitwerk::Loader.new.tap do |loader|
-  loader.push_dir File.join(__dir__, "bridgetown-core/core_ext"), namespace: Bridgetown::CoreExt
-  loader.setup
-  loader.eager_load
-end
+# Pull in Foundation gem
+require "bridgetown-foundation"
 
 # 3rd party
 require "active_support"
@@ -433,9 +396,9 @@ module Bridgetown
   end
 end
 
-Zeitwerk::Loader.new.tap do |loader|
-  loader.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model
-  loader.push_dir File.join(__dir__, "bridgetown-core/resource"), namespace: Bridgetown::Resource
-  loader.setup # ready!
+Zeitwerk.with_loader do |l|
+  l.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model
+  l.push_dir File.join(__dir__, "bridgetown-core/resource"), namespace: Bridgetown::Resource
+  l.setup # ready!
 end
 Bridgetown::Model::Origin # this needs to load first

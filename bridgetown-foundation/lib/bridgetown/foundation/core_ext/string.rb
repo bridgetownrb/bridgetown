@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Bridgetown
+module Bridgetown::Foundation
   module CoreExt
     module String
       module Indentation
@@ -9,7 +9,7 @@ module Bridgetown
             Kernel.warn "multiple arguments aren't supported by `indent!' in Bridgetown", uplevel: 1
           end
 
-          gsub %r!^(?\!$)!, " " * indent_by
+          gsub! %r!^(?\!$)!, " " * indent_by
         end
 
         def indent(indent_by, *args)
@@ -22,7 +22,7 @@ module Bridgetown
       end
 
       module Questionable
-        def questionable = CoreExt::QuestionableString.new(self)
+        def questionable = Bridgetown::Foundation::QuestionableString.new(self)
         alias_method :inquiry, :questionable
         gem_deprecate :inquiry, :questionable, 2024, 12
       end
