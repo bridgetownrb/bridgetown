@@ -25,7 +25,12 @@ module Bridgetown
       attr_reader :fast_refresh_order
 
       # @return [String]
-      attr_accessor :content, :untransformed_content, :output
+      attr_accessor :untransformed_content
+
+      attr_writer :content
+
+      # @return [String]
+      attr_accessor :output
 
       DATE_FILENAME_MATCHER = %r!^(?>.+/)*?(\d{2,4}-\d{1,2}-\d{1,2})-([^/]*)(\.[^.]+)$!
 
@@ -37,6 +42,8 @@ module Bridgetown
         @data = Signalize.signal(
           collection.data? ? HashWithDotAccess::Hash.new : front_matter_defaults
         )
+        # we track content subscriptions under the hood numerically…cleans up internal issues
+        @content_signal = Signalize.signal(0)
         @slots = []
 
         trigger_hooks :post_init
@@ -106,7 +113,18 @@ module Bridgetown
           # @data.value = front_matter_defaults
           mark_for_fast_refresh!
         end
-        @data.value = @data.value.merge(new_data)
+
+        Signalize.batch do
+          @content_signal.value += 1
+          @data.value = @data.value.merge(new_data)
+        end
+        @data.peek
+      end
+
+      # @return [String] the resource content minus its layout
+      def content
+        @content_signal.value # subscribe for Fast Refresh
+        @content
       end
 
       # @return [Bridgetown::Resource::Base]
@@ -142,6 +160,7 @@ module Bridgetown
           end
 
           transformer.process! unless collection.data?
+          slots.clear
           @previously_transformed = true
         rescue StandardError, SyntaxError => e
           internal_error = e
