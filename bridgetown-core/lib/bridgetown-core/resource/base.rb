@@ -117,6 +117,7 @@ module Bridgetown
         Signalize.batch do
           @content_signal.value += 1
           @data.value = @data.value.merge(new_data)
+          slots.clear
         end
         @data.peek
       end
