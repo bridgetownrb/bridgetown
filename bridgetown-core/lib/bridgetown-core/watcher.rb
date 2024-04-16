@@ -27,6 +27,8 @@ module Bridgetown
         end
       end
 
+      return if site.ssr?
+
       trap("INT") do
         self.shutdown = true
       end
