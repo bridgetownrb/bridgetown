@@ -160,6 +160,7 @@ module Bridgetown
           end
 
           transformer.process! unless collection.data?
+          slots.clear
           @previously_transformed = true
         rescue StandardError, SyntaxError => e
           internal_error = e
@@ -354,7 +355,6 @@ module Bridgetown
       def prepare_for_fast_refresh! # rubocop:todo Metrics
         dispose_of_transform_effect
         FileUtils.rm(destination.output_path, force: true) if requires_destination?
-        slots.clear
         past_values = @data.peek.select do |key|
           key == "categories" || key == "tags" || site.taxonomy_types.keys.any?(key)
         end
