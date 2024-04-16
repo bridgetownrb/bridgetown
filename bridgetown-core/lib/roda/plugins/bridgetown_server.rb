@@ -52,6 +52,7 @@ class Roda
           result.transform!.output
         end
 
+        # TODO: there may be a better way to do this, see `exception_page_css` instance method
         ExceptionPage.class_eval do # rubocop:disable Metrics/BlockLength
           def self.css
             <<~CSS
