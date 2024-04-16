@@ -117,7 +117,6 @@ module Bridgetown
         Signalize.batch do
           @content_signal.value += 1
           @data.value = @data.value.merge(new_data)
-          slots.clear
         end
         @data.peek
       end
@@ -355,6 +354,7 @@ module Bridgetown
       def prepare_for_fast_refresh! # rubocop:todo Metrics
         dispose_of_transform_effect
         FileUtils.rm(destination.output_path, force: true) if requires_destination?
+        slots.clear
         past_values = @data.peek.select do |key|
           key == "categories" || key == "tags" || site.taxonomy_types.keys.any?(key)
         end
