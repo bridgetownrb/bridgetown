@@ -54,6 +54,8 @@ module Bridgetown
     # Iterate over Resources, support Enumerable
     def each(...) = resources.each(...)
 
+    def deconstruct = resources.deconstruct
+
     # Fetch the static files in this collection.
     # Defaults to an empty array if no static files have been read in.
     #

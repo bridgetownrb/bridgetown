@@ -343,6 +343,10 @@ module Bridgetown
       alias_method :previous_doc, :previous_resource
       alias_method :previous, :previous_resource
 
+      def deconstruct_keys(...)
+        @data.value.deconstruct_keys(...)
+      end
+
       def mark_for_fast_refresh!
         @fast_refresh_order = site.fast_refresh_ordering
         site.fast_refresh_ordering += 1
