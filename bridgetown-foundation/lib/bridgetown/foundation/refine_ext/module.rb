@@ -1,11 +1,15 @@
 # frozen_string_literal: true
 
 module Bridgetown::Foundation
-  module CoreExt
+  module RefineExt
     module Module
-      module Nested
+      using RefineExt::Object
+
+      refine ::Module do
         def nested_within?(other)
-          other.nested_parents.within?(nested_parents[1..])
+          return false if self == other
+
+          other.nested_parents.within?(nested_parents) #[1..])
         end
 
         def nested_parents
@@ -25,8 +29,12 @@ module Bridgetown::Foundation
           name&.split("::")&.last
         end
       end
-
-      ::Module.include Nested
     end
+  end
+end
+
+module Bridgetown
+  module Refinements
+    include Foundation::RefineExt::Module
   end
 end

@@ -3,6 +3,8 @@
 module Bridgetown
   module Resource
     class Relations
+      using Bridgetown::Refinements
+
       # @return [Bridgetown::Resource::Base]
       attr_reader :resource
 

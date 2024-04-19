@@ -3,37 +3,31 @@
 require "bridgetown/foundation/version"
 require "zeitwerk"
 
-class Module
-  # Due to Active Support incompatibility, we can't extend Gem::Deprecate directly in `Object`
-  # So we're pulling this in as `gem_deprecate` from `deprecate`:
-  # https://github.com/rubygems/rubygems/blob/v3.5.9/lib/rubygems/deprecate.rb
+module Bridgetown::Foundation
+  # This is loosly based on the `deprecate` method in `Gem::Deprecate`
   #
-  # Pass in the deprecated method name, the new method name, and the year & month it'll be removed
-  #
+  # @param target [Object]
   # @param name [Symbol] e.g. `:howdy`
   # @param repl [Symbol] e.g. `:hello`
   # @param year [Integer] e.g. `2025`
   # @param month [Integer] e.g. `1` for January
-  def gem_deprecate(name, repl, year, month)
-    # rubocop:disable Style/FormatStringToken
-    class_eval do
-      old = "_deprecated_#{name}"
-      alias_method old, name
-      define_method name do |*args, &block|
-        klass = is_a? Module
-        target = klass ? "#{self}." : "#{self.class}#"
-        msg = [
-          "NOTE: #{target}#{name} is deprecated",
-          repl == :none ? " with no replacement" : "; use #{repl} instead",
-          format(". It will be removed on or after %4d-%02d.", year, month),
-          "\n#{target}#{name} called from #{Gem.location_of_caller.join(":")}",
-        ]
-        warn "#{msg.join}." unless Gem::Deprecate.skip
-        send old, *args, &block
-      end
-    end
-    # rubocop:enable Style/FormatStringToken
+  def self.deprecation_warning(target, name, repl, year, month) # rubocop:disable Metrics/ParameterLists
+    klass = target.is_a?(Module)
+    target = klass ? "#{self}." : "#{self.class}#"
+    msg = [
+      "NOTE: #{target}#{name} is deprecated",
+      repl == :none ? " with no replacement" : "; use #{repl} instead",
+      format(". It will be removed on or after %4d-%02d.", year, month), # rubocop:disable Style/FormatStringToken
+      "\n#{target}#{name} called from #{Gem.location_of_caller.join(":")}",
+    ]
+    warn "#{msg.join}."
   end
+end
+
+# You can add `using Bridgetown::Refinements` to any portion of your Ruby code to load in all
+# of the refinements available in Foundation. Or you can add a using statement for a particular
+# refinement which lives inside `Bridgetown::Foundation::RefineExt`.
+module Bridgetown::Refinements
 end
 
 Zeitwerk.with_loader do |l|

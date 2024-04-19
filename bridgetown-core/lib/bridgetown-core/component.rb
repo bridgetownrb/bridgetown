@@ -2,6 +2,7 @@
 
 module Bridgetown
   class Component
+    using Bridgetown::Refinements
     include Bridgetown::Streamlined
     extend Forwardable
 
@@ -120,7 +121,7 @@ module Bridgetown
       content = block.nil? ? input.to_s : view_context.capture(&block)
 
       name = name.to_s
-      slots.reject! { _1.name == name } if replace
+      slots.reject!(&:name.(:==, name)) if replace
 
       slots << Slot.new(name:, content:, context: self, transform: false)
 

@@ -6,6 +6,7 @@ require "active_support/html_safe_translation"
 module Bridgetown
   class RubyTemplateView
     class Helpers
+      using Bridgetown::Refinements
       include Bridgetown::Filters
       include Bridgetown::Filters::FromLiquid
       include ::Streamlined::Helpers
@@ -208,7 +209,7 @@ module Bridgetown
                    end
 
         name = name.to_s
-        resource.slots.reject! { _1.name == name } if replace
+        resource.slots.reject!(&:name.(:==, name)) if replace
         resource.slots << Slot.new(
           name:,
           content:,

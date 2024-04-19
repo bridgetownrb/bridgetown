@@ -2,6 +2,8 @@
 
 class Bridgetown::Site
   module FastRefreshable
+    using Bridgetown::Refinements
+
     def fast_refresh(paths = [], reload_if_needed: false) # rubocop:todo Metrics
       FileUtils.rm_f(Bridgetown.build_errors_path)
 
@@ -132,7 +134,7 @@ class Bridgetown::Site
     end
 
     def transform_resources_for_fast_refresh(marked_resources, found_gen_pages)
-      marked_resources.each { _1.transform!.write }
+      marked_resources.each(&:transform!.(:write))
       number_of_resources = marked_resources.length
       number_of_resources += 1 if found_gen_pages
       Bridgetown.logger.info(

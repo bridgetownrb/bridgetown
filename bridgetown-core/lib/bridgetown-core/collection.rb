@@ -2,6 +2,7 @@
 
 module Bridgetown
   class Collection
+    using Bridgetown::Refinements
     include Enumerable
 
     # @return [Bridgetown::Site]

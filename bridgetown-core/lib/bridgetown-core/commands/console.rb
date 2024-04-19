@@ -103,6 +103,7 @@ module Bridgetown
         Bridgetown.logger.info "",
                                "You can also access #{"collections".cyan} or perform a " \
                                "#{"reload!".cyan}"
+        Bridgetown.logger.info "", "For extra Ruby smarts: #{"using Bridgetown::Refinements".cyan}"
 
         trap("SIGINT") do
           irb.signal_handle

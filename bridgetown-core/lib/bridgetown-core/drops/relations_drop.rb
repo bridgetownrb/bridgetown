@@ -3,6 +3,7 @@
 module Bridgetown
   module Drops
     class RelationsDrop < Drop
+      using Bridgetown::Refinements
       mutable false
 
       def [](type)

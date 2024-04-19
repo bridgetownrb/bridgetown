@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module Bridgetown::Foundation
-  module CoreExt
+  module RefineExt
     module Object
-      module WithinOther
+      refine ::Object do
         # This method lets you check if the receiver is "within" the other object. In most cases,
         # this check is accomplished via the `include?` method…aka, `10.within? [5, 10]` would
         # return `true` as `[5, 10].include? 10` is true. And String/String comparison are
@@ -32,6 +32,8 @@ module Bridgetown::Foundation
           end
 
           if is_a?(Array) && other.is_a?(Array)
+            return false if empty?
+
             return difference(other).empty?
           end
 
@@ -51,11 +53,16 @@ module Bridgetown::Foundation
 
         # NOTE: if you _really_ need to preserve Active Support's `in?` functionality, you can just
         #   require "active_support/core_ext/object/inclusion"
-        alias_method :in?, :within?
-        gem_deprecate :in?, :within?, 2024, 12
+        def in?(...) = Bridgetown::Foundation.deprecation_warning(
+          self, :in?, :within?, 2024, 12
+        ).then { within?(...) }
       end
-
-      ::Object.include WithinOther
     end
+  end
+end
+
+module Bridgetown
+  module Refinements
+    include Foundation::RefineExt::Object
   end
 end

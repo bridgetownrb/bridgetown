@@ -73,6 +73,8 @@ end
 class Rb < String; end
 
 module Bridgetown
+  using Bridgetown::Refinements
+
   autoload :Cache,               "bridgetown-core/cache"
   autoload :Current,             "bridgetown-core/current"
   autoload :Cleaner,             "bridgetown-core/cleaner"

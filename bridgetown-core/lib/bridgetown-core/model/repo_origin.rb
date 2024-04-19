@@ -3,6 +3,7 @@
 module Bridgetown
   module Model
     class RepoOrigin < Origin
+      using Bridgetown::Refinements
       include Bridgetown::FrontMatter::Importer
 
       # @return [String]

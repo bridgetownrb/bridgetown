@@ -3,6 +3,8 @@
 require "test_helper"
 
 class TestString < Minitest::Test
+  using Bridgetown::Refinements
+
   def test_that_it_has_a_version_number
     refute_nil ::Bridgetown::Foundation::VERSION
   end
@@ -30,5 +32,11 @@ class TestString < Minitest::Test
 
     assert "this".ends_with?("is")
     refute "this".ends_with?("si")
+  end
+
+  # TODO: more testing of other data types
+  def test_within
+    assert "abc".within? ["def", "abc"]
+    refute "abc".within? ["def"]
   end
 end
