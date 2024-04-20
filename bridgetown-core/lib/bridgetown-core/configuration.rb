@@ -3,6 +3,8 @@
 module Bridgetown
   # The primary configuration object for a Bridgetown project
   class Configuration < HashWithDotAccess::Hash
+    using Bridgetown::Refinements
+
     REQUIRE_DENYLIST = %i(parse_routes ssr) # rubocop:disable Style/MutableConstant
 
     Initializer = Struct.new(:name, :block, :completed, keyword_init: true) do

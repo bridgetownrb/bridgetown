@@ -4,6 +4,8 @@ require "helper"
 require "colorator"
 
 class TestConfiguration < BridgetownUnitTest
+  using Bridgetown::Refinements
+
   def test_config
     @test_config ||= {
       "root_dir"    => site_root_dir,
