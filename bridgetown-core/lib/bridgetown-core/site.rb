@@ -61,7 +61,7 @@ module Bridgetown
       @reader          = Reader.new(self)
       @liquid_renderer = LiquidRenderer.new(self)
 
-      Bridgetown::Cache.base_cache["site_tmp"] = {}.with_dot_access
+      Bridgetown::Cache.base_cache["site_tmp"] = HashWithDotAccess::Hash.new
       ensure_not_in_dest
 
       Bridgetown::Current.sites[@label] = self

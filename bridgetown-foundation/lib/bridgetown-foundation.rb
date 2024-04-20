@@ -33,7 +33,6 @@ end
 Zeitwerk.with_loader do |l|
   l.push_dir "#{__dir__}/bridgetown/foundation", namespace: Bridgetown::Foundation
   l.ignore "#{__dir__}/bridgetown/foundation/version.rb"
-  #l.ignore "#{__dir__}/bridgetown/foundation/core_ext/string.rb"
   l.setup
   l.eager_load
 end

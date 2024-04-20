@@ -3,6 +3,8 @@
 module Bridgetown
   module Resource
     class TaxonomyType
+      using HashWithDotAccess::Refinements
+
       # @return [Bridgetown::Site]
       attr_reader :site
 
@@ -28,7 +30,7 @@ module Bridgetown
       def terms
         site.resources.map do |resource|
           resource.taxonomies[label].terms
-        end.flatten.group_by(&:label).with_dot_access
+        end.flatten.group_by(&:label).as_dots
       end
 
       def inspect

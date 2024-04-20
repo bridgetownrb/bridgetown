@@ -3,6 +3,7 @@
 module Bridgetown
   module Resource
     class Base # rubocop:todo Metrics/ClassLength
+      using HashWithDotAccess::Refinements
       include Comparable
       include Bridgetown::Publishable
       include Bridgetown::LayoutPlaceable
@@ -93,10 +94,7 @@ module Bridgetown
       #
       # @return [HashWithDotAccess::Hash]
       def front_matter_defaults
-        site.frontmatter_defaults.all(
-          relative_path.to_s,
-          collection.label.to_sym
-        ).with_dot_access
+        site.frontmatter_defaults.all(relative_path.to_s, collection.label.to_sym).as_dots
       end
 
       # @return [HashWithDotAccess::Hash]

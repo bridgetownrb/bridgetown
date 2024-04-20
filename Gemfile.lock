@@ -18,7 +18,7 @@ PATH
       erubi (~> 1.9)
       faraday (~> 2.0)
       faraday-follow_redirects (~> 0.3)
-      hash_with_dot_access (~> 1.2)
+      hash_with_dot_access (~> 2.0)
       i18n (~> 1.0)
       kramdown (~> 2.1)
       kramdown-parser-gfm (~> 1.0)
@@ -97,8 +97,7 @@ GEM
     faraday-net_http (3.1.0)
       net-http
     ffi (1.16.3)
-    hash_with_dot_access (1.2.0)
-      activesupport (>= 5.0.0, < 8.0)
+    hash_with_dot_access (2.0.0)
     i18n (1.14.4)
       concurrent-ruby (~> 1.0)
     jaro_winkler (1.5.6)

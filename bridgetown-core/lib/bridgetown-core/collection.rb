@@ -3,6 +3,7 @@
 module Bridgetown
   class Collection
     using Bridgetown::Refinements
+    using HashWithDotAccess::Refinements
     include Enumerable
 
     # @return [Bridgetown::Site]
@@ -250,7 +251,7 @@ module Bridgetown
         end
       end
 
-      merge_environment_specific_metadata(data_contents).with_dot_access
+      merge_environment_specific_metadata(data_contents).as_dots
     end
 
     def merge_environment_specific_metadata(data_contents)
