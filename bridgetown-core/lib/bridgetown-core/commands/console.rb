@@ -95,6 +95,9 @@ module Bridgetown
         workspace = IRB::WorkSpace.new
         workspace.main.define_singleton_method(:site) { Bridgetown::Current.site }
         workspace.main.define_singleton_method(:collections) { site.collections }
+        workspace.main.define_singleton_method(:helpers) do
+          Bridgetown::RubyTemplateView::Helpers.new
+        end
         irb = IRB::Irb.new(workspace)
         IRB.conf[:IRB_RC]&.call(irb.context)
         IRB.conf[:MAIN_CONTEXT] = irb.context

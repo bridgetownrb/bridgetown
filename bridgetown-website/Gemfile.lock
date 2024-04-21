@@ -18,7 +18,6 @@ PATH
       erubi (~> 1.9)
       faraday (~> 2.0)
       faraday-follow_redirects (~> 0.3)
-      hash_with_dot_access (~> 2.0)
       i18n (~> 1.0)
       kramdown (~> 2.1)
       kramdown-parser-gfm (~> 1.0)
@@ -39,6 +38,7 @@ PATH
   remote: ../bridgetown-foundation
   specs:
     bridgetown-foundation (1.3.4)
+      hash_with_dot_access (~> 2.0)
       zeitwerk (~> 2.5)
 
 PATH

@@ -21,9 +21,9 @@ module Bridgetown
 
       # @param view [Bridgetown::RubyTemplateView]
       # @param site [Bridgetown::Site]
-      def initialize(view, site)
+      def initialize(view = nil, site = nil)
         @view = view
-        @site = site
+        @site = site || Bridgetown::Current.site
 
         # duck typing for Liquid context
         @context = Context.new({ site: })
