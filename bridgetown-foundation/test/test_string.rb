@@ -36,7 +36,7 @@ class TestString < Minitest::Test
 
   # TODO: more testing of other data types
   def test_within
-    assert "abc".within? ["def", "abc"]
+    assert "abc".within? %w[def abc]
     refute "abc".within? ["def"]
   end
 end

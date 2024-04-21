@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "bridgetown/foundation/version"
+require "hash_with_dot_access"
 require "zeitwerk"
 
 module Bridgetown::Foundation
@@ -28,6 +29,7 @@ end
 # of the refinements available in Foundation. Or you can add a using statement for a particular
 # refinement which lives inside `Bridgetown::Foundation::RefineExt`.
 module Bridgetown::Refinements
+  include HashWithDotAccess::Refinements
 end
 
 Zeitwerk.with_loader do |l|

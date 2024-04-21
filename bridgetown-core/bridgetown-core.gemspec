@@ -41,7 +41,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("erubi",                     "~> 1.9")
   s.add_runtime_dependency("faraday",                   "~> 2.0")
   s.add_runtime_dependency("faraday-follow_redirects",  "~> 0.3")
-  s.add_runtime_dependency("hash_with_dot_access",      "~> 2.0")
   s.add_runtime_dependency("i18n",                      "~> 1.0")
   s.add_runtime_dependency("kramdown",                  "~> 2.1")
   s.add_runtime_dependency("kramdown-parser-gfm",       "~> 1.0")

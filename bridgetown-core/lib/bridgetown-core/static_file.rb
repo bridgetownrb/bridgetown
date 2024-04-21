@@ -2,7 +2,7 @@
 
 module Bridgetown
   class StaticFile
-    using HashWithDotAccess::Refinements
+    using Bridgetown::Refinements
     extend Forwardable
 
     attr_reader :relative_path, :extname, :name, :data, :site, :collection

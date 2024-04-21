@@ -2,7 +2,7 @@
 
 module Bridgetown
   class Layout
-    using HashWithDotAccess::Refinements
+    using Bridgetown::Refinements
     include FrontMatter::Importer
     include LiquidRenderable
 

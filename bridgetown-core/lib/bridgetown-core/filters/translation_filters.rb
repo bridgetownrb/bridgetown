@@ -17,7 +17,7 @@ module Bridgetown
       private
 
       def string_to_hash(options)
-        options.split(",").to_h { |e| e.split(":").map(&:strip) }.symbolize_keys
+        options.split(",").to_h { |e| e.split(":").map(&:strip) }.transform_keys(&:to_sym)
       end
     end
   end

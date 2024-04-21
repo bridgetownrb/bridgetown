@@ -3,7 +3,7 @@
 module Bridgetown
   module Resource
     class Base # rubocop:todo Metrics/ClassLength
-      using HashWithDotAccess::Refinements
+      using Bridgetown::Refinements
       include Comparable
       include Bridgetown::Publishable
       include Bridgetown::LayoutPlaceable

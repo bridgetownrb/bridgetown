@@ -3,7 +3,6 @@
 module Bridgetown
   class Collection
     using Bridgetown::Refinements
-    using HashWithDotAccess::Refinements
     include Enumerable
 
     # @return [Bridgetown::Site]

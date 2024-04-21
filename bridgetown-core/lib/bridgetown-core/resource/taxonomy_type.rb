@@ -3,7 +3,7 @@
 module Bridgetown
   module Resource
     class TaxonomyType
-      using HashWithDotAccess::Refinements
+      using Bridgetown::Refinements
 
       # @return [Bridgetown::Site]
       attr_reader :site
