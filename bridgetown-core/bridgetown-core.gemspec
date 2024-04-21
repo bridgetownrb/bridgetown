@@ -31,7 +31,6 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version     = ">= 3.1.0"
 
-  s.add_runtime_dependency("activemodel",               [">= 6.0", "< 8.0"])
   s.add_runtime_dependency("activesupport",             [">= 6.0", "< 8.0"])
   s.add_runtime_dependency("addressable",               "~> 2.4")
   s.add_runtime_dependency("amazing_print",             "~> 1.2")
