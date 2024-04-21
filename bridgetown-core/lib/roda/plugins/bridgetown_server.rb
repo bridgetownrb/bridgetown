@@ -159,12 +159,26 @@ class Roda
           _previous_roda_cookies.with_indifferent_access
         end
 
-        # Starts up the Bridgetown routing system
+        # Start up the Bridgetown routing system
         def bridgetown
           scope.initialize_bridgetown_context
           scope.initialize_bridgetown_root
 
-          Bridgetown::Rack::Routes.start!(scope)
+          # Run the static file server
+          ssg
+
+          # There are two different code paths depending on if there's a site `base_path` configured
+          if Bridgetown::Current.preloaded_configuration.base_path == "/"
+            Bridgetown::Rack::Routes.load_all scope
+            return
+          end
+
+          # Support custom base_path configurations
+          on(Bridgetown::Current.preloaded_configuration.base_path.delete_prefix("/")) do
+            Bridgetown::Rack::Routes.load_all scope
+          end
+
+          nil
         end
       end
     end
