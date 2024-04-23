@@ -32,8 +32,6 @@ class Bridgetown::Site
     end
 
     def ssr_setup(&block)
-      config.serving = true
-
       Bridgetown::Hooks.trigger :site, :pre_read, self
       ssr_first_read
       Bridgetown::Hooks.trigger :site, :post_read, self
