@@ -25,13 +25,49 @@ class Roda
       end
 
       def self.configure(app, _opts = {})
-        return unless app.opts[:bridgetown_site].nil?
+        app.root_hook do
+          routes_dir = File.expand_path(
+            bridgetown_site.config.routes.source_paths.first,
+            bridgetown_site.config.source
+          )
+          file = routes_manifest.glob_routes(routes_dir, "index").first
+          next unless file
+
+          run_file_route(file, slug: "index")
+        end
+
+        if app.opts[:bridgetown_site]
+          app.opts[:routes_manifest] ||=
+            Bridgetown::Routes::Manifest.new(app.opts[:bridgetown_site])
+          return
+        end
 
         raise "Roda app failure: the bridgetown_ssr plugin must be registered before " \
               "bridgetown_routes"
       end
 
       module InstanceMethods
+        def routes_manifest
+          self.class.opts[:routes_manifest]
+        end
+
+        def run_file_route(file, slug:)
+          response["X-Bridgetown-Routes"] = "1"
+          # eval_route_file caches when Bridgetown.env.production?
+          Bridgetown::Routes::CodeBlocks.eval_route_file file, slug, self
+
+          # set route locale
+          locale = routes_manifest.locale_for(slug)
+          I18n.locale = request.params[:locale] = locale
+
+          # get the route block extracted from the file at slug
+          route_block = Bridgetown::Routes::CodeBlocks.route_block(slug)
+          response.instance_variable_set(
+            :@_route_file_code, route_block.instance_variable_get(:@_route_file_code)
+          ) # could be nil
+          instance_exec(request, &route_block)
+        end
+
         def front_matter(&block)
           b = block.binding
           denylisted = %i(r app code ruby_content code_postmatch)
@@ -82,6 +118,32 @@ class Roda
           response._fake_resource_view(
             view_class:, roda_app: self, bridgetown_site:
           )
+        end
+      end
+
+      module RequestMethods
+        # This runs through all of the routes in the manifest, setting up Roda blocks for execution
+        def file_routes
+          scope.routes_manifest.routes.each do |route|
+            file, localized_file_slugs, segment_keys = route
+
+            localized_file_slugs.each do |slug|
+              # This sets up an initial Roda route block at the slug, and handles segments as params
+              #
+              # _routes/nested/[slug].erb -> "nested/:slug"
+              # "nested/123" -> r.params[:slug] == 123
+              on slug do |*segment_values|
+                segment_values.each_with_index do |value, index|
+                  params[segment_keys[index]] ||= value
+                end
+
+                # This is provided as an instance method by our Roda plugin:
+                scope.run_file_route(file, slug:)
+              end
+            end
+          end
+
+          nil # be sure not to return the above array loop
         end
       end
 

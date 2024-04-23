@@ -3,13 +3,11 @@
 require "zeitwerk"
 require "roda"
 require "json"
-require "roda/plugins/public"
 
 Bridgetown::Current.preloaded_configuration ||= Bridgetown.configuration
 
 require_relative "logger"
 require_relative "routes"
-require_relative "static_indexes"
 
 module Bridgetown
   module Rack

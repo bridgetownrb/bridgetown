@@ -28,6 +28,7 @@ class Bridgetown::Site
 
     def enable_ssr
       Bridgetown.logger.info "SSR:", "enabled."
+      config.fast_refresh = false # SSR mode and Fast Refresh mode are mututally exclusive
       @ssr_enabled = true
     end
 
@@ -44,6 +45,7 @@ class Bridgetown::Site
     end
 
     def ssr_first_read
+      # TODO: this shouldn't be running twice, right?!
       Bridgetown::Hooks.trigger :site, :pre_read, self
       defaults_reader.tap do |d|
         d.path_defaults.clear
