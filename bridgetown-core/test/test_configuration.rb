@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "helper"
-require "colorator"
 
 class TestConfiguration < BridgetownUnitTest
   using Bridgetown::Refinements
@@ -262,7 +261,7 @@ class TestConfiguration < BridgetownUnitTest
         raise SystemCallError, "No such file or directory - #{@path}"
       end
       allow($stderr).to receive(:puts).with(
-        Colorator.yellow("Configuration file: none")
+        "Configuration file: none".yellow
       )
       assert_equal site_configuration, default_config_fixture
     end
@@ -279,11 +278,11 @@ class TestConfiguration < BridgetownUnitTest
         .to receive(:puts)
         .and_return(
           "WARNING: ".rjust(20) +
-          Colorator.yellow("Error reading configuration. Using defaults (and options).")
+          "Error reading configuration. Using defaults (and options).".yellow
         )
       allow($stderr)
         .to receive(:puts)
-        .and_return(Colorator.yellow("Configuration file: (INVALID) #{@path}"))
+        .and_return("Configuration file: (INVALID) #{@path}".yellow)
       assert_equal site_configuration, default_config_fixture
     end
 
@@ -293,10 +292,10 @@ class TestConfiguration < BridgetownUnitTest
       end
       allow($stderr)
         .to receive(:puts)
-        .with(Colorator.red(
+        .with((
                 "Fatal: ".rjust(20) + \
                 "The configuration file '#{@user_config}' could not be found."
-              ))
+              ).red)
       assert_raises LoadError do
         Bridgetown.configuration("config" => [@user_config])
       end
