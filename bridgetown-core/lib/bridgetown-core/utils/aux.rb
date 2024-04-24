@@ -4,9 +4,9 @@ module Bridgetown
   module Utils
     module Aux
       def self.with_color(name, message)
-        return message unless !name.nil? && Bridgetown::Utils::Ansi::COLORS[name.to_sym]
+        return message unless !name.nil? && Bridgetown::Foundation::Ansi::COLORS[name.to_sym]
 
-        Bridgetown::Utils::Ansi.send(name, message)
+        Bridgetown::Foundation::Ansi.send(name, message)
       end
 
       def self.running_pids
