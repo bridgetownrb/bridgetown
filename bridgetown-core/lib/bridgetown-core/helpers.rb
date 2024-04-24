@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "streamlined/helpers"
-require "active_support/html_safe_translation"
 
 module Bridgetown
   class RubyTemplateView
