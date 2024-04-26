@@ -16,7 +16,7 @@ render html->{ <<~HTML
   #{ render "an_erb_partial", abc: 456 }
   #{ html-> do
     if data.title.include?("Ruby")
-      render RubyHtmlText.new
+      render RubyHTMLText.new
     else
       nil
     end
