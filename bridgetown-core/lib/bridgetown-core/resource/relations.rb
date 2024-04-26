@@ -15,6 +15,7 @@ module Bridgetown
       def initialize(resource)
         @resource = resource
         @site = resource.site
+        @inflector = site.config.inflector
       end
 
       # @return [HashWithDotAccess::Hash]
@@ -28,7 +29,7 @@ module Bridgetown
           types = []
           relation_schema&.each_value do |collections|
             types << collections
-            types << Array(collections).map { |item| ActiveSupport::Inflector.pluralize(item) }
+            types << Array(collections).map { |item| @inflector.pluralize(item) }
           end
           types.flatten.uniq
         end
@@ -72,7 +73,7 @@ module Bridgetown
         relation_schema&.each do |relation_type, collections|
           collections = Array(collections).then do |collections_arr|
             collections_arr +
-              collections_arr.map { |item| ActiveSupport::Inflector.pluralize(item) }
+              collections_arr.map { |item| @inflector.pluralize(item) }
           end.flatten.uniq
           return relation_type if collections.include?(type.to_s)
         end
@@ -81,14 +82,14 @@ module Bridgetown
       # @param type [Symbol]
       # @return [Bridgetown::Collection]
       def other_collection_for_type(type)
-        site.collections[type] || site.collections[ActiveSupport::Inflector.pluralize(type)]
+        site.collections[type] || site.collections[@inflector.pluralize(type)]
       end
 
       # @return [Array<String>]
       def collection_labels
         [
           resource.collection.label,
-          ActiveSupport::Inflector.singularize(resource.collection.label),
+          @inflector.singularize(resource.collection.label),
         ]
       end
 

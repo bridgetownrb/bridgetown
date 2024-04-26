@@ -81,6 +81,7 @@ module Bridgetown
   autoload :FrontMatter,         "bridgetown-core/front_matter"
   autoload :GeneratedPage,       "bridgetown-core/generated_page"
   autoload :Hooks,               "bridgetown-core/hooks"
+  autoload :Inflector,           "bridgetown-core/inflector"
   autoload :Layout,              "bridgetown-core/layout"
   autoload :LayoutPlaceable,     "bridgetown-core/concerns/layout_placeable"
   autoload :LayoutReader,        "bridgetown-core/readers/layout_reader"
