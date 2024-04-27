@@ -45,6 +45,7 @@ module Bridgetown
       "eager_load_paths"           => [],
       "autoloader_collapsed_paths" => [],
       "additional_watch_paths"     => [],
+      "defaults"                   => [],
 
       # Handling Reading
       "include"                    => [".htaccess", "_redirects", ".well-known"],
@@ -61,26 +62,19 @@ module Bridgetown
       "ruby_in_front_matter"       => true,
 
       # Conversion
-      "content_engine"             => "resource",
       "markdown"                   => "kramdown",
       "highlighter"                => "rouge",
 
-      # Serving
-      "port"                       => "4000",
-      "host"                       => "127.0.0.1",
-      "base_path"                  => "/",
-      "show_dir_listing"           => false,
-
       # Output Configuration
+      "base_path"                  => "/",
       "available_locales"          => [:en],
       "default_locale"             => :en,
       "prefix_default_locale"      => false,
-      "permalink"                  => nil, # default is set according to content engine
+      "permalink"                  => "pretty",
       "timezone"                   => nil, # use the local timezone
 
       "quiet"                      => false,
       "verbose"                    => false,
-      "defaults"                   => [],
 
       "liquid"                     => {
         "error_mode"       => "warn",
@@ -106,10 +100,6 @@ module Bridgetown
         "fast_refresh" => true,
       },
     }.each_with_object(Configuration.new) { |(k, v), hsh| hsh[k] = v.freeze }.freeze
-
-    # TODO: Deprecated. Remove support for _config as well as toml in the next release.
-    CONFIG_FILE_PREFIXES = %w(bridgetown.config _config).freeze
-    CONFIG_FILE_EXTS = %w(yml yaml toml).freeze
 
     # @return [Hash<Symbol, Initializer>]
     attr_accessor :initializers
@@ -208,33 +198,8 @@ module Bridgetown
     end
     alias_method :verbose?, :verbose
 
-    def safe_load_file(filename) # rubocop:todo Metrics
-      case File.extname(filename)
-      when %r!\.toml!i
-        Deprecator.deprecation_message(
-          "TOML configurations will no longer be supported in the next version of Bridgetown." \
-          "Use initializers or a .yaml config instead."
-        )
-        Bridgetown::Utils::RequireGems.require_with_graceful_fail("tomlrb") unless defined?(Tomlrb)
-        Tomlrb.load_file(filename)
-      when %r!\.ya?ml!i
-        if File.basename(filename, ".*") == "_config"
-          Deprecator.deprecation_message(
-            "YAML configurations named `_config.y(a)ml' will no longer be supported in the next " \
-            "version of Bridgetown. Rename to `bridgetown.config.yml' instead."
-          )
-        end
-        if File.extname(filename) == ".yaml"
-          Deprecator.deprecation_message(
-            "YAML configurations ending in `.yaml' will no longer be supported in the next " \
-            "version of Bridgetown. Rename to use `.yml' extension instead."
-          )
-        end
-        YAMLParser.load_file(filename) || {}
-      else
-        raise ArgumentError,
-              "No parser for '#{filename}' is available. Use a .y(a)ml file instead."
-      end
+    def safe_load_file(filename)
+      YAMLParser.load_file(filename) || {}
     rescue Psych::DisallowedClass => e
       raise "Unable to parse `#{File.basename(filename)}'. #{e.message}"
     end
@@ -257,27 +222,17 @@ module Bridgetown
       # multiple configs can be specified via command line.
       config_files = override["config"]
       if config_files.to_s.empty?
-        file_lookups = CONFIG_FILE_PREFIXES.map do |prefix|
-          CONFIG_FILE_EXTS.map do |ext|
-            Bridgetown.sanitized_path(root_dir(override), "#{prefix}.#{ext}")
-          end
-        end.flatten.freeze
-
-        found_file = file_lookups.find do |path|
-          File.exist?(path)
-        end
-
-        config_files = found_file || file_lookups.first
+        config_files = "bridgetown.config.yml"
         @default_config_file = true
       end
       Array(config_files)
     end
 
-    # Public: Read in a list of configuration files and merge with this hash
+    # Read in a list of configuration files and merge with this hash
     #
-    # files - the list of configuration file paths
+    # @param files [Array<String>]
     #
-    # Returns the full configuration, with the defaults overridden by the values in the
+    # @return [Hash] configuration with the defaults overridden by the values in the
     # configuration files
     def read_config_files(files)
       config = self
@@ -298,30 +253,23 @@ module Bridgetown
       config
     end
 
-    # Public: Read configuration and return merged Hash
+    # Read configuration and return merged Hash
     #
-    # file - the path to the YAML file to be read in
+    # @param file [String] the path to the YAML file to be read in
     #
-    # Returns this configuration, overridden by the values in the file
+    # @return [Hash]
     def read_config_file(file)
       file = File.expand_path(file)
-      next_config = safe_load_file(file)
+      return {} unless File.exist?(file)
 
-      unless next_config.is_a?(Hash)
+      file_config = safe_load_file(file)
+
+      unless file_config.is_a?(Hash)
         raise ArgumentError, "Configuration file: (INVALID) #{file}".yellow
       end
 
       Bridgetown.logger.debug "Configuration file:", file
-      next_config
-    rescue SystemCallError
-      if @default_config_file ||= nil
-        initializers_file = File.join(root_dir, "config", "initializers.rb")
-        Bridgetown.logger.warn "Configuration file:", "none" unless File.file?(initializers_file)
-        {}
-      else
-        Bridgetown.logger.error "Fatal:", "The configuration file '#{file}' could not be found."
-        raise LoadError, "The Configuration file '#{file}' could not be found."
-      end
+      file_config
     end
 
     # Merge in environment-specific options, if present
@@ -393,17 +341,11 @@ module Bridgetown
       self[:collections][:posts][:output] = true
       self[:collections][:posts][:sort_direction] ||= "descending"
 
-      self[:permalink] = "pretty" if self[:permalink].blank?
       self[:collections][:pages] = {} unless self[:collections][:pages]
       self[:collections][:pages][:output] = true
-      self[:collections][:pages][:permalink] ||= "/:locale/:path/"
 
       self[:collections][:data] = {} unless self[:collections][:data]
       self[:collections][:data][:output] = false
-
-      unless self[:collections][:posts][:permalink]
-        self[:collections][:posts][:permalink] = self[:permalink]
-      end
 
       self
     end

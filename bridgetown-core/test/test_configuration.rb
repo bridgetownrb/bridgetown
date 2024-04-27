@@ -38,24 +38,15 @@ class TestConfiguration < BridgetownUnitTest
         "posts" => {
           "output"         => true,
           "sort_direction" => "descending",
-          "permalink"      => "pretty",
         },
         "pages" => {
-          "output"    => true,
-          "permalink" => "/:locale/:path/",
+          "output" => true,
         },
         "data"  => {
           "output" => false,
         },
       }
       assert_equal expected, result["collections"]
-    end
-
-    should "NOT backwards-compatibilize" do
-      assert(
-        Configuration.from("watch" => true)["watch"],
-        "Expected the 'watch' key to not be removed."
-      )
     end
 
     should "allow indifferent access" do
@@ -143,83 +134,6 @@ class TestConfiguration < BridgetownUnitTest
 
     should "not mess with keys already strings" do
       assert_equal @string_keys, @string_keys.stringify_keys
-    end
-  end
-
-  context "#config_files" do
-    setup do
-      @config = Configuration[{
-        "root_dir" => site_root_dir,
-        "source"   => source_dir,
-      }]
-      @no_override = {}
-      @one_config_file = { "config" => "config.yml" }
-      @multiple_files = {
-        "config" => %w(config/site.yml config/deploy.toml configuration.yml),
-      }
-    end
-
-    should "always return an array" do
-      assert @config.config_files(@no_override).is_a?(Array)
-      assert @config.config_files(@one_config_file).is_a?(Array)
-      assert @config.config_files(@multiple_files).is_a?(Array)
-    end
-
-    should "return the default config path if no config files are specified" do
-      assert_equal [site_root_dir("bridgetown.config.yml")], @config.config_files(@no_override)
-    end
-
-    should "return .yaml if it exists but .yml does not" do
-      allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.yml")).and_return(false)
-      allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.yaml")).and_return(true)
-      assert_equal [site_root_dir("bridgetown.config.yaml")], @config.config_files(@no_override)
-    end
-
-    should "return .yml if both .yml and .yaml exist" do
-      allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.yml")).and_return(true)
-      assert_equal [site_root_dir("bridgetown.config.yml")], @config.config_files(@no_override)
-    end
-
-    should "return .toml if that exists" do
-      allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.yml")).and_return(false)
-      allow(File).to receive(:exist?).with(
-        site_root_dir("bridgetown.config.yaml")
-      ).and_return(false)
-      allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.toml")).and_return(true)
-      assert_equal [site_root_dir("bridgetown.config.toml")], @config.config_files(@no_override)
-    end
-
-    should "return .yml if both .yml and .toml exist" do
-      allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.yml")).and_return(true)
-      allow(File).to receive(:exist?).with(site_root_dir("bridgetown.config.toml")).and_return(true)
-      assert_equal [site_root_dir("bridgetown.config.yml")], @config.config_files(@no_override)
-    end
-
-    should "return legacy _config.yml if bridgetown.config.EXT isn't present" do
-      allow(File).to receive(:exist?).with(
-        site_root_dir("bridgetown.config.yml")
-      ).and_return(false)
-      allow(File).to receive(:exist?).with(
-        site_root_dir("bridgetown.config.yaml")
-      ).and_return(false)
-      allow(File).to receive(:exist?).with(
-        site_root_dir("bridgetown.config.toml")
-      ).and_return(false)
-      allow(File).to receive(:exist?).with(
-        site_root_dir("_config.yml")
-      ).and_return(true)
-      assert_equal [site_root_dir("_config.yml")], @config.config_files(@no_override)
-    end
-
-    should "return the config if given one config file" do
-      assert_equal %w(config.yml), @config.config_files(@one_config_file)
-    end
-
-    should "return an array of the config files if given many config files" do
-      assert_equal(
-        %w(config/site.yml config/deploy.toml configuration.yml),
-        @config.config_files(@multiple_files)
-      )
     end
   end
 
