@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r!^(benchmark|features|script|test)/!)
   end
-  s.executables   = ["bridgetown"]
+  s.executables   = ["bridgetown", "bt"] # `bt` is a shortcut to `bridgetown` command
   s.bindir        = "bin"
   s.require_paths = ["lib"]
 
