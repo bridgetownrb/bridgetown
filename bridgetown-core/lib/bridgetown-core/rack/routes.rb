@@ -142,7 +142,8 @@ module Bridgetown
                   new_mod = File.exist?(file_to_check) ? File.stat(file_to_check).mtime.to_i : 0
 
                   if @_mod < new_mod
-                    stream.write "data: reloaded!\n\n"
+                    @_mod = new_mod
+                    stream.write "data: reloaded! #{new_mod}\n\n"
                     break
                   elsif File.exist?(errors_file)
                     stream.write "event: builderror\ndata: #{File.read(errors_file).to_json}\n\n"

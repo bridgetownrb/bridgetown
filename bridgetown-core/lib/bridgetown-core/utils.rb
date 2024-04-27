@@ -467,18 +467,21 @@ module Bridgetown
       code = <<~JAVASCRIPT
         let lastmod = 0
         let reconnectAttempts = 0
+        window.bridgetownReloadStrategy ??= () => location.reload()
         function startLiveReload() {
           const connection = new EventSource("#{path}")
 
           connection.addEventListener("message", event => {
             reconnectAttempts = 0
             if (document.querySelector("#bridgetown-build-error")) document.querySelector("#bridgetown-build-error").close()
-            if (event.data == "reloaded!") {
-              location.reload()
+            if (event.data.startsWith("reloaded!")) {
+              lastmod = event.data.split(" ").at(-1)
+              bridgetownReloadStrategy()
             } else {
               const newmod = Number(event.data)
               if (lastmod > 0 && newmod > 0 && lastmod < newmod) {
-                location.reload()
+                lastmod = newmod
+                bridgetownReloadStrategy()
               } else {
                 lastmod = newmod
               }

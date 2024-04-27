@@ -72,3 +72,17 @@ document.add_event_listener "turbo:load" do
     end
   end
 end
+
+document.add_event_listener "turbo:render" do
+  next unless window.scroll_page_position
+
+  set_timeout 0 do
+    window.scroll_to 0, window.scroll_page_position
+    window.scroll_page_position = nil
+  end
+end
+
+window.bridgetown_reload_strategy = -> do
+  window.scroll_page_position = window.scroll_y
+  Turbo.visit(location.href, action: :replace)
+end
