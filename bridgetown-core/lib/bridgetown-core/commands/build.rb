@@ -29,10 +29,7 @@ module Bridgetown
       # Build your bridgetown site
       # Continuously watch if `watch` is set to true in the config.
       def build
-        unless options[:quiet] ||
-            caller_locations.find { _1.to_s.include?("bridgetown-core/commands/start.rb") }
-          self.class.print_startup_message
-        end
+        Bridgetown.logger.adjust_verbosity(options)
 
         # @type [Bridgetown::Configuration]
         config_options = configuration_with_overrides(
