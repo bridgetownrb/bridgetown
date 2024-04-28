@@ -17,7 +17,7 @@ module Bridgetown
 
       def supports_slots? = @support_slots
 
-      def support_slots(bool = nil)
+      def support_slots(bool = true) # rubocop:disable Style/OptionalBooleanParameter
         @support_slots = bool == true
       end
 
@@ -50,9 +50,10 @@ module Bridgetown
     #
     # @param [String] ext
     #   The file's extension (including the dot)
+    # @param convertible [Bridgetown::Layout, Bridgetown::Resource::Base]
     #
     # @return [Boolean] Whether the extension matches one in the list
-    def matches(ext, convertible = nil)
+    def matches(ext, _convertible = nil)
       (self.class.extname_list || []).include?(ext.downcase)
     end
 
@@ -78,7 +79,7 @@ module Bridgetown
       end
     end
 
-    def line_start(convertible)
+    def line_start(convertible) # rubocop:disable Metrics/PerceivedComplexity
       if convertible.is_a?(Bridgetown::Resource::Base) &&
           convertible.model.origin.respond_to?(:front_matter_line_count)
         if convertible.model.origin.front_matter_line_count.nil?

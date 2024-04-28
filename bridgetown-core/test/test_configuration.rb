@@ -247,9 +247,7 @@ class TestConfiguration < BridgetownUnitTest
     setup do
       @paths = {
         default: site_root_dir("bridgetown.config.yml"),
-        other: site_root_dir("_config.live.yml"),
-        toml: site_root_dir("_config.dev.toml"),
-        empty: site_root_dir(""),
+        other: site_root_dir("bridgetown_config.other.yml"),
       }
     end
 
@@ -286,14 +284,6 @@ class TestConfiguration < BridgetownUnitTest
           "config"    => @paths[:other]
         ),
         default_config_fixture({ config: @paths[:other] })
-    end
-
-    should "load default config if path passed is empty" do
-      allow(Bridgetown::YAMLParser).to receive(:load_file).with(@paths[:default]).and_return({})
-      allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:default]}")
-      assert_equal \
-        site_configuration("config" => [@paths[:empty]]),
-        default_config_fixture({ "config" => [@paths[:empty]] })
     end
 
     should "load multiple config files" do

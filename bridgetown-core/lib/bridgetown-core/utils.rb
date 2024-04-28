@@ -122,8 +122,7 @@ module Bridgetown
     # Determines whether a given file has
     #
     # @return [Boolean] if the YAML front matter is present.
-    # rubocop: disable Naming/PredicateName
-    def has_yaml_header?(file)
+    def has_yaml_header?(file) # rubocop: disable Naming/PredicateName
       Bridgetown::Deprecator.deprecation_message(
         "Bridgetown::Utils.has_yaml_header? is deprecated, use " \
         "Bridgetown::FrontMatter::Loaders::YAML.header? instead"
@@ -131,7 +130,7 @@ module Bridgetown
       FrontMatter::Loaders::YAML.header?(file)
     end
 
-    def has_rbfm_header?(file)
+    def has_rbfm_header?(file) # rubocop: disable Naming/PredicateName
       Bridgetown::Deprecator.deprecation_message(
         "Bridgetown::Utils.has_rbfm_header? is deprecated, use " \
         "Bridgetown::FrontMatter::Loaders::Ruby.header? instead"

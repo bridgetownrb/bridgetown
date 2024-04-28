@@ -99,6 +99,7 @@ class TestGeneratedPage < BridgetownUnitTest
              "an entry in 'site.generated_pages' array" do
         @page.content = "{{ site.title }}"
         @page.data["permalink"] = "/virtual-about/"
+        @page.data["template_engine"] = "liquid"
 
         @site.generated_pages << @page
         render_and_write

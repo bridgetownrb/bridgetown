@@ -222,10 +222,7 @@ module Bridgetown
       # By default only the first matching config file will be loaded, but
       # multiple configs can be specified via command line.
       config_files = override["config"]
-      if config_files.to_s.empty?
-        config_files = "bridgetown.config.yml"
-        @default_config_file = true
-      end
+      config_files = "bridgetown.config.yml" if config_files.to_s.empty?
       Array(config_files)
     end
 
@@ -260,8 +257,10 @@ module Bridgetown
     #
     # @return [Hash]
     def read_config_file(file)
+      default_config_file = file == "bridgetown.config.yml"
       file = File.expand_path(file)
-      return {} unless File.exist?(file)
+      # We don't care if default config is missing, we can return blank:
+      return {} if !File.exist?(file) && default_config_file
 
       file_config = safe_load_file(file)
 
@@ -271,6 +270,9 @@ module Bridgetown
 
       Bridgetown.logger.debug "Configuration file:", file
       file_config
+    rescue SystemCallError
+      Bridgetown.logger.error "Fatal:", "The configuration file '#{file}' could not be found."
+      raise LoadError, "missing configuration file"
     end
 
     # Merge in environment-specific options, if present

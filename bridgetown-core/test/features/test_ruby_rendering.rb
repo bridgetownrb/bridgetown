@@ -17,8 +17,6 @@ class TestRubyRendering < BridgetownFeatureTest
 
       create_file "_layouts/simple.html", "<h1><%= page.data.title %></h1> <%= yield %>"
 
-      create_configuration template_engine: "erb"
-
       run_bridgetown "build"
 
       assert_file_contains "<p><em>Luke</em>, I am your father.</p>", "output/2009/03/27/star-wars/index.html"
@@ -31,8 +29,6 @@ class TestRubyRendering < BridgetownFeatureTest
       ERB
 
       create_file "_layouts/simple.liquid", "<h1>{{ page.title }}</h1> {{ content }}"
-
-      create_configuration template_engine: "erb"
 
       run_bridgetown "build"
 
@@ -80,7 +76,7 @@ class TestRubyRendering < BridgetownFeatureTest
         _Luke_, <%= ["I", "am"].join(" ") %> your father.
       ERB
 
-      create_file "_layouts/simple.html", <<~LIQUID
+      create_file "_layouts/simple.liquid", <<~LIQUID
         <h1>{{ page.title }}</h1> {{ content }}
       LIQUID
 
@@ -180,11 +176,12 @@ class TestRubyRendering < BridgetownFeatureTest
     should "replace slot" do
       create_page "_posts/star-wars.md", <<~ERB, title: "Star Wars", date: "2009-03-27", layout: "simple"
         <% slot "title" do %># Star Trek<% end %><% slot "title", replace: true do %> # <%= data.title %><% end %>
+
+        # Foo Bar
+        Hello **world**
       ERB
 
-      create_file "_layouts/simple.html", '<%= slotted :title, "[BLANK]" %> <%= yield %>'
-
-      create_configuration template_engine: "erb"
+      create_file "_layouts/simple.html", '<%= slotted :title, "[BLANK]" %> <%= yield %> The END'
 
       run_bridgetown "build"
 

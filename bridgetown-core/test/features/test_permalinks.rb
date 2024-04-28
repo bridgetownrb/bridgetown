@@ -110,8 +110,8 @@ class TestPermalinks < BridgetownFeatureTest
 
     should "support multi-lingual rendering within custom collections" do
       create_directory "_blogs"
-      create_page "_blogs/2024-02-27-multi-lingual.md", "Awesome! {{ site.locale }}", title: "English Locale"
-      create_page "_blogs/2024-02-27-multi-lingual.es.md", "Impresionante! {{ site.locale }}", title: "Custom Locale"
+      create_page "_blogs/2024-02-27-multi-lingual.md", "Awesome! {{ site.locale }}", title: "English Locale", template_engine: "liquid"
+      create_page "_blogs/2024-02-27-multi-lingual.es.md", "Impresionante! {{ site.locale }}", title: "Custom Locale", template_engine: "liquid"
 
       create_configuration collections: { blogs: { output: true, permalink: "/:locale/:collection/:slug/" } }, available_locales: %w[en es]
       run_bridgetown "build"

@@ -17,7 +17,7 @@ class TestData < BridgetownFeatureTest
           price: 2.5
       YAML
 
-      create_page "index.html", "{% for product in site.data.products %}{{product.name}}{% endfor %}", title: "Simple Test"
+      create_page "index.liquid", "{% for product in site.data.products %}{{product.name}}{% endfor %}", title: "Simple Test"
 
       run_bridgetown "build"
 
@@ -33,7 +33,7 @@ class TestData < BridgetownFeatureTest
           age: 34
       YAML
 
-      create_page "index.html", "{% for member in site.data.members %}{{member.name}}{% endfor %}", title: "Simple Test"
+      create_page "index.liquid", "{% for member in site.data.members %}{{member.name}}{% endfor %}", title: "Simple Test"
 
       run_bridgetown "build"
 
@@ -76,7 +76,7 @@ class TestData < BridgetownFeatureTest
         Gertrude	34
       TSV
 
-      create_page "index.html", "{% for member in site.data.members %}{{member.name}}{% endfor %}", title: "Simple Test"
+      create_page "index.liquid", "{% for member in site.data.members %}{{member.name}}{% endfor %}", title: "Simple Test"
 
       run_bridgetown "build"
 

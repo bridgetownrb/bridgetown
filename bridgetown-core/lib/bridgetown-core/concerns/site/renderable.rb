@@ -26,7 +26,7 @@ class Bridgetown::Site
       end
     end
 
-    def matched_converters_for_convertible(convertible)
+    def matched_converters_for_convertible(convertible) # rubocop:todo Metrics
       @layout_converters ||= {}
 
       if convertible.is_a?(Bridgetown::Layout) && @layout_converters[convertible]
