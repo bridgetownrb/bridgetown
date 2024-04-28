@@ -34,6 +34,7 @@ module Bridgetown
           if ruby_content
             code = ruby_content[1]
             code_postmatch = ruby_content.post_match
+            code.concat("\nrender_with {}") unless code.match?(%r!^\s*render_with\s|\(!)
           end
 
           code = <<~RUBY
