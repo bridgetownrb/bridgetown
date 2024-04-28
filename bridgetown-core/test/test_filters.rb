@@ -856,10 +856,10 @@ class TestFilters < BridgetownUnitTest
       should "convert drop to json" do
         @filter.site.read
         expected = {
-          "output"        => nil,
-          "id"            => "repo://posts.collection/_posts/2008-02-02-published.markdown",
-          "relative_url"  => "/base/publish_test/2008/02/02/published/",
-          "taxonomies"    => {
+          "output"          => nil,
+          "id"              => "repo://posts.collection/_posts/2008-02-02-published.markdown",
+          "relative_url"    => "/base/publish_test/2008/02/02/published/",
+          "taxonomies"      => {
             "category" => {
               "type"  => {
                 "label"    => "category",
@@ -883,11 +883,11 @@ class TestFilters < BridgetownUnitTest
               "terms" => [],
             },
           },
-          "relative_path" => "_posts/2008-02-02-published.markdown",
-          "next"          => nil,
-          "date"          => "2008-02-02 00:00:00 +0000",
-          "summary"       => "This should be published.",
-          "data"          => {
+          "relative_path"   => "_posts/2008-02-02-published.markdown",
+          "next"            => nil,
+          "date"            => "2008-02-02 00:00:00 +0000",
+          "summary"         => "This should be published.",
+          "data"            => {
             "ruby3"      => "groovy",
             "layout"     => "default",
             "title"      => "Publish",
@@ -900,17 +900,18 @@ class TestFilters < BridgetownUnitTest
             "date"       => "2008-02-02 00:00:00 +0000",
             "slug"       => "published",
           },
-          "absolute_url"  => "http://example.com/base/publish_test/2008/02/02/published/",
-          "collection"    => "posts",
-          "content"       => "This should be published.\n",
-          "ruby3"         => "groovy",
-          "layout"        => "default",
-          "title"         => "Publish",
-          "category"      => "publish_test",
-          "categories"    => ["publish_test"],
-          "tags"          => [],
-          "locale"        => "en",
-          "slug"          => "published",
+          "absolute_url"    => "http://example.com/base/publish_test/2008/02/02/published/",
+          "collection"      => "posts",
+          "content"         => "This should be published.\n",
+          "ruby3"           => "groovy",
+          "layout"          => "default",
+          "title"           => "Publish",
+          "category"        => "publish_test",
+          "categories"      => ["publish_test"],
+          "tags"            => [],
+          "locale"          => "en",
+          "slug"            => "published",
+          "template_engine" => "erb",
         }
         actual = JSON.parse(@filter.jsonify(@filter.site.resources_to_write.find do |post|
           post.data.title == "Publish" && post.data.slug == "published"

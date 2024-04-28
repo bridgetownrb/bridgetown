@@ -46,7 +46,7 @@ class TestData < BridgetownFeatureTest
         [{"name": "Jack", "age": 28},{"name": "Leon", "age": 34}]
       JSON
 
-      create_page "index.html", "{% for member in site.data.members %}{{member.name}}{% endfor %}", title: "Simple Test"
+      create_page "index.liquid", "{% for member in site.data.members %}{{member.name}}{% endfor %}", title: "Simple Test"
 
       run_bridgetown "build"
 
@@ -61,7 +61,7 @@ class TestData < BridgetownFeatureTest
         Leon,34
       CSV
 
-      create_page "index.html", "{% for member in site.data.members %}{{member.name}}{% endfor %}", title: "Simple Test"
+      create_page "index.liquid", "{% for member in site.data.members %}{{member.name}}{% endfor %}", title: "Simple Test"
 
       run_bridgetown "build"
 
@@ -92,7 +92,7 @@ class TestData < BridgetownFeatureTest
           age: 34
       YAML
 
-      create_page "index.html", "{% for member in site.data.team_members %}{{member.name}}{% endfor %}", title: "Simple Test"
+      create_page "index.liquid", "{% for member in site.data.team_members %}{{member.name}}{% endfor %}", title: "Simple Test"
 
       run_bridgetown "build"
 
@@ -112,7 +112,7 @@ class TestData < BridgetownFeatureTest
           name: Produce Products
       YAML
 
-      create_page "index.html", "{{ site.data.categories.dairy.name }} {{ site.data.categories.produce.name }}", title: "Simple Test"
+      create_page "index.liquid", "{{ site.data.categories.dairy.name }} {{ site.data.categories.produce.name }}", title: "Simple Test"
 
       run_bridgetown "build"
 

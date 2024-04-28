@@ -39,10 +39,6 @@ class TestResource < BridgetownUnitTest
         assert_equal "default", @resource.layout.label
       end
 
-      should "know whether it's a YAML file" do
-        assert_equal false, @resource.yaml_file?
-      end
-
       should "know its data" do
         assert_equal "I'm a Top Level Page!", @resource.data.title
       end

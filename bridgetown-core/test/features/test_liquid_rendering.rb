@@ -102,8 +102,8 @@ class TestLiquidRendering < BridgetownFeatureTest
     end
 
     should "not process Liquid when render_with_liquid: false" do
-      create_page "_posts/unrendered-post.md", "Hello {{ page.title }}", date: "2017-07-06", render_with_liquid: false
-      create_page "_posts/rendered-post.md", "Hello {{ page.title }}", date: "2017-07-06", render_with_liquid: true
+      create_page "_posts/unrendered-post.md", "Hello {{ page.title }}", date: "2017-07-06"
+      create_page "_posts/rendered-post.md", "Hello {{ page.title }}", date: "2017-07-06", template_engine: "liquid"
 
       run_bridgetown "build"
 
