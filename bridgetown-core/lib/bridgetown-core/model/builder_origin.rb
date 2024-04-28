@@ -34,6 +34,10 @@ module Bridgetown
         @data
       end
 
+      def front_matter_line_count
+        @data[:_front_matter_line_count_]
+      end
+
       def exists?
         false
       end
