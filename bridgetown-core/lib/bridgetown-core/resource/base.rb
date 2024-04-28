@@ -6,7 +6,6 @@ module Bridgetown
       include Comparable
       include Bridgetown::Publishable
       include Bridgetown::LayoutPlaceable
-      include Bridgetown::LiquidRenderable
       include Bridgetown::Localizable
 
       # @return [Destination]

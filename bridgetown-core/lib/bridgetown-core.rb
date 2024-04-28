@@ -90,7 +90,6 @@ module Bridgetown
   autoload :Layout,              "bridgetown-core/layout"
   autoload :LayoutPlaceable,     "bridgetown-core/concerns/layout_placeable"
   autoload :LayoutReader,        "bridgetown-core/readers/layout_reader"
-  autoload :LiquidRenderable,    "bridgetown-core/concerns/liquid_renderable"
   autoload :Localizable,         "bridgetown-core/concerns/localizable"
   autoload :LiquidRenderer,      "bridgetown-core/liquid_renderer"
   autoload :LogAdapter,          "bridgetown-core/log_adapter"

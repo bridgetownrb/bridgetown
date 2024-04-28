@@ -3,7 +3,6 @@
 module Bridgetown
   class Layout
     include FrontMatter::Importer
-    include LiquidRenderable
 
     # Gets the Site object.
     attr_reader :site

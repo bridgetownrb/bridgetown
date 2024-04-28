@@ -106,6 +106,7 @@ module Bridgetown
     class ERBTemplates < Converter
       priority :highest
       input :erb
+      template_engine :erb
 
       # Logic to do the ERB content conversion.
       #
@@ -116,8 +117,6 @@ module Bridgetown
       #
       # @return [String] The converted content.
       def convert(content, convertible)
-        return content if convertible.data[:template_engine].to_s != "erb"
-
         erb_view = Bridgetown::ERBView.new(convertible)
 
         erb_renderer = Tilt::ErubiTemplate.new(
@@ -135,25 +134,6 @@ module Bridgetown
         else
           erb_renderer.render(erb_view)
         end
-      end
-
-      # @param ext [String]
-      # @param convertible [Bridgetown::Resource::Base, Bridgetown::GeneratedPage]
-      def matches(ext, convertible)
-        if convertible.data[:template_engine].to_s == "erb" ||
-            (convertible.data[:template_engine].nil? &&
-             @config[:template_engine].to_s == "erb")
-          convertible.data[:template_engine] = "erb"
-          return true
-        end
-
-        super(ext).tap do |ext_matches|
-          convertible.data[:template_engine] = "erb" if ext_matches
-        end
-      end
-
-      def output_ext(ext)
-        ext == ".erb" ? ".html" : ext
       end
     end
   end

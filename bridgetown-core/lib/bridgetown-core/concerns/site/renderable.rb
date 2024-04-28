@@ -33,12 +33,36 @@ class Bridgetown::Site
         return @layout_converters[convertible]
       end
 
-      matches = converters.select do |converter|
-        if converter.method(:matches).arity == 1
-          converter.matches(convertible.extname)
-        else
-          converter.matches(convertible.extname, convertible)
+      if convertible.is_a?(Bridgetown::GeneratedPage) && convertible.original_resource
+        convertible = convertible.original_resource
+      end
+
+      directly_matched_template_engine = nil
+      matches = converters.map do |converter|
+        result = [
+          converter,
+          converter.matches(convertible.extname, convertible),
+          converter.determine_template_engine(convertible),
+        ]
+
+        directly_matched_template_engine = converter if result[1] && converter.class.template_engine
+
+        result
+      end
+
+      matches = matches.filter_map do |result|
+        converter, ext_matched, engine_matched = result
+        next nil if !ext_matched && !engine_matched
+
+        next nil if !ext_matched &&
+          engine_matched && directly_matched_template_engine &&
+          converter != directly_matched_template_engine
+
+        if !convertible.data["template_engine"] && engine_matched
+          convertible.data["template_engine"] = converter.class.template_engine
         end
+
+        converter
       end
 
       @layout_converters[convertible] = matches if convertible.is_a?(Bridgetown::Layout)

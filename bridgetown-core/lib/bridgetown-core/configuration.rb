@@ -62,6 +62,7 @@ module Bridgetown
       "ruby_in_front_matter"       => true,
 
       # Conversion
+      "template_engine"            => "erb",
       "markdown"                   => "kramdown",
       "highlighter"                => "rouge",
 

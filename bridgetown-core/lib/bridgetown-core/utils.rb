@@ -139,16 +139,6 @@ module Bridgetown
       FrontMatter::Loaders::Ruby.header?(file)
     end
 
-    # Determine whether the given content string contains Liquid Tags or Vaiables
-    #
-    # @return [Boolean] if the string contains sequences of `{%` or `{{`
-    def has_liquid_construct?(content)
-      return false if content.nil? || content.empty?
-
-      content.include?("{%") || content.include?("{{")
-    end
-    # rubocop: enable Naming/PredicateName
-
     # Slugify a filename or title.
     #
     # string - the filename or title to slugify
