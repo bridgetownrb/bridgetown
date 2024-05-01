@@ -236,25 +236,6 @@ class TestGeneratedPage < BridgetownUnitTest
         end
       end
 
-      context "with date permalink style" do
-        setup do
-          @site.permalink_style = :date
-        end
-
-        should "return url and destination correctly" do
-          @page = setup_page("contacts.html")
-          @dest_file = dest_dir("contacts.html")
-          assert_equal "/contacts.html", @page.url
-          assert_equal @dest_file, @page.destination(dest_dir)
-        end
-
-        should "return dir correctly" do
-          assert_equal "/", setup_page("contacts.html").dir
-          assert_equal "/", setup_page("contacts/bar.html").dir
-          assert_equal "/", setup_page("contacts/index.html").dir
-        end
-      end
-
       context "with custom permalink style with trailing slash" do
         setup do
           @site.permalink_style = "/:title/"
@@ -270,7 +251,7 @@ class TestGeneratedPage < BridgetownUnitTest
 
       context "with custom permalink style with file extension" do
         setup do
-          @site.permalink_style = "/:title:output_ext"
+          @site.permalink_style = "/:title.*"
         end
 
         should "return URL and destination correctly" do
