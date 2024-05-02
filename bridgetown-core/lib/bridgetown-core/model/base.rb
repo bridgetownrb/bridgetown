@@ -5,6 +5,7 @@ require "active_model"
 module Bridgetown
   module Model
     class Base
+      include Bridgetown::RodaCallable
       include ActiveModel::Model
       extend ActiveModel::Callbacks
       define_model_callbacks :load, :save, :destroy
@@ -101,6 +102,11 @@ module Bridgetown
       def render_as_resource
         to_resource.read!.transform!
       end
+
+      # Converts this model to a resource and returns the full output
+      #
+      # @return [String]
+      def call(*) = render_as_resource.output
 
       # override if need be
       # @return [Bridgetown::Site]

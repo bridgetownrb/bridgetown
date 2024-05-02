@@ -380,9 +380,7 @@ module Bridgetown
       )
     end
   end
-end
 
-module Bridgetown
   module CoreExt; end
   module Model; end
 
@@ -394,6 +392,13 @@ module Bridgetown
       if mod.const_defined?(:RubyResource) # rubocop:disable Style/GuardClause
         Bridgetown::Resource::Base.include mod.const_get(:RubyResource)
       end
+    end
+  end
+
+  # mixin for identity so Roda knows to call renderable objects
+  module RodaCallable
+    def self.===(other)
+      other.class < self
     end
   end
 end

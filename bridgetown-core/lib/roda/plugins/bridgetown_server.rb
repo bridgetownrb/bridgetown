@@ -41,17 +41,6 @@ class Roda
           "500 Internal Server Error"
         end
 
-        # This lets us return models or resources directly in Roda response blocks
-        app.plugin :custom_block_results
-
-        app.handle_block_result Bridgetown::Model::Base do |result|
-          result.render_as_resource.output
-        end
-
-        app.handle_block_result Bridgetown::Resource::Base do |result|
-          result.transform!.output
-        end
-
         # TODO: there may be a better way to do this, see `exception_page_css` instance method
         ExceptionPage.class_eval do # rubocop:disable Metrics/BlockLength
           def self.css

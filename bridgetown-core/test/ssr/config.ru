@@ -10,4 +10,6 @@ require "bridgetown-core/rack/boot"
 
 Bridgetown::Rack.boot
 
+require_relative "src/_components/UseRoda" # normally Zeitwerk would take care of this for us
+
 run RodaApp.freeze.app # see server/roda_app.rb

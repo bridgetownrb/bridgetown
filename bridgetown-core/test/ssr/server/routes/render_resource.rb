@@ -12,5 +12,9 @@ class Routes::RenderResource < Bridgetown::Rack::Routes
       # Roda should know how to autorender the model as a resource
       Bridgetown::Model::Base.find("repo://pages.collection/test_doc.md")
     end
+
+    r.get "render_component", String do |title|
+      UseRoda.new(title:)
+    end
   end
 end
