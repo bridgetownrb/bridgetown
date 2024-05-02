@@ -97,6 +97,7 @@ class TestCollectionsDir < BridgetownFeatureTest
       create_page "gathering/_players/standby/loki.md", "content for Loki.", title: "Loki"
 
       create_file "bridgetown.config.yml", <<~YAML
+        template_engine: liquid
         collections_dir: gathering
         collections: ["players"]
         defaults:
@@ -160,10 +161,10 @@ class TestCollectionsDir < BridgetownFeatureTest
       create_directory "gathering"
       setup_collections_fixture "gathering"
 
-      create_page "index.html", "Collections: {{ collections.tutorials.resources | map: 'title' | join: ', ' }}", title: "Simple Test"
+      create_page "index.liquid", "Collections: {{ collections.tutorials.resources | map: 'title' | join: ', ' }}", title: "Simple Test"
 
       create_directory "_layouts"
-      create_file "_layouts/tutorial.html", <<~LIQUID
+      create_file "_layouts/tutorial.liquid", <<~LIQUID
         {% if page.previous %}Previous: {{ page.previous.title }}{% endif %}
 
         {% if page.next %}Next: {{ page.next.title }}{% endif %}
@@ -197,16 +198,17 @@ class TestCollectionsDir < BridgetownFeatureTest
       create_directory "gathering"
       setup_collections_fixture "gathering"
 
-      create_page "index.html", "Collections: {{ collections.tutorials.resources | map: 'title' | join: ', ' }}", title: "Simple Test"
+      create_page "index.liquid", "Collections: {{ collections.tutorials.resources | map: 'title' | join: ', ' }}", title: "Simple Test"
 
       create_directory "_layouts"
-      create_file "_layouts/tutorial.html", <<~LIQUID
+      create_file "_layouts/tutorial.liquid", <<~LIQUID
         {% if page.previous %}Previous: {{ page.previous.title }}{% endif %}
 
         {% if page.next %}Next: {{ page.next.title }}{% endif %}
       LIQUID
 
       create_file "bridgetown.config.yml", <<~YAML
+        template_engine: liquid
         collections_dir: gathering
         collections:
           tutorials:

@@ -1,6 +1,7 @@
 ---
 layout: localization
 title: "Multi-locale with specified locales page"
+template_engine: liquid
 locales:
   - en
 ---

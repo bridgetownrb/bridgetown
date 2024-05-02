@@ -22,6 +22,7 @@ module Bridgetown
   module Converters
     class SerbeaTemplates < Converter
       priority :highest
+      template_engine :serbea
       input :serb
 
       # Logic to do the Serbea content conversion.
@@ -33,8 +34,6 @@ module Bridgetown
       #
       # @return [String] The converted content.
       def convert(content, convertible)
-        return content if convertible.data[:template_engine].to_s != "serbea"
-
         serb_view = Bridgetown::SerbeaView.new(convertible)
         serb_renderer = Tilt::SerbeaTemplate.new(
           convertible.path,
@@ -48,23 +47,6 @@ module Bridgetown
         else
           serb_renderer.render(serb_view)
         end
-      end
-
-      def matches(ext, convertible)
-        if convertible.data[:template_engine].to_s == "serbea" ||
-            (convertible.data[:template_engine].nil? &&
-              @config[:template_engine].to_s == "serbea")
-          convertible.data[:template_engine] = "serbea"
-          return true
-        end
-
-        super(ext).tap do |ext_matches|
-          convertible.data[:template_engine] = "serbea" if ext_matches
-        end
-      end
-
-      def output_ext(ext)
-        ext == ".serb" ? ".html" : ext
       end
     end
   end

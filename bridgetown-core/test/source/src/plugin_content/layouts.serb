@@ -1,0 +1,8 @@
+---
+title: Components from Plugins
+layout: example/test_layout
+---
+
+:{%= liquid_render "example/this_should_work" %}:
+
+:{%= liquid_render "example/this_should_get_overridden" %}:

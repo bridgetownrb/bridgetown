@@ -43,7 +43,6 @@ module Bridgetown
         self.log_level = :debug
       end
       debug "Logging at level:", LOG_LEVELS.key(writer.level).to_s
-      debug "Bridgetown Version:", Bridgetown::VERSION
     end
 
     # Public: Print a debug message

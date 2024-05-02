@@ -1,5 +1,5 @@
 ~~~ruby
-{ title: "I'm a Second Level Page" }
+{ title: "I'm a Second Level Page", template_engine: :liquid }
 ~~~
 
 That's **nice**.

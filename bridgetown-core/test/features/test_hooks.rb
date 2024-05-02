@@ -108,7 +108,7 @@ class TestHooks < BridgetownFeatureTest
       RUBY
 
       create_directory "_posts"
-      create_page "_posts/entry1.md", "{{ page.harold }}", title: "entry1", date: "2015-03-14"
+      create_page "_posts/entry1.md", "{{ page.harold }}", title: "entry1", date: "2015-03-14", template_engine: "liquid"
 
       run_bridgetown "build"
 
@@ -129,8 +129,8 @@ class TestHooks < BridgetownFeatureTest
       RUBY
 
       create_directory "_posts"
-      create_page "_posts/entry1.md", "{{ page.myvar }} post", title: "entry1", date: "2015-03-14"
-      create_page "_posts/entry2.md", "{{ page.myvar }} post", title: "entry2", date: "2015-03-15"
+      create_page "_posts/entry1.md", "{{ page.myvar }} post", title: "entry1", date: "2015-03-14", template_engine: "liquid"
+      create_page "_posts/entry2.md", "{{ page.myvar }} post", title: "entry2", date: "2015-03-15", template_engine: "liquid"
 
       run_bridgetown "build"
 
@@ -148,8 +148,8 @@ class TestHooks < BridgetownFeatureTest
       RUBY
 
       create_directory "_posts"
-      create_page "_posts/entry1.md", "{{ 6 | times: 7 }}", title: "entry1", date: "2015-03-14"
-      create_page "_posts/entry2.md", "{{ 6 | times: 8 }}", title: "entry2", date: "2015-03-15"
+      create_page "_posts/entry1.md", "{{ 6 | *: 7 }}", title: "entry1", date: "2015-03-14", template_engine: "serbea"
+      create_page "_posts/entry2.md", "{{ 6 | *: 8 }}", title: "entry2", date: "2015-03-15", template_engine: "serbea"
 
       run_bridgetown "build"
 
@@ -240,7 +240,7 @@ class TestHooks < BridgetownFeatureTest
 
       create_directory "_memes"
       create_page "_memes/doc1.md", "", text: "all your base"
-      create_page "index.md", "{{ collections.memes.resources.first.text }}", title: "Simple test"
+      create_page "index.md", "{{ collections.memes.resources.first.text }}", title: "Simple test", template_engine: "liquid"
 
       create_configuration collections: ["memes"]
 

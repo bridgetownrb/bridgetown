@@ -107,7 +107,7 @@ class TestNewCommand < BridgetownUnitTest
 
     should "copy the static files for postcss configuration in site template to the new directory" do
       postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
-      postcss_template_files = static_template_files + postcss_config_files + template_config_files + liquid_config_files + esbuild_config_files
+      postcss_template_files = static_template_files + postcss_config_files + template_config_files + erb_config_files + esbuild_config_files
 
       capture_output do
         Bridgetown::Commands::Base.start(argumentize(@args))

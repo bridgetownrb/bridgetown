@@ -7,7 +7,7 @@ require "features/feature_helper"
 class TestCache < BridgetownFeatureTest
   context "cache folder" do
     should "exist after build" do
-      create_page "index.md", "{{ data.title }}", title: "Hello World"
+      create_page "index.md", "<%= data.title %>", title: "Hello World"
 
       run_bridgetown "build"
 
@@ -17,7 +17,7 @@ class TestCache < BridgetownFeatureTest
     end
 
     should "support custom cache configuration" do
-      create_page "index.md", "{{ data.title }}", title: "Hello World"
+      create_page "index.md", "<%= data.title %>", title: "Hello World"
 
       create_configuration cache_dir: ".foo-cache"
       run_bridgetown "build"
@@ -29,7 +29,7 @@ class TestCache < BridgetownFeatureTest
     end
 
     should "not exist after build with CLI flag" do
-      create_page "index.md", "{{ data.title }}", title: "Hello World"
+      create_page "index.md", "<%= data.title %>", title: "Hello World"
 
       run_bridgetown "build", "--disable-disk-cache"
 

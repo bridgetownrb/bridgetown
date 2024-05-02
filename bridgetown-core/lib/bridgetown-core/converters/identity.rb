@@ -15,7 +15,7 @@ module Bridgetown
       # _ext - The String extension to check (not relevant here)
       #
       # Returns true since it always matches.
-      def matches(_ext)
+      def matches(*)
         true
       end
 

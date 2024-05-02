@@ -72,8 +72,9 @@ module Bridgetown
         @scope.roda_initializers << block
       end
 
-      def timezone(tz) # rubocop:disable Naming/MethodParameterName
-        Bridgetown.set_timezone(tz)
+      def timezone(new_timezone)
+        @data[:timezone] = new_timezone
+        Bridgetown.set_timezone(new_timezone)
       end
 
       def method_missing(key, *value, &block) # rubocop:disable Style/MissingRespondToMissing
