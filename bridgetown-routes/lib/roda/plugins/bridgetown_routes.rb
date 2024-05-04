@@ -103,6 +103,7 @@ class Roda
             )
           ).read do
             data[:_collection_] = bridgetown_site.collections.pages
+            data[:_original_path_] = path
             data[:_relative_path_] = source_path
             data[:_front_matter_line_count_] = response._front_matter_line_count
             data[:_content_] = code

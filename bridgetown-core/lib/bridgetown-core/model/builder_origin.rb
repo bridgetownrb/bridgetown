@@ -34,13 +34,11 @@ module Bridgetown
         @data
       end
 
-      def front_matter_line_count
-        @data[:_front_matter_line_count_]
-      end
+      def front_matter_line_count = @data[:_front_matter_line_count_]
 
-      def exists?
-        false
-      end
+      def original_path = @data[:_original_path_] || relative_path
+
+      def exists? = false
 
       def read_data_from_builder
         builder = Kernel.const_get(url.host.gsub(".", "::"))

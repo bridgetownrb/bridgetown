@@ -26,7 +26,7 @@ class TestRoutes < BridgetownUnitTest
       FileUtils.cp(index_file, index_file.sub("test_index.erb", "index.erb"))
       get "/"
       assert last_response.ok?
-      assert_equal "<h1>Dynamic Index</h1>", last_response.body
+      assert_equal "\n<h1>Dynamic Index</h1>", last_response.body
       FileUtils.remove_file(index_file.sub("test_index.erb", "index.erb"))
     end
 
@@ -38,32 +38,32 @@ class TestRoutes < BridgetownUnitTest
 
     should "return HTML for the howdy route" do
       get "/howdy?yo=joe&happy=pleased"
-      assert_equal "<h1>joe 42</h1>\n\n<p>I am pleasedpleased.</p>\n", last_response.body
+      assert_equal "\n<h1>joe 42</h1>\n\n<p>I am pleasedpleased.</p>\n", last_response.body
     end
 
     should "return HTML for a route in an arbitrary folder" do
       get "/yello/my-friend"
-      assert_equal "<p>So arbitrary!</p>\n", last_response.body
+      assert_equal "\n<p>So arbitrary!</p>\n", last_response.body
     end
 
     should "return HTML for a route localized in english" do
       get "/localized"
-      assert_equal "<h1>Localized for en - en</h1>\n", last_response.body
+      assert_equal "\n<h1>Localized for en - en</h1>\n", last_response.body
     end
 
     should "return HTML for a route localized in italian" do
       get "/it/localized"
-      assert_equal "<h1>Localized for it - it</h1>\n", last_response.body
+      assert_equal "\n<h1>Localized for it - it</h1>\n", last_response.body
     end
 
     should "return HTML for nested index RESTful route" do
       get "/nested"
-      assert_equal "<h1>Nested Index</h1>\n", last_response.body
+      assert_equal "\n<h1>Nested Index</h1>\n", last_response.body
     end
 
     should "return HTML for nested item RESTful route" do
       get "/nested/123-abc"
-      assert_equal "<h1>Nested Page with Slug: 123-abc</h1>\n", last_response.body
+      assert_equal "\n<h1>Nested Page with Slug: 123-abc</h1>\n", last_response.body
     end
 
     should "return JSON for a base route (no template)" do

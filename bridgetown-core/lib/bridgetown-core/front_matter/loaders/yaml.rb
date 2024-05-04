@@ -15,8 +15,8 @@ module Bridgetown
       # ---
       # ~~~
       class YAML < Base
-        HEADER = %r!\A---\s*\n!
-        BLOCK = %r!\A(---\s*\n.*?\n?)^((---|\.\.\.)\s*$\n?)!m
+        HEADER = %r!\A---[ \t]*\n!
+        BLOCK = %r!#{HEADER.source}(.*?\n?)^((---|\.\.\.)[ \t]*$\n?)!m
 
         # Determines whether a given file has YAML front matter
         #
