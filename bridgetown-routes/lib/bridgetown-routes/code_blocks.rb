@@ -37,7 +37,7 @@ module Bridgetown
           front_matter_line_count = nil
           if ruby_content
             code = ruby_content[1]
-            code_postmatch = ruby_content.post_match
+            code_postmatch = ruby_content.post_match.lstrip
             front_matter_line_count = code.lines.count - 1
             code.concat("\nrender_with {}") unless code.match?(%r!^\s*render_with\s|\(!)
           end

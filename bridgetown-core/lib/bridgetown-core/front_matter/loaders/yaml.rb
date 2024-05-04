@@ -31,7 +31,7 @@ module Bridgetown
           yaml_content = file_contents.match(BLOCK) or return
 
           Result.new(
-            content: yaml_content.post_match,
+            content: yaml_content.post_match.lstrip,
             front_matter: YAMLParser.load(yaml_content[1]),
             line_count: yaml_content[1].lines.size - 1
           )

@@ -77,7 +77,7 @@ module Bridgetown
         def read(file_contents, file_path:)
           if (ruby_content = file_contents.match(BLOCK)) && should_execute_inline_ruby?
             Result.new(
-              content: ruby_content.post_match,
+              content: ruby_content.post_match.lstrip,
               front_matter: process_ruby_data(ruby_content[1], file_path, 2),
               line_count: ruby_content[1].lines.size - 1
             )
