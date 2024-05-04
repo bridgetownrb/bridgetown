@@ -28,7 +28,7 @@ module Bridgetown
           end
           puts
           puts "Routes:"
-          puts "======="
+          puts "=======\n"
           if routes.blank?
             puts "No routes found. Have you commented all of your routes?"
             puts "Documentation: https://github.com/jeremyevans/roda-route_list#basic-usage-"

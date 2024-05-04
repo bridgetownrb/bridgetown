@@ -39,7 +39,7 @@ module Bridgetown
             code = ruby_content[1]
             code_postmatch = ruby_content.post_match.lstrip
             front_matter_line_count = code.lines.count - 1
-            if code.match?(%r!^\s*render_with\s|\(!).! && code.match?(%r!r\.[a-z]+\s+do!).!
+            if code.match?(%r!^\s*render_with(\s|\()!).! && code.match?(%r!r\.[a-z]+\s+do!).!
               code.concat("\nrender_with {}")
             end
           end
