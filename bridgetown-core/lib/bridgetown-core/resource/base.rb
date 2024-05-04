@@ -4,6 +4,7 @@ module Bridgetown
   module Resource
     class Base # rubocop:todo Metrics/ClassLength
       include Comparable
+      include Bridgetown::RodaCallable
       include Bridgetown::Publishable
       include Bridgetown::LayoutPlaceable
       include Bridgetown::LiquidRenderable
@@ -170,6 +171,11 @@ module Bridgetown
 
         self
       end
+
+      # Transforms the resource and returns the full output
+      #
+      # @return [String]
+      def call(*) = transform!.output
 
       def trigger_hooks(hook_name, *args)
         Bridgetown::Hooks.trigger collection.label.to_sym, hook_name, self, *args if collection

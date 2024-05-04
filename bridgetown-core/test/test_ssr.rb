@@ -85,5 +85,13 @@ class TestSSR < BridgetownUnitTest
       assert last_response.ok?
       assert_includes last_response.body, "<p class=\"test\">THIS IS A <em>TEST</em>.</p>"
     end
+
+    should "return rendered component" do
+      get "/render_component/wow"
+
+      assert last_response.ok?
+      assert_equal "application/rss+xml", last_response["Content-Type"]
+      assert_equal "<rss>WOW true</rss>", last_response.body
+    end
   end
 end
