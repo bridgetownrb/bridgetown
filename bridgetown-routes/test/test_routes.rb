@@ -66,6 +66,11 @@ class TestRoutes < BridgetownUnitTest
       assert_equal "<h1>Nested Page with Slug: 123-abc</h1>\n", last_response.body
     end
 
+    should "return JSON for a base route (no template)" do
+      get "/bare_route/4"
+      assert_equal({ numbers: [2, 4, 6, 8] }.to_json, last_response.body)
+    end
+
     should "return the proper route within an island" do
       get "/paradise" do
         assert_equal "Living in paradise =)", last_response.body

@@ -6,8 +6,11 @@ module Bridgetown
       class << self
         attr_accessor :blocks
 
-        def add_route(name, file_code = nil, &block)
+        def add_route(name, file_code = nil, front_matter_line_count = nil, &block)
           block.instance_variable_set(:@_route_file_code, file_code) if file_code
+          if front_matter_line_count
+            block.instance_variable_set(:@_front_matter_line_count, front_matter_line_count)
+          end
 
           @blocks ||= {}
           @blocks[name] = block
@@ -31,17 +34,20 @@ module Bridgetown
           code = File.read(file)
           code_postmatch = nil
           ruby_content = code.match(Bridgetown::FrontMatter::Loaders::Ruby::BLOCK)
+          front_matter_line_count = nil
           if ruby_content
             code = ruby_content[1]
-            code_postmatch = ruby_content.post_match
+            code_postmatch = ruby_content.post_match.lstrip
+            front_matter_line_count = code.lines.count - 1
+            code.concat("\nrender_with {}") unless code.match?(%r!^\s*render_with\s|\(!)
           end
 
-          code = <<~RUBY
-            add_route(#{file_slug.inspect}, #{code_postmatch.inspect}) do |r|
-              #{code}
-            end
-          RUBY
-          instance_eval(code, file, ruby_content ? 1 : 0)
+          # rubocop:disable Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation
+          code_proc = Kernel.eval(
+            "proc {|r| #{code} }", TOPLEVEL_BINDING, file, ruby_content ? 2 : 1
+          )
+          add_route(file_slug, code_postmatch, front_matter_line_count, &code_proc)
+          # rubocop:enable Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation
         end
       end
     end

@@ -1,5 +1,5 @@
 ~~~ruby
-{ title: "I'm a Second Level Page in French" }
+{ title: "I'm a Second Level Page in French", layout: :default }
 ~~~
 
 C'est **bien**.

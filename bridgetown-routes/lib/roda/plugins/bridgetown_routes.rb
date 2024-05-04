@@ -65,12 +65,16 @@ class Roda
           response.instance_variable_set(
             :@_route_file_code, route_block.instance_variable_get(:@_route_file_code)
           ) # could be nil
+          response.instance_variable_set(
+            :@_front_matter_line_count,
+            route_block.instance_variable_get(:@_front_matter_line_count)
+          ) # could be nil
           instance_exec(request, &route_block)
         end
 
         def front_matter(&block)
           b = block.binding
-          denylisted = %i(r app code ruby_content code_postmatch)
+          denylisted = %i(r argv)
           data = b.local_variables.filter_map do |key|
             next if denylisted.any? key
 
@@ -99,7 +103,9 @@ class Roda
             )
           ).read do
             data[:_collection_] = bridgetown_site.collections.pages
+            data[:_original_path_] = path
             data[:_relative_path_] = source_path
+            data[:_front_matter_line_count_] = response._front_matter_line_count
             data[:_content_] = code
             data
           end
@@ -149,9 +155,10 @@ class Roda
 
       module ResponseMethods
         # template string provided, if available, by the saved code block
-        def _route_file_code
-          @_route_file_code
-        end
+        def _route_file_code = @_route_file_code
+
+        # we need to know where the real template starts for good error reporting
+        def _front_matter_line_count = @_front_matter_line_count
 
         def _fake_resource_view(view_class:, roda_app:, bridgetown_site:)
           @_fake_resource_views ||= {}

@@ -1,8 +1,6 @@
 ---<%
 slug_param = params[:slug]
 title = "Nested Page with Slug"
-
-render_with {}
 %>---
 
-<h1><%= data.title %>: <%= data.slug_param %></h1>
+<h1><%= title %>: <%= slug_param %></h1>

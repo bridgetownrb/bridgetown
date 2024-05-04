@@ -62,8 +62,8 @@ module Bridgetown
       # %}~~~
       # ~~~~
       class Ruby < Base
-        HEADER = %r!\A[~`#-]{3,}(?:ruby|<%|{%)\s*\n!
-        BLOCK = %r!#{HEADER.source}(.*?\n?)^((?:%>|%})?[~`#-]{3,}\s*$\n?)!m
+        HEADER = %r!\A[~`#-]{3,}(?:ruby|<%|{%)[ \t]*\n!
+        BLOCK = %r!#{HEADER.source}(.*?\n?)^((?:%>|%})?[~`#-]{3,}[ \t]*$\n?)!m
 
         # Determines whether a given file has Ruby front matter
         #
@@ -77,9 +77,9 @@ module Bridgetown
         def read(file_contents, file_path:)
           if (ruby_content = file_contents.match(BLOCK)) && should_execute_inline_ruby?
             Result.new(
-              content: ruby_content.post_match,
+              content: ruby_content.post_match.lstrip,
               front_matter: process_ruby_data(ruby_content[1], file_path, 2),
-              line_count: ruby_content[1].lines.size
+              line_count: ruby_content[1].lines.size - 1
             )
           elsif self.class.header?(file_path)
             Result.new(
