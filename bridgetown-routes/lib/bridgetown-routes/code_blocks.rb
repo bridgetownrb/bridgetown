@@ -39,7 +39,9 @@ module Bridgetown
             code = ruby_content[1]
             code_postmatch = ruby_content.post_match.lstrip
             front_matter_line_count = code.lines.count - 1
-            code.concat("\nrender_with {}") unless code.match?(%r!^\s*render_with\s|\(!)
+            if code.match?(%r!^\s*render_with\s|\(!).! && code.match?(%r!r\.[a-z]+\s+do!).!
+              code.concat("\nrender_with {}")
+            end
           end
 
           # rubocop:disable Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation
