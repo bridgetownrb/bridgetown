@@ -61,7 +61,7 @@ module Bridgetown
       end
       summary "Start the web server, frontend bundler, and Bridgetown watcher"
 
-      def start # rubocop:todo Metrics/PerceivedComplexity
+      def start
         Bridgetown.logger.writer.enable_prefix
         Bridgetown::Commands::Build.print_startup_message
         sleep 0.25
@@ -71,17 +71,16 @@ module Bridgetown
 
         # Load Bridgetown configuration into thread memory
         bt_options = configuration_with_overrides(options)
+        port = ENV.fetch("BRIDGETOWN_PORT", bt_options.port)
+        # TODO: support Puma serving HTTPS directly?
+        bt_bound_url = "http://#{bt_options.bind}:#{port}"
 
         # Set a local site URL in the config if one is not available
-        if Bridgetown.env.development? && !options["url"]
-          port = ENV["BRIDGETOWN_PORT"] || bt_options.port
-          bt_options.url = "http://#{bt_options.bind}:#{port}"
-        end
+        bt_options.url = bt_bound_url if Bridgetown.env.development? && !options["url"]
 
-        server_uri = URI(bt_options.url)
         Bridgetown::Server.new({
-          Host: server_uri.host,
-          Port: server_uri.port,
+          Host: bt_options.bind,
+          Port: port,
           config: "config.ru",
         }).tap do |server|
           if server.serveable?
@@ -106,7 +105,7 @@ module Bridgetown
             }
 
             Bridgetown.logger.info ""
-            Bridgetown.logger.info "Booting #{server.name} at:", server_uri.to_s.magenta
+            Bridgetown.logger.info "Booting #{server.name} at:", bt_bound_url.to_s.magenta
             Bridgetown.logger.info ""
 
             server.start(after_stop_callback)

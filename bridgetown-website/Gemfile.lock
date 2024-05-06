@@ -24,6 +24,7 @@ PATH
       liquid (>= 5.0, < 5.5)
       listen (~> 3.0)
       rack (>= 3.0)
+      rackup (~> 2.0)
       rake (>= 13.0)
       roda (~> 3.46)
       rouge (>= 3.0, < 5.0)
@@ -111,6 +112,9 @@ GEM
       nio4r (~> 2.0)
     racc (1.7.1)
     rack (3.0.9.1)
+    rackup (2.1.0)
+      rack (>= 3)
+      webrick (~> 1.8)
     rake (13.0.6)
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
@@ -136,6 +140,7 @@ GEM
     tilt (2.2.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    webrick (1.8.1)
     zeitwerk (2.6.11)
 
 PLATFORMS
