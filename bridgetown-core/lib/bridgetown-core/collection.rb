@@ -368,9 +368,12 @@ module Bridgetown
     end
 
     def relative_model_path_for(full_path, manifest: nil)
-      Pathname(full_path).relative_path_from(
-        manifest ? Pathname(manifest.content) : Pathname(site.source)
-      ).to_s
+      content_root = if manifest
+                       manifest.contents ? manifest.contents[label.to_sym] : manifest.content
+                     else
+                       site.source
+                     end
+      Pathname(full_path).relative_path_from(content_root).to_s
     end
 
     def model_id_from_relative_path(model_relative_path, manifest: nil)

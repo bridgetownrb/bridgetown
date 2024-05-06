@@ -61,7 +61,9 @@ module Bridgetown
         site.config.source_manifests.each do |manifest|
           Bridgetown.logger.info("Origin:", (manifest.origin || "n/a").to_s.green)
           Bridgetown.logger.info("Components:", (manifest.components || "n/a").to_s.cyan)
-          Bridgetown.logger.info("Content:", (manifest.content || "n/a").to_s.cyan)
+          Bridgetown.logger.info("Contents:", (
+            manifest.contents&.map { |k, v| "#{v} (#{k})" }&.join(", ") || manifest.content || "n/a"
+          ).to_s.cyan)
           Bridgetown.logger.info("Layouts:", (manifest.layouts || "n/a").to_s.cyan)
 
           Bridgetown.logger.info("", "----")

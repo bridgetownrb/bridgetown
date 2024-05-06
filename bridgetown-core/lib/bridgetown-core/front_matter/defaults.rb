@@ -16,6 +16,7 @@ module Bridgetown
       def reset
         @glob_cache = {}
         @defaults_cache = {}
+        @sets = nil
       end
 
       def ensure_time!(set)
@@ -185,10 +186,10 @@ module Bridgetown
       #
       # @return [Array<Hash>]
       def valid_sets
-        sets = site.config["defaults"]
-        return [] unless sets.is_a?(Array)
+        @sets ||= site.config["defaults"].map { HashWithDotAccess::Hash.new(_1) }
+        return [] unless @sets.is_a?(Array)
 
-        sets.filter_map do |set|
+        @sets.filter_map do |set|
           if valid?(set)
             massage_scope!(set)
             # TODO: is this trip really necessary?

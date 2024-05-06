@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Make sure you update REQUIRE_DENYLIST in `Bridgetown::Configuration` for initializers which
+# aren't Gem backed
+
 Bridgetown.initializer :dotenv do |config|
   Bridgetown.load_dotenv root: config.root_dir
 end
@@ -8,6 +11,15 @@ Bridgetown.initializer :ssr do |config, setup: nil|
   config.roda do |app|
     app.plugin(:bridgetown_ssr, &setup)
   end
+end
+
+Bridgetown.initializer :external_sources do |config, contents:|
+  Bridgetown::ExternalSources = Module.new
+
+  config.source_manifest(
+    origin: Bridgetown::ExternalSources,
+    contents:
+  )
 end
 
 Bridgetown.initializer :parse_routes do |config|

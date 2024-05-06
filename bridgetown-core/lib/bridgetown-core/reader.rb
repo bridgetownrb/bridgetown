@@ -20,7 +20,7 @@ module Bridgetown
       read_includes
       sort_files!
       read_collections
-      site.config.source_manifests.select(&:content).each do |manifest|
+      site.config.source_manifests.each do |manifest|
         PluginContentReader.new(site, manifest).read
       end
     end
@@ -66,7 +66,7 @@ module Bridgetown
 
       entries = Dir.chdir(base) { filter_entries(Dir.entries("."), base) }
       entries.each do |entry|
-        file_path = @site.in_source_dir(base, entry)
+        file_path = site.in_source_dir(base, entry)
         if File.directory?(file_path)
           entries_dirs << entry
         elsif FrontMatter::Loaders.front_matter?(file_path)
