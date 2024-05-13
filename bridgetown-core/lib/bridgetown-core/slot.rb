@@ -35,7 +35,7 @@ module Bridgetown
                               context.transformer.send(:converters) :
                               context.send(:converters)
 
-      document_converters.select(&:class.(:supports_slots?))
+      document_converters.select { _1.class.supports_slots? }
     end
   end
 end

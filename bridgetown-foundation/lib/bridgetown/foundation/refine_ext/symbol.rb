@@ -7,10 +7,6 @@ module Bridgetown::Foundation
         def with(...)
           ->(caller, *rest) { caller.public_send(self, *rest, ...) }
         end
-
-        def call(...)
-          ->(caller, *rest) { caller.public_send(self, *rest).public_send(...) }
-        end
       end
     end
   end

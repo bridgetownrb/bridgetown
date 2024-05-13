@@ -129,7 +129,7 @@ module Bridgetown
     end
 
     def _partial_path(partial_name, ext)
-      partial_name = partial_name.split("/").tap(&:last.(:prepend, "_")).join("/")
+      partial_name = partial_name.split("/").tap { _1.last.prepend("_") }.join("/")
 
       # TODO: see if there's a workaround for this to speed up performance
       site.in_source_dir(site.config[:partials_dir], "#{partial_name}.#{ext}")

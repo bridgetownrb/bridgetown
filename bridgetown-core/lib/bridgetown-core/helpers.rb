@@ -209,7 +209,7 @@ module Bridgetown
                    end
 
         name = name.to_s
-        resource.slots.reject!(&:name.(:==, name)) if replace
+        resource.slots.reject! { _1.name == name } if replace
         resource.slots << Slot.new(
           name:,
           content:,
