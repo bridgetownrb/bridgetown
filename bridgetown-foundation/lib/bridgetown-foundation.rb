@@ -3,6 +3,7 @@
 require "bridgetown/foundation/version"
 require "hash_with_dot_access"
 require "zeitwerk"
+require "delegate"
 
 module Bridgetown::Foundation
   # This is loosly based on the `deprecate` method in `Gem::Deprecate`
@@ -43,25 +44,25 @@ end
 # without the use of `using`. For example: `foundation(Some::Nested::Class).nested_parent`.
 module Bridgetown::Foundation
   module RefinementsHelper
-    # Call this method to wrap any object in order to use Foundation's refinements
+    # Call this method to wrap any object(s) in order to use Foundation's refinements
     #
-    # @param obj [Object]
+    # @param *obj [Object]
     # @return [WrappedObjectWithRefinements]
-    def foundation(obj)
-      WrappedObjectWithRefinements.new(obj)
+    def foundation(*obj)
+      if obj.length == 1
+        WrappedObjectWithRefinements.new(obj[0])
+      else
+        obj.map { WrappedObjectWithRefinements.new _1 }
+      end
     end
   end
 
   # Any method call sent will be passed along to the wrapped object with refinements activated
-  class WrappedObjectWithRefinements
+  class WrappedObjectWithRefinements < SimpleDelegator
     using Bridgetown::Refinements
 
-    def initialize(obj)
-      @obj = obj
-    end
-
     def method_missing(method, ...) # rubocop:disable Style/MissingRespondToMissing
-      @obj.send(method, ...)
+      __getobj__.send(method, ...)
     end
   end
 end
