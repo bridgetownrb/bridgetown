@@ -15,7 +15,7 @@ group :test do
   gem "minitest"
   gem "minitest-profile"
   gem "minitest-reporters"
-  gem "nokogiri", "~> 1.7"
+  gem "nokogiri", "~> 1.16"
   gem "nokolexbor"
   gem "rack-test"
   gem "rspec-mocks"
