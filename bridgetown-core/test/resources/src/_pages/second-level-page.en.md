@@ -1,5 +1,5 @@
 ~~~ruby
-{ title: "I'm a Second Level Page" }
+{ title: "I'm a Second Level Page", layout: :default }
 ~~~
 
 That's **nice**.

@@ -97,16 +97,30 @@ module Bridgetown
       data&.permalink
     end
 
+    def add_permalink_suffix(template, permalink_style)
+      template = template.dup
+
+      case permalink_style
+      when :pretty, :simple
+        template << "/"
+      else
+        template << "/" if permalink_style.to_s.end_with?("/")
+        template << ":output_ext" if permalink_style.to_s.end_with?(".*")
+      end
+
+      template
+    end
+
     # The template of the permalink.
     #
     # @return [String]
     def template
       if !html?
-        "/:path/:basename:output_ext"
+        "/:dir/:basename:output_ext"
       elsif index?
-        "/:path/"
+        "/:dir/"
       else
-        Utils.add_permalink_suffix("/:path/:basename", site.permalink_style)
+        add_permalink_suffix("/:dir/:basename", site.permalink_style)
       end
     end
 
@@ -114,23 +128,25 @@ module Bridgetown
     #
     # @return [String]
     def url
-      @url ||= URL.new(
-        template:,
-        placeholders: url_placeholders,
-        permalink:
-      ).to_s
+      return @url if @url
+
+      tmpl = permalink || template
+      placeholders = { dir: @dir, basename:, output_ext: }
+
+      results = placeholders.inject(tmpl) do |result, token|
+        break result if result.index(":").nil?
+
+        if token.last.nil?
+          # Remove leading "/" to avoid generating urls with `//`
+          result.gsub("/:#{token.first}", "")
+        else
+          result.gsub(":#{token.first}", token.last)
+        end
+      end.then { Addressable::URI.normalize_component _1 }
+
+      @url = "/#{results.sub("#", "%23")}".gsub("..", "/").gsub("./", "").squeeze("/")
     end
     alias_method :relative_url, :url
-
-    # Returns a hash of URL placeholder names (as symbols) mapping to the
-    # desired placeholder replacements. For details see "url.rb"
-    def url_placeholders
-      {
-        path: @dir,
-        basename: @basename,
-        output_ext:,
-      }
-    end
 
     # Layout associated with this resource
     # This will output a warning if the layout can't be found.
@@ -241,7 +257,7 @@ module Bridgetown
     #
     # @return [String]
     def destination(dest)
-      path = site.in_dest_dir(dest, URL.unescape_path(url))
+      path = site.in_dest_dir(dest, Utils.unencode_uri(url))
       path = File.join(path, "index") if url.end_with?("/")
       path << output_ext unless path.end_with? output_ext
       path

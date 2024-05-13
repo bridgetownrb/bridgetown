@@ -202,7 +202,7 @@ module Bridgetown
     # Subclasses can override this method to return a string from their own
     # template handling.
     def template
-      call || _renderer.render(self)
+      (method(:call).arity.zero? ? call : nil) || _renderer.render(self)
     end
 
     # Typically not used but here as a compatibility nod toward ViewComponent.

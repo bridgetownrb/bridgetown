@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+#
+# `bt` is a shortcut to `bridgetown`
+
+load File.join(File.dirname(__FILE__), 'bridgetown')

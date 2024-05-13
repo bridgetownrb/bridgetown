@@ -8,6 +8,7 @@ module Bridgetown
     autoload :RequireGems, "bridgetown-core/utils/require_gems"
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
     autoload :SmartyPantsConverter, "bridgetown-core/utils/smarty_pants_converter"
+    autoload :PidTracker, "bridgetown-core/utils/pid_tracker"
 
     # Constants for use in #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
@@ -33,6 +34,13 @@ module Bridgetown
     # @return [String] the escaped String.
     def xml_escape(input)
       input.to_s.encode(xml: :attr).gsub(%r!\A"|"\Z!, "")
+    end
+
+    def unencode_uri(path)
+      path = path.encode("utf-8")
+      return path unless path.include?("%")
+
+      Addressable::URI.unencode(path)
     end
 
     # Non-destructive version of deep_merge_hashes! See that method.
@@ -211,49 +219,6 @@ module Bridgetown
       slug.downcase! unless cased
 
       slug
-    end
-
-    # Add an appropriate suffix to template so that it matches the specified
-    # permalink style.
-    #
-    # template - permalink template without trailing slash or file extension
-    # permalink_style - permalink style, either built-in or custom
-    #
-    # The returned permalink template will use the same ending style as
-    # specified in permalink_style.  For example, if permalink_style contains a
-    # trailing slash (or is :pretty, which indirectly has a trailing slash),
-    # then so will the returned template.  If permalink_style has a trailing
-    # ":output_ext" (or is :none, :date, or :ordinal) then so will the returned
-    # template.  Otherwise, template will be returned without modification.
-    #
-    # Examples:
-    #   add_permalink_suffix("/:basename", :pretty)
-    #   # => "/:basename/"
-    #
-    #   add_permalink_suffix("/:basename", :date)
-    #   # => "/:basename:output_ext"
-    #
-    #   add_permalink_suffix("/:basename", "/:year/:month/:title/")
-    #   # => "/:basename/"
-    #
-    #   add_permalink_suffix("/:basename", "/:year/:month/:title")
-    #   # => "/:basename"
-    #
-    # Returns the updated permalink template
-    def add_permalink_suffix(template, permalink_style)
-      template = template.dup
-
-      case permalink_style
-      when :pretty, :simple
-        template << "/"
-      when :date, :ordinal, :none
-        template << ":output_ext"
-      else
-        template << "/" if permalink_style.to_s.end_with?("/")
-        template << ":output_ext" if permalink_style.to_s.end_with?(":output_ext")
-      end
-
-      template
     end
 
     # Work the same way as Dir.glob but seperating the input into two parts

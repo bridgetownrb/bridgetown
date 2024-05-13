@@ -1,103 +1,118 @@
 # frozen_string_literal: true
 
+require "rackup/server"
+
 module Bridgetown
+  class Server < Rackup::Server
+    def start(after_stop_callback = nil)
+      trap(:INT) { exit }
+      super()
+    ensure
+      after_stop_callback&.call
+    end
+
+    def name
+      server.to_s.split("::").last
+    end
+
+    def using_puma?
+      name == "Puma"
+    end
+
+    def serveable?
+      server
+      true
+    rescue LoadError, NameError
+      false
+    end
+  end
+
   module Commands
     class Start < Thor::Group
       extend BuildOptions
       extend Summarizable
       include ConfigurationOverridable
+      include Bridgetown::Utils::PidTracker
 
       Registrations.register do
         register(Start, "start", "start", Start.summary)
         register(Start, "dev", "dev", "Alias of start")
       end
 
-      class_option :bind, aliases: "-B", desc: "URI for Puma to bind to (start with tcp://)"
+      class_option :port,
+                   aliases: "-P",
+                   type: :numeric,
+                   default: 4000,
+                   desc: "Serve your site on the specified port. Defaults to 4000."
+      class_option :bind,
+                   aliases: "-B",
+                   type: :string,
+                   default: "0.0.0.0",
+                   desc: "URL for the server to bind to."
       class_option :skip_frontend,
                    type: :boolean,
-                   desc: "Don't load the frontend bundler (always true for production)"
+                   desc: "Don't load the frontend bundler (always true for production)."
       class_option :skip_live_reload,
                    type: :boolean,
-                   desc: "Don't use the live reload functionality (always true for production)"
+                   desc: "Don't use the live reload functionality (always true for production)."
 
       def self.banner
         "bridgetown start [options]"
       end
-      summary "Start the Puma server, frontend bundler, and Bridgetown watcher"
+      summary "Start the web server, frontend bundler, and Bridgetown watcher"
 
-      def start # rubocop:todo Metrics/PerceivedComplexity
+      def start
         Bridgetown.logger.writer.enable_prefix
         Bridgetown::Commands::Build.print_startup_message
         sleep 0.25
 
-        begin
-          require("puma/detect")
-        rescue LoadError
-          raise "** Puma server gem not found. Check your Gemfile and Bundler env? **"
-        end
-
         options = Thor::CoreExt::HashWithIndifferentAccess.new(self.options)
-        options[:using_puma] = true
+        options[:start_command] = true
 
         # Load Bridgetown configuration into thread memory
         bt_options = configuration_with_overrides(options)
+        port = ENV.fetch("BRIDGETOWN_PORT", bt_options.port)
+        # TODO: support Puma serving HTTPS directly?
+        bt_bound_url = "http://#{bt_options.bind}:#{port}"
 
         # Set a local site URL in the config if one is not available
-        if Bridgetown.env.development? && !options["url"]
-          scheme = bt_options.bind&.split("://")&.first == "ssl" ? "https" : "http"
-          port = bt_options.bind&.split(":")&.last || ENV["BRIDGETOWN_PORT"] || 4000
-          bt_options.url = "#{scheme}://localhost:#{port}"
-        end
+        bt_options.url = bt_bound_url if Bridgetown.env.development? && !options["url"]
 
-        puma_pid =
-          Process.fork do
-            require "puma/cli"
+        Bridgetown::Server.new({
+          Host: bt_options.bind,
+          Port: port,
+          config: "config.ru",
+        }).tap do |server|
+          if server.serveable?
+            create_pid_dir
 
-            Puma::Runner.class_eval do
-              def output_header(mode)
-                log "* Puma version: #{Puma::Const::PUMA_VERSION} (#{ruby_engine}) (\"#{Puma::Const::CODE_NAME}\")" # rubocop:disable Layout/LineLength
-                if mode == "cluster"
-                  log "* Cluster Master PID: #{Process.pid}"
-                else
-                  log "* PID: #{Process.pid}"
-                end
-              end
-            end
+            bt_options.skip_live_reload = !server.using_puma?
 
-            puma_args = []
-            if bt_options[:bind]
-              puma_args << "--bind"
-              puma_args << bt_options[:bind]
-            end
+            build_args = ["-w"] + ARGV.reject { |arg| arg == "start" }
+            build_pid = Process.fork { Bridgetown::Commands::Build.start(build_args) }
+            add_pid(build_pid, file: :bridgetown)
 
-            cli = Puma::CLI.new puma_args
-            cli.launcher.events.on_stopped do
+            after_stop_callback = -> {
+              say "Stopping Bridgetown server..."
               Bridgetown::Hooks.trigger :site, :server_shutdown
-            end
-            cli.run
+              Process.kill "SIGINT", build_pid
+              remove_pidfile :bridgetown
+
+              # Shut down the frontend bundler etc. if they're running
+              unless Bridgetown.env.production? || bt_options[:skip_frontend]
+                Bridgetown::Utils::Aux.kill_processes
+              end
+            }
+
+            Bridgetown.logger.info ""
+            Bridgetown.logger.info "Booting #{server.name} at:", bt_bound_url.to_s.magenta
+            Bridgetown.logger.info ""
+
+            server.start(after_stop_callback)
+          else
+            say "Unable to find a Rack server."
           end
-
-        begin
-          Signal.trap("TERM") do
-            Process.kill "SIGINT", puma_pid
-            sleep 0.5 # let it breathe
-            exit 0 # this runs the ensure block below
-          end
-
-          Process.setproctitle("bridgetown #{Bridgetown::VERSION} [#{File.basename(Dir.pwd)}]")
-
-          build_args = ["-w"] + ARGV.reject { |arg| arg == "start" }
-          Bridgetown::Commands::Build.start(build_args)
-        rescue StandardError => e
-          Process.kill "SIGINT", puma_pid
-          sleep 0.5
-          raise e
-        ensure
-          # Shut down esbuild, etc. if they're running
-          Bridgetown::Utils::Aux.kill_processes
         end
-
-        sleep 0.5 # finish cleaning up
       end
     end
   end

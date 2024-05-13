@@ -101,7 +101,6 @@ module Bridgetown
   autoload :Slot,                "bridgetown-core/slot"
   autoload :StaticFile,          "bridgetown-core/static_file"
   autoload :Transformable,       "bridgetown-core/concerns/transformable"
-  autoload :URL,                 "bridgetown-core/url"
   autoload :Utils,               "bridgetown-core/utils"
   autoload :VERSION,             "bridgetown-core/version"
   autoload :Watcher,             "bridgetown-core/watcher"
@@ -375,9 +374,7 @@ module Bridgetown
       )
     end
   end
-end
 
-module Bridgetown
   module Model; end
 
   module Resource
@@ -388,6 +385,13 @@ module Bridgetown
       if mod.const_defined?(:RubyResource) # rubocop:disable Style/GuardClause
         Bridgetown::Resource::Base.include mod.const_get(:RubyResource)
       end
+    end
+  end
+
+  # mixin for identity so Roda knows to call renderable objects
+  module RodaCallable
+    def self.===(other)
+      other.class < self
     end
   end
 end

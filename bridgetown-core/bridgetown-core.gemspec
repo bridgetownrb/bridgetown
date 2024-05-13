@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r!^(benchmark|features|script|test)/!)
   end
-  s.executables   = ["bridgetown"]
+  s.executables   = ["bridgetown", "bt"] # `bt` is a shortcut to `bridgetown` command
   s.bindir        = "bin"
   s.require_paths = ["lib"]
 
@@ -46,6 +46,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency("liquid",                    [">= 5.0", "< 5.5"])
   s.add_runtime_dependency("listen",                    "~> 3.0")
   s.add_runtime_dependency("rack",                      ">= 3.0")
+  s.add_runtime_dependency("rackup",                    "~> 2.0")
   s.add_runtime_dependency("rake",                      ">= 13.0")
   s.add_runtime_dependency("roda",                      "~> 3.46")
   s.add_runtime_dependency("rouge",                     [">= 3.0", "< 5.0"])

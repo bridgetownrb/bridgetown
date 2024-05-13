@@ -28,7 +28,7 @@ module Bridgetown
           end
           puts
           puts "Routes:"
-          puts "======="
+          puts "=======\n"
           if routes.blank?
             puts "No routes found. Have you commented all of your routes?"
             puts "Documentation: https://github.com/jeremyevans/roda-route_list#basic-usage-"
@@ -88,36 +88,11 @@ module Bridgetown
           new(roda_app).handle_routes
         end
 
-        # Start the Roda app request cycle. There are two different code paths
-        # depending on if there's a site `base_path` configured
+        # Set up live reload if allowed, then run through all the Routes blocks.
         #
         # @param roda_app [Roda]
         # @return [void]
-        def start!(roda_app)
-          if Bridgetown::Current.preloaded_configuration.base_path == "/"
-            load_all_routes roda_app
-            return
-          end
-
-          # Support custom base_path configurations
-          roda_app.request.on(
-            Bridgetown::Current.preloaded_configuration.base_path.delete_prefix("/")
-          ) do
-            load_all_routes roda_app
-          end
-
-          nil
-        end
-
-        # Run the Roda public plugin first, set up live reload if allowed, then
-        # run through all the Routes blocks. If the file-based router plugin
-        # is available, kick off that request process next.
-        #
-        # @param roda_app [Roda]
-        # @return [void]
-        def load_all_routes(roda_app)
-          roda_app.request.public
-
+        def load_all(roda_app)
           if Bridgetown.env.development? &&
               !Bridgetown::Current.preloaded_configuration.skip_live_reload
             setup_live_reload roda_app

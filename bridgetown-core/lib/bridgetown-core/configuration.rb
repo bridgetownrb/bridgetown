@@ -28,69 +28,70 @@ module Bridgetown
     # Strings rather than symbols are used for compatibility with YAML.
     DEFAULTS = {
       # Where things are
-      "root_dir"                   => Dir.pwd,
-      "plugins_dir"                => "plugins",
-      "source"                     => "src",
-      "destination"                => "output",
-      "collections_dir"            => "",
-      "cache_dir"                  => ".bridgetown-cache",
-      "layouts_dir"                => "_layouts",
-      "components_dir"             => "_components",
-      "islands_dir"                => "_islands",
-      "partials_dir"               => "_partials",
-      "collections"                => {},
-      "taxonomies"                 => {
+      "root_dir"                     => Dir.pwd,
+      "plugins_dir"                  => "plugins",
+      "source"                       => "src",
+      "destination"                  => "output",
+      "collections_dir"              => "",
+      "cache_dir"                    => ".bridgetown-cache",
+      "layouts_dir"                  => "_layouts",
+      "components_dir"               => "_components",
+      "islands_dir"                  => "_islands",
+      "partials_dir"                 => "_partials",
+      "collections"                  => {},
+      "taxonomies"                   => {
         category: { key: "categories", title: "Category" }, tag: { key: "tags", title: "Tag" },
       },
-      "autoload_paths"             => [],
-      "inflector"                  => Bridgetown::Inflector.new,
-      "eager_load_paths"           => [],
-      "autoloader_collapsed_paths" => [],
-      "additional_watch_paths"     => [],
+      "autoload_paths"               => [],
+      "inflector"                    => Bridgetown::Inflector.new,
+      "eager_load_paths"             => [],
+      "autoloader_collapsed_paths"   => [],
+      "additional_watch_paths"       => [],
 
       # Handling Reading
-      "include"                    => [".htaccess", "_redirects", ".well-known"],
-      "exclude"                    => [],
-      "keep_files"                 => [".git", ".svn", "_bridgetown"],
-      "encoding"                   => "utf-8",
-      "markdown_ext"               => "markdown,mkdown,mkdn,mkd,md",
-      "strict_front_matter"        => false,
-      "slugify_mode"               => "pretty",
+      "include"                      => [".htaccess", "_redirects", ".well-known"],
+      "exclude"                      => [],
+      "keep_files"                   => [".git", ".svn", "_bridgetown"],
+      "encoding"                     => "utf-8",
+      "markdown_ext"                 => "markdown,mkdown,mkdn,mkd,md",
+      "strict_front_matter"          => false,
+      "slugify_mode"                 => "pretty",
 
       # Filtering Content
-      "future"                     => false,
-      "unpublished"                => false,
-      "ruby_in_front_matter"       => true,
+      "future"                       => false,
+      "unpublished"                  => false,
+      "ruby_in_front_matter"         => true,
 
       # Conversion
-      "content_engine"             => "resource",
-      "markdown"                   => "kramdown",
-      "highlighter"                => "rouge",
+      "content_engine"               => "resource",
+      "markdown"                     => "kramdown",
+      "highlighter"                  => "rouge",
+      "support_data_as_view_methods" => true,
 
       # Serving
-      "port"                       => "4000",
-      "host"                       => "127.0.0.1",
-      "base_path"                  => "/",
-      "show_dir_listing"           => false,
+      "port"                         => "4000",
+      "host"                         => "127.0.0.1",
+      "base_path"                    => "/",
+      "show_dir_listing"             => false,
 
       # Output Configuration
-      "available_locales"          => [:en],
-      "default_locale"             => :en,
-      "prefix_default_locale"      => false,
-      "permalink"                  => nil, # default is set according to content engine
-      "timezone"                   => nil, # use the local timezone
+      "available_locales"            => [:en],
+      "default_locale"               => :en,
+      "prefix_default_locale"        => false,
+      "permalink"                    => nil, # default is set according to content engine
+      "timezone"                     => nil, # use the local timezone
 
-      "quiet"                      => false,
-      "verbose"                    => false,
-      "defaults"                   => [],
+      "quiet"                        => false,
+      "verbose"                      => false,
+      "defaults"                     => [],
 
-      "liquid"                     => {
+      "liquid"                       => {
         "error_mode"       => "warn",
         "strict_filters"   => false,
         "strict_variables" => false,
       },
 
-      "kramdown"                   => {
+      "kramdown"                     => {
         "auto_ids"                => true,
         "toc_levels"              => (1..6).to_a,
         "entity_output"           => "as_char",
@@ -104,7 +105,7 @@ module Bridgetown
         "mark_highlighting"       => true,
       },
 
-      "development"                => {
+      "development"                  => {
         "fast_refresh" => true,
       },
     }.each_with_object(Configuration.new) { |(k, v), hsh| hsh[k] = v.freeze }.freeze
