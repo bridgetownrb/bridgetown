@@ -107,7 +107,7 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     memory_profiler (1.0.1)
-    mini_portile2 (2.8.5)
+    mini_portile2 (2.8.6)
     minitest (5.22.3)
     minitest-profile (0.0.2)
     minitest-reporters (1.6.1)
@@ -118,14 +118,14 @@ GEM
     mutex_m (0.2.0)
     net-http (0.4.1)
       uri
-    nokogiri (1.16.4)
+    nokogiri (1.16.5)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.16.4-arm64-darwin)
+    nokogiri (1.16.5-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.4-x86_64-darwin)
+    nokogiri (1.16.5-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.4-x86_64-linux)
+    nokogiri (1.16.5-x86_64-linux)
       racc (~> 1.4)
     nokolexbor (0.5.4)
     nokolexbor (0.5.4-arm64-darwin)
@@ -244,7 +244,7 @@ DEPENDENCIES
   minitest
   minitest-profile
   minitest-reporters
-  nokogiri (~> 1.7)
+  nokogiri (~> 1.16)
   nokolexbor
   rack-test
   rake (~> 13.0)
