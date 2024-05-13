@@ -107,6 +107,8 @@ class Roda
       end
 
       module InstanceMethods
+        include Bridgetown::Foundation::RefinementsHelper
+
         def initialize_bridgetown_context
           if self.class.opts[:bridgetown_site]
             # The site had previously been initialized via the bridgetown_ssr plugin
