@@ -134,7 +134,7 @@ class Bridgetown::Site
     end
 
     def transform_resources_for_fast_refresh(marked_resources, found_gen_pages)
-      marked_resources.each(&:transform!.(:write))
+      marked_resources.each { _1.transform!.write }
       number_of_resources = marked_resources.length
       number_of_resources += 1 if found_gen_pages
       Bridgetown.logger.info(
