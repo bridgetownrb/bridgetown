@@ -6,6 +6,7 @@ module Bridgetown
   class RubyTemplateView
     class Helpers
       using Bridgetown::Refinements
+      include Bridgetown::Foundation::RefinementsHelper
       include Bridgetown::Filters
       include Bridgetown::Filters::FromLiquid
       include ::Streamlined::Helpers

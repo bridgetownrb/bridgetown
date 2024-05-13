@@ -90,7 +90,7 @@ module Bridgetown
 
         ConsoleMethods.site_reset(site) unless options[:blank]
 
-        IRB::ExtendCommandBundle.include ConsoleMethods
+        IRB::ExtendCommandBundle.include ConsoleMethods, Bridgetown::Foundation::RefinementsHelper
         IRB.setup(nil)
         workspace = IRB::WorkSpace.new
         workspace.main.define_singleton_method(:site) { Bridgetown::Current.site }
@@ -106,7 +106,6 @@ module Bridgetown
         Bridgetown.logger.info "",
                                "You can also access #{"collections".cyan} or perform a " \
                                "#{"reload!".cyan}"
-        Bridgetown.logger.info "", "For extra Ruby smarts: #{"using Bridgetown::Refinements".cyan}"
 
         trap("SIGINT") do
           irb.signal_handle

@@ -329,6 +329,7 @@ class TestResource < BridgetownUnitTest
           <output>DOES THIS WORK? 123</output>
 
           <output>Does this work? 456</output>
+          [Bridgetown]
           <p>This is &lt;b&gt;escaped!&lt;/b&gt;</p>
           <p>piping &lt;i&gt;bad&lt;/i&gt; <b>good</b></p>
           <p><em>yay</em></p>
