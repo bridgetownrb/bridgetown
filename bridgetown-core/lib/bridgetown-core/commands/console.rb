@@ -90,7 +90,7 @@ module Bridgetown
 
         ConsoleMethods.site_reset(site) unless options[:blank]
 
-        IRB::ExtendCommandBundle.include ConsoleMethods, Bridgetown::Foundation::RefinementsHelper
+        IRB::ExtendCommandBundle.include ConsoleMethods
         IRB.setup(nil)
         workspace = IRB::WorkSpace.new
         workspace.main.define_singleton_method(:site) { Bridgetown::Current.site }

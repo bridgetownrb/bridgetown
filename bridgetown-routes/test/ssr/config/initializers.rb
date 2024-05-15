@@ -9,5 +9,7 @@ Bridgetown.configure do |config|
   config.default_locale = :en
   config.prefix_default_locale = false
 
-  # puts foundation(Bridgetown.env.to_sym).within?([:test, :production]) # => true
+  init :adding, require_gem: false
+
+  # puts Bridgetown.refine(Bridgetown.env.to_sym).within?([:test, :production]) # => true
 end

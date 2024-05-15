@@ -40,29 +40,30 @@ Zeitwerk.with_loader do |l|
   l.eager_load
 end
 
-# Include this module is any context (such as templates) to make it possible to access refinements
-# without the use of `using`. For example: `foundation(Some::Nested::Class).nested_parent`.
-module Bridgetown::Foundation
-  module RefinementsHelper
-    # Call this method to wrap any object(s) in order to use Foundation's refinements
-    #
-    # @param *obj [Object]
-    # @return [WrappedObjectWithRefinements]
-    def foundation(*obj)
-      if obj.length == 1
-        WrappedObjectWithRefinements.new(obj[0])
-      else
-        obj.map { WrappedObjectWithRefinements.new _1 }
-      end
-    end
-  end
-
+module Bridgetown
   # Any method call sent will be passed along to the wrapped object with refinements activated
   class WrappedObjectWithRefinements < SimpleDelegator
     using Bridgetown::Refinements
 
-    def method_missing(method, ...) # rubocop:disable Style/MissingRespondToMissing
-      __getobj__.send(method, ...)
+    # rubocop:disable Style/MissingRespondToMissing
+    def method_missing(method, ...) = __getobj__.send(method, ...)
+    # rubocop:enable Style/MissingRespondToMissing
+  end
+
+  # Call this method to wrap any object(s) in order to use Foundation's refinements
+  #
+  # @param *obj [Object]
+  # @return [WrappedObjectWithRefinements]
+  def self.refine(*obj)
+    if obj.length == 1
+      WrappedObjectWithRefinements.new(obj[0])
+    else
+      obj.map { WrappedObjectWithRefinements.new _1 }
     end
+  end
+
+  def self.add_refinement(mod, &)
+    Bridgetown::Refinements.include(mod)
+    Bridgetown::WrappedObjectWithRefinements.class_eval(&)
   end
 end
