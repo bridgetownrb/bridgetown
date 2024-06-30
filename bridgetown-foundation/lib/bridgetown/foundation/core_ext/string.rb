@@ -4,16 +4,24 @@ module Bridgetown::Foundation
   module CoreExt
     module String
       module Colorize
-        def self.included(klass)
-          Bridgetown::Foundation::Ansi::COLORS.each_key do |color|
-            klass.define_method color do |*args|
-              Bridgetown::Foundation::Ansi.public_send(color, self, *args)
+        class << self
+          extend Inclusive::Class
+
+          # @return [Bridgetown::Foundation::Packages::Ansi]
+          public_packages def ansi = [Bridgetown::Foundation::Packages::Ansi]
+
+          def included(klass)
+            ansi.tap do |a|
+              a.colors.each_key do |color|
+                klass.define_method(color) { |*args| a.public_send(color, self, *args) }
+              end
             end
           end
         end
 
+        # Reset output colors back to a regular string output
         def reset_ansi
-          Bridgetown::Foundation::Ansi.reset(self)
+          Colorize.ansi.reset(self)
         end
       end
 

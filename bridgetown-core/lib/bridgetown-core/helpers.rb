@@ -9,6 +9,7 @@ module Bridgetown
       include Bridgetown::Filters
       include Bridgetown::Filters::FromLiquid
       include ::Streamlined::Helpers
+      include Inclusive
 
       # @return [Bridgetown::RubyTemplateView]
       attr_reader :view
@@ -17,6 +18,9 @@ module Bridgetown
       attr_reader :site
 
       Context = Struct.new(:registers)
+
+      # @return [Bridgetown::Foundation::SafeTranslations]
+      packages def translate_package = [Bridgetown::Foundation::Packages::SafeTranslations]
 
       # @param view [Bridgetown::RubyTemplateView]
       # @param site [Bridgetown::Site]
@@ -163,7 +167,7 @@ module Bridgetown
 
       def translate_with_html(key, **options)
         escaper = ->(input) { input.to_s.encode(xml: :attr).gsub(%r{\A"|"\Z}, "") }
-        Bridgetown::Foundation::SafeTranslations.translate(key, escaper, **options)
+        translate_package.translate(key, escaper, **options)
       end
 
       # Delegates to <tt>I18n.localize</tt> with no additional functionality.

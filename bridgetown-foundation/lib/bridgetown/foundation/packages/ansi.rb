@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Bridgetown
-  module Foundation
+module Bridgetown::Foundation
+  module Packages
     module Ansi
       extend self
 
@@ -18,6 +18,8 @@ module Bridgetown
         cyan: 36,
         white: 37,
       }.freeze
+
+      def colors = COLORS
 
       # Strip ANSI from the current string.  It also strips cursor stuff,
       # well some of it, and it also strips some other stuff that a lot of

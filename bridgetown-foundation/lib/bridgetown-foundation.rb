@@ -2,6 +2,7 @@
 
 require "bridgetown/foundation/version"
 require "hash_with_dot_access"
+require "inclusive"
 require "zeitwerk"
 require "delegate"
 
