@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -e
+
+# Usage:
+#   script/test <test_file>
+#   script/test
+
+if [ -d test/dest ]
+  then rm -r test/dest
+fi
+
+testopts="--profile"
+
+if [[ $# -lt 1 ]]
+then
+  set -x
+  time ruby -S bundle exec \
+    rake TESTOPTS=$testopts test
+else
+  set -x
+  time ruby -S bundle exec ruby -I test \
+    "$@" $testops
+fi

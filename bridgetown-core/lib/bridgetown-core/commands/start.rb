@@ -32,7 +32,7 @@ module Bridgetown
       extend BuildOptions
       extend Summarizable
       include ConfigurationOverridable
-      include Bridgetown::Utils::PidTracker
+      include Inclusive
 
       Registrations.register do
         register(Start, "start", "start", Start.summary)
@@ -62,6 +62,7 @@ module Bridgetown
       summary "Start the web server, frontend bundler, and Bridgetown watcher"
 
       def start
+        pid_tracker = packages[Bridgetown::Foundation::Packages::PidTracker]
         Bridgetown.logger.writer.enable_prefix
         Bridgetown::Commands::Build.print_startup_message
         sleep 0.25
@@ -84,19 +85,19 @@ module Bridgetown
           config: "config.ru",
         }).tap do |server|
           if server.serveable?
-            create_pid_dir
+            pid_tracker.create_pid_dir
 
             bt_options.skip_live_reload = !server.using_puma?
 
             build_args = ["-w"] + ARGV.reject { |arg| arg == "start" }
             build_pid = Process.fork { Bridgetown::Commands::Build.start(build_args) }
-            add_pid(build_pid, file: :bridgetown)
+            pid_tracker.add_pid(build_pid, file: :bridgetown)
 
             after_stop_callback = -> {
               say "Stopping Bridgetown server..."
               Bridgetown::Hooks.trigger :site, :server_shutdown
               Process.kill "SIGINT", build_pid
-              remove_pidfile :bridgetown
+              pid_tracker.remove_pidfile :bridgetown
 
               # Shut down the frontend bundler etc. if they're running
               unless Bridgetown.env.production? || bt_options[:skip_frontend]

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Bridgetown
+module Bridgetown::Foundation
   module CoreExt
     module Class
       module Descendants

@@ -29,4 +29,5 @@ end
 gem "bridgetown", path: "bridgetown"
 gem "bridgetown-builder", path: "bridgetown-builder"
 gem "bridgetown-core", path: "bridgetown-core"
+gem "bridgetown-foundation", path: "bridgetown-foundation"
 gem "bridgetown-paginate", path: "bridgetown-paginate"

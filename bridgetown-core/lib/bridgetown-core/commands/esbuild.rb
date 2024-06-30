@@ -24,7 +24,7 @@ module Bridgetown
         return show_actions if args.empty?
 
         action = args.first
-        if supported_actions.include?(action)
+        if supported_actions.include?(action.to_sym)
           perform action
         else
           @logger.error "Error:".red, "🚨 Please enter a valid action."
@@ -66,7 +66,7 @@ module Bridgetown
 
         longest_action = supported_actions.keys.max_by(&:size).size
         supported_actions.each do |action, description|
-          say "#{action.ljust(longest_action).to_s.bold.blue}\t# #{description}"
+          say "#{action.to_s.ljust(longest_action).bold.blue}\t# #{description}"
         end
       end
 
@@ -76,7 +76,7 @@ module Bridgetown
           update: "Updates the Bridgetown esbuild defaults to the latest available version",
           "migrate-from-webpack":
             "Removes Webpack from your project and installs/configures esbuild",
-        }.with_indifferent_access
+        }
       end
     end
   end

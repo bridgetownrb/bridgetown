@@ -3,31 +3,33 @@
 module Bridgetown
   # Superclass for a website's SiteBuilder abstract class
   class Builder < Bridgetown::Builders::PluginBuilder
-    extend ActiveSupport::DescendantsTracker
-    include ActiveSupport::Callbacks
-
-    define_callbacks :build
-
     class << self
       def register
         Bridgetown::Builders::PluginBuilder.plugin_registrations << self
       end
 
       def before_build(...)
-        set_callback(:build, :before, ...)
+        add_callback(:before, ...)
       end
 
       def after_build(...)
-        set_callback(:build, :after, ...)
+        add_callback(:after, ...)
       end
 
-      def around_build(...)
-        set_callback(:build, :around, ...)
+      def callbacks
+        @callbacks ||= {}
+      end
+
+      def add_callback(name, method_name = nil, &block)
+        callbacks[name] ||= []
+        callbacks[name] << (block || proc { send(method_name) })
       end
     end
 
     def build_with_callbacks
-      run_callbacks(:build) { build }
+      self.class.callbacks[:before]&.each { instance_exec(&_1) }
+      build
+      self.class.callbacks[:after]&.each { instance_exec(&_1) }
       self
     end
 

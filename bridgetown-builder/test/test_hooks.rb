@@ -18,9 +18,23 @@ class SiteBuilder < Builder
 end
 
 class SubclassOfSiteBuilder < SiteBuilder
+  class << self
+    attr_accessor :final_value
+  end
+
+  after_build :run_after
+
   def build
     site.config[:site_builder_subclass_loaded] = true
   end
+  
+  def run_after
+    self.class.final_value = [@initial_value, :goodbye]
+  end
+end
+
+SubclassOfSiteBuilder.before_build do
+  @initial_value = :hello
 end
 
 class TestHooks < BridgetownUnitTest
@@ -50,9 +64,11 @@ class TestHooks < BridgetownUnitTest
       @site.reset
       @site.loaders_manager.unload_loaders
       @site.setup
+      SubclassOfSiteBuilder.final_value = nil
       Bridgetown::Hooks.trigger :site, :pre_read, @site
 
       assert @site.config[:site_builder_subclass_loaded]
+      assert_equal [:hello, :goodbye], SiteBuilder.subclasses.first.final_value
     end
   end
 end

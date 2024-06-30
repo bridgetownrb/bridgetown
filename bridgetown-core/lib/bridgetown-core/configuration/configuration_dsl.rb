@@ -27,7 +27,9 @@ module Bridgetown
         end
 
         Bridgetown.logger.debug "Initializing:", name
-        @scope.initializers[name.to_sym].block.(self, **@scope.init_params[name].symbolize_keys)
+        @scope.initializers[name.to_sym].block.(
+          self, **@scope.init_params[name].transform_keys(&:to_sym)
+        )
         initializer.completed = true
       end
 

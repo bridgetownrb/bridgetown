@@ -97,6 +97,11 @@ class TestRubyHelpers < BridgetownUnitTest
       assert @helpers.translate("about.foo_html").html_safe?
     end
 
+    should "return escaped interpolated values within html safe translation" do
+      assert_equal "<button>Click &lt;span&gt;Me&lt;/span&gt;</button>",
+                   @helpers.translate("about.dangerous_html", me: "<span>Me</span>")
+    end
+
     should "not return html safe string when key does not end with _html" do
       refute @helpers.translate("about.foo").html_safe?
     end

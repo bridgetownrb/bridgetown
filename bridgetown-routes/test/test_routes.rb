@@ -38,7 +38,7 @@ class TestRoutes < BridgetownUnitTest
 
     should "return HTML for the howdy route" do
       get "/howdy?yo=joe&happy=pleased"
-      assert_equal "<h1>joe 42</h1>\n\n<p>I am pleasedpleased.</p>\n", last_response.body
+      assert_equal "<h1>joe 42 true</h1>\n\n<p>I am pleasedpleased.</p>\n", last_response.body
     end
 
     should "return HTML for a route in an arbitrary folder" do

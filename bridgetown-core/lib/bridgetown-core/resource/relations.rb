@@ -3,6 +3,8 @@
 module Bridgetown
   module Resource
     class Relations
+      using Bridgetown::Refinements
+
       # @return [Bridgetown::Resource::Base]
       attr_reader :resource
 
@@ -13,6 +15,7 @@ module Bridgetown
       def initialize(resource)
         @resource = resource
         @site = resource.site
+        @inflector = site.config.inflector
       end
 
       # @return [HashWithDotAccess::Hash]
@@ -26,7 +29,7 @@ module Bridgetown
           types = []
           relation_schema&.each_value do |collections|
             types << collections
-            types << Array(collections).map { |item| ActiveSupport::Inflector.pluralize(item) }
+            types << Array(collections).map { |item| @inflector.pluralize(item) }
           end
           types.flatten.uniq
         end
@@ -49,13 +52,13 @@ module Bridgetown
       end
 
       def method_missing(type, *args)
-        return super unless type.to_s.in?(relation_types)
+        return super unless type.to_s.within?(relation_types)
 
         resources_for_type(type)
       end
 
       def respond_to_missing?(type, *_args)
-        type.to_s.in?(relation_types)
+        type.to_s.within?(relation_types)
       end
 
       def to_liquid
@@ -70,7 +73,7 @@ module Bridgetown
         relation_schema&.each do |relation_type, collections|
           collections = Array(collections).then do |collections_arr|
             collections_arr +
-              collections_arr.map { |item| ActiveSupport::Inflector.pluralize(item) }
+              collections_arr.map { |item| @inflector.pluralize(item) }
           end.flatten.uniq
           return relation_type if collections.include?(type.to_s)
         end
@@ -79,14 +82,14 @@ module Bridgetown
       # @param type [Symbol]
       # @return [Bridgetown::Collection]
       def other_collection_for_type(type)
-        site.collections[type] || site.collections[ActiveSupport::Inflector.pluralize(type)]
+        site.collections[type] || site.collections[@inflector.pluralize(type)]
       end
 
       # @return [Array<String>]
       def collection_labels
         [
           resource.collection.label,
-          ActiveSupport::Inflector.singularize(resource.collection.label),
+          @inflector.singularize(resource.collection.label),
         ]
       end
 
@@ -109,7 +112,7 @@ module Bridgetown
         label, singular_label = collection_labels
 
         other_collection_for_type(type).resources.select do |other_resource|
-          resource.data.slug.in?(
+          resource.data.slug.within?(
             Array(other_resource.data[label] || other_resource.data[singular_label])
           )
         end
@@ -121,7 +124,7 @@ module Bridgetown
         label, singular_label = collection_labels
 
         other_collection_for_type(type).resources.find do |other_resource|
-          resource.data.slug.in?(
+          resource.data.slug.within?(
             Array(other_resource.data[label] || other_resource.data[singular_label])
           )
         end

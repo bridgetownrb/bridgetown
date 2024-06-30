@@ -245,7 +245,7 @@ The three types of relations you can configure are:
 * **has_one**: a single resource you want to reference will define the slug of the current resource in _its_ front matter
 * **has_many**: multiple resources you want to reference will define the slug of the current resource in their front matter
 
-The "inflector" is loaded from Rails' ActiveSupport and is used to convert between singular and plural collection names automatically. If you need to customize the inflector with words it doesn't specifically recognize, see configuring ActiveSupport::Inflector in the [`config/initializers.rb`](/docs/configuration/initializers#inflector) file.
+The inflections between the various singular and plural relation names are handled by Bridgetown's inflector automatically. If you need to customize the inflector with words it doesn't specifically recognize, you can add additional rules in the [`config/initializers.rb`](/docs/configuration/initializers#inflector) file.
 
 ## Configuring Permalinks
 

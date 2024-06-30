@@ -2,6 +2,7 @@
 
 module Bridgetown
   class StaticFile
+    using Bridgetown::Refinements
     extend Forwardable
 
     attr_reader :relative_path, :extname, :name, :data, :site, :collection
@@ -34,7 +35,7 @@ module Bridgetown
       @collection = collection
       @relative_path = File.join(*[@dir, @name].compact)
       @extname = File.extname(@name)
-      @data = @site.frontmatter_defaults.all(relative_path, type).with_dot_access
+      @data = @site.frontmatter_defaults.all(relative_path, type).as_dots
       data.permalink ||= if collection && !collection.builtin?
                            "#{collection.default_permalink.chomp("/").chomp(".*")}.*"
                          else

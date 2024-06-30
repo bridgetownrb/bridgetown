@@ -5,6 +5,8 @@ require "yaml"
 require "open3"
 
 class BridgetownFeatureTest < BridgetownUnitTest
+  using Bridgetown::Refinements
+
   class Paths
     SOURCE_DIR = Pathname.new(File.expand_path("../..", __dir__))
 
@@ -97,7 +99,7 @@ class BridgetownFeatureTest < BridgetownUnitTest
     FileUtils.mkdir_p("src")
 
     File.write(File.join("src", file), <<~DATA)
-      #{front_matter.deep_stringify_keys.to_yaml}
+      #{front_matter.as_dots.to_h.to_yaml}
       ---
 
       #{text}
@@ -105,7 +107,7 @@ class BridgetownFeatureTest < BridgetownUnitTest
   end
 
   def create_configuration(**config)
-    File.write("bridgetown.config.yml", config.deep_stringify_keys.to_yaml.delete_prefix("---\n"))
+    File.write("bridgetown.config.yml", config.as_dots.to_h.to_yaml.delete_prefix("---\n"))
   end
 
   def seconds_agnostic_time(time)

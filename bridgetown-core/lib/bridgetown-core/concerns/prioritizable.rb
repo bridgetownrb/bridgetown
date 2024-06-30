@@ -26,11 +26,21 @@ module Bridgetown
       def <=>(other)
         priorities[other.priority] <=> priorities[priority]
       end
+
+      # Return either this class' priorities or the superclass which has them (if any)
+      def priorities
+        return @priorities if @priorities
+
+        superclass.priorities if superclass.respond_to?(:priorities)
+      end
+
+      def priorities=(val)
+        @priorities = val
+      end
     end
 
     def self.included(klass)
       klass.extend ClassMethods
-      klass.class_attribute :priorities, instance_accessor: false
     end
 
     # Spaceship is priority [higher -> lower]

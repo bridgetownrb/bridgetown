@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Routes::OohJson < Bridgetown::Rack::Routes
+class Routes::OohJSON < Bridgetown::Rack::Routes
   route do |r|
     # route: POST /cookies
     r.post "ooh_json" do

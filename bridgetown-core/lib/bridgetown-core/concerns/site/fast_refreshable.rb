@@ -2,6 +2,8 @@
 
 class Bridgetown::Site
   module FastRefreshable
+    using Bridgetown::Refinements
+
     def fast_refresh(paths = [], reload_if_needed: false) # rubocop:todo Metrics
       FileUtils.rm_f(Bridgetown.build_errors_path)
 

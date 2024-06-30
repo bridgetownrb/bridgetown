@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Bridgetown
-  module Utils
+module Bridgetown::Foundation
+  module Packages
     module PidTracker
       def create_pid_dir
         FileUtils.mkdir_p pids_dir

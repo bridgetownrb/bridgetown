@@ -2,6 +2,7 @@
 
 module Bridgetown
   class Component
+    using Bridgetown::Refinements
     include Bridgetown::Streamlined
     extend Forwardable
 
@@ -228,9 +229,7 @@ module Bridgetown
     end
 
     def helpers
-      @helpers ||= Bridgetown::RubyTemplateView::Helpers.new(
-        self, view_context&.site || Bridgetown::Current.site
-      )
+      @helpers ||= Bridgetown::RubyTemplateView::Helpers.new(self, view_context&.site)
     end
 
     def method_missing(method, ...)

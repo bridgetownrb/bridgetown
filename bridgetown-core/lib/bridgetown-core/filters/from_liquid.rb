@@ -5,19 +5,15 @@ module Bridgetown
     module FromLiquid
       extend Liquid::StandardFilters
 
-      def strip_html(input)
-        FromLiquid.strip_html(input)
-      end
+      def strip_html(...) = FromLiquid.strip_html(...)
 
-      def strip_newlines(input)
-        FromLiquid.strip_newlines(input)
-      end
+      def strip_newlines(...) = FromLiquid.strip_newlines(...)
 
-      def newline_to_br(input)
-        FromLiquid.newline_to_br(input)
-      end
+      def newline_to_br(...) = FromLiquid.newline_to_br(...)
 
-      # FYI, truncate and truncate words are already provided by ActiveSupport! =)
+      def truncate(...) = FromLiquid.truncate(...)
+
+      def truncate_words(...) = FromLiquid.truncatewords(...)
     end
   end
 end

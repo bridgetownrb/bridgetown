@@ -2,6 +2,8 @@
 
 module Bridgetown
   class Slot
+    using Bridgetown::Refinements
+
     include Transformable
 
     # @return [String]
