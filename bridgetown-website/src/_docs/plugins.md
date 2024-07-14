@@ -321,7 +321,7 @@ As always, if you have any questions or need support in creating your plugin,
   gem "my_plugin", :path => "../my_plugin"
   ```
 
-  You would do something similar in your test site's `package.json` as well (be sure to run [yarn link](https://classic.yarnpkg.com/en/docs/cli/link) so Yarn knows not to install your local path into `node_modules`):
+  You would do something similar in your test site's `package.json` as well (be sure to run [npm link](https://docs.npmjs.com/cli/v10/commands/npm-link) so NPM knows not to install your local path into `node_modules`):
 
   ```json
   "dependencies": {

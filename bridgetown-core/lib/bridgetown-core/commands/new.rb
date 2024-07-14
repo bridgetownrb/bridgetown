@@ -38,9 +38,9 @@ module Bridgetown
       class_option :"skip-bundle",
                    type: :boolean,
                    desc: "Skip 'bundle install'"
-      class_option :"skip-yarn",
+      class_option :"skip-npm",
                    type: :boolean,
-                   desc: "Skip 'yarn install'"
+                   desc: "Skip 'npm install'"
       class_option :"use-sass",
                    type: :boolean,
                    desc: "Set up a Sass configuration for your stylesheet"
@@ -180,8 +180,8 @@ module Bridgetown
         @skipped_bundle = true # is set to false if bundle install worked
         bundle_install path unless options["skip-bundle"]
 
-        @skipped_yarn = true
-        yarn_install path unless options["skip-yarn"]
+        @skipped_npm = true
+        npm_install path unless options["skip-npm"]
 
         invoke(Apply, [], options) if options[:apply]
         invoke(Configure, options[:configure].split(","), {}) if options[:configure]
@@ -191,9 +191,9 @@ module Bridgetown
         logger.info ""
         logger.info "Success!".green, "🎉 Your new Bridgetown site was " \
                                       "generated in #{cli_path.cyan}."
-        if options["skip-yarn"]
+        if options["skip-npm"]
           logger.info "You can now #{"cd".cyan} #{cli_path.cyan} to get started."
-          logger.info "You'll probably also want to #{"yarn install".cyan} " \
+          logger.info "You'll probably also want to #{"npm install".cyan} " \
                       "to load in your frontend assets."
         else
           logger.info "You can now #{"cd".cyan} #{cli_path.cyan} and run #{bt_start.cyan} " \
@@ -207,7 +207,7 @@ module Bridgetown
           logger.info "You will need to run #{"bundle binstubs bridgetown-core".cyan} manually."
         end
 
-        logger.info "Yarn install skipped.".yellow if @skipped_yarn
+        logger.info "NPM install skipped.".yellow if @skipped_npm
       end
       # rubocop:enable Metrics/CyclomaticComplexity
       # rubocop:enable Metrics/PerceivedComplexity
@@ -240,15 +240,15 @@ module Bridgetown
         say_status :alert, "Could not load git. git init skipped.", :red
       end
 
-      def yarn_install(path)
+      def npm_install(path)
         unless Bridgetown.environment.test?
           inside(path) do
-            run "yarn install", abort_on_failure: true
+            run "npm install", abort_on_failure: true
           end
         end
-        @skipped_yarn = false
+        @skipped_npm = false
       rescue SystemExit
-        say_status :alert, "Could not load yarn. yarn install skipped.", :red
+        say_status :alert, "Could not load npm. NPM install skipped.", :red
       end
     end
   end

@@ -41,7 +41,7 @@ ruby -v
 
 And that's it! Check out [rbenv command references](https://github.com/rbenv/rbenv#command-reference) to learn how to use different versions of Ruby in your projects.
 
-Now jump down to the [Install Node & Yarn](#node) section.
+Now jump down to the [Install Node](#node) section.
 
 ### With Homebrew {#brew}
 
@@ -97,25 +97,23 @@ Every time you update Ruby to a version with a different first two digits, you w
 You will also need to add `--user-install` to any `gem install` statement you run.
 {% end %}
 
-## Install Node & Yarn {#node}
+## Install Node {#node}
 
-Node is a JavaScript runtime that can execute on a server or development machine. Yarn
-is a package manager for Node packages. You'll need Node and Yarn in order to install
+Node is a JavaScript runtime that can execute on a server or development machine. NPM
+is a package manager for JavaScript packages. You'll need Node in order to install
 and use esbuild, the frontend asset compiler that runs alongside Bridgetown.
 
-The easiest way to install Node and Yarn is via Homebrew (which should already be installed after following the instructions above).
+The easiest way to install Node is via Homebrew (which should already be installed after following the instructions above).
 
 ```sh
 brew update
 brew install node
-brew install yarn
 ```
 
-Then verify your installed versions:
+Then verify your installed version:
 
 ```sh
 node -v
-yarn -v
 ```
 
 {%@ "docs/install/bridgetown" %}

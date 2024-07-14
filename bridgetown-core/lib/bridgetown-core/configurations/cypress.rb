@@ -3,7 +3,7 @@
 # Install packages
 
 say "Installing Cypress...", :green
-run "yarn add -D cypress"
+add_npm_package "-D cypress"
 
 # Copy cypress files and tasks into place
 cypress_tasks = File.read(in_templates_dir("cypress_tasks"))

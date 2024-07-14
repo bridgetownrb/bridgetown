@@ -2,7 +2,7 @@
 
 say_status "is-land", "Installing <is-land>..."
 
-run "yarn add @11ty/is-land"
+add_npm_package "@11ty/is-land"
 
 javascript_import do
   <<~JS

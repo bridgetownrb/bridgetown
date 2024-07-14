@@ -12,7 +12,7 @@ end
 say_status :ruby2js, "Installing Ruby2JS..."
 
 add_gem "ruby2js"
-run "yarn add -D @ruby2js/esbuild-plugin"
+add_npm_package "-D @ruby2js/esbuild-plugin"
 
 insert_into_file "esbuild.config.js",
                  after: 'const build = require("./config/esbuild.defaults.js")' do
