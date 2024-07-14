@@ -1,9 +1,4 @@
 PATH
-  remote: ../../inclusive
-  specs:
-    inclusive (1.0.0)
-
-PATH
   remote: ../bridgetown-builder
   specs:
     bridgetown-builder (2.0.0.beta1)
@@ -106,6 +101,7 @@ GEM
     hash_with_dot_access (2.1.1)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
+    inclusive (1.0.0)
     kramdown (2.4.0)
       rexml
     kramdown-parser-gfm (1.1.0)
@@ -179,7 +175,6 @@ DEPENDENCIES
   bridgetown-seo-tag (~> 6.0)
   bridgetown-svg-inliner (~> 2.0)
   gems (~> 1.2)
-  inclusive!
   nokolexbor (~> 0.4)
   puma (< 7)
   ruby2js (~> 5.1)
