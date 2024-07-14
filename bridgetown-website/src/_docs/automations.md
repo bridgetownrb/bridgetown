@@ -109,8 +109,9 @@ end
 There is a whole variety of possible actions at your disposal:
 
 ```ruby
-add_bridgetown_plugin("my-plugin") # bundle add…
-add_yarn_for_gem("my-plugin") # yarn add… (looks up yarn metadata in plugin gemspec)
+add_bridgetown_plugin "my-plugin" # bundle add…
+add_npm_for_gem "my-plugin"  # npm install (looks up npm metadata in plugin gemspec)
+add_npm_package "-D some-package-name"
 
 # add another gem, but still continue if there's a Bundler error
 run 'bundle add some-other-gem --version ">= 4.1.0, < 4.3.0"', abort_on_failure: false

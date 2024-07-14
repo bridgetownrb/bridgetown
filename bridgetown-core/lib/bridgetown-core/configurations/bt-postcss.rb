@@ -16,7 +16,7 @@ return unless confirm.casecmp?("Y")
 plugins = %w(postcss-mixins postcss-color-mod-function cssnano)
 
 say "Adding the following PostCSS plugins: #{plugins.join(' | ')}", :green
-run "yarn add -D #{plugins.join(' ')}"
+add_npm_package "-D #{plugins.join(' ')}"
 
 copy_file in_templates_dir("postcss.config.js"), "postcss.config.js", force: true
 

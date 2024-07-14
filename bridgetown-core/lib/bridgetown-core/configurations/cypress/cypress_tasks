@@ -1,12 +1,12 @@
 namespace :cy do
   desc "Open Cypress test runner"
   task :open do
-    system "yarn run cypress open"
+    system "npm run cypress open"
   end
 
   desc "Run Cypress tests headless"
   task :run do
-    system "yarn run cypress run"
+    system "npm run cypress run"
   end
 
   desc "Start server and open Cypress test runner"

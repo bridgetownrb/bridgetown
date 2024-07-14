@@ -72,8 +72,8 @@ FROM node:alpine as asset_builder
 ENV BRIDGETOWN_ENV=production
 WORKDIR /assets
 COPY . .
-RUN yarn install
-RUN yarn run esbuild
+RUN npm install
+RUN npm run esbuild
 
 # Generate your site content as HTML
 FROM ruby:alpine as bridgetown_builder
@@ -107,7 +107,7 @@ RUN apt-get update &&\
     apt-get install --yes build-essential git curl
 
 RUN curl https://get.volta.sh | bash &&\
-    volta install node@lts yarn@latest
+    volta install node@lts
 
 WORKDIR /app
 
@@ -122,7 +122,7 @@ COPY --from=base $VOLTA_HOME/tools $VOLTA_HOME/tools
 COPY --from=base /app /app
 COPY --from=gems /usr/local/bundle /usr/local/bundle
 
-RUN yarn install
+RUN npm install
 RUN bundle exec bridgetown frontend:build
 
 EXPOSE 4000
@@ -145,17 +145,15 @@ cache:
 .setup:
   script:
     - apt-get update -yqqq
-    - curl -sL https://deb.nodesource.com/setup_12.x | bash -
-    - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-    - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+    - curl -sL https://deb.nodesource.com/setup_20.x | bash -
     - apt update
-    - apt-get install -y nodejs yarn
+    - apt-get install -y nodejs
     - export GEM_HOME=$PWD/gems
     - export PATH=$PWD/gems/bin:$PATH
     - gem install bundler
     - gem install bridgetown -N
     - bundle install
-    - yarn install
+    - npm install
 
 test:
   script:
@@ -267,7 +265,7 @@ Finally, add the following line to the `scripts` section in your package.json:
 }
 ```
 
-The nodejs buildpack will automatically run `yarn heroku-postbuild` at the right
+The nodejs buildpack will automatically run `npm run heroku-postbuild` at the right
 time during the deployment process, so there is nothing left to do. You can now
 safely deploy your application:
 
