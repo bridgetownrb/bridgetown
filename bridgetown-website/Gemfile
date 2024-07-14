@@ -6,16 +6,19 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 gem "bridgetown", path: "../bridgetown"
 gem "bridgetown-builder", path: "../bridgetown-builder"
 gem "bridgetown-core", path: "../bridgetown-core"
+gem "bridgetown-foundation", path: "../bridgetown-foundation"
 gem "bridgetown-paginate", path: "../bridgetown-paginate"
 
 gem "puma", "< 7"
 
-gem "bridgetown-feed", "~> 2.1", group: :bridgetown_plugins
-gem "bridgetown-quick-search", "~> 1.1", group: :bridgetown_plugins
-gem "bridgetown-seo-tag", "~> 5.0", group: :bridgetown_plugins
-gem "bridgetown-svg-inliner", "~> 1.0", group: :bridgetown_plugins
+gem "bridgetown-feed", "~> 3"
+gem "bridgetown-quick-search", "~> 2.0"
+gem "bridgetown-seo-tag", "~> 6.0"
+gem "bridgetown-svg-inliner", "~> 2.0"
 
 gem "gems", "~> 1.2"
 gem "nokolexbor", "~> 0.4"
 
 gem "ruby2js", "~> 5.1"
+
+gem "inclusive", path: "../../inclusive"

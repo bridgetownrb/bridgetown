@@ -2,6 +2,8 @@
 
 module Bridgetown
   class Slot
+    using Bridgetown::Refinements
+
     include Transformable
 
     # @return [String]
@@ -28,12 +30,10 @@ module Bridgetown
     private
 
     def converters
-      # A private method calling another private method. Hmm.
-      document_converters = if context.is_a?(Bridgetown::Resource::Base)
-                              context.transformer.send(:converters)
-                            else
+      # TODO: a private method calling another private method. Hmm.
+      document_converters = context.is_a?(Bridgetown::Resource::Base) ?
+                              context.transformer.send(:converters) :
                               context.send(:converters)
-                            end
 
       document_converters.select { _1.class.supports_slots? }
     end

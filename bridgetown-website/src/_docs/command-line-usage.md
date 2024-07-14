@@ -84,7 +84,7 @@ As is shown in comments for the default Rakefile, you can add your own [automati
 task :my_task => :environment do
   puts site.root_dir
   automation do
-    say_status :rake, "I'm a Rake tast =) #{site.config.url}"
+    say_status :rake, "I'm a Rake task =) #{site.config.url}"
   end
 end
 ```

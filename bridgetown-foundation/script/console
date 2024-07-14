@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require "bundler"
+Bundler.setup
+
+require "bridgetown-foundation"
+
+module Bridgetown
+  module Foundation
+    binding.irb
+  end
+end

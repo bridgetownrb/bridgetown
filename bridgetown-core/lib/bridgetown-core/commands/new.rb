@@ -26,8 +26,8 @@ module Bridgetown
                    desc: "Comma separated list of bundled configurations to perform"
       class_option :templates,
                    aliases: "-t",
-                   banner: "liquid|erb|serbea",
-                   desc: "Preferred template engine (defaults to Liquid)"
+                   banner: "erb|serbea|liquid",
+                   desc: "Preferred template engine (defaults to ERB)"
       class_option :"frontend-bundling",
                    aliases: "-e",
                    banner: "esbuild",
@@ -121,12 +121,12 @@ module Bridgetown
         copy_file("frontend/styles/syntax-highlighting.css")
 
         case options["templates"]
-        when "erb"
-          setup_erb_templates
         when "serbea"
           setup_serbea_templates
-        else
+        when "liquid"
           setup_liquid_templates
+        else # default if no option specififed
+          setup_erb_templates
         end
 
         postcss_option ? configure_postcss : configure_sass
@@ -140,29 +140,23 @@ module Bridgetown
         directory "TEMPLATES/erb/_layouts", "src/_layouts"
         directory "TEMPLATES/erb/_components", "src/_components"
         directory "TEMPLATES/erb/_partials", "src/_partials"
-        gsub_file "bridgetown.config.yml", %r!permalink: pretty\n!, <<~YML
-          permalink: pretty
-          template_engine: erb
-        YML
       end
 
       def setup_serbea_templates
         directory "TEMPLATES/serbea/_layouts", "src/_layouts"
         directory "TEMPLATES/serbea/_components", "src/_components"
         directory "TEMPLATES/serbea/_partials", "src/_partials"
-        gsub_file "bridgetown.config.yml", %r!permalink: pretty\n!, <<~YML
-          permalink: pretty
-          template_engine: serbea
-        YML
+        gsub_file "config/initializers.rb", %r!template_engine "erb"\n!, <<~RUBY
+          template_engine "serbea"
+        RUBY
       end
 
       def setup_liquid_templates
         directory "TEMPLATES/liquid/_layouts", "src/_layouts"
         directory "TEMPLATES/liquid/_components", "src/_components"
-        gsub_file "bridgetown.config.yml", %r!permalink: pretty\n!, <<~YML
-          permalink: pretty
-          template_engine: liquid
-        YML
+        gsub_file "config/initializers.rb", %r!template_engine "erb"\n!, <<~RUBY
+          template_engine "liquid"
+        RUBY
       end
 
       def configure_sass
@@ -224,8 +218,8 @@ module Bridgetown
           Bridgetown.with_unbundled_env do
             inside(path) do
               run "bundle install", abort_on_failure: true
+              # create binstubs to `bin/bridgetown` and `bin/bt`
               run "bundle binstubs bridgetown-core"
-              run "cp bin/bridgetown bin/bt"
             end
           end
         end

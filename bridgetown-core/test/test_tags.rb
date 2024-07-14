@@ -167,7 +167,7 @@ class TestTags < BridgetownUnitTest
 
           ```liquid
           {% raw %}
-          {{ site.baseurl }}{% link _collection/name-of-document.md %}
+          {{ site.base_path }}{% link _collection/name-of-document.md %}
           {% endraw %}
           ```
         CONTENT

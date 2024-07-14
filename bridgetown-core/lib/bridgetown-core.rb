@@ -31,34 +31,28 @@ require "csv"
 require "json"
 require "yaml"
 
+# Pull in Foundation gem
+require "bridgetown-foundation"
+
 # 3rd party
-require "active_support"
-require "active_support/core_ext/class/attribute"
-require "active_support/core_ext/hash/keys"
-require "active_support/core_ext/module/delegation"
+require "active_support" # TODO: remove by the end of 2024
 require "active_support/core_ext/object/blank"
-require "active_support/core_ext/object/deep_dup"
-require "active_support/core_ext/object/inclusion"
 require "active_support/core_ext/string/inflections"
-require "active_support/core_ext/string/inquiry"
 require "active_support/core_ext/string/output_safety"
-require "active_support/core_ext/string/starts_ends_with"
-require "active_support/current_attributes"
-require "active_support/descendants_tracker"
-require "hash_with_dot_access"
 require "addressable/uri"
 require "liquid"
 require "listen"
 require "kramdown"
-require "colorator"
 require "i18n"
 require "i18n/backend/fallbacks"
 require "faraday"
+require "signalize"
 require "thor"
-require "zeitwerk"
 
 # Ensure we can set up fallbacks so the default locale gets used
 I18n::Backend::Simple.include I18n::Backend::Fallbacks
+
+# Monkey patches:
 
 module HashWithDotAccess
   class Hash # :nodoc:
@@ -72,6 +66,8 @@ end
 class Rb < String; end
 
 module Bridgetown
+  using Bridgetown::Refinements
+
   autoload :Cache,               "bridgetown-core/cache"
   autoload :Current,             "bridgetown-core/current"
   autoload :Cleaner,             "bridgetown-core/cleaner"
@@ -85,10 +81,10 @@ module Bridgetown
   autoload :FrontMatter,         "bridgetown-core/front_matter"
   autoload :GeneratedPage,       "bridgetown-core/generated_page"
   autoload :Hooks,               "bridgetown-core/hooks"
+  autoload :Inflector,           "bridgetown-core/inflector"
   autoload :Layout,              "bridgetown-core/layout"
   autoload :LayoutPlaceable,     "bridgetown-core/concerns/layout_placeable"
   autoload :LayoutReader,        "bridgetown-core/readers/layout_reader"
-  autoload :LiquidRenderable,    "bridgetown-core/concerns/liquid_renderable"
   autoload :Localizable,         "bridgetown-core/concerns/localizable"
   autoload :LiquidRenderer,      "bridgetown-core/liquid_renderer"
   autoload :LogAdapter,          "bridgetown-core/log_adapter"
@@ -99,11 +95,11 @@ module Bridgetown
   autoload :Reader,              "bridgetown-core/reader"
   autoload :RubyTemplateView,    "bridgetown-core/ruby_template_view"
   autoload :LogWriter,           "bridgetown-core/log_writer"
+  autoload :Signals,             "bridgetown-core/signals"
   autoload :Site,                "bridgetown-core/site"
   autoload :Slot,                "bridgetown-core/slot"
   autoload :StaticFile,          "bridgetown-core/static_file"
   autoload :Transformable,       "bridgetown-core/concerns/transformable"
-  autoload :URL,                 "bridgetown-core/url"
   autoload :Utils,               "bridgetown-core/utils"
   autoload :VERSION,             "bridgetown-core/version"
   autoload :Watcher,             "bridgetown-core/watcher"
@@ -125,13 +121,12 @@ module Bridgetown
   require_all "bridgetown-core/drops"
   require_all "bridgetown-core/generators"
   require_all "bridgetown-core/tags"
-  require_all "bridgetown-core/core_ext"
 
   class << self
     # Tells you which Bridgetown environment you are building in so
     #   you can skip tasks if you need to.
     def environment
-      (ENV["BRIDGETOWN_ENV"] || "development").inquiry
+      (ENV["BRIDGETOWN_ENV"] || "development").questionable
     end
     alias_method :env, :environment
 
@@ -267,7 +262,7 @@ module Bridgetown
       unless Bridgetown::Current.preloaded_configuration
         Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
       end
-      Bridgetown::PluginManager.setup_bundler(skip_npm: true)
+      Bridgetown::PluginManager.setup_bundler
 
       if Bridgetown::Current.preloaded_configuration.is_a?(Bridgetown::Configuration::Preflight)
         Bridgetown::Current.preloaded_configuration = Bridgetown.configuration
@@ -336,17 +331,6 @@ module Bridgetown
       @logger = LogAdapter.new(writer, (ENV["BRIDGETOWN_LOG_LEVEL"] || :info).to_sym)
     end
 
-    # Deprecated. Now using the Current site.
-    #
-    # @return [Array<Bridgetown::Site>] the Bridgetown sites created.
-    def sites
-      Deprecator.deprecation_message(
-        "Bridgetown.sites will be removed in the next version. Use Bridgetown::Current.sites" \
-        "instead"
-      )
-      [Bridgetown::Current.site].compact
-    end
-
     # Ensures the questionable path is prefixed with the base directory
     #   and prepends the questionable path with the base directory if false.
     #
@@ -389,9 +373,7 @@ module Bridgetown
       )
     end
   end
-end
 
-module Bridgetown
   module Model; end
 
   module Resource
@@ -404,13 +386,18 @@ module Bridgetown
       end
     end
   end
+
+  # mixin for identity so Roda knows to call renderable objects
+  module RodaCallable
+    def self.===(other)
+      other.class < self
+    end
+  end
 end
 
-# This method is available in Ruby 3, monkey patching for older versions
-Psych.extend Bridgetown::CoreExt::Psych::SafeLoadFile unless Psych.respond_to?(:safe_load_file)
-
-loader = Zeitwerk::Loader.new
-loader.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model
-loader.push_dir File.join(__dir__, "bridgetown-core/resource"), namespace: Bridgetown::Resource
-loader.setup # ready!
+Zeitwerk.with_loader do |l|
+  l.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model
+  l.push_dir File.join(__dir__, "bridgetown-core/resource"), namespace: Bridgetown::Resource
+  l.setup # ready!
+end
 Bridgetown::Model::Origin # this needs to load first

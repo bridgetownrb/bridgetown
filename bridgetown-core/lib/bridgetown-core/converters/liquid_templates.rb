@@ -5,6 +5,7 @@ module Bridgetown
     class LiquidTemplates < Converter
       priority :highest
       input :liquid
+      template_engine :liquid
 
       attr_reader :site, :document, :layout
 
@@ -24,8 +25,6 @@ module Bridgetown
       #
       # @return [String] The converted content.
       def convert(content, convertible)
-        return content if convertible.data[:template_engine] != "liquid"
-
         self.class.cached_partials ||= {}
         @payload = nil
 
@@ -55,23 +54,6 @@ module Bridgetown
       # rubocop: enable Lint/RescueException
       # rubocop: enable Metrics/MethodLength
       # rubocop: enable Metrics/AbcSize
-
-      # @param ext [String]
-      # @param convertible [Bridgetown::Resource::Base, Bridgetown::GeneratedPage]
-      def matches(ext, convertible)
-        if convertible.render_with_liquid?
-          convertible.data[:template_engine] = "liquid"
-          return true
-        end
-
-        super(ext).tap do |ext_matches|
-          convertible.data[:template_engine] = "liquid" if ext_matches
-        end
-      end
-
-      def output_ext(ext)
-        ext == ".liquid" ? ".html" : ext
-      end
 
       # Fetches the payload used in Liquid rendering.
       # Falls back to site.site_payload if no payload is set.

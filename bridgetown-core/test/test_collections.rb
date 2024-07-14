@@ -51,8 +51,8 @@ class TestCollections < BridgetownUnitTest
         assert_equal "methods", @collection.to_liquid["label"]
       end
 
-      should "have a files attribute" do
-        assert_equal [], @collection.to_liquid["files"]
+      should "have a static_files attribute" do
+        assert_equal [], @collection.to_liquid["static_files"]
       end
 
       should "have a relative_path attribute" do

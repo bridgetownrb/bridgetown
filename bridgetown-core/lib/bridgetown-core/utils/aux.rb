@@ -3,57 +3,57 @@
 module Bridgetown
   module Utils
     module Aux
-      def self.with_color(name, message)
-        return message unless !name.nil? && Bridgetown::Utils::Ansi::COLORS[name.to_sym]
+      class << self
+        extend Inclusive::Class
 
-        Bridgetown::Utils::Ansi.send(name, message)
-      end
+        # @return
+        #   [Bridgetown::Foundation::Packages::Ansi, Bridgetown::Foundation::Packages::PidTracker]
+        packages def utils = [
+          Bridgetown::Foundation::Packages::Ansi,
+          Bridgetown::Foundation::Packages::PidTracker,
+        ]
 
-      def self.running_pids
-        @running_pids ||= []
-      end
+        def with_color(name, message)
+          return message unless !name.nil? && utils.colors[name.to_sym]
 
-      def self.add_pid(pid)
-        running_pids << pid
-      end
+          utils.send(name, message)
+        end
 
-      def self.run_process(name, color, cmd, env: {})
-        @mutex ||= Thread::Mutex.new
+        def run_process(name, color, cmd, env: {}) # rubocop:disable Metrics/AbcSize
+          @mutex ||= Thread::Mutex.new
 
-        Thread.new do
-          rd, wr = IO.pipe("BINARY")
-          pid = Process.spawn({ "BRIDGETOWN_NO_BUNDLER_REQUIRE" => nil }.merge(env),
-                              cmd, out: wr, err: wr, pgroup: true)
-          @mutex.synchronize { add_pid(pid) }
+          Thread.new do
+            rd, wr = IO.pipe("BINARY")
+            pid = Process.spawn({ "BRIDGETOWN_NO_BUNDLER_REQUIRE" => nil }.merge(env),
+                                cmd, out: wr, err: wr, pgroup: true)
+            @mutex.synchronize { utils.add_pid(pid, file: :aux) }
 
-          loop do
-            line = rd.gets
-            line.to_s.lines.map(&:chomp).each do |message|
-              next if name == "Frontend" && %r{ELIFECYCLE.*?Command failed}.match?(message)
+            loop do
+              line = rd.gets
+              line.to_s.lines.map(&:chomp).each do |message|
+                next if name == "Frontend" && %r{ELIFECYCLE.*?Command failed}.match?(message)
 
-              output = +""
-              output << with_color(color, "[#{name}] ") if color
-              output << message
-              @mutex.synchronize do
-                $stdout.puts output
-                $stdout.flush
+                output = +""
+                output << with_color(color, "[#{name}] ") if color
+                output << message
+                @mutex.synchronize do
+                  $stdout.puts output
+                  $stdout.flush
+                end
               end
             end
           end
         end
-      end
 
-      def self.group(&)
-        Bridgetown::Deprecator.deprecation_message "Bridgetown::Aux.group method will be removed" \
-                                                   "in a future version, use run_process"
-        instance_exec(&)
-      end
+        def kill_processes
+          Bridgetown.logger.info "Stopping auxiliary processes..."
 
-      def self.kill_processes
-        Bridgetown.logger.info "Stopping auxiliary processes..."
-        running_pids.each do |pid|
-          Process.kill("SIGTERM", -Process.getpgid(pid))
-        rescue Errno::ESRCH, Errno::EPERM, Errno::ECHILD # rubocop:disable Lint/SuppressedException
+          utils.read_pidfile(:aux).each do |pid|
+            Process.kill("SIGTERM", -Process.getpgid(pid.to_i))
+          rescue Errno::ESRCH, Errno::EPERM, Errno::ECHILD # rubocop:disable Lint/SuppressedException
+          ensure
+            utils.remove_pidfile :aux
+          end
         end
       end
     end

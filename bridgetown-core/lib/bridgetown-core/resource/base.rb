@@ -3,14 +3,12 @@
 module Bridgetown
   module Resource
     class Base # rubocop:todo Metrics/ClassLength
+      using Bridgetown::Refinements
       include Comparable
+      include Bridgetown::RodaCallable
       include Bridgetown::Publishable
       include Bridgetown::LayoutPlaceable
-      include Bridgetown::LiquidRenderable
       include Bridgetown::Localizable
-
-      # @return [HashWithDotAccess::Hash]
-      attr_reader :data
 
       # @return [Destination]
       attr_reader :destination
@@ -24,8 +22,16 @@ module Bridgetown
       # @return [Array<Bridgetown::Slot>]
       attr_reader :slots
 
+      # @return [Boolean]
+      attr_reader :fast_refresh_order
+
       # @return [String]
-      attr_accessor :content, :untransformed_content, :output
+      attr_accessor :untransformed_content
+
+      attr_writer :content
+
+      # @return [String]
+      attr_accessor :output
 
       DATE_FILENAME_MATCHER = %r!^(?>.+/)*?(\d{2,4}-\d{1,2}-\d{1,2})-([^/]*)(\.[^.]+)$!
 
@@ -34,7 +40,11 @@ module Bridgetown
       def initialize(model:)
         @model = model
         @site = model.site
-        @data = collection.data? ? HashWithDotAccess::Hash.new : front_matter_defaults
+        @data = Signalize.signal(
+          collection.data? ? HashWithDotAccess::Hash.new : front_matter_defaults
+        )
+        # we track content subscriptions under the hood numerically…cleans up internal issues
+        @content_signal = Signalize.signal(0)
         @slots = []
 
         trigger_hooks :post_init
@@ -84,17 +94,35 @@ module Bridgetown
       #
       # @return [HashWithDotAccess::Hash]
       def front_matter_defaults
-        site.frontmatter_defaults.all(
-          relative_path.to_s,
-          collection.label.to_sym
-        ).with_dot_access
+        site.frontmatter_defaults.all(relative_path.to_s, collection.label.to_sym).as_dots
+      end
+
+      # @return [HashWithDotAccess::Hash]
+      def data
+        @data.value
       end
 
       # Merges new data into the existing data hash.
       #
       # @param new_data [HashWithDotAccess::Hash]
       def data=(new_data)
-        @data = @data.merge(new_data)
+        if site.config.fast_refresh && write?
+          # TODO: investigate if this would be better:
+          # @data.value = front_matter_defaults
+          mark_for_fast_refresh!
+        end
+
+        Signalize.batch do
+          @content_signal.value += 1
+          @data.value = @data.value.merge(new_data)
+        end
+        @data.peek
+      end
+
+      # @return [String] the resource content minus its layout
+      def content
+        @content_signal.value # subscribe for Fast Refresh
+        @content
       end
 
       # @return [Bridgetown::Resource::Base]
@@ -119,11 +147,32 @@ module Bridgetown
       end
       alias_method :read, :read! # TODO: eventually use the bang version only
 
-      def transform!
-        transformer.process! unless collection.data?
+      def transform! # rubocop:todo Metrics/CyclomaticComplexity
+        internal_error = nil
+        @transform_effect_disposal = Signalize.effect do
+          if !@fast_refresh_order && @previously_transformed
+            self.content = untransformed_content
+            @transformer = nil
+            mark_for_fast_refresh! if site.config.fast_refresh && write?
+            next
+          end
+
+          transformer.process! unless collection.data?
+          slots.clear
+          @previously_transformed = true
+        rescue StandardError, SyntaxError => e
+          internal_error = e
+        end
+
+        raise internal_error if internal_error
 
         self
       end
+
+      # Transforms the resource and returns the full output
+      #
+      # @return [String]
+      def call(*) = transform!.output
 
       def trigger_hooks(hook_name, *args)
         Bridgetown::Hooks.trigger collection.label.to_sym, hook_name, self, *args if collection
@@ -225,6 +274,7 @@ module Bridgetown
       # Write the generated resource file to the destination directory.
       def write(_dest = nil)
         destination.write(output)
+        unmark_for_fast_refresh!
         trigger_hooks(:post_write)
       end
 
@@ -296,6 +346,42 @@ module Bridgetown
       alias_method :previous_doc, :previous_resource
       alias_method :previous, :previous_resource
 
+      def deconstruct_keys(...)
+        @data.value.deconstruct_keys(...)
+      end
+
+      def mark_for_fast_refresh!
+        @fast_refresh_order = site.fast_refresh_ordering
+        site.fast_refresh_ordering += 1
+      end
+
+      def unmark_for_fast_refresh!
+        @fast_refresh_order = nil
+      end
+
+      def prepare_for_fast_refresh! # rubocop:todo Metrics
+        dispose_of_transform_effect
+        FileUtils.rm(destination.output_path, force: true) if requires_destination?
+        past_values = @data.peek.select do |key|
+          key == "categories" || key == "tags" || site.taxonomy_types.keys.any?(key)
+        end
+        model.attributes = model.origin.read
+        read!
+        tax_diff = past_values.any? { |k, v| @data.peek[k] != v }
+
+        if tax_diff && !collection.data?
+          # If the taxonomy values are different, we should just abort the fast refresh process.
+          unmark_for_fast_refresh!
+          false
+        else
+          true
+        end
+      end
+
+      def dispose_of_transform_effect
+        @transform_effect_disposal&.()
+      end
+
       private
 
       def ensure_default_data
@@ -346,6 +432,7 @@ module Bridgetown
 
       def import_taxonomies_from_data
         taxonomies.each_value do |metadata|
+          metadata.terms.reject! { _1.resource == self } # clear out for Fash Refresh
           Array(data[metadata.type.key]).each do |term|
             metadata.terms << TaxonomyTerm.new(
               resource: self, label: term, type: metadata.type

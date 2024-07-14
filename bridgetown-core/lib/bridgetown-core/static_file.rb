@@ -2,6 +2,7 @@
 
 module Bridgetown
   class StaticFile
+    using Bridgetown::Refinements
     extend Forwardable
 
     attr_reader :relative_path, :extname, :name, :data, :site, :collection
@@ -34,7 +35,7 @@ module Bridgetown
       @collection = collection
       @relative_path = File.join(*[@dir, @name].compact)
       @extname = File.extname(@name)
-      @data = @site.frontmatter_defaults.all(relative_path, type).with_dot_access
+      @data = @site.frontmatter_defaults.all(relative_path, type).as_dots
       data.permalink ||= if collection && !collection.builtin?
                            "#{collection.default_permalink.chomp("/").chomp(".*")}.*"
                          else
@@ -58,7 +59,7 @@ module Bridgetown
       if site.base_path.present? && collection
         dest_url = dest_url.delete_prefix site.base_path(strip_slash_only: true)
       end
-      site.in_dest_dir(dest, Bridgetown::URL.unescape_path(dest_url))
+      site.in_dest_dir(dest, Bridgetown::Utils.unencode_uri(dest_url))
     end
 
     def destination_rel_dir
@@ -166,15 +167,13 @@ module Bridgetown
       end
     end
 
-    # Applies a similar URL-building technique as Bridgetown::Document that takes
+    # Applies a similar URL-building technique as resources that takes
     # the collection's URL template into account. The default URL template can
     # be overriden in the collection's configuration in bridgetown.config.yml.
     def url
       @url ||= begin
         newly_processed = false
-        special_posts_case = @collection&.label == "posts" &&
-          site.config.content_engine != "resource"
-        base = if @collection.nil? || special_posts_case
+        base = if @collection.nil?
                  cleaned_relative_path
                else
                  newly_processed = true

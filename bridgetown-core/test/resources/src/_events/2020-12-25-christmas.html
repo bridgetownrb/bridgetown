@@ -2,8 +2,7 @@
 front_matter do
   old_title "Christmas 2019"
   title old_title.sub("2019", "2020")
-  template_engine :erb
 end
 %>---
 
-Fa <%= 8.times.map { "la" }.join(" ") %>!
+Fa <%= pipe(8) { times | map(->(_) { "la" }) | join(" ") | concat("!") } %>

@@ -1,7 +1,7 @@
 ---<%
-render_with data: {
-  title: "#{params[:yo]} #{@answer_to_life}"
-}
+render_with(data: {
+  title: "#{params[:yo]} #{@answer_to_life} #{Bridgetown.refine(3).within?([1,2,3])}"
+})
 %>---
 
 <h1><%= resource.data.title %></h1>

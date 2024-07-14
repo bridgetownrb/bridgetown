@@ -79,7 +79,7 @@ class TestCollectionRendering < BridgetownFeatureTest
 
     should "sort based on configured front matter key" do
       create_page "index.liquid", "Collections: {{ collections.tutorials.resources | map: 'title' | join: ', ' }}", title: "Index"
-      create_file "_layouts/tutorial.html", <<~LIQUID
+      create_file "_layouts/tutorial.liquid", <<~LIQUID
         {% if page.previous %}Previous: {{ page.previous.title }}{% endif %}
 
         {% if page.next %}Next: {{ page.next.title }}{% endif %}
@@ -99,7 +99,7 @@ class TestCollectionRendering < BridgetownFeatureTest
 
     should "sort even when front matter key is sometimes missing" do
       create_page "index.liquid", "Collections: {{ collections.tutorials.resources | map: 'title' | join: ', ' }}", title: "Index"
-      create_file "_layouts/tutorial.html", <<~LIQUID
+      create_file "_layouts/tutorial.liquid", <<~LIQUID
         {% if page.previous %}Previous: {{ page.previous.title }}{% endif %}
 
         {% if page.next %}Next: {{ page.next.title }}{% endif %}

@@ -27,7 +27,9 @@ module Bridgetown
         end
 
         Bridgetown.logger.debug "Initializing:", name
-        @scope.initializers[name.to_sym].block.(self, **@scope.init_params[name].symbolize_keys)
+        @scope.initializers[name.to_sym].block.(
+          self, **@scope.init_params[name].transform_keys(&:to_sym)
+        )
         initializer.completed = true
       end
 
@@ -72,8 +74,9 @@ module Bridgetown
         @scope.roda_initializers << block
       end
 
-      def timezone(tz) # rubocop:disable Naming/MethodParameterName
-        Bridgetown.set_timezone(tz)
+      def timezone(new_timezone)
+        @data[:timezone] = new_timezone
+        Bridgetown.set_timezone(new_timezone)
       end
 
       def method_missing(key, *value, &block) # rubocop:disable Style/MissingRespondToMissing
@@ -144,6 +147,12 @@ module Bridgetown
 
       def _in_require_denylist?(name)
         REQUIRE_DENYLIST.include?(name.to_sym)
+      end
+
+      # Initializers that are part of the Bridgetown boot sequence. Site owners can override
+      # defaults by running any of these manually…init is no-op if the initializer was already run.
+      def _run_builtins!
+        init :streamlined
       end
     end
   end

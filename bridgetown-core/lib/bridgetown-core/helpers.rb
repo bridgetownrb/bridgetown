@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
-require "active_support/html_safe_translation"
+require "streamlined/helpers"
 
 module Bridgetown
   class RubyTemplateView
     class Helpers
+      using Bridgetown::Refinements
       include Bridgetown::Filters
       include Bridgetown::Filters::FromLiquid
+      include ::Streamlined::Helpers
+      include Inclusive
 
       # @return [Bridgetown::RubyTemplateView]
       attr_reader :view
@@ -16,11 +19,14 @@ module Bridgetown
 
       Context = Struct.new(:registers)
 
+      # @return [Bridgetown::Foundation::SafeTranslations]
+      packages def translate_package = [Bridgetown::Foundation::Packages::SafeTranslations]
+
       # @param view [Bridgetown::RubyTemplateView]
       # @param site [Bridgetown::Site]
-      def initialize(view, site)
+      def initialize(view = nil, site = nil)
         @view = view
-        @site = site
+        @site = site || Bridgetown::Current.site
 
         # duck typing for Liquid context
         @context = Context.new({ site: })
@@ -28,6 +34,14 @@ module Bridgetown
 
       def asset_path(asset_type)
         Bridgetown::Utils.parse_frontend_manifest_file(site, asset_type.to_s)
+      end
+
+      def webpack_path(*)
+        source_file = caller_locations.find { _1.path.start_with?(site.source) }.path
+        raise(
+          Bridgetown::Errors::FatalException,
+          "🚨 Oops, you'll need to change `webpack_path' to `asset_path' in:\n#{source_file}\n"
+        )
       end
 
       def live_reload_dev_js
@@ -106,28 +120,13 @@ module Bridgetown
         elsif relative_path.nil?
           raise ArgumentError, "You must provide a relative path"
         end
-        segments = attributes_from_options({ href: url_for(relative_path) }.merge(options))
+        segments = html_attributes({ href: url_for(relative_path) }.merge(options))
 
         safe("<a #{segments}>#{text}</a>")
       end
 
-      # Create a set of attributes from a hash.
-      #
-      # @param options [Hash] key-value pairs of HTML attributes
-      # @return [String]
-      def attributes_from_options(options)
-        segments = []
-        options.each do |attr, option|
-          attr = dashed(attr)
-          if option.is_a?(Hash)
-            option = option.transform_keys { |key| "#{attr}-#{dashed(key)}" }
-            segments << attributes_from_options(option)
-          else
-            segments << attribute_segment(attr, option)
-          end
-        end
-        safe(segments.join(" "))
-      end
+      # Provide backwards compatibility via Streamlined helper
+      alias_method :attributes_from_options, :html_attributes
 
       # Delegates to <tt>I18n#translate</tt> but also performs two additional
       # functions.
@@ -160,9 +159,16 @@ module Bridgetown
           key = "#{view_path.tr("/", ".")}#{key}" if view_path.present?
         end
 
-        ActiveSupport::HtmlSafeTranslation.translate(key, **options)
+        return I18n.translate(key, **options) unless %r{(?:_|\b)html\z}.match?(key)
+
+        translate_with_html(key, **options)
       end
       alias_method :t, :translate
+
+      def translate_with_html(key, **options)
+        escaper = ->(input) { input.to_s.encode(xml: :attr).gsub(%r{\A"|"\Z}, "") }
+        translate_package.translate(key, escaper, **options)
+      end
 
       # Delegates to <tt>I18n.localize</tt> with no additional functionality.
       #
@@ -259,12 +265,14 @@ module Bridgetown
         end
       end
 
+      # TODO: docu
       def dsd(input = nil, &block)
         tmpl_content = block.nil? ? input.to_s : view.capture(&block)
 
         Bridgetown::Utils.dsd_tag(tmpl_content)
       end
 
+      # TODO: docu
       def dsd_style
         tmpl_path = caller_locations(1, 2).find do |loc|
                       loc.label.include?("method_missing").!
@@ -285,26 +293,8 @@ module Bridgetown
         style_tag.html_safe
       end
 
-      private
-
-      # Covert an underscored value into a dashed string.
-      #
-      # @example "foo_bar_baz" => "foo-bar-baz"
-      #
-      # @param value [String|Symbol]
-      # @return [String]
-      def dashed(value)
-        value.to_s.tr("_", "-")
-      end
-
-      # Create an attribute segment for a tag.
-      #
-      # @param attr [String] the HTML attribute name
-      # @param value [String] the attribute value
-      # @return [String]
-      def attribute_segment(attr, value)
-        "#{attr}=\"#{Utils.xml_escape(value)}\""
-      end
+      # TODO: docu
+      def bypass_tracking(...) = Signalize.untracked(...)
     end
   end
 end

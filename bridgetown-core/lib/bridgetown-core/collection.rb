@@ -2,6 +2,9 @@
 
 module Bridgetown
   class Collection
+    using Bridgetown::Refinements
+    include Enumerable
+
     # @return [Bridgetown::Site]
     attr_reader :site
 
@@ -20,7 +23,7 @@ module Bridgetown
     end
 
     def builtin?
-      @is_builtin ||= label.in?(%w(posts pages data).freeze)
+      @is_builtin ||= label.within?(%w(posts pages data).freeze)
     end
 
     def data?
@@ -49,10 +52,10 @@ module Bridgetown
       resources.group_by(&:relative_url).transform_values(&:first)
     end
 
-    # Iterate over Resources
-    def each(&)
-      resources.each(&)
-    end
+    # Iterate over Resources, support Enumerable
+    def each(...) = resources.each(...)
+
+    def deconstruct = resources.deconstruct
 
     # Fetch the static files in this collection.
     # Defaults to an empty array if no static files have been read in.
@@ -60,11 +63,6 @@ module Bridgetown
     # @return [Array<Bridgetown::StaticFile>]
     def static_files
       @static_files ||= []
-    end
-
-    def files
-      Bridgetown::Deprecator.deprecation_message "Collection#files is now Collection#static_files"
-      static_files
     end
 
     # Read the allowed resources into the collection's array of resources.
@@ -211,10 +209,25 @@ module Bridgetown
       !!metadata.fetch("output", false)
     end
 
-    # Used by Resource's permalink processor
+    # Used by Resources permalink processors
     # @return [String]
     def default_permalink
-      metadata.fetch("permalink", "/:locale/:collection/:path/")
+      metadata.fetch("permalink", default_configured_permalink)
+    end
+
+    # What the configured permalink should be absent of user overrides
+    # @return [String]
+    def default_configured_permalink
+      @default_configured_permalink ||= case label
+                                        when "data"
+                                          nil
+                                        when "posts"
+                                          site.config.permalink
+                                        when "pages"
+                                          "/:locale/:path/"
+                                        else
+                                          "/:locale/:collection/:path/"
+                                        end
     end
 
     # Extract options for this collection from the site configuration.
@@ -252,7 +265,7 @@ module Bridgetown
         end
       end
 
-      merge_environment_specific_metadata(data_contents).with_dot_access
+      merge_environment_specific_metadata(data_contents).as_dots
     end
 
     def merge_environment_specific_metadata(data_contents)

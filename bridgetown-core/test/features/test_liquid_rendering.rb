@@ -6,7 +6,7 @@ require "features/feature_helper"
 class TestLiquidRendering < BridgetownFeatureTest
   context "Liquid templates" do
     should "pull resource data into layout" do
-      create_page "index.html", "", layout: "simple", author: "John Doe"
+      create_page "index.html", "", layout: "simple", author: "John Doe", template_engine: "liquid"
 
       create_directory "_layouts"
       create_file "_layouts/simple.liquid", "{{ page.author }}:{{ resource.author }}:{{ resource.data.author }}"
@@ -102,8 +102,8 @@ class TestLiquidRendering < BridgetownFeatureTest
     end
 
     should "not process Liquid when render_with_liquid: false" do
-      create_page "_posts/unrendered-post.md", "Hello {{ page.title }}", date: "2017-07-06", render_with_liquid: false
-      create_page "_posts/rendered-post.md", "Hello {{ page.title }}", date: "2017-07-06", render_with_liquid: true
+      create_page "_posts/unrendered-post.md", "Hello {{ page.title }}", date: "2017-07-06"
+      create_page "_posts/rendered-post.md", "Hello {{ page.title }}", date: "2017-07-06", template_engine: "liquid"
 
       run_bridgetown "build"
 
@@ -233,12 +233,12 @@ class TestLiquidRendering < BridgetownFeatureTest
 
   context "overridden defaults and placed layouts" do
     should "ensure layout set to none doesn't render any layout" do
-      create_page "index.md", "Hi there, {{ site.author }}!", layout: "none"
+      create_page "index.md", "Hi there, <%= site.config.author %>!", layout: "none"
 
       create_directory "_trials"
-      create_page "_trials/no-layout.md", "Hi there, {{ site.author }}!", layout: "none"
-      create_page "_trials/false-layout.md", "Hi there, {{ site.author }}!", layout: false
-      create_page "test.md", "Hi there, {{ site.author }}!", layout: "page"
+      create_page "_trials/no-layout.md", "Hi there, <%= site.config.author %>!", layout: "none"
+      create_page "_trials/false-layout.md", "Hi there, <%= site.config.author %>!", layout: false
+      create_page "test.md", "Hi there, <%= site.config.author %>!", layout: "page"
 
       create_directory "_layouts"
       create_file "_layouts/none.liquid", "{{ content }}Welcome!"

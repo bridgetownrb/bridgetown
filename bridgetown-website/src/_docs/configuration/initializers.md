@@ -8,12 +8,6 @@ back_to: configuration
 
 In addition to setting some basic options in your [`bridgetown.config.yml` configuration file](/docs/configuration/options), you can use your site's `config/initializers.rb` file to set options, instantiate gem-based plugins, and write initializer blocks to configure third-party gems.
 
-{%@ Note type: :warning do %}
-  #### Heads up: the `bridgetown_plugins` Bundler group has been deprecated
-
-  In previous versions of Bridgetown, plugins were automatically required as long as they were added to the `bridgetown_plugins` group. We've changed that behavior in sites which feature a `config/initializers.rb` file. Now you can simply add gems to your `Gemfile` in any named or default group, and then load them into your codebase using `init`.
-{% end %}
-
 Here's a sample `config/initializers.rb` file showcasing many features of the configuration <abbr title="Domain-Specific Language">DSL</abbr>:
 
 ```ruby
@@ -286,20 +280,18 @@ Now anywhere in your Ruby plugins, templates, etc., you can access environment v
 
 ### Inflector
 
-Zeitwerk's inflector can be configured to use ActiveSupport::Inflector. This
-will become the default in v2.0.
+You can configure the inflector used by Zeitwerk and models. A few acronyms are provided by default like HTML, CSS, and JS, so a file like `html_processor.rb` could be defined by `HTMLProcessor`. You can add more inflection rules like so:
 
 ```ruby
-config.inflector = ActiveSupport::Inflector
-```
-
-To add new inflection rules, use the following format.
-
-```ruby
-ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.acronym "RESTful"
+config.inflector.configure do |inflections|
+  inflections.acronym "W3C"
+  inflections.plural "virus", "viruses" # specify a rule for #pluralize
+  inflections.singular "thieves", "thief"   # specify a rule for #singularize
 end
 ```
+
+Bridgetown's inflector is based on `Dry::Inflector`, so you can [read up on how to add inflection
+rules here](https://dry-rb.org/gems/dry-inflector/1.0/#custom-inflection-rules).
 
 ### Parse Roda Routes
 

@@ -2,7 +2,6 @@
 
 module Bridgetown
   class Plugin
-    extend ActiveSupport::DescendantsTracker
     include Bridgetown::Prioritizable
 
     self.priorities = {

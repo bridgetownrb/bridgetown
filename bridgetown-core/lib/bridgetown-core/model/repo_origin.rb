@@ -3,6 +3,7 @@
 module Bridgetown
   module Model
     class RepoOrigin < Origin
+      using Bridgetown::Refinements
       include Bridgetown::FrontMatter::Importer
 
       # @return [String]
@@ -82,11 +83,9 @@ module Bridgetown
       def collection
         return @collection if @collection
 
-        collection_name = if url.host.ends_with?(".collection")
-                            url.host.chomp(".collection")
-                          else
+        collection_name = url.host.ends_with?(".collection") ?
+                            url.host.chomp(".collection") :
                             "pages"
-                          end
         @collection = site.collections[collection_name]
       end
 
@@ -101,7 +100,7 @@ module Bridgetown
       private
 
       def in_data_collection?
-        original_path.extname.downcase.in?(self.class.data_file_extensions) &&
+        original_path.extname.downcase.within?(self.class.data_file_extensions) &&
           collection.data?
       end
 

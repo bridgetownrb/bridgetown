@@ -1,13 +1,9 @@
 # frozen_string_literal: true
 
-require "active_model"
-
 module Bridgetown
   module Model
     class Base
-      include ActiveModel::Model
-      extend ActiveModel::Callbacks # also extends with DescendantsTracker
-      define_model_callbacks :load, :save, :destroy
+      include Bridgetown::RodaCallable
 
       class << self
         def find(id, site: Bridgetown::Current.site)
@@ -54,9 +50,7 @@ module Bridgetown
       end
 
       def initialize(attributes = {})
-        run_callbacks :load do
-          super
-        end
+        self.attributes = attributes
       end
 
       def id
@@ -82,9 +76,7 @@ module Bridgetown
           raise "`#{origin.class}' doesn't allow writing of model objects"
         end
 
-        run_callbacks :save do
-          origin.write(self)
-        end
+        origin.write(self)
       end
 
       # @return [Bridgetown::Resource::Base]
@@ -101,6 +93,11 @@ module Bridgetown
       def render_as_resource
         to_resource.read!.transform!
       end
+
+      # Converts this model to a resource and returns the full output
+      #
+      # @return [String]
+      def call(*) = render_as_resource.output
 
       # override if need be
       # @return [Bridgetown::Site]
@@ -130,6 +127,10 @@ module Bridgetown
         @attributes ||= HashWithDotAccess::Hash.new
       end
 
+      def attributes=(new_attributes)
+        attributes.update new_attributes
+      end
+
       # Strip out keys like _origin_, _collection_, etc.
       # @return [HashWithDotAccess::Hash]
       def data_attributes
@@ -146,7 +147,6 @@ module Bridgetown
         key = method_name.to_s
         if key.end_with?("=")
           key.chop!
-          # attribute_will_change!(key)
           attributes[key] = args.first
           return attributes[key]
         end

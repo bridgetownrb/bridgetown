@@ -49,11 +49,9 @@ module Bridgetown
     end
 
     def special?(entry)
-      use_regex = if @include_underscores
-                    SPECIAL_LEADING_CHAR_NO_UNDERSCORES_REGEX
-                  else
+      use_regex = @include_underscores ?
+                    SPECIAL_LEADING_CHAR_NO_UNDERSCORES_REGEX :
                     SPECIAL_LEADING_CHAR_REGEX
-                  end
 
       use_regex.match?(entry) || use_regex.match?(File.basename(entry))
     end

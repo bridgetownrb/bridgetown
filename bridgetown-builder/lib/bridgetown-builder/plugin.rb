@@ -41,23 +41,7 @@ module Bridgetown
         self.functions = Set.new
         self.name = name || self.class.name
         self.site = current_site || Bridgetown::Current.site
-
-        self.config = if defined?(self.class::CONFIG_DEFAULTS)
-                        Deprecator.deprecation_message(
-                          "Using `CONFIG_DEFAULTS' in your builder is deprecated. " \
-                          "Switch to defining config data via an initializer instead."
-                        )
-                        Bridgetown::Utils.deep_merge_hashes(
-                          self.class::CONFIG_DEFAULTS.with_dot_access, site.config
-                        )
-                      else
-                        site.config
-                      end
-      end
-
-      def doc(*)
-        raise Bridgetown::Errors::FatalException,
-              "The `doc' method has been removed. Please use the `new_resource' builder DSL instead"
+        self.config = site.config
       end
     end
   end
