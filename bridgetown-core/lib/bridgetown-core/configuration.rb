@@ -74,7 +74,7 @@ module Bridgetown
       "available_locales"            => [:en],
       "default_locale"               => :en,
       "prefix_default_locale"        => false,
-      "permalink"                    => nil, # default is set according to content engine
+      "permalink"                    => "pretty",
       "timezone"                     => nil, # use the local timezone
 
       "quiet"                        => false,
