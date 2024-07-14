@@ -5,12 +5,6 @@ STDOUT.sync = true
 
 $LOAD_PATH.unshift File.expand_path("../../bridgetown/lib", __dir__)
 
-# Used by commands/automations
-require "active_support"
-require "active_support/core_ext/array/extract_options"
-require "active_support/core_ext/string/strip"
-require "active_support/core_ext/string/indent"
-
 require "bridgetown"
 
 # Support NO_COLOR: https://no-color.org

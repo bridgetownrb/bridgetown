@@ -1,8 +1,7 @@
 ---<%
-render_with data: {
-  title: "Nested Page with Slug",
-  slug_param: params[:slug]
-}
+slug_param = params[:slug]
+() # test for previous regexp bug
+title = "Nested Page with Slug"
 %>---
 
-<h1><%= data.title %>: <%= data.slug_param %></h1>
+<h1><%= title %>: <%= slug_param %></h1>

@@ -100,6 +100,9 @@ class BridgetownUnitTest < Minitest::Test
   include DirectoryHelpers
   extend DirectoryHelpers
 
+  # Uncomment this if you need better printed output when debugging test failures:
+  # make_my_diffs_pretty!
+
   def mocks_expect(*args)
     RSpec::Mocks::ExampleMethods::ExpectHost.instance_method(:expect)
       .bind_call(self, *args)
@@ -127,7 +130,6 @@ class BridgetownUnitTest < Minitest::Test
   end
 
   def resources_site(overrides = {})
-    overrides["content_engine"] = "resource"
     overrides["available_locales"] ||= %w[en fr]
     overrides["plugins_dir"] = resources_root_dir("plugins")
     new_config = site_configuration(overrides)

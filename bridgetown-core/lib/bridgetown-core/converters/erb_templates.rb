@@ -73,8 +73,6 @@ module Bridgetown
   end
 
   class ERBView < RubyTemplateView
-    include ERBCapture
-
     def h(input)
       Erubi.h(input)
     end
@@ -89,13 +87,18 @@ module Bridgetown
 
     def _render_partial(partial_name, options)
       partial_path = _partial_path(partial_name, "erb")
-      tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"] ||= Tilt::ErubiTemplate.new(
+      site.tmp_cache["partial-tmpl:#{partial_path}"] ||= {
+        signal: site.config.fast_refresh ? Signalize.signal(1) : nil,
+      }
+      tmpl = site.tmp_cache["partial-tmpl:#{partial_path}"]
+      tmpl.template ||= Tilt::ErubiTemplate.new(
         partial_path,
         outvar: "@_erbout",
         bufval: "Bridgetown::OutputBuffer.new",
         engine_class: ERBEngine
       )
-      tmpl.render(self, options)
+      tmpl.signal&.value # subscribe so resources are attached to this partial within effect
+      tmpl.template.render(self, options)
     end
   end
 
@@ -103,6 +106,7 @@ module Bridgetown
     class ERBTemplates < Converter
       priority :highest
       input :erb
+      template_engine :erb
 
       # Logic to do the ERB content conversion.
       #
@@ -113,8 +117,6 @@ module Bridgetown
       #
       # @return [String] The converted content.
       def convert(content, convertible)
-        return content if convertible.data[:template_engine].to_s != "erb"
-
         erb_view = Bridgetown::ERBView.new(convertible)
 
         erb_renderer = Tilt::ErubiTemplate.new(
@@ -132,25 +134,6 @@ module Bridgetown
         else
           erb_renderer.render(erb_view)
         end
-      end
-
-      # @param ext [String]
-      # @param convertible [Bridgetown::Resource::Base, Bridgetown::GeneratedPage]
-      def matches(ext, convertible)
-        if convertible.data[:template_engine].to_s == "erb" ||
-            (convertible.data[:template_engine].nil? &&
-             @config[:template_engine].to_s == "erb")
-          convertible.data[:template_engine] = "erb"
-          return true
-        end
-
-        super(ext).tap do |ext_matches|
-          convertible.data[:template_engine] = "erb" if ext_matches
-        end
-      end
-
-      def output_ext(ext)
-        ext == ".erb" ? ".html" : ext
       end
     end
   end

@@ -1,28 +1,30 @@
 # frozen_string_literal: true
 
+Thread.attr_accessor :bridgetown_state
+
 module Bridgetown
-  class Current < ActiveSupport::CurrentAttributes
-    # @!method self.preloaded_configuration
-    #   @return [Bridgetown::Configuration]
-    attribute :preloaded_configuration
+  class Current
+    class << self
+      def thread_state = Thread.current.bridgetown_state ||= {}
 
-    # @return [Bridgetown::Site, nil]
-    def self.site
-      sites[:main]
-    end
+      # @return [Bridgetown::Site, nil]
+      def site = sites[:main]
 
-    def self.site=(new_site)
-      sites[:main] = new_site
-    end
+      def site=(new_site)
+        sites[:main] = new_site
+      end
 
-    # @!method self.sites
-    #   @return [Hash<Symbol, Bridgetown::Site>]
+      # @return [Hash<Symbol, Bridgetown::Site>]
+      def sites
+        thread_state[:sites] ||= {}
+      end
 
-    attribute :sites
+      # @return [Bridgetown::Configuration]
+      def preloaded_configuration = thread_state[:preloaded_configuration]
 
-    def initialize
-      super
-      @attributes[:sites] = {}
+      def preloaded_configuration=(value)
+        thread_state[:preloaded_configuration] = value
+      end
     end
   end
 end

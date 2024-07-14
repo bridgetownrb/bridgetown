@@ -46,10 +46,6 @@ bundle add bridgetown-feed
 bin/bridgetown apply https://github.com/bridgetownrb/bridgetown-cloudinary
   ```
 
-{%@ Note type: :warning do %}
-  Starting in Bridgetown 1.2, plugins are no longer required to be placed in the `bridgetown_plugins` group for sites which use the new initializers system. Read the [Initializers documentation](/docs/configuration/initializers/) for further details.
-{% end %}
-
 ## Introduction to the Builder API
 
 The Builder API (with its various <abbr title="Domain-Specific Languages">DSLs</abbr>) is typically the approach you'll use to write Bridgetown plugins.

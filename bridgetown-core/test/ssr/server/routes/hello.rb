@@ -4,7 +4,7 @@ class Routes::Hello < Bridgetown::Rack::Routes
   priority :lowest
 
   route do |r|
-    saved_value = bridgetown_site.data.save_value
+    saved_value = site.data.save_value
 
     # route: GET /hello/:name
     r.get "hello", String do |name|

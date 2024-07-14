@@ -2,9 +2,7 @@
 
 module Bridgetown
   module Utils # rubocop:todo Metrics/ModuleLength
-    extend Gem::Deprecate
     extend self
-    autoload :Ansi, "bridgetown-core/utils/ansi"
     autoload :Aux, "bridgetown-core/utils/aux"
     autoload :LoadersManager, "bridgetown-core/utils/loaders_manager"
     autoload :RequireGems, "bridgetown-core/utils/require_gems"
@@ -37,6 +35,13 @@ module Bridgetown
       input.to_s.encode(xml: :attr).gsub(%r!\A"|"\Z!, "")
     end
 
+    def unencode_uri(path)
+      path = path.encode("utf-8")
+      return path unless path.include?("%")
+
+      Addressable::URI.unencode(path)
+    end
+
     # Non-destructive version of deep_merge_hashes! See that method.
     #
     # Returns the merged hashes.
@@ -64,8 +69,6 @@ module Bridgetown
     def mergeable?(value)
       value.is_a?(Hash) || value.is_a?(Drops::Drop)
     end
-    alias_method :mergable?, :mergeable?
-    deprecate :mergable?, :mergeable?, 2023, 7
 
     def duplicable?(obj)
       case obj
@@ -121,8 +124,7 @@ module Bridgetown
     # Determines whether a given file has
     #
     # @return [Boolean] if the YAML front matter is present.
-    # rubocop: disable Naming/PredicateName
-    def has_yaml_header?(file)
+    def has_yaml_header?(file) # rubocop: disable Naming/PredicateName
       Bridgetown::Deprecator.deprecation_message(
         "Bridgetown::Utils.has_yaml_header? is deprecated, use " \
         "Bridgetown::FrontMatter::Loaders::YAML.header? instead"
@@ -130,23 +132,13 @@ module Bridgetown
       FrontMatter::Loaders::YAML.header?(file)
     end
 
-    def has_rbfm_header?(file)
+    def has_rbfm_header?(file) # rubocop: disable Naming/PredicateName
       Bridgetown::Deprecator.deprecation_message(
         "Bridgetown::Utils.has_rbfm_header? is deprecated, use " \
         "Bridgetown::FrontMatter::Loaders::Ruby.header? instead"
       )
       FrontMatter::Loaders::Ruby.header?(file)
     end
-
-    # Determine whether the given content string contains Liquid Tags or Vaiables
-    #
-    # @return [Boolean] if the string contains sequences of `{%` or `{{`
-    def has_liquid_construct?(content)
-      return false if content.nil? || content.empty?
-
-      content.include?("{%") || content.include?("{{")
-    end
-    # rubocop: enable Naming/PredicateName
 
     # Slugify a filename or title.
     #
@@ -215,49 +207,6 @@ module Bridgetown
       slug.downcase! unless cased
 
       slug
-    end
-
-    # Add an appropriate suffix to template so that it matches the specified
-    # permalink style.
-    #
-    # template - permalink template without trailing slash or file extension
-    # permalink_style - permalink style, either built-in or custom
-    #
-    # The returned permalink template will use the same ending style as
-    # specified in permalink_style.  For example, if permalink_style contains a
-    # trailing slash (or is :pretty, which indirectly has a trailing slash),
-    # then so will the returned template.  If permalink_style has a trailing
-    # ":output_ext" (or is :none, :date, or :ordinal) then so will the returned
-    # template.  Otherwise, template will be returned without modification.
-    #
-    # Examples:
-    #   add_permalink_suffix("/:basename", :pretty)
-    #   # => "/:basename/"
-    #
-    #   add_permalink_suffix("/:basename", :date)
-    #   # => "/:basename:output_ext"
-    #
-    #   add_permalink_suffix("/:basename", "/:year/:month/:title/")
-    #   # => "/:basename/"
-    #
-    #   add_permalink_suffix("/:basename", "/:year/:month/:title")
-    #   # => "/:basename"
-    #
-    # Returns the updated permalink template
-    def add_permalink_suffix(template, permalink_style)
-      template = template.dup
-
-      case permalink_style
-      when :pretty, :simple
-        template << "/"
-      when :date, :ordinal, :none
-        template << ":output_ext"
-      else
-        template << "/" if permalink_style.to_s.end_with?("/")
-        template << ":output_ext" if permalink_style.to_s.end_with?(":output_ext")
-      end
-
-      template
     end
 
     # Work the same way as Dir.glob but seperating the input into two parts

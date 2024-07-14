@@ -8,13 +8,13 @@ class TestAssetPathTag < BridgetownFeatureTest
   context "frontend manifest" do
     setup do
       create_directory "_layouts"
-      create_page "index.html", "page content", layout: "default"
+      create_page "index.liquid", "page content", layout: "default"
       create_file "esbuild.config.js", ""
       create_directory ".bridgetown-cache/frontend-bundling"
     end
 
     should "load for asset_tag" do
-      create_file "_layouts/default.html", <<~HTML
+      create_file "_layouts/default.liquid", <<~HTML
         <html>
         <head>
         <link rel="stylesheet" href="{% asset_path css %}" />
@@ -43,7 +43,7 @@ class TestAssetPathTag < BridgetownFeatureTest
     end
 
     should "provide custom files" do
-      create_file "_layouts/default.html", <<~HTML
+      create_file "_layouts/default.liquid", <<~HTML
         <html>
         <head>
         <link rel="stylesheet" href="{% asset_path css %}" />
@@ -69,7 +69,7 @@ class TestAssetPathTag < BridgetownFeatureTest
     end
 
     should "report when missing" do
-      create_file "_layouts/default.html", <<~HTML
+      create_file "_layouts/default.liquid", <<~HTML
         <html>
         <head>
         <link rel="stylesheet" href="{% asset_path css %}" />
@@ -88,7 +88,7 @@ class TestAssetPathTag < BridgetownFeatureTest
     end
 
     should "handle missing asset files" do
-      create_file "_layouts/default.html", <<~HTML
+      create_file "_layouts/default.liquid", <<~HTML
         <html>
         <head>
         <link rel="stylesheet" href="{% asset_path bad %}" />

@@ -3,6 +3,8 @@
 module Bridgetown
   module Commands
     module Actions
+      using Bridgetown::Refinements
+
       GITHUB_REGEX = %r!https://github\.com!
       GITHUB_TREE_REGEX = %r!#{GITHUB_REGEX}/.*/.*/tree/.*/?!
       GITHUB_BLOB_REGEX = %r!#{GITHUB_REGEX}/.*/.*/blob/!

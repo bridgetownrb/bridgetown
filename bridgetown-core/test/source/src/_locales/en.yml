@@ -3,6 +3,7 @@ en:
     foo: foo
     bar: bar
     foo_html: <strong>foo</strong>
+    dangerous_html: <button>Click %{me}</button>
   contacts:
     bar:
       foo: foo

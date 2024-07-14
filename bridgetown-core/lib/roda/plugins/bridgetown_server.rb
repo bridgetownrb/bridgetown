@@ -11,6 +11,7 @@ class Roda
                 "plugin"
         end
 
+        app.extend ClassMethods # we need to do this here because Roda hasn't done it yet
         app.plugin :initializers
         app.plugin :method_override
         app.plugin :all_verbs
@@ -19,8 +20,8 @@ class Roda
         app.plugin :json
         app.plugin :json_parser
         app.plugin :indifferent_params
-        app.plugin :cookies
-        app.plugin :public, root: Bridgetown::Current.preloaded_configuration.destination
+        app.plugin :cookies, path: "/"
+        app.plugin :ssg, root: Bridgetown::Current.preloaded_configuration.destination
         app.plugin :not_found do
           output_folder = Bridgetown::Current.preloaded_configuration.destination
           File.read(File.join(output_folder, "404.html"))
@@ -40,17 +41,7 @@ class Roda
           "500 Internal Server Error"
         end
 
-        # This lets us return models or resources directly in Roda response blocks
-        app.plugin :custom_block_results
-
-        app.handle_block_result Bridgetown::Model::Base do |result|
-          result.render_as_resource.output
-        end
-
-        app.handle_block_result Bridgetown::Resource::Base do |result|
-          result.transform!.output
-        end
-
+        # TODO: there may be a better way to do this, see `exception_page_css` instance method
         ExceptionPage.class_eval do # rubocop:disable Metrics/BlockLength
           def self.css
             <<~CSS
@@ -107,8 +98,16 @@ class Roda
             CSS
           end
         end
+      end
 
-        app.before do
+      module ClassMethods
+        def root_hook(&block)
+          opts[:root_hook] = block
+        end
+      end
+
+      module InstanceMethods
+        def initialize_bridgetown_context
           if self.class.opts[:bridgetown_site]
             # The site had previously been initialized via the bridgetown_ssr plugin
             Bridgetown::Current.sites[self.class.opts[:bridgetown_site].label] =
@@ -117,11 +116,22 @@ class Roda
           end
           Bridgetown::Current.preloaded_configuration ||=
             self.class.opts[:bridgetown_preloaded_config]
+        end
 
+        def initialize_bridgetown_root # rubocop:todo Metrics/AbcSize
           request.root do
-            output_folder = Bridgetown::Current.preloaded_configuration.destination
-            File.read(File.join(output_folder, "index.html"))
-          rescue StandardError
+            hook_result = instance_exec(&self.class.opts[:root_hook]) if self.class.opts[:root_hook]
+            next hook_result if hook_result
+
+            status, headers, body = self.class.opts[:ssg_server].serving(
+              request, File.join(self.class.opts[:ssg_root], "index.html")
+            )
+            response_headers = response.headers
+            response_headers.replace(headers)
+
+            request.halt [status, response_headers, body]
+          rescue StandardError => e
+            Bridgetown.logger.debug("Root handler error: #{e.message}")
             response.status = 500
             "<p>ERROR: cannot find <code>index.html</code> in the output folder.</p>"
           end
@@ -132,15 +142,31 @@ class Roda
 
       module RequestMethods
         # Monkeypatch Roda/Rack's Request object so it returns a hash which allows for
-        # indifferent access
+        # symbol or dot access
         def cookies
-          # TODO: maybe replace with a simpler hash that offers an overloaded `[]` method
-          _previous_roda_cookies.with_indifferent_access
+          HashWithDotAccess::Hash.new(_previous_roda_cookies)
         end
 
-        # Starts up the Bridgetown routing system
+        # Start up the Bridgetown routing system
         def bridgetown
-          Bridgetown::Rack::Routes.start!(scope)
+          scope.initialize_bridgetown_context
+          scope.initialize_bridgetown_root
+
+          # Run the static file server
+          ssg
+
+          # There are two different code paths depending on if there's a site `base_path` configured
+          if Bridgetown::Current.preloaded_configuration.base_path == "/"
+            Bridgetown::Rack::Routes.load_all scope
+            return
+          end
+
+          # Support custom base_path configurations
+          on(Bridgetown::Current.preloaded_configuration.base_path.delete_prefix("/")) do
+            Bridgetown::Rack::Routes.load_all scope
+          end
+
+          nil
         end
       end
     end

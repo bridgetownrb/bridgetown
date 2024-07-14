@@ -4,8 +4,8 @@
 #
 # Learn more at: http://roda.jeremyevans.net
 
-class RodaApp < Bridgetown::Rack::Roda
-  plugin :bridgetown_ssr
+class RodaApp < Roda
+  plugin :bridgetown_server
 
   route do |r|
     r.bridgetown

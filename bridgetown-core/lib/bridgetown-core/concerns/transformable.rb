@@ -15,11 +15,9 @@ module Bridgetown
       converters.each_with_index.inject(
         (alternate_content || document.content).to_s
       ) do |content, (converter, index)|
-        output = if converter.method(:convert).arity == 1
-                   converter.convert content
-                 else
-                   converter.convert content, document
-                 end
+        output = converter.method(:convert).arity == 1 ?
+                   converter.convert(content) :
+                   converter.convert(content, document)
 
         yield converter, index, output if block_given?
 

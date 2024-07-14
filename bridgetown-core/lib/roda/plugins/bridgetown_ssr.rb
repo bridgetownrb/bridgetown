@@ -9,6 +9,17 @@ class Roda
         def bridgetown_site
           self.class.opts[:bridgetown_site]
         end
+
+        alias_method :site, :bridgetown_site
+      end
+
+      def self.load_dependencies(app)
+        app.plugin :custom_block_results
+
+        # This lets us return callable objects directly in Roda response blocks
+        app.handle_block_result(Bridgetown::RodaCallable) do |callable|
+          callable.(self)
+        end
       end
 
       def self.configure(app, _opts = {}, &)

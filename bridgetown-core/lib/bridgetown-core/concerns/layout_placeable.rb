@@ -7,7 +7,7 @@ module Bridgetown
     # Returns false if the document is an asset file or if the front matter
     #   specifies `layout: none`
     def place_in_layout?
-      !(yaml_file? || no_layout?)
+      no_layout?.!
     end
 
     def no_layout?

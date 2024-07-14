@@ -4,8 +4,6 @@ module Bridgetown
   module Model
     # Abstract Superclass
     class Origin
-      extend ActiveSupport::DescendantsTracker
-
       EAGER_LOAD_DESCENDANTS = %i(BuilderOrigin RepoOrigin PluginOrigin).freeze
 
       # @return [String]
@@ -30,7 +28,7 @@ module Bridgetown
 
         return klass.collection_name.to_s == collection_name if klass.respond_to?(:collection_name)
 
-        klass.name == ActiveSupport::Inflector.classify(collection_name)
+        klass.name == site.config.inflector.classify(collection_name)
       end
 
       def read
