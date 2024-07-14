@@ -1,4 +1,4 @@
-class Builders::Inspectors < SiteBuilder
+class Builders::HTMLInspectors < SiteBuilder
   def build
     inspect_html do |document|
       document.query_selector_all("article h2[id], article h3[id]").each do |heading|

@@ -31,31 +31,23 @@ require "csv"
 require "json"
 require "yaml"
 
+# Pull in Foundation gem
+require "bridgetown-foundation"
+
 # 3rd party
-require "active_support"
-require "active_support/core_ext/class/attribute"
-require "active_support/core_ext/hash/keys"
-require "active_support/core_ext/module/delegation"
+require "active_support" # TODO: remove by the end of 2024
 require "active_support/core_ext/object/blank"
-require "active_support/core_ext/object/deep_dup"
-require "active_support/core_ext/object/inclusion"
 require "active_support/core_ext/string/inflections"
-require "active_support/core_ext/string/inquiry"
 require "active_support/core_ext/string/output_safety"
-require "active_support/core_ext/string/starts_ends_with"
-require "active_support/current_attributes"
-require "hash_with_dot_access"
 require "addressable/uri"
 require "liquid"
 require "listen"
 require "kramdown"
-require "colorator"
 require "i18n"
 require "i18n/backend/fallbacks"
 require "faraday"
 require "signalize"
 require "thor"
-require "zeitwerk"
 
 # Ensure we can set up fallbacks so the default locale gets used
 I18n::Backend::Simple.include I18n::Backend::Fallbacks
@@ -74,6 +66,8 @@ end
 class Rb < String; end
 
 module Bridgetown
+  using Bridgetown::Refinements
+
   autoload :Cache,               "bridgetown-core/cache"
   autoload :Current,             "bridgetown-core/current"
   autoload :Cleaner,             "bridgetown-core/cleaner"
@@ -87,6 +81,7 @@ module Bridgetown
   autoload :FrontMatter,         "bridgetown-core/front_matter"
   autoload :GeneratedPage,       "bridgetown-core/generated_page"
   autoload :Hooks,               "bridgetown-core/hooks"
+  autoload :Inflector,           "bridgetown-core/inflector"
   autoload :Layout,              "bridgetown-core/layout"
   autoload :LayoutPlaceable,     "bridgetown-core/concerns/layout_placeable"
   autoload :LayoutReader,        "bridgetown-core/readers/layout_reader"
@@ -105,7 +100,6 @@ module Bridgetown
   autoload :Slot,                "bridgetown-core/slot"
   autoload :StaticFile,          "bridgetown-core/static_file"
   autoload :Transformable,       "bridgetown-core/concerns/transformable"
-  autoload :URL,                 "bridgetown-core/url"
   autoload :Utils,               "bridgetown-core/utils"
   autoload :VERSION,             "bridgetown-core/version"
   autoload :Watcher,             "bridgetown-core/watcher"
@@ -132,7 +126,7 @@ module Bridgetown
     # Tells you which Bridgetown environment you are building in so
     #   you can skip tasks if you need to.
     def environment
-      (ENV["BRIDGETOWN_ENV"] || "development").inquiry
+      (ENV["BRIDGETOWN_ENV"] || "development").questionable
     end
     alias_method :env, :environment
 
@@ -379,10 +373,7 @@ module Bridgetown
       )
     end
   end
-end
 
-module Bridgetown
-  module CoreExt; end
   module Model; end
 
   module Resource
@@ -395,17 +386,18 @@ module Bridgetown
       end
     end
   end
+
+  # mixin for identity so Roda knows to call renderable objects
+  module RodaCallable
+    def self.===(other)
+      other.class < self
+    end
+  end
 end
 
-Zeitwerk::Loader.new.tap do |loader|
-  loader.push_dir File.join(__dir__, "bridgetown-core/core_ext"), namespace: Bridgetown::CoreExt
-  loader.setup
-  loader.eager_load
-end
-
-Zeitwerk::Loader.new.tap do |loader|
-  loader.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model
-  loader.push_dir File.join(__dir__, "bridgetown-core/resource"), namespace: Bridgetown::Resource
-  loader.setup # ready!
+Zeitwerk.with_loader do |l|
+  l.push_dir File.join(__dir__, "bridgetown-core/model"), namespace: Bridgetown::Model
+  l.push_dir File.join(__dir__, "bridgetown-core/resource"), namespace: Bridgetown::Resource
+  l.setup # ready!
 end
 Bridgetown::Model::Origin # this needs to load first

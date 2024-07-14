@@ -22,6 +22,7 @@ module Bridgetown
   class RubyTemplateView
     require "bridgetown-core/helpers"
 
+    using Bridgetown::Refinements
     include Bridgetown::Streamlined
 
     attr_reader :layout, :resource, :paginator, :site, :content
@@ -38,15 +39,16 @@ module Bridgetown
       end
       @paginator = resource.paginator if resource.respond_to?(:paginator)
       @site = resource.site
+      @support_data_as_view_methods = @site.config.support_data_as_view_methods
     end
 
-    def data
-      resource.data
-    end
+    def data = resource.data
 
-    def partial(_partial_name = nil, **_options)
-      raise "Must be implemented in a subclass"
-    end
+    def collections = site.collections
+
+    def site_drop = site.site_payload.site
+
+    def partial(_partial_name = nil, **_options) = raise("Must be implemented in a subclass")
 
     def render(item, **options, &)
       if item.respond_to?(:render_in)
@@ -55,14 +57,6 @@ module Bridgetown
       else
         partial(item, **options, &)&.html_safe
       end
-    end
-
-    def collections
-      site.collections
-    end
-
-    def site_drop
-      site.site_payload.site
     end
 
     def liquid_render(component, options = {}, &block)
@@ -76,16 +70,24 @@ module Bridgetown
         Bridgetown.logger.warn "Liquid Warning:",
                                LiquidRenderer.format_error(e, path || document.relative_path)
       end
-      template.render!(options.deep_stringify_keys, _liquid_context).html_safe
+      template.render!(options.as_dots, _liquid_context).html_safe
     end
 
     def helpers
       @helpers ||= Helpers.new(self, site)
     end
 
+    def data_key?(key, *args, **kwargs)
+      return false unless @support_data_as_view_methods
+
+      args.empty? && kwargs.empty? && !block_given? && data.key?(key)
+    end
+
     def method_missing(method_name, ...)
       if helpers.respond_to?(method_name.to_sym)
         helpers.send(method_name.to_sym, ...)
+      elsif data_key?(method_name, ...)
+        data[method_name]
       else
         super
       end
@@ -95,9 +97,7 @@ module Bridgetown
       helpers.respond_to?(method_name.to_sym, include_private) || super
     end
 
-    def inspect
-      "#<#{self.class} layout=#{layout&.label} resource=#{resource.relative_path}>"
-    end
+    def inspect = "#<#{self.class} layout=#{layout&.label} resource=#{resource.relative_path}>"
 
     private
 

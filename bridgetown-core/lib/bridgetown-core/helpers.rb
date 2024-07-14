@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 require "streamlined/helpers"
-require "active_support/html_safe_translation"
 
 module Bridgetown
   class RubyTemplateView
     class Helpers
+      using Bridgetown::Refinements
       include Bridgetown::Filters
       include Bridgetown::Filters::FromLiquid
       include ::Streamlined::Helpers
+      include Inclusive
 
       # @return [Bridgetown::RubyTemplateView]
       attr_reader :view
@@ -18,11 +19,14 @@ module Bridgetown
 
       Context = Struct.new(:registers)
 
+      # @return [Bridgetown::Foundation::SafeTranslations]
+      packages def translate_package = [Bridgetown::Foundation::Packages::SafeTranslations]
+
       # @param view [Bridgetown::RubyTemplateView]
       # @param site [Bridgetown::Site]
-      def initialize(view, site)
+      def initialize(view = nil, site = nil)
         @view = view
-        @site = site
+        @site = site || Bridgetown::Current.site
 
         # duck typing for Liquid context
         @context = Context.new({ site: })
@@ -155,9 +159,16 @@ module Bridgetown
           key = "#{view_path.tr("/", ".")}#{key}" if view_path.present?
         end
 
-        ActiveSupport::HtmlSafeTranslation.translate(key, **options)
+        return I18n.translate(key, **options) unless %r{(?:_|\b)html\z}.match?(key)
+
+        translate_with_html(key, **options)
       end
       alias_method :t, :translate
+
+      def translate_with_html(key, **options)
+        escaper = ->(input) { input.to_s.encode(xml: :attr).gsub(%r{\A"|"\Z}, "") }
+        translate_package.translate(key, escaper, **options)
+      end
 
       # Delegates to <tt>I18n.localize</tt> with no additional functionality.
       #

@@ -24,11 +24,13 @@ class TestLocales < BridgetownUnitTest
 
     should "have the correct permalink and locale in English" do
       assert_equal "/second-level-page/", @english_resource.relative_url
+      assert_includes @english_resource.output, "<title>I&#39;m a Second Level Page</title>"
       assert_includes @english_resource.output, "<p>Locale: en</p>"
     end
 
     should "have the correct permalink and locale in French" do
       assert_equal "/fr/second-level-page/", @french_resource.relative_url
+      assert_includes @french_resource.output, "<title>I&#39;m a Second Level Page in French</title>"
       assert_includes @french_resource.output, "<p>C’est <strong>bien</strong>.</p>\n\n<p>Locale: fr</p>"
 
       assert_includes @french_resource.output, <<-HTML

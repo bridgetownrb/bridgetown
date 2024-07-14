@@ -2,6 +2,7 @@
 
 module Bridgetown
   class Component
+    using Bridgetown::Refinements
     include Bridgetown::Streamlined
     extend Forwardable
 
@@ -201,7 +202,7 @@ module Bridgetown
     # Subclasses can override this method to return a string from their own
     # template handling.
     def template
-      call || _renderer.render(self)
+      (method(:call).arity.zero? ? call : nil) || _renderer.render(self)
     end
 
     # Typically not used but here as a compatibility nod toward ViewComponent.
@@ -228,9 +229,7 @@ module Bridgetown
     end
 
     def helpers
-      @helpers ||= Bridgetown::RubyTemplateView::Helpers.new(
-        self, view_context&.site || Bridgetown::Current.site
-      )
+      @helpers ||= Bridgetown::RubyTemplateView::Helpers.new(self, view_context&.site)
     end
 
     def method_missing(method, ...)

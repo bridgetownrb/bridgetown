@@ -3,6 +3,7 @@
 module Bridgetown
   module Model
     class RepoOrigin < Origin
+      using Bridgetown::Refinements
       include Bridgetown::FrontMatter::Importer
 
       # @return [String]
@@ -99,7 +100,7 @@ module Bridgetown
       private
 
       def in_data_collection?
-        original_path.extname.downcase.in?(self.class.data_file_extensions) &&
+        original_path.extname.downcase.within?(self.class.data_file_extensions) &&
           collection.data?
       end
 

@@ -28,7 +28,7 @@ module Bridgetown
           end
           puts
           puts "Routes:"
-          puts "======="
+          puts "=======\n"
           if routes.blank?
             puts "No routes found. Have you commented all of your routes?"
             puts "Documentation: https://github.com/jeremyevans/roda-route_list#basic-usage-"
@@ -45,9 +45,6 @@ module Bridgetown
         end
         # rubocop:enable Bridgetown/NoPutsAllowed, Metrics/MethodLength
 
-        # @return [Hash<String, Class(Routes)>]
-        attr_accessor :tracked_subclasses
-
         # @return [Proc]
         attr_accessor :router_block
 
@@ -59,30 +56,9 @@ module Bridgetown
           "#{priorities[priority]}#{self}" <=> "#{priorities[other.priority]}#{other}"
         end
 
-        # @param base [Class(Routes)]
-        def inherited(base)
-          Bridgetown::Rack::Routes.track_subclass base
-          super
-        end
-
-        # @param klass [Class(Routes)]
-        def track_subclass(klass)
-          Bridgetown::Rack::Routes.tracked_subclasses ||= {}
-          Bridgetown::Rack::Routes.tracked_subclasses[klass.name] = klass
-        end
-
         # @return [Array<Class(Routes)>]
         def sorted_subclasses
-          Bridgetown::Rack::Routes.tracked_subclasses&.values&.sort
-        end
-
-        # @return [void]
-        def reload_subclasses
-          Bridgetown::Rack::Routes.tracked_subclasses&.each_key do |klassname|
-            Kernel.const_get(klassname)
-          rescue NameError
-            Bridgetown::Rack::Routes.tracked_subclasses.delete klassname
-          end
+          Bridgetown::Rack::Routes.descendants.sort
         end
 
         # Add a router block via the current Routes class

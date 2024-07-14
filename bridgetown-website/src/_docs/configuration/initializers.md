@@ -280,20 +280,18 @@ Now anywhere in your Ruby plugins, templates, etc., you can access environment v
 
 ### Inflector
 
-Zeitwerk's inflector can be configured to use ActiveSupport::Inflector. This
-will become the default in v2.0.
+You can configure the inflector used by Zeitwerk and models. A few acronyms are provided by default like HTML, CSS, and JS, so a file like `html_processor.rb` could be defined by `HTMLProcessor`. You can add more inflection rules like so:
 
 ```ruby
-config.inflector = ActiveSupport::Inflector
-```
-
-To add new inflection rules, use the following format.
-
-```ruby
-ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.acronym "RESTful"
+config.inflector.configure do |inflections|
+  inflections.acronym "W3C"
+  inflections.plural "virus", "viruses" # specify a rule for #pluralize
+  inflections.singular "thieves", "thief"   # specify a rule for #singularize
 end
 ```
+
+Bridgetown's inflector is based on `Dry::Inflector`, so you can [read up on how to add inflection
+rules here](https://dry-rb.org/gems/dry-inflector/1.0/#custom-inflection-rules).
 
 ### Parse Roda Routes
 

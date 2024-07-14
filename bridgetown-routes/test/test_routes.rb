@@ -38,7 +38,7 @@ class TestRoutes < BridgetownUnitTest
 
     should "return HTML for the howdy route" do
       get "/howdy?yo=joe&happy=pleased"
-      assert_equal "<h1>joe 42</h1>\n\n<p>I am pleasedpleased.</p>\n", last_response.body
+      assert_equal "<h1>joe 42 true</h1>\n\n<p>I am pleasedpleased.</p>\n", last_response.body
     end
 
     should "return HTML for a route in an arbitrary folder" do
@@ -64,6 +64,11 @@ class TestRoutes < BridgetownUnitTest
     should "return HTML for nested item RESTful route" do
       get "/nested/123-abc"
       assert_equal "<h1>Nested Page with Slug: 123-abc</h1>\n", last_response.body
+    end
+
+    should "return JSON for a base route (no template)" do
+      get "/bare_route/4"
+      assert_equal({ numbers: [2, 4, 6, 8] }.to_json, last_response.body)
     end
 
     should "return the proper route within an island" do

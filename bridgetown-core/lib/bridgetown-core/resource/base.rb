@@ -3,7 +3,9 @@
 module Bridgetown
   module Resource
     class Base # rubocop:todo Metrics/ClassLength
+      using Bridgetown::Refinements
       include Comparable
+      include Bridgetown::RodaCallable
       include Bridgetown::Publishable
       include Bridgetown::LayoutPlaceable
       include Bridgetown::Localizable
@@ -92,10 +94,7 @@ module Bridgetown
       #
       # @return [HashWithDotAccess::Hash]
       def front_matter_defaults
-        site.frontmatter_defaults.all(
-          relative_path.to_s,
-          collection.label.to_sym
-        ).with_dot_access
+        site.frontmatter_defaults.all(relative_path.to_s, collection.label.to_sym).as_dots
       end
 
       # @return [HashWithDotAccess::Hash]
@@ -169,6 +168,11 @@ module Bridgetown
 
         self
       end
+
+      # Transforms the resource and returns the full output
+      #
+      # @return [String]
+      def call(*) = transform!.output
 
       def trigger_hooks(hook_name, *args)
         Bridgetown::Hooks.trigger collection.label.to_sym, hook_name, self, *args if collection
@@ -341,6 +345,10 @@ module Bridgetown
       end
       alias_method :previous_doc, :previous_resource
       alias_method :previous, :previous_resource
+
+      def deconstruct_keys(...)
+        @data.value.deconstruct_keys(...)
+      end
 
       def mark_for_fast_refresh!
         @fast_refresh_order = site.fast_refresh_ordering
