@@ -26,7 +26,7 @@ module Bridgetown
         require "bundler"
 
         require_relative "utils/initializers"
-        load_determined_bundler_environment(skip_npm:)
+        load_determined_bundler_environment
 
         ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] = "true"
         true
