@@ -3,6 +3,8 @@
 class Bridgetown::Site
   # Content is king!
   module Content
+    using Bridgetown::Refinements
+
     def resources_grouped_by_taxonomy(taxonomy)
       data.site_taxonomies_hash ||= {}
       data.site_taxonomies_hash[taxonomy.label] ||= taxonomy.terms.transform_values do |terms|
@@ -45,10 +47,10 @@ class Bridgetown::Site
     #
     #  If `config["collections"]` is not specified, a blank hash is returned.
     #
-    # @return [Hash{String, Symbol => Collection}] A Hash
+    # @return [HashWithDotAccess::Hash{String, Symbol => Collection}] A Hash
     #   containing a collection name-to-instance pairs.
     #
-    # @return [Hash] Returns a blank hash if no items found
+    # @return [HashWithDotAccess::Hash] Returns a blank hash if no items found
     def collections
       @collections ||= collection_names.each_with_object(
         HashWithDotAccess::Hash.new
@@ -66,7 +68,7 @@ class Bridgetown::Site
 
     # @return [Array<Bridgetown::Resource::TaxonomyType>]
     def taxonomy_types
-      @taxonomy_types ||= config.taxonomies.to_h do |label, key_or_metadata|
+      @taxonomy_types ||= config.taxonomies.to_dot_h do |label, key_or_metadata|
         key = key_or_metadata
         tax_metadata = if key_or_metadata.is_a? Hash
                          key = key_or_metadata["key"]
@@ -78,7 +80,7 @@ class Bridgetown::Site
         [label, Bridgetown::Resource::TaxonomyType.new(
           site: self, label:, key:, metadata: tax_metadata
         ),]
-      end.with_dot_access
+      end
     end
 
     # Get all loaded resources.

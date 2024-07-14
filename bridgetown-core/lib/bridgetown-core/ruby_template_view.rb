@@ -22,6 +22,7 @@ module Bridgetown
   class RubyTemplateView
     require "bridgetown-core/helpers"
 
+    using Bridgetown::Refinements
     include Bridgetown::Streamlined
 
     attr_reader :layout, :resource, :paginator, :site, :content
@@ -69,7 +70,7 @@ module Bridgetown
         Bridgetown.logger.warn "Liquid Warning:",
                                LiquidRenderer.format_error(e, path || document.relative_path)
       end
-      template.render!(options.deep_stringify_keys, _liquid_context).html_safe
+      template.render!(options.as_dots, _liquid_context).html_safe
     end
 
     def helpers

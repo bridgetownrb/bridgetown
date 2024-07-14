@@ -31,16 +31,15 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version     = ">= 3.1.0"
 
-  s.add_runtime_dependency("activemodel",               [">= 6.0", "< 8.0"])
   s.add_runtime_dependency("activesupport",             [">= 6.0", "< 8.0"])
   s.add_runtime_dependency("addressable",               "~> 2.4")
   s.add_runtime_dependency("amazing_print",             "~> 1.2")
-  s.add_runtime_dependency("colorator",                 "~> 1.0")
+  s.add_runtime_dependency("bridgetown-foundation",     Bridgetown::VERSION)
   s.add_runtime_dependency("csv",                       "~> 3.2")
+  s.add_runtime_dependency("dry-inflector",             ">= 1.0")
   s.add_runtime_dependency("erubi",                     "~> 1.9")
   s.add_runtime_dependency("faraday",                   "~> 2.0")
   s.add_runtime_dependency("faraday-follow_redirects",  "~> 0.3")
-  s.add_runtime_dependency("hash_with_dot_access",      "~> 1.2")
   s.add_runtime_dependency("i18n",                      "~> 1.0")
   s.add_runtime_dependency("kramdown",                  "~> 2.1")
   s.add_runtime_dependency("kramdown-parser-gfm",       "~> 1.0")

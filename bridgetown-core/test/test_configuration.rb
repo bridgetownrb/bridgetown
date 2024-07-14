@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 require "helper"
-require "colorator"
 
 class TestConfiguration < BridgetownUnitTest
+  using Bridgetown::Refinements
+
   def test_config
     @test_config ||= {
       "root_dir"    => site_root_dir,
@@ -101,57 +102,29 @@ class TestConfiguration < BridgetownUnitTest
 
   context "#add_default_collections" do
     should "no-op if collections is nil" do
-      result = Configuration[{ "collections" => nil }].add_default_collections
+      result = Configuration.new(collections: nil).add_default_collections
       assert_nil result["collections"]
     end
 
     should "turn an array into a hash" do
-      result = Configuration[{ "collections" => %w(methods) }].add_default_collections
-      assert_instance_of HashWithDotAccess::Hash, result["collections"]
+      result = Configuration.new(collections: %w(methods)).add_default_collections
+      assert_instance_of Configuration, result["collections"]
       assert_equal({}, result.collections["methods"])
     end
 
     should "forces posts to output" do
-      result = Configuration[{ "collections" => { "posts" => { "output" => false } } }]
+      result = Configuration.new(collections: { "posts" => { "output" => false } })
         .add_default_collections
       assert_equal true, result["collections"]["posts"]["output"]
     end
   end
 
-  context "#stringify_keys" do
-    setup do
-      @mixed_keys = Configuration[{
-        "markdown"  => "kramdown",
-        :permalink  => "date",
-        "base_path" => "/",
-        :include    => [".htaccess"],
-        :source     => "./",
-      }]
-
-      @string_keys = Configuration[{
-        "markdown"  => "kramdown",
-        "permalink" => "date",
-        "base_path" => "/",
-        "include"   => [".htaccess"],
-        "source"    => "./",
-      }]
-    end
-
-    should "stringify symbol keys" do
-      assert_equal @string_keys, @mixed_keys.stringify_keys
-    end
-
-    should "not mess with keys already strings" do
-      assert_equal @string_keys, @string_keys.stringify_keys
-    end
-  end
-
   context "#config_files" do
     setup do
-      @config = Configuration[{
+      @config = Configuration.new({
         "root_dir" => site_root_dir,
         "source"   => source_dir,
-      }]
+      })
       @no_override = {}
       @one_config_file = { "config" => "config.yml" }
       @multiple_files = {
@@ -225,7 +198,7 @@ class TestConfiguration < BridgetownUnitTest
 
   context "#read_config_file" do
     setup do
-      @config = Configuration[{ "source" => source_dir("empty.yml") }]
+      @config = Configuration.new({ "source" => source_dir("empty.yml") })
     end
 
     should "not raise an error on empty files" do
@@ -238,7 +211,7 @@ class TestConfiguration < BridgetownUnitTest
 
   context "#read_config_files" do
     setup do
-      @config = Configuration[{ "source" => source_dir }]
+      @config = Configuration.new(source: source_dir)
     end
 
     should "continue to read config files if one is empty" do
@@ -255,7 +228,7 @@ class TestConfiguration < BridgetownUnitTest
 
   context "#check_include_exclude" do
     setup do
-      @config = Configuration[{
+      @config = Configuration.new({
         "auto"        => true,
         "watch"       => true,
         "server"      => true,
@@ -263,16 +236,16 @@ class TestConfiguration < BridgetownUnitTest
         "layouts"     => true,
         "data_source" => true,
         "gems"        => [],
-      }]
+      })
     end
 
     should "raise an error if `exclude` key is a string" do
-      config = Configuration[{ "exclude" => "READ-ME.md, Gemfile,CONTRIBUTING.hello.markdown" }]
+      config = Configuration.new(exclude: "READ-ME.md, Gemfile,CONTRIBUTING.hello.markdown")
       assert_raises(Bridgetown::Errors::InvalidConfigurationError) { config.check_include_exclude }
     end
 
     should "raise an error if `include` key is a string" do
-      config = Configuration[{ "include" => "STOP_THE_PRESSES.txt,.heloses, .git" }]
+      config = Configuration.new(include: "STOP_THE_PRESSES.txt,.heloses, .git")
       assert_raises(Bridgetown::Errors::InvalidConfigurationError) { config.check_include_exclude }
     end
   end
@@ -288,7 +261,7 @@ class TestConfiguration < BridgetownUnitTest
         raise SystemCallError, "No such file or directory - #{@path}"
       end
       allow($stderr).to receive(:puts).with(
-        Colorator.yellow("Configuration file: none")
+        "Configuration file: none".yellow
       )
       assert_equal site_configuration, default_config_fixture
     end
@@ -305,11 +278,11 @@ class TestConfiguration < BridgetownUnitTest
         .to receive(:puts)
         .and_return(
           "WARNING: ".rjust(20) +
-          Colorator.yellow("Error reading configuration. Using defaults (and options).")
+          "Error reading configuration. Using defaults (and options).".yellow
         )
       allow($stderr)
         .to receive(:puts)
-        .and_return(Colorator.yellow("Configuration file: (INVALID) #{@path}"))
+        .and_return("Configuration file: (INVALID) #{@path}".yellow)
       assert_equal site_configuration, default_config_fixture
     end
 
@@ -319,10 +292,10 @@ class TestConfiguration < BridgetownUnitTest
       end
       allow($stderr)
         .to receive(:puts)
-        .with(Colorator.red(
+        .with((
                 "Fatal: ".rjust(20) + \
                 "The configuration file '#{@user_config}' could not be found."
-              ))
+              ).red)
       assert_raises LoadError do
         Bridgetown.configuration("config" => [@user_config])
       end
@@ -421,7 +394,7 @@ class TestConfiguration < BridgetownUnitTest
 
   context "#merge_environment_specific_options!" do
     should "merge options in that are environment-specific" do
-      conf = Configuration[Bridgetown::Configuration::DEFAULTS.deep_dup]
+      conf = Configuration.new(Bridgetown::Configuration::DEFAULTS.deep_dup)
       refute conf["unpublished"]
       conf["test"] = { "unpublished" => true }
       conf.merge_environment_specific_options!
@@ -432,13 +405,13 @@ class TestConfiguration < BridgetownUnitTest
 
   context "#add_default_collections" do
     should "not do anything if collections is nil" do
-      conf = Configuration[Bridgetown::Configuration::DEFAULTS.deep_dup].tap { |c| c["collections"] = nil }
+      conf = Configuration.new(Bridgetown::Configuration::DEFAULTS.deep_dup).tap { |c| c["collections"] = nil }
       assert_equal conf.add_default_collections, conf
       assert_nil conf.add_default_collections["collections"]
     end
 
     should "converts collections to a hash if an array" do
-      conf = Configuration[Bridgetown::Configuration::DEFAULTS.deep_dup].tap do |c|
+      conf = Configuration.new(Bridgetown::Configuration::DEFAULTS.deep_dup).tap do |c|
         c["collections"] = ["docs"]
       end
       conf.add_default_collections
@@ -447,7 +420,7 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "force collections.posts.output = true" do
-      conf = Configuration[Bridgetown::Configuration::DEFAULTS.deep_dup].tap do |c|
+      conf = Configuration.new(Bridgetown::Configuration::DEFAULTS.deep_dup).tap do |c|
         c["collections"] = { "posts" => { "output" => false } }
       end
       assert conf.add_default_collections.collections.posts.output
@@ -455,7 +428,7 @@ class TestConfiguration < BridgetownUnitTest
 
     should "leave collections.posts.permalink alone if it is set" do
       posts_permalink = "/:year/:title/"
-      conf = Configuration[Bridgetown::Configuration::DEFAULTS.deep_dup].tap do |c|
+      conf = Configuration.new(Bridgetown::Configuration::DEFAULTS.deep_dup).tap do |c|
         c["collections"] = {
           "posts" => { "permalink" => posts_permalink },
         }

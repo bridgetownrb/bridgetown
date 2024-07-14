@@ -61,7 +61,7 @@ module Bridgetown
       @reader          = Reader.new(self)
       @liquid_renderer = LiquidRenderer.new(self)
 
-      Bridgetown::Cache.base_cache["site_tmp"] = {}.with_dot_access
+      Bridgetown::Cache.base_cache["site_tmp"] = HashWithDotAccess::Hash.new
       ensure_not_in_dest
 
       Bridgetown::Current.sites[@label] = self
@@ -73,7 +73,7 @@ module Bridgetown
 
     def data=(new_data)
       @data = new_data
-      data_hash = @data.to_h.transform_keys(&:to_sym)
+      data_hash = @data.to_dot_h.transform_keys(&:to_sym)
       @signals = Bridgetown::Signals.define(*data_hash.keys) do
         def inspect # rubocop:disable Lint/NestedMethodDefinition
           var_peeks = instance_variables.filter_map do |var_name|

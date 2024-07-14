@@ -1,0 +1,7 @@
+---
+inherit_from: ../.rubocop.yml
+
+AllCops:
+  Exclude:
+    - "*.gemspec"
+    - "script/console"

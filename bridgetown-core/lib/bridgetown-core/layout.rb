@@ -2,6 +2,7 @@
 
 module Bridgetown
   class Layout
+    using Bridgetown::Refinements
     include FrontMatter::Importer
     include LiquidRenderable
 
@@ -67,7 +68,7 @@ module Bridgetown
       @relative_path = @path.sub(@base_dir, "")
       @ext = File.extname(name)
 
-      @data = read_front_matter(@path)&.with_dot_access
+      @data = read_front_matter(@path)&.as_dots
     rescue SyntaxError => e
       Bridgetown.logger.error "Error:",
                               "Ruby Exception in #{e.message}"

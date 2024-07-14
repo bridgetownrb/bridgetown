@@ -4,7 +4,7 @@ class Routes::Cookies < Bridgetown::Rack::Routes
   route do |r|
     # route: GET /cookies
     r.get "cookies" do
-      { value: r.cookies[:test_key] }
+      { value: r.cookies.test_key }
     end
 
     # route: POST /cookies

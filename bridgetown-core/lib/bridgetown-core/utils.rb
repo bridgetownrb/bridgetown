@@ -2,15 +2,12 @@
 
 module Bridgetown
   module Utils # rubocop:todo Metrics/ModuleLength
-    extend Gem::Deprecate
     extend self
-    autoload :Ansi, "bridgetown-core/utils/ansi"
     autoload :Aux, "bridgetown-core/utils/aux"
     autoload :LoadersManager, "bridgetown-core/utils/loaders_manager"
     autoload :RequireGems, "bridgetown-core/utils/require_gems"
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
     autoload :SmartyPantsConverter, "bridgetown-core/utils/smarty_pants_converter"
-    autoload :PidTracker, "bridgetown-core/utils/pid_tracker"
 
     # Constants for use in #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
@@ -72,8 +69,6 @@ module Bridgetown
     def mergeable?(value)
       value.is_a?(Hash) || value.is_a?(Drops::Drop)
     end
-    alias_method :mergable?, :mergeable?
-    deprecate :mergable?, :mergeable?, 2023, 7
 
     def duplicable?(obj)
       case obj

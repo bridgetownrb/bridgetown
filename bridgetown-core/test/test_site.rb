@@ -3,6 +3,8 @@
 require "helper"
 
 class TestSite < BridgetownUnitTest
+  using Bridgetown::Refinements
+
   context "configuring sites" do
     should "default base_path to `/`" do
       site = Site.new(Bridgetown::Configuration::DEFAULTS.deep_dup)
