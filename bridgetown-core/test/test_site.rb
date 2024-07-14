@@ -153,7 +153,7 @@ class TestSite < BridgetownUnitTest
         application.coffee
         bar.html
         coffeescript.coffee
-        components.html
+        components.liquid
         contacts.html
         deal.with.dots.html
         dynamic_file.php
@@ -163,7 +163,7 @@ class TestSite < BridgetownUnitTest
         humans.txt
         index.html
         info.md
-        layouts.html
+        layouts.serb
         layouts_override.html
         main.scss
         page_from_a_plugin.html

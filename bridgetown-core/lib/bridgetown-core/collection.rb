@@ -209,10 +209,25 @@ module Bridgetown
       !!metadata.fetch("output", false)
     end
 
-    # Used by Resource's permalink processor
+    # Used by Resources permalink processors
     # @return [String]
     def default_permalink
-      metadata.fetch("permalink", "/:locale/:collection/:path/")
+      metadata.fetch("permalink", default_configured_permalink)
+    end
+
+    # What the configured permalink should be absent of user overrides
+    # @return [String]
+    def default_configured_permalink
+      @default_configured_permalink ||= case label
+                                        when "data"
+                                          nil
+                                        when "posts"
+                                          site.config.permalink
+                                        when "pages"
+                                          "/:locale/:path/"
+                                        else
+                                          "/:locale/:collection/:path/"
+                                        end
     end
 
     # Extract options for this collection from the site configuration.

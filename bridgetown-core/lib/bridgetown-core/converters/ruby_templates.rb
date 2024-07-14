@@ -61,6 +61,7 @@ module Bridgetown
     class RubyTemplates < Converter
       priority :highest
       input :rb
+      template_engine :ruby
 
       def convert(content, convertible)
         rb_view = Bridgetown::PureRubyView.new(convertible)

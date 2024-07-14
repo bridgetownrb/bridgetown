@@ -8,7 +8,6 @@ module Bridgetown
       include Bridgetown::RodaCallable
       include Bridgetown::Publishable
       include Bridgetown::LayoutPlaceable
-      include Bridgetown::LiquidRenderable
       include Bridgetown::Localizable
 
       # @return [Destination]

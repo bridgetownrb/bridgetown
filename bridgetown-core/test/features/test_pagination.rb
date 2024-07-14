@@ -24,7 +24,7 @@ class TestPagination < BridgetownFeatureTest
       should "paginate with #{example[:num]} posts per page" do
         create_configuration pagination: { enabled: true, per_page: example[:num] }
 
-        create_page "index.html", "{{ paginator.resources.size }} {{ paginator.resources[0].title }}", pagination: { collection: "posts" }
+        create_page "index.liquid", "{{ paginator.resources.size }} {{ paginator.resources[0].title }}", pagination: { collection: "posts" }
 
         run_bridgetown "build"
 
@@ -45,7 +45,7 @@ class TestPagination < BridgetownFeatureTest
                              permalink: "/blog/:year/:month/:day/:title"
 
         create_directory "blog"
-        create_page "blog/index.html", "{{ paginator.resources.size }}", pagination: { collection: "posts" }
+        create_page "blog/index.liquid", "{{ paginator.resources.size }}", pagination: { collection: "posts" }
 
         run_bridgetown "build"
 
@@ -74,7 +74,7 @@ class TestPagination < BridgetownFeatureTest
       should "paginate #{example[:num]} posts per page with tags" do
         create_configuration pagination: { enabled: true, per_page: example[:num] }
 
-        create_page "index.html", "{{ paginator.resources.size }} {{ paginator.resources[0].title }}", pagination: { collection: "posts", tag: "scary" }
+        create_page "index.liquid", "{{ paginator.resources.size }} {{ paginator.resources[0].title }}", pagination: { collection: "posts", tag: "scary" }
 
         run_bridgetown "build"
 

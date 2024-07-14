@@ -124,8 +124,7 @@ module Bridgetown
     # Determines whether a given file has
     #
     # @return [Boolean] if the YAML front matter is present.
-    # rubocop: disable Naming/PredicateName
-    def has_yaml_header?(file)
+    def has_yaml_header?(file) # rubocop: disable Naming/PredicateName
       Bridgetown::Deprecator.deprecation_message(
         "Bridgetown::Utils.has_yaml_header? is deprecated, use " \
         "Bridgetown::FrontMatter::Loaders::YAML.header? instead"
@@ -133,23 +132,13 @@ module Bridgetown
       FrontMatter::Loaders::YAML.header?(file)
     end
 
-    def has_rbfm_header?(file)
+    def has_rbfm_header?(file) # rubocop: disable Naming/PredicateName
       Bridgetown::Deprecator.deprecation_message(
         "Bridgetown::Utils.has_rbfm_header? is deprecated, use " \
         "Bridgetown::FrontMatter::Loaders::Ruby.header? instead"
       )
       FrontMatter::Loaders::Ruby.header?(file)
     end
-
-    # Determine whether the given content string contains Liquid Tags or Vaiables
-    #
-    # @return [Boolean] if the string contains sequences of `{%` or `{{`
-    def has_liquid_construct?(content)
-      return false if content.nil? || content.empty?
-
-      content.include?("{%") || content.include?("{{")
-    end
-    # rubocop: enable Naming/PredicateName
 
     # Slugify a filename or title.
     #

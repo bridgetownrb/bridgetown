@@ -30,7 +30,7 @@ module Bridgetown
     private
 
     def converters
-      # A private method calling another private method. Hmm.
+      # TODO: a private method calling another private method. Hmm.
       document_converters = context.is_a?(Bridgetown::Resource::Base) ?
                               context.transformer.send(:converters) :
                               context.send(:converters)

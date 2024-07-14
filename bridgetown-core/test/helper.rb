@@ -130,7 +130,6 @@ class BridgetownUnitTest < Minitest::Test
   end
 
   def resources_site(overrides = {})
-    overrides["content_engine"] = "resource"
     overrides["available_locales"] ||= %w[en fr]
     overrides["plugins_dir"] = resources_root_dir("plugins")
     new_config = site_configuration(overrides)

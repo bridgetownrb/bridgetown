@@ -12,6 +12,7 @@ class Bridgetown::Site
       configure_component_paths
       configure_file_read_opts
 
+      # TODO: see if we can just get rid of this. It's only used by GeneratedPage
       self.permalink_style = (config["permalink"] || "pretty").to_sym
     end
 
