@@ -136,6 +136,12 @@ class Roda
             "<p>ERROR: cannot find <code>index.html</code> in the output folder.</p>"
           end
         end
+
+        # This is useful if you're passing the Roda app instance around and want to
+        # get at `request` / `response` easily as local variables
+        def deconstruct_keys(*)
+          { request:, response: }
+        end
       end
 
       Roda::RodaRequest.alias_method :_previous_roda_cookies, :cookies

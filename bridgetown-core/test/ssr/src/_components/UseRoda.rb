@@ -12,10 +12,10 @@ class UseRoda < Bridgetown::Component
   end
 
   def call(app)
-    app.request => r
-    @testing = r.env["rack.test"]
+    app => { request:, response: }
+    @testing = request.env["rack.test"]
 
-    app.response["Content-Type"] = "application/rss+xml"
+    response["Content-Type"] = "application/rss+xml"
 
     render_in(app)
   end
