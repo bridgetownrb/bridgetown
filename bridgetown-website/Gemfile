@@ -12,7 +12,7 @@ gem "bridgetown-paginate", path: "../bridgetown-paginate"
 gem "puma", "< 7"
 
 gem "bridgetown-feed", "~> 3"
-gem "bridgetown-quick-search", "~> 2.0"
+gem "bridgetown-quick-search", "~> 3.0"
 gem "bridgetown-seo-tag", "~> 6.0"
 gem "bridgetown-svg-inliner", "~> 2.0"
 

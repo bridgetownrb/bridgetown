@@ -29,7 +29,7 @@ end
 import "./turbo_transitions.js.rb"
 
 async def import_additional_dependencies()
-  await import("bridgetown-quick-search/dist")
+  await import("bridgetown-quick-search")
 
   document.query_selector("bridgetown-search-form > input").add_event_listener :keydown do |event|
     if event.key_code == 13
