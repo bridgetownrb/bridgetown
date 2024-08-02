@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Default to using ERB templates, the config YAML is now optional [#888](https://github.com/bridgetownrb/bridgetown/pull/888) ([@jaredcwhite](https://github.com/jaredcwhite))
 - Use bundler's binstub for bt shortcut [#887](https://github.com/bridgetownrb/bridgetown/pull/887) ([@erickguan](https://github.com/erickguan))
 - Significant refactor of the Routes plugin [#882](https://github.com/bridgetownrb/bridgetown/pull/882) ([@jaredcwhite](https://github.com/jaredcwhite))
-- Initial batch of swapping Active Support extensions for in-house alternatives [#881](https://github.com/bridgetownrb/bridgetown/pull/881) ([@jaredcwhite](https://github.com/jaredcwhite)) & ([ayushn21](https://github.com/ayushn21))
+- Initial batch of swapping Active Support extensions for in-house alternatives [#881](https://github.com/bridgetownrb/bridgetown/pull/881) ([@jaredcwhite](https://github.com/jaredcwhite)) & ([@ayushn21](https://github.com/ayushn21))
 - Refactor start command to use Rackup instead of Puma [#875](https://github.com/bridgetownrb/bridgetown/pull/875) ([@ayushn21](https://github.com/ayushn21))
 - Use rack 3 proc responses for SSE live reload [#858](https://github.com/bridgetownrb/bridgetown/pull/858) ([@ayushn21](https://github.com/ayushn21))
 - Refactor front matter handling and extract behavior into loaders [#778](https://github.com/bridgetownrb/bridgetown/pull/778) ([@michaelherold](https://github.com/michaelherold)) 
