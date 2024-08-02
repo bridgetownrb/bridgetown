@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [2.0.0] - 2024-08-02
+
+### Added
+
+- Make it easy for Roda routes to render "callable" objects (#892)
+- Simplify access to data syntax and Roda rendering (#890)
+- Fast refresh feature in development (#872)
+- Models and Resources can now be rendered by Roda automatically (#845)
+- Support pipe in Serbea 2.0, add new pure Ruby template syntax via Streamlined (#817)
+
+### Changed
+
+- Default to using ERB templates, the config YAML is now optional (#888)
+- Use bundler's binstub for bt shortcut (#887)
+- Significant refactor of the Routes plugin (#882)
+- Initial batch of swapping Active Support extensions for in-house alternatives (#881)
+- Refactor start command to use Rackup instead of Puma (#875)
+- Use rack 3 proc responses for SSE live reload (#858)
+- Refactor front matter handling and extract behavior into loaders (#778)
+
+### Removed
+
+- Remove the legacy URL and UrlDrop classes (#891)
+- Remove a variety of deprecated code paths for v2 (#873)
+- Remove webpack integration from Bridgetown (#868)
+- Remove Cucumber and consolidate around Minitest for integrated feature testing
+
+- Docs by ???
+
 ## [1.3.4] - 2024-03-28
 
 - Fix: Lock Liquid to version < 5.5 (unresolved data leakage and generation errors otherwise)

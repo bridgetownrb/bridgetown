@@ -48,10 +48,10 @@ class="flag">flags</code> (specified on the command-line) that control them.
       <td>
         <p class="name"><strong>Template Engine</strong></p>
         <p class="description">Change the <a href="/docs/template-engines">template engine</a> Bridgetown uses by default to process content files.</p>
-        <p class="default">Default: <code class="default">liquid</code></p>
+        <p class="default">Default: <code class="default">erb</code></p>
       </td>
       <td class="has-text-centered">
-        <p><code class="option">template_engine: ENGINE (erb, serbea, slim, haml, etc.)</code></p>
+        <p><code class="option">template_engine: ENGINE (erb, serbea, liquid, etc.)</code></p>
       </td>
     </tr>
     <tr class="setting">
@@ -61,6 +61,16 @@ class="flag">flags</code> (specified on the command-line) that control them.
       </td>
       <td class="has-text-centered">
         <p><code class="option">permalink: STYLE or TEMPLATE</code></p>
+      </td>
+    </tr>
+    <tr class="setting">
+      <td>
+        <p class="name"><strong>Fast Refresh</strong></p>
+        <p class="description">Control the behavior of Bridgetown's live reload functionality in development.</p>
+        <p class="default">Default: <code class="default">true</code></p>
+      </td>
+      <td class="has-text-centered">
+        <p><code class="option">fast_refresh: BOOL</code></p>
       </td>
     </tr>
     <tr class="setting">

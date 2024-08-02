@@ -6,6 +6,71 @@ back_to: installation
 order: 0
 ---
 
+Ready to try bringing your project up to the latest version? Here are some notes to help you get going. BTW, if you have a really old site, you may want to try incrementally upgrading versions rather than, say, go from 1.0 to 2.0 in one session.
+
+We’ve have a [Technical Help board](https://community.bridgetown.pub/c/technicalhelp) on our **Community** site, so if you get totally suck, folks can give you a leg up! (Access to the problematic repo in question is almost always a given in order to troubleshoot, so if your code needs to remain private, please create a failing example we can access on GitHub.) There's also an **upgrade-help** channel in our [Discord chat](https://discord.gg/4E6hktQGz4) (though it's harder to include code examples and links there).
+
+{{ toc }}
+
+## Upgrading to Bridgetown 2.0 (Beta)
+
+The first thing to know is that there are new minimum versions of both Ruby and Node for the v2 release cycle. In general, we try to support the previous two significant releases of these runtimes in addition to the current ones (aka Ruby 3.3 and Node 22) with each major version increase. So you will need to use a minimum of:
+
+* Ruby 3.1.4 (⚠️ there's a bug in earlier versions of Ruby 3.1 which will prevent Bridgetown to run)
+* Node 20
+
+Sometimes that's as simple as changing your version dotfiles (for example `.ruby-version` and `.nvmrc`). We do recommend switching to the latest versions (Ruby 3.3 and Node 22 as of the time of this writing) if possible.
+
+To upgrade to Bridgetown 2.0, edit your `Gemfile` to update the version numbers in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem to `2.0.0.beta1` and then run `bundle`.
+
+We also recommend you run `bin/bridgetown esbuild update` so you get the latest default esbuild configuration Bridgetown provides, and you may need to update your `esbuild` version in `package.json` as well.
+
+### Switching from Yarn to NPM 📦
+
+Bridgetown uses NPM now by default, rather than Yarn, for frontend package managing. You may continue to use Yarn on your existing projects, but if you'd like to switch to NPM, you can simply delete your `yarn.lock` file, run `npm install` (shorthand: `npm i`), and check in `package-lock.json` instead. You can also use [pnpm](https://pnpm.io) if you prefer. Bridgetown is now compatible with all three package managers.
+
+### Specifying Liquid (if necessary) 💧
+
+The default template engine for new Bridgetown sites is ERB, with Liquid being optional. If you're upgrading a site that expects Liquid to be the default template engine, you will need to add  `template_engine :liquid` to your `config/initializers.rb` file (or `template_engine: liquid` to `bridgetown.config.yml`). If you don't even have a `config/initializers.rb` file in your project yet, see the below section under **Upgrading to Bridgetown 1.2**.
+
+### Fixing `webpack_path` bug 🪲
+
+Bridgetown unfortunately used to ship with templates which referrenced `webpack_path` in Liquid or Ruby-based templates, even when using esbuild. That helper is no longer available in Bridgetown 2.0, as we've removed support for Webpack entirely.
+
+You will need to do a search & replace for all uses of `webpack_path` and change them to `asset_path`. This is a one-time fix, and then you'll be good to go for the future or even if you still need to run code on an earlier version of Bridgetown.
+
+### Crashing Related to Roda 💥
+
+If you encounter a weird crash which contains `uninitialized constant Bridgetown::Rack::Roda` in the error log, you will need to update the syntax of your `server/roda_app.rb` file so that it's a direct subclass of `Roda` and configures the `bridgetown_server` plugin. Here's a basic version of that file:
+
+```rb
+class RodaApp < Roda
+  plugin :bridgetown_server
+
+  # Some Roda configuration is handled in the `config/initializers.rb` file.
+  # But you can also add additional Roda configuration here if needed.
+
+  route do |r|
+    # Load Roda routes in server/routes (and src/_routes via `bridgetown-routes`)
+    r.bridgetown
+  end
+end
+```
+
+### Supporting Active Support Support 😏
+
+Bridgetown v2 has removed a number of dependencies in the codebase on the Active Support gem (provided by the Rails framework). If that ends up causing problems with your codebase, you may need to require Active Support manually (and even Action View) in your `config/initializers.rb` file. [Here's a thread on GitHub](https://github.com/bridgetownrb/bridgetown/pull/881#issuecomment-2228693932) referencing this situation.
+
+### Caveats with Fast Refresh in Development ⏩
+
+Bridgetown v2 comes with a "fast refresh" feature by default. This rebuilds only files needed to display updated content in source files, rather than the entire website from scratch. However, certain features aren't yet compatible with fast refresh—most notabily, **i18n**. If you're using multiple locales in your project, you will likely want to disable fast refresh so you don't end up with broken pages/links by setting `fast_refresh` to `false` in your config.
+
+### Quick Search and Other Plugins 🔍
+
+You will need to update to the latest v3 of the [Quick Search plugin](https://github.com/bridgetownrb/bridgetown-quick-search) if you use that on your site. You may also want to double-check other Bridgetown plugins you use and make sure you're on the latest version.
+
+----
+
 ## Upgrading to Bridgetown 1.2
 
 Bridgetown 1.2 brings with it a whole new initialization system along with a Ruby-based configuration format. Your `bridgetown.config.yml` file will continue to work, but over time you will likely want to migrate a good portion of your configuration over to the new format (and maybe even delete the YAML file).
@@ -120,4 +185,3 @@ The other major change you’ll need to work on in your project is switching you
 The live reloading mechanism in v1.0 is no longer injected automatically into your HTML layout, so you'll need to add `{%% live_reload_dev_js %}` (Liquid) or `<%= live_reload_dev_js %>` (ERB) to your HTML head in order to get live reload working. Please make sure you've added `BRIDGETOWN_ENV=production` as an environment variable to your production deployment configuration so live reload requests won't be triggered on your public website. 
 {% end %}
 
-We’ve added an **upgrade-help** channel in our [Discord chat](https://discord.gg/4E6hktQGz4) so if you get totally suck, the community can give you a leg up! (Access to the problematic repo in question is almost always a given in order to troubleshoot, so if your code needs to remain private, please create a failing example we can access on GitHub.)
