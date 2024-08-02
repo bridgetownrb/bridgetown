@@ -11,30 +11,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Make it easy for Roda routes to render "callable" objects (#892)
-- Simplify access to data syntax and Roda rendering (#890)
-- Fast refresh feature in development (#872)
-- Models and Resources can now be rendered by Roda automatically (#845)
-- Support pipe in Serbea 2.0, add new pure Ruby template syntax via Streamlined (#817)
+- Make it easy for Roda routes to render "callable" objects [#892](https://github.com/bridgetownrb/bridgetown/pull/892) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Simplify access to data syntax and Roda rendering [#890](https://github.com/bridgetownrb/bridgetown/pull/890) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Fast refresh feature in development [#872](https://github.com/bridgetownrb/bridgetown/pull/872) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Models and Resources can now be rendered by Roda automatically [#845](https://github.com/bridgetownrb/bridgetown/pull/845) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Support pipe in Serbea 2.0, add new pure Ruby template syntax via Streamlined [#817](https://github.com/bridgetownrb/bridgetown/pull/817) ([@jaredcwhite](https://github.com/jaredcwhite))
 
 ### Changed
 
-- Default to using ERB templates, the config YAML is now optional (#888)
-- Use bundler's binstub for bt shortcut (#887)
-- Significant refactor of the Routes plugin (#882)
-- Initial batch of swapping Active Support extensions for in-house alternatives (#881)
-- Refactor start command to use Rackup instead of Puma (#875)
-- Use rack 3 proc responses for SSE live reload (#858)
-- Refactor front matter handling and extract behavior into loaders (#778)
+- Default to using ERB templates, the config YAML is now optional [#888](https://github.com/bridgetownrb/bridgetown/pull/888) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Use bundler's binstub for bt shortcut [#887](https://github.com/bridgetownrb/bridgetown/pull/887) ([@erickguan](https://github.com/erickguan))
+- Significant refactor of the Routes plugin [#882](https://github.com/bridgetownrb/bridgetown/pull/882) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Initial batch of swapping Active Support extensions for in-house alternatives [#881](https://github.com/bridgetownrb/bridgetown/pull/881) ([@jaredcwhite](https://github.com/jaredcwhite)) & ([ayushn21](https://github.com/ayushn21))
+- Refactor start command to use Rackup instead of Puma [#875](https://github.com/bridgetownrb/bridgetown/pull/875) ([@ayushn21](https://github.com/ayushn21))
+- Use rack 3 proc responses for SSE live reload [#858](https://github.com/bridgetownrb/bridgetown/pull/858) ([@ayushn21](https://github.com/ayushn21))
+- Refactor front matter handling and extract behavior into loaders [#778](https://github.com/bridgetownrb/bridgetown/pull/778) ([@michaelherold](https://github.com/michaelherold)) 
 
 ### Removed
 
-- Remove the legacy URL and UrlDrop classes (#891)
-- Remove a variety of deprecated code paths for v2 (#873)
-- Remove webpack integration from Bridgetown (#868)
+- Remove the legacy URL and UrlDrop classes [#891](https://github.com/bridgetownrb/bridgetown/pull/891) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Remove a variety of deprecated code paths for v2 [#873](https://github.com/bridgetownrb/bridgetown/pull/873) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Remove webpack integration from Bridgetown [#868](https://github.com/bridgetownrb/bridgetown/pull/868) ([@jaredcwhite](https://github.com/jaredcwhite))
 - Remove Cucumber and consolidate around Minitest for integrated feature testing
 
-- Docs by ???
+- Thanks to @soulcutter for docs improvements!
 
 ## [1.3.4] - 2024-03-28
 
