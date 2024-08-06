@@ -24,7 +24,7 @@ Sometimes that's as simple as changing your version dotfiles (for example `.ruby
 To upgrade to Bridgetown 2.0, edit your `Gemfile` to update the version numbers in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem to `2.0.0.beta1` and then run `bundle`.
 
 {%@ Note type: :warning do %}
-We've seen an issue where Bundler won't update a project due to a crash related to the beta version of the new `bridgetown-foundation` gem. Try running `gem install bridgetown-core -v 2.0.0.beta1` first, before running `bundle` or `bundle update`.
+We've seen an issue where Bundler won't update a project due to a crash related to the beta version of the new `bridgetown-foundation` gem. Try running `gem install bridgetown-foundation:2.0.0.beta1 bridgetown-core:2.0.0.beta1` first, before running `bundle` or `bundle update`.
 {% end %}
 
 We also recommend you run `bin/bridgetown esbuild update` so you get the latest default esbuild configuration Bridgetown provides, and you may need to update your `esbuild` version in `package.json` as well.
