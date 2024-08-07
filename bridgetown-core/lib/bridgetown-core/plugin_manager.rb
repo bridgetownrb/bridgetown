@@ -27,6 +27,7 @@ module Bridgetown
 
         require_relative "utils/initializers"
         load_determined_bundler_environment
+        require_plugin_features
 
         ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] = "true"
         true
@@ -49,6 +50,16 @@ module Bridgetown
         # Note: the default Bundler config will set up all gem groups,
         #   see: https://bundler.io/guides/groups.html
         Bundler.setup(:default, Bridgetown.env)
+      end
+    end
+
+    def self.require_plugin_features
+      bundler_specs.select do |loaded_gem|
+        loaded_gem.to_spec.metadata["bridgetown_features"] == "true"
+      end.each do |plugin_gem|
+        Bridgetown::Utils::RequireGems.require_with_graceful_fail(
+          "bridgetown/features/#{plugin_gem.name}"
+        )
       end
     end
 
