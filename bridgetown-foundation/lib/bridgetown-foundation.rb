@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "bridgetown/foundation/version"
+require "bridgetown/version"
 require "hash_with_dot_access"
 require "inclusive"
 require "zeitwerk"

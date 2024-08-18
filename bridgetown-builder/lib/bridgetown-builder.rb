@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "bridgetown-core"
-require "bridgetown-core/version"
 
 module Bridgetown
   module Builders

@@ -8,7 +8,6 @@
 #################################################
 
 require "bridgetown-core"
-require "bridgetown-core/version"
 
 module Bridgetown
   module Paginate

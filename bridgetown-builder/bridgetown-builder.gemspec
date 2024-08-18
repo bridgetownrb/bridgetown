@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../bridgetown-core/lib/bridgetown-core/version"
+require_relative "../bridgetown-foundation/lib/bridgetown/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "bridgetown-builder"

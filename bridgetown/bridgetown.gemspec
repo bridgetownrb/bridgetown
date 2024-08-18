@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../bridgetown-core/lib/bridgetown-core/version"
+require_relative "../bridgetown-foundation/lib/bridgetown/version"
 
 Gem::Specification.new do |s|
   s.name          = "bridgetown"
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency("bridgetown-builder", Bridgetown::VERSION)
   s.add_dependency("bridgetown-core", Bridgetown::VERSION)
+  s.add_dependency("bridgetown-foundation", Bridgetown::VERSION)
   s.add_dependency("bridgetown-paginate", Bridgetown::VERSION)
   s.metadata["rubygems_mfa_required"] = "true"
 end
