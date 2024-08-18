@@ -52,10 +52,17 @@ module Bridgetown
       resources.group_by(&:relative_url).transform_values(&:first)
     end
 
-    # Iterate over Resources, support Enumerable
+    # Iterate over Resources by delegating to `resources.each` (supports Enumerable)
     def each(...) = resources.each(...)
 
+    # Delgates to `resources.last`
+    def last(...) = resources.last(...)
+
+    # Delgates to `resources.deconstruct`
     def deconstruct = resources.deconstruct
+
+    # Delgates to `resources[]`
+    def [](...) = resources.[](...)
 
     # Fetch the static files in this collection.
     # Defaults to an empty array if no static files have been read in.
