@@ -6,7 +6,7 @@ class TestString < Minitest::Test
   using Bridgetown::Refinements
 
   def test_that_it_has_a_version_number
-    refute_nil ::Bridgetown::Foundation::VERSION
+    refute_nil ::Bridgetown::VERSION
   end
 
   def test_string_indentation
