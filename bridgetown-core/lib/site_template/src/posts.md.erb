@@ -4,24 +4,24 @@ title: Posts
 ---
 
 <ul>
-<%- if options["templates"] == "erb" -%>
-  <%% collections.posts.resources.each do |post| %>
-    <li>
-      <a href="<%%= post.relative_url %>"><%%= post.data.title %></a>
-    </li>
-  <%% end %>
-<%- elsif options["templates"] == "serbea" -%>
-  {% collections.posts.resources.each do |post| %}
-    <li>
-      <a href="{{ post.relative_url }}">{{ post.data.title }}</a>
-    </li>
-  {% end %}
-<%- else -%>
+<%- if options["templates"] == "liquid" -%>
   {% for post in collections.posts.resources %}
     <li>
       <a href="{{ post.relative_url }}">{{ post.data.title }}</a>
     </li>
   {% endfor %}
+<%- elsif options["templates"] == "serbea" -%>
+  {% collections.posts.each do |post| %}
+    <li>
+      <a href="{{ post.relative_url }}">{{ post.data.title }}</a>
+    </li>
+  {% end %}
+<%- else -%>
+  <%% collections.posts.each do |post| %>
+    <li>
+      <a href="<%%= post.relative_url %>"><%%= post.data.title %></a>
+    </li>
+  <%% end %>
 <%- end -%>
 </ul>
 

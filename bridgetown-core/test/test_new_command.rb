@@ -105,9 +105,9 @@ class TestNewCommand < BridgetownUnitTest
       assert_includes output, success_message
     end
 
-    should "copy the static files for postcss configuration in site template to the new directory" do
+    should "copy the static files for erb templates config in site template to the new directory" do
       postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
-      postcss_template_files = static_template_files + postcss_config_files + template_config_files + erb_config_files + esbuild_config_files
+      generated_template_files = static_template_files + postcss_config_files + template_config_files + erb_config_files + esbuild_config_files
 
       capture_output do
         Bridgetown::Commands::Base.start(argumentize(@args))
@@ -117,22 +117,22 @@ class TestNewCommand < BridgetownUnitTest
         f.end_with?("welcome-to-bridgetown.md")
       end
 
-      assert_same_elements postcss_template_files, new_site_files
+      assert_same_elements generated_template_files, new_site_files
     end
 
-    should "copy the static files for erb templates config to the new directory" do
+    should "copy the static files for liquid templates config to the new directory" do
       postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
-      postcss_template_files = static_template_files + postcss_config_files + template_config_files + erb_config_files + esbuild_config_files
+      generated_template_files = static_template_files + postcss_config_files + template_config_files + liquid_config_files + esbuild_config_files
 
       capture_output do
-        Bridgetown::Commands::Base.start(argumentize("#{@args} -t erb"))
+        Bridgetown::Commands::Base.start(argumentize("#{@args} -t liquid"))
       end
 
       new_site_files = dir_contents(@full_path).reject do |f|
         f.end_with?("welcome-to-bridgetown.md")
       end
 
-      assert_same_elements postcss_template_files, new_site_files
+      assert_same_elements generated_template_files, new_site_files
     end
 
     should "process any ERB files" do
@@ -157,6 +157,7 @@ class TestNewCommand < BridgetownUnitTest
       end
 
       assert_same_elements erb_template_files, new_site_files
+      assert_match(%r!<% collections\.posts\.each do |post| %>!, File.read("#{@full_path_source}/posts.md"))
     end
 
     should "force created folder" do
