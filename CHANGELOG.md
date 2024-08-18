@@ -7,7 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-## [2.0.0] - 2024-08-02
+## [2.0.0.beta2] - 2024-08-18
+
+- Fixed: Beta-related install issues with Bundler (by making `bridgetown-foundation` a direct dependency of `bridgetown`, and relocating versioning responsibility to the foundation gem)
+- Fixed: new command still outputs Liquid code by default in posts.md
+- Add additional Array features to Collection directly (`.last`, `[]`)
+- Allow plugin gems to provide "features" which are automatically required [#900](https://github.com/bridgetownrb/bridgetown/pull/900) ([@jaredcwhite](https://github.com/jaredcwhite))
+
+## [2.0.0.beta1] - 2024-08-02
 
 ### Added
 

@@ -39,7 +39,7 @@ We would like to avoid all ethical and legal challenges that result from using A
 
 If you are the current maintainer of this gem:
 
-1. Bump gem version in `bridgetown-core/lib/bridgetown-core/version.rb`. Try to adhere to SemVer.
+1. Bump gem version in `bridgetown-foundation/lib/bridgetown/version.rb`. Try to adhere to SemVer.
 1. Add version heading/entries to `CHANGELOG.md`.
 1. Make sure your local dependencies are up to date: `bundle`
 1. Ensure that tests pass and build/release all monorepo gems: `bundle exec rake release_all`
