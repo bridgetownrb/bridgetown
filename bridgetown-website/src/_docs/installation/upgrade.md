@@ -21,11 +21,7 @@ The first thing to know is that there are new minimum versions of both Ruby and 
 
 Sometimes that's as simple as changing your version dotfiles (for example `.ruby-version` and `.nvmrc`). We do recommend switching to the latest versions (Ruby 3.3 and Node 22 as of the time of this writing) if possible.
 
-To upgrade to Bridgetown 2.0, edit your `Gemfile` to update the version numbers in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem to `2.0.0.beta1` and then run `bundle`.
-
-{%@ Note type: :warning do %}
-We've seen an issue where Bundler won't update a project due to a crash related to the beta version of the new `bridgetown-foundation` gem. Try running `gem install bridgetown-foundation:2.0.0.beta1 bridgetown-core:2.0.0.beta1` first, before running `bundle` or `bundle update`.
-{% end %}
+To upgrade to Bridgetown 2.0, edit your `Gemfile` to update the version numbers in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem to `2.0.0.beta2` and then run `bundle update bridgetown`.
 
 We also recommend you run `bin/bridgetown esbuild update` so you get the latest default esbuild configuration Bridgetown provides, and you may need to update your `esbuild` version in `package.json` as well.
 
