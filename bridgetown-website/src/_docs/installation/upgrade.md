@@ -41,7 +41,9 @@ You will need to do a search & replace for all uses of `webpack_path` and change
 
 ### Crashing Related to Roda 💥
 
-If you encounter a weird crash which contains `uninitialized constant Bridgetown::Rack::Roda` in the error log, you will need to update the syntax of your `server/roda_app.rb` file so that it's a direct subclass of `Roda` and configures the `bridgetown_server` plugin. Here's a basic version of that file:
+If you encounter a weird crash which contains `uninitialized constant Bridgetown::Rack::Roda` in the error log, you will need to update the syntax of your `server/roda_app.rb` file so that it's a direct subclass of `Roda` and configures the `bridgetown_server` plugin. 
+
+Here's a basic version of that file:
 
 ```rb
 class RodaApp < Roda
@@ -56,6 +58,34 @@ class RodaApp < Roda
   end
 end
 ```
+
+Additionally, you may hit this issue with the server and the error will look something like this:
+
+```
+➜  docs git:(konnorrogers/major-overhaul) ✗ bin/bridgetown start
+[Bridgetown]           Starting: Bridgetown v2.0.0.beta2 (codename "(TBD!)")
+[Bridgetown]
+[Bridgetown]    Booting Puma at: http://0.0.0.0:4000
+[Bridgetown]
+/Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/3.3.0/bundled_gems.rb:74:in `set_encoding': Interrupt
+        from /Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/3.3.0/bundled_gems.rb:74:in `require'
+        [...]
+        from /Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/gems/3.3.0/gems/bridgetown-core-2.0.0.beta2/bin/bridgetown:30:in `<top (required)>'
+        from bin/bridgetown:27:in `load'
+        from bin/bridgetown:27:in `<main>'
+[Bridgetown] Stopping auxiliary processes...
+[Bridgetown]   Exception raised: Errno::ENOENT
+[Bridgetown] No such file or directory @ rb_sysopen - /Users/konnor/projects/oss/doxxing-time-layouts/rhino-editor/docs/tmp/pids/aux.pid
+[Bridgetown]                  1: /Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/gems/3.3.0/gems/bridgetown-foundation-2.0.0.beta2/lib/bridgetown/foundation/packages/pid_tracker.rb:15:in `readlines'
+[Bridgetown]                  2: /Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/gems/3.3.0/gems/bridgetown-foundation-2.0.0.beta2/lib/bridgetown/foundation/packages/pid_tracker.rb:15:in `read_pidfile'
+[Bridgetown]                  3: /Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/gems/3.3.0/gems/bridgetown-core-2.0.0.beta2/lib/bridgetown-core/utils/aux.rb:51:in `kill_processes'
+[Bridgetown]                  4: /Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/gems/3.3.0/gems/bridgetown-core-2.0.0.beta2/lib/bridgetown-core/commands/start.rb:104:in `block (2 levels) in start'
+[Bridgetown]                  5: /Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/gems/3.3.0/gems/bridgetown-core-2.0.0.beta2/lib/bridgetown-core/commands/start.rb:11:in `ensure in start'
+[Bridgetown]          Backtrace: Use the --trace option for complete information.
+```
+
+In which case, refer to the above fix for configuring your Roda server.
+
 
 ### Supporting Active Support Support 😏
 
