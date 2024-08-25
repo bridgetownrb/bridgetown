@@ -41,9 +41,7 @@ You will need to do a search & replace for all uses of `webpack_path` and change
 
 ### Crashing Related to Roda 💥
 
-If you encounter a weird crash which contains `uninitialized constant Bridgetown::Rack::Roda` in the error log, you will need to update the syntax of your `server/roda_app.rb` file so that it's a direct subclass of `Roda` and configures the `bridgetown_server` plugin. 
-
-Here's a basic version of that file:
+If you encounter a weird crash which contains `uninitialized constant Bridgetown::Rack::Roda` in the error log, you will need to update the syntax of your `server/roda_app.rb` file so that it's a direct subclass of `Roda` and configures the `bridgetown_server` plugin. Here's a basic version of that file:
 
 ```rb
 class RodaApp < Roda
