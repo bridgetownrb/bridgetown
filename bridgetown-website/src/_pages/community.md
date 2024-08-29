@@ -72,6 +72,7 @@ There's also a growing number of companies which provide commercial support for 
 * [APAC Agencies](https://www.apacagencies.com){:target="_blank"}
 * [Emailable](https://emailable.com){:target="_blank"}
 * [Best Financial Planners in Canada](https://bestfinancialplannerscanada.com){:target="_blank"}
+* [Kaigi on Rails 2024](https://kaigionrails.org/2024/){:target="_blank"}
 
 In addition, members of the Bridgetown Core Team have appeared in podcasts and presentations across the web promoting Bridgetown! Check it out:
 
