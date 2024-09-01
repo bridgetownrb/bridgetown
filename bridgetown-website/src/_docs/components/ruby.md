@@ -129,7 +129,7 @@ Bridgetown components are provided access to a `content` variable. It's simply t
 </layout-box>
 ```
 
-## Slotted Content
+### Slotted Content
 
 New in Bridgetown 1.2, you can now provide specific named content from within the calling template to a component. If the `content` variable above could be considered the "default" slot, you'll now learn how to work with named content slots.
 
@@ -201,7 +201,7 @@ end
   Don't let the naming fool you…Bridgetown's slotted content feature is not related to the concept of slots in custom elements and shadow DOM (aka web components). But there are some surface-level similarities. Many view-related frameworks provide some notion of slots (perhaps called something else like content or layout blocks), as it's helpful to be able to render named "child" content within "parent" views.
 <% end %>
 
-### Helpers
+## Helpers
 
 As expected, helpers are available as well just like in standard templates:
 
@@ -230,7 +230,7 @@ class ExternalWidget < Bridgetown::Component
 end
 ```
 
-### Lifecycle
+## Lifecycle
 
 In addition to simply rendering a template for you, `Bridgetown::Component` provides a couple lifecycle hooks:
 
@@ -239,9 +239,9 @@ In addition to simply rendering a template for you, `Bridgetown::Component` prov
 
 ## Sidecar JS/CSS Assets
 
-Some of the components you write will comprise more than pure markup. You may want to affect the styling and behavior of a component as well.
+Some of the components you write will comprise more than pure markup. You may want to affect the styling and behavior of a component as well. For a conceptual overview of this architecture, [read our Components introduction](/docs/components#the-subtle-interplay-of-html-css--javascript).
 
-The easiest way to do that using "vanilla" web APIs is to wrap your component in a custom element. You can then apply CSS directly to that component from a stylesheet, and even add interactivity via JavaScript.
+The easiest way to write frontend component code using "vanilla" web APIs is to wrap your component in a custom element. You can then apply CSS directly to that component from a stylesheet, and even add interactivity via JavaScript.
 
 ==TODO: add HTML/CSS/JS example here==
 
