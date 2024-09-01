@@ -13,17 +13,17 @@ Just as a web page can be thought of as the interconnected product of the three 
 
 **Bridgetown provides three environments for writing components:**
 
-### [Liquid](/docs/components/liquid)
-
-Use the [Liquid template engine](/docs/template-engines/liquid) to write simple components without a lot of custom logic or for maximum compatibility with all template engines. Liquid components are not recommended when complexity is required for frontend logic.
-
 ### [Ruby](/docs/components/ruby)
 
-Use a [Ruby-based template engine](/docs/template-engines/erb-and-beyond) in conjunction with a dedicated Ruby class to facilitate more comprehensive scenarios and take full advantage of Ruby's feature set and object-oriented nature. Bridgetown also supports a compatibility shim for the ViewComponent library, a popular Rails extension created by GitHub.
+Use a [Ruby-based template engine](/docs/template-engines/erb-and-beyond) in conjunction with a dedicated Ruby class to facilitate more comprehensive scenarios and take full advantage of Ruby's feature set and object-oriented nature.
+
+### [Liquid](/docs/components/liquid)
+
+Use the [Liquid template engine](/docs/template-engines/liquid) to write simple components without a lot of custom logic. Liquid components are not recommended when complexity is required for frontend logic.
 
 ### [Lit (Web Components)](/docs/components/lit)
 
-After installing the Lit Renderer plugin, you can write "hybrid" components which support both a backend lifecycle (during SSG & SSR) and a frontend lifecycle (via Hydration). This technique is recommended for components which must support a high degree of interactivity or data timeliness. You can also take full advantage of web component APIs such as the "shadow DOM" for encapsulated styling (meaning your component styles won't "leak out" and accidentally effect other parts of the website).
+After installing the Lit Renderer plugin, you can write "hybrid" components which support both a backend lifecycle (during SSG & SSR) and a frontend lifecycle (via Hydration). This technique is recommended for components which must support a high degree of interactivity or data timelines.
 
 So pick your flavor and dive in, or keep reading for more conceptual overview of Bridgetown's component architecture.
 
