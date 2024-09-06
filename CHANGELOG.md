@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- Memoize resource URLs for major performance gain [#915](https://github.com/bridgetownrb/bridgetown/pull/915) ([@MaxLap](https://github.com/maxlap)) & ([@jaredcwhite](https://github.com/jaredcwhite))
+
 ## [2.0.0.beta2] - 2024-08-18
 
 - Fixed: Beta-related install issues with Bundler (by making `bridgetown-foundation` a direct dependency of `bridgetown`, and relocating versioning responsibility to the foundation gem)
