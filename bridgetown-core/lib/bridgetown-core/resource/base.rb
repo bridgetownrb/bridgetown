@@ -221,12 +221,12 @@ module Bridgetown
 
       # @return [String]
       def absolute_url
-        format_url destination&.absolute_url
+        @absolute_url ||= format_url(destination&.absolute_url)
       end
 
       # @return [String]
       def relative_url
-        format_url destination&.relative_url
+        @relative_url ||= format_url(destination&.relative_url)
       end
 
       # @return [String]
@@ -366,6 +366,7 @@ module Bridgetown
           key == "categories" || key == "tags" || site.taxonomy_types.keys.any?(key)
         end
         model.attributes = model.origin.read
+        @relative_url = @absolute_url = nil # wipe memoizations
         read!
         tax_diff = past_values.any? { |k, v| @data.peek[k] != v }
 
