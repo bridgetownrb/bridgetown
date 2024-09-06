@@ -400,7 +400,7 @@ module Bridgetown
 
     def model_id_from_relative_path(model_relative_path, manifest: nil)
       scheme = manifest ? "plugin" : "repo"
-      id = +"#{scheme}://#{label}.collection/"
+      id = "#{scheme}://#{label}.collection/"
       id += "#{manifest.origin}/" if manifest
       id += Addressable::URI.escape(model_relative_path).gsub("#", "%23")
       id

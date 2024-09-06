@@ -120,7 +120,7 @@ module Bridgetown
       end
 
       # @param resource [Bridgetown::Resource::Base]
-      register_placeholder :name, ->(resource) do
+      register_placeholder :name, ->(resource) do # rubocop:disable Style/SymbolProc
         resource.basename_without_ext
       end
 
