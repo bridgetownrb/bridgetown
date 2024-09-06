@@ -139,12 +139,7 @@ module Bridgetown
           set_date_from_string(data.date)
         end
 
-        if requires_destination?
-          @destination = Destination.new(self)
-          # memoize for performance:
-          @absolute_url = absolute_url
-          @relative_url = relative_url
-        end
+        @destination = Destination.new(self) if requires_destination?
 
         trigger_hooks :post_read
 
@@ -226,12 +221,12 @@ module Bridgetown
 
       # @return [String]
       def absolute_url
-        @absolute_url || format_url(destination&.absolute_url)
+        @absolute_url ||= format_url(destination&.absolute_url)
       end
 
       # @return [String]
       def relative_url
-        @relative_url || format_url(destination&.relative_url)
+        @relative_url ||= format_url(destination&.relative_url)
       end
 
       # @return [String]
