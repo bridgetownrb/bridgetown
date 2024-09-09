@@ -68,9 +68,10 @@ There's also a growing number of companies which provide commercial support for 
 * [Fullstack Ruby](https://www.fullstackruby.dev){:target="_blank"}
 * [fslash42](https://fslash42.com){:target="_blank"}
 * [Helena's Nursery](https://helenas-nursery.com){:target="_blank"}
-* [Open Source KnowledgeBase](https://knowledgebase.redwebtigers.com){:target="_blank"}
+* [Best Financial Planners in India](https://bestfinancialplanners.in){:target="_blank"}
 * [APAC Agencies](https://www.apacagencies.com){:target="_blank"}
 * [Emailable](https://emailable.com){:target="_blank"}
+* [Best Financial Planners in Canada](https://bestfinancialplannerscanada.com){:target="_blank"}
 * [Kaigi on Rails 2024](https://kaigionrails.org/2024/){:target="_blank"}
 
 In addition, members of the Bridgetown Core Team have appeared in podcasts and presentations across the web promoting Bridgetown! Check it out:
