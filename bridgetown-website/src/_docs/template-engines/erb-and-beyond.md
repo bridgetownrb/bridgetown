@@ -1,40 +1,48 @@
 ---
-title: ERB and Beyond
+title: Ruby-Based Template Types
 order: 0
 top_section: Designing Your Site
 category: template-engines
 template_engine: erb
 ---
 
-Bridgetown's implementation language, Ruby, has a rich history of providing [<abbr title="Embedded RuBy">ERB</abbr>](https://docs.ruby-lang.org/en/2.7.0/ERB.html) for templates and view layers across a wide variety of tools and frameworks. Other Ruby-based template languages such as [Haml](https://haml.info), [Slim](http://slim-lang.com), and [Serbea](https://www.serbea.dev) garner enthusiastic usage as well.
-
-Bridgetown makes it easy to add both ERB-based and Serbea-based templates and components to any site. In additional, there are plugins you can easily install for Haml and Slim support. Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process these Ruby templates.
+Bridgetown's implementation language, Ruby, has a rich history of providing "Embedded RuBy" aka ERB templates and view layers across a wide variety of tools and frameworks. In addition to ERB, Bridgetown provides two additional Ruby-based template types: [Serbea](https://www.serbea.dev) (a superset of ERB), and **Streamlined** (which is a form of pure Ruby code).
 
 <%= render Note.new do %>
-  Interested in switching your entire site to use ERB or Serbea by default? [It's possible to do that with just a simple configuration change.](/docs/template-engines#site-wide-configuration)
+  New Bridgetown sites are configured with ERB by default. But you can start off a project with another engine like Serbea or Liquid [with just a simple configuration change](/docs/template-engines#site-wide-configuration). You can also mix 'n' match template types in a single project!
+
+  Note that Streamlined itself can't be specified as a "template engine" because it's not string-based (so you couldn't "embed" Streamlined code in, say, a Markdown file). Streamlined works well as an _augmentation_ to a site configured with either ERB or Serbea.
+<% end %>
+
+<%= render Note.new do %>
+  Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process ERB & Serbea. Plugin authors can leverage Tilt to add support for other template types.
 <% end %>
 
 <%= toc %>
 
-## Usage
+## ERB Basics
 
-For ERB, simply define a page/document with an `.erb` extension, rather than `.html`. You'll still need to add front matter to the top of the file (or at the very least two lines of triple dashes `---`) for the file to get processed. In the Ruby code you embed, you'll be interacting with the underlying Ruby API for Bridgetown objects (aka `Bridgetown::Page`, `Bridgetown::Site`, etc.). Here's an example:
+For ERB, resources are typically saved with an `.erb` extension. Other extensions like `.html` or `.md` will be processed through ERB unless another template engine is configured. To embed Ruby code in your template, use the delimiters `<%% %>` for code blocks and `<%%= %>` for output expressions.
+
+As with all resources, you'll need to add front matter to the top of the file (or at the very least two lines of triple dashes `---`) for the file to get processed. In the Ruby code you embed, you'll be interacting with the underlying Ruby API for Bridgetown objects (aka `Bridgetown::Page`, `Bridgetown::Site`, etc.). Here's an example:
 
 ```eruby
 ---
 title: I'm a page!
 ---
 
-<h1><%%= resource.data.title %></h1>
+<h1><%%= data.title %></h1>
 
 <p>Welcome to <%%= Bridgetown.name.to_s %>!</p>
 
 <footer>Authored by <%%= site.data.authors.first.name %></footer>
 ```
 
-Front matter is accessible via the `data` method on pages, posts, layouts, and other documents. Site config values are accessible via the `site.config` method, and loaded data files via `site.data` as you would expect.
+Front matter is accessible via the `data` method on pages, posts, layouts, and other documents. The resource itself is available via `resource`. Site config values are accessible via the `site.config` method, and loaded data files via `site.data` as you would expect.
 
-In addition to `site`, you can also access the `site_drop` object which will provide similar access to various data and config values similar to the `site` variable in Liquid.
+<%= render Note.new do %>
+  In addition to `site`, you can also access the `site_drop` object which will provide similar access to various data and config values similar to the `site` variable in Liquid.
+<% end %>
 
 If you need to escape an ERB tag (to use it in a code sample for example), use two percent signs:
 
@@ -49,7 +57,7 @@ And my <%%%= "ERB code sample" %>
 You can easily loop through resources in a collection:
 
 ```eruby
-<%% collections.posts.resources.each do |post| %>
+<%% collections.posts.each do |post| %>
   <li><a href="<%%= post.relative_url %>"><%%= post.data.title %></a></li>
 <%% end %>
 ```
@@ -57,28 +65,28 @@ You can easily loop through resources in a collection:
 Or using the [paginator](/docs/content/pagination), along with the `link_to` helper:
 
 ```eruby
-<%% paginator.resources.each do |post| %>
+<%% paginator.each do |post| %>
   <li><%%= link_to post.data.title, post %></li>
 <%% end %>
 ```
 
 ### Serbea
 
-Serbea is a "superset" of ERB which provides the same benefits as ERB but uses curly braces like Liquid `{% %}` or `{{ }}` and adds support for filters and render directives. Use the file extension `.serb`. Here's an example of the above ERB code rewritten in Serbea:
+Serbea is a "superset" of ERB which provides the same benefits as ERB but uses curly braces: `{% %}` or `{{ }}` and adds support for filters and render directives. Use the file extension `.serb`. Here's an example of the above ERB code rewritten in Serbea:
 
 ```serb
-{% collections.posts.resources.each do |post| %}
+{% collections.posts.each do |post| %}
   <li><a href="{{ post.relative_url }}">{{ post.data.title }}</a></li>
 {% end %}
 
 ----
 
-{% paginator.resources.each do |post| %}
+{% paginator.each do |post| %}
   <li>{{ post.data.title | link_to: post }}</li>
 {% end %}
 ```
 
-Notice this is using the Liquid-like filter syntax for `link_to`. You can use this kind of syntax with _any_ helpers available in all Ruby templates, as well as methods on objects themselves. Examples:
+Notice this is using the filter syntax similar to Liquid for `link_to`. You can use this kind of syntax with _any_ helpers available in all Ruby templates, as well as methods on objects themselves. Examples:
 
 ```serb
 {{ resource.data.description | markdownify }}
@@ -117,14 +125,14 @@ For details on HTML output safety, see below (Serbea and ERB differ slightly on 
 
 ## Dot Access Hashes
 
-Data hashes support standard hash key access, but most of the time you can use "dot access" instead for a more familar look. For example:
+Data hashes support standard hash key access, but most of the time you can use "dot access" instead for a more familiar look. For example:
 
 ```eruby
 <%%= post.data.title %> (but <%%= post.data[:title] %> or <%%= post.data["title"] %> also work)
 
 <%%= resource.data.author %>
 
-<%%= site.data.authors.lakshmi.twitter.handle %>
+<%%= site.data.authors.lakshmi.mastodon.handle %>
 
 <%% # You can freely mix hash access and dot access: %>
 
@@ -145,7 +153,7 @@ To include a partial in your ERB template, add a `_partials` folder to your sour
 title: I'm a page!
 ---
 
-<h1><%%= resource.data.title %></h1>
+<h1><%%= data.title %></h1>
 
 <p>Welcome to <%%= Bridgetown.name %>!</p>
 
@@ -171,7 +179,7 @@ Partials also support capture blocks, which can then be referenced via the `cont
 
 ## Rendering Ruby Components
 
-For better encapsulation and reuse of Ruby-based templates as part of a "design system" for your site, we encourage you to write Ruby components using either `Bridgetown::Component` or GitHub's ViewComponent library. [Check out the documentation and code examples here](/docs/components/ruby).
+For better encapsulation and reuse of Ruby-based templates as part of a "design system" for your site, we encourage you to write Ruby components using `Bridgetown::Component`. [Check out the documentation and code examples here](/docs/components/ruby).
 
 ## Liquid Filters, Tags, and Components
 
@@ -202,7 +210,7 @@ In addition to using Liquid helpers, you can also render [Liquid components](/do
 
 ## Layouts
 
-You can add an `.erb` layout and use it in much the same way as a Liquid-based layout. You can freely mix'n'match ERB layouts with Liquid-based documents and Liquid-based layouts with ERB documents.
+You can add an `.erb` layout to the `_layouts` folder for use by resources even other layouts. You can freely mix 'n' match ERB layouts with Liquid-based documents and Liquid-based layouts with ERB documents.
 
 `src/_layouts/testing.erb`
 
@@ -212,7 +220,7 @@ layout: default
 somevalue: 123
 ---
 
-<h1><%%= resource.data.title %></h1>
+<h1><%%= data.title %></h1>
 
 <main>An ERB layout! <%%= layout.name %> / somevalue: <%%= layout.data.somevalue %></main>
 
@@ -237,7 +245,7 @@ If in your layout or a layout partial you need to output the paths to your front
 
 ## Markdown
 
-When authoring a document using ERB, you might find yourself wanting to embed some Markdown within the document content. That's easy to do using a `markdownify` block:
+When authoring a resource using ERB that's not itself a Markdown file (`.md`), you might find yourself wanting to embed some Markdown within the content. That's easy to do using a `markdownify` block:
 
 ```eruby
 <%%= markdownify do %>
@@ -254,13 +262,13 @@ You can also pass in any string variable as a method argument:
 <%%= markdownify some_string_var %>
 ```
 
-Alternatively, you can author a document with a `.md` extension and configure it via `template_engine: erb` to get processed through ERB. (Continue reading for additional information.)
-
 ## Extensions and Permalinks
 
-Sometimes you may want to output a file that doesn't end in `.html`. Perhaps you want to create a JSON index of a collection, or a special XML feed. If you have familiarity with other Ruby site generators or frameworks, you might instinctively reach for the solution where you use a double extension, say, `posts.json.erb` to indicate the final extension (`json`) and the template type (`erb`).
+Sometimes you may want to output a file that doesn't end in `.html` when published. Perhaps you want to create a JSON index of a collection, or a special XML feed. If you have familiarity with other Ruby site generators or frameworks, you might instinctively reach for the solution where you use a double extension, say, `posts.json.erb` to indicate the final extension (`json`) and the template type (`erb`).
 
-Bridgetown doesn't support double extensions but rather provides a couple of alternative mechanisms to specify your template engine of choice. The first option is to set the file's permalink using front matter. Here's an example of `posts.json.erb` using a [custom permalink](/docs/content/permalinks):
+Bridgetown doesn't support double extensions but rather provides a couple of alternative mechanisms to specify your template engine of choice. The first option is to utilize the default ERB processing, so your `posts.json` file will be processed through ERB automatically as long as it includes the triple-dashes front matter.
+
+The second option is to set the file's permalink using front matter. Here's an example of a `posts.erb` file using a [custom permalink](/docs/content/permalinks):
 
 ```eruby
 ---
@@ -280,8 +288,6 @@ permalink: /posts.json
 ```
 
 This ensures the final relative URL will be `/posts.json`. (Of course you can also set the permalink to anything you want, regardless of the filename itself.)
-
-The second option is to switch template engines using front matter or site-wide configuration. That will allow you to write `posts.json` and have it use ERB automatically (instead of the default which is Liquid). [Find out more about choosing template engines here.](/docs/template-engines)
 
 ## Link and URL Helpers
 
@@ -324,7 +330,7 @@ In order to simplify more complex lists of HTML attributes you may also pass a h
 
 `link_to` uses [`html_attributes`](#html_attributes) under the hood to handle this converstion.
 
-You can also pass relative or aboslute URLs to `link_to` and they'll just pass-through to the anchor tag without change:
+You can also pass relative or absolute URLs to `link_to` and they'll just pass-through to the anchor tag without change:
 
 ```eruby
 <%%= link_to "Visit Bridgetown", "https://www.bridgetownrb.com" %>
@@ -405,9 +411,7 @@ Within the hook, you can call `slot.context` to access the definition context fo
 
 ### `html_attributes`
 
-_Available as part of the bundled Streamlined gem._
-
-`html_attributes` allows you to pass a hash and have it converted to a string of HTML attributes:
+`html_attributes` is a helper provided by Streamlined, but you can use it in any Ruby template type. It allows you to pass a hash and have it converted to a string of HTML attributes:
 ```eruby
 <p <%%= html_attributes({ class: "my-class", id: "some-id" }) %>>Hello, World!</p>
 
@@ -546,11 +550,115 @@ str = "<p>Escape me!</p>"
 {%= escape(str) %} <!-- output: &lt;p&gt;Escape me!&lt;/p&gt; -->
 ```
 
-## Haml and Slim
+## Streamlined
 
-Bridgetown comes with ERB support out-of-the-box, but you can easily add support for either Haml or Slim by installing our officially supported plugins.
+Streamlined is a new Ruby template type introduced in Bridgetown 2.0. It allow you to embed HTML templates in pure Ruby code using "squiggly heredocs" along with a set of helpers to ensure output safety (proper escaping) and easier interplay between HTML markup and Ruby code. And on average it executes at 1.5x the speed of ERB, making it a good performance choice for large builds.
 
-* [`bridgetown-haml`](https://github.com/bridgetownrb/bridgetown-haml){:rel="noopener"}
-* [`bridgetown-slim`](https://github.com/bridgetownrb/bridgetown-slim){:rel="noopener"}
+You can use Streamlined directly in resources saved as pure Ruby (`.rb`), as well as in Bridgetown components. Here's an example of what that looks like:
 
-All you'd need to do is run `bundle add bridgetown-haml` (or `bridgetown-slim`) and add `init :"bridgetown-haml"` or `init :"bridgetown-slim"` to `config/initializers.rb`, and then you can immediately start using `.haml` or `.slim` pages, layouts, partials, and [components](/docs/components/ruby) in your Bridgetown site.
+```ruby
+class SectionComponent < Bridgetown::Component
+  def initialize(variant:, heading:, **options)
+    @variant, @heading, @options = variant, heading, options
+  end
+
+  def heading
+    <<~HTML
+      <h3>#{text -> { @heading }}</h3>
+    HTML
+  end
+
+  def template
+    html -> { <<~HTML
+      <section #{html_attributes(variant:, **@options)}>
+        #{html -> { heading }}
+        <section-body>
+          #{html -> { content }}
+        </section-body>
+      </section>
+    HTML
+    }
+  end
+end
+```
+
+A few things going on here:
+
+* The `template` method is a standard part of Bridgetown's component system, and here it's being leveraged to render HTML via Streamlined.
+* The `html` method's only argument is a stabby lambda (`->`) which in term contains a squiggly heredoc. (_Isn't Ruby terminology fun?_ 😅)
+* Within the heredoc, there's a use of the `html_attributes` helper to convert keyword arguments/hashes into HTML attributes, along with additional embeds of Ruby utilizing `html`.
+* On top of that, we're able to break our overall template up by defining a "partial" elsewhere (the `heading` method). Calling out to other Ruby methods to incrementally build up HTML markup is a key feature of Streamlined, and offers a DX reminiscent of JavaScript's tagged template literals or JSX.
+* The `text` method escapes all values unless they've been explicitly marked as "HTML safe", whereas `html` simply outputs values without preemptive escaping. This requires the template author to think clearly about escaping rules. Default to always using `text` unless you know you're outputting vetted HTML code.
+
+Beyond these patterns, Streamlined has another couple tricks up its sleeve. You can break up template code into multiple `render` passes and also render external components:
+
+```ruby
+def template
+  render html -> { <<~HTML
+    <p>I am HTML markup.</p>
+  HTML
+  }
+
+  render AnotherComponent.new if @should_render_this
+
+  render html ->{ <<~HTML
+    <p>I am more HTML markup.</p>
+  HTML
+  }
+end
+```
+
+You can even embed rendering logic inside of `render` blocks:
+
+```ruby
+def template
+  render html -> { <<~HTML
+    <p>I am HTML markup.</p>
+  HTML
+  }
+
+  render do
+    render AnotherComponent.new 
+
+    render html ->{ <<~HTML
+      <p>I am more HTML markup.</p>
+    HTML
+    }
+  end if @should_render_more_stuff
+end
+```
+
+Rendering blocks can be nested as well. It's all part of allowing your markup generation to become more modular.
+
+Looping over an array or hash within a heredoc is made easier by the `html_map` helper:
+
+```ruby
+def template
+  html -> { <<~HTML
+    <ul>#{
+      html_map(@items) do |item|
+        <<~HTML
+          <li>#{text -> { item }}</li>
+        HTML
+      end
+    }</ul>
+  HTML
+  }
+end
+```
+
+<%= render Note.new(type: :warning) do %>
+  While Ruby heredocs can use any uppercase text as delimiters, Streamlined requires you to use `HTML`. It's helpful for syntax highlighting in many code editors, and it's also relevant to linting as explained below.
+<% end %>
+
+### Enforcing Streamlined helpers using Rubocop
+
+Streamlined provides a Rubocop linter to make sure template authors are utilizing the `text`, `html`, etc. helpers in HTML heredocs.
+
+==TODO: write about config here==
+
+<%= render Note.new do %>
+**Q:** Why does Streamlined rely on heredocs which are actually just strings? Why doesn't Streamlined use a special Ruby DSL similar to other tools like Phlex, Papercraft, or Arbre?
+
+**A:** Because I like writing HTML. ☺️ Beyond that, the value of using template syntaxes which are easily compatible with the vast ecosystem of HTML on the web cannot be overstated. (This also represents an effort to approximate JavaScript's "tagged template literals" in Ruby—an experience already appealing to many frontend developers.)
+<% end %>
