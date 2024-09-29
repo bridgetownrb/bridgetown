@@ -318,6 +318,7 @@ module.exports = async (esbuildOptions, ...args) => {
   if (esbuildOptions.entryPoints) delete esbuildOptions.entryPoints
 
   const islands = glob.sync(`./${bridgetownConfig.source}/${bridgetownConfig.islandsDir}/*.{js,js.rb}`).map(item => `./${item}`)
+  const islandsAsObject = islands.reduce((obj, str) => obj[str] = str, {})
 
   esbuild.context({
     bundle: true,
@@ -339,7 +340,7 @@ module.exports = async (esbuildOptions, ...args) => {
     minify: process.argv.includes("--minify"),
     sourcemap: true,
     target: "es2020",
-    entryPoints: [...entryPoints, ...islands],
+    entryPoints: Array.isArray(entryPoints) ? [...entryPoints, ...islands] : {...entryPoints, ...islandsAsObject},
     entryNames: "[dir]/[name].[hash]",
     outdir: path.join(process.cwd(), `${bridgetownConfig.destination}/_bridgetown/static`),
     publicPath: "/_bridgetown/static",
