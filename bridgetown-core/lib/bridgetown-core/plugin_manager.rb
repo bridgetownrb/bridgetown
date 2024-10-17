@@ -96,6 +96,10 @@ module Bridgetown
       package_manager == "npm" ? "install" : "add"
     end
 
+    def self.package_manager_uninstall_command
+      package_manager == "npm" ? "uninstall" : "remove"
+    end
+
     # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
     # Iterates through loaded gems and finds npm-add gemspec metadata.
