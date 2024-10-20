@@ -3,7 +3,7 @@
 module Bridgetown
   module Commands
     class Esbuild < Thor::Group
-      include Thor::Actions
+      include Thor::Actions, Bridgetown::Commands::Actions
       extend Summarizable
 
       Registrations.register do

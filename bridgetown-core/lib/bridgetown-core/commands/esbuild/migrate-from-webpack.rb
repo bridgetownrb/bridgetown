@@ -25,7 +25,7 @@ unless Bridgetown.environment.test?
     confirm = ask "\nThe following packages will be removed: \n\n#{packages_to_remove.join("\n")}\n\nWould you like to continue? [Yn]"
     return unless confirm.casecmp?("Y")
 
-    run "yarn remove #{packages_to_remove.join(" ")}"
+    remove_npm_package packages_to_remove.join(" ")
   end
 end
 
