@@ -270,39 +270,6 @@ def build
 end
 ```
 
-## What About GraphQL?
-
-Bridgetown has first-class support for GraphQL using a plugin called
-[Graphtown](https://github.com/whitefusionhq/graphtown).
-
-Graphtown allows you to consume GraphQL APIs for your Bridgetown website
-using a tidy Builder DSL on top of the
-[Graphlient](https://github.com/ashkan18/graphlient) gem.
-
-Get started by simply running `bundle add graphtown` in your bridgetown site and adding `init :graphtown` to `config/initializers.rb`.
-
-Then, navigate to your `plugins/site_builder.rb` file and add the Graphtown mixin.
-
-```rb
-# plugins/site_builder.rb
-
-class SiteBuilder < Bridgetown::Builder
-  include Graphtown::QueryBuilder
-end
-```
-
-Setup your `graphql_endpoint` in your `bridgetown.config.yml` and you're ready to rock and roll.
-
-```rb
-# bridgetown.config.yml
-
-graphql_endpoint: http://localhost:1337/graphql
-```
-
-For more details on how to use the Graphtown gem to pull in your data
-from a CMS, check out the project on Github.
-[https://github.com/whitefusionhq/graphtown](https://github.com/whitefusionhq/graphtown)
-
 ## Conclusion
 
 As you've seen from these examples, using data from external APIs to create new content for your Bridgetown website is easy and straightforward with the `get` and `add_resource` methods provided by the Builder API. While there are numerous benefits to storing content directly in your site repository, Bridgetown gives you the best of both worlds—leaving you simply to decide where you want your content to live and how you'll put it to good use as you build your site.
