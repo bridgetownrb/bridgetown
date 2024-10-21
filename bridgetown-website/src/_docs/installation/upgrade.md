@@ -57,6 +57,34 @@ class RodaApp < Roda
 end
 ```
 
+Additionally, you may hit this issue with the server and the error will look something like this:
+
+```
+➜  docs git:(konnorrogers/major-overhaul) ✗ bin/bridgetown start
+[Bridgetown]           Starting: Bridgetown v2.0.0.beta2 (codename "(TBD!)")
+[Bridgetown]
+[Bridgetown]    Booting Puma at: http://0.0.0.0:4000
+[Bridgetown]
+/Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/3.3.0/bundled_gems.rb:74:in `set_encoding': Interrupt
+        from /Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/3.3.0/bundled_gems.rb:74:in `require'
+        [...]
+        from /Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/gems/3.3.0/gems/bridgetown-core-2.0.0.beta2/bin/bridgetown:30:in `<top (required)>'
+        from bin/bridgetown:27:in `load'
+        from bin/bridgetown:27:in `<main>'
+[Bridgetown] Stopping auxiliary processes...
+[Bridgetown]   Exception raised: Errno::ENOENT
+[Bridgetown] No such file or directory @ rb_sysopen - /Users/konnor/projects/oss/doxxing-time-layouts/rhino-editor/docs/tmp/pids/aux.pid
+[Bridgetown]                  1: /Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/gems/3.3.0/gems/bridgetown-foundation-2.0.0.beta2/lib/bridgetown/foundation/packages/pid_tracker.rb:15:in `readlines'
+[Bridgetown]                  2: /Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/gems/3.3.0/gems/bridgetown-foundation-2.0.0.beta2/lib/bridgetown/foundation/packages/pid_tracker.rb:15:in `read_pidfile'
+[Bridgetown]                  3: /Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/gems/3.3.0/gems/bridgetown-core-2.0.0.beta2/lib/bridgetown-core/utils/aux.rb:51:in `kill_processes'
+[Bridgetown]                  4: /Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/gems/3.3.0/gems/bridgetown-core-2.0.0.beta2/lib/bridgetown-core/commands/start.rb:104:in `block (2 levels) in start'
+[Bridgetown]                  5: /Users/konnor/.asdf/installs/ruby/3.3.4/lib/ruby/gems/3.3.0/gems/bridgetown-core-2.0.0.beta2/lib/bridgetown-core/commands/start.rb:11:in `ensure in start'
+[Bridgetown]          Backtrace: Use the --trace option for complete information.
+```
+
+In which case, refer to the above fix for configuring your Roda server.
+
+
 ### Supporting Active Support Support 😏
 
 Bridgetown v2 has removed a number of dependencies in the codebase on the Active Support gem (provided by the Rails framework). If that ends up causing problems with your codebase, you may need to require Active Support manually (and even Action View) in your `config/initializers.rb` file. [Here's a thread on GitHub](https://github.com/bridgetownrb/bridgetown/pull/881#issuecomment-2228693932) referencing this situation.
