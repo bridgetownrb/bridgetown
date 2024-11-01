@@ -290,8 +290,7 @@ config.inflector.configure do |inflections|
 end
 ```
 
-Bridgetown's inflector is based on `Dry::Inflector`, so you can [read up on how to add inflection
-rules here](https://dry-rb.org/gems/dry-inflector/1.0/#custom-inflection-rules).
+Bridgetown's inflector is based on `Dry::Inflector`, so you can [read up on how to add inflection rules here](https://dry-rb.org/gems/dry-inflector/1.0/#custom-inflection-rules).
 
 ### Parse Roda Routes
 

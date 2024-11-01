@@ -27,7 +27,6 @@ class Bridgetown::Site
             self, layout.instance_variable_get(:@base), layout.name
           )
         end
-        liquid_renderer.reset unless layouts_to_reload.empty?
         next unless res || !pages.empty?
 
         unless pages.empty?
@@ -60,6 +59,7 @@ class Bridgetown::Site
 
       Bridgetown::Hooks.trigger :site, :fast_refresh, self
 
+      liquid_renderer.reset
       transform_resources_for_fast_refresh(marked_resources, found_gen_pages)
       transform_generated_pages_for_fast_refresh
 
