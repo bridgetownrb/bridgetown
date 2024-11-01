@@ -31,24 +31,6 @@ module Bridgetown
       def ==(other)
         other.relative_path.to_s.match(@name_regex)
       end
-
-      def deprecated_equality(other)
-        slug == post_slug(other) &&
-          post_date.year  == other.date.year &&
-          post_date.month == other.date.month &&
-          post_date.day   == other.date.day
-      end
-
-      private
-
-      # Construct the directory-aware post slug for a Bridgetown::Post
-      #
-      # other - the Bridgetown::Post
-      #
-      # Returns the post slug with the subdirectory (relative to _posts)
-      def post_slug(other)
-        other.data.slug
-      end
     end
 
     class PostUrl < Liquid::Tag
@@ -75,19 +57,7 @@ module Bridgetown
         site.collections.posts.resources.each do |document|
           return relative_url(document) if @post == document
 
-          # New matching method did not match, fall back to old method
-          # with deprecation warning if this matches
-          next unless @post.deprecated_equality document
-
-          Bridgetown::Deprecator.deprecation_message(
-            "A call to " \
-            "'{% post_url #{@post.name} %}' did not match " \
-            "a post using the new matching method of checking name " \
-            "(path-date-slug) equality. Please make sure that you " \
-            "change this tag to match the post's name exactly."
-          )
-
-          return relative_url(document)
+          next
         end
 
         raise Bridgetown::Errors::PostURLError, <<~MSG

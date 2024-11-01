@@ -4,6 +4,10 @@ module Bridgetown
   module Builders
     module DSL
       module Generators
+        # Set up a new generator based on the block or method provided which will run alongside
+        # other generators during the build process
+        #
+        # @param method_name [Symbol] use a Builder method rather than a block to run
         def generator(method_name = nil, &block)
           block = method(method_name) if method_name.is_a?(Symbol)
           local_name = name # pull the name method into a local variable

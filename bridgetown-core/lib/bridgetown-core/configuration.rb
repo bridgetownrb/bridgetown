@@ -111,12 +111,11 @@ module Bridgetown
     attr_writer :source_manifests, :roda_initializers
 
     class << self
-      # Static: Produce a Configuration ready for use in a Site.
+      # Produce a Configuration ready for use in a Site.
       # It takes the input, fills in the defaults where values do not exist.
       #
-      # user_config - a Hash or Configuration of overrides.
-      #
-      # Returns a Configuration filled with defaults.
+      # @param user_config [Hash, Configuration]
+      # @return [Configuration] filled with defaults
       def from(user_config, starting_defaults = DEFAULTS)
         Utils.deep_merge_hashes(starting_defaults.deep_dup, Configuration.new(user_config))
           .merge_environment_specific_options!
@@ -177,16 +176,14 @@ module Bridgetown
     # Directory of the top-level root where config files are located
     #
     # @param override [Hash] options hash which will override value if key is present
-    #
     # @return [String] path to the Bridgetown root directory
     def root_dir(override = {})
       get_config_value_with_override("root_dir", override)
     end
 
-    # Public: Directory of the Bridgetown source folder
+    # Directory of the Bridgetown source folder
     #
     # @param override [Hash] options hash which will override value if key is present
-    #
     # @return [String]  path to the Bridgetown source directory
     def source(override = {})
       get_config_value_with_override("source", override)
@@ -208,11 +205,10 @@ module Bridgetown
       raise "Unable to parse `#{File.basename(filename)}'. #{e.message}"
     end
 
-    # Public: Generate list of configuration files from the override
+    # Generate list of configuration files from the override
     #
-    # override - the command-line options hash
-    #
-    # Returns an Array of config files
+    # @param override [Hash] - the command-line options hash
+    # @return [Array<string>] config files
     def config_files(override)
       # Adjust verbosity quickly
       Bridgetown.logger.adjust_verbosity(
@@ -232,9 +228,8 @@ module Bridgetown
     # Read in a list of configuration files and merge with this hash
     #
     # @param files [Array<String>]
-    #
     # @return [Hash] configuration with the defaults overridden by the values in the
-    # configuration files
+    #   configuration files
     def read_config_files(files)
       config = self
 
@@ -257,7 +252,6 @@ module Bridgetown
     # Read configuration and return merged Hash
     #
     # @param file [String] the path to the YAML file to be read in
-    #
     # @return [Hash]
     def read_config_file(file)
       default_config_file = file == "bridgetown.config.yml"

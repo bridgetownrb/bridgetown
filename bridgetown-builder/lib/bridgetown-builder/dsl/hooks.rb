@@ -4,6 +4,13 @@ module Bridgetown
   module Builders
     module DSL
       module Hooks
+        # Define a hook to run at some point during the build process
+        #
+        # @param owner [Symbol] name of the owner (`:site`, `:resource`, etc.)
+        # @param event [Symbol] name of the event (`:pre_read`, `:post_render`, etc.)
+        # @param method_name [Symbol] name of a Builder method to use, if block isn't provided
+        # @param priority [Integer, Symbol] either `:low`, `:normal`, or `:high`, or an integer.
+        #   Default is normal (20)
         def hook(
           owner,
           event,
@@ -17,9 +24,13 @@ module Bridgetown
           functions << { name:, hook: [owner, event, priority, hook_block] }
         end
 
+        # Define a site post_read hook and add data returned by the block to the site data/signals
         def add_data(data_key)
           hook(:site, :post_read) do
-            site.data[data_key] = yield
+            yield.tap do |value|
+              site.data[data_key] = value
+              site.signals[data_key] = value
+            end
           end
         end
       end

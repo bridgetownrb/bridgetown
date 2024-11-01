@@ -40,7 +40,6 @@ module Bridgetown
     #
     # @param content [String] content of file (without front matter).
     # @param convertible [Bridgetown::Layout, Bridgetown::Resource::Base]
-    #
     # @return [String] the converted content.
     def convert(content, convertible = nil) # rubocop:disable Lint/UnusedMethodArgument
       content
@@ -48,10 +47,8 @@ module Bridgetown
 
     # Does the given extension match this converter's list of acceptable extensions?
     #
-    # @param [String] ext
-    #   The file's extension (including the dot)
+    # @param ext [String] the file's extension (including the dot)
     # @param convertible [Bridgetown::Layout, Bridgetown::Resource::Base]
-    #
     # @return [Boolean] Whether the extension matches one in the list
     def matches(ext, _convertible = nil)
       (self.class.extname_list || []).include?(ext.downcase)
@@ -67,9 +64,7 @@ module Bridgetown
     # You can override this in Converter subclasses as needed. Default is ".html", unless the
     # converter is a template engine and the input file doesn't match the normal template extension
     #
-    # @param [String] ext
-    #   The extension of the original file
-    #
+    # @param ext [String] the extension of the original file
     # @return [String] The output file extension (including the dot)
     def output_ext(ext)
       if self.class.template_engine

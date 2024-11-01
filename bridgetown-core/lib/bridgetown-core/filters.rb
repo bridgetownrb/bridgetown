@@ -11,33 +11,30 @@ module Bridgetown
     include TranslationFilters
     include ConditionHelpers
 
-    # Convert a Markdown string into HTML output.
+    # Convert a Markdown string into HTML output
     #
-    # input - The Markdown String to convert.
-    #
-    # Returns the HTML formatted String.
+    # @param input [String]
+    # @return [String] HTML formatted text
     def markdownify(input)
       @context.registers[:site].find_converter_instance(
         Bridgetown::Converters::Markdown
       ).convert(input.to_s)
     end
 
-    # Convert quotes into smart quotes.
+    # Convert quotes into smart quotes
     #
-    # input - The String to convert.
-    #
-    # Returns the smart-quotified String.
+    # @param input [String]
+    # @return [String] smart-quotified text
     def smartify(input)
       Utils::SmartyPantsConverter.new(@context.registers[:site].config).convert(input.to_s)
     end
 
-    # Slugify a filename or title.
+    # Slugify a filename or title
     #
-    # input - The filename or title to slugify.
-    # mode - how string is slugified
-    #
-    # Returns the given filename or title as a lowercase URL String.
-    # See Utils.slugify for more detail.
+    # @param input [String] the filename or title to slugify
+    # @param mode [String] how string is slugified
+    # @see {Utils.slugify}
+    # @return [String] lowercase URL
     def slugify(input, mode = nil)
       mode = @context.registers[:site].config.slugify_mode if mode.nil?
       Utils.slugify(input, mode:)

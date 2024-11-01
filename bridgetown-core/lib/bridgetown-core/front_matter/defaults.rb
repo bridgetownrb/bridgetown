@@ -33,7 +33,6 @@ module Bridgetown
       #
       # @param path [String] the relative path of the resource
       # @param collection_name [Symbol] :posts, :pages, etc.
-      #
       # @return [Hash] all default values (an empty hash if there are none)
       def all(path, collection_name)
         if @defaults_cache.key?([path, collection_name])
@@ -70,11 +69,10 @@ module Bridgetown
 
       # Checks if a given default setting scope matches the given path and collection
       #
-      # scope - the hash indicating the scope, as defined in bridgetown.config.yml
-      # path - the path to check for
-      # collection - the collection (:posts or :pages) to check for
-      #
-      # Returns true if the scope applies to the given collection and path
+      # @param scope [Hash] the scope as defined in site configuration
+      # @param path [String] the path to check for
+      # @param collection [Symbol] the collection (:posts, :pages, etc.) to check for
+      # @return [Boolean] true if the scope applies to the given collection and path
       def applies?(scope, path, collection)
         applies_collection?(scope, collection) && applies_path?(scope, path)
       end
@@ -129,7 +127,6 @@ module Bridgetown
       #
       # @param scope [Hash] the defaults set being asked about
       # @param collection [Symbol] the collection of the resource being processed
-      #
       # @return [Boolean] whether either of the above conditions are satisfied
       def applies_collection?(scope, collection)
         !scope.key?("collection") || scope["collection"].eql?(collection.to_s)
@@ -137,8 +134,7 @@ module Bridgetown
 
       # Checks if a given set of default values is valid
       #
-      # @param set [Hash] the default value hash as defined in bridgetown.config.yml
-      #
+      # @param set [Hash] the default value hash as defined in site configuration
       # @return [Boolean] if the set is valid and can be used
       def valid?(set)
         set.is_a?(Hash) && set["values"].is_a?(Hash)
@@ -146,10 +142,9 @@ module Bridgetown
 
       # Determines if a new scope has precedence over an old one
       #
-      # old_scope - the old scope hash, or nil if there's none
-      # new_scope - the new scope hash
-      #
-      # Returns true if the new scope has precedence over the older
+      # @param old_scope [Hash] old scope hash, or nil if there's none
+      # @param new_scope [Hash] new scope hash
+      # @return [Boolean] true if the new scope has precedence over the older
       # rubocop: disable Naming/PredicateName
       def has_precedence?(old_scope, new_scope)
         return true if old_scope.nil?

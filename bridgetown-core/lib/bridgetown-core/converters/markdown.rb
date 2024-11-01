@@ -43,26 +43,25 @@ module Bridgetown
       end
       # rubocop:enable Naming/AccessorMethodName
 
-      # Public: Provides you with a list of processors comprised of the ones we support internally
+      # Provides you with a list of processors comprised of the ones we support internally
       # and the ones that you have provided to us
       #
-      # Returns an array of symbols.
+      # @return [Array<Symbol>]
       def valid_processors
         [:kramdown] + third_party_processors
       end
 
-      # Public: A list of processors that you provide via plugins.
+      # A list of processors that you provide via plugins
       #
-      # Returns an array of symbols
+      # @return [Array<Symbol>]
       def third_party_processors
         self.class.constants - [:KramdownParser, :PRIORITIES]
       end
 
-      # Logic to do the content conversion.
+      # Logic to do the content conversion
       #
-      # content - String content of file (without front matter).
-      #
-      # Returns a String of the converted content.
+      # @param content [String] content of file (without front matter)
+      # @return [String] converted content
       def convert(content, convertible = nil)
         setup
         if @cache
@@ -85,13 +84,11 @@ module Bridgetown
         self.class.const_get(converter_name).new(@config) if custom_class_allowed?(converter_name)
       end
 
-      # Private: Determine whether a class name is an allowed custom
-      #   markdown class name.
+      # Determine whether a class name is an allowed custom markdown class name.
       #
-      # parser_name - the name of the parser class
-      #
-      # Returns true if the parser name contains only alphanumeric characters and is defined
-      # within Bridgetown::Converters::Markdown
+      # @param parser_name [Symbol] name of the parser class
+      # @return [Boolean] true if the parser name contains only alphanumeric characters and is defined
+      #   within `Bridgetown::Converters::Markdown`
       def custom_class_allowed?(parser_name)
         parser_name !~ %r![^A-Za-z0-9_]! && self.class.constants.include?(parser_name.to_sym)
       end

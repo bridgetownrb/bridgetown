@@ -4,6 +4,7 @@ class Bridgetown::Site
   module Extensible
     # Load necessary libraries, plugins, converters, and generators.
     # This is only ever run once for the lifecycle of the site object.
+    #
     # @see Converter
     # @see Generator
     # @see PluginManager
@@ -16,6 +17,7 @@ class Bridgetown::Site
     end
 
     # Run all Generators.
+    #
     # @see Generator
     # @return [void]
     def generate
@@ -34,6 +36,7 @@ class Bridgetown::Site
     end
 
     # Get the implementation for the given Converter class.
+    #
     # @param klass [Class] The Class of the Converter to fetch.
     # @return [Converter] Returns the {Converter}
     #   instance implementing the given `Converter` class.
@@ -46,6 +49,7 @@ class Bridgetown::Site
 
     # Create an array of instances of the subclasses of the class
     #   passed in as argument.
+    #
     # @param klass [Class] - class which is the parent of the subclasses.
     # @return [Array<Converter, Generator>] Returns an array of instances of
     #   subclasses of `klass`.
@@ -56,6 +60,7 @@ class Bridgetown::Site
     end
 
     # Shorthand for registering a site hook via {Bridgetown::Hooks}
+    #
     # @param event [Symbol] name of the event (`:pre_read`, `:post_render`, etc.)
     # @yield the block will be called when the event is triggered
     # @yieldparam site the site which triggered the event hook

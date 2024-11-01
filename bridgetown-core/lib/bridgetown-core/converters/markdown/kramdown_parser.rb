@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Kramdown
-  # A Kramdown::Document subclass meant to optimize memory usage from initializing
+  # A `Kramdown::Document`` subclass meant to optimize memory usage from initializing
   # a kramdown document for parsing.
   #
   # The optimization is by using the same options Hash (and its derivatives) for
