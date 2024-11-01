@@ -25,13 +25,13 @@ module Bridgetown
       .htm
     ).freeze
 
-    # Initialize a new GeneratedPage.
+    # Initialize a new GeneratedPage
     #
-    # site - The Site object.
-    # base - The String path to the source.
-    # dir  - The String path between the source and the file.
-    # name - The String filename of the file.
-    # from_plugin - true if the Page file is located in a Gem-based plugin folder
+    # @param site [Bridgetown::Site]
+    # @param base [String] path to the source
+    # @param dir [String] path between the source and the file
+    # @param name [String] filename of the file.
+    # @param from_plugin [Boolean] true if the Page file is located in a Gem-based plugin folder
     # rubocop:disable Metrics/ParameterLists
     def initialize(site, base, dir, name, from_plugin: false)
       @site = site

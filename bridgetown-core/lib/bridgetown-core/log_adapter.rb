@@ -11,23 +11,19 @@ module Bridgetown
       error: ::Logger::ERROR,
     }.freeze
 
-    # Public: Create a new instance of a log writer
+    # Create a new instance of a log writer
     #
-    # writer - Logger compatible instance
-    # log_level - (optional, symbol) the log level
-    #
-    # Returns nothing
+    # @param writer [Logger] compatible instance
+    # @param log_level [Symbol] the log level (`debug` | `info` | `warn` | `error`)
     def initialize(writer, level = :info)
       @messages = []
       @writer = writer
       self.log_level = level
     end
 
-    # Public: Set the log level on the writer
+    # Set the log level on the writer
     #
-    # level - (symbol) the log level
-    #
-    # Returns nothing
+    # @param log_level [Symbol] the log level (`debug` | `info` | `warn` | `error`)
     def log_level=(level)
       writer.level = level if level.is_a?(Integer) && level.between?(0, 3)
       writer.level = LOG_LEVELS[level] ||
@@ -45,63 +41,52 @@ module Bridgetown
       debug "Logging at level:", LOG_LEVELS.key(writer.level).to_s
     end
 
-    # Public: Print a debug message
+    # Print a debug message
     #
-    # topic - the topic of the message, e.g. "Configuration file", "Deprecation", etc.
-    # message - the message detail
-    #
-    # Returns nothing
+    # @param topic [String] e.g. "Configuration file", "Deprecation", etc.
+    # @param message [String] the message detail
     def debug(topic, message = nil, &)
       write(:debug, topic, message, &)
     end
 
-    # Public: Print a message
+    # Print an informational message
     #
-    # topic - the topic of the message, e.g. "Configuration file", "Deprecation", etc.
-    # message - the message detail
-    #
-    # Returns nothing
+    # @param topic [String] e.g. "Configuration file", "Deprecation", etc.
+    # @param message [String] the message detail
     def info(topic, message = nil, &)
       write(:info, topic, message, &)
     end
 
-    # Public: Print a message
+    # Print a warning message
     #
-    # topic - the topic of the message, e.g. "Configuration file", "Deprecation", etc.
-    # message - the message detail
-    #
-    # Returns nothing
+    # @param topic [String] e.g. "Configuration file", "Deprecation", etc.
+    # @param message [String] the message detail
     def warn(topic, message = nil, &)
       write(:warn, topic, message, &)
     end
 
-    # Public: Print an error message
+    # Print an error message
     #
-    # topic - the topic of the message, e.g. "Configuration file", "Deprecation", etc.
-    # message - the message detail
-    #
-    # Returns nothing
+    # @param topic [String] e.g. "Configuration file", "Deprecation", etc.
+    # @param message [String] the message detail
     def error(topic, message = nil, &)
       write(:error, topic, message, &)
     end
 
-    # Public: Print an error message and immediately abort the process
+    # Print an error message and immediately abort the process
     #
-    # topic - the topic of the message, e.g. "Configuration file", "Deprecation", etc.
-    # message - the message detail (can be omitted)
-    #
-    # Returns nothing
+    # @param topic [String] e.g. "Configuration file", "Deprecation", etc.
+    # @param message [String] the message detail
     def abort_with(topic, message = nil, &)
       error(topic, message, &)
       abort
     end
 
-    # Internal: Build a topic method
+    # Build a topic method
     #
-    # topic - the topic of the message, e.g. "Configuration file", "Deprecation", etc.
-    # message - the message detail
-    #
-    # Returns the formatted message
+    # @param topic [String] e.g. "Configuration file", "Deprecation", etc.
+    # @param message [String] the message detail
+    # @return [String] the formatted message
     def message(topic, message = nil)
       raise ArgumentError, "block or message, not both" if block_given? && message
 
@@ -113,34 +98,30 @@ module Bridgetown
       out
     end
 
-    # Internal: Format the topic
+    # Format the topic
     #
-    # topic - the topic of the message, e.g. "Configuration file", "Deprecation", etc.
-    # colon -
-    #
-    # Returns the formatted topic statement
+    # @param topic [String] e.g. "Configuration file", "Deprecation", etc.
+    # @param colon [Boolean]
+    # @return [String] formatted topic statement
     def formatted_topic(topic, colon = false) # rubocop:disable Style/OptionalBooleanParameter
       "#{topic}#{colon ? ": " : " "}".rjust(20)
     end
 
-    # Internal: Check if the message should be written given the log level.
+    # Check if the message should be written given the log level
     #
-    # level_of_message - the Symbol level of message, one of :debug, :info, :warn, :error
-    #
-    # Returns whether the message should be written.
+    # @param level_of_message [Symbol] the message level (`debug` | `info` | `warn` | `error`)
+    # @return [Boolean] whether the message should be written to the log
     def write_message?(level_of_message)
       LOG_LEVELS.fetch(level) <= LOG_LEVELS.fetch(level_of_message)
     end
 
-    # Internal: Log a message.
+    # Log a message. If a block is provided containing the message, use that instead.
     #
-    # level_of_message - the Symbol level of message, one of :debug, :info, :warn, :error
-    # topic - the String topic or full message
-    # message - the String message (optional)
-    # block - a block containing the message (optional)
-    #
-    # Returns false if the message was not written, otherwise returns the value of calling
-    # the appropriate writer method, e.g. writer.info.
+    # @param level_of_message [Symbol] the message level (`debug` | `info` | `warn` | `error`)
+    # @param topic [String] e.g. "Configuration file", "Deprecation", etc.
+    # @param message [String] the message detail
+    # @return [BasicObject] false if the message was not written, otherwise returns the value of
+    #   calling the appropriate writer method, e.g. writer.info.
     def write(level_of_message, topic, message = nil, &)
       return false unless write_message?(level_of_message)
 

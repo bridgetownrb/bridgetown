@@ -50,7 +50,7 @@ class Bridgetown::Site
     # Create an array of instances of the subclasses of the class
     #   passed in as argument.
     #
-    # @param klass [Class] - class which is the parent of the subclasses.
+    # @param klass [Class] class which is the parent of the subclasses.
     # @return [Array<Converter, Generator>] Returns an array of instances of
     #   subclasses of `klass`.
     def instantiate_subclasses(klass)

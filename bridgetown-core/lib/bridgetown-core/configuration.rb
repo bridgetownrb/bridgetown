@@ -207,7 +207,7 @@ module Bridgetown
 
     # Generate list of configuration files from the override
     #
-    # @param override [Hash] - the command-line options hash
+    # @param override [Hash] the command-line options hash
     # @return [Array<string>] config files
     def config_files(override)
       # Adjust verbosity quickly

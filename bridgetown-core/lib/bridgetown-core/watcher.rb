@@ -159,9 +159,8 @@ module Bridgetown
 
     # Paths to ignore for the watch option
     #
-    # options - A Hash of options passed to the command
-    #
-    # Returns a list of relative paths from source that should be ignored
+    # @param options [Bridgetown::Configuration] options loaded from config and/or CLI
+    # @return [Array<String>] list of relative paths from source that should be ignored
     def listen_ignore_paths(options)
       source = Pathname.new(options["source"]).expand_path
       paths  = to_exclude(options)
