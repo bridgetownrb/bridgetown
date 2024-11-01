@@ -87,8 +87,8 @@ module Bridgetown
       # Determine whether a class name is an allowed custom markdown class name.
       #
       # @param parser_name [Symbol] name of the parser class
-      # @return [Boolean] true if the parser name contains only alphanumeric characters and is defined
-      #   within `Bridgetown::Converters::Markdown`
+      # @return [Boolean] true if the parser name contains only alphanumeric characters and is
+      #   defined within `Bridgetown::Converters::Markdown`
       def custom_class_allowed?(parser_name)
         parser_name !~ %r![^A-Za-z0-9_]! && self.class.constants.include?(parser_name.to_sym)
       end
