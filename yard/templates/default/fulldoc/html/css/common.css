@@ -1,0 +1,74 @@
+:root {
+  --color-darkest-green: #142e28;
+  --color-dark-green: #1d453c;
+  --color-medium-green: #335b56;
+  --color-light-green: #3a6d62;
+  --color-lighter-green: #c3d3cf;
+  --color-wintermint: #f1fffa;
+  --color-orange: #f47c3c;
+  --color-light-orange: #ffb088;
+  --color-lightest-orange: #f8f5f0;
+  --color-brick: #d64045;
+  --color-dark-brick: #923538;
+  --color-blackish: #131e1b;
+  --color-dark-gray: #2e2525;
+  --color-darkest-gray: #0b0b0b;
+  --color-medium-gray: #454545;
+  --color-light-gray: #b0b5b3;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* boy this sucks! */
+code, tt, #filecontents pre.code, .docstring pre.code, .source_code pre, p.signature, h3.signature, p.signature tt, h3.signature tt {
+  font-family: ui-monospace, 
+    Menlo, Monaco, 
+    "Cascadia Mono", "Segoe UI Mono", 
+    "Roboto Mono", 
+    "Oxygen Mono", 
+    "Ubuntu Mono", 
+    "Source Code Pro",
+    "Fira Mono", 
+    "Droid Sans Mono", 
+    "Consolas", "Courier New", monospace;
+}
+
+li.clicked > .item {
+  background-color: var(--color-medium-green);
+
+  #content & :is(a, a:visited) {
+    color: white;
+  }
+}
+
+a, a:visited, #content a, #content a:visited {
+  color: var(--color-brick);
+}
+
+#content a:hover {
+  background-color: color-mix(in srgb, var(--color-light-orange), 70% lightyellow);
+}
+
+#full_list_nav a:hover, #menu a:hover {
+  color: var(--color-brick);
+}
+
+p.signature, h3.signature, .summary_signature {
+  background-color: var(--color-lightest-orange);
+}
+
+#content .summary_signature:hover {
+  background-color: var(--color-orange);
+  color: white;
+
+  & :is(a, a:visited) {
+    color: inherit;
+  }
+}
+
+#content .note.title {
+  background: var(--color-light-green);
+  border-color: var(--color-lighter-green);
+}
