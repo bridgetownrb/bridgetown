@@ -23,8 +23,8 @@ body {
 
 /* boy this sucks! */
 code, tt, #filecontents pre.code, .docstring pre.code, .source_code pre, p.signature, h3.signature, p.signature tt, h3.signature tt {
-  font-family: ui-monospace, 
-    Menlo, Monaco, 
+  font-family: ui-monospace,
+    SF Mono, Menlo, Monaco, 
     "Cascadia Mono", "Segoe UI Mono", 
     "Roboto Mono", 
     "Oxygen Mono", 
