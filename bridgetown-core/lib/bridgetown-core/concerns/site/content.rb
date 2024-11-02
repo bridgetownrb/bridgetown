@@ -27,6 +27,7 @@ class Bridgetown::Site
     end
 
     # Returns the contents of the site metadata file or a blank hash
+    #
     # @return [HashWithDotAccess::Hash] Returns a hash of site metadata
     def metadata
       signals["site_metadata"] ||= HashWithDotAccess::Hash.new
@@ -49,7 +50,6 @@ class Bridgetown::Site
     #
     # @return [HashWithDotAccess::Hash{String, Symbol => Collection}] A Hash
     #   containing a collection name-to-instance pairs.
-    #
     # @return [HashWithDotAccess::Hash] Returns a blank hash if no items found
     def collections
       @collections ||= collection_names.each_with_object(
@@ -60,6 +60,7 @@ class Bridgetown::Site
     end
 
     # An array of collection names.
+    #
     # @return [Array<String>] an array of collection names from the configuration,
     #   or an empty array if the `config["collections"]` key is not set.
     def collection_names
@@ -84,6 +85,7 @@ class Bridgetown::Site
     end
 
     # Get all loaded resources.
+    #
     # @return [Array<Bridgetown::Resource::Base>] an array of resources
     def resources
       collections.each_with_object(Set.new) do |(_, collection), set|
@@ -112,6 +114,7 @@ class Bridgetown::Site
     end
 
     # Loads and memoizes the parsed frontend bundler manifest file (if available)
+    #
     # @return [Hash]
     def frontend_manifest
       @frontend_manifest ||= begin

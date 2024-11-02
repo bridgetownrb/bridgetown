@@ -25,14 +25,13 @@ module Bridgetown
       template_engine :serbea
       input :serb
 
-      # Logic to do the Serbea content conversion.
+      # Logic to do the Serbea content conversion
       #
-      # @param content [String] Content of the file (without front matter).
+      # @param content [String] Content of the file (without front matter)
       # @param convertible [
       #   Bridgetown::GeneratedPage, Bridgetown::Resource::Base, Bridgetown::Layout]
       #   The instantiated object which is processing the file.
-      #
-      # @return [String] The converted content.
+      # @return [String] The converted content
       def convert(content, convertible)
         serb_view = Bridgetown::SerbeaView.new(convertible)
         serb_renderer = Tilt::SerbeaTemplate.new(

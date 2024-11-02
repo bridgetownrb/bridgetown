@@ -3,6 +3,7 @@
 class Bridgetown::Site
   module Processable
     # Reset, Read, Generate, Render, Cleanup, Process, and Write this Site to output.
+    #
     # @return [void]
     # @see #reset
     # @see #read
@@ -67,6 +68,7 @@ class Bridgetown::Site
     end
 
     # Read data from disk and load it into internal memory.
+    #
     # @return [void]
     def read
       Bridgetown::Hooks.trigger :site, :pre_read, self

@@ -1,4 +1,7 @@
 bridgetown-core/lib/**/*.rb
 bridgetown-builder/lib/**/*.rb
+bridgetown-foundation/lib/**/*.rb
 bridgetown-paginate/lib/**/*.rb
+bridgetown-routes/lib/**/*.rb
 -m markdown
+-p yard/templates

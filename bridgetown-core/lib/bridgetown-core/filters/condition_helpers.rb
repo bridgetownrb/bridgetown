@@ -2,10 +2,9 @@
 
 module Bridgetown
   module Filters
+    # The following set of code was *adapted* from `Liquid::If`
+    # ref: https://git.io/vp6K6
     module ConditionHelpers
-      # -----------   The following set of code was *adapted* from Liquid::If
-      # -----------   ref: https://git.io/vp6K6
-
       # Parse a string to a Liquid Condition
       def parse_condition(exp)
         parser    = Liquid::Parser.new(exp)
@@ -19,9 +18,8 @@ module Bridgetown
       # the parsed expression based on whether the expression consists of binary operations with
       # Liquid operators `and` or `or`
       #
-      #  - parser: an instance of Liquid::Parser
-      #
-      # Returns an instance of Liquid::Condition
+      # @param parser [Liquid::Parser]
+      # @return [Liquid::Condition]
       def parse_binary_comparison(parser)
         condition = parse_comparison(parser)
         first_condition = condition
@@ -37,9 +35,8 @@ module Bridgetown
       # on whether the parsed expression involves a "comparison" operator
       # (e.g. <, ==, >, !=, etc)
       #
-      #  - parser: an instance of Liquid::Parser
-      #
-      # Returns an instance of Liquid::Condition
+      # @param parser [Liquid::Parser]
+      # @return [Liquid::Condition]
       def parse_comparison(parser)
         left_operand = Liquid::Expression.parse(parser.expression)
         operator     = parser.consume?(:comparison)

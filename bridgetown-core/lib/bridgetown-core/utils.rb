@@ -49,15 +49,12 @@ module Bridgetown
       deep_merge_hashes!(master_hash.dup, other_hash)
     end
 
-    # Merges a master hash with another hash, recursively.
+    # Merges a master hash with another hash, recursively. This code was lovingly stolen from
+    # some random gem: https://rubygems.org/gems/tartan Thanks to whoever made it.
     #
-    # master_hash - the "parent" hash whose values will be overridden
-    # other_hash  - the other hash whose values will be persisted after the merge
-    #
-    # This code was lovingly stolen from some random gem:
-    # http://gemjack.com/gems/tartan-0.1.1/classes/Hash.html
-    #
-    # Thanks to whoever made it.
+    # @param target [Hash] the "parent" hash whose values will be overridden
+    # @param overwrite [Hash] the other hash whose values will be persisted after the merge
+    # @return [Hash]
     def deep_merge_hashes!(target, overwrite)
       merge_values(target, overwrite)
       merge_default_proc(target, overwrite)
@@ -110,11 +107,9 @@ module Bridgetown
 
     # Parse a date/time and throw an error if invalid
     #
-    # input - the date/time to parse
-    # msg - (optional) the error message to show the user
-    #
-    # Returns the parsed date if successful, throws a FatalException
-    # if not
+    # @param input [String] the date/time to parse
+    # @param msg [String] the error message to show the user
+    # @return [Time] the parsed date if successful, throws a FatalException if not
     def parse_date(input, msg = "Input could not be parsed.")
       Time.parse(input).localtime
     rescue ArgumentError
@@ -140,35 +135,30 @@ module Bridgetown
       FrontMatter::Loaders::Ruby.header?(file)
     end
 
-    # Slugify a filename or title.
+    # Slugify a filename or title
     #
-    # string - the filename or title to slugify
-    # mode - how string is slugified
-    # cased - whether to replace all uppercase letters with their
-    # lowercase counterparts
+    # When mode is `none`, return the given string.
     #
-    # When mode is "none", return the given string.
-    #
-    # When mode is "raw", return the given string,
+    # When mode is `raw`, return the given string,
     # with every sequence of spaces characters replaced with a hyphen.
     #
-    # When mode is "default", "simple", or nil, non-alphabetic characters are
+    # When mode is `default`, `simple`, or `nil`, non-alphabetic characters are
     # replaced with a hyphen too.
     #
-    # When mode is "pretty", some non-alphabetic characters (._~!$&'()+,;=@)
+    # When mode is `pretty`, some non-alphabetic characters (`._~!$&'()+,;=@`)
     # are not replaced with hyphen.
     #
-    # When mode is "ascii", some everything else except ASCII characters
-    # a-z (lowercase), A-Z (uppercase) and 0-9 (numbers) are not replaced with hyphen.
+    # When mode is `ascii`, some everything else except ASCII characters
+    # `a-z` (lowercase), `A-Z` (uppercase) and `0-9` (numbers) are not replaced with hyphen.
     #
-    # When mode is "latin", the input string is first preprocessed so that
+    # When mode is `latin`, the input string is first preprocessed so that
     # any letters with accents are replaced with the plain letter. Afterwards,
-    # it follows the "default" mode of operation.
+    # it follows the `default` mode of operation.
     #
-    # If cased is true, all uppercase letters in the result string are
+    # If `cased` is `true`, all uppercase letters in the result string are
     # replaced with their lowercase counterparts.
     #
-    # Examples:
+    # @example
     #   slugify("The _config.yml file")
     #   # => "the-config-yml-file"
     #
@@ -184,7 +174,11 @@ module Bridgetown
     #   slugify("The _config.yml file", "latin")
     #   # => "the-config-yml-file"
     #
-    # Returns the slugified string.
+    # @param string [String] filename or title to slugify
+    # @param mode [String] how string is slugified
+    # @param cased [Boolean] whether to replace all uppercase letters with their
+    #   lowercase counterparts
+    # @return [String] the slugified string.
     def slugify(string, mode: nil, cased: false)
       mode ||= "default"
       return nil if string.nil?
@@ -210,13 +204,13 @@ module Bridgetown
     end
 
     # Work the same way as Dir.glob but seperating the input into two parts
-    # ('dir' + '/' + 'pattern') to make sure the first part('dir') does not act
+    # (`'dir' + '/' + 'pattern'`) to make sure the first part(`'dir'`) does not act
     # as a pattern.
     #
-    # For example, Dir.glob("path[/*") always returns an empty array,
-    # because the method fails to find the closing pattern to '[' which is ']'
+    # For example, `Dir.glob("path[/*")` always returns an empty array,
+    # because the method fails to find the closing pattern to `[` which is `]`
     #
-    # Examples:
+    # @example
     #   safe_glob("path[", "*")
     #   # => ["path[/file1", "path[/file2"]
     #
@@ -226,12 +220,13 @@ module Bridgetown
     #   safe_glob("path", ["**", "*"])
     #   # => ["path[/file1", "path[/folder/file2"]
     #
-    # dir      - the dir where glob will be executed under
-    #           (the dir will be included to each result)
-    # patterns - the patterns (or the pattern) which will be applied under the dir
-    # flags    - the flags which will be applied to the pattern
-    #
-    # Returns matched pathes
+    # @param dir [String] the dir where glob will be executed under
+    #   (the dir will be included to each result)
+    # @param patterns [String, Array<String>] the patterns (or the pattern) which will be applied
+    #   under the dir
+    # @param flags [Integer] the flags which will be applied to the pattern,
+    #   a bitwise OR of the `File::FNM_XXX` constants
+    # @return [Array<String>] matched pathes
     def safe_glob(dir, patterns, flags = 0)
       return [] unless Dir.exist?(dir)
 
@@ -243,8 +238,8 @@ module Bridgetown
       end
     end
 
-    # Returns merged option hash for File.read of self.site (if exists)
-    # and a given param
+    # @return [Hash] merged option hash for `File.read` of `site` (if exists)
+    #   and a given param
     def merged_file_read_opts(site, opts)
       merged = (site ? site.file_read_opts : {}).merge(opts)
       if merged[:encoding] && !merged[:encoding].start_with?("bom|")
@@ -256,8 +251,10 @@ module Bridgetown
       merged
     end
 
-    # Returns a string that's been reindented so that Markdown's four+ spaces =
-    # code doesn't get triggered for nested Liquid components
+    # Provides a string that's been reindented so that Markdown's four+ spaces =
+    #   code doesn't get triggered for nested components
+    # @param input [String]
+    # @return [String]
     # rubocop:disable Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
     def reindent_for_markdown(input)
       lines = input.lines

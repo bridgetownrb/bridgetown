@@ -4,11 +4,9 @@ module Bridgetown
   module LiquidExtensions
     # Lookup a Liquid variable in the given context.
     #
-    # context  - the Liquid context in question.
-    # variable - the variable name, as a string.
-    #
-    # Returns the value of the variable in the context
-    #   or the variable name if not found.
+    # @param context [Liquid::Context]
+    # @param variable [String] the variable name
+    # @return [Object] value of the variable in the context or the variable name if not found
     def lookup_variable(context, variable)
       lookup = context
 

@@ -5,9 +5,15 @@ module Bridgetown
     module DSL
       module Helpers
         def helpers
-          @helpers # could be nil
+          @helpers # could be nil. gets set once a helper method is actually called
         end
 
+        # Define a helper for use in view templates, alongside built-in helpers, using either a
+        # builder method or a block
+        #
+        # @param helper_name [Symbol] name of the helper
+        # @param method_name [Symbol] name of a Builder method to use, if block isn't provided
+        #   and the method is named different from the helper
         def helper(helper_name, method_name = nil, &block)
           m = Module.new
 

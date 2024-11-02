@@ -33,8 +33,6 @@ module Bridgetown
 
       # Compare the current config to the cached config
       # If they are different, clear all caches
-      #
-      # Returns nothing.
       def clear_if_config_changed(config)
         config = config.inspect
         cache = Bridgetown::Cache.new "Bridgetown::Cache"
@@ -49,8 +47,6 @@ module Bridgetown
       private
 
       # Delete all cached items from all caches
-      #
-      # Returns nothing.
       def delete_cache_files
         FileUtils.rm_rf(@cache_dir) if disk_cache_enabled
       end
@@ -60,9 +56,7 @@ module Bridgetown
 
     # Get an existing named cache, or create a new one if none exists
     #
-    # name - name of the cache
-    #
-    # Returns nothing.
+    # @param name [String] name of the cache
     def initialize(name)
       @cache = Bridgetown::Cache.base_cache[name] ||= {}
       @name = name.gsub(%r![^\w\s-]!, "-")
@@ -77,7 +71,7 @@ module Bridgetown
     # Retrieve a cached item
     # Raises if key does not exist in cache
     #
-    # Returns cached value
+    # @return [Object] cached value
     def [](key)
       return @cache[key] if @cache.key?(key)
 
@@ -88,8 +82,6 @@ module Bridgetown
     end
 
     # Add an item to cache
-    #
-    # Returns nothing.
     def []=(key, value)
       @cache[key] = value
       return unless disk_cache_enabled?
@@ -112,8 +104,6 @@ module Bridgetown
     end
 
     # Remove one particular item from the cache
-    #
-    # Returns nothing.
     def delete(key)
       @cache.delete(key)
       File.delete(path_to(hash(key))) if disk_cache_enabled?
@@ -121,7 +111,7 @@ module Bridgetown
 
     # Check if `key` already exists in this cache
     #
-    # Returns true if key exists in the cache, false otherwise
+    # @return [Boolean] true if key exists in the cache, false otherwise
     def key?(key)
       # First, check if item is already cached in memory
       return true if @cache.key?(key)
@@ -153,14 +143,11 @@ module Bridgetown
     end
 
     # Remove all this caches items from disk
-    #
-    # Returns nothing.
     def delete_cache_files
       FileUtils.rm_rf(path_to) if disk_cache_enabled?
     end
 
     # Load `path` from disk and return the result.
-    # This MUST NEVER be called in Safe Mode
     # rubocop:disable Security/MarshalLoad
     def load(path)
       raise unless disk_cache_enabled?
@@ -173,9 +160,6 @@ module Bridgetown
     # rubocop:enable Security/MarshalLoad
 
     # Given a path and a value, save value to disk at path.
-    # This should NEVER be called in Safe Mode
-    #
-    # Returns nothing.
     def dump(path, value)
       return unless disk_cache_enabled?
 
