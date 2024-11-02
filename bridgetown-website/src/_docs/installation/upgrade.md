@@ -27,7 +27,7 @@ We also recommend you run `bin/bridgetown esbuild update` so you get the latest 
 
 {%@ Note type: :warning do %}
 
-Only update your esbuild configuration if you're also willing to switch to ESM (rather than CommonJS), aka your `package.json` file will also include `"type": "module"` and you will be using `import` and `export` statements rather than `require` and `module.exports` going forward.
+Only update your esbuild configuration if you're also willing to switch to ESModules (rather than CommonJS). This means your `package.json` file will include `"type": "module"` and Node JS code wil use `import` and `export` statements rather than `require` and `module.exports` going forward. [Here's an explainer](https://www.freecodecamp.org/news/modules-in-javascript/) about the JavaScript language switch to ESM.
 
 {% end %}
 
