@@ -16,7 +16,7 @@ end
 gsub_file "postcss.config.js", "module.exports =", "export default"
 gsub_file "esbuild.config.js", 'const build = require("./config/esbuild.defaults.js")',
           'import build from "./config/esbuild.defaults.js"'
-add_npm_package "esbuild@latest glob@latest"
+add_npm_package "esbuild@latest glob@latest" unless Bridgetown.env.test?
 
 say "\n🎉 esbuild configuration updated successfully!"
 say "You may need to add `$styles/` to the front of your main CSS imports."
