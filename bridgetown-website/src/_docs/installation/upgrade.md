@@ -14,12 +14,12 @@ We’ve have a [Technical Help board](https://community.bridgetown.pub/c/technic
 
 ## Upgrading to Bridgetown 2.0 (Beta)
 
-The first thing to know is that there are new minimum versions of both Ruby and Node for the v2 release cycle. In general, we try to support the previous two significant releases of these runtimes in addition to the current ones (aka Ruby 3.3 and Node 22) with each major version increase. So you will need to use a minimum of:
+The first thing to know is that there are new minimum versions of both Ruby and Node.js for the v2 release cycle. In general, we try to support the previous two significant releases of these runtimes in addition to the current ones (aka Ruby 3.3 and Node 23) with each major version increase. So you will need to use a minimum of:
 
 * Ruby 3.1.4 (⚠️ there's a bug in earlier versions of Ruby 3.1 which will prevent Bridgetown to run)
 * Node 20.6 (⚠️ earlier versions of Node aren't compatible with esbuild's ESM-based config)
 
-Sometimes that's as simple as changing your version dotfiles (for example `.ruby-version` and `.nvmrc`). We do recommend switching to the latest versions (Ruby 3.3 and Node 22 as of the time of this writing) if possible.
+Sometimes that's as simple as changing your version dotfiles (for example `.ruby-version` and `.nvmrc`). We do recommend switching to the latest versions (Ruby 3.3 and Node 22 LTS or 23 as of the time of this writing) if possible.
 
 To upgrade to Bridgetown 2.0, edit your `Gemfile` to update the version numbers in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem to `2.0.0.beta2` and then run `bundle update bridgetown`.
 
