@@ -25,7 +25,7 @@ To upgrade to Bridgetown 2.0, edit your `Gemfile` to update the version numbers 
 
 We also recommend you run `bin/bridgetown esbuild update` so you get the latest default esbuild configuration Bridgetown provides, and you may need to update your `esbuild` version in `package.json` as well.
 
-{%@ Node type: :warning do %}
+{%@ Note type: :warning do %}
 
 Only update your esbuild configuration if you're also willing to switch to ESM (rather than CommonJS), aka your `package.json` file will also include `"type": "module"` and you will be using `import` and `export` statements rather than `require` and `module.exports` going forward.
 
