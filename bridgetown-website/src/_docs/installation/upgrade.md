@@ -63,7 +63,7 @@ Bridgetown v2 has removed a number of dependencies in the codebase on the Active
 
 ### Caveats with Fast Refresh in Development ⏩
 
-Bridgetown v2 comes with a "fast refresh" feature by default. This rebuilds only files needed to display updated content in source files, rather than the entire website from scratch. However, certain features aren't yet compatible with fast refresh—most notabily, **i18n**. If you're using multiple locales in your project, you will likely want to disable fast refresh so you don't end up with broken pages/links by setting `fast_refresh` to `false` in your config.
+Bridgetown v2 comes with a "fast refresh" feature by default. This rebuilds only files needed to display updated content in source files, rather than the entire website from scratch. However, certain features aren't yet compatible with fast refresh—most notabily, **i18n**. If you're using multiple locales in your project, you will likely want to disable fast refresh so you don't end up with broken pages/links by setting `fast_refresh false` in `config/initializers.rb`.
 
 ### Quick Search and Other Plugins 🔍
 
