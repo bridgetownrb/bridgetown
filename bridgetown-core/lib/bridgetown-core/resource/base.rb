@@ -106,11 +106,7 @@ module Bridgetown
       #
       # @param new_data [HashWithDotAccess::Hash]
       def data=(new_data)
-        if site.config.fast_refresh && write?
-          # TODO: investigate if this would be better:
-          # @data.value = front_matter_defaults
-          mark_for_fast_refresh!
-        end
+        mark_for_fast_refresh! if site.config.fast_refresh && write?
 
         Signalize.batch do
           @content_signal.value += 1

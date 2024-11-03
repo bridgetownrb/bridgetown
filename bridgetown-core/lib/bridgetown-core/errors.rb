@@ -4,16 +4,10 @@ module Bridgetown
   module Errors
     FatalException = Class.new(::RuntimeError)
 
-    DropMutationException       = Class.new(FatalException)
-    InvalidPermalinkError       = Class.new(FatalException)
-    InvalidYAMLFrontMatterError = Class.new(FatalException)
-    MissingDependencyException  = Class.new(FatalException)
-
-    InvalidDateError            = Class.new(FatalException)
-    InvalidPostNameError        = Class.new(FatalException)
-    PostURLError                = Class.new(FatalException)
-    InvalidURLError             = Class.new(FatalException)
     InvalidConfigurationError   = Class.new(FatalException)
+    InvalidDateError            = Class.new(FatalException)
+    InvalidYAMLFrontMatterError = Class.new(FatalException)
+    PostURLError                = Class.new(FatalException)
 
     def self.print_build_error(exc, trace: false, logger: Bridgetown.logger, server: false) # rubocop:todo Metrics
       logger.error "Exception raised:", exc.class.to_s.bold

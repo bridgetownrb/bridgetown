@@ -66,11 +66,7 @@ module Bridgetown
           build_site(config_options)
         end
 
-        # TODO: remove this logic…I can't find "detach" anywhere
-        if config_options.fetch("detach", false)
-          Bridgetown.logger.info "Auto-regeneration:",
-                                 "disabled when running server detached."
-        elsif config_options.fetch("watch", false)
+        if config_options.fetch("watch", false)
           watch_site(config_options)
         else
           Bridgetown.logger.info "Auto-regeneration:", "disabled. Use --watch to enable."
@@ -111,7 +107,6 @@ module Bridgetown
         Bridgetown.logger.info "Environment:", Bridgetown.environment.cyan
         Bridgetown.logger.info "Source:", source
         Bridgetown.logger.info "Destination:", destination
-        # TODO: work with arrays
         return unless config_options["plugins_dir"].is_a?(String)
 
         plugins_dir = File.expand_path(config_options["plugins_dir"])

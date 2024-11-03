@@ -192,7 +192,7 @@ module Bridgetown
     def where_exp(input, variable, expression)
       return input unless input.respond_to?(:select)
 
-      input = input.values if input.is_a?(Hash) # FIXME
+      input = input.values if input.is_a?(Hash)
 
       condition = parse_condition(expression)
       @context.stack do
