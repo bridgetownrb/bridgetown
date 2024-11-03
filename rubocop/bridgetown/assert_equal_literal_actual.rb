@@ -26,7 +26,7 @@ module RuboCop
       #     @alpha.omega
       #   )
       #
-      class AssertEqualLiteralActual < Cop
+      class AssertEqualLiteralActual < Base
         MSG = "Provide the 'expected value' as the first argument to `assert_equal`.".freeze
 
         SIMPLE_LITERALS = %i(
@@ -61,7 +61,7 @@ module RuboCop
 
         def on_send(node)
           return unless literal_actual?(node) || literal_actual_with_msg?(node)
-          add_offense(node, location: :expression)
+          add_offense(node)
         end
 
         def autocorrect(node)

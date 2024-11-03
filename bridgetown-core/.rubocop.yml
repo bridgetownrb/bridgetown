@@ -44,5 +44,5 @@ Style/StringConcatenation:
   Exclude:
     - test/test_apply_command.rb
 
-Style/MixinGrouping:
+Style/SafeNavigationChainLength:
   Enabled: false
