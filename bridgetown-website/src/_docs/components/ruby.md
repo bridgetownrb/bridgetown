@@ -32,7 +32,7 @@ end
   output: Hello from MyComponent!
 ```
 
-To pass variables along to a component, simply write an `initialize` method. You can also use Ruby's "squiggly heredoc" syntax as a kind of template language:
+To pass variables along to a component, write an `initialize` method. You can also use Ruby's "squiggly heredoc" syntax as a kind of template language:
 
 ```ruby
 class FieldComponent
@@ -150,7 +150,7 @@ The `slotted` helper can also provide default content should the slot not alread
 
 Multiple captures using the same slot name will be cumulative. The above `image` slot could be appended to by calling `slot :image` multiple times. If you wish to change this behavior, you can pass `replace: true` as a keyword argument to `slot` to clear any previous slot content. _Use with extreme caution!_
 
-For more control over slot content, you can use the `pre_render` hook. Builders can register hooks to transform slots in specific ways based on their name or context. This is perhaps not all that useful when you're writing both the content and the components, but for easy customization of third-party components it could come in handy.
+For more control over slot content, you can use the `pre_render` hook. Builders can register hooks to transform slots in specific ways based on their name or context. This is perhaps not all that useful when you're writing both the content and the components, but for customization of third-party components it could come in handy.
 
 ```rb
 class Builders::FigureItOut < SiteBuilder
@@ -178,7 +178,7 @@ end
 
 ### Helpers
 
-As expected, helpers are available as well just like in standard templates:
+As expected, helpers are available as well exactly like in standard templates:
 
 ```erb
 <!-- src/_components/posts/excerpt.erb -->
@@ -207,7 +207,7 @@ end
 
 ### Lifecycle
 
-In addition to simply rendering a template for you, `Bridgetown::Component` provides a couple lifecycle hooks:
+In addition to rendering a template for you, `Bridgetown::Component` provides a couple lifecycle hooks:
 
 * `render?` – if you define this method and return `false`, the component will not get rendered at all.
 * `before_render` – called right before the component is rendered when the view_context is known and all helpers available.

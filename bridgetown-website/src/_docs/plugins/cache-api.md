@@ -94,7 +94,7 @@ Returns nothing.
 
 ## Temporary In-Memory Cache
 
-The `site` object (available from within most code paths, or you can use `Bridgetown::Current.site`) exposes a `tmp_cache` hash (of type `HashWithDotAccess::Hash`). You can use this to save and recall data. Using memoization makes this quite easy:
+The `site` object (available from within most code paths, or you can use `Bridgetown::Current.site`) exposes a `tmp_cache` hash (of type `HashWithDotAccess::Hash`). You can use this to save and recall data:
 
 ```ruby
 temporary_value = site.tmp_cache[:temporary_value] ||= do_expensive_stuff

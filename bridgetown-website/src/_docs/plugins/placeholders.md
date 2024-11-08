@@ -9,7 +9,7 @@ Resources make use of a [permalink](/docs/content/permalinks) processor to deter
 
 Placeholders start with a colon `:`. You can only have one placeholder within a path segment—in other words, `/my_path/:my_placeholder/` is valid, but `/my_path/:my_placeholder-and:another_placeholder/` is not.
 
-To define new placeholders within a plugin, simply use the `permalink_placeholder` method of your builder. For example, if you wanted a placeholder to resolve a resource data, you could add:
+To define new placeholders within a plugin, use the `permalink_placeholder` method of your builder. For example, if you wanted a placeholder to resolve a resource data, you could add:
 
 ```ruby
 def build

@@ -78,7 +78,7 @@ task :linthtml do # this is custom for the website project
 end
 ```
 
-As is shown in comments for the default Rakefile, you can add your own [automations](/docs/automations) directly inside of Rake tasks. In the provided example, you can see that a `site` object is available, and within an `automation` block you can call Thor actions just like in standard automation scripts:
+As is shown in comments for the default Rakefile, you can add your own [automations](/docs/automations) directly inside of Rake tasks. In the provided example, you can see that a `site` object is available, and within an `automation` block you can call Thor actions like standard automation scripts:
 
 ```ruby
 task :my_task => :environment do
@@ -99,7 +99,7 @@ Running `bin/bridgetown my_task` would result in printing out the root path of t
 
 When you run `bin/bridgetown console` or `c`, you have access to an instantiated `site` object which you can use to investigate its content and configuration. You can also call `collections` directly as a shorthand for `site.collections`, and you can run `reload!` anytime you want to reset/reload site content and plugins.
 
-Besides those built-in console methods, you can add your own! Just define your own `ConsoleMethods` module and include that in Bridgetown's standard module.
+Besides those built-in console methods, you can add your own! Define your own `ConsoleMethods` module and include that in Bridgetown's standard module.
 
 ```ruby
 module ConsoleMethods

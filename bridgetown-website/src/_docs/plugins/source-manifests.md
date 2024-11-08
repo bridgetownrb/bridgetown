@@ -27,7 +27,7 @@ but all others are optional.
 
 What this does is allow you to create top-level folders in your gem, for example `./layouts`,
 and Bridgetown will load content from whichever folders you specify in your
-manifest. So if you had the file `layouts/fancy.html`, a site could simply
+manifest. So if you had the file `layouts/fancy.html`, a site could
 reference that layout with `layout: fancy` front matter.
 
 ### Namespacing Your Content

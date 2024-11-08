@@ -109,7 +109,7 @@ Now posts can use this layout while the rest of the resources use the default.
 
 ## Variables
 
-You can set front matter in layouts as well. Just use the `layout` variable instead of `resource`. For example:
+You can set front matter in layouts as well. Use the `layout` variable instead of `resource`. For example:
 
 {% raw %}
 ```liquid

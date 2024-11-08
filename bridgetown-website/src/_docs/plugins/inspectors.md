@@ -17,7 +17,7 @@ Bridgetown doesn't directly install the Nokogiri or Nokolexbor gems, so if that 
 
 ## Your First Inspector
 
-Let's add an oft-requested feature to our site: automatic `target="_blank"` attributes on all outgoing links. It's easy with an HTML Inspector.
+Let's add an oft-requested feature to our site: automatic `target="_blank"` attributes on all outgoing links.
 
 We'll create a new builder plugin and use the `inspect_html` method to access the document and update all the relevant links.
 
@@ -43,7 +43,7 @@ Note that `query_selector_all` is an alias for Nokogiri/Nokolexbor's `css` metho
 
 In the example above, we loop through all `a` tags, skip the tag if it already has a target or is not a true external link, otherwise we set the target attribute to `_blank`.
 
-Another example of a feature you might want to add is to append "#" links to the ends of headings in your content so that people can copy a permalink to that particular heading. It's easy with this HTML Inspector:
+Another example of a feature you might want to add is to append "#" links to the ends of headings in your content so that people can copy a permalink to that particular heading:
 
 ```ruby
 inspect_html do |document|
@@ -66,7 +66,7 @@ You can see this in action right on this very page!
 
 ## Works with XML Too
 
-If you need to work with XML files such as feeds or sitemaps, you can do this as well with the `inspect_xml` method. It works just like `inspect_html`, except that it can optionally take an extension argument (the default is `xml`).
+If you need to work with XML files such as feeds or sitemaps, you can do this as well with the `inspect_xml` method. It works exactly like `inspect_html`, except that it can optionally take an extension argument (the default is `xml`).
 
 ```ruby
 inspect_xml do |document, resource|

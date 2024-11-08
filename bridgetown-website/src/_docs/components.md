@@ -15,7 +15,7 @@ Just as a web page can be thought of as the interconnected product of the three 
 
 ### [Liquid](/docs/components/liquid)
 
-Use the [Liquid template engine](/docs/template-engines/liquid) to write simple components without a lot of custom logic or for maximum compatibility with all template engines. Liquid components are not recommended when complexity is required for frontend logic.
+Use the [Liquid template engine](/docs/template-engines/liquid) to write basic components without a lot of custom logic or for maximum compatibility with all template engines. Liquid components are not recommended when complexity is required for frontend logic.
 
 ### [Ruby](/docs/components/ruby)
 
@@ -33,7 +33,7 @@ An emerging technology which has the potential to change how we approach develop
 
 ## The Subtle Interplay of HTML, CSS, & JavaScript
 
-As previously mentioned, a component will often encompass not just the output HTML coming from the component's logic/template, but styling via CSS, and client-side interactivity via JavaScript.
+As previously mentioned, a component will often encompass styling via CSS and client-side interactivity via JavaScript, alongside the output HTML coming from the component's logic/template.
 
 In those cases, where you place your CSS and JS code will vary depending on the environment. For Liquid and Ruby components, you will write what are called "sidecar" files which live alongside your component classes/templates. In contrast, Lit components fall under the category of Single-File Components. The logic, template, and styling is all part of the same unit of code. Lit components can be written in either vanilla JavaScript or Ruby2JS (a Ruby-like syntax and set of idioms which then transpiles to JavaScript). However, with a smidge of extra configuration, you do have the option of splitting the CSS of a Lit component out to its own sidecar file if you so choose.
 

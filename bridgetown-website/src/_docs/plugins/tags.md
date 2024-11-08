@@ -5,7 +5,7 @@ top_section: Configuration
 category: plugins
 ---
 
-It's easy to add new [Liquid](/docs/template-engines/liquid/) tags (sometimes called "shortcodes") to your site. Tags provide extra functionality you can use inside of your Markdown content and any HTML template. Built-in examples added by Bridgetown include the `post_url` and `asset_path` tags. Below is an example of a custom Liquid tag that will output the time the page was rendered:
+[Liquid](/docs/template-engines/liquid/) tags (sometimes called "shortcodes") provide extra functionality you can use inside of your Markdown content and any HTML template. Built-in examples added by Bridgetown include the `post_url` and `asset_path` tags. Below is an example of a custom Liquid tag that will output the time the page was rendered:
 
 ```ruby
 class RenderTime < SiteBuilder
@@ -96,8 +96,7 @@ output: `I AM UPPER CASE`
 
 ## Supporting Multiple Attributes and Accessing Template Variables
 
-If you'd like your tag to support multiple attributes separated by a comma, that's
-easy to do with the following statement:
+If you'd like your tag to support multiple attributes separated by a comma:
 
 ```ruby
 param1, param2 = attributes.split(",").map(&:strip)
@@ -123,7 +122,7 @@ tag.context["page"]["title"] # returns "My Exciting Webpage"
 
 ## When to use a Tag vs. a Filter
 
-Tags and Tag Blocks are great when you simply want to insert a customized piece of
+Tags and Tag Blocks are great when you want to insert a customized piece of
 content/HTML code into a page. If instead you want to _transform_ input data from
 one format to another and potentially allow multiple transformations to be chained
 together, then it's probably better to write a [Filter](/docs/plugins/filters/).

@@ -111,7 +111,7 @@ There are special [permalink variables for collections](/docs/content/permalinks
 
 ## Custom Metadata
 
-It's also possible to add custom metadata to a collection. You simply add
+It's also possible to add custom metadata to a collection. You add
 additional keys to the collection config and they'll be made available in templates. For example, if you specify this:
 
 ```yaml

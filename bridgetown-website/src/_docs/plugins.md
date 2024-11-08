@@ -238,14 +238,14 @@ plugins/my_plugin/woo/zoo.rb -> MyPlugin::Woo::Zoo
 
 You can read more about [Zeitwerk's file conventions here](https://github.com/fxn/zeitwerk#file-structure).
 
-In addition to the `plugins` folder provided by default, **you can add your own folders** with autoloading support! Simply add to the `autoload_paths` setting in your config YAML:
+In addition to the `plugins` folder provided by default, **you can add your own folders** with autoloading support! Add to the `autoload_paths` setting in your config YAML:
 
 ```yaml
 autoload_paths:
   - loadme
 ```
 
-Now any Ruby file in your project's `./loadme` folder will be autoloaded. By default, files in your custom folders not "eager loaded", meaning that the Ruby code isn't actually processed unless/until you access the class or module name of the file somewhere in your code elsewhere. This can improve performance in certain cases. However, if you need to rely on the fact that your Ruby code is always loaded when the site is instantiated, simply set `eager` to true in your config:
+Now any Ruby file in your project's `./loadme` folder will be autoloaded. By default, files in your custom folders not "eager loaded", meaning that the Ruby code isn't actually processed unless/until you access the class or module name of the file somewhere in your code elsewhere. This can improve performance in certain cases. However, if you need to rely on the fact that your Ruby code is always loaded when the site is instantiated, set `eager` to true in your config:
 
 ```yaml
 autoload_paths:

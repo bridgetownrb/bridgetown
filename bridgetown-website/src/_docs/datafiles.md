@@ -127,7 +127,7 @@ The organizations can then be accessed via `site.data.orgs`, followed by the fil
 
 New for Bridgetown 1.2: for easier access to data in your templates whether that data comes from the resource directly or from data files, you can use [front matter](/docs/front-matter/) to specify a data path for merging into the resource.
 
-Just define a front matter variable in a resource like so:
+Define a front matter variable in a resource like so:
 
 ```yaml
 ---
@@ -136,7 +136,7 @@ projects: site.data.projects
 ---
 ```
 
-Now in your template you can reference `data.projects` just like you might `data.title` or any other front matter variable. You can even use [front matter defaults](/docs/content/front-matter-defaults/) to assign such a data variable to multiple resources at once.
+Now in your template you can reference `data.projects` exactly like `data.title` or any other front matter variable. You can even use [front matter defaults](/docs/content/front-matter-defaults/) to assign such a data variable to multiple resources at once.
 
 ### Example: Accessing a Specific Author
 
