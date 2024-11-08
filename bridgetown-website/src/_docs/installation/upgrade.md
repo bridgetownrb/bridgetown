@@ -29,6 +29,8 @@ We also recommend you run `bin/bridgetown esbuild update` so you get the latest 
 
 Bridgetown uses NPM now by default, rather than Yarn, for frontend package managing. You may continue to use Yarn on your existing projects, but if you'd like to switch to NPM, you can simply delete your `yarn.lock` file, run `npm install` (shorthand: `npm i`), and check in `package-lock.json` instead. You can also use [pnpm](https://pnpm.io) if you prefer. Bridgetown is now compatible with all three package managers.
 
+You'll also need to update the `:frontend` tasks in your project's `Rakefile` to use your preferred package manager.
+
 ### Specifying Liquid (if necessary) 💧
 
 The default template engine for new Bridgetown sites is ERB, with Liquid being optional. If you're upgrading a site that expects Liquid to be the default template engine, you will need to add  `template_engine :liquid` to your `config/initializers.rb` file (or `template_engine: liquid` to `bridgetown.config.yml`). If you don't even have a `config/initializers.rb` file in your project yet, see the below section under **Upgrading to Bridgetown 1.2**.
