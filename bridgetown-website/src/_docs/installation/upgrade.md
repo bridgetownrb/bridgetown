@@ -59,6 +59,16 @@ class RodaApp < Roda
 end
 ```
 
+Additionally, you may also hit the following error:
+
+```
+Exception raised: Errno::ENOENT
+No such file or directory @ rb_sysopen - /tmp/pids/aux.pid
+```
+
+In which case, refer to the above fix for configuring your Roda server.
+
+
 ### Supporting Active Support Support 😏
 
 Bridgetown v2 has removed a number of dependencies in the codebase on the Active Support gem (provided by the Rails framework). If that ends up causing problems with your codebase, you may need to require Active Support manually (and even Action View) in your `config/initializers.rb` file. [Here's a thread on GitHub](https://github.com/bridgetownrb/bridgetown/pull/881#issuecomment-2228693932) referencing this situation.
