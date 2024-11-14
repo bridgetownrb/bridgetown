@@ -361,7 +361,10 @@ module Bridgetown
         past_values = @data.peek.select do |key|
           key == "categories" || key == "tags" || site.taxonomy_types.keys.any?(key)
         end
-        model.attributes = model.origin.read
+        origin_data = model.origin.read
+        correct_locale = origin_data["locale"] || origin_data[:locale] || data.locale
+        model.attributes = origin_data
+        model.attributes.locale = correct_locale
         @relative_url = @absolute_url = nil # wipe memoizations
         read!
         tax_diff = past_values.any? { |k, v| @data.peek[k] != v }
