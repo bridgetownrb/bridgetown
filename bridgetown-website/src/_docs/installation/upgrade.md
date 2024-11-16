@@ -21,7 +21,7 @@ The first thing to know is that there are new minimum versions of both Ruby and 
 
 If you use versioning dotfiles (for example `.ruby-version` and `.nvmrc`), you'll want to update those in your projects. We do recommend switching to the latest versions (Ruby 3.3 and Node 22 LTS or 23 as of the time of this writing) if possible.
 
-To upgrade to Bridgetown 2.0, edit your `Gemfile` to update the version numbers in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem to `2.0.0.beta2` and then run `bundle update bridgetown`.
+To upgrade to Bridgetown 2.0, edit your `Gemfile` to update the version numbers in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem to `2.0.0.beta3` and then run `bundle update bridgetown`.
 
 We also recommend you run `bin/bridgetown esbuild update` so you get the latest default esbuild configuration Bridgetown provides, and you may need to update your `esbuild` version in `package.json` as well.
 

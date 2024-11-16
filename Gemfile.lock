@@ -1,17 +1,17 @@
 PATH
   remote: bridgetown-builder
   specs:
-    bridgetown-builder (2.0.0.beta2)
-      bridgetown-core (= 2.0.0.beta2)
+    bridgetown-builder (2.0.0.beta3)
+      bridgetown-core (= 2.0.0.beta3)
 
 PATH
   remote: bridgetown-core
   specs:
-    bridgetown-core (2.0.0.beta2)
+    bridgetown-core (2.0.0.beta3)
       activesupport (>= 6.0, < 8.0)
       addressable (~> 2.4)
       amazing_print (~> 1.2)
-      bridgetown-foundation (= 2.0.0.beta2)
+      bridgetown-foundation (= 2.0.0.beta3)
       csv (~> 3.2)
       dry-inflector (>= 1.0)
       erubi (~> 1.9)
@@ -37,7 +37,7 @@ PATH
 PATH
   remote: bridgetown-foundation
   specs:
-    bridgetown-foundation (2.0.0.beta2)
+    bridgetown-foundation (2.0.0.beta3)
       hash_with_dot_access (~> 2.0)
       inclusive (~> 1.0)
       zeitwerk (~> 2.5)
@@ -45,17 +45,17 @@ PATH
 PATH
   remote: bridgetown-paginate
   specs:
-    bridgetown-paginate (2.0.0.beta2)
-      bridgetown-core (= 2.0.0.beta2)
+    bridgetown-paginate (2.0.0.beta3)
+      bridgetown-core (= 2.0.0.beta3)
 
 PATH
   remote: bridgetown
   specs:
-    bridgetown (2.0.0.beta2)
-      bridgetown-builder (= 2.0.0.beta2)
-      bridgetown-core (= 2.0.0.beta2)
-      bridgetown-foundation (= 2.0.0.beta2)
-      bridgetown-paginate (= 2.0.0.beta2)
+    bridgetown (2.0.0.beta3)
+      bridgetown-builder (= 2.0.0.beta3)
+      bridgetown-core (= 2.0.0.beta3)
+      bridgetown-foundation (= 2.0.0.beta3)
+      bridgetown-paginate (= 2.0.0.beta3)
 
 GEM
   remote: https://rubygems.org/
