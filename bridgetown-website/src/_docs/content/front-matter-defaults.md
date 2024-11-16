@@ -15,7 +15,7 @@ There are two ways to accomplish this: the data cascade, and via your site's con
 
 You can add `_defaults.yml` (also `.yaml` or `.json`) files anywhere in your source tree, which will then cause a "data cascade". In other words, any resources in that folder or in a subfolder will use the front matter data contained in the defaults file. Defaults files in subfolders can also potentially overwrite values contained in parent folders (hence the term "cascade").
 
-For example, if you want all "posts" collection resources to have the layout "post" without having to repeatedly write `layout: post` front matter, simply add `_defaults.yml` to the `src/_posts` folder:
+For example, if you want all "posts" collection resources to have the layout "post" without having to repeatedly write `layout: post` front matter, add `_defaults.yml` to the `src/_posts` folder:
 
 ```yaml
 layout: post
@@ -34,13 +34,13 @@ Also, keep in mind these are "default" values, so if you were to add `layout: so
 {%@ Note do %}
   #### Trick out your collections
 
-  Defaults files work well for custom collections! Just add a `_defaults.yml` to the collection root folder to set layouts and other variables for your entire collection.
+  Defaults files work well for custom collections! Add a `_defaults.yml` to the collection root folder to set layouts and other variables for your entire collection.
 {% end %}
 
 {%@ Note do %}
   #### Think globally
 
-  You can also add a defaults file to `src` itself! For example, if you wanted every resource on your site to start off with a default thumbnail image, you could simply add `image: /images/thumbnail_image.jpg` to a defaults file in `src` and it would apply globally.
+  You can also add a defaults file to `src` itself! For example, if you wanted every resource on your site to start off with a default thumbnail image, you could add `image: /images/thumbnail_image.jpg` to a defaults file in `src` and it would apply globally.
 {% end %}
 
 ## Configuration-based Front Matter Defaults

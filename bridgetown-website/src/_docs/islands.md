@@ -15,7 +15,7 @@ Islands architecture is constantly evolving, so your feedback is crucial as we i
 
 ## Creating Your First Island
 
-If you've just created a new Bridgetown project, you're ready to take it to the next level. If you're upgrading from Bridgetown 1.2 or previous, you'll need to be using esbuild (not Webpack) and must update your base esbuild configuration. It's a snap! Just run:
+If you've just created a new Bridgetown project, you're ready to take it to the next level. If you're upgrading from Bridgetown 1.2 or previous, you'll need to use esbuild (not Webpack) and update your base esbuild configuration:
 
 ```shell
 bin/bridgetown esbuild update
@@ -53,7 +53,7 @@ With `<is-land>`, of course!
 
 ## Installing the Island
 
-Bridgetown comes with a [bundled configuration](/docs/bundled-configurations) to set up the `<is-land>` web component, [a tiny package](https://is-land.11ty.dev) which lets you _lazy-load_ islands just as they become visible on-screen or are interacted with (aka clicked).
+Bridgetown comes with a [bundled configuration](/docs/bundled-configurations) to set up the `<is-land>` web component, [a tiny package](https://is-land.11ty.dev) which lets you _lazy-load_ islands when they become visible on-screen or are interacted with (aka clicked).
 
 Run this command to add it to your main JavaScript bundle:
 
@@ -75,7 +75,7 @@ Let's break this down:
 
 1. The `<is-land>` tag gets set up to import the new `breezy.js` island you've created once it's visible to the reader.
 2. At first the `<breezy-day>` element will be undefined, but once the island loads, it will be upgraded/hydrated.
-3. Once that moment occurs, the "Approaching…" text will get replaced with "Welcome…". That's just a simple example—more likely you'd want to write your island JavaScript to set up event handlers, or display more up-to-the-second data pulled from an API, etc.
+3. Once that moment occurs, the "Approaching…" text will get replaced with "Welcome…". That's a simple example. You'd likely want to write your island JavaScript to set up event handlers, or display more up-to-the-second data pulled from an API, etc.
 
 ## Rendering Island Components in Ruby
 
@@ -101,7 +101,7 @@ And then define our `element.erb` template:
 </breezy-day>
 ```
 
-Now in our original page template code, we can simply render the component and that's that.
+Now in our original page template code, we can render the component and that's that.
 
 ```erb
 <is-land on:visible import="<%= asset_path 'islands/breezy.js' %>">
@@ -151,4 +151,4 @@ Sidecar CSS files processed through the `dsd_style` helper do not get run throug
 
 ## Routes in Islands
 
-When using the `bridgetown-routes` plugin for server rendering, you can put file-based routes inside of islands. Just add a `routes` folder inside of an island folder (like the `src/_islands/breezy_day` example above), and then any routes inside will resolve to a URL of the island name plus the route name. Read our [Routes documentation](/docs/routes) for more information.
+When using the `bridgetown-routes` plugin for server rendering, you can put file-based routes inside of islands. Add a `routes` folder inside of an island folder (like the `src/_islands/breezy_day` example above), and then any routes inside will resolve to a URL of the island name plus the route name. Read our [Routes documentation](/docs/routes) for more information.

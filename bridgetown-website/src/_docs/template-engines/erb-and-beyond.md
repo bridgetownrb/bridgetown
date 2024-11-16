@@ -8,17 +8,17 @@ template_engine: erb
 
 Bridgetown's implementation language, Ruby, has a rich history of providing [<abbr title="Embedded RuBy">ERB</abbr>](https://docs.ruby-lang.org/en/2.7.0/ERB.html) for templates and view layers across a wide variety of tools and frameworks. Other Ruby-based template languages such as [Haml](https://haml.info), [Slim](http://slim-lang.com), and [Serbea](https://www.serbea.dev) garner enthusiastic usage as well.
 
-Bridgetown makes it easy to add both ERB-based and Serbea-based templates and components to any site. In additional, there are plugins you can easily install for Haml and Slim support. Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process these Ruby templates.
+You can add both ERB-based and Serbea-based templates and components to any site. In additional, there are plugins you can easily install for Haml and Slim support. Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process these Ruby templates.
 
 <%= render Note.new do %>
-  Interested in switching your entire site to use ERB or Serbea by default? [It's possible to do that with just a simple configuration change.](/docs/template-engines#site-wide-configuration)
+  Interested in switching your entire site to use ERB or Serbea by default? [It's possible to do that with a configuration change.](/docs/template-engines#site-wide-configuration)
 <% end %>
 
 <%= toc %>
 
 ## Usage
 
-For ERB, simply define a page/document with an `.erb` extension, rather than `.html`. You'll still need to add front matter to the top of the file (or at the very least two lines of triple dashes `---`) for the file to get processed. In the Ruby code you embed, you'll be interacting with the underlying Ruby API for Bridgetown objects (aka `Bridgetown::Page`, `Bridgetown::Site`, etc.). Here's an example:
+For ERB, define a page/document with an `.erb` extension, rather than `.html`. You'll still need to add front matter to the top of the file (or at the very least two lines of triple dashes `---`) for the file to get processed. In the Ruby code you embed, you'll be interacting with the underlying Ruby API for Bridgetown objects (aka `Bridgetown::Page`, `Bridgetown::Site`, etc.). Here's an example:
 
 ```eruby
 ---
@@ -228,7 +228,7 @@ layout: testing
 A standard Liquid page. {{ resource.data.layout }}
 ```
 
-If in your layout or a layout partial you need to output the paths to your frontend assets, you can do so with a `asset_path` helper just like with Liquid layouts:
+If your layout or a layout partial needs to load your frontend assets, use the `asset_path` helper:
 
 ```eruby
 <link rel="stylesheet" href="<%%= asset_path :css %>" />
@@ -237,7 +237,7 @@ If in your layout or a layout partial you need to output the paths to your front
 
 ## Markdown
 
-When authoring a document using ERB, you might find yourself wanting to embed some Markdown within the document content. That's easy to do using a `markdownify` block:
+To embed markdown within an ERB template, you can use a `markdownify` block:
 
 ```eruby
 <%%= markdownify do %>
@@ -324,7 +324,7 @@ In order to simplify more complex lists of HTML attributes you may also pass a h
 
 `link_to` uses [`html_attributes`](#html_attributes) under the hood to handle this converstion.
 
-You can also pass relative or aboslute URLs to `link_to` and they'll just pass-through to the anchor tag without change:
+You can also pass relative or aboslute URLs to `link_to` and they'll pass-through to the anchor tag without change:
 
 ```eruby
 <%%= link_to "Visit Bridgetown", "https://www.bridgetownrb.com" %>
@@ -494,7 +494,7 @@ Liquid::Template.register_filter MyFilters
 Bridgetown::RubyTemplateView::Helpers.include MyFilters
 ```
 
-Usage is pretty straightforward:
+And at the call site:
 
 ```eruby
 <%%= lowercase_string "WAY DOWN LOW" %>
@@ -508,7 +508,7 @@ Usage is pretty straightforward:
 
 The ERB template engine uses a safe output buffer—[the same one used in Rails](https://guides.rubyonrails.org/active_support_core_extensions.html#output-safety).
 
-That means that you'll sometimes find that if you simply output a front matter variable or some other string value that contains HTML tags and entities, the string will be "escaped" so that the actual angle brackets and so forth are displayed in the website content (rather than being interpreted as valid HTML tags).
+That means that you'll sometimes find that if you output a front matter variable or some other string value that contains HTML tags and entities, the string will be "escaped" so that the actual angle brackets and so forth are displayed in the website content (rather than being interpreted as valid HTML tags).
 
 Often that's the right call for [security purposes to avoid XSS attacks](https://guides.rubyonrails.org/security.html#cross-site-scripting-xss) or to bypass potential markup errors. However, to explicitly mark a string as safe, you can use the `html_safe` method. Bridgetown provides the `raw` or `safe` helpers as well. You can also use a double-equals sign to bypass escaping entirely.
 

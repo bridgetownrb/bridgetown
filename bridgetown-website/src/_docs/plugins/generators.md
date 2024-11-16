@@ -13,7 +13,7 @@ You can write a generator when you need Bridgetown to add data to existing conte
 
 ## Builder API
 
-Simply add a `generator` call to your `build` method. You can supply a block or pass in a method name as a symbol.
+Add a `generator` call to your `build` method. You can supply a block or pass in a method name as a symbol.
 
 ```ruby
 def build

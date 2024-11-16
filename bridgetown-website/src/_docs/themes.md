@@ -22,7 +22,7 @@ and adding `init :"really-cool-theme"` to your initializers file, or by applying
 bin/bridgetown apply https://github.com/super-great-themes/theme-one
 ```
 
-The theme creator will typically provide some simple instructions on how to use
+The theme creator will typically provide instructions on how to use
 the provided theme files and enhancements. Perhaps you'll use some stylesheets
 or JavaScript modules provided by the theme. Perhaps the theme will include
 components such as navbars or slideshows or ways to display new content types
@@ -31,7 +31,7 @@ you can assign to your content such as posts or collection documents.
 
 Sometimes you might want to copy files out of a theme and into your site
 repo directly. The [`bridgetown plugins cd` command](/docs/commands/plugins#copying-files-out-of-plugin-source-folders)
-will help you do just that.
+will help you do exactly that.
 
 {%@ Note do %}
 Looking for a theme to install on your site?
@@ -41,7 +41,7 @@ and other useful plugins!
 
 ## Creating a Theme
 
-To design a theme to distribute to others, simply [create a standard gem-based plugin](/docs/plugins#creating-a-gem) using the `bridgetown plugins new NAME` command. Follow that link for more on live testing strategies and how to release and publish your theme.
+To design a theme to distribute to others, [create a standard gem-based plugin](/docs/plugins#creating-a-gem) using the `bridgetown plugins new NAME` command. Follow that link for more on live testing strategies and how to release and publish your theme.
 
 You'll need to use a [Source Manifest](/docs/plugins/source-manifests/) to
 instruct the Bridgetown build process where to find your theme files.

@@ -7,7 +7,7 @@ category: template-engines
 
 Bridgetown's default configured template language is **Liquid**. Liquid's simple syntax and safe execution context make it ideal for designer-led template creation.
 
-However, you can use a variety of different template engines within Bridgetown simply by using the appropriate file extension (aka `.erb`), or by specifying the template engine in your resource's front matter. Out of the box, Bridgetown provides support for both **ERB** and **Serbea**, and you can also use Haml or Slim by installing additional plugins.
+However, you can use a variety of different template engines within Bridgetown by using the appropriate file extension (aka `.erb`), or by specifying the template engine in your resource's front matter. Out of the box, Bridgetown provides support for both **ERB** and **Serbea**, and you can also use Haml or Slim by installing additional plugins.
 
 To configure a new Bridgetown site to use a language other than Liquid as the default template engine regardless of file extension, use the `-t`/`--templates` option when running `bridgetown new`.
 
@@ -46,11 +46,11 @@ So instead of doing that, you can switch template engines directly. All you need
 
 ## Front Matter Defaults
 
-Besides adding `template_engine` directly in your file's front matter, you could use [front matter defaults](/docs/content/front-matter-defaults) to specify a template engine for a folder or folder tree or files which match a particular "glob pattern". That way you could, say, use Liquid for most of the site but use ERB just for a certain group of files.
+Besides adding `template_engine` directly in your file's front matter, you could use [front matter defaults](/docs/content/front-matter-defaults) to specify a template engine for a folder or folder tree or files which match a particular "glob pattern". That way you could, say, use Liquid for most of the site but use ERB only for a certain group of files.
 
 ## Site-wide Configuration
 
-Most likely, however, you'll want to switch your site wholesale from one engine to another. That's where `bridgetown.config.yml` comes in. Simply add `template_engine: erb` right in your config, and suddenly *everything* will get processed through ERB regardless of file extension. (This will have been done for you if you used the `-t` option when running `bridgetown new`.) Serbea works in the same manner: `template_engine: serbea`. Write HTML, XML, Markdown, JSON, CSV, whatever you like—and _still_ access the full power of your Ruby template language of choice. You don't even need to give up on Liquid completely—just save files with `.liquid` or use `template_engine: liquid` front matter.
+Most likely, however, you'll want to switch your site wholesale from one engine to another. That's where `bridgetown.config.yml` comes in. Add `template_engine: erb` right in your config, and suddenly *everything* will get processed through ERB regardless of file extension. (This will have been done for you if you used the `-t` option when running `bridgetown new`.) Serbea works in the same manner: `template_engine: serbea`. Write HTML, XML, Markdown, JSON, CSV, whatever you like—and _still_ access the full power of your Ruby template language of choice. You don't even need to give up on Liquid completely; set the file extension to `.liquid` or set `template_engine: liquid` in the front matter.
 
 It's worth noting that by combining Markdown, ERB/Serbea, components, and frontend JavaScript "sprinkles" (or "spices" as we like to say), you can author extremely sophisticated documents which boast stunning performance and SEO scores while at the same time providing impressive interactivity in the browser. This is quickly becoming a "best practice" in the web development industry, and Bridgetown will help get you there.
 

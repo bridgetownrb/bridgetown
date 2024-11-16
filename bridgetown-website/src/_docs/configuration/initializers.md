@@ -110,7 +110,7 @@ init :stripe do
 end
 ```
 
-Inside of the block, you can use the DSL just like in the main `configure` block. You can also reference keys that were previously set:
+Inside of the block, you can use the same DSL as the main `configure` block. You can also reference keys that were previously set:
 
 ```rb
 init :some_initializer do
@@ -119,7 +119,7 @@ init :some_initializer do
 end
 ```
 
-These configuration values will get passed directly to the initializer. But what if the plugin requires you to set values on the main config instead (as many legacy Bridgetown plugins will)? No problem! While it's not strictly necessary, you can still use the init block and just reference the main config object from enclosing scope for a clear visual grouping:
+These configuration values will get passed directly to the initializer. But what if the plugin requires you to set values on the main config instead (as many legacy Bridgetown plugins will)? No problem! While it's not strictly necessary, you can still use the init block and reference the main config object from enclosing scope for a clear visual grouping:
 
 ```rb
 init :legacy_plugin do
@@ -210,7 +210,7 @@ end
 While it's not strictly required that you place a Roda block inside of an `only :server do` block, it's probably a good idea that you do since Roda blocks aren't used in any other configuration context.
 
 {%@ Note do %}
-  As mentioned above, you can still add and configure plugins directly in your Roda class file (`server/roda_app.rb`) just like any standard Roda application, but using a Roda configuration block alongside your other initialization steps is a handy way to keep everything consolidated. Bear in mind that the Roda blocks are all executed prior to anything defined within the class-level code of `server/roda_app.rb`, so if you write any code in a Roda block that relies on state having already been defined in the app class directly, it will fail. Best to keep Roda block code self-contained, or reliant only on other settings in the Bridgetown initializers file.
+  As mentioned above, you can still add and configure plugins directly in your Roda class file (`server/roda_app.rb`) like any standard Roda application, but using a Roda configuration block alongside your other initialization steps is a handy way to keep everything consolidated. Bear in mind that the Roda blocks are all executed prior to anything defined within the class-level code of `server/roda_app.rb`, so if you write any code in a Roda block that relies on state having already been defined in the app class directly, it will fail. Best to keep Roda block code self-contained, or reliant only on other settings in the Bridgetown initializers file.
 {% end %}
 
 ### SSR & Dynamic Routes
@@ -266,11 +266,11 @@ require_relative "../ruby_code_file.rb"
 
 ## Built-in Initializers
 
-Bridgetown ships with several initializers you can add to your configuration. In future versions of Bridgetown, we expect to make our overall architecture a little more modular so you can use the initializer system to specify just those key features you need (and by omission which ones you don't!).
+Bridgetown ships with several initializers you can add to your configuration. In future versions of Bridgetown, we expect to make our overall architecture a little more modular so you can use the initializer system to specify only those key features you need (and by omission which ones you don't!).
 
 ### Dotenv
 
-The Dotenv gem provides a simple way to manage environment variables with your Bridgetown project. Simply add the gem to your Gemfile (`bundle add dotenv`), and then add the initializer to your configuration:
+The Dotenv gem allows you to manage environment variables with your Bridgetown project. Add the gem to your Gemfile (`bundle add dotenv`), and then add the initializer to your configuration:
 
 ```rb
 init :dotenv

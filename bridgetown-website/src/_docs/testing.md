@@ -25,7 +25,7 @@ bin/bridgetown configure minitesting
 
 This will set up the plugin, test gems, and an example test suite in the `test` folder.
 
-The tests you write will be simple DOM selection assertions that operate on the output HTML that's in memory after the site has been rendered, so they run extremely fast. You use the native Ruby APIs provided by Bridgetown to find pages to test, and use assertions you may be familiar with from the Ruby on Rails framework (such as `assert_select` and `assert_dom_equal`). Here's an example of such a test:
+The tests you write will be DOM selection assertions that operate on the output HTML that's in memory after the site has been rendered, so they run extremely fast. You use the native Ruby APIs provided by Bridgetown to find pages to test, and use assertions you may be familiar with from the Ruby on Rails framework (such as `assert_select` and `assert_dom_equal`). Here's an example of such a test:
 
 ```ruby
 require_relative "./helper"
@@ -56,7 +56,7 @@ As part of the automation setup mentioned above, you should now have new scripts
 
 ## Headless Browser Testing with Cypress
 
-You can install Cypress using a [bundled configuration](/docs/bundled-configurations). Just run:
+You can install Cypress using a [bundled configuration](/docs/bundled-configurations):
 
 ```sh
 bin/bridgetown configure cypress
