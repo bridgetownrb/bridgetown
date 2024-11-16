@@ -7,7 +7,7 @@ category: command-line-usage
 
 The `plugins` command allows you to display all custom or gem-based plugins you have loaded in the site along with other related infrastructure such as source manifests, generators, and builders.
 
-Simply run `bridgetown plugins list` and you'll get a printout in your terminal that looks something like this:
+Run `bridgetown plugins list` and you'll get a printout in your terminal that looks something like this:
 
 
 ```
@@ -52,9 +52,9 @@ bridgetown plugins cd <origin>/<dir>
 
 where `<origin>` is one of the source manifest origins (like the `SamplePlugin` example above), and `<dir>` is one of the folder names (like `Content` or `Layouts`).
 
-The command drops you in a new temporary shell where you can access the files, and when you're done simply type `exit` to return to your site. In addition, you're given the `BRIDGETOWN_SITE` environment variable as a way to reference your site from the temporary shell.
+The command drops you in a new temporary shell where you can access the files, and when you're done, type `exit` to return to your site. In addition, you're given the `BRIDGETOWN_SITE` environment variable as a way to reference your site from the temporary shell.
 
-So for example if you wanted to copy all the layouts from a gem-based plugin into your own site layouts folder, it's as simple as running:
+For example, if you wanted to copy all the layouts from a gem-based plugin into your own site layouts folder, run:
 
 ```sh
 bridgetown plugins cd AwesomePlugin/Layouts

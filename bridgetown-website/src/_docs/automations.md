@@ -14,7 +14,7 @@ They're uniquely powerful when combined with [plugins](/docs/plugins), as an
 automation can install and configure one or more plugins from a single script.
 
 You could also write an automation to run multiple additional automations, and
-apply that to a brand-new site to set everything up just how you want it in a
+apply that to a brand-new site to set everything up exactly how you want it in a
 repeatable and automatic fashion.
 
 Automations can be loaded from a local path, or they can be loaded from remote
@@ -67,7 +67,7 @@ actions provided by Thor](https://github.com/erikhuda/thor/wiki/Actions), such
 as `run` to run a CLI executable, or `ask` to prompt the user for details, or
 `say_status` to provide helpful messages in the terminal.
 
-Here's an example of a simple automation which creates a new file in a
+Here's an example of an automation which creates a new file in a
 site repo:
 
 ```ruby
@@ -77,7 +77,7 @@ create_file "netlify.toml" do
       command = "bin/bridgetown deploy"
       publish = "output"
     [build.environment]
-      NODE_VERSION = "12"
+      NODE_VERSION = "22"
     [context.production.environment]
       BRIDGETOWN_ENV = "production"
   NETLIFY
@@ -157,5 +157,5 @@ end
 
 In summary, automations are a fantastic method of saving repeatable setup
 steps for you to reuse later in new projects, or you can share scripts with
-the world at large. Use them for plugins, themes, or just quick one-off
+the world at large. Use them for plugins, themes, or quick one-off
 scripts.

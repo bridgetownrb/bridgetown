@@ -78,7 +78,7 @@ ruby -v
 > ruby 3.0.2p107 (2021-07-07 revision 0db68f0233) [aarch64-linux]
 ```
 
-(If for some reason `bundler` isn't installed automatically, just run `gem install bundler -N`)
+(If for some reason `bundler` isn't installed automatically, run `gem install bundler -N`)
 
 And that's it! Check out [rbenv command references](https://github.com/rbenv/rbenv#command-reference) to learn how to use different versions of Ruby in your projects.
 

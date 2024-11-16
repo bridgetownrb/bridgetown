@@ -9,21 +9,13 @@ module Bridgetown
 
       support_slots
 
-      # Public: Does the given extension match this converter's list of acceptable extensions?
-      # Takes one argument: the file's extension (including the dot).
-      #
-      # _ext - The String extension to check (not relevant here)
-      #
-      # Returns true since it always matches.
+      # @return [Boolean] true since it always matches.
       def matches(*)
         true
       end
 
-      # Public: The extension to be given to the output file (including the dot).
-      #
-      # ext - The String extension or original file.
-      #
-      # Returns The String output file extension.
+      # @param ext [String] the extension of the original file
+      # @return [String] The output file extension (including the dot)
       def output_ext(ext)
         ext
       end

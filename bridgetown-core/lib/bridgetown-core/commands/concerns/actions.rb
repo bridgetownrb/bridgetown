@@ -116,6 +116,10 @@ module Bridgetown
         run "#{Bridgetown::PluginManager.package_manager} #{Bridgetown::PluginManager.package_manager_install_command} #{package_details}" # rubocop:disable Layout
       end
 
+      def remove_npm_package(package_details)
+        run "#{Bridgetown::PluginManager.package_manager} #{Bridgetown::PluginManager.package_manager_uninstall_command} #{package_details}" # rubocop:disable Layout
+      end
+
       def apply_from_url(url)
         apply transform_automation_url(url.dup)
       end

@@ -76,7 +76,6 @@ module Bridgetown
     # Check incoming prototype configuration and normalize options.
     #
     # @param prototype_page [Bridgetown::GeneratedPage, Bridgetown::Resource::Base]
-    #
     # @return [String, nil]
     def validate_search_term(prototype_page)
       # @type [String]
@@ -108,7 +107,6 @@ module Bridgetown
     # Provide a list of all relevent indexed values for the given term.
     #
     # @param search_term [String]
-    #
     # @return [Array<String>]
     def terms_matching_pages(search_term)
       pages_list = site.collections[@configured_collection].resources

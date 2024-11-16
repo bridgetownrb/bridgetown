@@ -81,12 +81,12 @@ module Bridgetown
     end
 
     def self.package_manager
-      @package_manager ||= if File.exist?("package-lock.json")
-                             "npm"
-                           elsif File.exist?("yarn.lock")
+      @package_manager ||= if File.exist?("yarn.lock")
                              "yarn"
                            elsif File.exist?("pnpm-lock.yaml")
                              "pnpm"
+                           elsif File.exist?("package.json")
+                             "npm"
                            else
                              ""
                            end
@@ -94,6 +94,10 @@ module Bridgetown
 
     def self.package_manager_install_command
       package_manager == "npm" ? "install" : "add"
+    end
+
+    def self.package_manager_uninstall_command
+      package_manager == "npm" ? "uninstall" : "remove"
     end
 
     # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity

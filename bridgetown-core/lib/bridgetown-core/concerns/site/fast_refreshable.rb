@@ -10,15 +10,16 @@ class Bridgetown::Site
       @fast_refresh_ordering = 0
       full_abort = false
       found_gen_pages = false
-      paths.each do |path|
-        res = resources.find do |resource|
+      paths.each do |path| # rubocop:todo Metrics
+        found_res = resources.select do |resource|
           resource.id.start_with?("repo://") && in_source_dir(resource.relative_path) == path
         end
 
         layouts_to_reload = Set.new
-        locate_resource_layouts_and_partials_for_fash_refresh(path, layouts_to_reload) unless res
+        locate_resource_layouts_and_partials_for_fash_refresh(path, layouts_to_reload) unless
+          found_res.any?
 
-        locate_components_for_fast_refresh(path) unless res
+        locate_components_for_fast_refresh(path) unless found_res.any?
 
         pages = locate_layouts_and_pages_for_fast_refresh(path, layouts_to_reload)
 
@@ -27,21 +28,22 @@ class Bridgetown::Site
             self, layout.instance_variable_get(:@base), layout.name
           )
         end
-        liquid_renderer.reset unless layouts_to_reload.empty?
-        next unless res || !pages.empty?
+        next unless found_res.any? || pages.any?
 
-        unless pages.empty?
+        if pages.any?
           found_gen_pages = true
           mark_original_page_resources_for_fast_refresh(pages)
           next
         end
 
-        res.prepare_for_fast_refresh!.tap { full_abort = true unless _1 }
-        next unless res.collection.data?
+        found_res.each do |res|
+          res.prepare_for_fast_refresh!.tap { full_abort = true unless _1 }
+          next unless res.collection.data?
 
-        res.collection.merge_data_resources.each do |k, v|
-          data[k] = v
-          signals[k] = v
+          res.collection.merge_data_resources.each do |k, v|
+            data[k] = v
+            signals[k] = v
+          end
         end
       end
 
@@ -60,6 +62,7 @@ class Bridgetown::Site
 
       Bridgetown::Hooks.trigger :site, :fast_refresh, self
 
+      liquid_renderer.reset
       transform_resources_for_fast_refresh(marked_resources, found_gen_pages)
       transform_generated_pages_for_fast_refresh
 
@@ -134,7 +137,11 @@ class Bridgetown::Site
     end
 
     def transform_resources_for_fast_refresh(marked_resources, found_gen_pages)
-      marked_resources.each { _1.transform!.write }
+      marked_resources.each do |res|
+        render_with_locale(res) do
+          res.transform!.write
+        end
+      end
       number_of_resources = marked_resources.length
       number_of_resources += 1 if found_gen_pages
       Bridgetown.logger.info(

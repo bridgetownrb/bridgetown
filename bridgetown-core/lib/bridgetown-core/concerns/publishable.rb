@@ -3,6 +3,8 @@
 module Bridgetown
   module Publishable
     # Whether the resource is published or not, as indicated in YAML front-matter
+    #
+    # @return [Boolean]
     def published?
       !(data.key?("published") && data["published"] == false)
     end

@@ -3,6 +3,7 @@
 class Bridgetown::Site
   module Renderable
     # Render all pages & documents so they're ready to be written out to disk.
+    #
     # @return [void]
     # @see Page
     # @see Document
@@ -97,6 +98,7 @@ class Bridgetown::Site
     end
 
     # Renders all resources
+    #
     # @return [void]
     def render_resources
       collections.each_value do |collection|
@@ -109,6 +111,7 @@ class Bridgetown::Site
     end
 
     # Renders a content item while ensuring site locale is set if the data is available.
+    #
     # @param item [Bridgetown::Resource::Base] The item to render
     # @yield Runs the block in between locale setting and resetting
     # @return [void]

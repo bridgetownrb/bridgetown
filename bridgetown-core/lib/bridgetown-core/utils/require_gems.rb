@@ -4,13 +4,11 @@ module Bridgetown
   module Utils
     module RequireGems
       class << self
-        #
         # Require a gem or gems. If it's not present, show a very nice error
         # message that explains everything and is much more helpful than the
         # normal LoadError.
         #
-        # names - a string gem name or array of gem names
-        #
+        # @param names [String, Array<String>] gem name or array of gem names
         def require_with_graceful_fail(names)
           Array(names).each do |name|
             Bridgetown.logger.debug "Requiring:", name.to_s

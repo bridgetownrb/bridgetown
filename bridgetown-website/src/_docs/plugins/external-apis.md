@@ -31,7 +31,7 @@ end
 
 ## Making a Request
 
-To make a request, simply call the `get` method inside of `build` in your builder class:
+To make a request, call the `get` method inside of `build` in your builder class:
 
 ```ruby
 def build
@@ -77,7 +77,7 @@ end
 
 ## Customizing the Connection Object
 
-Bridgetown uses the [Faraday gem](https://lostisland.github.io/faraday/) under the hood to make web requests. If you need to customize the default usage of Faraday—perhaps to set additional defaults or inject middleware to adjust the request or response logic—simply override the `connection` method in your builder class.
+Bridgetown uses the [Faraday gem](https://lostisland.github.io/faraday/) under the hood to make web requests. If you need to customize the default usage of Faraday—perhaps to set additional defaults or inject middleware to adjust the request or response logic, override the `connection` method in your builder class.
 
 Here's an example of using Retry middleware to ensure requests are attempted multiple times before admitting defeat:
 
@@ -106,9 +106,9 @@ Bridgetown comes with the [Faraday Middleware gem](https://github.com/lostisland
 
 ## The Resource Builder
 
-Adding content from an API to the `site.data` object is certainly useful, but an even more powerful feature is the Resource Builder. All you need to do is call the `add_resource` method to generate resources which function in exactly the same way as if those files were already stored in your repository. It uses a special <abbr title="Domain-Specific Language">DSL</abbr>, similar to [Ruby Front Matter](/docs/front-matter), to make assigning front matter and content very simple.
+Adding content from an API to the `site.data` object is certainly useful, but an even more powerful feature is the Resource Builder. Call the `add_resource` method to generate resources which function in exactly the same way as if those files were already stored in your repository. It uses a special <abbr title="Domain-Specific Language">DSL</abbr>, similar to [Ruby Front Matter](/docs/front-matter).
 
-Here's a simple example of creating a new blog post:
+Here's an example of creating a new blog post:
 
 ```ruby
 def build
@@ -190,7 +190,7 @@ add_resource :posts, "post.html" do
 end
 ```
 
-This is great when you have data coming in from external APIs and you'd just like to inject all of that data into the front matter with a single method call.
+This is great when you have data coming in from external APIs and you'd like to inject all of that data into the front matter with a single method call.
 
 Bear in mind that this doesn't include your `content` variable. So you'll still need to set that separately when using the `___` method, for example:
 
@@ -222,7 +222,7 @@ end
 
 The reason it won't work is because in this example, `title` is actually interpreted as a method call within the DSL block, which means `string_value` is a similar call. That would be fine if you'd already added `string_value` as a front matter key, in which case `string_value` would return that front matter variable. But in this case, you want to use the `string_value` method of your plugin.
 
-To accomplish that, simply provide a lambda using the `from: -> { }` syntax. Let's rewrite the above example to work as expected:
+To accomplish that, provide a lambda using the `from: -> { }` syntax. Let's rewrite the above example to work as expected:
 
 ```ruby
 def string_value
@@ -270,39 +270,6 @@ def build
 end
 ```
 
-## What About GraphQL?
-
-Bridgetown has first-class support for GraphQL using a plugin called
-[Graphtown](https://github.com/whitefusionhq/graphtown).
-
-Graphtown allows you to consume GraphQL APIs for your Bridgetown website
-using a tidy Builder DSL on top of the
-[Graphlient](https://github.com/ashkan18/graphlient) gem.
-
-Get started by simply running `bundle add graphtown` in your bridgetown site and adding `init :graphtown` to `config/initializers.rb`.
-
-Then, navigate to your `plugins/site_builder.rb` file and add the Graphtown mixin.
-
-```rb
-# plugins/site_builder.rb
-
-class SiteBuilder < Bridgetown::Builder
-  include Graphtown::QueryBuilder
-end
-```
-
-Setup your `graphql_endpoint` in your `bridgetown.config.yml` and you're ready to rock and roll.
-
-```rb
-# bridgetown.config.yml
-
-graphql_endpoint: http://localhost:1337/graphql
-```
-
-For more details on how to use the Graphtown gem to pull in your data
-from a CMS, check out the project on Github.
-[https://github.com/whitefusionhq/graphtown](https://github.com/whitefusionhq/graphtown)
-
 ## Conclusion
 
-As you've seen from these examples, using data from external APIs to create new content for your Bridgetown website is easy and straightforward with the `get` and `add_resource` methods provided by the Builder API. While there are numerous benefits to storing content directly in your site repository, Bridgetown gives you the best of both worlds—leaving you simply to decide where you want your content to live and how you'll put it to good use as you build your site.
+As you've seen from these examples, you can use data from external APIs to create new content for your Bridgetown website with the `get` and `add_resource` methods provided by the Builder API. While there are numerous benefits to storing content directly in your site repository, Bridgetown gives you the best of both worlds—leaving you to decide where you want your content to live and how you'll put it to good use as you build your site.

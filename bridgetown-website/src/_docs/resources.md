@@ -30,7 +30,7 @@ In this example, the [layout](/docs/layouts) of the resource is specified as `pa
 
 You can save resources as files within your source tree, and you can also [generate resources programatically](/docs/plugins/external-apis) via a builder plugin—perhaps based on data from a headless CMS or other third-party APIs.
 
-Every resource you create is part of a [collection](/docs/collections). Bridgetown comes with two built-in collections, **posts** and **pages**, as well as a no-output **data** collection. You can easily create custom collections to group related content and facilitate easy pagination and archiving functionality.
+Every resource you create is part of a [collection](/docs/collections). Bridgetown comes with two built-in collections, **posts** and **pages**, as well as a no-output **data** collection. You can easily create custom collections to group related content and facilitate pagination and archiving functionality.
 
 Want to learn more about how to use resources effectively in your website structure and content strategy? Read on!
 
@@ -139,7 +139,7 @@ tags:
   - super awesome
 ```
 
-In addition to the builtin taxonomies, you can define your own taxonomies. For example, if you were setting up a website all about music, you could create a "genre" taxonomy. Just set it up in the config:
+In addition to the built-in taxonomies, you can define your own taxonomies in the config. For example, if you were setting up a website all about music, you could create a "genre" taxonomy:
 
 ```yaml
 # bridgetown.config.yml
@@ -159,7 +159,7 @@ genres:
   - Big Band
 ```
 
-Accessing taxonomies for resources in your templates is pretty straightforward.
+You can access taxonomies for resources in your templates as:
 
 ```liquid
 Title: {{ site.taxonomy_types.genres.metadata.title }}
@@ -266,7 +266,7 @@ When writing out your resource content and you're using a Ruby-based template la
 
 For advanced use cases where you wish to generate dynamic values for front matter variables, you can use Ruby Front Matter. [Read the documentation here.](/docs/front-matter#the-power-of-ruby-in-front-matter)
 
-In addition, you can add all-Ruby page templates to your site besides just the typical Markdown/Liquid/ERB options. Yes, you're reading that right: put `.rb` files directly in your `src` folder! As long as the final statement in your code returns a string or can be converted to a string via `to_s`, you're golden. Ruby templates are evaluated in a `Bridgetown::ERBView` context (even though they aren't actually ERB), so all the usual Ruby template helpers are available.
+In addition, you can add all-Ruby page templates to your site besides the typical Markdown/Liquid/ERB options. Yes, you're reading that right: put `.rb` files directly in your `src` folder! As long as the final statement in your code returns a string or can be converted to a string via `to_s`, you're golden. Ruby templates are evaluated in a `Bridgetown::ERBView` context (even though they aren't actually ERB), so all the usual Ruby template helpers are available.
 
 For example, if we were to convert the out-of-the-box `about.md` page to `about.rb`, it would look something like this:
 
@@ -309,13 +309,13 @@ This API allows you or a third-party gem to augment resources with new methods (
 Prior to Bridgetown 1.0, a different content engine based on Jekyll was used which you may be familiar with if you have older Bridgetown sites in production or in progress.
 
 * The most obvious differences are what you use in templates (Liquid or ERB). For example, instead of `site.posts` in Liquid or `site.posts.docs` in ERB, you'd use `collections.posts.resources` (in both Liquid and ERB). (`site.collection_name_here` syntax is no longer available.) Pages are just another collection now so you can iterate through them as well via `collections.pages.resources`.
-* Front matter data is now accessed in Liquid through the `data` variable just like in ERB and skipping `data` is deprecated. Use `{{ post.data.description }}` instead of just `{{ post.description }}`.
+* Front matter data is now accessed in Liquid through the `data` variable just like in ERB and skipping `data` is deprecated. Use `{{ post.data.description }}` instead of `{{ post.description }}`.
 * In addition, instead of referencing the current "page" through `page` (aka `page.data.title`), you can use `resource` instead: `resource.data.title`.
 * Resources don't have a `url` variable. Your templates/plugins will need to reference either `relative_url` or `absolute_url`. Also, the site's `base_path` (if configured) is built into both values, so you won't need to prepend it manually.
 * Permalink formats have changed somewhat, so please refer to the latest [permalink](/docs/content/permalinks) docs for how to use the new permalink styles and placeholders.
 * Whereas the `id` of a document is the relative destination URL, the `id` of a resource is its origin id. You can define an id in front matter separately however, which would be available as `resource.data.id`.
 * The paginator items are now accessed via `paginator.resources` instead of `paginator.documents`.
-* Instead of `pagination:\n  enabled: true` in your front matter for a paginated page, you'll put the collection name instead. Also you can use the term `paginate` instead of `pagination`. So to paginate through posts, just add `paginate:\n  collection: posts` to your front matter.
+* Instead of `pagination:\n  enabled: true` in your front matter for a paginated page, you'll put the collection name instead. Also you can use the term `paginate` instead of `pagination`. So to paginate through posts, add `paginate:\n  collection: posts` to your front matter.
 * Prototype pages no longer assume the `posts` collection by default. Make sure you add a `collection` key to the `prototype` front matter.
 * Categories and tags are collated from all collections (even pages!), so if you used category/tag front matter manually before outside of posts, you may get a lot more site-wide category/tag data than expected.
 * Since user-authored pages are no longer loaded as `Page` objects and everything formerly loaded as `Document` will now be a `Resource::Base`, plugins will need to be adapted accordingly. The `Page` class has been renamed to `GeneratedPage` to indicate it is only used for specialized content generated by plugins.

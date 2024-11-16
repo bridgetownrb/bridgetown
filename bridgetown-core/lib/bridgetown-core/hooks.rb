@@ -25,7 +25,6 @@ module Bridgetown
 
     @registry = {}
 
-    NotAvailable = Class.new(RuntimeError)
     Uncallable = Class.new(RuntimeError)
 
     def self.priority_value(priority)

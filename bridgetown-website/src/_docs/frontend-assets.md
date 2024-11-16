@@ -16,7 +16,7 @@ Bridgetown provides a fully-integrated frontend bundling system using esbuild. Y
 Files to be processed by esbuild are placed in the top-level `frontend` folder within your site root. This folder is entirely separate from the Bridgetown source folder where your content, templates, plugins, etc. live. However, using relative paths you can reference files in your frontend that live in the `src` folder (so you can place component-scoped JS/CSS files alongside Liquid or Ruby templates, for example).
 
 {%@ Note do %}
-Wondering where to save images? Look at the `src/images` folder. You can reference them from both markup and CSS simply using a relative URL (for example, `/images/logo.svg`). Optionally, you can bundle images through esbuild and reference them with the `asset_path` helper (more information below). If you're interested in a full-featured image management solution with the ability to resize and optimize your media sizes, check out [Cloudinary](https://www.cloudinary.com) and the [bridgetown-cloudinary plugin](https://github.com/bridgetownrb/bridgetown-cloudinary).
+Wondering where to save images? Look at the `src/images` folder. You can reference them from both markup and CSS using a relative URL (for example, `/images/logo.svg`). Optionally, you can bundle images through esbuild and reference them with the `asset_path` helper (more information below). If you're interested in a full-featured image management solution with the ability to resize and optimize your media sizes, check out [Cloudinary](https://www.cloudinary.com) and the [bridgetown-cloudinary plugin](https://github.com/bridgetownrb/bridgetown-cloudinary).
 {% end %}
 
 Bridgetown uses NPM to install and manage frontend-based packages and dependencies. [Gem-based plugins can instruct Bridgetown](/docs/plugins/gems-and-frontend/) to add a related NPM package whenever Bridgetown first loads the gem.
@@ -32,7 +32,7 @@ Because Bridgetown utilizes standard ES bundler functionality, you can trick out
 {%@ Note do %}
   #### What about TypeScript?
 
-  TypeScript is one of the many transpile-to-JavaScript languages available today. TypeScript code isn't directly compatible with native JavaScript environments and always requires a build step. It's main selling point is static type-checking. However, it's possible to use type-checking and gain the secondary benefits of documentation popups and project navigation using JSDoc in vanilla JavaScript! In fact, simply by adding `// @ts-check` to the top of a `.js` file, VSCode for example will immediately provide TypeScript-like features as you author your code.
+  TypeScript is one of the many transpile-to-JavaScript languages available today. TypeScript code isn't directly compatible with native JavaScript environments and always requires a build step. It's main selling point is static type-checking. However, it's possible to use type-checking and gain the secondary benefits of documentation popups and project navigation using JSDoc in vanilla JavaScript! In fact, by adding `// @ts-check` to the top of a `.js` file, VSCode for example will immediately provide TypeScript-like features as you author your code.
 
   Bridgetown happily endorses JSDoc-enhanced JavaScript for a 100% ES spec-compatible development environment. [You can learn more about this approach on the TypeScript website.](https://www.typescriptlang.org/docs/handbook/intro-to-js-ts.html)
 {% end %}
@@ -61,19 +61,19 @@ There's also a [Bundled Configuration](/docs/bundled-configurations#bridgetown-r
 
 The starting place for Sass code lives at `frontend/styles/index.scss`.
 
-Importing common CSS frameworks such as Bootstrap, Foundation, Bulma and so forth is often as easy as running:
+To import common CSS frameworks such as Bootstrap, Foundation, Bulma and so forth, you can run:
 
 ```shell
 npm install name-of-css-framework
 ```
 
-And then adding:
+And then add:
 
 ```css
 @import "~css-framework/css-framework";
 ```
 
-to `index.scss`. For example, to add [Bulma](https://bulma.io) which is a modern CSS-only (no JavaScript) framework built around Flexbox, you'd simply run:
+to `index.scss`. For example, to add [Bulma](https://bulma.io) which is a modern CSS-only (no JavaScript) framework built around Flexbox, you'd run:
 
 ```shell
 npm install bulma
@@ -101,7 +101,7 @@ npm install bootstrap
 
 Bridgetown's default esbuild configuration is set up to place all compiled output into the `_bridgetown` folder in your `output` folder. Bridgetown knows when it regenerates a website not to touch anything in `_bridgetown` as that comes solely from the frontend bundler. It is recommended you do not use the site source folder to add anything to `_bridgetown` as that will not get cleaned and updated by Bridgetown's generation process across multiple builds.
 
-To reference the compiled JS and CSS files from the frontend bundler in your site template, simply add the `asset_path` Liquid tag or Ruby helper to your HTML `<head>`. For example:
+To reference the compiled JS and CSS files from the frontend bundler in your site template, add the `asset_path` Liquid tag or Ruby helper to your HTML `<head>`. For example:
 
 {% raw %}
 ```liquid
@@ -125,7 +125,7 @@ There's a catch with regard to how this works, because you'll also want to be ab
 
 **So here's what you'll want to do:**
 
-* For any files saved inside of `src`, use server-relative paths. For example: `background: url(/images/photo.jpg)` in a frontend CSS file would simply point to what is saved at `src/images/photo.jpg`.
+* For any files saved inside of `src`, use server-relative paths. For example: `background: url(/images/photo.jpg)` in a frontend CSS file would point to what is saved at `src/images/photo.jpg`.
 * For any files saved inside of `frontend`, use filesystem-relative paths. For example: `background: url("../images/photo.jpg")` in `frontend/styles/index.css` will look for `frontend/images/photo.jpg`. If the file can't be found, esbuild will throw an error.
 
 You can use the `asset_path` Liquid tag/Ruby helper to reference assets within the `frontend` folder:

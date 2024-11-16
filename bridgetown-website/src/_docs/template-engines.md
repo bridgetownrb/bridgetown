@@ -7,9 +7,9 @@ category: template-engines
 
 Bridgetown's default configured template language is **ERB** (Embedded RuBy). If you're familiar with PHP or other string-based template syntaxes in various programming languages, you should feel right at home.
 
-However, you can use a variety of different template engines within Bridgetown simply by using the appropriate file extension (aka `.liquid` for Liquid), or by specifying the template engine in your resource's front matter. Out of the box, Bridgetown provides support for both **ERB**, **Serbea**, and **Liquid**, as well as a pure Ruby template type enhanced by **Streamlined**.
+However, you can use a variety of different template engines within Bridgetown by using the appropriate file extension (aka `.liquid` for Liquid), or by specifying the template engine in your resource's front matter. Out of the box, Bridgetown provides support for both **ERB**, **Serbea**, and **Liquid**, as well as a pure Ruby template type enhanced by **Streamlined**.
 
-You can mix 'n' match template types easily. For example, Liquid's simple syntax and safe execution context make it ideal for designer-led template creation, so you could use Liquid for layouts but stick to ERB for code-intensive pages and other resources.
+You can mix 'n' match template types in the same project. For example, Liquid's simple syntax and safe execution context make it ideal for designer-led template creation, so you could use Liquid for layouts but stick to ERB for code-intensive pages and other resources.
 
 To configure a new Bridgetown site to use a language other than ERB as the default template engine regardless of file extension, use the `-t`/`--templates` option when running `bridgetown new`.
 
@@ -40,7 +40,7 @@ So instead of doing that, you can switch template engines directly. All you need
 
 ## Front Matter Defaults
 
-Besides adding `template_engine` directly in your file's front matter, you could use [front matter defaults](/docs/content/front-matter-defaults) to specify a template engine for a folder or folder tree or files which match a particular "glob pattern". That way you could, say, use ERB for most of the site but use Serbea just for a certain group of files.
+Besides adding `template_engine` directly in your file's front matter, you could use [front matter defaults](/docs/content/front-matter-defaults) to specify a template engine for a folder or folder tree or files which match a particular "glob pattern". That way you could, say, use ERB for most of the site but use Serbea only for a certain group of files.
 
 ## Site-wide Configuration
 

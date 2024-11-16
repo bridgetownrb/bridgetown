@@ -7,7 +7,7 @@ category: layouts
 
 _Welcome to the future!_ Declarative Shadow DOM ([DSD](https://konnorrogers.com/posts/2023/what-is-declarative-shadow-dom/)) represents a huge shift in the way we architect and promote modularity on a web page. You can use DSD in your [layouts](/docs/layouts), [components](/docs/components), and generally anywhere it would be beneficial to increase the separation between presentation logic & content and work with advanced scoped styling APIs.
 
-Heads up: if you're upgrading from Bridgetown 1.2 or previous, you'll need to be using esbuild (not Webpack) and must update your base esbuild configuration. It's a snap! Just run:
+Heads up: if you're upgrading from Bridgetown 1.2 or previous, you'll need to use esbuild (not Webpack) and update your base esbuild configuration:
 
 ```shell
 bin/bridgetown esbuild update
@@ -47,7 +47,7 @@ It's helpful to describe the power and flexibility of DSD by comparing it to wha
 </body>
 ```
 
-Oops, this isn't what we want. By simply styling the `header` tag, we've affected both the main header of the page and the header of an individual article block. Let's adding some selector-based scoping to remedy this:
+Oops, this isn't what we want. By styling the `header` tag, we've affected both the main header of the page and the header of an individual article block. Let's adding some selector-based scoping to remedy this:
 
 ```html
 <body>
@@ -131,7 +131,7 @@ What's great about this approach is:
 
 1. Only the element with a DSD template is affected by the associated styles. The `header` tag at the `body` level, and the `header` tag at the `article` level are separated from each other behind shadow boundaries. This provides what we like to call _encapsulation_ (borrowing terminology from object-oriented programming). Before all HTML + styles operated in a single global namespace called "the DOM". Now we can actually define encapsulated HTML + style DOM trees!
 2. Scoping isn't just about styles…it works in JavaScript too! Consider `document.body.querySelectorAll("header")`. Normally, this would give you a list of all `header` tags across the entire webpage, no matter where they appear. But now, you could call `document.body.shadowRoot.querySelectorAll("header")` and get that single header in your DSD template. _Wut??_ Yep, it totally works.
-3. By utilizing the [slots mechanism](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots#adding_flexibility_with_slots) that's part of the shadow DOM spec, you can build your DSD template around various pieces of presentation logic, styled by the template accordingly, and then in the "light DOM" your content can reference those slots to make it *super obvious* what the content is and how it might get presented. Of course many server-side templating systems, Bridgetown included, can make this somewhat clear from a development standpoint by providing building blocks such as layouts and resources and components, but by the time it gets to the browser, you don't really have any sense how the content and the presentation logic are built out and modularized. **Everything just gets flatted into a tree of DOM nodes.** With shadow DOM, you can actually see at the markup and browser dev tools levels how everything gets composed together across your components and templates, making inspecting and debugging much easier. It's like HTML suddenly got super powers!
+3. By utilizing the [slots mechanism](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots#adding_flexibility_with_slots) that's part of the shadow DOM spec, you can build your DSD template around various pieces of presentation logic, styled by the template accordingly, and then in the "light DOM" your content can reference those slots to make it *super obvious* what the content is and how it might get presented. Of course many server-side templating systems, Bridgetown included, can make this somewhat clear from a development standpoint by providing building blocks such as layouts and resources and components, but by the time it gets to the browser, you don't really have any sense how the content and the presentation logic are built out and modularized. **Everything gets flatted into a tree of DOM nodes.** With shadow DOM, you can actually see at the markup and browser dev tools levels how everything gets composed together across your components and templates, making inspecting and debugging much easier. It's like HTML suddenly got super powers!
 
 In addition to the benefits above, you also have the ability to leverage [CSS Shadow Parts](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) (which only work when you have, er, shadow DOM—hence the name!). What's a shadow part? It's when you use the `part=` attribute on an element inside your DSD template, and by doing so it makes it styleable from the "outside". Defining parts and labeling them appropriately is a fantastic way to build up a true "style API" for each layout or component.
 

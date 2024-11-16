@@ -6,7 +6,7 @@ category: core_concepts
 next_page_order: 25
 ---
 
-It's easy to get started with Bridgetown, but it helps to have a basic understanding of a few key aspects of the site build process so you know which tools to use for the right job. Websites using Bridgetown are built and deployed as atomic artifacts, but they can optionally provide dynamic routes via a secondary server process. This means the website your visitors will ultimately engage with was largely produced as a "snapshot in time"—the product of Bridgetown's build process. How does that process work? Let's find out!
+We've made it as easy as we could to get started with Bridgetown, but it helps to have a basic understanding of a few key aspects of the site build process so you know which tools to use for the right job. Websites using Bridgetown are built and deployed as atomic artifacts, but they can optionally provide dynamic routes via a secondary server process. This means the website your visitors will ultimately engage with was largely produced as a "snapshot in time"—the product of Bridgetown's build process. How does that process work? Let's find out!
 
 ## The Build Process
 
@@ -74,6 +74,6 @@ Bridgetown provides a [full SSR pipeline powered by the Roda web toolkit](/docs/
 
 There is detailed documentation available about each and every step mentioned
 above, so feel free to poke around and read up on the topics which interest you the
-most. And as always, if you get stuck or have follow-up questions, just hop in one
+most. And as always, if you get stuck or have follow-up questions, hop in one
 of our [community channels](/community) and a friendly Bridgetowner will
 endeavor to help you out!

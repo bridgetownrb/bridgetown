@@ -14,20 +14,28 @@ We’ve have a [Technical Help board](https://community.bridgetown.pub/c/technic
 
 ## Upgrading to Bridgetown 2.0 (Beta)
 
-The first thing to know is that there are new minimum versions of both Ruby and Node for the v2 release cycle. In general, we try to support the previous two significant releases of these runtimes in addition to the current ones (aka Ruby 3.3 and Node 22) with each major version increase. So you will need to use a minimum of:
+The first thing to know is that there are new minimum versions of both Ruby and Node.js for the v2 release cycle. In general, we try to support the previous two significant releases of these runtimes in addition to the current ones (aka Ruby 3.3 and Node 23) with each major version increase. So you will need to use a minimum of:
 
 * Ruby 3.1.4 (⚠️ there's a bug in earlier versions of Ruby 3.1 which will prevent Bridgetown to run)
-* Node 20
+* Node 20.6 (⚠️ earlier versions of Node aren't compatible with esbuild's ESM-based config)
 
-Sometimes that's as simple as changing your version dotfiles (for example `.ruby-version` and `.nvmrc`). We do recommend switching to the latest versions (Ruby 3.3 and Node 22 as of the time of this writing) if possible.
+If you use versioning dotfiles (for example `.ruby-version` and `.nvmrc`), you'll want to update those in your projects. We do recommend switching to the latest versions (Ruby 3.3 and Node 22 LTS or 23 as of the time of this writing) if possible.
 
 To upgrade to Bridgetown 2.0, edit your `Gemfile` to update the version numbers in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem to `2.0.0.beta2` and then run `bundle update bridgetown`.
 
 We also recommend you run `bin/bridgetown esbuild update` so you get the latest default esbuild configuration Bridgetown provides, and you may need to update your `esbuild` version in `package.json` as well.
 
+{%@ Note type: :warning do %}
+
+Only update your esbuild configuration if you're also willing to switch to ESModules (rather than CommonJS). This means your `package.json` file will include `"type": "module"` and Node JS code wil use `import` and `export` statements rather than `require` and `module.exports` going forward. [Here's an explainer](https://www.freecodecamp.org/news/modules-in-javascript/) about the JavaScript language switch to ESM.
+
+{% end %}
+
 ### Switching from Yarn to NPM 📦
 
-Bridgetown uses NPM now by default, rather than Yarn, for frontend package managing. You may continue to use Yarn on your existing projects, but if you'd like to switch to NPM, you can simply delete your `yarn.lock` file, run `npm install` (shorthand: `npm i`), and check in `package-lock.json` instead. You can also use [pnpm](https://pnpm.io) if you prefer. Bridgetown is now compatible with all three package managers.
+Bridgetown uses NPM now by default, rather than Yarn, for frontend package managing. You may continue to use Yarn on your existing projects, but if you'd like to switch to NPM, you can delete your `yarn.lock` file, run `npm install` (shorthand: `npm i`), and check in `package-lock.json` instead. You can also use [pnpm](https://pnpm.io) if you prefer. Bridgetown is now compatible with all three package managers.
+
+You'll also need to update the `:frontend` tasks in your project's `Rakefile` to use your preferred package manager.
 
 ### Specifying Liquid (if necessary) 💧
 
@@ -57,13 +65,23 @@ class RodaApp < Roda
 end
 ```
 
+Additionally, you may also hit the following error:
+
+```
+Exception raised: Errno::ENOENT
+No such file or directory @ rb_sysopen - /tmp/pids/aux.pid
+```
+
+In which case, refer to the above fix for configuring your Roda server.
+
+
 ### Supporting Active Support Support 😏
 
 Bridgetown v2 has removed a number of dependencies in the codebase on the Active Support gem (provided by the Rails framework). If that ends up causing problems with your codebase, you may need to require Active Support manually (and even Action View) in your `config/initializers.rb` file. [Here's a thread on GitHub](https://github.com/bridgetownrb/bridgetown/pull/881#issuecomment-2228693932) referencing this situation.
 
 ### Caveats with Fast Refresh in Development ⏩
 
-Bridgetown v2 comes with a "fast refresh" feature by default. This rebuilds only files needed to display updated content in source files, rather than the entire website from scratch. However, certain features aren't yet compatible with fast refresh—most notabily, **i18n**. If you're using multiple locales in your project, you will likely want to disable fast refresh so you don't end up with broken pages/links by setting `fast_refresh` to `false` in your config.
+Bridgetown v2 comes with a "fast refresh" feature by default. This rebuilds only files needed to display updated content in source files, rather than the entire website from scratch. However, certain features aren't yet compatible with fast refresh—most notabily, **i18n**. If you're using multiple locales in your project, you will likely want to disable fast refresh so you don't end up with broken pages/links by setting `fast_refresh false` in `config/initializers.rb`.
 
 ### Quick Search and Other Plugins 🔍
 

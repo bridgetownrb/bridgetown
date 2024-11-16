@@ -5,7 +5,7 @@ top_section: Writing Content
 category: resources
 ---
 
-A permalink is simply the determination of what the output URL of your [resource](/docs/resources) will be. Every resource uses a _permalink processer_ to figure out where to save your transformed resource in the output folder tree.
+A permalink is the determination of what the output URL of your [resource](/docs/resources) will be. Every resource uses a _permalink processer_ to figure out where to save your transformed resource in the output folder tree.
 
 Resources in the **pages** collection are the most straightforward. The filenames and folder structure of your pages will result in matching output URLs. For example, a file saved at `src/_pages/this/is/great.md` would be output to `/this/is/great/`.
 
@@ -18,7 +18,7 @@ The available styles are:
 * `simple`: `/[locale]/:categories/:slug/`
 * `simple_ext`: `[locale]/:categories/:slug.*`
 
-(Including `.*` at the end simply means it will output the resource with its own slug and extension. Alternatively, `/` at the end will put the resource in a folder of that slug with `index.html` inside.)
+(Including `.*` at the end means it will output the resource with its own slug and extension. Alternatively, `/` at the end will put the resource in a folder of that slug with `index.html` inside.)
 
 To set a permalink style or template for a **custom collection**, add it to your collection metadata in `bridgetown.config.yml`. For example:
 

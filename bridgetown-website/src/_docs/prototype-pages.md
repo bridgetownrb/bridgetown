@@ -34,7 +34,7 @@ pagination automatically, so you can use `paginator.resources` to loop through t
 posts like on any normal paginated page. Using `:prototype-term` in the page title will
 automatically put each archive page's term (aka the category name) in the output title.
 
-You can do the same thing with tags—just use `term: tag` and create a `tags/tag.html`
+You can do the same thing with tags. Use `term: tag` and create a `tags/tag.html`
 file. The exact folder/filename doesn't actually matter—you could create
 `my-super-awesome-tagged-content/groovy.html` and it would still work. (The filename
 always gets replaced by the search term itself.)

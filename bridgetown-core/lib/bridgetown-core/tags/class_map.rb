@@ -23,7 +23,7 @@ module Bridgetown
     class ClassMap < Liquid::Tag
       # @see https://api.rubyonrails.org/classes/ActiveModel/Type/Boolean.html
       FALSE_VALUES = [
-        nil, "nil", "NIL", false, 0, "0", :"0", "f", :f, "F", :F, "false",
+        nil, "nil", "NIL", 0, "0", :"0", "f", :f, "F", :F, "false",
         false, "FALSE", :FALSE,
       ].to_set.freeze
 

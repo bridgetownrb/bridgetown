@@ -66,11 +66,7 @@ module Bridgetown
           build_site(config_options)
         end
 
-        # TODO: remove this logic…I can't find "detach" anywhere
-        if config_options.fetch("detach", false)
-          Bridgetown.logger.info "Auto-regeneration:",
-                                 "disabled when running server detached."
-        elsif config_options.fetch("watch", false)
+        if config_options.fetch("watch", false)
           watch_site(config_options)
         else
           Bridgetown.logger.info "Auto-regeneration:", "disabled. Use --watch to enable."
@@ -79,11 +75,9 @@ module Bridgetown
 
       protected
 
-      # Build your Bridgetown site.
+      # Build your Bridgetown site
       #
-      # options - A Hash of options passed to the command or loaded from config
-      #
-      # Returns nothing.
+      # @param options [Bridgetown::Configuration] options loaded from config and/or CLI
       def build_site(config_options)
         t = Time.now
         display_folder_paths(config_options)
@@ -97,27 +91,22 @@ module Bridgetown
                                           "#{(Time.now - t).ceil(2)} seconds."
       end
 
-      # Watch for file changes and rebuild the site.
+      # Watch for file changes and rebuild the site
       #
-      # options - A Hash of options passed to the command or loaded from config
-      #
-      # Returns nothing.
+      # @param options [Bridgetown::Configuration] options loaded from config and/or CLI
       def watch_site(config_options)
         Bridgetown::Watcher.watch(@site, config_options)
       end
 
       # Display the source and destination folder paths
       #
-      # options - A Hash of options passed to the command
-      #
-      # Returns nothing.
+      # @param options [Bridgetown::Configuration] options loaded from config and/or CLI
       def display_folder_paths(config_options)
         source = File.expand_path(config_options["source"])
         destination = File.expand_path(config_options["destination"])
         Bridgetown.logger.info "Environment:", Bridgetown.environment.cyan
         Bridgetown.logger.info "Source:", source
         Bridgetown.logger.info "Destination:", destination
-        # TODO: work with arrays
         return unless config_options["plugins_dir"].is_a?(String)
 
         plugins_dir = File.expand_path(config_options["plugins_dir"])

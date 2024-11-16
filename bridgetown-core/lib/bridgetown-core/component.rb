@@ -94,7 +94,7 @@ module Bridgetown
 
       def path_for_errors
         File.basename(component_template_path)
-      rescue RuntimeError
+      rescue RuntimeError, TypeError
         source_location
       end
     end

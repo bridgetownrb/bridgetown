@@ -58,9 +58,8 @@ module Bridgetown
       # Generate a Hash for use in generating JSON.
       # This is useful if fields need to be cleared before the JSON can generate.
       #
-      # state - the JSON::State object which determines the state of current processing.
-      #
-      # Returns a Hash ready for JSON generation.
+      # @param state [JSON::State] object which determines the state of current processing
+      # @return [Hash<String, Object>] all the keys and values resolved
       def hash_for_json(state = nil)
         to_h.tap do |hash|
           # use collection label in the hash
@@ -76,19 +75,13 @@ module Bridgetown
       # Generate a Hash which breaks the recursive chain.
       # Certain fields which are normally available are omitted.
       #
-      # Returns a Hash with only non-recursive fields present.
+      # @return [Hash<String, Object>] only non-recursive fields present
       def collapse_document(doc)
         doc.keys.each_with_object({}) do |(key, _), result|
           result[key] = doc[key] unless NESTED_OBJECT_FIELD_BLACKLIST.include?(key)
         end
       end
 
-      # Generates a list of keys with user content as their values.
-      # This gathers up the Drop methods and keys of the mutations and
-      # underlying data hashes and performs a set union to ensure a list
-      # of unique keys for the Drop.
-      #
-      # @return [Array<String>]
       def keys
         keys_to_remove = %w[next_resource previous_resource]
         (content_methods |
@@ -98,8 +91,6 @@ module Bridgetown
         end
       end
 
-      # Inspect the drop's keys and values through a JSON representation
-      # of its keys and values.
       def inspect
         JSON.pretty_generate hash_for_json
       end

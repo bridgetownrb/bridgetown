@@ -11,23 +11,22 @@ module Bridgetown
       # Mutability determines whether or not pre-defined fields may be
       # overwritten.
       #
-      # is_mutable - Boolean set mutability of the class (default: nil)
+      # @param is_mutable [Boolean] set mutability of the class
       #
-      # Returns the mutability of the class
+      # @return [Boolean] the mutability of the class
       def self.mutable(is_mutable = nil)
         @is_mutable = is_mutable || false
       end
 
+      # @return [Boolean] the mutability of the class
       def self.mutable?
         @is_mutable
       end
 
       # Create a new Drop
       #
-      # obj - the Bridgetown Site, Collection, or Resource required by the
+      # @param obj [Object] the Bridgetown Site, Collection, or Resource required by the
       # drop.
-      #
-      # Returns nothing
       def initialize(obj) # rubocop:disable Lint/MissingSuper
         @obj = obj
       end
@@ -37,9 +36,8 @@ module Bridgetown
       # and finally check the underlying hash (e.g. document front matter)
       # if all the previous places didn't match.
       #
-      # key - the string key whose value to fetch
-      #
-      # Returns the value for the given key, or nil if none exists
+      # @param key [String] key whose value to fetch
+      # @return [Object, nil] returns the value for the given key if present
       def [](key)
         if self.class.mutable? && mutations.key?(key)
           mutations[key]
@@ -51,26 +49,22 @@ module Bridgetown
       end
       alias_method :invoke_drop, :[]
 
-      # Set a field in the Drop. If mutable, sets in the mutations and
-      # returns. If not mutable, checks first if it's trying to override a
-      # Drop method and raises a DropMutationException if so. If not
-      # mutable and the key is not a method on the Drop, then it sets the
-      # key to the value in the underlying hash (e.g. document front
-      # matter)
+      # Set a field in the Drop. If mutable, sets in the mutations and returns. If not mutable,
+      # checks first if it's trying to override a Drop method and raises an exception if so.
+      # If not mutable and the key is not a method on the Drop, then it sets the key to the value
+      # in the underlying hash (e.g. document front matter)
       #
-      # key - the String key whose value to set
-      # val - the Object to set the key's value to
-      #
-      # Returns the value the key was set to unless the Drop is not mutable
-      # and the key matches a method in which case it raises a
-      # DropMutationException.
+      # @param key [String] key whose value to set
+      # @param val [Object] what to set the key's value to
+      # @return [Object] the value the key was set to unless the Drop is not mutable
+      #   and the key matches a method in which case it raises an exception
       def []=(key, val)
         setter = "#{key}="
         if respond_to?(setter)
           public_send(setter, val)
         elsif respond_to?(key.to_s)
           unless self.class.mutable?
-            raise Errors::DropMutationException, "Key #{key} cannot be set in the drop."
+            raise Errors::FatalException, "Key #{key} cannot be set in the drop."
           end
 
           mutations[key] = val
@@ -82,7 +76,7 @@ module Bridgetown
       # Generates a list of strings which correspond to content getter
       # methods.
       #
-      # Returns an Array of strings which represent method-specific keys.
+      # @return [Array<String>] method-specific keys
       def content_methods
         @content_methods ||= (
           self.class.instance_methods \
@@ -95,9 +89,8 @@ module Bridgetown
 
       # Check if key exists in Drop
       #
-      # key - the string key whose value to fetch
-      #
-      # Returns true if the given key is present
+      # @param key [String] key whose value to set
+      # @return [Boolean] true if the given key is present
       def key?(key)
         return false if key.nil?
         return true if self.class.mutable? && mutations.key?(key)
@@ -121,7 +114,7 @@ module Bridgetown
       # value. It includes Drop methods, mutations, and the underlying object's
       # data. See the documentation for Drop#keys for more.
       #
-      # Returns a Hash with all the keys and values resolved.
+      # @return [Hash<String, Object>] all the keys and values resolved
       def to_h
         keys.each_with_object({}) do |(key, _), result|
           result[key] = self[key]
@@ -132,33 +125,27 @@ module Bridgetown
       # Inspect the drop's keys and values through a JSON representation
       # of its keys and values.
       #
-      # Returns a pretty generation of the hash representation of the Drop.
+      # @return [String]
       def inspect
         JSON.pretty_generate to_h
       end
 
-      # Generate a Hash for use in generating JSON.
-      # This is useful if fields need to be cleared before the JSON can generate.
+      # Generate a Hash for use in generating JSON. Essentially an alias for `to_h`
       #
-      # Returns a Hash ready for JSON generation.
+      # @return [Hash<String, Object>] all the keys and values resolved
       def hash_for_json(*)
         to_h
       end
 
-      # Generate a JSON representation of the Drop.
+      # Generate a JSON representation of the Drop
       #
-      # state - the JSON::State object which determines the state of current processing.
-      #
-      # Returns a JSON representation of the Drop in a String.
+      # @param state [JSON::State] object which determines the state of current processing
+      # @return [String] JSON representation of the Drop
       def to_json(state = nil)
         JSON.generate(hash_for_json(state), state)
       end
 
-      # Collects all the keys and passes each to the block in turn.
-      #
-      # block - a block which accepts one argument, the key
-      #
-      # Returns nothing.
+      # Collects all the keys and passes each to the block in turn
       def each_key(&)
         keys.each(&)
       end
@@ -194,10 +181,10 @@ module Bridgetown
         end
       end
 
-      # Imitate Hash.fetch method in Drop
+      # Imitate `Hash.fetch` method in Drop
       #
-      # Returns value if key is present in Drop, otherwise returns default value
-      # KeyError is raised if key is not present and no default value given
+      # @return [Object] value if key is present in Drop, otherwise returns default value.
+      #   KeyError is raised if key is not present and no default value given
       def fetch(key, default = nil, &block)
         return self[key] if key?(key)
         raise KeyError, %(key not found: "#{key}") if default.nil? && block.nil?

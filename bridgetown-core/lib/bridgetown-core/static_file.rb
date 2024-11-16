@@ -48,11 +48,10 @@ module Bridgetown
       @path ||= File.join(*[@base, @dir, @name].compact)
     end
 
-    # Obtain destination path.
+    # Obtain destination path
     #
-    # dest - The String path to the destination dir.
-    #
-    # Returns destination file path.
+    # @param dest [String] path to the destination dir
+    # @return [String]
     def destination(dest)
       dest = site.in_dest_dir(dest)
       dest_url = url
@@ -76,22 +75,21 @@ module Bridgetown
 
     alias_method :date, :modified_time
 
-    # Returns last modification time for this file.
+    # @return [Integer] last modification time for this file
     def mtime
       modified_time.to_i
     end
 
     # Is source path modified?
     #
-    # Returns true if modified since last write.
+    # @return [Boolean] true if modified since last write
     def modified?
       self.class.mtimes[path] != mtime
     end
 
     # Whether to write the file to the filesystem
     #
-    # Returns true unless the defaults for the destination path from
-    # bridgetown.config.yml contain `published: false`.
+    # @return [Boolean] true unless the defaults for the destination path contain `published: false`
     def write?
       publishable = defaults.fetch("published", true)
       return publishable unless @collection
@@ -99,11 +97,10 @@ module Bridgetown
       publishable && @collection.write?
     end
 
-    # Write the static file to the destination directory (if modified).
+    # Write the static file to the destination directory (if modified)
     #
-    # dest - The String path to the destination dir.
-    #
-    # Returns false if the file was not modified since last time (no-op).
+    # @param dest [String] path to the destination dir
+    # @return [Boolean] false if the file was not modified since last time (no-op)
     def write(dest)
       dest_path = destination(dest)
       return false if File.exist?(dest_path) && !modified?
@@ -152,12 +149,12 @@ module Bridgetown
     #
     # NOTE: `String#gsub!` removes all trailing periods (in comparison to `String#chomp!`)
     #
-    # Examples:
+    # @example
     #   When `relative_path` is "_methods/site/my-cool-avatar...png":
     #     cleaned_relative_path
     #     # => "/site/my-cool-avatar"
     #
-    # Returns the cleaned relative path of the static file.
+    # @return [String] cleaned relative path of the static file
     def cleaned_relative_path
       @cleaned_relative_path ||= begin
         cleaned = relative_path[0..-extname.length - 1]
@@ -169,7 +166,7 @@ module Bridgetown
 
     # Applies a similar URL-building technique as resources that takes
     # the collection's URL template into account. The default URL template can
-    # be overriden in the collection's configuration in bridgetown.config.yml.
+    # be overriden in the collection's configuration
     def url
       @url ||= begin
         newly_processed = false
@@ -183,19 +180,17 @@ module Bridgetown
       end
     end
 
-    # Returns the type of the collection if present, nil otherwise.
+    # @return [Symbol, nil] type of the collection if present
     def type
       @type ||= @collection&.label&.to_sym
     end
 
-    # Returns the front matter defaults defined for the file's URL and/or type
-    # as defined in bridgetown.config.yml.
+    # @return [Hash] front matter defaults defined for the file's URL and/or type
     def defaults
       @defaults ||= site.frontmatter_defaults.all url, type
     end
 
-    # Returns a debug string on inspecting the static file.
-    # Includes only the relative path of the object.
+    # @return [String] includes only the relative path of the object
     def inspect
       "#<#{self.class} @relative_path=#{relative_path.inspect}>"
     end

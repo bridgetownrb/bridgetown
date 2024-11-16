@@ -106,11 +106,7 @@ module Bridgetown
       #
       # @param new_data [HashWithDotAccess::Hash]
       def data=(new_data)
-        if site.config.fast_refresh && write?
-          # TODO: investigate if this would be better:
-          # @data.value = front_matter_defaults
-          mark_for_fast_refresh!
-        end
+        mark_for_fast_refresh! if site.config.fast_refresh && write?
 
         Signalize.batch do
           @content_signal.value += 1
@@ -221,12 +217,12 @@ module Bridgetown
 
       # @return [String]
       def absolute_url
-        format_url destination&.absolute_url
+        @absolute_url ||= format_url(destination&.absolute_url)
       end
 
       # @return [String]
       def relative_url
-        format_url destination&.relative_url
+        @relative_url ||= format_url(destination&.relative_url)
       end
 
       # @return [String]
@@ -365,7 +361,11 @@ module Bridgetown
         past_values = @data.peek.select do |key|
           key == "categories" || key == "tags" || site.taxonomy_types.keys.any?(key)
         end
-        model.attributes = model.origin.read
+        origin_data = model.origin.read
+        correct_locale = origin_data["locale"] || origin_data[:locale] || data.locale
+        model.attributes = origin_data
+        model.attributes.locale = correct_locale
+        @relative_url = @absolute_url = nil # wipe memoizations
         read!
         tax_diff = past_values.any? { |k, v| @data.peek[k] != v }
 

@@ -3,14 +3,15 @@
 module Bridgetown
   module Filters
     module GroupingFilters
-      # Group an array of items by a property
+      # Group an array of items by a property, returning an array of hashes
       #
-      # input - the inputted Enumerable
-      # property - the property
+      # @example
+      #   {"name"  => "larry"
+      #    "items" => [...] } # all the items where `property` == "larry"
       #
-      # Returns an array of Hashes, each looking something like this:
-      #  {"name"  => "larry"
-      #   "items" => [...] } # all the items where `property` == "larry"
+      # @param input [Enumerable]
+      # @param property [String]
+      # @return [Array<Hash>]
       def group_by(input, property)
         if groupable?(input)
           groups = input.group_by { |item| item_property(item, property).to_s }
@@ -22,11 +23,10 @@ module Bridgetown
 
       # Group an array of items by an expression
       #
-      # input - the object array
-      # variable - the variable to assign each item to in the expression
-      # expression -a Liquid comparison expression passed in as a string
-      #
-      # Returns the filtered array of objects
+      # @param input [Enumerable]
+      # @param variable [String] variable to assign each item to in the expression
+      # @param expression [String] Liquid comparison expression
+      # @return [Array<Hash>]
       def group_by_exp(input, variable, expression)
         return input unless groupable?(input)
 

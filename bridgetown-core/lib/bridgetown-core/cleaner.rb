@@ -17,9 +17,9 @@ module Bridgetown
 
     private
 
-    # Private: The list of files and directories to be deleted during cleanup process
+    # The list of files and directories to be deleted during cleanup process
     #
-    # Returns an Array of the file and directory paths
+    # @return [Array<String>] file and directory paths
     def obsolete_files
       out = (existing_files - new_files - new_dirs + replaced_files).to_a
       Bridgetown::Hooks.trigger :clean, :on_obsolete, out
@@ -27,10 +27,9 @@ module Bridgetown
       out
     end
 
-    # Private: The list of existing files, apart from those included in
-    # keep_files and hidden files.
+    # The list of existing files, apart from those included in keep_files and hidden files
     #
-    # Returns a Set with the file paths
+    # @return [Set<String>] file paths
     def existing_files
       files = Set.new
       regex = keep_file_regex
@@ -45,9 +44,9 @@ module Bridgetown
       files
     end
 
-    # Private: The list of files to be created when site is built.
+    # The list of files to be created when site is built.
     #
-    # Returns a Set with the file paths
+    # @return [Set<String>] file paths
     def new_files
       @new_files ||= Set.new.tap do |files|
         site.each_site_file do |item|
@@ -60,17 +59,17 @@ module Bridgetown
       end
     end
 
-    # Private: The list of directories to be created when site is built.
+    # The list of directories to be created when site is built.
     # These are the parent directories of the files in #new_files.
     #
-    # Returns a Set with the directory paths
+    # @return [Set<String>] directory paths
     def new_dirs
       @new_dirs ||= new_files.flat_map { |file| parent_dirs(file) }.to_set
     end
 
-    # Private: The list of parent directories of a given file
+    # The list of parent directories of a given file
     #
-    # Returns an Array with the directory paths
+    # @return [Array<String>] directory paths
     def parent_dirs(file)
       parent_dir = File.dirname(file)
       if parent_dir == site.dest
@@ -80,29 +79,28 @@ module Bridgetown
       end
     end
 
-    # Private: The list of existing files that will be replaced by a directory
-    # during build
+    # The list of existing files that will be replaced by a directory during build
     #
-    # Returns a Set with the file paths
+    # @return [Set<String>] file paths
     def replaced_files
       new_dirs.select { |dir| File.file?(dir) }.to_set
     end
 
-    # Private: The list of directories that need to be kept because they are
+    # The list of directories that need to be kept because they are
     # parent directories of files specified in keep_files
     #
-    # Returns a Set with the directory paths
+    # @return [Set<String>] directory paths
     def keep_dirs
       site.config.keep_files.flat_map { |file| parent_dirs(site.in_dest_dir(file)) }.to_set
     end
 
-    # Private: Creates a regular expression from the config's keep_files array
+    # Creates a regular expression from the config's keep_files array
     #
-    # Examples
+    # @example
     #   ['.git','.svn'] with site.dest "/myblog/_site" creates
     #   the following regex: /\A\/myblog\/_site\/(\.git|\/.svn)/
     #
-    # Returns the regular expression
+    # @return [Regexp]
     def keep_file_regex
       %r!\A#{Regexp.quote(site.dest)}/(#{Regexp.union(site.config.keep_files).source})!
     end

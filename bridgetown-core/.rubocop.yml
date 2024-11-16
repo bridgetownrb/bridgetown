@@ -43,3 +43,6 @@ Style/OpenStructUse:
 Style/StringConcatenation:
   Exclude:
     - test/test_apply_command.rb
+
+Style/SafeNavigationChainLength:
+  Enabled: false

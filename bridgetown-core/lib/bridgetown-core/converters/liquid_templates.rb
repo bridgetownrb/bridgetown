@@ -22,7 +22,6 @@ module Bridgetown
       # @param convertible [
       #   Bridgetown::GeneratedPage, Bridgetown::Resource::Base, Bridgetown::Layout]
       #   The instantiated object which is processing the file.
-      #
       # @return [String] The converted content.
       def convert(content, convertible)
         self.class.cached_partials ||= {}
@@ -55,17 +54,16 @@ module Bridgetown
       # rubocop: enable Metrics/MethodLength
       # rubocop: enable Metrics/AbcSize
 
-      # Fetches the payload used in Liquid rendering.
-      # Falls back to site.site_payload if no payload is set.
+      # Fetches the payload used in Liquid rendering, aka `site.site_payload`
       #
-      # Returns a Bridgetown::Drops::UnifiedPayloadDrop
+      # @return [Bridgetown::Drops::UnifiedPayloadDrop]
       def payload
         @payload ||= site.site_payload
       end
 
       # Set page content to payload and assign paginator if document has one.
       #
-      # Returns nothing
+      # @return [void]
       def configure_payload(content = nil)
         payload["page"] = document.to_liquid
         payload["paginator"] = document.respond_to?(:paginator) ? document.paginator.to_liquid : nil

@@ -16,7 +16,7 @@ Ruby components can be combined with front-end component strategies using **web 
 
 Bridgetown automatically loads `.rb` files you add to the `src/_components` folder, so that's likely where you'll want to save your component class definitions. It also load components from plugins which provide a `components` source manifest. Bridgetown's component loader is based on [Zeitwerk](https://github.com/fxn/zeitwerk), so you'll need to make sure your class names and namespaces line up with your component folder hierarchy (e.g., `_components/shared/navbar.rb` should define `Shared::Navbar`.).
 
-To create the simplest of Ruby components, all you have to do is define a `render_in` method which accepts a single `view_context` argument as well as optional block. Whatever string value you return from the method will be inserted into the template. For example:
+To create a basic Ruby component, define a `render_in` method which accepts a single `view_context` argument as well as optional block. Whatever string value you return from the method will be inserted into the template. For example:
 
 ```ruby
 class MyComponent
@@ -44,7 +44,7 @@ Bear in mind that Ruby components aren't accessible from Liquid templates. So if
 
 By subclassing `Bridgetown::Component`, you gain [the ability to write a template](/docs/templates/erb-and-beyond) in ERB, Serbea, or Streamlined.
 
-For template engines like ERB, all you need to do is add a template file right next to the component's `.rb` file. The template will automatically get rendered by the component (and you won't need to define a `render_in` method yourself). For example, using ERB:
+For template engines like ERB, add a template file right next to the component's `.rb` file. The template will automatically get rendered by the component (and you won't need to define a `render_in` method yourself). For example, using ERB:
 
 ```ruby
 # src/_components/field_component.rb
@@ -85,7 +85,7 @@ Rendering out the component in a parent template and passing along arguments is 
   </field-component>
 ```
 
-You can use Ruby's "squiggly heredoc" syntax as a template language as well! It's easy to do with our Streamlined template engine:
+You can use Ruby's "squiggly heredoc" syntax as a template language with our Streamlined template engine:
 
 ```ruby
 class FieldComponent
@@ -110,12 +110,12 @@ end
 Streamlined adds some special helpers so that writing properly-escaped HTML as well as rendering out a hash as attributes or looping through an array is much easier than with plain heredoc syntax. We've found that for complex interplay between Ruby & HTML code, Streamlined is easier to deal with than either ERB or Serbea.
 
 <%= render Note.new do %>
-**But wait, there's more!** Need to add component compatibility with Rails projects? [Try our experimental ViewComponent shim](/docs/components/view-component).
+Need to add component compatibility with Rails projects? [Try our experimental ViewComponent shim](/docs/components/view-component).
 <% end %>
 
 ### Content
 
-Bridgetown components are provided access to a `content` variable. It's simply the output of the block passed into the component via the parent `render`:
+Bridgetown components are provided access to a `content` variable which is the output of the block passed into the component via the parent `render`:
 
 ```erb
 <!-- some page template -->
@@ -175,7 +175,7 @@ The `slotted` helper can also provide default content should the slot not alread
 
 Multiple captures using the same slot name will be cumulative. The above `image` slot could be appended to by calling `slot :image` multiple times. If you wish to change this behavior, you can pass `replace: true` as a keyword argument to `slot` to clear any previous slot content. _Use with extreme caution!_
 
-For more control over slot content, you can use the `pre_render` hook. Builders can register hooks to transform slots in specific ways based on their name or context. This is perhaps not all that useful when you're writing both the content and the components, but for easy customization of third-party components it could come in handy.
+For more control over slot content, you can use the `pre_render` hook. Builders can register hooks to transform slots in specific ways based on their name or context. This is perhaps not all that useful when you're writing both the content and the components, but for customization of third-party components it could come in handy.
 
 ```rb
 class Builders::FigureItOut < SiteBuilder
@@ -203,7 +203,7 @@ end
 
 ## Helpers
 
-As expected, helpers are available as well just like in standard templates:
+As expected, helpers are available as well exactly like in standard templates:
 
 ```erb
 <!-- src/_components/posts/excerpt.erb -->
@@ -232,7 +232,7 @@ end
 
 ## Lifecycle
 
-In addition to simply rendering a template for you, `Bridgetown::Component` provides a couple lifecycle hooks:
+In addition to rendering a template for you, `Bridgetown::Component` provides a couple lifecycle hooks:
 
 * `render?` – if you define this method and return `false`, the component will not get rendered at all.
 * `before_render` – called right before the component is rendered when the view_context is known and all helpers available.

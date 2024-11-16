@@ -9,7 +9,7 @@ template_engine: erb
 Bridgetown's implementation language, Ruby, has a rich history of providing "Embedded RuBy" aka ERB templates and view layers across a wide variety of tools and frameworks. In addition to ERB, Bridgetown provides two additional Ruby-based template types: [Serbea](https://www.serbea.dev) (a superset of ERB), and **Streamlined** (which is a form of pure Ruby code).
 
 <%= render Note.new do %>
-  New Bridgetown sites are configured with ERB by default. But you can start off a project with another engine like Serbea or Liquid [with just a simple configuration change](/docs/template-engines#site-wide-configuration). You can also mix 'n' match template types in a single project!
+  New Bridgetown sites are configured with ERB by default. But you can start off a project with another engine like Serbea or Liquid [with a configuration change](/docs/template-engines#site-wide-configuration), and you can use multiple template types in a single project.
 
   Note that Streamlined itself can't be specified as a "template engine" because it's not string-based (so you couldn't "embed" Streamlined code in, say, a Markdown file). Streamlined works well as an _augmentation_ to a site configured with either ERB or Serbea.
 <% end %>
@@ -236,7 +236,7 @@ layout: testing
 A standard Liquid page. {{ resource.data.layout }}
 ```
 
-If in your layout or a layout partial you need to output the paths to your frontend assets, you can do so with a `asset_path` helper just like with Liquid layouts:
+If your layout or a layout partial needs to load your frontend assets, use the `asset_path` helper:
 
 ```eruby
 <link rel="stylesheet" href="<%%= asset_path :css %>" />
@@ -245,7 +245,7 @@ If in your layout or a layout partial you need to output the paths to your front
 
 ## Markdown
 
-When authoring a resource using ERB that's not itself a Markdown file (`.md`), you might find yourself wanting to embed some Markdown within the content. That's easy to do using a `markdownify` block:
+To embed Markdown within an ERB template, you can use a `markdownify` block:
 
 ```eruby
 <%%= markdownify do %>
@@ -330,7 +330,7 @@ In order to simplify more complex lists of HTML attributes you may also pass a h
 
 `link_to` uses [`html_attributes`](#html_attributes) under the hood to handle this converstion.
 
-You can also pass relative or absolute URLs to `link_to` and they'll just pass-through to the anchor tag without change:
+You can also pass relative or absolute URLs to `link_to` and they'll pass-through to the anchor tag without change:
 
 ```eruby
 <%%= link_to "Visit Bridgetown", "https://www.bridgetownrb.com" %>
@@ -498,7 +498,7 @@ Liquid::Template.register_filter MyFilters
 Bridgetown::RubyTemplateView::Helpers.include MyFilters
 ```
 
-Usage is pretty straightforward:
+And at the call site:
 
 ```eruby
 <%%= lowercase_string "WAY DOWN LOW" %>
@@ -512,7 +512,7 @@ Usage is pretty straightforward:
 
 The ERB template engine uses a safe output buffer—[the same one used in Rails](https://guides.rubyonrails.org/active_support_core_extensions.html#output-safety).
 
-That means that you'll sometimes find that if you simply output a front matter variable or some other string value that contains HTML tags and entities, the string will be "escaped" so that the actual angle brackets and so forth are displayed in the website content (rather than being interpreted as valid HTML tags).
+That means that you'll sometimes find that if you output a front matter variable or some other string value that contains HTML tags and entities, the string will be "escaped" so that the actual angle brackets and so forth are displayed in the website content (rather than being interpreted as valid HTML tags).
 
 Often that's the right call for [security purposes to avoid XSS attacks](https://guides.rubyonrails.org/security.html#cross-site-scripting-xss) or to bypass potential markup errors. However, to explicitly mark a string as safe, you can use the `html_safe` method. Bridgetown provides the `raw` or `safe` helpers as well. You can also use a double-equals sign to bypass escaping entirely.
 

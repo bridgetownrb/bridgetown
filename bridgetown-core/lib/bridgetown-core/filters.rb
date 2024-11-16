@@ -11,33 +11,30 @@ module Bridgetown
     include TranslationFilters
     include ConditionHelpers
 
-    # Convert a Markdown string into HTML output.
+    # Convert a Markdown string into HTML output
     #
-    # input - The Markdown String to convert.
-    #
-    # Returns the HTML formatted String.
+    # @param input [String]
+    # @return [String] HTML formatted text
     def markdownify(input)
       @context.registers[:site].find_converter_instance(
         Bridgetown::Converters::Markdown
       ).convert(input.to_s)
     end
 
-    # Convert quotes into smart quotes.
+    # Convert quotes into smart quotes
     #
-    # input - The String to convert.
-    #
-    # Returns the smart-quotified String.
+    # @param input [String]
+    # @return [String] smart-quotified text
     def smartify(input)
       Utils::SmartyPantsConverter.new(@context.registers[:site].config).convert(input.to_s)
     end
 
-    # Slugify a filename or title.
+    # Slugify a filename or title
     #
-    # input - The filename or title to slugify.
-    # mode - how string is slugified
-    #
-    # Returns the given filename or title as a lowercase URL String.
-    # See Utils.slugify for more detail.
+    # @param input [String] the filename or title to slugify
+    # @param mode [String] how string is slugified
+    # @see Utils.slugify
+    # @return [String] lowercase URL
     def slugify(input, mode = nil)
       mode = @context.registers[:site].config.slugify_mode if mode.nil?
       Utils.slugify(input, mode:)
@@ -45,10 +42,9 @@ module Bridgetown
 
     # Titleize a slug or identifier string.
     #
-    # input - The string to titleize.
-    #
-    # Returns a transformed string with spaces and capitalized words.
-    # See Utils.titleize_slug for more detail.
+    # @param input [String]
+    # @see Utils.titleize_slug for more detail
+    # @return [String] transformed string with spaces and capitalized words
     def titleize(input)
       Utils.titleize_slug(input)
     end
@@ -56,13 +52,12 @@ module Bridgetown
     # XML escape a string for use. Replaces any special characters with
     # appropriate HTML entity replacements.
     #
-    # Examples
-    #
+    # @example
     #   xml_escape('foo "bar" <baz>')
     #   # => "foo &quot;bar&quot; &lt;baz&gt;"
     #
-    # @param input [String] The String to escape.
-    # @return [String] the escaped String.
+    # @param input [String]
+    # @return [String]
     def xml_escape(input)
       Utils.xml_escape(input)
     end
@@ -70,28 +65,24 @@ module Bridgetown
     # CGI escape a string for use in a URL. Replaces any special characters
     # with appropriate %XX replacements.
     #
-    # input - The String to escape.
-    #
-    # Examples
-    #
+    # @example
     #   cgi_escape('foo,bar;baz?')
     #   # => "foo%2Cbar%3Bbaz%3F"
     #
-    # Returns the escaped String.
+    # @param input [String]
+    # @return [String]
     def cgi_escape(input)
       CGI.escape(input.to_s)
     end
 
     # URI escape a string.
     #
-    # input - The String to escape.
-    #
-    # Examples
-    #
+    # @example
     #   uri_escape('foo, bar \\baz?')
     #   # => "foo,%20bar%20%5Cbaz?"
     #
-    # Returns the escaped String.
+    # @param input [String]
+    # @return [String]
     def uri_escape(input)
       Addressable::URI.normalize_component(input)
     end
@@ -113,23 +104,22 @@ module Bridgetown
 
     # Replace any whitespace in the input string with a single space
     #
-    # input - The String on which to operate.
-    #
-    # Returns the formatted String
+    # @param input [String]
+    # @return [String]
     def normalize_whitespace(input)
       input.to_s.gsub(%r!\s+!, " ").strip
     end
 
     # Count the number of words in the input string.
     #
-    # input - The String on which to operate.
-    #
-    # Returns the Integer word count.
+    # @param input [String]
+    # @return [Integer] word count
     def number_of_words(input)
       input.split.length
     end
 
-    # Calculates the average reading time of the supplied content.
+    # Calculates the average reading time of the supplied content
+    #
     # @param input [String] the String of content to analyze.
     # @return [Float] the number of minutes required to read the content.
     def reading_time(input, round_to = 0)
@@ -138,17 +128,15 @@ module Bridgetown
     end
 
     # Join an array of things into a string by separating with commas and the
-    # word "and" for the last one.
+    # word "and" for the last one
     #
-    # array - The Array of Strings to join.
-    # connector - Word used to connect the last 2 items in the array
-    #
-    # Examples
-    #
+    # @example
     #   array_to_sentence_string(["apples", "oranges", "grapes"])
     #   # => "apples, oranges, and grapes"
     #
-    # Returns the formatted String.
+    # @param array [Array<String>]
+    # @param connector [String] word used to connect the last 2 items in the array
+    # @return [String]
     def array_to_sentence_string(array, connector = "and")
       case array.length
       when 0
@@ -162,24 +150,20 @@ module Bridgetown
       end
     end
 
-    # Convert the input into json string
+    # Convert the input into JSON string
     #
-    # input - The Array or Hash to be converted
-    #
-    # Returns the converted json string
+    # @param input [Array, Hash, String, Integer]
+    # @return [String] JSON string
     def jsonify(input)
       as_liquid(input).to_json
     end
 
-    # Filter an array of objects
+    # Filter an array of objects or a hash (will use values)
     #
-    # input    - the object array.
-    # property - the property within each object to filter by.
-    # value    - the desired value.
-    #            Cannot be an instance of Array nor Hash since calling #to_s on them returns
-    #            their `#inspect` string object.
-    #
-    # Returns the filtered array of objects
+    # @param input [Array, Hash]
+    # @param property [String] the property within each object to filter by
+    # @param value [String] value for the search
+    # @return [Array] filtered array of objects
     def where(input, property, value) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
       return input if !property || value.is_a?(Array) || value.is_a?(Hash)
       return input unless input.respond_to?(:select)
@@ -201,15 +185,14 @@ module Bridgetown
 
     # Filters an array of objects against an expression
     #
-    # input - the object array
-    # variable - the variable to assign each item to in the expression
-    # expression - a Liquid comparison expression passed in as a string
-    #
-    # Returns the filtered array of objects
+    # @param input [Array, Hash]
+    # @param variable [String] the variable to assign each item to in the expression
+    # @param expression [String] a Liquid comparison expression passed in as a string
+    # @return [Array] filtered array of objects
     def where_exp(input, variable, expression)
       return input unless input.respond_to?(:select)
 
-      input = input.values if input.is_a?(Hash) # FIXME
+      input = input.values if input.is_a?(Hash)
 
       condition = parse_condition(expression)
       @context.stack do
@@ -222,9 +205,8 @@ module Bridgetown
 
     # Convert the input into integer
     #
-    # input - the object string
-    #
-    # Returns the integer value
+    # @param input [String, Boolean] if boolean, 1 for true and 0 for false
+    # @return [Integer]
     def to_integer(input)
       return 1 if input == true
       return 0 if input == false
@@ -234,11 +216,10 @@ module Bridgetown
 
     # Sort an array of objects
     #
-    # input - the object array
-    # property - property within each object to filter by
-    # nils ('first' | 'last') - nils appear before or after non-nil values
-    #
-    # Returns the filtered array of objects
+    # @param input [Array]
+    # @param property [String] the property within each object to filter by
+    # @param nils [String] `first` | `last` (nils appear before or after non-nil values)
+    # @return [Array] sorted array of objects
     def sort(input, property = nil, nils = "first")
       raise ArgumentError, "Cannot sort a null object." if input.nil?
 

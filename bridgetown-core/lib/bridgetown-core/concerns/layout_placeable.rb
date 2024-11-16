@@ -4,7 +4,7 @@ module Bridgetown
   module LayoutPlaceable
     # Determine whether the file should be placed into layouts.
     #
-    # Returns false if the document is an asset file or if the front matter
+    # @return [Boolean] false if the document is an asset file or if the front matter
     #   specifies `layout: none`
     def place_in_layout?
       no_layout?.!
