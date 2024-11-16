@@ -658,7 +658,7 @@ Streamlined provides a Rubocop linter to make sure template authors are utilizin
 ==TODO: write about config here==
 
 <%= render Note.new do %>
-**Q:** Why does Streamlined rely on heredocs which are actually just strings? Why doesn't Streamlined use a special Ruby DSL similar to other tools like Phlex, Papercraft, or Arbre?
+**Q:** Why does Streamlined rely on heredocs which are actually just strings? Why doesn't Streamlined use a special Ruby DSL for generating HTML similar to other tools like Phlex, Papercraft, or Arbre?
 
-**A:** Many of us like writing HTML proper—and beyond that, the value of using template syntaxes which are fully compatible with the vast ecosystem of HTML on the web cannot be overstated. Also as mentioned previously, Streamlined represents an effort to approximate JavaScript's "tagged template literals" in Ruby—an experience already appealing to many frontend developers.
+**A:** Many of us prefer writing HTML syntax—and beyond that, the value of using a template system which is fully compatible with the vast ecosystem of HTML on the web cannot be overstated. Also as mentioned previously, Streamlined represents an effort to approximate JavaScript's "tagged template literals" in Ruby—an experience already appealing to many frontend developers.
 <% end %>
