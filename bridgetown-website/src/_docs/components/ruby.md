@@ -8,7 +8,7 @@ order: 0
 
 A component is a reusable piece of template logic that can be included in any part of the site, and a full suite of components can comprise what is often called a "design system". You can render Ruby component objects directly in your Ruby-based templates, and you can render components from within other components. This provides the basis for a fully-featured view component architecture for ERB and beyond.
 
-Ruby components can be combined with front-end component strategies using **web components** or other JavaScript libraries/frameworks. For one particular spin on this, check out our [Lit Components](/docs/components/lit) documentation.
+Ruby components can be combined with front-end component strategies using **web components** or other JavaScript libraries/frameworks.
 
 <%= toc %>
 
@@ -16,7 +16,7 @@ Ruby components can be combined with front-end component strategies using **web 
 
 Bridgetown automatically loads `.rb` files you add to the `src/_components` folder, so that's likely where you'll want to save your component class definitions. It also load components from plugins which provide a `components` source manifest. Bridgetown's component loader is based on [Zeitwerk](https://github.com/fxn/zeitwerk), so you'll need to make sure your class names and namespaces line up with your component folder hierarchy (e.g., `_components/shared/navbar.rb` should define `Shared::Navbar`.).
 
-To create a Ruby component, all you have to do is define a `render_in` method which accepts a single `view_context` argument as well as optional block. Whatever string value you return from the method will be inserted into the template. For example:
+To create a basic Ruby component, define a `render_in` method which accepts a single `view_context` argument as well as optional block. Whatever string value you return from the method will be inserted into the template. For example:
 
 ```ruby
 class MyComponent
@@ -32,44 +32,19 @@ end
   output: Hello from MyComponent!
 ```
 
-To pass variables along to a component, write an `initialize` method. You can also use Ruby's "squiggly heredoc" syntax as a kind of template language:
+The `view_context` is whichever template or component processor is in charge of rendering this object.
 
-```ruby
-class FieldComponent
-  def initialize(type: "text", name:, label:)
-    @type, @name, @label = type, name, label
-  end
-
-  def render_in(view_context)
-    <<~HTML
-      <field-component>
-        <label>#{@label}</label>
-        <input type="#{@type}" name="#{@name}" />
-      </field-component>
-    HTML
-  end
-end
-```
-
-```erb
-<%%= render FieldComponent.new(type: "email", name: "email_address", label: "Email Address") %>
-
-  output:
-  <field-component>
-    <label>Email Address</label>
-    <input type="email" name="email_address" />
-  </field-component>
-```
+Typically though, you won't be writing Ruby components as standalone objects.  Introducing `Bridgetown::Component`!
 
 <%= render Note.new type: "warning" do %>
 Bear in mind that Ruby components aren't accessible from Liquid templates. So if you need a component which can be used in either templating system, consider writing a Liquid component. [Read more information here.](/docs/components/liquid)
 <% end %>
 
-## Use Bridgetown::Component for Advanced Component Templates
+## Use Bridgetown::Component for Template Rendering
 
-While squggly heredocs are nice, what most people probably want to [the ability to write a template](/docs/templates/erb-and-beyond) in ERB, Haml, Slim, or Serbea.
+By subclassing `Bridgetown::Component`, you gain [the ability to write a template](/docs/templates/erb-and-beyond) in ERB, Serbea, or Streamlined.
 
-You can subclass your components from `Bridgetown::Component` and then add a template file right next to the component's `.rb` file. The template will automatically get rendered by the component and you won't need to define a `render_in` method yourself. For example, if we were to translate the previous heredoc to a template-based component:
+For template engines like ERB, add a template file right next to the component's `.rb` file. The template will automatically get rendered by the component (and you won't need to define a `render_in` method yourself). For example, using ERB:
 
 ```ruby
 # src/_components/field_component.rb
@@ -88,9 +63,59 @@ end
 </field-component>
 ```
 
+Here's the same example using Serbea template syntax:
+
+```serb
+<!-- src/_components/field_component.serb -->
+<field-component>
+  <label>{{ @label }}</label>
+  <input type="{{ @type }}" name="{{ @name }}" />
+</field-component>
+```
+
+Rendering out the component in a parent template and passing along arguments is straightforward:
+
+```erb
+<%%= render FieldComponent.new(type: "email", name: "email_address", label: "Email Address") %>
+
+  output:
+  <field-component>
+    <label>Email Address</label>
+    <input type="email" name="email_address" />
+  </field-component>
+```
+
+You can use Ruby's "squiggly heredoc" syntax as a template language with our Streamlined template engine:
+
+```ruby
+class FieldComponent
+  attr_reader :type, :name, :label
+
+  def initialize(type: "text", name:, label:)
+    @type, @name, @label = type, name, label
+  end
+
+  def template
+    html -> { <<~HTML
+      <field-component>
+        <label>#{text -> { label }}</label>
+        <input #{html_attributes(type:, name:)} />
+      </field-component>
+    HTML
+    }
+  end
+end
+```
+
+Streamlined adds some special helpers so that writing properly-escaped HTML as well as rendering out a hash as attributes or looping through an array is much easier than with plain heredoc syntax. We've found that for complex interplay between Ruby & HTML code, Streamlined is easier to deal with than either ERB or Serbea.
+
+<%= render Note.new do %>
+Need to add component compatibility with Rails projects? [Try our experimental ViewComponent shim](/docs/components/view-component).
+<% end %>
+
 ### Content
 
-You also have access to a `content` variable within your component .rb/template file which is the output of the block passed into the component via `render`:
+Bridgetown components are provided access to a `content` variable which is the output of the block passed into the component via the parent `render`:
 
 ```erb
 <!-- some page template -->
@@ -100,11 +125,11 @@ You also have access to a `content` variable within your component .rb/template 
 
 <!-- src/_components/layout/box.erb -->
 <layout-box border="<%%= @border %>">
-  <%%= content %>
+  <%%= content %> <!-- I'm in a box! -->
 </layout-box>
 ```
 
-## Slotted Content
+### Slotted Content
 
 New in Bridgetown 1.2, you can now provide specific named content from within the calling template to a component. If the `content` variable above could be considered the "default" slot, you'll now learn how to work with named content slots.
 
@@ -176,7 +201,7 @@ end
   Don't let the naming fool you…Bridgetown's slotted content feature is not related to the concept of slots in custom elements and shadow DOM (aka web components). But there are some surface-level similarities. Many view-related frameworks provide some notion of slots (perhaps called something else like content or layout blocks), as it's helpful to be able to render named "child" content within "parent" views.
 <% end %>
 
-### Helpers
+## Helpers
 
 As expected, helpers are available as well exactly like in standard templates:
 
@@ -205,172 +230,22 @@ class ExternalWidget < Bridgetown::Component
 end
 ```
 
-### Lifecycle
+## Lifecycle
 
 In addition to rendering a template for you, `Bridgetown::Component` provides a couple lifecycle hooks:
 
 * `render?` – if you define this method and return `false`, the component will not get rendered at all.
 * `before_render` – called right before the component is rendered when the view_context is known and all helpers available.
 
-## Need Compatibility with Rails? Try ViewComponent (experimental)
+## Sidecar JS/CSS Assets
 
-If you've used GitHub's [ViewComponent](https://viewcomponent.org) in the past, you might be thinking by now that `Bridgetown::Component` feels an awful lot like `ViewComponent::Base`. And you're right! We've _intentionally_ modeled our component class off of what we think is one of the most exciting developments in Ruby on Rails view technology in a decade.
+Some of the components you write will comprise more than pure markup. You may want to affect the styling and behavior of a component as well. For a conceptual overview of this architecture, [read our Components introduction](/docs/components#the-subtle-interplay-of-html-css--javascript).
 
-But we didn't stop there. Besides being able to use `Brigetown::Component` in your Bridgetown sites, you can actually use ViewComponent itself! How is this even possible?!
+The easiest way to write frontend component code using "vanilla" web APIs is to wrap your component in a custom element. You can then apply CSS directly to that component from a stylesheet, and even add interactivity via JavaScript.
 
-By creating a compatibility shim which "fools" ViewComponent into thinking it's booted up in a Rails app when it's actually not. ViewComponent itself is mainly only reliant on the ActionView framework within Rails, so we include that along with the shim, and then you're off to the races. (Note: this functionality is still considered _experimental_.)
+==TODO: add HTML/CSS/JS example here==
 
-Let's break it down!
+For another spin on this, check out our [Lit Components](/docs/components/lit) documentation. You can also read up on how Bridgetown's [frontend build pipeline works](/docs/frontend-assets).
 
-### Quick Tutorial
 
-First, you'll need to add the plugin to your Gemfile. In a Bridgetown project folder, run the following command:
 
-```
-bundle add bridgetown-view-component
-```
-
-and then add `init :"bridgetown-view-component"` to `config/initializers.rb`.
-
-Next create a `shared` folder in `src/_components` and add the following two files:
-
-```ruby
-# src/_components/shared/header.rb
-module Shared
-  class Header < ViewComponent::Base
-    include Bridgetown::ViewComponentHelpers
-
-    def initialize(title:, description:)
-      @title, @description = title, description
-    end
-  end
-end
-```
-
-```erb
-<!-- src/_components/shared/header.erb -->
-<header style="text-align:center; color: teal">
-  <h1 style="color: darkgreen"><%%= @title %></h1>
-
-  <%%= markdownify @description %>
-</header>
-```
-
-Now let's set up a new layout to render our component. Add `src/_layouts/vc.erb`:
-
-```erb
----
-layout: default
----
-
-<%%= render(Shared::Header.new(
-      title: resource.data.title,
-      description: resource.data.description
-    )) %>
-
-<%%= yield %>
-```
-
-Finally, update your home page (`src/index.md`) like so:
-
-```md
----
-layout: vc
-title: ViewComponent
-description: It's _here_ and it **works**!
----
-
-Yay! 😃
-```
-
-Now run `bin/bridgetown start`, load your website at localhost:4000, and you should see the new homepage with the `Shared::Header` ViewComponent rendered into the layout!
-
-### Helpers
-
-So far, pretty standard fare for ViewComponent, but you'll notice we had to add `include Bridgetown::ViewComponentHelpers` to the definition of our `Shared::Header` class. That's because, out of the box, ViewComponent doesn't know about any of Bridgetown's helpers. We could have injected helpers directly into the base class, but that might adversely affect components written with Rails in mind, so at least in this early phase we're including the module manually.
-
-<%= render Note.new do %>
-As a shortcut, you could create your own base class, say `SiteViewComponent`, which inherits from `ViewComponent::Base`, include the `Bridgetown::ViewComponentHelpers` module, and then subclass all your site components from `SiteViewComponent`.
-<% end %>
-
-### Rails Helpers
-
-Including `Bridgetown::ViewComponentHelpers` in a ViewComponent provides access to Bridgetown helpers within the component. However, to facilitate that, most of the default [Action View Helpers](https://guides.rubyonrails.org/action_view_helpers.html) get disabled, since many helpers rely on Rails and will not work with Bridgetown.
-
-`Bridgetown::ViewComponentHelpers#allow_rails_helpers` provides an API to enable supplied Action View Helpers like `ActionView::Helpers::TagHelper`:
-
-```ruby
-class HeaderComponent < ViewComponent::Base
-  Bridgetown::ViewComponentHelpers.allow_rails_helpers :tag
-  include Bridgetown::ViewComponentHelpers
-
-  def call
-    tag.h1 content, class: "my-8 text-3xl font-bold tracking-tight text-primary-white sm:text-4xl"
-  end
-end
-```
-<%= render Note.new do %>
-The Rails helpers must be included _before_ the Bridgetown View Component helpers, as shown in this example.
-<% end %>
-
-In this example, `Bridgetown::ViewComponentHelpers.allow_rails_helpers :tag` enables `ActionView::Helpers::TagHelper`. We can create an inline ViewComponent that leverages `tag.h1` to create an `<h1>` element with our supplied content.
-
-In your template, `<%%= render HeaderComponent.new.with_content("👋") %>` would output:
-
-```html
-<h1 class="my-8 text-3xl font-bold tracking-tight text-primary-white sm:text-4xl">👋</h1>
-```
-
-Like helpers, you can include `Bridgetown::ViewComponentHelpers.allow_rails_helpers :tag` in a base class that your components inherit from to reduce duplication.
-
-### Using Primer
-
-[Primer](https://primer.style) is a component library and design system published by GitHub, and you can use it now with Bridgetown! However, you'll need to do a bit of extra "shim" work to get Primer view components loaded within the Bridgetown context.
-
-First, add the following to your Gemfile:
-
-```ruby
-gem "railties" # required by Primer
-gem "actionpack" # required by Primer
-gem "primer_view_components"
-```
-
-Next, add the following file to your plugins folder:
-
-```ruby
-# plugins/builders/primer_builder.rb
-
-require "action_dispatch"
-require "rails/engine"
-require "primer/view_components/engine"
-
-class Builders::PrimerBuilder < SiteBuilder
-  def build
-    site.config.loaded_primer ||= begin
-      primer_loader = Zeitwerk::Loader.new
-      Primer::ViewComponents::Engine.config.eager_load_paths.each do |path|
-        primer_loader.push_dir path
-      end
-      primer_loader.setup
-      Rails.application.config = Primer::ViewComponents::Engine.config
-      true
-    end
-  end
-end
-```
-
-What this does is import a couple of additional Rails dependencies, set up the autoloading functionality provided by Zeitwerk, and ensure Primer's engine config is added to the Rails shim. We also want to guarantee this code only runs once when in Bridgetown's watch mode.
-
-Let's also add the Primer CSS link tag to your site's head:
-
-```
-<link href="https://unpkg.com/@primer/css@^19.0.0/dist/primer.css" rel="stylesheet" />
-```
-
-Now you can use Primer components in any Ruby template in your Bridgetown project!
-
-```erb
-<%%= render(Primer::FlashComponent.new(scheme: :success)) do %>
-  <span markdown="1">This is a **success** flash message!</span>
-<%% end %>
-```

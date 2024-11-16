@@ -9,21 +9,21 @@ Thinking of your website design as a collection of loosely-coupled, independent 
 
 Component-based design systems are at the forefront of major leaps forward in the architecture used to enable agile, scalable codebases. Techniques such as "island architecture" and "hydration" have entered into the modern vernacular. We increasingly see the shift from "page-level" to "component-level" thinking as projects unfold.
 
-Just as a web page can be thought of as the interconnected product of the three primary web technologies (HTML, CSS, & JavaScript), components are themselves individual products made out of those three technologies—or for simpler components, perhaps just one or two. Components also carry with them the concept of a "lifecycle". Understanding the lifecycle of a component on both the backend (SSR & SSG) and the frontend—and perhaps the component's "children" as well—is crucial in determining which toolset you should use to build the component. This touches on the concept we like to call "progressive generation". ([Read our tech specs intro for additional context.](/docs#more-about-the-tech-specs))
+Just as a web page can be thought of as the interconnected product of the three primary web technologies (HTML, CSS, & JavaScript), components are themselves individual products made out of those three technologies—or for simpler components, perhaps just one or two. Components also carry with them the concept of a "lifecycle". Understanding the lifecycle of a component on both the backend (SSR / SSG) and the frontend—and perhaps the component's "children" as well—is crucial in determining which toolset you should use to build the component. This touches on the concept we like to call "progressive generation". ([Read our tech specs intro for additional context.](/docs#more-about-the-tech-specs))
 
 **Bridgetown provides three environments for writing components:**
 
-### [Liquid](/docs/components/liquid)
-
-Use the [Liquid template engine](/docs/template-engines/liquid) to write basic components without a lot of custom logic or for maximum compatibility with all template engines. Liquid components are not recommended when complexity is required for frontend logic.
-
 ### [Ruby](/docs/components/ruby)
 
-Use a [Ruby-based template engine](/docs/template-engines/erb-and-beyond) in conjunction with a dedicated Ruby class to facilitate more comprehensive scenarios and take full advantage of Ruby's feature set and object-oriented nature. Bridgetown also supports a compatibility shim for the ViewComponent library, a popular Rails extension created by GitHub.
+Use a [Ruby-based template engine](/docs/template-engines/erb-and-beyond) in conjunction with a dedicated Ruby class to facilitate more comprehensive scenarios and take full advantage of Ruby's feature set and object-oriented nature.
+
+### [Liquid](/docs/components/liquid)
+
+Use the [Liquid template engine](/docs/template-engines/liquid) to write basic components without a lot of custom logic. Liquid components are not recommended when complexity is required for frontend logic.
 
 ### [Lit (Web Components)](/docs/components/lit)
 
-After installing the Lit Renderer plugin, you can write "hybrid" components which support both a backend lifecycle (during SSG & SSR) and a frontend lifecycle (via Hydration). This technique is recommended for components which must support a high degree of interactivity or data timeliness. You can also take full advantage of web component APIs such as the "shadow DOM" for encapsulated styling (meaning your component styles won't "leak out" and accidentally effect other parts of the website).
+After installing the Lit Renderer plugin, you can write "hybrid" components which support both a backend lifecycle (during SSG & SSR) and a frontend lifecycle (via Hydration). This technique is recommended for components which must support a high degree of interactivity or data timelines.
 
 So pick your flavor and dive in, or keep reading for more conceptual overview of Bridgetown's component architecture.
 
@@ -35,7 +35,7 @@ An emerging technology which has the potential to change how we approach develop
 
 As previously mentioned, a component will often encompass styling via CSS and client-side interactivity via JavaScript, alongside the output HTML coming from the component's logic/template.
 
-In those cases, where you place your CSS and JS code will vary depending on the environment. For Liquid and Ruby components, you will write what are called "sidecar" files which live alongside your component classes/templates. In contrast, Lit components fall under the category of Single-File Components. The logic, template, and styling is all part of the same unit of code. Lit components can be written in either vanilla JavaScript or Ruby2JS (a Ruby-like syntax and set of idioms which then transpiles to JavaScript). However, with a smidge of extra configuration, you do have the option of splitting the CSS of a Lit component out to its own sidecar file if you so choose.
+In those cases, where you place your CSS and JS code will vary depending on the environment. For most components, you will write what are called "sidecar" files which live alongside your component classes/templates. In contrast, Lit components fall under the category of Single-File Components. The logic, template, and styling is all part of the same unit of code. Lit components can be written in either vanilla JavaScript or Ruby2JS (a Ruby-like syntax and set of idioms which then transpiles to JavaScript). However, with a smidge of extra configuration, you do have the option of splitting the CSS of a Lit component out to its own sidecar file if you so choose.
 
 Here's an example file structure showing all three environments in use:
 
@@ -73,15 +73,15 @@ Regarding that last item, due to various performance concerns both on the static
 Ready to dive more into a particular component flavor? Let's go!
 
 <p style="margin-top:2em; display:flex; gap:1em; justify-content:center">
-  <a href="/docs/components/liquid">
-    <sl-button variant="primary" outline>
-      Liquid
-      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
-    </sl-button>
-  </a>
   <a href="/docs/components/ruby">
     <sl-button variant="primary" outline>
       Ruby
+      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
+    </sl-button>
+  </a>
+  <a href="/docs/components/liquid">
+    <sl-button variant="primary" outline>
+      Liquid
       <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
     </sl-button>
   </a>
