@@ -5,7 +5,7 @@ top_section: Configuration
 category: plugins
 ---
 
-Filters are simple Ruby methods you can provide to [Liquid templates](/docs/template-engines/liquid) to transform input data in various ways. 
+Filters are Ruby methods you can provide to [Liquid templates](/docs/template-engines/liquid) to transform input data in various ways.
 
 All methods take at least one argument which represents the input
 of the filter, and you can also support multiple method arguments (and even optional ones). The return value will be the output of the filter.
@@ -34,7 +34,7 @@ http://www.example.com/mydynamicfile.js?1586194585
 
 ## Supporting Arguments
 
-You can accept multiple arguments to your filter by simply adding them to your block or method, and optional ones are simply specified with a default value (perhaps `nil` or `false`). For example:
+You can accept multiple arguments to your filter by adding them to your block or method, and optional ones are specified with a default value (perhaps `nil` or `false`). For example:
 
 ```ruby
 class Builders::Filters < SiteBuilder
@@ -47,7 +47,7 @@ class Builders::Filters < SiteBuilder
 end
 ```
 
-Then just use it like this:
+You can then use it as:
 
 ```liquid
 {% raw %}
@@ -107,7 +107,7 @@ You also have access to the Liquid context via `filters_context`, which provides
 
 ## When to use a Filter vs. a Tag
 
-Filters are great when you want to transform input data from one format to another and potentially allow multiple transformations to be chained together. If instead you simply want to _insert_ a customized piece of content/HTML code into a page, then it's probably better to write a [Tag](/docs/plugins/tags/).
+Filters are great when you want to transform input data from one format to another and potentially allow multiple transformations to be chained together. If instead you want to _insert_ a customized piece of content/HTML code into a page, then it's probably better to write a [Tag](/docs/plugins/tags/).
 
 {%@ Note do %}
   If you prefer to use the Legacy API (aka `Liquid::Template.register_filter `) to construct Liquid filters, refer to the [Liquid documentation](https://github.com/Shopify/liquid/wiki/Liquid-for-Programmers) here.

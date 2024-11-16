@@ -94,7 +94,7 @@ end
         <p><code>:after_init</code></p>
       </td>
       <td>
-        <p>Just after the site initializes, but before setup & render. Good
+        <p>Right after the site initializes, but before setup & render. Good
         for modifying the configuration of the site.</p>
       </td>
     </tr>
@@ -106,7 +106,7 @@ end
         <p><code>:after_reset</code></p>
       </td>
       <td>
-        <p>Just after site reset and all internal data structures are in a pristine state. Not run during SSR (see below).</p>
+        <p>Right after site reset and all internal data structures are in a pristine state. Not run during SSR (see below).</p>
       </td>
     </tr>
     <tr>
@@ -150,7 +150,7 @@ end
         <p><code>:pre_render</code></p>
       </td>
       <td>
-        <p>Just before rendering the whole site</p>
+        <p>Right before rendering the whole site</p>
       </td>
     </tr>
     <tr>
@@ -183,7 +183,7 @@ end
         <p><code>:pre_reload</code></p>
       </td>
       <td>
-        <p>Just before reloading site plugins and Zeitwerk autoloaders during the watch process or in the console</p>
+        <p>Right before reloading site plugins and Zeitwerk autoloaders during the watch process or in the console</p>
       </td>
     </tr>
     <tr>
@@ -227,7 +227,7 @@ end
         <p><code>:pre_render</code></p>
       </td>
       <td>
-        <p>Just before rendering a resource</p>
+        <p>Right before rendering a resource</p>
       </td>
     </tr>
     <tr>
@@ -271,7 +271,7 @@ end
         <p><code>:pre_render</code></p>
       </td>
       <td>
-        <p>Just before rendering a page</p>
+        <p>Right before rendering a page</p>
       </td>
     </tr>
     <tr>

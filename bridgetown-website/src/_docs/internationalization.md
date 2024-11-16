@@ -132,18 +132,18 @@ en:
 There are many other useful features of the **i18n** gem, so feel free to peruse the [Rails Guide to Internationalization](https://guides.rubyonrails.org/i18n.html) for additional documentation.
 
 {%@ Note do %}
-In Ruby, the `t` helper is simply shorthand for `I18n.t`, so if you find yourself in a context where `t` is not available—perhaps in a plugin—you can write `I18n.t` directly.
+In Ruby, the `t` helper is shorthand for `I18n.t`, so if you find yourself in a context where `t` is not available—perhaps in a plugin—you can write `I18n.t` directly.
 {% end %}
 
 ## Localizing dates
 
-To ensure dates are displayed using the active locale, you'll need to localize them using `I18n.l`, or use the provided shortcut: `l` (just like you would in a Rails project).
+To ensure dates are displayed using the active locale, you'll need to localize them using `I18n.l`, or use the provided shortcut: `l`.
 
-By simply adding `gem "rails-i18n"` to your `Gemfile`, you'll get localized month and day names, along with standard date and time formats in each locale supported by that gem.
+By adding `gem "rails-i18n"` to your `Gemfile`, you'll get localized month and day names, along with standard date and time formats in each locale supported by that gem.
 You can also define your own localization for date and time.
 
 {%@ Note do %}
-In Ruby, the `l` helper is simply shorthand for `I18n.l`, so if you find yourself in a context where `l` is not available—perhaps in a plugin—you can write `I18n.l` directly.
+In Ruby, the `l` helper is shorthand for `I18n.l`, so if you find yourself in a context where `l` is not available—perhaps in a plugin—you can write `I18n.l` directly.
 {% end %}
 
 ## Localizing Your Resources and Templates

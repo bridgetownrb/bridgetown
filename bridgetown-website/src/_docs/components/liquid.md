@@ -15,7 +15,7 @@ Liquid components can be combined with front-end component strategies using **we
 
 ## Usage
 
-Including a component within a content document or design template is done via a `render` tag or `rendercontent` tag. Here is a simple example:
+Including a component within a content document or design template is done via a `render` tag or `rendercontent` tag. Here's an example:
 
 {% raw %}
 ```liquid

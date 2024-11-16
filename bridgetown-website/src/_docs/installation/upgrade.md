@@ -19,7 +19,7 @@ The first thing to know is that there are new minimum versions of both Ruby and 
 * Ruby 3.1.4 (⚠️ there's a bug in earlier versions of Ruby 3.1 which will prevent Bridgetown to run)
 * Node 20.6 (⚠️ earlier versions of Node aren't compatible with esbuild's ESM-based config)
 
-Sometimes that's as simple as changing your version dotfiles (for example `.ruby-version` and `.nvmrc`). We do recommend switching to the latest versions (Ruby 3.3 and Node 22 LTS or 23 as of the time of this writing) if possible.
+If you use versioning dotfiles (for example `.ruby-version` and `.nvmrc`), you'll want to update those in your projects. We do recommend switching to the latest versions (Ruby 3.3 and Node 22 LTS or 23 as of the time of this writing) if possible.
 
 To upgrade to Bridgetown 2.0, edit your `Gemfile` to update the version numbers in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem to `2.0.0.beta2` and then run `bundle update bridgetown`.
 
@@ -33,7 +33,9 @@ Only update your esbuild configuration if you're also willing to switch to ESMod
 
 ### Switching from Yarn to NPM 📦
 
-Bridgetown uses NPM now by default, rather than Yarn, for frontend package managing. You may continue to use Yarn on your existing projects, but if you'd like to switch to NPM, you can simply delete your `yarn.lock` file, run `npm install` (shorthand: `npm i`), and check in `package-lock.json` instead. You can also use [pnpm](https://pnpm.io) if you prefer. Bridgetown is now compatible with all three package managers.
+Bridgetown uses NPM now by default, rather than Yarn, for frontend package managing. You may continue to use Yarn on your existing projects, but if you'd like to switch to NPM, you can delete your `yarn.lock` file, run `npm install` (shorthand: `npm i`), and check in `package-lock.json` instead. You can also use [pnpm](https://pnpm.io) if you prefer. Bridgetown is now compatible with all three package managers.
+
+You'll also need to update the `:frontend` tasks in your project's `Rakefile` to use your preferred package manager.
 
 ### Specifying Liquid (if necessary) 💧
 
@@ -62,6 +64,16 @@ class RodaApp < Roda
   end
 end
 ```
+
+Additionally, you may also hit the following error:
+
+```
+Exception raised: Errno::ENOENT
+No such file or directory @ rb_sysopen - /tmp/pids/aux.pid
+```
+
+In which case, refer to the above fix for configuring your Roda server.
+
 
 ### Supporting Active Support Support 😏
 

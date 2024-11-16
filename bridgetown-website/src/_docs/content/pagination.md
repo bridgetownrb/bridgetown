@@ -7,18 +7,16 @@ category: resources
 
 {%@ "docs/help_needed", resource: resource %}
 
-Pagination support is built-in to Bridgetown, but it is not enabled by default. To enable it on your site, simply add:
+Pagination support is built-in to Bridgetown, but it is not enabled by default. You can enable it in the config file using:
 
 ```yml
 pagination:
   enabled: true
 ```
 
-to your config file.
-
 ## Page Configuration
 
-To facilitate pagination on any given page (like `index.html`, `blog.md`, etc.) then simply include configuration in the resource's front matter to specify which collection you'd like to paginate through:
+To facilitate pagination on any given page (like `index.html`, `blog.md`, etc.) then include configuration in the resource's front matter to specify which collection you'd like to paginate through:
 
 ``` yml
 ---
@@ -65,7 +63,7 @@ exclude_from_pagination: true
 
 ## Pagination Links
 
-To display pagination links, simply use the `paginator` Liquid object as follows:
+To display pagination links, use the `paginator` Liquid object as follows:
 
 {% raw %}
 ``` html

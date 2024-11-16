@@ -49,25 +49,22 @@ module Bridgetown
       end
       alias_method :invoke_drop, :[]
 
-      # Set a field in the Drop. If mutable, sets in the mutations and
-      # returns. If not mutable, checks first if it's trying to override a
-      # Drop method and raises a DropMutationException if so. If not
-      # mutable and the key is not a method on the Drop, then it sets the
-      # key to the value in the underlying hash (e.g. document front
-      # matter)
+      # Set a field in the Drop. If mutable, sets in the mutations and returns. If not mutable,
+      # checks first if it's trying to override a Drop method and raises an exception if so.
+      # If not mutable and the key is not a method on the Drop, then it sets the key to the value
+      # in the underlying hash (e.g. document front matter)
       #
       # @param key [String] key whose value to set
       # @param val [Object] what to set the key's value to
       # @return [Object] the value the key was set to unless the Drop is not mutable
-      #   and the key matches a method in which case it raises a
-      #   DropMutationException.
+      #   and the key matches a method in which case it raises an exception
       def []=(key, val)
         setter = "#{key}="
         if respond_to?(setter)
           public_send(setter, val)
         elsif respond_to?(key.to_s)
           unless self.class.mutable?
-            raise Errors::DropMutationException, "Key #{key} cannot be set in the drop."
+            raise Errors::FatalException, "Key #{key} cannot be set in the drop."
           end
 
           mutations[key] = val

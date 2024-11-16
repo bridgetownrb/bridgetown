@@ -12,7 +12,7 @@ module Bridgetown
 
         all, @path, @date, @slug = *name.sub(%r!^/!, "").match(MATCHER)
         unless all
-          raise Bridgetown::Errors::InvalidPostNameError,
+          raise Bridgetown::Errors::FatalException,
                 "'#{name}' does not contain valid date and/or title."
         end
 

@@ -9,8 +9,7 @@ Bridgetown generates your site and saves it to the `output` directory by default
 transfer the contents of this directory to almost any hosting provider to make
 your site go live.
 
-Bridgetown's included site template automatically provides a Rake task you can run to
-build both your frontend bundle and your static website. Simply run
+Bridgetown's included site template automatically provides a Rake task you can run to build both your frontend bundle and your static website:
 
 ```shell
 bin/bridgetown deploy
@@ -34,7 +33,7 @@ Some popular services include:
 
 ### Render
 
-[Render](https://render.com) provides the easiest cloud for all your static sites, APIs, databases, and containers. Render is a unified platform which can build and run apps and websites with free SSL, a global CDN, private networks, and auto deploys from Git. Use Render's simple admin dashboard or write an "infrastructure as code" YAML file to configure all your services at once. The choice is yours.
+[Render](https://render.com) provides the easiest cloud for all your static sites, APIs, databases, and containers. Render is a unified platform which can build and run apps and websites with free SSL, a global CDN, private networks, and auto deploys from Git. Use Render's admin dashboard or write an "infrastructure as code" YAML file to configure all your services at once. The choice is yours.
 
 ### Vercel
 
@@ -50,7 +49,7 @@ Some popular services include:
 
 ## Manual Deployment
 
-For a simple method of deployment, you can simply transfer the contents of your `output` folder to any web server. You can use something like `scp` to securely copy the folder, or you can use a more advanced tool:
+The most basic method of deployment is transferring the contents of your `output` folder to any web server. You can use something like `scp` to securely copy the folder, or you can use a more advanced tool:
 
 ### rsync
 
@@ -60,11 +59,11 @@ rsync in the [Digital Ocean tutorial](https://www.digitalocean.com/community/tut
 
 ### Docker
 
-Many modern hosting solutions support deploying with a `Dockerfile`. Building a Bridgetown site for one of these services is as easy as creating a `Dockerfile` in the root directory of your project. See the examples below.
+Many modern hosting solutions support deploying with a `Dockerfile`. To build a Bridgetown site for one of these services, create a `Dockerfile` in the root directory of your project. See the examples below.
 
 #### Static Site
 
-If you're simply looking to deploy a static version of your site.
+If you're looking to deploy a static version of your site.
 
 ```Dockerfile
 # Build frontend JS and CSS assets using ESbuild
@@ -202,7 +201,7 @@ This can be achieved by including a `script:` command like this in your
 pages:
   # Other directives
   script:
-    # Add this ligne just after apt update
+    # Add this ligne right after apt update
     - apt-get install -y brotli
     # Build the public/ directory first
     - find public -type f -regex '.*\.\(htm\|html\|txt\|text\|js\|css\)$' -exec gzip -f -k {} \;
@@ -227,8 +226,6 @@ Make sure to update your repo's GitHub Pages Settings at `https://github.com/<yo
 
 [Dokku](http://dokku.viewdocs.io/dokku) is great if you either want Heroku-style
 deployments on a budget or you want more control over your server stack.
-Deploying to Dokku is quite easy, but as always, there are a few settings
-required to make everything run smoothly.
 
 This guide assumes you've got a fully-functioning Dokku server up and running
 and created an app we'll conveniently call `bridgetown`.
@@ -278,7 +275,7 @@ git push dokku
 ### NGINX
 
 
-Just upload the `output` folder to somewhere accessible by NGINX and configure your server. Below is an example of `conf` file:
+Upload the `output` folder to somewhere accessible by NGINX and configure your server. Below is an example of `conf` file:
 
 ```nginx
 server {

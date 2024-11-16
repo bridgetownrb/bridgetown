@@ -31,7 +31,7 @@ http://www.example.com/mydynamicfile.js?1586194585
 
 ## Supporting Arguments
 
-You can accept multiple arguments to your helper by simply adding them to your block or method, and optional ones are simply specified with a default value (perhaps `nil` or `false`). For example:
+You can accept multiple arguments to your helper by adding them to your block or method, and optional ones are specified with a default value (perhaps `nil` or `false`). For example:
 
 ```ruby
 class Builders::Helpers < SiteBuilder
@@ -44,7 +44,7 @@ class Builders::Helpers < SiteBuilder
 end
 ```
 
-Then just use it like this:
+Then use it like this:
 
 ```erb
 5 times 10 equals <%= multiply_and_optionally_add 5, 10 %>
@@ -111,7 +111,7 @@ end
 
 ```
 
-Now just call that helper in your template and use the `label` argument:
+And then, call that helper in your template and use the `label` argument:
 
 ```eruby
 <%= capture_and_upcase do |label| %>

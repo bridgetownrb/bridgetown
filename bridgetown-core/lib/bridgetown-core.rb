@@ -35,7 +35,7 @@ require "yaml"
 require "bridgetown-foundation"
 
 # 3rd party
-require "active_support" # TODO: remove by the end of 2024
+require "active_support" # TODO: remove by the end of 2025
 require "active_support/core_ext/object/blank"
 require "active_support/core_ext/string/inflections"
 require "active_support/core_ext/string/output_safety"
@@ -76,7 +76,6 @@ module Bridgetown
   autoload :DefaultsReader,      "bridgetown-core/readers/defaults_reader"
   autoload :Deprecator,          "bridgetown-core/deprecator"
   autoload :EntryFilter,         "bridgetown-core/entry_filter"
-  # TODO: we have too many errors! This is silly
   autoload :Errors,              "bridgetown-core/errors"
   autoload :FrontMatter,         "bridgetown-core/front_matter"
   autoload :GeneratedPage,       "bridgetown-core/generated_page"

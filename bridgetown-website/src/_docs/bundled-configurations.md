@@ -42,7 +42,7 @@ Bundled configurations can also be run while creating a new Bridgetown project u
 {%@ Note type: :warning do %}
   #### Looking for Tailwind?
 
-  The bundled configuration for TailwindCSS has been [relocated to a separate community-maintained repo](https://github.com/bridgetownrb/tailwindcss-automation). The installation process remains just as simple. However, the Bridgetown core team recommends looking into options such as Open Props, Shoelace, and otherwise "vanilla" CSS (perhaps with a bit of help from PostCSS or Sass) as a best practice for "Use the Platform", future-compatible frontend development.
+  The bundled configuration for TailwindCSS has been [relocated to a separate community-maintained repo](https://github.com/bridgetownrb/tailwindcss-automation). However, the Bridgetown core team recommends looking into options such as Open Props, Shoelace, and otherwise "vanilla" CSS (perhaps with a bit of help from PostCSS or Sass) as a best practice for "Use the Platform", future-compatible frontend development.
 {% end %}
 
 ## Configuration Setup Details
@@ -113,7 +113,7 @@ bin/bridgetown configure open-props
 
 🔴 Installs [Ruby2JS](https://www.ruby2js.com), an extensible Ruby to modern JavaScript transpiler you can use in production today. It produces JavaScript that looks hand-crafted, rather than machine generated. You can convert Ruby-like syntax and semantics as cleanly and “natively” as possible. This means that (most of the time) you’ll get a line-by-line, 1:1 correlation between your source code and the JS output.
 
-Simply write your files in `frontend/javascript` or in `src/_components` with a `.js.rb` extension and they'll be supported the same way as `.js` file by Bridgetown's frontend bundling pipeline.
+Write your files in `frontend/javascript` or in `src/_components` with a `.js.rb` extension and they'll be supported the same way as `.js` file by Bridgetown's frontend bundling pipeline.
 
 🛠 **Configure using:**
 

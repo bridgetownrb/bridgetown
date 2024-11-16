@@ -9,13 +9,13 @@ Bridgetown comes with a production-ready web server based on the battle-hardened
 
 Bridgetown lets you create your own Roda-based API routes in the `server/routes` folder. An example ships in each new Bridgetown project for you to examine (`server/routes/hello.rb.sample`). These routes provide the standard features you may be accustomed to if you've used Roda standalone.
 
-However, to take full advantage of all the Bridgetown has to offer, we recommend you load up our SSR and Dynamic Routes plugins. Simply add to your configuration in `config/initializers.rb`:
+However, to take full advantage of all the Bridgetown has to offer, we recommend you load up our SSR and Dynamic Routes plugins. Add to your configuration in `config/initializers.rb`:
 
 ```rb
 init :ssr
 init :"bridgetown-routes"
 
-# …or you can just init the routes, which will init :ssr automatically:
+# …or you can init the routes, which will init :ssr automatically:
 
 init :"bridgetown-routes"
 ```
@@ -55,13 +55,13 @@ class Routes::Preview < Bridgetown::Rack::Routes
 end
 ```
 
-This route handles any `/preview/:collection/:path` URLs which are accessed just like any other statically-generated resource. It will find a content item via a repo origin ID and render that item as HTML. For example: `/preview/posts/_posts%2F2022-01-10-hello-world.md` would SSR the Markdown content located in `src/_posts/2022-01-10-hello-world.md`.
+This route handles any `/preview/:collection/:path` URLs which are accessed like any other statically-generated resource. It will find a content item via a repo origin ID and render that item as HTML. For example: `/preview/posts/_posts%2F2022-01-10-hello-world.md` would SSR the Markdown content located in `src/_posts/2022-01-10-hello-world.md`.
 
 {%@ Note do %}
 If you're wondering "but, uh, where's the HTML rendering part?!", the Bridgetown Roda configuration automatically handles the rendering of any models or resources which are returned in a route block. This is based on a "callable" interface which you can also use for your own custom objects! More on that down below.
 {% end %}
 
-SSR is great for generating preview content on-the-fly, but you can use it for any number of instances where it’s not feasible to pre-build your content. In addition, you can use SSR to “refresh” stale content…for example, you could pre-build all your product pages statically, but then request a newer version of the page (or better yet, just a fragment of it) whenever the static page is viewed which would then contain the up-to-date pricing (perhaps coming from a PostgreSQL database or some other external data source). And if you cache _that_ data using Redis in, say, 10-minute increments, you’ve just built yourself an extremely performant e-commerce solution. This is only a single example!
+SSR is great for generating preview content on-the-fly, but you can use it for any number of instances where it’s not feasible to pre-build your content. In addition, you can use SSR to “refresh” stale content…for example, you could pre-build all your product pages statically, but then request a newer version of the page (or better yet, just a fragment of it) whenever the static page is viewed which would then contain the up-to-date pricing (perhaps coming from a PostgreSQL database or some other external data source). And if you cache _that_ data using Redis in, say, 10-minute increments, you’ve built yourself an extremely performant e-commerce solution. This is only a single example!
 
 ### Priority Flag
 
@@ -107,7 +107,7 @@ You can return a resource at the end of any Roda block to have it render out aut
 
   By default, all available collections are read in when the Roda server boots up. This might not be a big deal in production since it's a one-time procedure, but bear in mind that on large sites, having all that data loaded in memory could prove costly. In addition, in development, any time you make a change to a file and the site rebuilds, resources are re-read into memory.
 
-  You can configure collections, including even the built-in pages and posts collections, to be skipped when your site's running in SSR mode. Just set `skip_for_ssr` to `true` for collection metadata in your config file. For example, to skip reading posts in `config/initializers.rb`:
+  You can configure collections, including even the built-in pages and posts collections, to be skipped when your site's running in SSR mode. Set `skip_for_ssr` to `true` for collection metadata in your config file. For example, to skip reading posts in `config/initializers.rb`:
 
   ```ruby
   Bridgetown.configure do
@@ -201,7 +201,7 @@ This is a contrived example of course, but you can easily imagine loading a spec
 You can even use placeholders in folder names! A route saved to `src/_routes/books/[id]/chapter/[chapter_id].erb` would match to something like `/books/234259/chapter/5` and let you access `r.params[:id]` and `r.params[:chapter_id]`. Pretty nifty.
 
 <!--
-Testing is straightforward as well. Simply place `.test.rb` files alongside your routes, and you’ll be able to use Capybara to write **fast** integration tests including interactions requiring Javascript (assuming Cuprite is also installed). (_docs coming soon_)
+To add tests, place `.test.rb` files alongside your routes. You can then use Capybara to write **fast** integration tests including interactions requiring Javascript (assuming Cuprite is also installed). (_docs coming soon_)
 -->
 
 ### Route Template Delimiters, Front Matter Syntax
@@ -220,7 +220,7 @@ render_with(data: hsh)
 
 Note that if you use that syntax, additional local variables will _not_ be copied down to the view template.
 
-Finally, Bridgetown lets you simplify your code even more if your block doesn't need to include any special `get`/`post` etc. casing and you just want to use local variables for front matter by letting you omit `render_with` entirely:
+Finally, if you only need to use local variables within your front matter, you can omit `render_with` entirely:
 
 ```eruby
 ---<%
@@ -237,7 +237,7 @@ title = "Thank You!"
 
 ### Routes in Islands Architecture
 
-You can add routes folders inside of one or more islands. For example, you could add a route file at `src/_islands/paradise/routes/dreamy.erb`, and the URL would then resolve to the island name plus the route name (`/paradise/dreamy`). If you name your route file `index.(ext)`, then the route path would be just the island name (`/paradise`).
+You can add routes folders inside of one or more islands. For example, you could add a route file at `src/_islands/paradise/routes/dreamy.erb`, and the URL would then resolve to the island name plus the route name (`/paradise/dreamy`). If you name your route file `index.(ext)`, then the route path would be only the island name (`/paradise`).
 
 For more information about islands, read our [Islands Architecture documentation](/docs/islands).
 

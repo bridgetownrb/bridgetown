@@ -45,7 +45,6 @@ class Bridgetown::Site
     end
 
     def ssr_first_read
-      # TODO: this shouldn't be running twice, right?!
       Bridgetown::Hooks.trigger :site, :pre_read, self
       defaults_reader.tap do |d|
         d.path_defaults.clear

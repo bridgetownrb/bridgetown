@@ -19,7 +19,7 @@ group :test do
   gem "nokolexbor"
   gem "rack-test"
   gem "rspec-mocks"
-  gem "rubocop-bridgetown", "~> 0.4", require: false
+  gem "rubocop-bridgetown", "~> 0.6", require: false
   gem "shoulda"
   gem "simplecov"
   gem "terminal-table"

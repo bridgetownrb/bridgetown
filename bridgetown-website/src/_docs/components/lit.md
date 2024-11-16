@@ -15,7 +15,7 @@ Through the use of Bridgetown's [Lit Renderer](https://www.github.com/bridgetown
 
 ## Installing Lit Renderer
 
-Simply run the Bundled Configuration automation:
+Run the Bundled Configuration automation:
 
 ```sh
 bin/bridgetown configure lit
@@ -157,7 +157,7 @@ In order to separate the "globally-accessible" stylesheets you may have in `src/
 * For global stylesheets, use the standard `.css` suffix.
 * For Lit component stylesheets, use a `.lit.css` suffix.
 
-Bridgetown's bundled Lit configuration provides the building blocks for this setup. You'll need to edit a few lines in your `frontend/javascript/index.js` and `esbuild.config.js` files to opt into this (just look at the comments in the files). Once completed, you'll be able to write components such as this:
+Bridgetown's bundled Lit configuration provides the building blocks for this setup. You'll need to edit a few lines in your `frontend/javascript/index.js` and `esbuild.config.js` files to opt into this (look at the comments in the files). Once completed, you'll be able to write components such as this:
 
 ```js
 // _src/components/my-nifty-tag.lit.js
