@@ -630,7 +630,7 @@ end
 
 Rendering blocks can be nested as well. It's all part of allowing your markup generation to become more modular.
 
-Looping over an array or hash within a heredoc is made easier by the `html_map` helper:
+Loop over an array or hash within a heredoc with the `html_map` helper:
 
 ```ruby
 def template
@@ -660,5 +660,5 @@ Streamlined provides a Rubocop linter to make sure template authors are utilizin
 <%= render Note.new do %>
 **Q:** Why does Streamlined rely on heredocs which are actually just strings? Why doesn't Streamlined use a special Ruby DSL similar to other tools like Phlex, Papercraft, or Arbre?
 
-**A:** Because I like writing HTML. ☺️ Beyond that, the value of using template syntaxes which are easily compatible with the vast ecosystem of HTML on the web cannot be overstated. (This also represents an effort to approximate JavaScript's "tagged template literals" in Ruby—an experience already appealing to many frontend developers.)
+**A:** Many of us like writing HTML proper—and beyond that, the value of using template syntaxes which are fully compatible with the vast ecosystem of HTML on the web cannot be overstated. Also as mentioned previously, Streamlined represents an effort to approximate JavaScript's "tagged template literals" in Ruby—an experience already appealing to many frontend developers.
 <% end %>
