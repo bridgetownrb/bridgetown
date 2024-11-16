@@ -77,7 +77,7 @@ create_file "netlify.toml" do
       command = "bin/bridgetown deploy"
       publish = "output"
     [build.environment]
-      NODE_VERSION = "12"
+      NODE_VERSION = "22"
     [context.production.environment]
       BRIDGETOWN_ENV = "production"
   NETLIFY

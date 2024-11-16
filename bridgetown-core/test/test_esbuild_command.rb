@@ -68,7 +68,7 @@ class TestEsbuildCommand < BridgetownUnitTest
         capture_stdout { @cmd.invoke(:esbuild, ["update"]) }
       end
 
-      assert_file_contains %r!module.exports!, esbuild_defaults
+      assert_file_contains %r!export default async!, esbuild_defaults
       refute_file_contains %r!OLD_VERSION!, esbuild_defaults
     end
   end
