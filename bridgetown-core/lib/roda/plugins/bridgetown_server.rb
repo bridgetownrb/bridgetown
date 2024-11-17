@@ -158,20 +158,11 @@ class Roda
           scope.initialize_bridgetown_context
           scope.initialize_bridgetown_root
 
-          # There are two different code paths depending on if there's a site `base_path` configured
-          if Bridgetown::Current.preloaded_configuration.base_path == "/"
-            ssg # static file server
-            Bridgetown::Rack::Routes.load_all scope
-            return
-          end
-
-          # Support custom base_path configurations
-          on(Bridgetown::Current.preloaded_configuration.base_path.delete_prefix("/")) do
+          base_path = Bridgetown::Current.preloaded_configuration.base_path.delete_prefix("/")
+          on(base_path.empty? ? true : base_path) do
             ssg # static file server
             Bridgetown::Rack::Routes.load_all scope
           end
-
-          nil
         end
       end
     end
