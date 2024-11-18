@@ -7,19 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- Avoid duplication in r.bridgetown implementation (#939) @jeremyevans
+
 ## [2.0.0.beta3] - 2024-11-16
 
 - Fix regression in base_path support (#938)[#938](https://github.com/bridgetownrb/bridgetown/pull/938) ([@jaredcwhite](https://github.com/jaredcwhite))
 - Revamping of view layer docs for v2 (#912)[#912](https://github.com/bridgetownrb/bridgetown/pull/912) ([@jaredcwhite](https://github.com/jaredcwhite))
 - Update esbuild config to use ESM (#934)[#934](https://github.com/bridgetownrb/bridgetown/pull/934) ([@jaredcwhite](https://github.com/jaredcwhite))
 - Support i18n with fast refresh (rerender multiple locales) [#937](https://github.com/bridgetownrb/bridgetown/pull/937) ([@jaredcwhite](https://github.com/jaredcwhite))
-- Remove all uses of just, simple, simply, and straightforward in the docs [#936](https://github.com/bridgetownrb/bridgetown/pull/936) ([ayushn21](https://github.com/ayushn21))
-- Add additional possible error for Roda server [#910](https://github.com/bridgetownrb/bridgetown/pull/910) ([KonnorRogers](https://github.com/KonnorRogers)) & ([ayushn21](https://github.com/ayushn21))
-- Add note to update the package manager in the Rakefile [#935](https://github.com/bridgetownrb/bridgetown/pull/935) ([ayushn21](https://github.com/ayushn21))
+- Remove all uses of just, simple, simply, and straightforward in the docs [#936](https://github.com/bridgetownrb/bridgetown/pull/936) ([@ayushn21](https://github.com/ayushn21))
+- Add additional possible error for Roda server [#910](https://github.com/bridgetownrb/bridgetown/pull/910) ([@KonnorRogers](https://github.com/KonnorRogers)) & ([@ayushn21](https://github.com/ayushn21))
+- Add note to update the package manager in the Rakefile [#935](https://github.com/bridgetownrb/bridgetown/pull/935) ([@ayushn21](https://github.com/ayushn21))
 - Fix Fast Refresh not working for Liquid templates [#933](https://github.com/bridgetownrb/bridgetown/pull/933) ([@jaredcwhite](https://github.com/jaredcwhite))
 - Convert a large number of comment docs to YARD [#932](https://github.com/bridgetownrb/bridgetown/pull/932) ([@jaredcwhite](https://github.com/jaredcwhite))
-- Minor fixes for migrating webpack to esbuild during a v2 upgrade [#926](https://github.com/bridgetownrb/bridgetown/pull/926) ([ayushn21](https://github.com/ayushn21))
-- Update esbuild.defaults.js.erb [#921](https://github.com/bridgetownrb/bridgetown/pull/921) ([KonnorRogers](https://github.com/KonnorRogers))
+- Minor fixes for migrating webpack to esbuild during a v2 upgrade [#926](https://github.com/bridgetownrb/bridgetown/pull/926) ([@ayushn21](https://github.com/ayushn21))
+- Update esbuild.defaults.js.erb [#921](https://github.com/bridgetownrb/bridgetown/pull/921) ([@KonnorRogers](https://github.com/KonnorRogers))
 - Memoize resource URLs for major performance gain [#915](https://github.com/bridgetownrb/bridgetown/pull/915) ([@MaxLap](https://github.com/maxlap)) & ([@jaredcwhite](https://github.com/jaredcwhite))
 
 ## [2.0.0.beta2] - 2024-08-18

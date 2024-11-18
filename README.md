@@ -145,6 +145,9 @@ these terms, please let one of our [core team members](mailto:maintainers@bridge
 
 ## Contributors
 
+> [!NOTE]
+> Interested in joining the Bridgetown Core Team? Send a DM to Jared in [Discord](https://discord.gg/4E6hktQGz4) and let's chat!
+
 Bridgetown is built by:
 
 |<img src="https://avatars.githubusercontent.com/jaredcwhite?s=256" alt="jaredcwhite" width="128" />|<img src="https://avatars.githubusercontent.com/jaredmoody?s=256" alt="jaredmoody" width="128" />|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://avatars.githubusercontent.com/ParamagicDev?s=256" alt="ParamagicDev" width="128" />|<img src="https://avatars.githubusercontent.com/MikeRogers0?s=256" alt="MikeRogers0" width="128" />|
@@ -182,12 +185,10 @@ Bridgetown is built by:
 |<a href="https://github.com/michaelherold">@michaelherold</a>|<a href="https://github.com/joemasilotti">@joemasilotti</a>|<a href="https://github.com/Ikass">@ikass</a>|<a href="https://github.com/jw81">@jw81</a>|<a href="https://github.com/MSILycanthropy">@MSILycanthropy</a>|
 |Omaha, NE|Portland, OR|Latvia|Kansas City, MO|Kansas City, MO|
 
-|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|
-|You Next?|
-|Anywhere|
-
-Interested in joining the Bridgetown Core Team? Send a DM to Jared in [Discord](https://discord.gg/4E6hktQGz4) and let's chat!
+|<img src="https://avatars.githubusercontent.com/jeremyevans?s=256" alt="jeremyevans" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|
+|<a href="https://github.com/jeremyevans">@jeremyevans</a>|You Next?|
+|Sacramento, CA|Anywhere|
 
 ## License
 
