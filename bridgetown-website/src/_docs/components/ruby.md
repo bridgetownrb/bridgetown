@@ -42,7 +42,7 @@ Bear in mind that Ruby components aren't accessible from Liquid templates. So if
 
 ## Use Bridgetown::Component for Template Rendering
 
-By subclassing `Bridgetown::Component`, you gain [the ability to write a template](/docs/templates/erb-and-beyond) in ERB, Serbea, or Streamlined.
+By subclassing `Bridgetown::Component`, you gain [the ability to write a template](/docs/template-engines/erb-and-beyond) in ERB, Serbea, or Streamlined.
 
 For template engines like ERB, add a template file right next to the component's `.rb` file. The template will automatically get rendered by the component (and you won't need to define a `render_in` method yourself). For example, using ERB:
 
@@ -73,7 +73,7 @@ Here's the same example using Serbea template syntax:
 </field-component>
 ```
 
-Rendering out the component in a parent template and passing along arguments is straightforward:
+Rendering out the component in a parent template and passing along arguments looks like this:
 
 ```erb
 <%%= render FieldComponent.new(type: "email", name: "email_address", label: "Email Address") %>
@@ -108,6 +108,8 @@ end
 ```
 
 Streamlined adds some special helpers so that writing properly-escaped HTML as well as rendering out a hash as attributes or looping through an array is much easier than with plain heredoc syntax. We've found that for complex interplay between Ruby & HTML code, Streamlined is easier to deal with than either ERB or Serbea.
+
+[Read more about how to use Ruby template syntax here.](/docs/template-engines/erb-and-beyond)
 
 <%= render Note.new do %>
 Need to add component compatibility with Rails projects? [Try our experimental ViewComponent shim](/docs/components/view-component).
