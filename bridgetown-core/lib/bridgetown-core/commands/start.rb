@@ -119,7 +119,9 @@ module Bridgetown
       protected
 
       def rack_config_file
-        File.exist?("config.ru") ? "config.ru" : File.expand_path("../rack/default_config.ru", __dir__)
+        File.exist?("config.ru") ?
+          "config.ru" :
+          File.expand_path("../rack/default_config.ru", __dir__)
       end
     end
   end
