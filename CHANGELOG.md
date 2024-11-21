@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 - Avoid duplication in r.bridgetown implementation (#939) @jeremyevans
+- Update `gh_pages` bundled configuration (#938)[#938](https://github.com/bridgetownrb/bridgetown/pull/938) ([@konnorrogers](https://github.com/konnorrogers))
 
 ## [2.0.0.beta3] - 2024-11-16
 
@@ -49,7 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial batch of swapping Active Support extensions for in-house alternatives [#881](https://github.com/bridgetownrb/bridgetown/pull/881) ([@jaredcwhite](https://github.com/jaredcwhite)) & ([@ayushn21](https://github.com/ayushn21))
 - Refactor start command to use Rackup instead of Puma [#875](https://github.com/bridgetownrb/bridgetown/pull/875) ([@ayushn21](https://github.com/ayushn21))
 - Use rack 3 proc responses for SSE live reload [#858](https://github.com/bridgetownrb/bridgetown/pull/858) ([@ayushn21](https://github.com/ayushn21))
-- Refactor front matter handling and extract behavior into loaders [#778](https://github.com/bridgetownrb/bridgetown/pull/778) ([@michaelherold](https://github.com/michaelherold)) 
+- Refactor front matter handling and extract behavior into loaders [#778](https://github.com/bridgetownrb/bridgetown/pull/778) ([@michaelherold](https://github.com/michaelherold))
 
 ### Removed
 
