@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 
 - Avoid duplication in r.bridgetown implementation (#939) @jeremyevans
-- Update `gh_pages` bundled configuration (#938)[#938](https://github.com/bridgetownrb/bridgetown/pull/938) ([@konnorrogers](https://github.com/konnorrogers))
+- Update `gh_pages` bundled configuration (#943)[#943](https://github.com/bridgetownrb/bridgetown/pull/943) ([@konnorrogers](https://github.com/konnorrogers))
 
 ## [2.0.0.beta3] - 2024-11-16
 
