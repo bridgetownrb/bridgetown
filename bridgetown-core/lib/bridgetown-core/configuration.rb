@@ -283,13 +283,13 @@ module Bridgetown
     end
 
     def setup_load_paths!(appending: false) # rubocop:todo Metrics
-      unless appending
-        self[:root_dir] = File.expand_path(self[:root_dir])
-        self[:source] = File.expand_path(self[:source], self[:root_dir])
-        self[:destination] = File.expand_path(self[:destination], self[:root_dir])
+      self[:root_dir] = File.expand_path(self[:root_dir])
+      self[:source] = File.expand_path(self[:source], self[:root_dir])
+      self[:destination] = File.expand_path(self[:destination], self[:root_dir])
 
+      unless appending
         autoload_paths.unshift({
-          path: self[:plugins_dir],
+          path: File.expand_path(self[:plugins_dir], self[:root_dir]),
           eager: true,
         })
         autoload_paths.unshift({
