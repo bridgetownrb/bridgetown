@@ -129,7 +129,10 @@ module Bridgetown
 
     def run_initializers!(context:) # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity
       initializers_file = File.join(root_dir, "config", "initializers.rb")
-      return unless File.file?(initializers_file)
+      unless File.file?(initializers_file)
+        setup_load_paths! appending: true
+        return
+      end
 
       load initializers_file
 
