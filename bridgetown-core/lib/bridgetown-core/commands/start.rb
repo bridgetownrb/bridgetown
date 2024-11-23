@@ -84,7 +84,7 @@ module Bridgetown
         Bridgetown::Server.new({
           Host: bt_options.bind,
           Port: port,
-          config: "config.ru",
+          config: rack_config_file,
         }).tap do |server|
           if server.serveable?
             pid_tracker.create_pid_dir
@@ -116,6 +116,14 @@ module Bridgetown
             say "Unable to find a Rack server."
           end
         end
+      end
+
+      protected
+
+      def rack_config_file
+        File.exist?("config.ru") ?
+          "config.ru" :
+          File.expand_path("../rack/default_config.ru", __dir__)
       end
     end
   end
