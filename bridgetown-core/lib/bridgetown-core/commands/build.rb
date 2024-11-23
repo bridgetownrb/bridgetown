@@ -95,6 +95,19 @@ module Bridgetown
       #
       # @param options [Bridgetown::Configuration] options loaded from config and/or CLI
       def watch_site(config_options)
+        if config_options["url"].include?("://localhost")
+          require "socket"
+          external_ip = Socket.ip_address_list.find do |ai|
+            ai.ipv4? && !ai.ipv4_loopback?
+          end&.ip_address
+          scheme = config_options.bind&.split("://")&.first == "ssl" ? "https" : "http"
+          port = ENV.fetch("BRIDGETOWN_PORT", config_options.port)
+          Bridgetown.logger.info ""
+          Bridgetown.logger.info "Now serving at:", "#{scheme}://localhost:#{port}".magenta
+          Bridgetown.logger.info "", "#{scheme}://#{external_ip}:#{port}".magenta if external_ip
+          Bridgetown.logger.info ""
+        end
+
         Bridgetown::Watcher.watch(@site, config_options)
       end
 

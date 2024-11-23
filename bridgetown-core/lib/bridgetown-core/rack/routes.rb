@@ -101,6 +101,8 @@ module Bridgetown
           Bridgetown::Rack::Routes.sorted_subclasses&.each do |klass|
             klass.merge roda_app
           end
+
+          nil # required for proper 404 handling
         end
 
         # @param app [Roda]

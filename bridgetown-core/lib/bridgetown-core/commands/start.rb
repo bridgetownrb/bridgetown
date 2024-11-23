@@ -77,7 +77,9 @@ module Bridgetown
         bt_bound_url = "http://#{bt_options.bind}:#{port}"
 
         # Set a local site URL in the config if one is not available
-        bt_options.url = bt_bound_url if Bridgetown.env.development? && !options["url"]
+        if Bridgetown.env.development? && !options["url"]
+          bt_options.url = bt_bound_url.sub("0.0.0.0", "localhost")
+        end
 
         Bridgetown::Server.new({
           Host: bt_options.bind,

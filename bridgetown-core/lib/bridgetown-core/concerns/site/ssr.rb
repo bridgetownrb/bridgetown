@@ -28,7 +28,7 @@ class Bridgetown::Site
 
     def enable_ssr
       Bridgetown.logger.info "SSR:", "enabled."
-      config.fast_refresh = false # SSR mode and Fast Refresh mode are mututally exclusive
+      config.fast_refresh = false # SSR mode and Fast Refresh mode are mutually exclusive
       @ssr_enabled = true
     end
 
