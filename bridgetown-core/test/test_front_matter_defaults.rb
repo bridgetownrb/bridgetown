@@ -137,22 +137,22 @@ class TestFrontMatterDefaults < BridgetownUnitTest
 
   context "A site with front matter defaults with no path" do
     setup do
-      @site = fixture_site(
-        "defaults" => [{
-          "scope"  => {
-            "type" => "pages",
-          },
-          "values" => {
-            "key" => "val",
-          },
-        }]
-      )
-      @site.process
+      @site = fixture_site
+      @site.config.defaults << {
+        scope: {
+          type: "pages",
+        },
+        values: {
+          key: "val",
+        },
+      }
+      @site.read
       @affected = @site.collections.pages.resources
       @not_affected = @site.collections.posts.resources
     end
 
     should "affect only the specified type and all paths" do
+      assert @affected.length > 1
       assert_equal @affected.reject { |page| page.data["key"] == "val" }, []
       assert_equal @not_affected.reject { |page| page.data["key"] == "val" },
                    @not_affected

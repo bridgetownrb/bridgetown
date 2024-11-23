@@ -5,6 +5,8 @@ module Bridgetown
     # This class handles custom defaults for front matter settings.
     # It is exposed via the frontmatter_defaults method on the site class.
     class Defaults
+      using Bridgetown::Refinements
+
       # @return [Bridgetown::Site]
       attr_reader :site
 
@@ -16,6 +18,7 @@ module Bridgetown
       def reset
         @glob_cache = {}
         @defaults_cache = {}
+        @sets = nil
       end
 
       def ensure_time!(set)
@@ -175,15 +178,12 @@ module Bridgetown
 
       # Returns a list of valid sets
       #
-      # This is not cached to allow plugins to modify the configuration
-      # and have their changes take effect
-      #
       # @return [Array<Hash>]
       def valid_sets
-        sets = site.config["defaults"]
-        return [] unless sets.is_a?(Array)
+        @sets ||= site.config["defaults"].map(&:as_dots)
+        return [] unless @sets.is_a?(Array)
 
-        sets.filter_map do |set|
+        @sets.filter_map do |set|
           if valid?(set)
             massage_scope!(set)
             # TODO: is this trip really necessary?
