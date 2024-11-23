@@ -34,9 +34,8 @@ While your competitors are wrestling with complicated build tools, limited progr
 {% if site.data.edge_version %}
 Looking for [stable release documentation](https://www.bridgetownrb.com/)?
 {% else %}
-Looking for [0.2x documentation](https://bridgetown-v0.onrender.com/)?
+Looking for [edge documentation](https://edge.bridgetownrb.com/docs/) or [v0 documentation](https://bridgetown-v0.onrender.com/)?
 {% end %}</small>
-
 
   </section>
   <svg-wrapper class="main-wave">{{ svg "/images/waves/wave_2.svg" }}</svg-wrapper>
