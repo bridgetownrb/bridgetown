@@ -267,6 +267,8 @@ class TestSite < BridgetownUnitTest
         FileUtils.touch(dest_dir(".git/HEAD"))
         FileUtils.touch(dest_dir(".svn/HEAD"))
         FileUtils.touch(dest_dir(".hg/HEAD"))
+        FileUtils.mkdir(dest_dir("_bridgetown"))
+        FileUtils.touch(dest_dir("_bridgetown/static"))
       end
 
       teardown do
@@ -276,6 +278,7 @@ class TestSite < BridgetownUnitTest
         FileUtils.rm_rf(dest_dir(".git"))
         FileUtils.rm_rf(dest_dir(".svn"))
         FileUtils.rm_rf(dest_dir(".hg"))
+        FileUtils.rm_rf(dest_dir("_bridgetown"))
       end
 
       should "remove orphaned files in destination" do
@@ -285,6 +288,7 @@ class TestSite < BridgetownUnitTest
         refute_exist dest_dir("quux")
         assert_exist dest_dir(".git")
         assert_exist dest_dir(".git", "HEAD")
+        assert_exist dest_dir("_bridgetown", "static")
       end
 
       should "remove orphaned files in destination - keep_files .svn" do
@@ -299,6 +303,7 @@ class TestSite < BridgetownUnitTest
         refute_exist dest_dir(".git", "HEAD")
         assert_exist dest_dir(".svn")
         assert_exist dest_dir(".svn", "HEAD")
+        assert_exist dest_dir("_bridgetown", "static")
       end
     end
 
