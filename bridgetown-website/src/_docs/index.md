@@ -15,6 +15,10 @@ We'll explain much more about what Bridgetown is and what it can do for you in t
   {%@ Note type: "warning" do %}
     If you don't want to use the latest edge version of Bridgetown, [switch to the stable release documentation](https://www.bridgetownrb.com/docs/).
   {% end %}
+{% else %}
+  {%@ Note do %}
+    If you like testing the latest and greatest, [switch to our edge documentation](https://edge.bridgetownrb.com/docs/).
+  {% end %}
 {% end %}
 
 {%@ Note do %}
