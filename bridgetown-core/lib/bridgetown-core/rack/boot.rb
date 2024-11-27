@@ -3,8 +3,7 @@
 require "zeitwerk"
 require "roda"
 require "json"
-
-Bridgetown::Current.preloaded_configuration ||= Bridgetown.configuration
+require "bridgetown"
 
 require_relative "loader_hooks"
 require_relative "logger"
@@ -12,6 +11,8 @@ require_relative "routes"
 
 module Bridgetown
   module Rack
+    Bridgetown.begin!(with_config: :initializers)
+
     class << self
       # @return [Bridgetown::Utils::LoadersManager]
       attr_accessor :loaders_manager

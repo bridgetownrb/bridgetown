@@ -133,10 +133,16 @@ module Bridgetown
 
     # Set up the Bridgetown execution environment before attempting to load any
     # plugins or gems prior to a site build
-    def begin!
+    def begin!(with_config: :preflight)
       ENV["RACK_ENV"] ||= environment
 
-      Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
+      if with_config == :preflight
+        Bridgetown::Current.preloaded_configuration ||= Bridgetown::Configuration::Preflight.new
+      elsif with_config == :initializers &&
+          !Bridgetown::Current.preloaded_configuration.is_a?(Bridgetown::Configuration)
+        Bridgetown::Current.preloaded_configuration = Bridgetown.configuration
+      end
+
       Bridgetown::PluginManager.setup_bundler
     end
 
