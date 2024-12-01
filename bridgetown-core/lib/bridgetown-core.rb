@@ -365,11 +365,18 @@ module Bridgetown
     #
     # @return [String] the path to the cached errors file
     def build_errors_path
-      File.join(
-        (Bridgetown::Current.site&.config || Bridgetown::Current.preloaded_configuration).root_dir,
-        ".bridgetown-cache",
-        "build_errors.txt"
-      )
+      site_config = Bridgetown::Current.site&.config || Bridgetown::Current.preloaded_configuration
+      File.join(site_config.root_dir, site_config.cache_dir, "build_errors.txt")
+    end
+
+    # This file gets touched each time there's a new build, which then triggers live reload
+    # in the browser.
+    #
+    # @see Bridgetown::Rack::Routes.setup_live_reload
+    # @return [String] the path to the empty file being watched
+    def live_reload_path
+      site_config = Bridgetown::Current.site&.config || Bridgetown::Current.preloaded_configuration
+      File.join(site_config.root_dir, site_config.cache_dir, "live_reload.txt")
     end
   end
 

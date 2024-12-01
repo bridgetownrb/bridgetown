@@ -17,6 +17,7 @@ class Bridgetown::Site
       write_redirecting_index if config.prefix_default_locale
 
       Bridgetown::Hooks.trigger :site, :post_write, self
+      touch_live_reload_file
     end
 
     # Yields all content objects while looping through {#generated_pages},
@@ -68,5 +69,10 @@ class Bridgetown::Site
 
       File.write(in_dest_dir("index.html"), index_html, mode: "wb")
     end
+  end
+
+  def touch_live_reload_file
+    FileUtils.mkdir_p File.dirname(Bridgetown.live_reload_path)
+    FileUtils.touch Bridgetown.live_reload_path
   end
 end
