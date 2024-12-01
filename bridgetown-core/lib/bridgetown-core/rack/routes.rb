@@ -108,8 +108,7 @@ module Bridgetown
         # @param app [Roda]
         def setup_live_reload(app) # rubocop:disable Metrics
           sleep_interval = 0.5
-          file_to_check = File.join(Bridgetown::Current.preloaded_configuration.destination,
-                                    "index.html")
+          file_to_check = Bridgetown.live_reload_path
           errors_file = Bridgetown.build_errors_path
 
           app.request.get "_bridgetown/live_reload" do

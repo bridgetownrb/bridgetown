@@ -130,10 +130,14 @@ class Roda
       module RequestMethods
         # This runs through all of the routes in the manifest, setting up Roda blocks for execution
         def file_routes
+          base_path = Bridgetown::Current.preloaded_configuration.base_path.delete_prefix("/")
+
           scope.routes_manifest.routes.each do |route|
             file, localized_file_slugs, segment_keys = route
 
             localized_file_slugs.each do |slug|
+              on("") { scope.run_file_route(file, slug:) } if slug == "index" && !base_path.empty?
+
               # This sets up an initial Roda route block at the slug, and handles segments as params
               #
               # _routes/nested/[slug].erb -> "nested/:slug"

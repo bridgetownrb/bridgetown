@@ -10,6 +10,7 @@ class Bridgetown::Site
       @fast_refresh_ordering = 0
       full_abort = false
       found_gen_pages = false
+      found_route_file = false
       paths.each do |path| # rubocop:todo Metrics
         found_res = resources.select do |resource|
           resource.id.start_with?("repo://") && in_source_dir(resource.relative_path) == path
@@ -28,7 +29,13 @@ class Bridgetown::Site
             self, layout.instance_variable_get(:@base), layout.name
           )
         end
-        next unless found_res.any? || pages.any?
+
+        if config.key?(:routes) # carve out fast refresh track for the routes plugin
+          found_route_file = config.routes.source_paths.any? do |routes_dir|
+            path.start_with?(in_source_dir(routes_dir))
+          end
+        end
+        next unless found_res.any? || pages.any? || found_route_file
 
         if pages.any?
           found_gen_pages = true
@@ -48,7 +55,7 @@ class Bridgetown::Site
       end
 
       marked_resources = resources.select(&:fast_refresh_order).sort_by(&:fast_refresh_order)
-      if full_abort || (marked_resources.empty? && !found_gen_pages)
+      if full_abort || (marked_resources.empty? && !found_gen_pages && !found_route_file)
         # Darn, a full reload is needed (unless we're on a super-fast track)
         if reload_if_needed
           Bridgetown::Hooks.trigger :site, :pre_reload, self, paths
@@ -62,13 +69,14 @@ class Bridgetown::Site
 
       Bridgetown::Hooks.trigger :site, :fast_refresh, self
 
-      liquid_renderer.reset
-      transform_resources_for_fast_refresh(marked_resources, found_gen_pages)
-      transform_generated_pages_for_fast_refresh
-
-      FileUtils.touch(in_destination_dir("index.html"))
+      unless found_route_file
+        liquid_renderer.reset
+        transform_resources_for_fast_refresh(marked_resources, found_gen_pages)
+        transform_generated_pages_for_fast_refresh
+      end
 
       Bridgetown::Hooks.trigger :site, :post_write, self
+      touch_live_reload_file
     end
 
     private
