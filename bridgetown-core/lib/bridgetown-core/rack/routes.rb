@@ -114,6 +114,7 @@ module Bridgetown
 
           app.request.get "_bridgetown/live_reload" do
             @_mod = File.exist?(file_to_check) ? File.stat(file_to_check).mtime.to_i : 0
+
             event_stream = proc do |stream|
               Thread.new do
                 loop do
@@ -137,6 +138,28 @@ module Bridgetown
               end
             end
 
+            # event_stream = proc do |stream|
+            #   loop do
+            #     new_mod = File.exist?(file_to_check) ? File.stat(file_to_check).mtime.to_i : 0
+
+            #     if @_mod < new_mod
+            #       stream.write "data: reloaded!\n\n"
+            #       break
+            #     elsif File.exist?(errors_file)
+            #       stream.write "event: builderror\ndata: #{File.read(errors_file).to_json}\n\n"
+            #     else
+            #       stream.write "data: #{new_mod}\n\n"
+            #     end
+
+            #     sleep sleep_interval
+            #   rescue Errno::EPIPE # User refreshed the page
+            #     break
+            #   end
+            # ensure
+            #   stream.close
+            # end
+
+
             app.request.halt [200, {
               "Content-Type"  => "text/event-stream",
               "cache-control" => "no-cache",
@@ -144,6 +167,27 @@ module Bridgetown
           end
         end
       end
+
+   # | Task may have ended with unhandled exception.
+   # |   Errno::EPIPE: Broken pipe
+   # |   → <internal:io> 121:in `write_nonblock'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/io-stream-0.6.1/lib/io/stream/buffered.rb:93 in `syswrite'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/io-stream-0.6.1/lib/io/stream/generic.rb:184 in `drain'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/io-stream-0.6.1/lib/io/stream/generic.rb:196 in `block in flush'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/io-stream-0.6.1/lib/io/stream/generic.rb:195 in `synchronize'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/io-stream-0.6.1/lib/io/stream/generic.rb:195 in `flush'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/protocol-http1-0.28.1/lib/protocol/http1/connection.rb:508 in `block in write_chunked_body'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/protocol-http-0.45.0/lib/protocol/http/body/readable.rb:86 in `each'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/protocol-http1-0.28.1/lib/protocol/http1/connection.rb:501 in `write_chunked_body'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/protocol-http1-0.28.1/lib/protocol/http1/connection.rb:590 in `write_body'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/async-http-0.84.0/lib/async/http/protocol/http1/server.rb:133 in `block in each'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/async-2.21.0/lib/async/task.rb:327 in `defer_stop'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/async-http-0.84.0/lib/async/http/protocol/http1/server.rb:80 in `each'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/async-http-0.84.0/lib/async/http/server.rb:50 in `accept'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/io-endpoint-0.14.0/lib/io/endpoint/wrapper.rb:182 in `block (2 levels) in accept'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/async-2.21.0/lib/async/task.rb:197 in `block in run'
+   # |     /Users/ayush/.rbenv/versions/3.2.2/lib/ruby/gems/3.2.0/gems/async-2.21.0/lib/async/task.rb:435 in `block in schedule'
+
 
       # @param roda_app [Roda]
       def initialize(roda_app)
