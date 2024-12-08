@@ -66,6 +66,13 @@ module Bridgetown
               puts "Unknown task: #{cmd.split("[")[0]}\n\nHere's a list of tasks you can run:"
               display_rake_tasks(rake)
             end
+          rescue RuntimeError => e
+            # re-raise error unless it's an error through Minitest
+            raise e unless e.message.include?("ruby -Ilib:test")
+
+            Bridgetown.logger.error "test aborted!"
+            Bridgetown.logger.error e.message
+            exit(false)
           end
         end
       end
