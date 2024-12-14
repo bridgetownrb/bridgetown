@@ -16,5 +16,9 @@ class Routes::RenderResource < Bridgetown::Rack::Routes
     r.get "render_component", String do |title|
       UseRoda.new(title:)
     end
+
+    r.get "render_view", String do |title|
+      PageMe.new(title:)
+    end
   end
 end
