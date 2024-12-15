@@ -35,7 +35,7 @@ module Bridgetown
     end
 
     # @param root [String] root of Bridgetown site, defaults to config value
-    def self.autoload_server_folder( # rubocop:todo Metrics
+    def self.autoload_server_folder( # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength
       root: Bridgetown::Current.preloaded_configuration.root_dir
     )
       server_folder = File.join(root, "server")
@@ -46,26 +46,18 @@ module Bridgetown
         next unless load_path == server_folder
 
         loader.eager_load
-        loader.do_not_eager_load(File.join(server_folder, "roda_app.rb"))
+        subclass_names = Roda.subclasses.map(&:name)
+        subclass_paths = Set.new
+
+        loader.all_expected_cpaths.each do |cpath, cname|
+          if subclass_names.include?(cname) && cpath.start_with?(server_folder)
+            subclass_paths << cpath
+            loader.do_not_eager_load cpath
+          end
+        end
 
         unless ENV["BRIDGETOWN_ENV"] == "production"
-          Listen.to(server_folder) do |modified, added, removed|
-            c = modified + added + removed
-            n = c.length
-
-            Bridgetown.logger.info(
-              "Reloading…",
-              "#{n} file#{"s" if n > 1} changed at #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
-            )
-            c.each do |path|
-              Bridgetown.logger.info "", "- #{path["#{File.dirname(server_folder)}/".length..]}"
-            end
-
-            loader.reload
-            loader.eager_load
-          rescue SyntaxError => e
-            Bridgetown::Errors.print_build_error(e)
-          end.start
+          setup_autoload_listener loader, server_folder, subclass_paths
         end
       end
 
@@ -78,6 +70,28 @@ module Bridgetown
       end
 
       loaders_manager.setup_loaders([server_folder])
+    end
+
+    def self.setup_autoload_listener(loader, server_folder, subclass_paths)
+      Listen.to(server_folder) do |modified, added, removed|
+        c = modified + added + removed
+        n = c.length
+
+        unless n == 1 && subclass_paths.include?(c.first)
+          Bridgetown.logger.info(
+            "Reloading…",
+            "#{n} file#{"s" if n > 1} changed at #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
+          )
+          c.each do |path|
+            Bridgetown.logger.info "", "- #{path["#{File.dirname(server_folder)}/".length..]}"
+          end
+        end
+
+        loader.reload
+        Bridgetown::Hooks.trigger :loader, :post_reload, loader, server_folder
+      rescue SyntaxError => e
+        Bridgetown::Errors.print_build_error(e)
+      end.start
     end
   end
 end

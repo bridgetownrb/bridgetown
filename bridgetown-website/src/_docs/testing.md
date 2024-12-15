@@ -42,6 +42,11 @@ There are `get`, `post`, and `delete` methods available for testing various serv
 
 You can add additional tests via `test_*` methods, and you can create as many test files as you want to handle various parts of the site. Be advised that these tests are run via the `server` initialization context, so it's possible something may not have run as you would expect under a `static` initialization context. But since the static site is already built prior to your tests being executed, it's probably best for you to test static use cases via the output HTML.
 
+Methods you can override in a `Bridgetown::Test` subclass:
+
+* `roda_app_class` - default return value is `RodaApp`
+* `roda_log_level` - default return value is `Logger::WARN` (if you want to see all server logs when running tests, return `Logger::INFO` or `Logger::DEBUG` instead)
+
 ## Headless Browser Testing with Cypress
 
 You can install Cypress using a [bundled configuration](/docs/bundled-configurations):
