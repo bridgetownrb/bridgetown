@@ -12,11 +12,6 @@ Bridgetown::Builders::PluginBuilder.then do
 end
 
 require "bridgetown-core/rack/boot"
-class Bridgetown::Rack::Logger
-  def add(*)
-    super if ENV["SERVER_LOGS"] == "true"
-  end
-end
 
 Bridgetown::Current.preloaded_configuration = Bridgetown.configuration
 Bridgetown::Rack.boot
@@ -30,7 +25,16 @@ class Bridgetown::Test < Minitest::Test
 
   def roda_app_class = RodaApp
 
-  def app = roda_app_class.app
+  def roda_log_level = Logger::WARN
+
+  def app
+    return @app if @app
+
+    # Set the log level to warn so we don't see all the usual HTTP chatter when testing
+    roda_app_class.opts[:common_logger].level = roda_log_level
+
+    @app = roda_app_class.app
+  end
 
   def site
     roda_app_class.opts[:bridgetown_site]
