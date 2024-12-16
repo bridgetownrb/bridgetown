@@ -70,6 +70,4 @@ class Bridgetown::Site
       File.write(in_dest_dir("index.html"), index_html, mode: "wb")
     end
   end
-
-
 end
