@@ -139,27 +139,40 @@ class TestPluginManager < BridgetownUnitTest
   end
 
   context "plugins_dir is set to the default" do
-    should "call site's in_source_dir" do
-      site = double(
-        config: {
-          "plugins_dir" => Bridgetown::Configuration::DEFAULTS["plugins_dir"],
-        },
-        in_source_dir: "/tmp/"
-      )
-      plugin_manager = PluginManager.new(site)
+    should "call site's in_root_dir" do
+      mock = Minitest::Mock.new
+      config = {
+        "plugins_dir" => Bridgetown::Configuration::DEFAULTS["plugins_dir"],
+      }
+      2.times do
+        mock.expect :config, config
+      end
+      mock.expect :in_root_dir, nil, ["plugins"]
 
-      expect(site).to receive(:in_root_dir).with("plugins")
+      plugin_manager = PluginManager.new(mock)
       plugin_manager.plugins_path
+      mock.verify
     end
   end
 
   context "plugins_dir is set to a different dir" do
     should "expand plugin path" do
-      site = double(config: { "plugins_dir" => "some_other_plugins_path" })
-      plugin_manager = PluginManager.new(site)
+      mock = Minitest::Mock.new
+      config = {
+        "plugins_dir" => "some_other_plugins_path",
+      }
+      2.times do
+        mock.expect :config, config
+      end
+      file_mock = Minitest::Mock.new
+      file_mock.expect :call, nil, ["some_other_plugins_path"]
 
-      expect(File).to receive(:expand_path).with("some_other_plugins_path")
-      plugin_manager.plugins_path
+      plugin_manager = PluginManager.new(mock)
+      File.stub :expand_path, file_mock do
+        plugin_manager.plugins_path
+      end
+      mock.verify
+      file_mock.verify
     end
   end
 

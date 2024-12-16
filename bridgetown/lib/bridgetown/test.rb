@@ -19,6 +19,7 @@ Bridgetown::Rack.boot
 require "rack/test"
 
 class Bridgetown::Test < Minitest::Test
+  include Minitest::Spec::DSL::InstanceMethods
   include Rack::Test::Methods
 
   attr_reader :document

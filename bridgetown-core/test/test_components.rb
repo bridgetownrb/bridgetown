@@ -30,11 +30,11 @@ class TestComponents < BridgetownUnitTest
 
   context "basic Ruby components" do
     should "should render" do
-      assert_includes @erb_page.output, "Here's the page title! <strong>I'm an ERB Page</strong>"
+      expect(@erb_page.output) << "Here's the page title! <strong>I'm an ERB Page</strong>"
     end
 
     should "allow source components to override plugin components" do
-      assert_includes @erb_page.output, "Yay, it got overridden!"
+      expect(@erb_page.output) << "Yay, it got overridden!"
     end
   end
 
@@ -43,7 +43,7 @@ class TestComponents < BridgetownUnitTest
       # lots of funky whitespace from all the erb captures!
       spaces = "  "
       morespaces = "      "
-      assert_includes @erb_page.output, <<~HTML # rubocop:disable Bridgetown/InsecureHeredoc
+      expect(@erb_page.output) << <<~HTML # rubocop:disable Bridgetown/InsecureHeredoc
         <app-card>
           <header>I&#39;M A CARD</header>
           <app-card-inner>
@@ -60,8 +60,8 @@ class TestComponents < BridgetownUnitTest
     end
 
     should "not render if render? is false" do
-      refute_includes @erb_page.output, "NOPE"
-      refute_includes @erb_page.output, "Canceled!"
+      expect(@erb_page.output).exclude? "NOPE"
+      expect(@erb_page.output).exclude? "Canceled!"
     end
 
     should "handle nested renders" do

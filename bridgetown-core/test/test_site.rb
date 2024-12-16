@@ -140,10 +140,11 @@ class TestSite < BridgetownUnitTest
     should "sort pages alphabetically" do
       clear_dest
       method = Dir.method(:entries)
-      allow(Dir).to receive(:entries) do |*args, &block|
+      Dir.stub(:entries, proc do |*args, &block|
         method.call(*args, &block).reverse
+      end) do
+        @site.process
       end
-      @site.process
 
       # rubocop:disable Style/WordArray
       sorted_pages = %w(
@@ -466,8 +467,11 @@ class TestSite < BridgetownUnitTest
       end
 
       should "print profile table" do
-        expect(@site.liquid_renderer).to receive(:stats_table)
-        @site.process
+        method_ran = false
+        @site.liquid_renderer.stub :stats_table, proc { method_ran = true } do
+          @site.process
+          assert method_ran
+        end
       end
     end
 

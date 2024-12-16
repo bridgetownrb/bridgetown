@@ -26,8 +26,8 @@ class TestSSR < BridgetownUnitTest
 
     should "return the index page" do
       get "/"
-      assert last_response.ok?
-      assert_equal "<h1>Index</h1>", last_response.body
+      expect(last_response).must_be :ok?
+      expect(last_response.body) == "<h1>Index</h1>"
     end
 
     should "return JSON for the hello route" do
