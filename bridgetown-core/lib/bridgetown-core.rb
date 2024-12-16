@@ -378,6 +378,11 @@ module Bridgetown
       site_config = Bridgetown::Current.site&.config || Bridgetown::Current.preloaded_configuration
       File.join(site_config.root_dir, site_config.cache_dir, "live_reload.txt")
     end
+
+    def touch_live_reload_file(path = live_reload_path)
+      FileUtils.mkdir_p File.dirname(path)
+      FileUtils.touch path
+    end
   end
 
   module Model; end

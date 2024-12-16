@@ -76,7 +76,7 @@ class Bridgetown::Site
       end
 
       Bridgetown::Hooks.trigger :site, :post_write, self
-      touch_live_reload_file
+      Bridgetown.touch_live_reload_file
     end
 
     private
