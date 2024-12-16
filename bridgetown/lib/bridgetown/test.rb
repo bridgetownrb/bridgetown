@@ -18,6 +18,10 @@ Bridgetown::Rack.boot
 
 require "rack/test"
 
+require "bridgetown-core/concerns/intuitive_expectations"
+Minitest::Expectation.include Bridgetown::IntuitiveExpectations
+Minitest.backtrace_filter.add_filter %r!bridgetown-core/concerns/intuitive_expectations\.rb!
+
 class Bridgetown::Test < Minitest::Test
   include Minitest::Spec::DSL::InstanceMethods
   include Rack::Test::Methods
