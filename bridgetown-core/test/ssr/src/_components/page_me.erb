@@ -1,0 +1,9 @@
+<h2><%= @title %></h2>
+
+<%= markdownify do %>
+  * Port <%= @port_number %>
+
+  <%= render Shared::Stuff.new(wild: 123) do %>
+    _ya think?_
+  <% end %>
+<% end %>
