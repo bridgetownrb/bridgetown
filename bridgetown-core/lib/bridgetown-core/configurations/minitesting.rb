@@ -29,6 +29,7 @@ end
 
 create_file "test/minitest_helper.rb" do
   <<~RUBY
+    ENV["MT_NO_EXPECTATIONS"] = "true"
     require "minitest/autorun"
     require "minitest/reporters"
     Minitest::Reporters.use! [Minitest::Reporters::ProgressReporter.new]

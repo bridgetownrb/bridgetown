@@ -3,6 +3,7 @@
 $VERBOSE = nil
 
 ENV["BRIDGETOWN_ENV"] = "test"
+ENV["MT_NO_EXPECTATIONS"] = "true"
 
 if ENV["CI"]
   require "simplecov"
