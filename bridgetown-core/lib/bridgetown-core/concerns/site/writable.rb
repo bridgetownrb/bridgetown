@@ -17,6 +17,7 @@ class Bridgetown::Site
       write_redirecting_index if config.prefix_default_locale
 
       Bridgetown::Hooks.trigger :site, :post_write, self
+      Bridgetown.touch_live_reload_file unless config.disable_disk_cache
     end
 
     # Yields all content objects while looping through {#generated_pages},
