@@ -6,7 +6,7 @@ require "features/feature_helper"
 # I want to be able to easily link JS and CSS output bundles using manifest.json
 class TestAssetPathTag < BridgetownFeatureTest
   describe "frontend manifest" do
-    before do 
+    before do
       create_directory "_layouts"
       create_page "index.liquid", "page content", layout: "default"
       create_file "esbuild.config.js", ""
