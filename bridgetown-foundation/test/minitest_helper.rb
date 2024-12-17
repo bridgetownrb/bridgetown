@@ -3,11 +3,23 @@
 $LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 require "bridgetown-foundation"
 
+ENV["MT_NO_EXPECTATIONS"] = "true"
 require "minitest/autorun"
+require "minitest/reporters"
+
+Minitest::Reporters.use! [
+  Minitest::Reporters::SpecReporter.new(
+    color: true
+  ),
+]
 
 require "stringio"
 
-class Minitest::Test
+class Bridgetown::Foundation::Test < Minitest::Test
+  extend Minitest::Spec::DSL
+
+  def foo = :bar
+
   # solution from: https://stackoverflow.com/a/4459463
   def capture_stderr
     # The output stream must be an IO-like object. In this case we capture it in

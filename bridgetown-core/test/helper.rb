@@ -80,28 +80,31 @@ module DirectoryHelpers
   end
 
   def dest_dir(*subdirs)
-    test_dir("dest", *subdirs)
+    testing_dir("dest", *subdirs)
   end
 
   def site_root_dir(*subdirs)
-    test_dir("source", *subdirs)
+    testing_dir("source", *subdirs)
   end
 
   def resources_root_dir(*subdirs)
-    test_dir("resources", *subdirs)
+    testing_dir("resources", *subdirs)
   end
 
   def source_dir(*subdirs)
-    test_dir("source", "src", *subdirs)
+    testing_dir("source", "src", *subdirs)
   end
 
   def test_dir(*subdirs)
     root_dir("test", *subdirs)
   end
+  # NOTE: I cannot explain why using describe/it results in `test_dir` going
+  # missing. Hence the use of this alias:
+  alias_method :testing_dir, :test_dir
 end
 
 class BridgetownUnitTest < Minitest::Test
-  include Minitest::Spec::DSL::InstanceMethods
+  extend Minitest::Spec::DSL
   include DirectoryHelpers
   extend DirectoryHelpers
 
@@ -133,9 +136,9 @@ class BridgetownUnitTest < Minitest::Test
   def load_plugin_content(config)
     config.source_manifests << Bridgetown::Configuration::SourceManifest.new(
       origin: self.class,
-      components: test_dir("plugin_content", "components"),
-      content: test_dir("plugin_content", "content"),
-      layouts: test_dir("plugin_content", "layouts")
+      components: testing_dir("plugin_content", "components"),
+      content: testing_dir("plugin_content", "content"),
+      layouts: testing_dir("plugin_content", "layouts")
     )
   end
 
