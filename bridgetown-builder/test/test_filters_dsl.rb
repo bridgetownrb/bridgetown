@@ -31,25 +31,25 @@ class FiltersBuilder < Builder
 end
 
 class TestFilterDSL < BridgetownUnitTest
-  context "adding a Liquid filter" do
-    setup do
+  describe "adding a Liquid filter" do
+    before do
       @site = Site.new(site_configuration)
       @builder = FiltersBuilder.new("FiltersDSL", @site).build_with_callbacks
     end
 
-    should "output the filter result" do
+    it "output the filter result" do
       content = "2 times 2 equals {{ 2 | multiply_by_2 }}"
       result = Liquid::Template.parse(content).render
       assert_equal "2 times 2 equals 4", result
     end
 
-    should "output the filter result based on argument" do
+    it "output the filter result based on argument" do
       content = "5 times 10 equals {{ 5 | multiply_by_anything:10 }}"
       result = Liquid::Template.parse(content).render
       assert_equal "5 times 10 equals 50", result
     end
 
-    should "support optional arguments" do
+    it "support optional arguments" do
       content = "5 times 10 equals {{ 5 | multiply_and_optionally_add:10 }}"
       result = Liquid::Template.parse(content).render
       assert_equal "5 times 10 equals 50", result
@@ -59,13 +59,13 @@ class TestFilterDSL < BridgetownUnitTest
       assert_equal "5 times 10 plus 3 equals 53", result
     end
 
-    should "allow access to local builder scope" do
+    it "allow access to local builder scope" do
       content = "root_dir: {{ 'is' | site_config }}"
       result = Liquid::Template.parse(content).render
       assert_equal "root_dir: is #{@site.root_dir}", result
     end
 
-    should "allow access to filters scope" do
+    it "allow access to filters scope" do
       content = "Scope? {{ 'howdy howdy' | within_filters_scope }}"
       result = Liquid::Template.parse(content).render({}, registers: { site: @site })
       assert_equal "Scope? Within Filters Scope: howdy-howdy #{@site.root_dir} 1", result

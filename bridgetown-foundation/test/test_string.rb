@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require "minitest_helper"
 
-class TestString < Minitest::Test
+class TestString < Bridgetown::Foundation::Test
   using Bridgetown::Refinements
 
-  def test_that_it_has_a_version_number
-    refute_nil ::Bridgetown::VERSION
+  it "has a version number" do
+    expect(::Bridgetown::VERSION).wont_be_nil
   end
 
-  def test_string_indentation
+  it "indents strings" do
     assert_equal "  it\n    is indented\n\n  now", "it\n  is indented\n\nnow".indent(2)
     refute_equal "  it\n    is indented\n\n  now", "it\n  is indented\n\nnow".indent(4)
 
@@ -21,12 +21,12 @@ class TestString < Minitest::Test
     assert_includes output, "multiple arguments aren't supported by `indent!' in Bridgetown"
   end
 
-  def test_questionable
+  it "is questionable" do
     assert "test".questionable.test?
     refute "test".questionable.nope?
   end
 
-  def test_starts_ends_with
+  it "starts and ends with" do
     assert "this".starts_with?("th")
     refute "this".starts_with?("ht")
 
@@ -35,7 +35,7 @@ class TestString < Minitest::Test
   end
 
   # TODO: more testing of other data types
-  def test_within
+  it "looks within" do
     assert "abc".within? %w[def abc]
     refute "abc".within? ["def"]
   end

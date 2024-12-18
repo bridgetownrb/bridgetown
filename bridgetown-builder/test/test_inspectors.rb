@@ -15,8 +15,9 @@ class TestInspectors < BridgetownUnitTest
 
   attr_reader :site
 
-  context "a resource after being transformed" do
-    setup do
+  describe "a resource after being transformed" do
+    before do
+      self.class.instance_variable_set(:@name, "TestInspectors") # reset
       @site = Site.new(site_configuration)
       @_test_functions = []
 
@@ -35,12 +36,12 @@ class TestInspectors < BridgetownUnitTest
       end
     end
 
-    teardown do
+    after do
       @_html_inspectors = nil
       @_xml_inspectors = nil
     end
 
-    should "allow manipulation via Nokogiri" do
+    it "allow manipulation via Nokogiri" do
       add_resource :posts, "html-inspectors.md" do
         title "I'm a Markdown post!"
         content <<~MARKDOWN
@@ -56,7 +57,7 @@ class TestInspectors < BridgetownUnitTest
                    resource.output.strip
     end
 
-    should "bypass inspectors with special front matter variable" do
+    it "bypass inspectors with special front matter variable" do
       add_resource :posts, "html-inspectors-bypass.md" do
         title "I'm a Markdown post!"
         bypass_inspectors true
@@ -73,7 +74,7 @@ class TestInspectors < BridgetownUnitTest
                    resource.output.strip
     end
 
-    should "not mess up non-HTML resources" do
+    it "not mess up non-HTML resources" do
       add_resource :posts, "no-html-inspectors.json" do
         content <<~JSON
           { a: 1, b: "2" }
@@ -88,7 +89,7 @@ class TestInspectors < BridgetownUnitTest
                    resource.output.strip
     end
 
-    should "work with XML resources too" do
+    it "work with XML resources too" do
       add_resource :pages, "sample-feed.atom" do
         content <<~XML
           <?xml version="1.0" encoding="utf-8"?>
@@ -122,8 +123,9 @@ class TestInspectors < BridgetownUnitTest
     end
   end
 
-  context "a resource to transform using Nokolexbor" do
-    setup do
+  describe "a resource to transform using Nokolexbor" do
+    before do
+      self.class.instance_variable_set(:@name, "TestInspectors") # reset
       @site = Site.new(site_configuration({ "html_inspector_parser" => "nokolexbor" }))
       @_test_functions = []
 
@@ -142,12 +144,12 @@ class TestInspectors < BridgetownUnitTest
       end
     end
 
-    teardown do
+    after do
       @_html_inspectors = nil
       @_xml_inspectors = nil
     end
 
-    should "allow manipulation via Nokolexbor" do
+    it "allow manipulation via Nokolexbor" do
       add_resource :posts, "html-inspectors.md" do
         title "I'm a Markdown post!"
         content <<~MARKDOWN

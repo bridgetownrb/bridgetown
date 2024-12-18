@@ -7,92 +7,52 @@ say_status :minitesting, "Adding test gems and examples"
 append_to_file "Gemfile" do
   <<~GEMS
     \n
-    group :test, optional: true do
-      gem "nokogiri"
+    group :test do
       gem "minitest"
-      gem "minitest-profile"
       gem "minitest-reporters"
-      gem "shoulda"
-      gem "rails-dom-testing"
+      gem "rack-test"
     end
   GEMS
 end
 
-create_file "test/helper.rb" do
+gsub_file "Gemfile", '# gem "nokolexbor"', 'gem "nokolexbor"'
+
+insert_into_file "Rakefile", after: %(ENV["BRIDGETOWN_ENV"] = "test"\n  Bridgetown::Commands::Build.start\nend\n) do
   <<~RUBY
-    require "nokogiri"
+
+    require "minitest/test_task"
+    Minitest::TestTask.create(:test) do |t| # add on to the test task
+      t.warning = false
+    end
+  RUBY
+end
+
+create_file "test/minitest_helper.rb" do
+  <<~RUBY
+    ENV["MT_NO_EXPECTATIONS"] = "true"
     require "minitest/autorun"
     require "minitest/reporters"
-    require "minitest/profile"
-    require "shoulda"
-    require "rails-dom-testing"
+    Minitest::Reporters.use! [Minitest::Reporters::ProgressReporter.new]
 
-    # Report with color.
-    Minitest::Reporters.use! [
-      Minitest::Reporters::DefaultReporter.new(
-        color: true
-      ),
-    ]
-
-    Minitest::Test.class_eval do
-      include Rails::Dom::Testing::Assertions
-
-      def site
-        @site ||= Bridgetown::Current.site
-      end
-
-      def nokogiri(input)
-        input.respond_to?(:output) ? Nokogiri::HTML(input.output) : Nokogiri::HTML(input)
-      end
-
-      def document_root(root)
-        @document_root = root.is_a?(Nokogiri::XML::Document) ? root : nokogiri(root)
-      end
-
-      def document_root_element
-        if @document_root.nil?
-          raise "Call `document_root' with a Nokogiri document before testing your assertions"
-        end
-        @document_root
-      end
-    end
+    require "bridgetown/test"
   RUBY
 end
 
 create_file "test/test_homepage.rb" do
   <<~RUBY
-    require_relative "./helper"
+    require "minitest_helper"
 
-    class TestHomepage < Minitest::Test
-      context "homepage" do
-        setup do
-          page = site.collections.pages.resources.find { |doc| doc.relative_url == "/" }
-          document_root page
-        end
+    class TestHomepage < Bridgetown::Test
+      def test_homepage
+        html get "/"
 
-        should "exist" do
-          assert_select "body"
-        end
+        assert document.query_selector("body")
       end
     end
   RUBY
 end
 
-create_file "plugins/test_output.rb" do
-  <<~RUBY
-    module TestOutput
-      unless Bridgetown.env.development?
-        Bridgetown::Hooks.register_one :site, :post_write do
-          # Load test suite to run on exit
-          require "nokogiri"
-          Dir["test/**/*.rb"].each { |file| require_relative("../\#{file}") }
-        rescue LoadError
-          Bridgetown.logger.warn "Testing:", "To run tests, you must first run \`bundle install --with test\`"
-        end
-      end
-    end
-  RUBY
-end
+run "bundle install", env: { "BUNDLE_GEMFILE" => Bundler::SharedHelpers.in_bundle? }
 
 say_status :minitesting, "All set! To get started, look at test/test_homepage.rb and then run \`bin/bridgetown test\`"
 

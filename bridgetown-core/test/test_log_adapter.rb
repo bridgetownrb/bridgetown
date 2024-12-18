@@ -52,49 +52,51 @@ class TestLogAdapter < BridgetownUnitTest
     end
 
     should "call #debug on writer return true" do
-      writer = LoggerDouble.new
+      writer = Minitest::Mock.new(LoggerDouble.new)
+      writer.expect :debug, true, ["  Logging at level: debug"]
+
       logger = Bridgetown::LogAdapter.new(writer, :debug)
-      allow(writer).to receive(:debug).and_return(true)
       assert logger.adjust_verbosity
+      writer.verify
     end
   end
 
   context "#debug" do
     should "call #debug on writer return true" do
-      writer = LoggerDouble.new
+      writer = Minitest::Mock.new(LoggerDouble.new)
+      writer.expect :debug, true, ["#{"topic ".rjust(20)}log message"]
       logger = Bridgetown::LogAdapter.new(writer, :debug)
-      allow(writer).to receive(:debug)
-        .with("#{"topic ".rjust(20)}log message").and_return(true)
+
       assert logger.debug("topic", "log message")
     end
   end
 
   context "#info" do
     should "call #info on writer return true" do
-      writer = LoggerDouble.new
+      writer = Minitest::Mock.new(LoggerDouble.new)
+      writer.expect :info, true, ["#{"topic ".rjust(20)}log message"]
       logger = Bridgetown::LogAdapter.new(writer, :info)
-      allow(writer).to receive(:info)
-        .with("#{"topic ".rjust(20)}log message").and_return(true)
+
       assert logger.info("topic", "log message")
     end
   end
 
   context "#warn" do
     should "call #warn on writer return true" do
-      writer = LoggerDouble.new
+      writer = Minitest::Mock.new(LoggerDouble.new)
+      writer.expect :warn, true, ["#{"topic ".rjust(20)}log message"]
       logger = Bridgetown::LogAdapter.new(writer, :warn)
-      allow(writer).to receive(:warn)
-        .with("#{"topic ".rjust(20)}log message").and_return(true)
+
       assert logger.warn("topic", "log message")
     end
   end
 
   context "#error" do
     should "call #error on writer return true" do
-      writer = LoggerDouble.new
+      writer = Minitest::Mock.new(LoggerDouble.new)
+      writer.expect :error, true, ["#{"topic ".rjust(20)}log message"]
       logger = Bridgetown::LogAdapter.new(writer, :error)
-      allow(writer).to receive(:error)
-        .with("#{"topic ".rjust(20)}log message").and_return(true)
+
       assert logger.error("topic", "log message")
     end
   end
@@ -102,8 +104,11 @@ class TestLogAdapter < BridgetownUnitTest
   context "#abort_with" do
     should "call #error and abort" do
       logger = Bridgetown::LogAdapter.new(LoggerDouble.new, :error)
-      allow(logger).to receive(:error).with("topic", "log message").and_return(true)
-      assert_raises(SystemExit) { logger.abort_with("topic", "log message") }
+      mock = Minitest::Mock.new
+      mock.expect :call, true, ["topic", "log message"]
+      logger.stub :error, mock do
+        assert_raises(SystemExit) { logger.abort_with("topic", "log message") }
+      end
     end
   end
 

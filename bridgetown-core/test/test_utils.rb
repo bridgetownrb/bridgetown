@@ -394,17 +394,15 @@ class TestUtils < BridgetownUnitTest
 
   context "The `Utils.default_github_branch_name` method" do
     should "return the correct default branch name" do
-      allow(Faraday).to receive(:get).and_return double(
-        body: JSON.generate({ "default_branch" => "my_default_branch" })
-      )
-
-      assert_equal "my_default_branch", Utils.default_github_branch_name("https://github.com/whitefusionhq/phaedra/abc/12344")
+      Faraday.stub :get, HashWithDotAccess::Hash.new(body: JSON.generate({ "default_branch" => "my_default_branch" })) do
+        assert_equal "my_default_branch", Utils.default_github_branch_name("https://github.com/whitefusionhq/phaedra/abc/12344")
+      end
     end
 
     should "return main if all else fails" do
-      allow(Faraday).to receive(:get).and_raise("nope")
-
-      assert_equal "main", Utils.default_github_branch_name("https://github.com/thisorgdoesntexist/thisrepoistotallybogus")
+      Faraday.stub :get, proc { raise("nope") } do
+        assert_equal "main", Utils.default_github_branch_name("https://github.com/thisorgdoesntexist/thisrepoistotallybogus")
+      end
     end
   end
 end

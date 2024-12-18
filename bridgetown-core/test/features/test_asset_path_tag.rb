@@ -5,15 +5,15 @@ require "features/feature_helper"
 # As a web developer who likes managing frontend assets with esbuild
 # I want to be able to easily link JS and CSS output bundles using manifest.json
 class TestAssetPathTag < BridgetownFeatureTest
-  context "frontend manifest" do
-    setup do
+  describe "frontend manifest" do
+    before do
       create_directory "_layouts"
       create_page "index.liquid", "page content", layout: "default"
       create_file "esbuild.config.js", ""
       create_directory ".bridgetown-cache/frontend-bundling"
     end
 
-    should "load for asset_tag" do
+    it "load for asset_tag" do
       create_file "_layouts/default.liquid", <<~HTML
         <html>
         <head>
@@ -42,7 +42,7 @@ class TestAssetPathTag < BridgetownFeatureTest
       refute_file_contains %r!MISSING_ESBUILD_ASSET!, "output/index.html"
     end
 
-    should "provide custom files" do
+    it "provide custom files" do
       create_file "_layouts/default.liquid", <<~HTML
         <html>
         <head>
@@ -68,7 +68,7 @@ class TestAssetPathTag < BridgetownFeatureTest
       assert_file_contains %r!/_bridgetown/static/somefile.hashgoeshere.png!, "output/index.html"
     end
 
-    should "report when missing" do
+    it "report when missing" do
       create_file "_layouts/default.liquid", <<~HTML
         <html>
         <head>
@@ -87,7 +87,7 @@ class TestAssetPathTag < BridgetownFeatureTest
       assert_file_contains %r!"MISSING_FRONTEND_BUNDLING_CONFIG"!, "output/index.html"
     end
 
-    should "handle missing asset files" do
+    it "handle missing asset files" do
       create_file "_layouts/default.liquid", <<~HTML
         <html>
         <head>
@@ -113,7 +113,7 @@ class TestAssetPathTag < BridgetownFeatureTest
       assert_file_contains %r!"MISSING_ESBUILD_ASSET"!, "output/index.html"
     end
 
-    should "work in ERB layouts" do
+    it "work in ERB layouts" do
       # Scenario
       create_file "_layouts/default.erb", <<~HTML
         <html>

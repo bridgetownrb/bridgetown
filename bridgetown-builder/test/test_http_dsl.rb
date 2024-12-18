@@ -55,13 +55,13 @@ class HTTPBuilder < Builder
 end
 
 class TestHTTPDSL < BridgetownUnitTest
-  context "dsl for http requests" do
-    setup do
+  describe "dsl for http requests" do
+    before do
       @site = Site.new(site_configuration)
       @builder = HTTPBuilder.new("Hooks Test", @site).build_with_callbacks
     end
 
-    should "add data from external API" do
+    it "add data from external API" do
       @builder.stubs.get("/test.json") do |_env|
         [
           200,
@@ -74,7 +74,7 @@ class TestHTTPDSL < BridgetownUnitTest
       assert_equal "received", @site.config[:received_data]["data"]["was"].first
     end
 
-    should "not add data from bad external API" do
+    it "not add data from bad external API" do
       @builder.stubs.get("/test_bad.json") do |_env|
         [
           200,
@@ -92,7 +92,7 @@ class TestHTTPDSL < BridgetownUnitTest
                       "Faraday::ParsingError The response from /test_bad.json did not contain valid JSON"
     end
 
-    should "not parse JSON if parse_json is false" do
+    it "not parse JSON if parse_json is false" do
       @builder.stubs.get("/test_not_parsing.html") do |_env|
         [
           200,
@@ -106,7 +106,7 @@ class TestHTTPDSL < BridgetownUnitTest
       assert_equal '[1, 2, ["three"]]', @site.config[:received_data]
     end
 
-    should "redirect automatically" do
+    it "redirect automatically" do
       @builder.stubs.get("/test.json") do |_env|
         [
           200,
@@ -126,7 +126,7 @@ class TestHTTPDSL < BridgetownUnitTest
       assert_equal "received", @site.config[:received_data]["data"]["was"].first
     end
 
-    should "correctly pass headers to the GET request" do
+    it "correctly pass headers to the GET request" do
       @builder.stubs.get("/test_headers.json") do |env|
         [
           200,
@@ -140,7 +140,7 @@ class TestHTTPDSL < BridgetownUnitTest
       assert_equal "hello, world", @site.config[:received_headers]["X-Test"]
     end
 
-    should "allows passing parameters to the GET request" do
+    it "allows passing parameters to the GET request" do
       @builder.stubs.get("/test_parameters.json") do |env|
         [
           200,

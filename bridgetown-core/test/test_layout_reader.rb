@@ -27,11 +27,6 @@ class TestLayoutReader < BridgetownUnitTest
     end
 
     context "when a _layouts directory exists in CWD" do
-      setup do
-        allow(File).to receive(:directory?).and_return(true)
-        allow(Dir).to receive(:pwd).and_return(source_dir("blah"))
-      end
-
       should "ignore the layout directory in CWD and use the directory relative to site source" do
         refute_equal source_dir("blah/_layouts"), LayoutReader.new(@site).layout_directory
         assert_equal source_dir("_layouts"), LayoutReader.new(@site).layout_directory

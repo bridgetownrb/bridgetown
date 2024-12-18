@@ -20,25 +20,25 @@ class TagsBuilder < Builder
 end
 
 class TestTagsDSL < BridgetownUnitTest
-  context "adding a Liquid tag" do
-    setup do
+  describe "adding a Liquid tag" do
+    before do
       @site = Site.new(site_configuration)
       @builder = TagsBuilder.new("TagsDSL", @site).build_with_callbacks
     end
 
-    should "output the right tag" do
+    it "output the right tag" do
       content = "This is the {% testing_tags name:test %}"
       result = Liquid::Template.parse(content).render
       assert_equal "This is the output of the tag test", result
     end
 
-    should "work with block tags" do
+    it "work with block tags" do
       content = "This is the {% upcase_tag %}upcase{% endupcase_tag %} tag"
       result = Liquid::Template.parse(content).render
       assert_equal "This is the UPCASE tag", result
     end
 
-    should "provide context access" do
+    it "provide context access" do
       content = "This is the {% testing_context %}"
       result = Liquid::Template.parse(content).render({ "yay" => "yay!" },
                                                       registers: { value: 123 })
