@@ -39,6 +39,7 @@ module Bridgetown
       root: Bridgetown::Current.preloaded_configuration.root_dir
     )
       server_folder = File.join(root, "server")
+      cached_reload_file = Bridgetown.live_reload_path
 
       Bridgetown::Hooks.register_one(
         :loader, :post_setup, reloadable: false
@@ -67,6 +68,7 @@ module Bridgetown
         next unless load_path == server_folder
 
         loader.eager_load
+        Bridgetown.touch_live_reload_file(cached_reload_file)
       end
 
       loaders_manager.setup_loaders([server_folder])

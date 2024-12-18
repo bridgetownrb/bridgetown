@@ -122,14 +122,17 @@ module Bridgetown
           .setup_load_paths!
           .setup_locales
           .add_default_collections
-          .add_default_excludes
+          .add_destination_paths
           .check_include_exclude
       end
     end
 
     def run_initializers!(context:) # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity
       initializers_file = File.join(root_dir, "config", "initializers.rb")
-      return unless File.file?(initializers_file)
+      unless File.file?(initializers_file)
+        setup_load_paths! appending: true
+        return
+      end
 
       load initializers_file
 
@@ -148,9 +151,13 @@ module Bridgetown
       dsl._run_builtins!
       self.url = cached_url if cached_url # restore local development URL if need be
 
-      setup_load_paths! appending: true
+      setup_post_init!
 
       self
+    end
+
+    def setup_post_init!
+      add_destination_paths.setup_load_paths! appending: true
     end
 
     # @return [Set<SourceManifest>]
@@ -283,13 +290,13 @@ module Bridgetown
     end
 
     def setup_load_paths!(appending: false) # rubocop:todo Metrics
-      unless appending
-        self[:root_dir] = File.expand_path(self[:root_dir])
-        self[:source] = File.expand_path(self[:source], self[:root_dir])
-        self[:destination] = File.expand_path(self[:destination], self[:root_dir])
+      self[:root_dir] = File.expand_path(self[:root_dir])
+      self[:source] = File.expand_path(self[:source], self[:root_dir])
+      self[:destination] = File.expand_path(self[:destination], self[:root_dir])
 
+      unless appending
         autoload_paths.unshift({
-          path: self[:plugins_dir],
+          path: File.expand_path(self[:plugins_dir], self[:root_dir]),
           eager: true,
         })
         autoload_paths.unshift({
@@ -357,12 +364,17 @@ module Bridgetown
       vendor/bundle/ vendor/cache/ vendor/gems/ vendor/ruby/
     ).freeze
 
-    def add_default_excludes
+    def add_destination_paths
+      self["keep_files"] << "_bridgetown" unless
+        self["keep_files"].nil?.! && self["keep_files"].include?("_bridgetown")
+
       return self if self["exclude"].nil?
 
       self["exclude"].concat(DEFAULT_EXCLUDES).uniq!
       self
     end
+
+    alias_method :add_default_excludes, :add_destination_paths
 
     def should_execute_inline_ruby?
       ENV["BRIDGETOWN_RUBY_IN_FRONT_MATTER"] != "false" &&

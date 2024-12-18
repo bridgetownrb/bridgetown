@@ -13,10 +13,13 @@ module Bridgetown::Foundation
 
       def read_pidfile(file)
         File.readlines pidfile_for(file), chomp: true
+      rescue SystemCallError
+        []
       end
 
       def remove_pidfile(file)
         File.delete pidfile_for(file)
+      rescue SystemCallError # rubocop:disable Lint/SuppressedException
       end
 
       private

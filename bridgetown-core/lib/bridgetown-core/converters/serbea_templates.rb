@@ -34,10 +34,13 @@ module Bridgetown
       # @return [String] The converted content
       def convert(content, convertible)
         serb_view = Bridgetown::SerbeaView.new(convertible)
-        serb_renderer = Tilt::SerbeaTemplate.new(
-          convertible.path,
-          line_start(convertible)
-        ) { content }
+
+        serb_renderer =
+          convertible.site.tmp_cache["serb-tmpl:#{convertible.path}:#{content.hash}"] ||=
+            Tilt::SerbeaTemplate.new(
+              convertible.path,
+              line_start(convertible)
+            ) { content }
 
         if convertible.is_a?(Bridgetown::Layout)
           serb_renderer.render(serb_view) do

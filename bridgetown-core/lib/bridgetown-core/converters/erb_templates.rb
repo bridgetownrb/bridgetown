@@ -119,13 +119,17 @@ module Bridgetown
       def convert(content, convertible)
         erb_view = Bridgetown::ERBView.new(convertible)
 
-        erb_renderer = Tilt::ErubiTemplate.new(
-          convertible.path,
-          line_start(convertible),
-          outvar: "@_erbout",
-          bufval: "Bridgetown::OutputBuffer.new",
-          engine_class: ERBEngine
-        ) { content }
+        erb_renderer =
+          convertible.site.tmp_cache["erb-tmpl:#{convertible.path}:#{content.hash}"] ||=
+            Tilt::ErubiTemplate.new(
+              convertible.path,
+              line_start(convertible),
+              outvar: "@_erbout",
+              bufval: "Bridgetown::OutputBuffer.new",
+              engine_class: ERBEngine
+            ) do
+              content
+            end
 
         if convertible.is_a?(Bridgetown::Layout)
           erb_renderer.render(erb_view) do
