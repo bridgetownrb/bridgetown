@@ -5,3 +5,9 @@ bridgetown-paginate/lib/**/*.rb
 bridgetown-routes/lib/**/*.rb
 -m markdown
 -p yard/templates
+--exclude bridgetown-core/lib/bridgetown-core/configurations/ruby2js/hello_world.js.rb
+--exclude bridgetown-core/lib/bridgetown-core/configurations/vercel/vercel_url.rb
+--exclude bridgetown-core/lib/site_template/server/roda_app.rb
+--exclude bridgetown-core/lib/site_template/plugins/site_builder.rb
+--exclude bridgetown-core/lib/site_template/TEMPLATES/erb/_components/shared/navbar.rb
+--exclude bridgetown-core/lib/site_template/TEMPLATES/serbea/_components/shared/navbar.rb
