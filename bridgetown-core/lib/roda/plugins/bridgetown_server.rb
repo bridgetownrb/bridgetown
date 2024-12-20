@@ -26,7 +26,7 @@ class Roda
           output_folder = Bridgetown::Current.preloaded_configuration.destination
           File.read(File.join(output_folder, "404.html"))
         rescue Errno::ENOENT
-          "404 Not Found"
+          "<h1>404 Not Found</h1>"
         end
         app.plugin :exception_page
         app.plugin :error_handler do |e|
@@ -35,10 +35,10 @@ class Roda
           )
           next exception_page(e) if ENV.fetch("RACK_ENV", nil) == "development"
 
-          output_folder = Bridgetown::Current.preloaded_configuration.destination
+          output_folder = self.class.opts[:bridgetown_preloaded_config].destination
           File.read(File.join(output_folder, "500.html"))
         rescue Errno::ENOENT
-          "500 Internal Server Error"
+          "<h1>500 Internal Server Error</h1>"
         end
 
         # TODO: there may be a better way to do this, see `exception_page_css` instance method
@@ -123,9 +123,12 @@ class Roda
             hook_result = instance_exec(&self.class.opts[:root_hook]) if self.class.opts[:root_hook]
             next hook_result if hook_result
 
-            status, headers, body = self.class.opts[:ssg_server].serving(
-              request, File.join(self.class.opts[:ssg_root], "index.html")
-            )
+            root_file = [
+              File.join(self.class.opts[:ssg_root], "index.html"),
+              File.expand_path("generic_index.html", __dir__),
+            ].find { File.exist?(_1) }
+
+            status, headers, body = self.class.opts[:ssg_server].serving(request, root_file)
             response_headers = response.headers
             response_headers.replace(headers)
 
@@ -133,7 +136,7 @@ class Roda
           rescue StandardError => e
             Bridgetown.logger.debug("Root handler error: #{e.message}")
             response.status = 500
-            "<p>ERROR: cannot find <code>index.html</code> in the output folder.</p>"
+            "<p>ERROR: cannot serve the root <code>index</code> file.</p>"
           end
         end
 
