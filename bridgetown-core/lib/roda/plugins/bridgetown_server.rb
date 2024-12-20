@@ -123,9 +123,12 @@ class Roda
             hook_result = instance_exec(&self.class.opts[:root_hook]) if self.class.opts[:root_hook]
             next hook_result if hook_result
 
-            status, headers, body = self.class.opts[:ssg_server].serving(
-              request, File.join(self.class.opts[:ssg_root], "index.html")
-            )
+            root_file = [
+              File.join(self.class.opts[:ssg_root], "index.html"),
+              File.expand_path("generic_index.html", __dir__),
+            ].find { File.exist?(_1) }
+
+            status, headers, body = self.class.opts[:ssg_server].serving(request, root_file)
             response_headers = response.headers
             response_headers.replace(headers)
 
@@ -133,7 +136,7 @@ class Roda
           rescue StandardError => e
             Bridgetown.logger.debug("Root handler error: #{e.message}")
             response.status = 500
-            "<p>ERROR: cannot find <code>index.html</code> in the output folder.</p>"
+            "<p>ERROR: cannot serve the root <code>index</code> file.</p>"
           end
         end
 
