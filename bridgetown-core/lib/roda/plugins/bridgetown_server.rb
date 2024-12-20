@@ -26,7 +26,7 @@ class Roda
           output_folder = Bridgetown::Current.preloaded_configuration.destination
           File.read(File.join(output_folder, "404.html"))
         rescue Errno::ENOENT
-          "404 Not Found"
+          "<h1>404 Not Found</h1>"
         end
         app.plugin :exception_page
         app.plugin :error_handler do |e|
@@ -35,10 +35,10 @@ class Roda
           )
           next exception_page(e) if ENV.fetch("RACK_ENV", nil) == "development"
 
-          output_folder = Bridgetown::Current.preloaded_configuration.destination
+          output_folder = self.class.opts[:bridgetown_preloaded_config].destination
           File.read(File.join(output_folder, "500.html"))
         rescue Errno::ENOENT
-          "500 Internal Server Error"
+          "<h1>500 Internal Server Error</h1>"
         end
 
         # TODO: there may be a better way to do this, see `exception_page_css` instance method
