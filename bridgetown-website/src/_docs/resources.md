@@ -52,19 +52,13 @@ Let's say you add a new blog post by saving `src/_posts/2021-05-10-super-cool-bl
 1. It finds the appropriate origin class to load the post. The posts collection file reader uses a special **origin ID** to identify the file (in this case: `repo://posts.collection/_posts/2021-05-10-super-cool-blog-post.md`). Other origin classes could handle different protocols to download content from third-party APIs or load in content directly from scripts.
 2. Once the origin provides the post's data it is used to create a model object. The model will be a `Bridgetown::Model::Base` object by default, but you can create your own subclasses to alter and enhance data, or for use in a Ruby-based CMS environment. For example, `class Post < Bridgetown::Model::Base; end` will get used automatically for the `posts` collection (because Bridgetown will use the Rails inflector to map `posts` to `Post`). You can save subclasses in your `plugins` folder, or set up a dedicated `models` folder to be [eager-loaded by Zeitwerk](/docs/plugins#zeitwerk-and-autoloading).
 3. The model then "emits" a resource object. The resource is provided a clone of the model data which it can then process for use within templates. Resources may also point to other resources through relations, and templates can access resources through various means (looping through collections, referencing resources by source paths, etc.)
-4. The resource is transformed by a pipeline to convert Markdown to HTML, render template code like Liquid or ERB, and any other conversions specified—as well as optionally place the resource output within a converted layout.
+4. The resource is transformed by a pipeline to render template code such as ERB or Liquid, convert Markdown to HTML, and any other conversions specified—as well as optionally place the resource output within a converted layout.
 5. Finally, a destination object is responsible for determining the resource's "permalink" based on configured criteria or the presence of `permalink` front matter. It will then write out to the output folder using a static file name matching the destination permalink.
 
 ## Accessing Resources in Templates
 
 {% raw %}
-The simplest way to access resources in your templates is to use the `collections` variable, available in both Liquid and Ruby-based templates.
-
-```liquid
-Title: {{ collections.genre.title }}
-
-First URL: {{ collections.genre.resources[0].relative_url }}
-```
+The simplest way to access resources in your templates is to use the `collections` variable, available in both Ruby and Liquid templates.
 
 ```eruby
 Title: <%= collections.genre.metadata.title %>
@@ -72,9 +66,25 @@ Title: <%= collections.genre.metadata.title %>
 First URL: <%= collections.genre.resources[0].relative_url %>
 ```
 
+```liquid
+Title: {{ collections.genre.title }}
+
+First URL: {{ collections.genre.resources[0].relative_url }}
+```
+
 ### Loops and Pagination
 
 You can easily loop through collection resources by name, e.g., `collections.posts.resources`:
+
+```eruby
+<% collections.posts.each do |post| %>
+  <article>
+    <a href="<%= post.relative_url %>"><h2><%= post.data.title %></h2></a>
+
+    <p><%= post.data.description %></p>
+  </article>
+<% end %>
+```
 
 ```liquid
 {% for post in collections.posts.resources %}
@@ -86,8 +96,10 @@ You can easily loop through collection resources by name, e.g., `collections.pos
 {% endfor %}
 ```
 
+Sometimes you'll likely want to use a paginator:
+
 ```eruby
-<% collections.posts.resources.each do |post| %>
+<% paginator.each do |post| %>
   <article>
     <a href="<%= post.relative_url %>"><h2><%= post.data.title %></h2></a>
 
@@ -95,8 +107,6 @@ You can easily loop through collection resources by name, e.g., `collections.pos
   </article>
 <% end %>
 ```
-
-Sometimes you'll likely want to use a paginator:
 
 ```liquid
 {% for post in paginator.resources %}
@@ -106,16 +116,6 @@ Sometimes you'll likely want to use a paginator:
     <p>{{ post.data.description }}</p>
   </article>
 {% endfor %}
-```
-
-```eruby
-<% paginator.resources.each do |post| %>
-  <article>
-    <a href="<%= post.relative_url %>"><h2><%= post.data.title %></h2></a>
-
-    <p><%= post.data.description %></p>
-  </article>
-<% end %>
 ```
 
 Read more about [how the paginator works here](/docs/content/pagination). You can also [refer to how collections work](/docs/collections) and how you can also create your own custom collections.
@@ -161,20 +161,20 @@ genres:
 
 You can access taxonomies for resources in your templates as:
 
-```liquid
-Title: {{ site.taxonomy_types.genres.metadata.title }}
-
-{% for term in resource.taxonomies.genres.terms %}
-  Term: {{ term.label }}
-{% endfor %}
-```
-
 ```eruby
 Title: <%= site.taxonomy_types.genres.metadata.title %>
 
 <% resource.taxonomies.genres.terms.each do |term| %>
   Term: <%= term.label %>
 <% end %>
+```
+
+```liquid
+Title: {{ site.taxonomy_types.genres.metadata.title }}
+
+{% for term in resource.taxonomies.genres.terms %}
+  Term: {{ term.label }}
+{% endfor %}
 ```
 
 ## Resource Relations
@@ -288,17 +288,7 @@ output << "[bridgetown](https://github.com/bridgetownrb/bridgetown)"
 markdownify output.join("\n")
 ```
 
-Now obviously it's silly to build up Markdown content in an array of strings in a Ruby code file…but imagine building or using third-party <abbr title="Domain-Specific Languages">DSLs</abbr> to generate sophisticated markup and advanced structural documents of all kinds. [Arbre](https://activeadmin.github.io/arbre/) is but one example of a Ruby-first approach to creating templates.
-
-```ruby
-# What if your .rb template looked like this?
-
-Arbre::Context.new do
-  h1 "Hello World"
-
-  para "I'm a Ruby template. w00t"
-end
-```
+Now that obviously looks rather cumbersome and error-prone. Wouldn't it be great if there were a more—shall we say—_streamlined_ approach to pure Ruby templating? [Thankfully there is!](/docs/template-engines/erb-and-beyond#streamlined)
 
 ## Resource Extensions
 

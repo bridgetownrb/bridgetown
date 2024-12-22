@@ -55,13 +55,13 @@ module Bridgetown
     # Iterate over Resources by delegating to `resources.each` (supports Enumerable)
     def each(...) = resources.each(...)
 
-    # Delgates to `resources.last`
+    # Delegates to `resources.last`
     def last(...) = resources.last(...)
 
-    # Delgates to `resources.deconstruct`
+    # Delegates to `resources.deconstruct`
     def deconstruct = resources.deconstruct
 
-    # Delgates to `resources[]`
+    # Delegates to `resources[]`
     def [](...) = resources.[](...)
 
     # Fetch the static files in this collection.
