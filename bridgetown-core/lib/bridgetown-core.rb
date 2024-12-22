@@ -54,8 +54,9 @@ I18n::Backend::Simple.include I18n::Backend::Fallbacks
 
 # Monkey patches:
 
+# @!visibility private
 module HashWithDotAccess
-  class Hash # :nodoc:
+  class Hash
     def to_liquid
       to_h.to_liquid
     end
