@@ -80,7 +80,6 @@ module Bridgetown
 
         config_options = configuration_with_overrides(options)
         if options[:"server-config"]
-          require "puma"
           require "bridgetown-core/rack/boot"
           Bridgetown::Rack.boot
         else
