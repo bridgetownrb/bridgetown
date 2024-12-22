@@ -17,7 +17,7 @@ Available commands are:
 * `bridgetown new PATH` - Creates a new Bridgetown site at the specified path with a default configuration and typical site folder structure.
   * Use the `--apply=` or `-a` option to [apply an automation](/docs/automations) to the new site.
   * Use the `--configure=` or `-c` option to [apply one or more bundled configurations](/docs/bundled-configurations) to the new site.
-  * Use the `-t` option to choose ERB or Serbea templates instead of Liquid (aka `-t erb`).
+  * Use the `-t` option to choose Serbea or Liquid templates instead of ERB (aka `-t serbea`).
   * Use the `--use-sass` option to configure your project to support Sass.
 * `bin/bridgetown start` or `s` - Boots the Rack-based server (using Puma) at `localhost:4000`. In development, you'll get live reload functionality as long as `{% live_reload_dev_js %}` or `<%= live_reload_dev_js %>` is in your HTML head.
 * `bin/bridgetown deploy` - Ensures that all frontend assets get built alongside the published Bridgetown output. This is the command you'll want to use for [deployment](/docs/deployment).
@@ -29,7 +29,6 @@ Available commands are:
 * `bin/bridgetown configure CONFIGURATION` - Run a [bundled configuration](/docs/bundled-configurations) for your existing site. Invoke without arguments to see all available configurations.
 * `bin/bridgetown date` - Displays the current date and time so you can copy'n'paste it into your front matter.
 * `bin/bridgetown help` - Shows help, optionally for a given subcommand, e.g. `bridgetown help build`.
-* `bin/bridgetown doctor` - Outputs any deprecation or configuration issues.
 * `bin/bridgetown clean` - Removes all generated files: destination folder, metadata file, and Bridgetown caches.
 * `bin/bridgetown esbuild ACTION` - Allows you to perform actions such as `update` on your project's esbuild configuration. Invoke without arguments to see all available actions.
 {% endraw %}
