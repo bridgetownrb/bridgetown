@@ -1,27 +1,11 @@
 # frozen_string_literal: true
 
-require "roda/plugins/flash"
-require_relative "../../bridgetown-routes/flash_additions"
-
-Roda::RodaPlugins::Flash::FlashHash.include Bridgetown::Routes::FlashHashAdditions,
-                                            Bridgetown::Routes::FlashHashIndifferent
-Roda::RodaPlugins::Flash::FlashHash.class_eval do
-  def initialize(hash = {})
-    super(hash || {})
-    now.singleton_class.include Bridgetown::Routes::FlashHashAdditions,
-                                Bridgetown::Routes::FlashNowHashIndifferent
-    @next = {}
-  end
-end
-
 class Roda
   module RodaPlugins
     module BridgetownRoutes
       def self.load_dependencies(app)
         app.plugin :slash_path_empty # now /hello and /hello/ are both matched
         app.plugin :placeholder_string_matchers
-        app.plugin :flash
-        app.plugin :route_csrf
       end
 
       def self.configure(app, _opts = {})

@@ -68,6 +68,8 @@ Bridgetown.configure do |config|
   #
   # init :ssr
   #
+  # Add `sessions: true` if you need to use session data, flash, etc.
+  #
 
   # Uncomment to use file-based dynamic template routing via Roda (make sure you
   # uncomment the gem dependency in your `Gemfile` as well):

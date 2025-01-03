@@ -17,6 +17,7 @@ Bridgetown.configure do |config|
   config.autoload_paths << "jobs"
 
   init :ssr do
+    sessions true
     setup -> site do
       # perform site setup tasks only in the server context
     end
@@ -215,16 +216,12 @@ While it's not strictly required that you place a Roda block inside of an `only 
 
 ### SSR & Dynamic Routes
 
-The SSR features of Bridgetown, along with its companion file-based routing features, are now configurable via initializers.
+The SSR features of Bridgetown, along with its companion file-based routing features, are configurable via initializers.
 
 ```rb
-init :ssr
+init :ssr, sessions: true # the dotenv initializer is also recommended, more on that below
 
 # optional:
-init :"bridgetown-routes"
-
-# …or you can just init the routes, which will init :ssr automatically:
-
 init :"bridgetown-routes"
 ```
 
@@ -232,6 +229,7 @@ If you want to run some specific site setup code on first boot, or any time ther
 
 ```rb
 init :ssr do
+  sessions true
   setup -> site do
     # access the site object, add data with `site.data`, whatever
   end

@@ -4,9 +4,9 @@ Bridgetown.initializer :dotenv do |config|
   Bridgetown.load_dotenv root: config.root_dir
 end
 
-Bridgetown.initializer :ssr do |config, setup: nil|
+Bridgetown.initializer :ssr do |config, setup: nil, **options|
   config.roda do |app|
-    app.plugin(:bridgetown_ssr, &setup)
+    app.plugin(:bridgetown_ssr, options, &setup)
   end
 end
 

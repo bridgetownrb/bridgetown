@@ -27,14 +27,6 @@ module Bridgetown
       LoaderHooks.autoload_server_folder(
         File.join(Bridgetown::Current.preloaded_configuration.root_dir, "server")
       )
-    rescue Roda::RodaError => e
-      if e.message.include?("sessions plugin :secret option")
-        raise Bridgetown::Errors::InvalidConfigurationError,
-              "The Roda sessions plugin can't find a valid secret. Run `bin/bridgetown secret' " \
-              "and put the key in a ENV var you can use to configure the session in the Roda app"
-      end
-
-      raise e
     end
   end
 end
