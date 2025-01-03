@@ -6,6 +6,7 @@ require "json"
 
 Bridgetown::Current.preloaded_configuration ||= Bridgetown.configuration
 
+require_relative "loader_hooks"
 require_relative "logger"
 require_relative "routes"
 
@@ -23,55 +24,9 @@ module Bridgetown
       self.loaders_manager =
         Bridgetown::Utils::LoadersManager.new(Bridgetown::Current.preloaded_configuration)
       Bridgetown::Current.preloaded_configuration.run_initializers! context: :server
-      autoload_server_folder
-    end
-
-    # @param root [String] root of Bridgetown site, defaults to config value
-    def self.autoload_server_folder( # rubocop:todo Metrics
-      root: Bridgetown::Current.preloaded_configuration.root_dir
-    )
-      server_folder = File.join(root, "server")
-      cached_reload_file = Bridgetown.live_reload_path
-
-      Bridgetown::Hooks.register_one(
-        :loader, :post_setup, reloadable: false
-      ) do |loader, load_path|
-        next unless load_path == server_folder
-
-        loader.eager_load
-        loader.do_not_eager_load(File.join(server_folder, "roda_app.rb"))
-
-        unless ENV["BRIDGETOWN_ENV"] == "production"
-          Listen.to(server_folder) do |modified, added, removed|
-            c = modified + added + removed
-            n = c.length
-
-            Bridgetown.logger.info(
-              "Reloading…",
-              "#{n} file#{"s" if n > 1} changed at #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
-            )
-            c.each do |path|
-              Bridgetown.logger.info "", "- #{path["#{File.dirname(server_folder)}/".length..]}"
-            end
-
-            loader.reload
-            Bridgetown::Hooks.trigger :loader, :post_reload, loader, server_folder
-          rescue SyntaxError => e
-            Bridgetown::Errors.print_build_error(e)
-          end.start
-        end
-      end
-
-      Bridgetown::Hooks.register_one(
-        :loader, :post_reload, reloadable: false
-      ) do |loader, load_path|
-        next unless load_path == server_folder
-
-        loader.eager_load
-        Bridgetown.touch_live_reload_file(cached_reload_file)
-      end
-
-      loaders_manager.setup_loaders([server_folder])
+      LoaderHooks.autoload_server_folder(
+        File.join(Bridgetown::Current.preloaded_configuration.root_dir, "server")
+      )
     end
   end
 end

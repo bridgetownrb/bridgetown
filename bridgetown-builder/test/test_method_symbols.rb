@@ -28,13 +28,13 @@ class MethodSymbolsBuilder < Builder
 end
 
 class TestMethodSymbols < BridgetownUnitTest
-  context "adding tags, filters, generators, and hooks using method symbols" do
-    setup do
+  describe "adding tags, filters, generators, and hooks using method symbols" do
+    before do
       @site = Site.new(site_configuration)
       @builder = MethodSymbolsBuilder.new("MethodSymbols", @site).build_with_callbacks
     end
 
-    should "load generator on site generate" do
+    it "load generator on site generate" do
       @site.reset
       @site.signals[:site_metadata] = { title: "Initial Value in Method Symbols" }
       @site.loaders_manager.unload_loaders
@@ -46,19 +46,19 @@ class TestMethodSymbols < BridgetownUnitTest
       assert_equal "Test Title in Method Symbols", @site.metadata[:title]
     end
 
-    should "work with tags" do
+    it "work with tags" do
       content = "This is the {% upcase_tag yay %}upcase{% endupcase_tag %} tag"
       result = Liquid::Template.parse(content).render
       assert_equal "This is the UPCASEYAY tag", result
     end
 
-    should "output the filter result" do
+    it "output the filter result" do
       content = "5 times 10 equals {{ 5 | multiply_by_anything:10 }}"
       result = Liquid::Template.parse(content).render
       assert_equal "5 times 10 equals 50", result
     end
 
-    should "trigger hook" do
+    it "trigger hook" do
       @site.reset
       assert @site.config[:after_reset_hook_ran]
     end

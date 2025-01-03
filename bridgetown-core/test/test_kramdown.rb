@@ -63,9 +63,15 @@ class TestKramdown < BridgetownUnitTest
     end
 
     should "should log kramdown warnings" do
-      allow_any_instance_of(Kramdown::Document).to receive(:warnings).and_return(["foo"])
-      expect(Bridgetown.logger).to receive(:warn).with("Kramdown warning:", "foo")
-      @converter.convert("Something")
+      mock = Minitest::Mock.new
+      mock.expect :call, nil, ["Kramdown warning:", "foo"]
+
+      Kramdown::Document.stub_any_instance :warnings, ["foo"] do
+        Bridgetown.logger.stub :warn, mock do
+          @converter.convert("Something")
+        end
+      end
+      mock.verify
     end
 
     should "render fenced code blocks with syntax highlighting" do

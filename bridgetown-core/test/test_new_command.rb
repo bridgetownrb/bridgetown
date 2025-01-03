@@ -141,7 +141,6 @@ class TestNewCommand < BridgetownUnitTest
       end
 
       stubbed_date = "2013-01-01"
-      allow_any_instance_of(Time).to receive(:strftime) { stubbed_date }
 
       erb_template_files.each do |f|
         f.chomp! ".erb"
@@ -149,7 +148,9 @@ class TestNewCommand < BridgetownUnitTest
       end
 
       capture_output do
-        Bridgetown::Commands::Base.start(argumentize(@args))
+        Time.stub_any_instance :strftime, stubbed_date do
+          Bridgetown::Commands::Base.start(argumentize(@args))
+        end
       end
 
       new_site_files = dir_contents(@full_path_source).select do |f|
