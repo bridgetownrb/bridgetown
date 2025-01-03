@@ -11,7 +11,7 @@ module Bridgetown
       include ::Streamlined::Helpers
       include Inclusive
 
-      # @return [Bridgetown::RubyTemplateView]
+      # @return [Bridgetown::RubyTemplateView, Bridgetown::Component]
       attr_reader :view
 
       # @return [Bridgetown::Site]
@@ -22,7 +22,7 @@ module Bridgetown
       # @return [Bridgetown::Foundation::SafeTranslations]
       packages def translate_package = [Bridgetown::Foundation::Packages::SafeTranslations]
 
-      # @param view [Bridgetown::RubyTemplateView]
+      # @param view [Bridgetown::RubyTemplateView, Bridgetown::Component]
       # @param site [Bridgetown::Site]
       def initialize(view = nil, site = nil)
         @view = view
