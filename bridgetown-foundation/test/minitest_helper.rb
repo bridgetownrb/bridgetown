@@ -18,8 +18,6 @@ require "stringio"
 class Bridgetown::Foundation::Test < Minitest::Test
   extend Minitest::Spec::DSL
 
-  def foo = :bar
-
   # solution from: https://stackoverflow.com/a/4459463
   def capture_stderr
     # The output stream must be an IO-like object. In this case we capture it in
