@@ -24,14 +24,6 @@ module Bridgetown
         Bridgetown::Utils::LoadersManager.new(Bridgetown::Current.preloaded_configuration)
       Bridgetown::Current.preloaded_configuration.run_initializers! context: :server
       autoload_server_folder
-    rescue Roda::RodaError => e
-      if e.message.include?("sessions plugin :secret option")
-        raise Bridgetown::Errors::InvalidConfigurationError,
-              "The Roda sessions plugin can't find a valid secret. Run `bin/bridgetown secret' " \
-              "and put the key in a ENV var you can use to configure the session in the Roda app"
-      end
-
-      raise e
     end
 
     # @param root [String] root of Bridgetown site, defaults to config value
