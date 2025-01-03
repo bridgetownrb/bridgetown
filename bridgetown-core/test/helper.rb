@@ -31,7 +31,7 @@ require_relative "../lib/bridgetown-core/commands/base"
 Bridgetown.logger = Logger.new(StringIO.new, :error)
 
 require "kramdown"
-require "shoulda"
+require "shoulda" # TODO: finish converting tests to Minitest spec and remove this
 
 include Bridgetown
 
