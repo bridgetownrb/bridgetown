@@ -18,7 +18,7 @@ class Roda
 
         # This lets us return callable objects directly in Roda response blocks
         app.handle_block_result(Bridgetown::RodaCallable) do |callable|
-          callable.(self)
+          request.send :block_result_body, callable.(self)
         end
       end
 

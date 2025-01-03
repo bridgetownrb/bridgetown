@@ -6,6 +6,8 @@ module Bridgetown
     # Handles the preparation of all the documents based on the current page index
     #
     class Paginator
+      include Enumerable
+
       attr_reader :page, :per_page, :documents, :total_documents, :total_pages,
                   :previous_page, :previous_page_path, :next_page, :next_page_path, :page_path,
                   :first_page, :first_page_path, :last_page, :last_page_path
@@ -119,6 +121,18 @@ module Bridgetown
           "page_trail"         => page_trail,
         }
       end
+
+      # Iterate over Resources by delegating to `resources.each` (supports Enumerable)
+      def each(...) = resources.each(...)
+
+      # Delegates to `resources.last`
+      def last(...) = resources.last(...)
+
+      # Delegates to `resources.deconstruct`
+      def deconstruct = resources.deconstruct
+
+      # Delegates to `resources[]`
+      def [](...) = resources.[](...)
     end
 
     # Small utility class that handles individual pagination trails

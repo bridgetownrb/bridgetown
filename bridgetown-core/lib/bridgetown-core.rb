@@ -54,8 +54,9 @@ I18n::Backend::Simple.include I18n::Backend::Fallbacks
 
 # Monkey patches:
 
+# @!visibility private
 module HashWithDotAccess
-  class Hash # :nodoc:
+  class Hash
     def to_liquid
       to_h.to_liquid
     end
@@ -99,6 +100,7 @@ module Bridgetown
   autoload :Slot,                "bridgetown-core/slot"
   autoload :StaticFile,          "bridgetown-core/static_file"
   autoload :Transformable,       "bridgetown-core/concerns/transformable"
+  autoload :Viewable,            "bridgetown-core/concerns/viewable"
   autoload :Utils,               "bridgetown-core/utils"
   autoload :VERSION,             "bridgetown-core/version"
   autoload :Watcher,             "bridgetown-core/watcher"

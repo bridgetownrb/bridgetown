@@ -91,7 +91,7 @@ module Bridgetown
       #
       # @param options [Bridgetown::Configuration] options loaded from config and/or CLI
       def watch_site(config_options)
-        if config_options["url"].include?("://localhost")
+        if config_options["url"]&.include?("://localhost")
           require "socket"
           external_ip = Socket.ip_address_list.find do |ai|
             ai.ipv4? && !ai.ipv4_loopback?

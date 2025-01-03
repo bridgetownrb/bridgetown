@@ -5,7 +5,7 @@ require "rack/files"
 
 class Roda
   module RodaPlugins
-    # This is a simplifed and modified variant of Roda's Public core plugin. It adds additional
+    # This is a simplified and modified variant of Roda's Public core plugin. It adds additional
     # functionality so that you can host an entire static site through Roda. What's necessary for
     # this to work is handling "pretty" URLs, aka:
     #
@@ -29,6 +29,7 @@ class Roda
           path = PARSER.unescape(real_remaining_path)
           return if path.include?("\0")
 
+          # @type [Rack::Files]
           server = roda_class.opts[:ssg_server]
           path = File.join(server.root, *segments_for_path(path))
 
@@ -40,7 +41,7 @@ class Roda
           halt [status, response_headers, body]
         end
 
-        # TODO: this could be refactored a bit
+        # TODO: this could be refactored a bit for clarity
         def segments_for_path(path) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
           segments = []
 
