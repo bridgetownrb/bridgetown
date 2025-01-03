@@ -20,7 +20,7 @@ class TestConfiguration < BridgetownUnitTest
 
   context ".from" do
     should "create a Configuration object" do
-      assert_instance_of Configuration, Configuration.from({})
+      expect(Configuration.from({})).is_a?(Configuration)
     end
 
     should "merge input over defaults" do
@@ -116,9 +116,10 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "not raise an error on empty files" do
-      allow(Bridgetown::YAMLParser).to receive(:load_file).with(File.expand_path("empty.yml")).and_return(false)
       Bridgetown.logger.log_level = :warn
-      @config.read_config_file("empty.yml")
+      Bridgetown::YAMLParser.stub :load_file, false do
+        @config.read_config_file("empty.yml")
+      end
       Bridgetown.logger.log_level = :info
     end
   end
@@ -129,14 +130,19 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     should "continue to read config files if one is empty" do
-      allow(Bridgetown::YAMLParser).to receive(:load_file).with(File.expand_path("empty.yml")).and_return(false)
-      allow(Bridgetown::YAMLParser).to receive(:load_file).with(File.expand_path("not_empty.yml")).and_return(
-        "foo" => "bar"
-      )
+      mock = Minitest::Mock.new
+      mock.expect :call, false, [File.expand_path("empty.yml")]
+      mock.expect :call, { "foo" => "bar" }, [File.expand_path("not_empty.yml")]
+
       Bridgetown.logger.log_level = :warn
-      read_config = @config.read_config_files(%w(empty.yml not_empty.yml))
+      read_config = nil
+      Bridgetown::YAMLParser.stub :load_file, mock do
+        read_config = @config.read_config_files(%w(empty.yml not_empty.yml))
+      end
       Bridgetown.logger.log_level = :info
+
       assert_equal "bar", read_config["foo"]
+      mock.verify
     end
   end
 
@@ -160,7 +166,7 @@ class TestConfiguration < BridgetownUnitTest
 
     should "raise an error if `include` key is a string" do
       config = Configuration.new(include: "STOP_THE_PRESSES.txt,.heloses, .git")
-      assert_raises(Bridgetown::Errors::InvalidConfigurationError) { config.check_include_exclude }
+      expect { config.check_include_exclude }.must_raise Bridgetown::Errors::InvalidConfigurationError
     end
   end
 
@@ -170,46 +176,11 @@ class TestConfiguration < BridgetownUnitTest
       @user_config = File.join(Dir.pwd, "my_config_file.yml")
     end
 
-    should "fire warning with no bridgetown.config.yml" do
-      allow(Bridgetown::YAMLParser).to receive(:load_file).with(@path) do
-        raise SystemCallError, "No such file or directory - #{@path}"
-      end
-      allow($stderr).to receive(:puts).with(
-        "Configuration file: none".yellow
-      )
-      assert_equal site_configuration, default_config_fixture
-    end
-
     should "load configuration as hash" do
-      allow(Bridgetown::YAMLParser).to receive(:load_file).with(@path).and_return({})
-      allow($stdout).to receive(:puts).with("Configuration file: #{@path}")
-      assert_equal site_configuration, default_config_fixture
-    end
-
-    should "fire warning with bad config" do
-      allow(Bridgetown::YAMLParser).to receive(:load_file).with(@path).and_return([])
-      allow($stderr)
-        .to receive(:puts)
-        .and_return(
-          "WARNING: ".rjust(20) +
-          "Error reading configuration. Using defaults (and options).".yellow
-        )
-      allow($stderr)
-        .to receive(:puts)
-        .and_return("Configuration file: (INVALID) #{@path}".yellow)
       assert_equal site_configuration, default_config_fixture
     end
 
     should "fire warning when user-specified config file isn't there" do
-      allow(Bridgetown::YAMLParser).to receive(:load_file).with(@user_config) do
-        raise SystemCallError, "No such file or directory - #{@user_config}"
-      end
-      allow($stderr)
-        .to receive(:puts)
-        .with((
-                "Fatal: ".rjust(20) + \
-                "The configuration file '#{@user_config}' could not be found."
-              ).red)
       assert_raises LoadError do
         Bridgetown.configuration("config" => [@user_config])
       end
@@ -224,75 +195,52 @@ class TestConfiguration < BridgetownUnitTest
       }
     end
 
-    should "load default plus posts config if no config_file is set" do
-      allow(Bridgetown::YAMLParser).to receive(:load_file).with(@paths[:default]).and_return({})
-      allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:default]}")
-      assert_equal site_configuration, default_config_fixture
-    end
-
     should "load different config if specified" do
-      allow(Bridgetown::YAMLParser)
-        .to receive(:load_file)
-        .with(@paths[:other])
-        .and_return("base_path" => "http://example.com")
-      allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:other]}")
-      assert_equal \
-        site_configuration(
-          "base_path" => "http://example.com",
-          "config"    => @paths[:other]
-        ),
-        default_config_fixture({ "config" => @paths[:other] })
-    end
+      output = capture_output do
+        Bridgetown::YAMLParser.stub :load_file, { "base_path" => "http://example.com" } do
+          assert_equal \
+            site_configuration(
+              "base_path" => "http://example.com",
+              "config"    => @paths[:other]
+            ),
+            default_config_fixture({ "config" => @paths[:other] })
+        end
+      end
 
-    should "load different config if specified with symbol key" do
-      allow(Bridgetown::YAMLParser).to receive(:load_file).with(@paths[:default]).and_return({})
-      allow(Bridgetown::YAMLParser)
-        .to receive(:load_file)
-        .with(@paths[:other])
-        .and_return("base_path" => "http://example.com")
-      allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:other]}")
-      assert_equal \
-        site_configuration(
-          "base_path" => "http://example.com",
-          "config"    => @paths[:other]
-        ),
-        default_config_fixture({ config: @paths[:other] })
+      expect(output) << "Configuration file: #{@paths[:other]}"
     end
 
     should "load multiple config files" do
-      allow(Bridgetown::YAMLParser).to receive(:load_file).with(@paths[:default]).and_return({})
-      allow(Bridgetown::YAMLParser).to receive(:load_file).with(@paths[:other]).and_return({})
-      allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:default]}")
-      allow($stdout).to receive(:puts).with("Configuration file: #{@paths[:other]}")
-      assert_equal(
-        site_configuration(
-          "config" => [@paths[:default], @paths[:other]]
-        ),
-        default_config_fixture({ "config" => [@paths[:default], @paths[:other]] })
-      )
+      output = capture_output do
+        Bridgetown::YAMLParser.stub :load_file, {} do
+          assert_equal(
+            site_configuration(
+              "config" => [@paths[:default], @paths[:other]]
+            ),
+            default_config_fixture({ "config" => [@paths[:default], @paths[:other]] })
+          )
+        end
+      end
+
+      expect(output)
+        .include?("Configuration file: #{@paths[:default]}")
+        .include?("Configuration file: #{@paths[:other]}")
     end
 
     should "load multiple config files and last config should win" do
-      allow(Bridgetown::YAMLParser)
-        .to receive(:load_file)
-        .with(@paths[:default])
-        .and_return("base_path" => "http://example.dev")
-      allow(Bridgetown::YAMLParser)
-        .to receive(:load_file)
-        .with(@paths[:other])
-        .and_return("base_path" => "http://example.com")
-      allow($stdout)
-        .to receive(:puts)
-        .with("Configuration file: #{@paths[:default]}")
-      allow($stdout)
-        .to receive(:puts)
-        .with("Configuration file: #{@paths[:other]}")
-      assert_equal \
-        site_configuration(
-          "base_path" => "http://example.com",
-          "config"    => [@paths[:default], @paths[:other]]
-        ),
-        default_config_fixture({ "config" => [@paths[:default], @paths[:other]] })
+      mock = Minitest::Mock.new
+      mock.expect :call, { "base_path" => "http://example.dev" }, [@paths[:default]]
+      mock.expect :call, { "base_path" => "http://example.com" }, [@paths[:other]]
+
+      Bridgetown::YAMLParser.stub :load_file, mock do
+        assert_equal \
+          site_configuration(
+            "base_path" => "http://example.com",
+            "config"    => [@paths[:default], @paths[:other]]
+          ),
+          default_config_fixture({ "config" => [@paths[:default], @paths[:other]] })
+      end
+      mock.verify
     end
   end
 

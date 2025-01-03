@@ -38,13 +38,13 @@ SubclassOfSiteBuilder.before_build do
 end
 
 class TestHooks < BridgetownUnitTest
-  context "builder hooks" do
-    setup do
+  describe "builder hooks" do
+    before do
       @site = Site.new(site_configuration)
       @builder = HooksBuilder.new("Hooks Test", @site).build_with_callbacks
     end
 
-    should "be triggered" do
+    it "be triggered" do
       @site.reset
       @site.loaders_manager.unload_loaders
       @site.setup
@@ -55,12 +55,12 @@ class TestHooks < BridgetownUnitTest
     end
   end
 
-  context "SiteBuilder" do
-    setup do
+  describe "SiteBuilder" do
+    before do
       @site = Site.new(site_configuration)
     end
 
-    should "be loaded" do
+    it "be loaded" do
       @site.reset
       @site.loaders_manager.unload_loaders
       @site.setup

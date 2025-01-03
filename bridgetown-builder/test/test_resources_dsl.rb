@@ -21,12 +21,13 @@ class TestResources < BridgetownUnitTest
 
   attr_reader :site
 
-  context "creating a new resource" do
-    setup do
+  describe "creating a new resource" do
+    before do
+      self.class.instance_variable_set(:@name, "TestResources") # reset
       @site = Site.new(site_configuration)
     end
 
-    should "support content" do
+    it "support content" do
       add_resource :posts, "im-a-markdown-post.md" do
         title "I'm a Markdown post!"
         resolve_me from: -> { method_value }
@@ -52,7 +53,7 @@ class TestResources < BridgetownUnitTest
       assert_equal %(<h1 id="hello-world">Hello World!</h1>), resource.output.strip
     end
 
-    should "support recreating data later" do
+    it "support recreating data later" do
       resource = Inner.new.add_resource :page, "later.html" do
         title "Later, alligator!"
       end
@@ -66,7 +67,7 @@ class TestResources < BridgetownUnitTest
       end
     end
 
-    should "support front matter hashes" do
+    it "support front matter hashes" do
       add_resource :pages, "/generated/doc.md" do
         ___({ "external" => { "data" => [1, 2, 3] } })
       end
@@ -77,7 +78,7 @@ class TestResources < BridgetownUnitTest
                       "/dest/generated/doc/index.html"
     end
 
-    should "place it in a new collection" do
+    it "place it in a new collection" do
       build_output = capture_output do
         add_resource :tutorials, "learn-stuff.md", &(proc {})
       end
@@ -89,7 +90,7 @@ class TestResources < BridgetownUnitTest
                       "/dest/tutorials/learn-stuff/index.html"
     end
 
-    should "support standard filenames" do
+    it "support standard filenames" do
       @site.config[:collections][:posts][:permalink] = "/:categories/:year/:slug/"
       add_resource :posts, "im-a-post.md" do
         title "I'm a post!"
@@ -100,7 +101,7 @@ class TestResources < BridgetownUnitTest
                       "/dest/2019/im-a-post/index.html"
     end
 
-    should "support date-based filenames" do
+    it "support date-based filenames" do
       @site.config[:collections][:posts][:permalink] = "/:categories/:year/:slug/"
       add_resource :posts, "2018-05-01-im-an-old-post.md" do
         title "I'm a post!"
@@ -111,12 +112,13 @@ class TestResources < BridgetownUnitTest
     end
   end
 
-  context "extending resources" do
-    setup do
+  describe "extending resources" do
+    before do
+      self.class.instance_variable_set(:@name, "TestResources") # reset
       @site = Site.new(site_configuration)
     end
 
-    should "add a new method" do
+    it "add a new method" do
       define_resource_method :upcased_title do
         data.title.upcase
       end
@@ -140,7 +142,7 @@ class TestResources < BridgetownUnitTest
       assert_equal "NOPE", upcased_content
     end
 
-    should "allow new summaries" do
+    it "allow new summaries" do
       add_resource :posts, "im-a-markdown-post.html" do
         title "I'm a post!"
         content "This is my content."
@@ -156,12 +158,13 @@ class TestResources < BridgetownUnitTest
     end
   end
 
-  context "adding a permalink placeholder" do
-    setup do
+  describe "adding a permalink placeholder" do
+    before do
+      self.class.instance_variable_set(:@name, "TestResources") # reset
       @site = Site.new(site_configuration)
     end
 
-    should "update the permalink" do
+    it "update the permalink" do
       permalink_placeholder :bar do |resource|
         resource.data.title.split.last.delete_suffix("!")
       end

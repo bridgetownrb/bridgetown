@@ -3,6 +3,7 @@
 $VERBOSE = nil
 
 ENV["BRIDGETOWN_ENV"] = "test"
+ENV["MT_NO_EXPECTATIONS"] = "true"
 
 if ENV["CI"]
   require "simplecov"
@@ -23,14 +24,14 @@ require "ostruct"
 require "minitest/autorun"
 require "minitest/reporters"
 require "minitest/profile"
-require "rspec/mocks"
+require "minitest/stub_any_instance"
 require_relative "../lib/bridgetown-core"
 require_relative "../lib/bridgetown-core/commands/base"
 
 Bridgetown.logger = Logger.new(StringIO.new, :error)
 
 require "kramdown"
-require "shoulda"
+require "shoulda" # TODO: finish converting tests to Minitest spec and remove this
 
 include Bridgetown
 
@@ -69,60 +70,54 @@ module Minitest::Assertions
   end
 end
 
+require "bridgetown-core/concerns/intuitive_expectations"
+Minitest::Expectation.include Bridgetown::IntuitiveExpectations
+Minitest.backtrace_filter.add_filter %r!bridgetown-core/concerns/intuitive_expectations\.rb!
+
 module DirectoryHelpers
   def root_dir(*subdirs)
     File.expand_path(File.join("..", *subdirs), __dir__)
   end
 
   def dest_dir(*subdirs)
-    test_dir("dest", *subdirs)
+    testing_dir("dest", *subdirs)
   end
 
   def site_root_dir(*subdirs)
-    test_dir("source", *subdirs)
+    testing_dir("source", *subdirs)
   end
 
   def resources_root_dir(*subdirs)
-    test_dir("resources", *subdirs)
+    testing_dir("resources", *subdirs)
   end
 
   def source_dir(*subdirs)
-    test_dir("source", "src", *subdirs)
+    testing_dir("source", "src", *subdirs)
   end
 
   def test_dir(*subdirs)
     root_dir("test", *subdirs)
   end
+  # NOTE: I cannot explain why using describe/it results in `test_dir` going
+  # missing. Hence the use of this alias:
+  alias_method :testing_dir, :test_dir
 end
 
 class BridgetownUnitTest < Minitest::Test
-  include ::RSpec::Mocks::ExampleMethods
+  extend Minitest::Spec::DSL
   include DirectoryHelpers
   extend DirectoryHelpers
 
   # Uncomment this if you need better printed output when debugging test failures:
   # make_my_diffs_pretty!
 
-  def mocks_expect(*args)
-    RSpec::Mocks::ExampleMethods::ExpectHost.instance_method(:expect)
-      .bind_call(self, *args)
-  end
-
-  def before_setup
-    RSpec::Mocks.setup
-    super
-  end
-
-  def after_teardown
+  def after_teardown # rubocop:disable Lint/UselessMethodDefinition
     super
     # Uncomment for debugging purposes:
     # unless self.class.instance_variable_get(:@already_torn)
     #   self.class.instance_variable_set(:@already_torn, true)
     #   puts self.class
     # end
-    RSpec::Mocks.verify
-  ensure
-    RSpec::Mocks.teardown
   end
 
   def fixture_site(overrides = {})
@@ -141,9 +136,9 @@ class BridgetownUnitTest < Minitest::Test
   def load_plugin_content(config)
     config.source_manifests << Bridgetown::Configuration::SourceManifest.new(
       origin: self.class,
-      components: test_dir("plugin_content", "components"),
-      content: test_dir("plugin_content", "content"),
-      layouts: test_dir("plugin_content", "layouts")
+      components: testing_dir("plugin_content", "components"),
+      content: testing_dir("plugin_content", "content"),
+      layouts: testing_dir("plugin_content", "layouts")
     )
   end
 

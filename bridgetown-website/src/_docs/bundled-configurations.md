@@ -195,7 +195,7 @@ bin/bridgetown configure gh-pages
 
 ### Automated Test Suite using Minitest
 
-⚙️ Adds a basic test suite using [Minitest](https://rubygems.org/gems/minitest) and Rails DOM assertions for extremely fast verification of your output HTML. Check out [our automated testing guide](/docs/testing#use-ruby-and-minitest-to-test-html-directly) for more info!
+⚙️ Adds a test suite using [Minitest](https://rubygems.org/gems/minitest) and [Rack::Test](https://github.com/rack/rack-test) which lets you test both static and dynamic routes. Check out [our automated testing guide](/docs/testing#use-ruby-and-minitest-to-test-html-directly) for more information.
 
 🛠 **Configure using:**
 

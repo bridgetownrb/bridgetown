@@ -23,8 +23,8 @@ class GeneratorBuilder2 < Builder
 end
 
 class TestGenerators < BridgetownUnitTest
-  context "creating a generator" do
-    should "be loaded on site setup" do
+  describe "creating a generator" do
+    it "be loaded on site setup" do
       @builders = [GeneratorBuilder, GeneratorBuilder2].sort
       @site = Site.new(site_configuration)
       @site.signals[:site_metadata] = { title: "Initial Value" }

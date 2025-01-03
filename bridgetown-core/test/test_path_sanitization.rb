@@ -7,16 +7,19 @@ class TestPathSanitization < BridgetownUnitTest
     setup do
       @source = "C:/Users/xmr/Desktop/mpc-hc.org"
       @dest   = "./_site/"
-      allow(Dir).to receive(:pwd).and_return("C:/Users/xmr/Desktop/mpc-hc.org")
     end
     should "strip drive name from path" do
-      assert_equal "C:/Users/xmr/Desktop/mpc-hc.org/_site",
-                   Bridgetown.sanitized_path(@source, @dest)
+      Dir.stub :pwd, @source do
+        assert_equal "C:/Users/xmr/Desktop/mpc-hc.org/_site",
+                     Bridgetown.sanitized_path(@source, @dest)
+      end
     end
 
     should "strip just the initial drive name" do
-      assert_equal "/tmp/foobar/jail/..c:/..c:/..c:/etc/passwd",
-                   Bridgetown.sanitized_path("/tmp/foobar/jail", "..c:/..c:/..c:/etc/passwd")
+      Dir.stub :pwd, @source do
+        assert_equal "/tmp/foobar/jail/..c:/..c:/..c:/etc/passwd",
+                     Bridgetown.sanitized_path("/tmp/foobar/jail", "..c:/..c:/..c:/etc/passwd")
+      end
     end
   end
 

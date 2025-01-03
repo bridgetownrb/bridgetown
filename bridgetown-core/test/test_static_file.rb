@@ -144,11 +144,11 @@ class TestStaticFile < BridgetownUnitTest
     end
 
     should "only set modified time if not a symlink" do
-      expect(File).to receive(:symlink?).and_return(true)
-      expect(File).not_to receive(:utime)
-      @static_file.write(dest_dir)
-
-      allow(File).to receive(:symlink?).and_call_original
+      File.stub :symlink?, true do
+        File.stub :utime, proc { raise "utime should not be called" } do
+          @static_file.write(dest_dir)
+        end
+      end
     end
 
     should "known if the source path is modified, when it is" do
