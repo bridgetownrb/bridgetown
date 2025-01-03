@@ -184,7 +184,8 @@ module Bridgetown
     #
     # @return [String]
     def inspect
-      "#<#{self.class} @label=#{label} resources=#{resources}>"
+      "#<#{self.class} #{label}: #{resources.count} metadata=#{metadata.inspect} " \
+        "static_files: #{static_files.count}>"
     end
 
     # Produce a sanitized label name
