@@ -7,8 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- Add Enumerable to Paginator (#967) @jaredcwhite
+- nsure symbol values for relations config still work @jaredcwhite
+- docs: Add some file excludes for YARDoc generation (#964) @jaredcwhite
+- Show generic index file instead of crashing (#963) @jarecwhite
+- Support minimalist installations with no `config.ru` or `Rakefile` (or anything other than `Gemfile` really) (#942) @jaredcwhite
+- Switch to `.bridgetown-cache/live_reload.txt` for live reload (#949) @jaredcwhite
+- Cache instantiated template objects for ERB and Serbea (#958) @jaredcwhite
+- Preserve the `_bridgetown` default value in `keep_files` config (#945) @jaredcwhite
+- Add back in "Now serving", fix absolute URL bug in dev, fix missing 404 @jaredcwhite
+- Ensure front matter defaults are dot access hashes (#944) @jaredcwhite
 - Avoid duplication in r.bridgetown implementation (#939) @jeremyevans
-- Update `gh_pages` bundled configuration (#943)[#943](https://github.com/bridgetownrb/bridgetown/pull/943) ([@konnorrogers](https://github.com/konnorrogers))
+- Update `gh_pages` bundled configuration [#943](https://github.com/bridgetownrb/bridgetown/pull/943) ([@konnorrogers](https://github.com/konnorrogers))
 
 ## [2.0.0.beta3] - 2024-11-16
 
@@ -51,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Refactor start command to use Rackup instead of Puma [#875](https://github.com/bridgetownrb/bridgetown/pull/875) ([@ayushn21](https://github.com/ayushn21))
 - Use rack 3 proc responses for SSE live reload [#858](https://github.com/bridgetownrb/bridgetown/pull/858) ([@ayushn21](https://github.com/ayushn21))
 - Refactor front matter handling and extract behavior into loaders [#778](https://github.com/bridgetownrb/bridgetown/pull/778) ([@michaelherold](https://github.com/michaelherold))
+- Thanks to @soulcutter for docs improvements!
 
 ### Removed
 
@@ -58,8 +69,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Remove a variety of deprecated code paths for v2 [#873](https://github.com/bridgetownrb/bridgetown/pull/873) ([@jaredcwhite](https://github.com/jaredcwhite))
 - Remove webpack integration from Bridgetown [#868](https://github.com/bridgetownrb/bridgetown/pull/868) ([@jaredcwhite](https://github.com/jaredcwhite))
 - Remove Cucumber and consolidate around Minitest for integrated feature testing
-
-- Thanks to @soulcutter for docs improvements!
 
 ## [1.3.4] - 2024-03-28
 

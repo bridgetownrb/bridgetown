@@ -20,7 +20,9 @@ module Bridgetown
 
       # @return [HashWithDotAccess::Hash]
       def relation_schema
-        resource.collection.metadata.relations
+        @relation_schema ||= resource.collection.metadata.relations&.transform_values do |value|
+          value.is_a?(Array) ? value.map(&:to_s) : value.to_s
+        end
       end
 
       # @return [Array<String>]

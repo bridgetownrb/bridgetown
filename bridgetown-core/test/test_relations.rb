@@ -13,9 +13,9 @@ class TestRelations < BridgetownUnitTest
               "has_many" => "posts",
             },
           },
-          "posts"   => {
-            "relations" => {
-              "belongs_to" => "noodle",
+          posts: {
+            relations: {
+              belongs_to: :noodle,
             },
           },
         },

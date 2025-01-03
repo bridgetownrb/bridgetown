@@ -25,10 +25,17 @@ class TestPagination < BridgetownFeatureTest
         create_configuration pagination: { enabled: true, per_page: example[:num] }
 
         create_page "index.liquid", "{{ paginator.resources.size }} {{ paginator.resources[0].title }}", pagination: { collection: "posts" }
+        create_page "posts.erb", <<~ERB, pagination: { collection: "posts" }
+          <%= paginator.resources.count %>
+          <% paginator.each do |post| %>
+            - <%= post.data.title %>
+          <% end %>
+        ERB
 
         run_bridgetown "build"
 
         assert_file_contains "#{example[:posts]} #{example[:title]}", "output/page/#{example[:exist]}/index.html"
+        assert_file_contains "#{example[:posts]}\n  - #{example[:title]}", "output/posts/page/#{example[:exist]}/index.html"
         refute_exist "output/page/#{example[:not_exist]}/index.html"
       end
     end
