@@ -124,6 +124,50 @@ You can return a resource at the end of any Roda block to have it render out aut
   Most of the time though, on modestly-sized sites, this shouldn't prove to be a major issue.
 {% end %}
 
+## Rendering Viewable Components
+
+For a traditional "VC" part of the MVC (Model-View-Controller) programming paradigm, Bridgetown provides a `Viewable` mixin for [components](/_docs/components). This lets you offload the rendering of a view to a component, keeping your Roda route very clean.
+
+```ruby
+# ./server/routes/products.rb
+
+class Routes::Products < Bridgetown::Rack::Routes
+  route do |r|
+    r.on "products" do
+      # route: /products/:sku
+      r.get String do |sku|
+        # Tip: check out bridgetown_sequel plugin for database connectivity!
+        Views::Product.new product: Product.find(sku:)
+      end
+    end
+  end
+end
+
+# ./src/_components/views/product.rb
+
+class Views::Product < Bridgetown::Component
+  include Bridgetown::Viewable
+
+  def initialize(product:) # rubocop:disable Lint/MissingSuper
+    @product = product
+
+    data.title = @product.title
+  end
+
+  # @param app [Roda] this is the instance of the Roda application
+  def call(app)
+    render_with(app) do
+      layout :page
+      page_class "product"
+    end
+  end
+end
+
+# ./src/_components/views/product.erb is an exercise left to the reader
+```
+
+[Read more about the callable objects pattern below.](#callable-objects-for-rendering-within-blocks)
+
 ## File-based Dynamic Routes
 
 **But wait, there’s more!** We also provide a plugin called `bridgetown-routes` which gives you the ability to write file-based dynamic routes with integrated view templates right inside your source folder.
@@ -292,6 +336,51 @@ end
 ```
 
 For the Roda-curious, we've enabled this behavior via our own custom handler for the `custom_block_results` Roda plugin.
+
+And [as mentioned previously](#rendering-viewable-components), the `Viewable` component mixin is a wrapper around `RodaCallable` to add some extra smarts to [Ruby components](/docs/components):
+
+* You can access the `data` hash from within your component to add and retrieve front matter for the view.
+* You can call `front_matter` with a block to define [Ruby Front Matter](/docs/front-matter#the-power-of-ruby-in-front-matter) for the view.
+* From your `call(app)` method, you can call `render_in_layout(app)` to render the component template within the layout defined via your front matter.
+* Or for a shorthand, call `render_with(app) do ... end` to specify Ruby Front Matter and render the template in one pass.
+
+You can even cascade multiple callable objects, if you really want a full object-oriented MVC experience:
+
+```ruby
+# ./server/routes/products.rb
+
+class Routes::Reports < Bridgetown::Rack::Routes
+  route do |r|
+    r.on "reports" do
+      # route: /reports/:id
+      r.get Integer do |id|
+        Controllers::Reports::Show.new(id:)
+      end
+    end
+  end
+end
+
+# ./server/controllers/reports/show.rb
+
+class Controllers::Reports::Show
+  include Bridgetown::RodaCallable
+
+  def initialize(id:)
+    @id = id
+  end
+
+  def call(app)
+    app => { request:, response: }
+
+    report = Report[@id]
+
+    # do other bits of controller-y logic here
+
+    # render a Viewable component
+    Views::Reports::Show.new(report:)
+  end
+end
+```
 
 <!--
 ## Roda Helpers

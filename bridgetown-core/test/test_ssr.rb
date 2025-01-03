@@ -93,5 +93,16 @@ class TestSSR < BridgetownUnitTest
       assert_equal "application/rss+xml", last_response["Content-Type"]
       assert_equal "<rss>WOW true</rss>", last_response.body
     end
+
+    should "return rendered view" do
+      get "/render_view/Page_Me"
+
+      assert last_response.ok?
+      assert_includes last_response.body, "<title>PAGE_ME | So Awesome</title>"
+      assert_includes last_response.body, "<body class=\"page some-extras\">"
+      assert_includes last_response.body, "<h1>PAGE_ME</h1>"
+      assert_includes last_response.body, "<ul>\n  <li>Port 80</li>\n</ul>"
+      assert_includes last_response.body, "<p>Well that was 246!\n  <em>ya think?</em></p>"
+    end
   end
 end
