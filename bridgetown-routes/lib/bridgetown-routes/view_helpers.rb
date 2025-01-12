@@ -1,14 +1,26 @@
 # frozen_string_literal: true
 
-require_relative "flash_additions"
-
 module Bridgetown
   module Routes
     module ViewHelpers
       # This flash is only used as a stub for views in case there's no Roda flash
       # available in the rendering context
       class Flash < Hash
-        include Bridgetown::Routes::FlashHashAdditions
+        def info
+          self["info"]
+        end
+
+        def info=(val)
+          self["info"] = val
+        end
+
+        def alert
+          self["alert"]
+        end
+
+        def alert=(val)
+          self["alert"] = val
+        end
 
         def now
           self

@@ -8,7 +8,10 @@ class TestSSR < BridgetownUnitTest
   include Rack::Test::Methods
 
   def app
-    @@ssr_app ||= Rack::Builder.parse_file(File.expand_path("ssr/config.ru", __dir__)) # rubocop:disable Style/ClassVars
+    @@ssr_app ||= begin # rubocop:disable Style/ClassVars
+      ENV["RODA_SECRET_KEY"] = SecureRandom.hex(64)
+      Rack::Builder.parse_file(File.expand_path("ssr/config.ru", __dir__))
+    end
   end
 
   def site
@@ -92,6 +95,14 @@ class TestSSR < BridgetownUnitTest
       assert last_response.ok?
       assert_equal "application/rss+xml", last_response["Content-Type"]
       assert_equal "<rss>WOW true</rss>", last_response.body
+    end
+
+    should "return flash value" do
+      post "/flashy/abc12356"
+
+      get "/flashy"
+
+      assert_equal({ "saved" => "Save this value: abc12356" }, JSON.parse(last_response.body))
     end
 
     should "return rendered view" do

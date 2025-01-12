@@ -12,11 +12,7 @@ Bridgetown lets you create your own Roda-based API routes in the `server/routes`
 However, to take full advantage of all the Bridgetown has to offer, we recommend you load up our SSR and Dynamic Routes plugins. Add to your configuration in `config/initializers.rb`:
 
 ```rb
-init :ssr
-init :"bridgetown-routes"
-
-# …or you can init the routes, which will init :ssr automatically:
-
+init :ssr # add `sessions: true` if you want to save session data, use flash, etc.
 init :"bridgetown-routes"
 ```
 
@@ -148,7 +144,7 @@ end
 class Views::Product < Bridgetown::Component
   include Bridgetown::Viewable
 
-  def initialize(product:) # rubocop:disable Lint/MissingSuper
+  def initialize(product:)
     @product = product
 
     data.title = @product.title
@@ -387,6 +383,14 @@ end
 
 Flash, session, cookies, CSRF, etc.
 -->
+
+## Building Web Applications With Roda
+
+Besides the features that Bridgetown uniquely provides, described thus far, many of the features you'll use in the typical course of building out an application are directly supplied by Roda.
+
+Bridgetown comes with what we like to call an "opinionated distribution" of Roda. Unlike a first install of Roda where no plugins have yet to be configured, Bridgetown configures a number of plugins right out of the box for enhanced developer experience.
+
+[Read our Roda reference guide](/docs/roda) for more on this base configuration, as well as some of the helpers and utilities made available.
 
 <!---
 ## Deployment

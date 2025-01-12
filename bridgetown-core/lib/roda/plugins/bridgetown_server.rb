@@ -13,14 +13,9 @@ class Roda
 
         app.extend ClassMethods # we need to do this here because Roda hasn't done it yet
         app.plugin :initializers
-        app.plugin :method_override
-        app.plugin :all_verbs
-        app.plugin :hooks
         app.plugin :common_logger, Bridgetown::Rack::Logger.new($stdout), method: :info
         app.plugin :json
         app.plugin :json_parser
-        app.plugin :indifferent_params
-        app.plugin :cookies, path: "/"
         app.plugin :ssg, root: Bridgetown::Current.preloaded_configuration.destination
         app.plugin :not_found do
           output_folder = Bridgetown::Current.preloaded_configuration.destination
