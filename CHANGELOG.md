@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- Refactor Roda plugin setup, add Roda "distribution" docs (#969) @jaredcwhite
+- Revamp the minitesting bundled configuration so it uses Rack::Test (#954) @jaredcwhite
+  - BREAKING CHANGE: the `flash` plugin is no longer loaded by the file-based routes plugin by default, it's now configured with `sessions: true` in the ssr plugin init. Flash required sessions to be set up anyway, which used to be manual but is now provided by this new config.
+- Remove legacy doctor command (#966) @jaredcwhite
+- Better inspect output for Bridgetown::Collection (#968) @jaredcwhite
+- Add Viewable callable object mixin for Ruby components (#959) @jaredcwhite
+- Add `irb` gem as a dependency @jaredcwhite
 - Add Enumerable to Paginator (#967) @jaredcwhite
 - nsure symbol values for relations config still work @jaredcwhite
 - docs: Add some file excludes for YARDoc generation (#964) @jaredcwhite
