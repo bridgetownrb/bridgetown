@@ -144,7 +144,7 @@ end
 class Views::Product < Bridgetown::Component
   include Bridgetown::Viewable
 
-  def initialize(product:) # rubocop:disable Lint/MissingSuper
+  def initialize(product:)
     @product = product
 
     data.title = @product.title
