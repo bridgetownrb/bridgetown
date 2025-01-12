@@ -7,6 +7,10 @@ category: roda
 
 Bridgetown comes with what we like to call an "opinionated distribution" of the [Roda web toolkit](https://roda.jeremyevans.net), meaning we've configured a number of plugins right out of the box for enhanced developer experience.
 
+{%@ Note do %}
+For a general overview of how to author server-side code, see [Server-Rendered Routes](/docs/routes).
+{% end %}
+
 This base configuration is itself provided by the `bridgetown_server` plugin. On a fresh install of a Bridgetown site, you'll get a `server/roda_app.rb` file with the following:
 
 ```ruby
@@ -45,5 +49,23 @@ The `bridgetown_ssr` plugin configures these additional plugins:
 
 If you pass `sessions: true` to the `ssr` initializer in your config, you'll get these plugins added:
 
-* sessions RODA_SECRET_KEY
-* flash
+* [sessions](https://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Sessions.html) - adds support for cookie-based session storage (aka a small amount of key-val data storage which persists across requests for a single client). You'll need to have `RODA_SECRET_KEY` defined in your environment. To make this easy in local development, you should set up the [Dotenv gem](/docs/configuration/initializers#dotenv). Setting up a secret key is a matter of running `bin/bridgetown secret` and then copying the key to `RODA_SECRET_KEY`.
+* [flash](https://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Flash.html) - provides a `flash` object you can access from both routes and view templates.
+
+The following `flash` methods are available:
+
+* `flash.info = "..."` / `flash.info` - set an informational message in a route which can then be read once after a redirect.
+* `flash.alert = "..."` / `flash.alert` - set an alert message in a route which can then be read once after a redirect.
+* `flash.now` - lets you set and retrieve flash messages (both `.info` and `.alert`) for the current request/response cycle.
+
+## Bridgetown Route Classes
+
+If you've come to Bridgetown already familiar with Roda, you may be wondering what `Bridgetown::Rack::Routes` is and how it works.
+
+Because a traditional Roda application isn't oriented towards an architecture which plays well with Zeitwerk-based reloading in development, we decided to eschew Roda's recommended solutions for creating multiple route files (such as the `hash_branches` plugin) in favor of a class-based solution.
+
+During the `r.bridgetown` routing process, every loaded `Bridgetown::Rack::Routes` class is evaluated in turn (sorted by [priority](/docs/routes#priority-flag)) until a route handler has been found (or in lieu of that, a generic 404 response is returned). Route handlers are provided via the `route` class method, and the block you provide is evaluated in an instance of that class (not the Roda application itself).
+
+{%@ Note do %}
+You can still access methods of the Roda application from within a route block because `Bridgetown::Rack::Routes` defines `method_missing` and delegates calls accordingly. So for example if you were to call `flash` in your route block, that call would be passed along to the Roda application. However, if for some reason you were to write `def flash` to create an instance method, you'd no longer have access to Roda's `flash`. So it's recommended that if you do write custom instance methods, you avoid using names which interfere with typical Roda app methods.
+{% end %}
