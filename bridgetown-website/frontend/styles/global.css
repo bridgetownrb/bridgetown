@@ -194,6 +194,7 @@ h1,
 h2 {
   line-height: 1.15;
   margin-bottom: 0.8em;
+  text-wrap: balance;
 }
 
 h3 {
