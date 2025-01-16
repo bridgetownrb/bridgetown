@@ -7,31 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-- Refactor Roda plugin setup, add Roda "distribution" docs (#969) @jaredcwhite
-- Revamp the minitesting bundled configuration so it uses Rack::Test (#954) @jaredcwhite
+## [2.0.0.beta4] - 2025-01-16
+
+- Require bridgetown when booting from Rack [#948](https://github.com/bridgetownrb/bridgetown/pull/948) ([@ayushn21](https://github.com/ayushn21))
+- Remove explicit require of puma in the console command [#947](https://github.com/bridgetownrb/bridgetown/pull/947) ([@ayushn21](https://github.com/ayushn21))
+- Refactor Roda plugin setup, add Roda "distribution" docs (#969) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Revamp the `minitesting` bundled configuration so it uses `Rack::Test` [#954](https://github.com/bridgetownrb/bridgetown/pull/954) ([@jaredcwhite](https://github.com/jaredcwhite))
   - BREAKING CHANGE: the `flash` plugin is no longer loaded by the file-based routes plugin by default, it's now configured with `sessions: true` in the ssr plugin init. Flash required sessions to be set up anyway, which used to be manual but is now provided by this new config.
-- Remove legacy doctor command (#966) @jaredcwhite
-- Better inspect output for Bridgetown::Collection (#968) @jaredcwhite
-- Add Viewable callable object mixin for Ruby components (#959) @jaredcwhite
-- Add `irb` gem as a dependency @jaredcwhite
-- Add Enumerable to Paginator (#967) @jaredcwhite
-- nsure symbol values for relations config still work @jaredcwhite
-- docs: Add some file excludes for YARDoc generation (#964) @jaredcwhite
-- Show generic index file instead of crashing (#963) @jarecwhite
-- Support minimalist installations with no `config.ru` or `Rakefile` (or anything other than `Gemfile` really) (#942) @jaredcwhite
-- Switch to `.bridgetown-cache/live_reload.txt` for live reload (#949) @jaredcwhite
-- Cache instantiated template objects for ERB and Serbea (#958) @jaredcwhite
-- Preserve the `_bridgetown` default value in `keep_files` config (#945) @jaredcwhite
-- Add back in "Now serving", fix absolute URL bug in dev, fix missing 404 @jaredcwhite
-- Ensure front matter defaults are dot access hashes (#944) @jaredcwhite
-- Avoid duplication in r.bridgetown implementation (#939) @jeremyevans
+- Remove legacy doctor command [#966](https://github.com/bridgetownrb/bridgetown/pull/966) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Better inspect output for Bridgetown::Collection [#968](https://github.com/bridgetownrb/bridgetown/pull/968) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Add Viewable callable object mixin for Ruby components [#959](https://github.com/bridgetownrb/bridgetown/pull/959) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Add `irb` gem as a dependency ([@jaredcwhite](https://github.com/jaredcwhite))
+- Add Enumerable to Paginator [#967](https://github.com/bridgetownrb/bridgetown/pull/967) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Ensure symbol values for relations config still work ([@jaredcwhite](https://github.com/jaredcwhite))
+- docs: Add some file excludes for YARDoc generation [#964](https://github.com/bridgetownrb/bridgetown/pull/964) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Show generic index file instead of crashing [#963](https://github.com/bridgetownrb/bridgetown/pull/963) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Support minimalist installations with no `config.ru` or `Rakefile` (or anything other than `Gemfile` really) [#942](https://github.com/bridgetownrb/bridgetown/pull/942) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Switch to `.bridgetown-cache/live_reload.txt` for live reload [#949](https://github.com/bridgetownrb/bridgetown/pull/949) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Cache instantiated template objects for ERB and Serbea [#958](https://github.com/bridgetownrb/bridgetown/pull/958) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Preserve the `_bridgetown` default value in `keep_files` config [#945](https://github.com/bridgetownrb/bridgetown/pull/945) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Add back in "Now serving", fix absolute URL bug in dev, fix missing 404 ([@jaredcwhite](https://github.com/jaredcwhite))
+- Ensure front matter defaults are dot access hashes [#944](https://github.com/bridgetownrb/bridgetown/pull/944) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Avoid duplication in r.bridgetown implementation [#939](https://github.com/bridgetownrb/bridgetown/pull/939) ([@jeremyevans](https://github.com/jeremyevans))
 - Update `gh_pages` bundled configuration [#943](https://github.com/bridgetownrb/bridgetown/pull/943) ([@konnorrogers](https://github.com/konnorrogers))
 
 ## [2.0.0.beta3] - 2024-11-16
 
-- Fix regression in base_path support (#938)[#938](https://github.com/bridgetownrb/bridgetown/pull/938) ([@jaredcwhite](https://github.com/jaredcwhite))
-- Revamping of view layer docs for v2 (#912)[#912](https://github.com/bridgetownrb/bridgetown/pull/912) ([@jaredcwhite](https://github.com/jaredcwhite))
-- Update esbuild config to use ESM (#934)[#934](https://github.com/bridgetownrb/bridgetown/pull/934) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Fix regression in base_path support [#938](https://github.com/bridgetownrb/bridgetown/pull/938) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Revamping of view layer docs for v2 [#912](https://github.com/bridgetownrb/bridgetown/pull/912) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Update esbuild config to use ESM [#934](https://github.com/bridgetownrb/bridgetown/pull/934) ([@jaredcwhite](https://github.com/jaredcwhite))
 - Support i18n with fast refresh (rerender multiple locales) [#937](https://github.com/bridgetownrb/bridgetown/pull/937) ([@jaredcwhite](https://github.com/jaredcwhite))
 - Remove all uses of just, simple, simply, and straightforward in the docs [#936](https://github.com/bridgetownrb/bridgetown/pull/936) ([@ayushn21](https://github.com/ayushn21))
 - Add additional possible error for Roda server [#910](https://github.com/bridgetownrb/bridgetown/pull/910) ([@KonnorRogers](https://github.com/KonnorRogers)) & ([@ayushn21](https://github.com/ayushn21))
