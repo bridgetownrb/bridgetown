@@ -27,15 +27,16 @@ module Bridgetown
 
         pm = site.plugin_manager
 
-        plugins_list += pm.class.registered_plugins.reject do |plugin|
-          plugin.to_s.end_with? "site_builder.rb"
+        plugins_list += pm.class.registered_plugins.to_a
+
+        plugins_list.reject! do |plugin|
+          plugin.to_s.end_with?("site_builder.rb") || plugin.to_s == "init (Initializer)"
         end
 
         Bridgetown.logger.info("Registered Plugins:", plugins_list.length.to_s.yellow.bold)
 
         plugins_list.each do |plugin|
           plugin_desc = plugin.to_s
-          next if plugin_desc.ends_with?("site_builder.rb") || plugin_desc == "init (Initializer)"
 
           if plugin.is_a?(Bridgetown::Configuration::Initializer)
             Bridgetown.logger.info("", plugin_desc)
