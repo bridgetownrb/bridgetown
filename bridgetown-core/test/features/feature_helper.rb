@@ -56,9 +56,10 @@ class BridgetownFeatureTest < BridgetownUnitTest
 
   ####
 
-  def run_bridgetown(command, args = "", skip_status_check: false)
+  def run_bridgetown(command, args = "", skip_status_check: false, trace: true)
     args = args.strip.split # Shellwords?
-    process, output = exec_command("ruby", Paths.bridgetown_bin.to_s, command, *args, "--trace")
+    args << "--trace" if trace
+    process, output = exec_command("ruby", Paths.bridgetown_bin.to_s, command, *args)
     unless skip_status_check
       assert process.exitstatus.zero?, "Bridgetown process failed: #{process} \n#{output}"
     end
