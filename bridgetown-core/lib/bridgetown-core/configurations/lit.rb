@@ -11,19 +11,19 @@ end
 
 say_status :lit, "Installing Lit + SSR Plugin..."
 
-add_gem "bridgetown-lit-renderer", version: "2.1.0.beta2"
+add_gem "bridgetown-lit-renderer", version: "3.0.0"
 
-add_npm_package "lit esbuild-plugin-lit-css bridgetown-lit-renderer@2.1.0-beta2"
+add_npm_package "lit esbuild-plugin-lit-css bridgetown-lit-renderer@3.0.0"
 
 copy_file in_templates_dir("lit-ssr.config.js"), "config/lit-ssr.config.js"
 copy_file in_templates_dir("lit-components-entry.js"), "config/lit-components-entry.js"
 copy_file in_templates_dir("esbuild-plugins.js"), "config/esbuild-plugins.js"
 
 insert_into_file "esbuild.config.js",
-                 after: 'const build = require("./config/esbuild.defaults.js")' do
+                 after: 'import build from "./config/esbuild.defaults.js"' do
   <<~JS
 
-    const { plugins } = require("./config/esbuild-plugins.js")
+    import { plugins } from "./config/esbuild-plugins.js"
   JS
 end
 
