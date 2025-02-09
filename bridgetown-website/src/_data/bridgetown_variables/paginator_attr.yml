@@ -1,0 +1,27 @@
+- name: collection
+  description: >-
+    <code>Required</code> The collection to paginate
+- name: offset
+  description: >-
+    <code>Default: 0</code> Supports skipping x number of posts from the beginning of the post list
+- name: per_page
+  description: >-
+    <code>Default 10</code> Number of resources per page
+- name: permalink
+  description: >-
+    <code>Default: "/page/:num/"</code> Supports :num as customizable elements
+- name: title
+  description: >-
+    <code>Default: ":title (Page :num)"</code> Supports :num customizable elements
+- name: sort_reverse
+  description: >-
+    <code>Default: true</code> Sorts the posts in reverse order
+- name: sort_field
+  description: >-
+    <code>Default: "date"</code> Sorts the posts by the specified field
+- name: limit
+  description: >-
+    <code>Default: 0</code> Limits how many content objects to paginate (default: 0, means all)
+- name: debug
+  description: >-
+    <code>Default: false</code> Turns on debug output for the gem
