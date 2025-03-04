@@ -5,8 +5,6 @@ top_section: Writing Content
 category: resources
 ---
 
-{%@ "docs/help_needed", resource: resource %}
-
 Pagination support is built-in to Bridgetown, but it is not enabled by default. You can enable it in the config file using:
 
 ```yml
@@ -16,7 +14,7 @@ pagination:
 
 ## Page Configuration
 
-To facilitate pagination on any given page (like `index.html`, `blog.md`, etc.) then include configuration in the resource's front matter to specify which collection you'd like to paginate through:
+To facilitate pagination on any given page (like `index.html`, `blog.md`, etc.) include configuration in the resource's front matter to specify which collection you'd like to paginate through:
 
 ``` yml
 ---
@@ -52,6 +50,10 @@ paginate:
   sort_field: rating
   sort_reverse: true
 ```
+
+## Attributes for Defining Pagination
+
+{%@ Documentation::VariablesTable data: site.data, scope: :paginator_attr, description_size: :bigger %}
 
 ## Excluding a Resource from the Paginator
 
@@ -89,3 +91,4 @@ To display pagination links, use the `paginator` Liquid object as follows:
 The `paginator` Liquid object provides the following attributes:
 
 {%@ Documentation::VariablesTable data: site.data, scope: :paginator, description_size: :bigger %}
+

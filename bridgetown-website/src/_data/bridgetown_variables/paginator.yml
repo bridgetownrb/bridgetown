@@ -8,15 +8,26 @@
   description: Total number of resources
 - name: total_pages
   description: Total number of paginated pages
+- name: first_page_path
+  description: >-
+    Returns the path to the first page, or <code>nil</code> if none
+- name: last_page
+  description: >-
+    The number of the last page, or <code>nil</code> if none
+- name: last_page_path
+  description: >-
+    Returns the path to the last page, or <code>nil</code> if none
+- name: next_page
+  description: >-
+    The number of the next page, or <code>nil</code> if no subsequent page exists
+- name: next_page_path
+  description: >-
+    The path to the next page, or <code>nil</code> if no previous page exists
 - name: previous_page
   description: >-
     The number of the previous page, or <code>nil</code> if no previous page exists
 - name: previous_page_path
   description: >-
     The path to the previous page, or <code>nil</code> if no previous page exists
-- name: next_page
-  description: >-
-    The number of the next page, or <code>nil</code> if no subsequent page exists
-- name: next_page_path
-  description: >-
-    The path to the next page, or <code>nil</code> if no subsequent page exists
+
+
