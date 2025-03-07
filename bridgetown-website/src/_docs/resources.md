@@ -9,8 +9,6 @@ The majority of your text-based content and view templates in Bridgetown are pro
 
 Resource files contain [front matter](/docs/front-matter), metadata about the resource which can be used in other layouts and templates. For example, your about page (`src/_pages/about.md`) might be written like this:
 
-{% raw %}
-
 ```md
 ---
 layout: page
@@ -22,9 +20,8 @@ Here's a page all about myself.
 
 Here's what I look like:
 
-![Me, Myself, and I](/images/{{ data.headshot }})
+![Me, Myself, and I](/images/<%= data.headshot %>)
 ```
-{% endraw %}
 
 In this example, the [layout](/docs/layouts) of the resource is specified as `page`, the title is "About Me" (which will be used by the layout and related templates), and a headshot filename is given which can then inform the final URL of the image in the body of the content.
 
@@ -57,26 +54,30 @@ Let's say you add a new blog post by saving `src/_posts/2021-05-10-super-cool-bl
 
 ## Accessing Resources in Templates
 
-{% raw %}
 The simplest way to access resources in your templates is to use the `collections` variable, available in both Ruby and Liquid templates.
 
-```eruby
+{%@ Documentation::Multilang do %}
+```erb
 Title: <%= collections.genre.metadata.title %>
 
 First URL: <%= collections.genre.resources[0].relative_url %>
 ```
-
+===
+{% raw %}
 ```liquid
 Title: {{ collections.genre.title }}
 
 First URL: {{ collections.genre.resources[0].relative_url }}
 ```
+{% endraw %}
+{% end %}
 
 ### Loops and Pagination
 
 You can easily loop through collection resources by name, e.g., `collections.posts.resources`:
 
-```eruby
+{%@ Documentation::Multilang do %}
+```erb
 <% collections.posts.each do |post| %>
   <article>
     <a href="<%= post.relative_url %>"><h2><%= post.data.title %></h2></a>
@@ -85,7 +86,8 @@ You can easily loop through collection resources by name, e.g., `collections.pos
   </article>
 <% end %>
 ```
-
+===
+{% raw %}
 ```liquid
 {% for post in collections.posts.resources %}
   <article>
@@ -95,10 +97,13 @@ You can easily loop through collection resources by name, e.g., `collections.pos
   </article>
 {% endfor %}
 ```
+{% endraw %}
+{% end %}
 
 Sometimes you'll likely want to use a paginator:
 
-```eruby
+{%@ Documentation::Multilang do %}
+```erb
 <% paginator.each do |post| %>
   <article>
     <a href="<%= post.relative_url %>"><h2><%= post.data.title %></h2></a>
@@ -107,7 +112,8 @@ Sometimes you'll likely want to use a paginator:
   </article>
 <% end %>
 ```
-
+===
+{% raw %}
 ```liquid
 {% for post in paginator.resources %}
   <article>
@@ -117,6 +123,8 @@ Sometimes you'll likely want to use a paginator:
   </article>
 {% endfor %}
 ```
+{% endraw %}
+{% end %}
 
 Read more about [how the paginator works here](/docs/content/pagination). You can also [refer to how collections work](/docs/collections) and how you can also create your own custom collections.
 
@@ -161,14 +169,16 @@ genres:
 
 You can access taxonomies for resources in your templates as:
 
-```eruby
+{%@ Documentation::Multilang do %}
+```erb
 Title: <%= site.taxonomy_types.genres.metadata.title %>
 
 <% resource.taxonomies.genres.terms.each do |term| %>
   Term: <%= term.label %>
 <% end %>
 ```
-
+===
+{% raw %}
 ```liquid
 Title: {{ site.taxonomy_types.genres.metadata.title }}
 
@@ -176,6 +186,8 @@ Title: {{ site.taxonomy_types.genres.metadata.title }}
   Term: {{ term.label }}
 {% endfor %}
 ```
+{% endraw %}
+{% end %}
 
 ## Resource Relations
 
@@ -299,7 +311,7 @@ This API allows you or a third-party gem to augment resources with new methods (
 Prior to Bridgetown 1.0, a different content engine based on Jekyll was used which you may be familiar with if you have older Bridgetown sites in production or in progress.
 
 * The most obvious differences are what you use in templates (Liquid or ERB). For example, instead of `site.posts` in Liquid or `site.posts.docs` in ERB, you'd use `collections.posts.resources` (in both Liquid and ERB). (`site.collection_name_here` syntax is no longer available.) Pages are just another collection now so you can iterate through them as well via `collections.pages.resources`.
-* Front matter data is now accessed in Liquid through the `data` variable just like in ERB and skipping `data` is deprecated. Use `{{ post.data.description }}` instead of `{{ post.description }}`.
+* Front matter data is now accessed in Liquid through the `data` variable just like in ERB and skipping `data` is deprecated. Use {% raw %}`{{ post.data.description }}` instead of `{{ post.description }}`{% endraw %}.
 * In addition, instead of referencing the current "page" through `page` (aka `page.data.title`), you can use `resource` instead: `resource.data.title`.
 * Resources don't have a `url` variable. Your templates/plugins will need to reference either `relative_url` or `absolute_url`. Also, the site's `base_path` (if configured) is built into both values, so you won't need to prepend it manually.
 * Permalink formats have changed somewhat, so please refer to the latest [permalink](/docs/content/permalinks) docs for how to use the new permalink styles and placeholders.
@@ -313,5 +325,3 @@ Prior to Bridgetown 1.0, a different content engine based on Jekyll was used whi
 * The `YYYY-MM-DD-slug.ext` filename format will now work for any collection, not just posts.
 * The `doc` method in builder plugins has been replaced with `add_resource`. See the [Resource Builder API](/docs/plugins/external-apis) docs for further details.
 * The resource content engine doesn't provide a related/similar result set using LSI classification. So there's no direct replacement for the `related_posts` feature of the legacy engine. However, anyone can create a gem-based plugin using the new resource extension API which could restore this type of functionality.
-
-{% endraw %}
