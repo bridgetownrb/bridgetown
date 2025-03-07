@@ -70,7 +70,7 @@ npm install name-of-css-framework
 And then add:
 
 ```css
-@import "~css-framework/css-framework";
+@use "~css-framework/css-framework";
 ```
 
 to `index.scss`. For example, to add [Bulma](https://bulma.io) which is a modern CSS-only (no JavaScript) framework built around Flexbox, you'd run:
@@ -82,7 +82,7 @@ npm install bulma
 and then add:
 
 ```css
-@import "~bulma/bulma";
+@use "~bulma/bulma";
 ```
 
 to `index.scss`.
@@ -94,7 +94,7 @@ npm install bootstrap
 ```
 
 ```css
-@import "~bootstrap/scss/bootstrap.scss";
+@use "~bootstrap/scss/bootstrap.scss";
 ```
 
 ## Linking to the Output Bundles
@@ -261,7 +261,7 @@ const doStuff = async () => {
 You can learn more about [dynamic imports on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports).
 
 {%@ Note type: :warning do %}
-  ES Module imports have been supported in all modern browsers since 2019, but if you wish to preserve backwards compatibility with older browsers, you'll need to avoid using this technique. 
+  ES Module imports have been supported in all modern browsers since 2019, but if you wish to preserve backwards compatibility with older browsers, you'll need to avoid using this technique.
 {% end %}
 
 ### Islands Architecture
