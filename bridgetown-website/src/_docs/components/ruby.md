@@ -44,7 +44,7 @@ Bear in mind that Ruby components aren't accessible from Liquid templates. So if
 
 By subclassing `Bridgetown::Component`, you gain [the ability to write a template](/docs/template-engines/erb-and-beyond) in ERB, Serbea, or Streamlined.
 
-For template engines like ERB, add a template file right next to the component's `.rb` file. The template will automatically get rendered by the component (and you won't need to define a `render_in` method yourself). For example, using ERB:
+For template engines like ERB or Serbea, add a "sidecar" template file right next to the component's `.rb` file. The template will automatically get rendered by the component (and you won't need to define a `render_in` method yourself).
 
 ```ruby
 # src/_components/field_component.rb
@@ -55,6 +55,7 @@ class FieldComponent < Bridgetown::Component
 end
 ```
 
+<%= render Documentation::Multilang.new do %>
 ```erb
 <!-- src/_components/field_component.erb -->
 <field-component>
@@ -62,9 +63,7 @@ end
   <input type="<%%= @type %>" name="<%%= @name %>" />
 </field-component>
 ```
-
-Here's the same example using Serbea template syntax:
-
+===
 ```serb
 <!-- src/_components/field_component.serb -->
 <field-component>
@@ -72,20 +71,33 @@ Here's the same example using Serbea template syntax:
   <input type="{{ @type }}" name="{{ @name }}" />
 </field-component>
 ```
+<% end %>
 
 Rendering out the component in a parent template and passing along arguments looks like this:
 
+<%= render Documentation::Multilang.new do %>
 ```erb
 <%%= render FieldComponent.new(type: "email", name: "email_address", label: "Email Address") %>
 
-  output:
+  <!-- output: -->
   <field-component>
     <label>Email Address</label>
     <input type="email" name="email_address" />
   </field-component>
 ```
+===
+```serb
+{%@ FieldComponent type: "email", name: "email_address", label: "Email Address" %}
 
-You can use Ruby's "squiggly heredoc" syntax as a template language with our Streamlined template engine:
+  <!-- output: -->
+  <field-component>
+    <label>Email Address</label>
+    <input type="email" name="email_address" />
+  </field-component>
+```
+<% end %>
+
+Besides sidecar templates, you can use Ruby's "squiggly heredoc" syntax as a template language with our Streamlined template engine:
 
 ```ruby
 class FieldComponent
@@ -207,6 +219,7 @@ end
 
 As expected, helpers are available as well exactly like in standard templates:
 
+<%= render Documentation::Multilang.new do %>
 ```erb
 <!-- src/_components/posts/excerpt.erb -->
 <post-excerpt>
@@ -215,6 +228,16 @@ As expected, helpers are available as well exactly like in standard templates:
   <%%= markdownify @post.data.description %>
 </post-excerpt>
 ```
+===
+```serb
+<!-- src/_components/posts/excerpt.serb -->
+<post-excerpt>
+  <h3>{{ @post.data.title | link_to: @post }}</h3>
+
+  {{ @post.data.description | markdownify }}
+</post-excerpt>
+```
+<% end %>
 
 While components are intended to be encapsulated, sometimes you want quick access to global data through `site`. In that case, you can set the `@site` instance variable and then the `site` accessor will be available in your component:
 
