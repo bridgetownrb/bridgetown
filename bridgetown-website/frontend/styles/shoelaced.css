@@ -130,11 +130,14 @@ article {
   & sl-tab-group::part(body) {
     overflow: visible;
   }
-  & sl-tab-group div.highlighter-rouge::before {
+  & sl-tab-group:defined div.highlighter-rouge::before {
     display: none;
   }
   & sl-tab-group .highlight {
     margin-block-start: 0;
+  }
+  & sl-tab:not(:defined) {
+    display: none;
   }
   & sl-tab::part(base) {
     padding: .4rem .7rem;

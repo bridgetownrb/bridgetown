@@ -1,11 +1,16 @@
 class Documentation::Multilang < Bridgetown::Component
-  def template
-    split_content = content.split("===")
-    languages = split_content.map do |example|
+  def code_blocks
+    @code_blocks ||= content.split "==="
+  end
+
+  def languages
+    @languages ||= code_blocks.map do |example|
       example.match(%r!```([a-z]+)\n!)[1]
     end
-    puts languages
-    language_titles = languages.map do |lang|
+  end
+
+  def titles_for_languages
+    @titles_for_languages ||= languages.map do |lang|
       case lang
       when "erb"
         "ERB"
@@ -17,17 +22,19 @@ class Documentation::Multilang < Bridgetown::Component
         "UNKNOWN"
       end
     end
+  end
 
+  def template
     html -> { <<~HTML
       <sl-tab-group>
-        <sl-tab slot="nav" panel="#{text -> { languages[0] }}">#{text -> { language_titles[0] }}</sl-tab>
-        <sl-tab slot="nav" panel="#{text -> { languages[1] }}">#{text -> { language_titles[1] }}</sl-tab>
+        <sl-tab slot="nav" panel="#{text -> { languages[0] }}">#{text -> { titles_for_languages[0] }}</sl-tab>
+        <sl-tab slot="nav" panel="#{text -> { languages[1] }}">#{text -> { titles_for_languages[1] }}</sl-tab>
 
         <sl-tab-panel name="#{text -> { languages[0] }}" markdown="block">
-      #{html -> { split_content[0] }}
+      #{html -> { code_blocks[0] }}
         </sl-tab-panel>
         <sl-tab-panel name="#{text -> { languages[1] }}" markdown="block">
-      #{html -> { split_content[1] }}
+      #{html -> { code_blocks[1] }}
         </sl-tab-panel>
       </sl-tab-group>
     HTML
