@@ -12,12 +12,16 @@ class Documentation::Multilang < Bridgetown::Component
   def titles_for_languages
     @titles_for_languages ||= languages.map do |lang|
       case lang
+      when "ruby"
+        "Ruby"
       when "erb"
         "ERB"
       when "liquid"
         "Liquid"
       when "serb"
         "Serbea"
+      when "yaml"
+        "YAML (Legacy)"
       else
         "UNKNOWN"
       end
