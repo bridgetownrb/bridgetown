@@ -1,5 +1,5 @@
 ---
-title: Tags
+title: Liquid Tags
 order: 0
 top_section: Configuration
 category: plugins

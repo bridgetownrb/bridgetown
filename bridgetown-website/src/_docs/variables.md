@@ -23,7 +23,7 @@ The following is a reference of the available data.
 {%@ Documentation::VariablesTable data: site.data, scope: :resource, description_size: :bigger %}
 
 {%@ Note do %}
-  #### Top Tip: Use Custom Front Matter
+  #### Using Custom Front Matter
 
   Any custom front matter that you specify will be available under
   `resource`. For example, if you specify `custom_css: true`

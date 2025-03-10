@@ -49,6 +49,8 @@ Instead of (or in addition to) the data cascade, you can set front matter defaul
 
 Let's say that you want to add a default layout to all pages and posts in your site. You would add this to your `bridgetown.config.yml` file:
 
+==TODO: we need Initializers syntax examples here==
+
 ```yaml
 defaults:
   - values:

@@ -8,6 +8,8 @@ back_to: configuration
 
 Bridgetown uses the Puma web server ([along with Roda](/docs/routes)) for serving up statically-built files as well as any dynamic routes.
 
+==TODO: these config options have changed==
+
 The default port number for the server is `4000`. The easiest way to change this is to add this to your config YAML:
 
 ```yaml

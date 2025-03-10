@@ -7,10 +7,22 @@ category: resources
 
 Pagination support is built-in to Bridgetown, but it is not enabled by default. You can enable it in the config file using:
 
+{%@ Documentation::Multilang do %}
+```ruby
+# config/initializers.rb
+Bridgetown.configure do
+  pagination do
+    enabled true
+  end
+end
+```
+===
 ```yml
+# bridgetown.config/yml
 pagination:
   enabled: true
 ```
+{% end %}
 
 ## Page Configuration
 
@@ -26,15 +38,23 @@ paginate:
 
 Then you can use the `paginator.resources` logic to iterate through the collection's resources.
 
+{%@ Documentation::Multilang do %}
+```erb
+<% paginator.each do |post| %>
+  <h1><%= post.data.title %></h1>
+<% end %>
+```
+===
 {% raw %}
-``` html
+```liquid
 {% for post in paginator.resources %}
   <h1>{{ post.data.title }}</h1>
 {% endfor %}
 ```
 {% endraw %}
+{% end %}
 
-By default, paginated pages will have 10 items per page. You can change this in your config by modifying the `per_page` key like so:
+By default, paginated pages will have 10 items per page. You can change this by modifying the `per_page` key like so:
 
 ```yml
 paginate:
@@ -57,7 +77,7 @@ paginate:
 
 ## Excluding a Resource from the Paginator
 
-You can exclude a resource from being included in the paginated items list.
+You can exclude a resource from being included in the paginated items list via its front matter.
 
 ```yml
 exclude_from_pagination: true
@@ -65,10 +85,28 @@ exclude_from_pagination: true
 
 ## Pagination Links
 
-To display pagination links, use the `paginator` Liquid object as follows:
+To display pagination links, use the `paginator` object as follows:
 
+{%@ Documentation::Multilang do %}
+```erb
+<% if paginator.total_pages > 1 %>
+  <ul class="pagination">
+    <% if paginator.previous_page %>
+    <li>
+      <a href="<%= paginator.previous_page_path %>">Previous Page</a>
+    </li>
+    <% end %>
+    <% if paginator.next_page %>
+    <li>
+      <a href="<%= paginator.next_page_path %>">Next Page</a>
+    </li>
+    <% end %>
+  </ul>
+<% end %>
+```
+===
 {% raw %}
-``` html
+```liquid
 {% if paginator.total_pages > 1 %}
   <ul class="pagination">
     {% if paginator.previous_page %}
@@ -85,10 +123,10 @@ To display pagination links, use the `paginator` Liquid object as follows:
 {% endif %}
 ```
 {% endraw %}
+{% end %}
 
-## Liquid Attributes Available
+## Properties Available
 
-The `paginator` Liquid object provides the following attributes:
+The `paginator` Ruby / Liquid object provides the following properties:
 
 {%@ Documentation::VariablesTable data: site.data, scope: :paginator, description_size: :bigger %}
-

@@ -349,7 +349,7 @@ class="flag">flags</code> (specified on the command-line) that control them.
 ### Additional Configuration File Settings
 
 Bridgetown runs with the following configuration options by default. Alternative
-settings for these options can be explicitly specified in the `bridgetown.config.yml` configuration file.
+settings for these options can be explicitly specified in the `config/initializers.rb` or `bridgetown.config.yml` configuration file.
 
 Note that if you change `plugins_dir`, the option is relative to the current working directory, not the content source folder (aka `src`). Other `*_dir` options are relative to the source folder.
 
