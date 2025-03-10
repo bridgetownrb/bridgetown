@@ -60,8 +60,18 @@ end
 ```
 
 Once you've created your class and have it properly set up either as a plugin
-in the `plugins` folder or as a gem, specify it in your `bridgetown.config.yml`:
+in the `plugins` folder or as a gem, specify it in your config:
 
+{%@ Documentation::Multilang do %}
+```ruby
+# config/initializers.rb
+Bridgetown.configure do
+  markdown :MyCustomProcessor
+end
+```
+===
 ```yaml
+# bridgetown.config.yml
 markdown: MyCustomProcessor
 ```
+{% end %}
