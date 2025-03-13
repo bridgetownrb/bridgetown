@@ -47,6 +47,10 @@ Some popular services include:
 
 [Fly.io](https://fly.io) is a platform that focuses on container based deployment. Their service transforms containers into micro-VMs that run on hardware all across the globe. The section below on [Docker](/docs/deployment#docker) has some examples that can be used with Fly.
 
+### Supranode
+
+[Supranode](https://supranode.com) offers customizable continuous deployment for static websites, featuring automatic HTTPS, a high-performance CDN, secret management, deployment previews, password protection, and more.
+
 ## Manual Deployment
 
 The most basic method of deployment is transferring the contents of your `output` folder to any web server. You can use something like `scp` to securely copy the folder, or you can use a more advanced tool:
