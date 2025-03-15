@@ -15,15 +15,16 @@ module Bridgetown
       # ---
       # ~~~
       class YAML < Base
-        HEADER = %r!\A---[ \t]*\n!
-        BLOCK = %r!#{HEADER.source}(.*?\n?)^((---|\.\.\.)[ \t]*$\n?)!m
+        HEADER = %r!\A---[ \t\r]*\n!
+        BLOCK = %r!#{HEADER.source}(.*?\n?)^((---|\.\.\.)[ \t\r]*$\n?)!m
 
         # Determines whether a given file has YAML front matter
         #
         # @param file [String] the path to the file
         # @return [Boolean] true if the file has YAML front matter, false otherwise
         def self.header?(file)
-          File.open(file, "rb", &:gets)&.match?(HEADER) || false
+          puts "header? #{file}"
+          (File.open(file, "rb", &:gets)&.match?(HEADER) || false).tap { puts _1 }
         end
 
         # @see {Base#read}
