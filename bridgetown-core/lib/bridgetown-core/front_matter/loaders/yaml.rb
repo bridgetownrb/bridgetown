@@ -23,8 +23,7 @@ module Bridgetown
         # @param file [String] the path to the file
         # @return [Boolean] true if the file has YAML front matter, false otherwise
         def self.header?(file)
-          puts "header? #{file}"
-          (File.open(file, "rb", &:gets)&.match?(HEADER) || false).tap { puts _1 }
+          File.open(file, "rb", &:gets)&.match?(HEADER) || false
         end
 
         # @see {Base#read}
