@@ -17,8 +17,8 @@ Bridgetown.configure do
 end
 ```
 ===
-```yml
-# bridgetown.config/yml
+```yaml
+# bridgetown.config.yml
 pagination:
   enabled: true
 ```

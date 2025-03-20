@@ -10,7 +10,7 @@ lets you create automatically generated, paginated archives of your content filt
 the search terms you provide. For instance you could set it up so every category has its
 own page, every tag has its own page, or virtually any other search term.
 
-Note that in order to use [pagination](/docs/content/pagination/), you'll need to enable it your site's `bridgetown.config.yml`.
+Note that in order to use [pagination](/docs/content/pagination/), you'll need to enable it in your site's `initializers.rb` or `bridgetown.config.yml`.
 
 {{ toc }}
 
