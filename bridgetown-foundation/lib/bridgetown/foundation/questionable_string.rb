@@ -5,8 +5,7 @@ module Bridgetown::Foundation
     def method_missing(method_name, *args)
       value = method_name.to_s
       if value.end_with?("?")
-        value.chop!
-        return self == value
+        return self == value.chop
       end
 
       super
