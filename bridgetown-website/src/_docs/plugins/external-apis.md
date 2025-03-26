@@ -144,7 +144,7 @@ add_resource :authors, "rlstevenson.md" do
 end
 ```
 
-You don't even need to use a collection that's previously been configured in `bridgetown.config.yml`. You can make up new collections and use existing layouts to place your content within the appropriate templates, assuming the expected front matter is compatible.
+You don't even need to use a collection that's previously been configured in `initializers.rb` or `bridgetown.config.yml`. You can make up new collections and use existing layouts to place your content within the appropriate templates, assuming the expected front matter is compatible.
 
 ```ruby
 add_resource :blogish, "fake-blog-post.html" do
