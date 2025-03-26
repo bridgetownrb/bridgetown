@@ -40,7 +40,7 @@ Then you can use the `paginator.resources` logic to iterate through the collecti
 
 {%@ Documentation::Multilang do %}
 ```erb
-<% paginator.each do |post| %>
+<% paginator.resources.each do |post| %>
   <h1><%= post.data.title %></h1>
 <% end %>
 ```
@@ -130,3 +130,7 @@ To display pagination links, use the `paginator` object as follows:
 The `paginator` Ruby / Liquid object provides the following properties:
 
 {%@ Documentation::VariablesTable data: site.data, scope: :paginator, description_size: :bigger %}
+
+## Considerations When Using Pagination
+
+On paginated pages, the originating collection is replaced by the paginator. Code in a layout like resource.collection.label will generate undefined method errors on your paginated page. Accessing the collection directly rather than through the paginator will also fail.
