@@ -1,6 +1,6 @@
 ---
 order: 2501
-title: Cookbook Collection By Years
+title: 'Cookbook: Collection By Years'
 #top_section: Introduction
 category: cookbook
 #next_page_order: 30
