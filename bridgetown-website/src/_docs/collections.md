@@ -29,27 +29,57 @@ Posts are for dated articles which will output at a URL based on the configured 
 
 You're by no means limited to the builtin collections. You can create custom collections with any name you choose. By default they will behave similar to standalone pages, but you can configure them to behave in other ways (maybe like posts). For example, you could create an events collection which would function similar to posts, and you could even allow future-dated content to publish (unlike what's typical for posts).
 
+{%@ Documentation::Multilang do %}
+```ruby
+# config/initializers.rb
+Bridgetown.configure do
+  collections do
+    events do
+      output true
+      permalink "pretty"
+      future true
+    end
+  end
+end
+```
+===
 ```yaml
 # bridgetown.config.yml
-
 collections:
   events:
     output: true
     permalink: pretty
     future: true
 ```
+{% end %}
 
 Thus an event saved at `src/_events/2021-12-15-merry-christmas.md` would output to the URL `/events/2021/12/15/merry-christmas/`.
 
 You can control the way a collection is sorted by specifying the [front matter](/docs/front-matter) key (default is either filename or date if present) as well as the direction as either ascending (default) or descending.
 
+{%@ Documentation::Multilang do %}
+```ruby
+# config/initializers.rb
+Bridgetown.configure do
+  collections do
+    reverse_ordered do
+      output true
+      sort_by "order"
+      sort_direction "descending"
+    end
+  end
+end
+```
+===
 ```yaml
+# bridgetown.config.yml
 collections:
   reverse_ordered:
     output: true
     sort_by: order
     sort_direction: descending
 ```
+{% end %}
 
 ## Adding Content
 
@@ -62,14 +92,21 @@ Regardless of whether front matter exists or not, Bridgetown will write to the d
 {%@ Note type: :warning do %}
   #### Be sure to name your folders correctly
 
-  The folder must be named identically to the collection you defined in your
-  `bridgetown.config.yml` file, with the addition of the preceding `_` character.
+  The folder must be named identically to the collection you defined in the configuration with the addition of the `_` prefix.
 {% end %}
 
 ## Accessing Collection Content
 
-Bridgetown provides the `collections` object to your templates, with the various collections available as keys. For example, you can iterate over `collections.staff_members.resources` on a page and display the content for each staff member. The main body of the resource is accessed using the `content` variable:
+Bridgetown provides the `collections` object to your templates, with the various collections available as keys. For example, you can iterate over `staff_members` resources on a page and display the content for each staff member. The main body of the resource is accessed using the `content` variable:
 
+{%@ Documentation::Multilang do %}
+```erb
+<% collections.staff_members.each do |staff_member| %>
+  <h2><%= staff_member.data.name %> - <%= staff_member.data.position %></h2>
+  <p><%= markdownify staff_member.content %></p>
+<% end %>
+```
+===
 {% raw %}
 ```liquid
 {% for staff_member in collections.staff_members.resources %}
@@ -78,19 +115,43 @@ Bridgetown provides the `collections` object to your templates, with the various
 {% endfor %}
 ```
 {% endraw %}
+{% end %}
 
 ## Output
 
-If you'd like Bridgetown to create a rendered page for each resource in your collection, make sure the `output` key is set to `true` in your collection metadata in `bridgetown.config.yml`:
+If you'd like Bridgetown to create a rendered page for each resource in your collection, make sure the `output` key is set to `true` in your collection metadata:
 
+{%@ Documentation::Multilang do %}
+```ruby
+# config/initializers.rb
+Bridgetown.configure do
+  collections do
+    staff_members do
+      output true
+    end
+  end
+end
+```
+===
 ```yaml
+# bridgetown.config.yml
 collections:
   staff_members:
     output: true
 ```
+{% end %}
 
-You can link to the generated page using the `relative_url` attribute.
+You can link to the generated resource using the `relative_url` attribute.
 
+{%@ Documentation::Multilang do %}
+```erb
+<% staff_member = collections.staff_members.first %>
+
+<a href="<%= staff_member.relative_url %>">
+  <%= staff_member.data.name %> - <%= staff_member.data.position %>
+</a>
+```
+===
 {% raw %}
 ```liquid
 {% assign staff_member = collections.staff_members.resources[0] %}
@@ -100,6 +161,7 @@ You can link to the generated page using the `relative_url` attribute.
 </a>
 ```
 {% endraw %}
+{% end %}
 
 {%@ Note do %}
 If you have a large number of resources in a collection, it's likely you'll want to use the [Pagination feature](/docs/content/pagination) to make it easy to browse through a limited number of items per page.
@@ -114,34 +176,55 @@ There are special [permalink variables for collections](/docs/content/permalinks
 It's also possible to add custom metadata to a collection. You add
 additional keys to the collection config and they'll be made available in templates. For example, if you specify this:
 
+{%@ Documentation::Multilang do %}
+```ruby
+# config/initializers.rb
+Bridgetown.configure do
+  collections do
+    tutorials do
+      output true
+      name "Terrific Tutorials"
+    end
+  end
+end
+```
+===
 ```yaml
+# bridgetown.config.yml
 collections:
   tutorials:
     output: true
     name: Terrific Tutorials
 ```
+{% end %}
 
-Then you could access the `name` value in a template:
+Then you could access the `name` value in a template by referencing the collection directly or through a resource:
 
-{% raw %}
+{%@ Documentation::Multilang do %}
+```erb
+Direct access to collection:
+<%= collections.tutorials.metadata.name %>
+
+Via a resource:
+<%= resource.collection.metadata.name %>
 ```
+===
+{% raw %}
+```liquid
+Direct access to collection:
 {{ collections.tutorials.name }}
-```
-{% endraw %}
 
-or if you're accessing a resource within the collection:
-
-{% raw %}
-```
+Via a resource:
 {{ resource.collection.name }}
 ```
 {% endraw %}
+{% end %}
 
-## Liquid Attributes
+## Collection Attributes
 
 Collection objects are available under `collections` with the following information:
 
-<table class="settings biggest-output">
+<table class="settings bigger-output">
   <thead>
     <tr>
       <th>Variable</th>
@@ -171,7 +254,7 @@ Collection objects are available under `collections` with the following informat
     </tr>
     <tr>
       <td>
-        <p><code>files</code></p>
+        <p><code>static_files</code> / <code>files</code> (Liquid)</p>
       </td>
       <td>
         <p>
@@ -202,7 +285,7 @@ Collection objects are available under `collections` with the following informat
     </tr>
     <tr>
       <td>
-        <p><code>output</code></p>
+        <p><code>metadata.output</code> / <code>output</code> (Liquid)</p>
       </td>
       <td>
         <p>
@@ -215,7 +298,7 @@ Collection objects are available under `collections` with the following informat
 </table>
 
 {%@ Note do %}
-  #### Top Top: You can relocate your Collections
+  #### You can relocate your Collections
 
   It's possible to optionally specify a folder to store all your collections in a centralized folder with `collections_dir: my_collections`.
 
