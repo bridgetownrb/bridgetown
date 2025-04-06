@@ -14,3 +14,6 @@
   description: >-
     In layout files, the rendered content of the resource being wrapped.
     Not defined in resource files themselves.
+- name: environment, env
+  description: >-
+    The environment is obtained from the Bridgetown instance <code>Bridgetown.environment</code> in Ruby templating and <code>bridgetown.environment</code> in Liquid. In Ruby templates you can also use <code>Bridgetown.env</code>.
