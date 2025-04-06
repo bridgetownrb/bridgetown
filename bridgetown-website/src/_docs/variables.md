@@ -7,7 +7,7 @@ category: variables
 
 Bridgetown traverses your site looking for files to process. Any files with
 [front matter](/docs/front-matter/) are subject to processing. For each of these
-files, Bridgetown makes a variety of data available via the [Liquid](/docs/template-engines/liquid/) template language.
+files, Bridgetown makes a variety of data available in templates.
 The following is a reference of the available data.
 
 ## Global Variables
