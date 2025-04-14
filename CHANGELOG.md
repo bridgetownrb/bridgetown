@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [2.0.0.beta5] - 2025-04-16
+
+- Pass options hash as keyword arguments to the partial method [#994](https://github.com/bridgetownrb/bridgetown/pull/994) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Multi-locale in front matter now works with Fast Refresh [#985](https://github.com/bridgetownrb/bridgetown/pull/985) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Fixed front matter regex by adding carriage return [#984](https://github.com/bridgetownrb/bridgetown/pull/984) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Fixed frozen string warning for ruby 3.4 [#988](https://github.com/bridgetownrb/bridgetown/pull/988) ([@surrim](https://github.com/surrim))
+- Excluded init initializer from plugins list command count [#771](https://github.com/bridgetownrb/bridgetown/pull/771) ([@akarzim](https://github.com/akarzim))
+- Thanks to [@brainbuz](https://github.com/brainbuz) for numerous (and ongoing) docs improvements!
+
 ## [2.0.0.beta4] - 2025-01-16
 
 - Require bridgetown when booting from Rack [#948](https://github.com/bridgetownrb/bridgetown/pull/948) ([@ayushn21](https://github.com/ayushn21))
