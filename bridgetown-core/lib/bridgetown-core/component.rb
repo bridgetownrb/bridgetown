@@ -169,7 +169,7 @@ module Bridgetown
         end
         result&.html_safe
       else
-        partial(item, options, &block)&.html_safe
+        partial(item, **options, &block)&.html_safe
       end
     end
 
