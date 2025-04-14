@@ -62,8 +62,8 @@ module Bridgetown
       # %}~~~
       # ~~~~
       class Ruby < Base
-        HEADER = %r!\A[~`#-]{3,}(?:ruby|<%|{%)[ \t]*\n!
-        BLOCK = %r!#{HEADER.source}(.*?\n?)^((?:%>|%})?[~`#-]{3,}[ \t]*$\n?)!m
+        HEADER = %r!\A[~`#-]{3,}(?:ruby|<%|{%)[ \t\r]*\n!
+        BLOCK = %r!#{HEADER.source}(.*?\n?)^((?:%>|%})?[~`#-]{3,}[ \t\r]*$\n?)!m
 
         # Determines whether a given file has Ruby front matter
         #
