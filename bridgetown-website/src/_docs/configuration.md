@@ -81,9 +81,8 @@ The initializer-style config is the most powerful, because you can configure dif
 {%@ Note do %}
   #### Processing Order
 
-Values from bridgetown.config.yml are processed first, then config/initializers.rb, command line arguments are processed last. If you defined environments in bridgetown.config.yml, but also had a condition in initializers.rb, adding `<pre><%= site.config.to_yaml %></pre>` in a page would show the yaml defined environment, but the active parameters would match those set in initializers.
+Values from bridgetown.config.yml are processed first, then config/initializers.rb, command line arguments are processed last.
 {% end %}
-
 
 ## Take a Deep Dive
 

@@ -40,7 +40,7 @@ Then you can use the `paginator.resources` logic to iterate through the collecti
 
 {%@ Documentation::Multilang do %}
 ```erb
-<% paginator.resources.each do |post| %>
+<% paginator.each do |post| %>
   <h1><%= post.data.title %></h1>
 <% end %>
 ```
