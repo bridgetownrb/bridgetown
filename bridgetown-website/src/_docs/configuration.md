@@ -53,9 +53,22 @@ Bridgetown.configure do |config|
   init :dotenv
 
   config.autoload_paths << "jobs"
-
+  url "https://www.bridgetownrb.com"
   permalink "pretty"
   timezone "America/Los_Angeles"
+  template_engine "serbea"
+
+  collections do
+    docs do
+      output true
+      permalink "/:collection/:path.*"
+      name "Documentation"
+    end
+  end
+
+  if Bridgetown.env.development?
+    unpublished true
+  end
 
   only :server do
     init :mail, password: ENV["SENDGRID_API_KEY"]
@@ -64,6 +77,12 @@ end
 ```
 
 The initializer-style config is the most powerful, because you can configure different options for different contexts (static, server, console, rake), as well as interact with environment variables and other system features via full Ruby code. You can also initialize gem-based plugins and configure them in a single pass. And you can write your own initializers which may be called from the main `configure` block.
+
+{%@ Note do %}
+  #### Processing Order
+
+Values from bridgetown.config.yml are processed first, then config/initializers.rb, command line arguments are processed last.
+{% end %}
 
 ## Take a Deep Dive
 
