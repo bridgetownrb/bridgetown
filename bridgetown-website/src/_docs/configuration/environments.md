@@ -60,25 +60,24 @@ The default value for `BRIDGETOWN_ENV` is `development`. Thus if you omit
 
 Some elements you might want to hide in development environments include comment forms or analytics. Conversely, you might want to expose an "Edit This Page" button in a development or staging environment but not include it in production environments.
 
-## Environment-specific Configurations
+## Defining Environments
 
-In your `bridgetown.config.yml` config file, as well as the
-`src/_data/site_metadata.yml` metadata file, you can add a block of YAML options
-per environment. For example, given the following metadata:
+The Legacy YAML format defines environments as key/value pairs, config/initializers.rb uses the environment as a condition for applying settings.
 
-```yaml
-# src/_data/site_metadata.yml
+{%@ Documentation::Multilang do %}
+```ruby
+# config/initializers.rb
 
-title: My Website
+if Bridgetown.env.development?
+  unpublished true
+  future true
+elsif Bridgetown.env.staging?
+  unpublished true
+end
 
-development:
-  title: My (DEV) Website
 ```
-
-Your site title would be "My Website" if built with a `production` environment,
-and "My (DEV) Website" if built with a `development` environment. You can specify any
-number of environment blocks that you wish. For example:
-
+===
+{% raw %}
 ```yaml
 # bridgetown.config.yml
 
@@ -89,10 +88,29 @@ development:
 staging:
   unpublished: true
 ```
+{% endraw %}
+{% end %}
 
 The `development` environment will build documents that are marked as unpublished as
-well as having a future date, whereas the `staging` environment will only
+well as having a future date, the `staging` environment will only
 build unpublished. And the `production` environment would exclude both sets.
+
+## Environment Specific Metadata
+
+In your `src/_data/site_metadata.yml`, you can add a block of YAML options
+per environment. For example, given the following metadata:
+
+```yaml
+# src/_data/site_metadata.ymlTITLE
+
+title: My Website
+
+development:
+  title: My (DEV) Website
+```
+
+Your site title would be "My Website" if built with a `production` environment,
+and "My (DEV) Website" if built with a `development` environment. If you define your environments in the Legacy YAML config, you can also set per environment metadata values there. It is recommended to set metadata values in site_metadata.yml and Bridgetown values in initializers.
 
 {%@ Note do %}
   #### Accessing the Environment in Your Ruby Code and Plugins

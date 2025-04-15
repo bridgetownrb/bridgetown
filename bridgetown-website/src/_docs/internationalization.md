@@ -22,17 +22,29 @@ Bridgetown uses the [Ruby I18n](https://github.com/ruby-i18n/i18n) gem to aid in
 
 ## Setup & Translations
 
-First, you'll want to define your locales in `bridgetown.config.yml`. There are three configuration options, which by default are:
-
-```yml
-available_locales: [en]
-default_locale: en
-prefix_default_locale: false
-```
+First, you'll want to define your locales in `config/initializers.rb` or `bridgetown.config.yml`. There are three configuration options:
 
 * `available_locales`: This is an array of locales you wish to support on your site. They can be simple language codes (`es` for Spanish, `th` for Thai, etc.), or they can also include regional differences known as subtags (`pt-BR` for Brazilian Portuguese, `pt-PT` for Portuguese as spoken in Portugal, etc.). [You can look up various languages and subtags here](https://r12a.github.io/app-subtags/). An example value for English, French, and German would be: `[en, fr, de]`.
 * `default_locale`: This the locale you wish to consider the "default" for your site (aka the locale a visitor would first encounter before specifically choosing a locale). The default is English: `en`.
 * `prefix_default_locale`: As mentioned above, you can either have default locale URLs live within the root of your site, or you can set this to `true` to have the root direct to the default locale's prefix.
+
+{%@ Documentation::Multilang do %}
+```ruby
+Bridgetown.configure do |config|
+  available_locales [:en, :fr, :de]
+  default_locale :en
+  prefix_default_locale false
+end
+```
+===
+{% raw %}
+```yaml
+available_locales: [en]
+default_locale: en
+prefix_default_locale: false
+```
+{% endraw %}
+{% end %}
 
 Once you've completed your intial configuration, create a `src/_locales` folder and add files in YAML, JSON, or Ruby hash format for your locale translations. The first key of the data structure should be the locale, with various hierarchies of subkeys as you deem fit. Here's an example of a `en.yml` file:
 

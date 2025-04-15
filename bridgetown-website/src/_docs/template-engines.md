@@ -50,7 +50,7 @@ It's worth noting that by combining Markdown, ERB/Serbea, components, and fronte
 
 ## Why Did Bridgetown Switch from Liquid?
 
-Prior to Bridgetown 2.0, Liquid was the default template type. Liquid feels more akin to template engines like Mustache, Jinja, Nunjucks, Twig, and so forth—and it was the only default option in Bridgetown's progenitor, Jekyll.
+Prior to Bridgetown 2.0, Liquid was the default template type. Liquid feels more akin to template engines like Mustache, Jinja, Nunjucks, Twig, and so forth—and it was the only option in Bridgetown's progenitor, Jekyll.
 
 But most Bridgetown developers will need more power (especially when writing [components](/docs/components)) or may already be familiar with Ruby and engines such as ERB. And some developers are looking to switch from [Middleman](https://middlemanapp.com) which uses ERB by default. Thus it makes sense to standardize around ERB.
 
