@@ -7,10 +7,21 @@ category: resources
 
 Pagination support is built-in to Bridgetown, but it is not enabled by default. You can enable it in the config file using:
 
-```yml
+{%@ Documentation::Multilang do %}
+```ruby
+# within Bridgetown.configure do |config| block
+pagination do
+  enabled true
+end
+```
+===
+{% raw %}
+```yaml
 pagination:
   enabled: true
 ```
+{% endraw %}
+{% end %}
 
 ## Page Configuration
 
@@ -26,13 +37,22 @@ paginate:
 
 Then you can use the `paginator.resources` logic to iterate through the collection's resources.
 
+{%@ Documentation::Multilang do %}
+```erb
+# for earlier versions paginator.resources.each
+<% paginator.each do |post| %>
+  <h1>%= post.data.title %></h1>
+<% end %>
+```
+===
 {% raw %}
-``` html
+```liquid
 {% for post in paginator.resources %}
   <h1>{{ post.data.title }}</h1>
 {% endfor %}
 ```
 {% endraw %}
+{% end %}
 
 By default, paginated pages will have 10 items per page. You can change this in your config by modifying the `per_page` key like so:
 
