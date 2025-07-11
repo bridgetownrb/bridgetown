@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 require "rackup/server"
+begin
+  require 'dotenv'
+rescue LoadError
+  # Since it's a plugin, we don't want to fail if it's not installed
+end
 
 module Bridgetown
   class Server < Rackup::Server
@@ -72,6 +77,9 @@ module Bridgetown
 
         # Load Bridgetown configuration into thread memory
         bt_options = configuration_with_overrides(options)
+
+        Bridgetown.load_dotenv(root: bt_options.root_dir) if defined?(Dotenv)
+
         port = ENV.fetch("BRIDGETOWN_PORT", bt_options.port)
         # TODO: support Puma serving HTTPS directly?
         bt_bound_url = "http://#{bt_options.bind}:#{port}"
