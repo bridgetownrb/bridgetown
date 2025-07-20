@@ -16,7 +16,7 @@ Bridgetown.initializer :"bridgetown-routes" do |
   additional_source_paths: [],
   additional_extensions: []
 |
-  config.init :ssr # ensure we already have touchdown!
+  config.init :ssr, sessions: true # ensure we already have touchdown!
 
   config.routes ||= {}
   config.routes.source_paths ||= ["_routes"]
