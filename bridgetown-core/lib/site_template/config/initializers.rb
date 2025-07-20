@@ -76,6 +76,8 @@ Bridgetown.configure do |config|
   #
   # init :"bridgetown-routes"
   #
+  # NOTE: you can remove `init :ssr` if you load this initializer
+  #
 
   # We also recommend that if you're using Roda routes you include this plugin
   # so you can get a generated routes list in `.routes.json`. You can then run

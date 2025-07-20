@@ -4,10 +4,7 @@ module Bridgetown::Foundation
   class QuestionableString < ::String
     def method_missing(method_name, *args)
       value = method_name.to_s
-      if value.end_with?("?")
-        value.chop!
-        return self == value
-      end
+      return self == value.chop if value.end_with?("?")
 
       super
     end

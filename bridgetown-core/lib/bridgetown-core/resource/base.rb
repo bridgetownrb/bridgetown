@@ -364,7 +364,7 @@ module Bridgetown
         origin_data = model.origin.read
         correct_locale = origin_data["locale"] || origin_data[:locale] || data.locale
         model.attributes = origin_data
-        model.attributes.locale = correct_locale
+        model.attributes.locale = correct_locale.to_s == "multi" ? data.locale : correct_locale
         @relative_url = @absolute_url = nil # wipe memoizations
         read!
         tax_diff = past_values.any? { |k, v| @data.peek[k] != v }

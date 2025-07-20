@@ -208,6 +208,87 @@ class TestCollections < BridgetownUnitTest
     end
   end
 
+  context "with a collection with symbol sort_by in config/initializers.rb" do
+    setup do
+      @site = fixture_site(
+        "collections" => {
+          "tutorials" => {
+            "output"  => true,
+            "sort_by" => :lesson,
+          },
+        }
+      )
+      @site.process
+      @tutorials_collection = @site.collections["tutorials"]
+
+      @actual_array = @tutorials_collection.resources.map { _1.relative_path.to_s }
+    end
+
+    should "sort documents in a collection with 'sort_by' metadata set to a " \
+           "FrontMatter key symbol :lesson" do
+      default_tutorials_array = %w(
+        _tutorials/dive-in-and-publish-already.md
+        _tutorials/extending-with-plugins.md
+        _tutorials/getting-started.md
+        _tutorials/graduation-day.md
+        _tutorials/lets-roll.md
+        _tutorials/tip-of-the-iceberg.md
+      )
+      tutorials_sorted_by_lesson_array = %w(
+        _tutorials/getting-started.md
+        _tutorials/lets-roll.md
+        _tutorials/dive-in-and-publish-already.md
+        _tutorials/tip-of-the-iceberg.md
+        _tutorials/extending-with-plugins.md
+        _tutorials/graduation-day.md
+      )
+
+      refute_equal default_tutorials_array, @actual_array
+      assert_equal tutorials_sorted_by_lesson_array, @actual_array
+    end
+  end
+
+  context "with a collection with symbol sort_direction in config/initializers.rb" do
+    setup do
+      @site = fixture_site(
+        "collections" => {
+          "tutorials" => {
+            "output"         => true,
+            "sort_by"        => :lesson,
+            "sort_direction" => :descending,
+          },
+        }
+      )
+      @site.process
+      @tutorials_collection = @site.collections["tutorials"]
+
+      @actual_array = @tutorials_collection.resources.map { _1.relative_path.to_s }
+    end
+
+    should "sort documents in a collection with 'sort_direction' metadata set to a " \
+           "symbol :descending" do
+      default_tutorials_array = %w(
+        _tutorials/dive-in-and-publish-already.md
+        _tutorials/extending-with-plugins.md
+        _tutorials/getting-started.md
+        _tutorials/graduation-day.md
+        _tutorials/lets-roll.md
+        _tutorials/tip-of-the-iceberg.md
+      )
+      tutorials_sorted_by_lesson_desc_array = %w(
+        _tutorials/graduation-day.md
+        _tutorials/extending-with-plugins.md
+        _tutorials/tip-of-the-iceberg.md
+        _tutorials/dive-in-and-publish-already.md
+        _tutorials/lets-roll.md
+        _tutorials/getting-started.md
+      )
+
+      refute_equal default_tutorials_array, @actual_array
+      assert_equal tutorials_sorted_by_lesson_desc_array, @actual_array
+    end
+  end
+
   context "with dots in the filenames" do
     setup do
       @site = fixture_site(

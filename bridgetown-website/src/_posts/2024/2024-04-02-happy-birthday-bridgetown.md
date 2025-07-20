@@ -24,4 +24,4 @@ One major direction for Bridgetown I imagined in those earlier days that we ende
 
 ## In closing…
 
-We're currently in the midst of the Bridgetown v2 development cycle, and I'll be posting Part 3 of our blog series on the topic shortly. In the meantime, be sure to sign up on our [Community Discussion site](https://community.bridgetown.pub) and [follow us on Mastodon](https://ruby.social/@bridgetown) to stay on top of the latest news. **Thank you once again for all of your support over the past four years**. The Bridgetown community is now larger than any one of us, and I can't wait to see what the next four years have in store for Rubyists everywhere.
+We're currently in the midst of the Bridgetown v2 development cycle, and I'll be posting Part 3 of our blog series on the topic shortly. In the meantime, [follow us on Mastodon](https://ruby.social/@bridgetown) to stay on top of the latest news. **Thank you once again for all of your support over the past four years**. The Bridgetown community is now larger than any one of us, and I can't wait to see what the next four years have in store for Rubyists everywhere.

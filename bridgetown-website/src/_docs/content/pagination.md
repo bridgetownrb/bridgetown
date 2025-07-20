@@ -9,19 +9,18 @@ Pagination support is built-in to Bridgetown, but it is not enabled by default. 
 
 {%@ Documentation::Multilang do %}
 ```ruby
-# config/initializers.rb
-Bridgetown.configure do
-  pagination do
-    enabled true
-  end
+# within Bridgetown.configure do |config| block
+pagination do
+  enabled true
 end
 ```
 ===
+{% raw %}
 ```yaml
-# bridgetown.config.yml
 pagination:
   enabled: true
 ```
+{% endraw %}
 {% end %}
 
 ## Page Configuration
@@ -40,8 +39,9 @@ Then you can use the `paginator.resources` logic to iterate through the collecti
 
 {%@ Documentation::Multilang do %}
 ```erb
+# for earlier versions paginator.resources.each
 <% paginator.each do |post| %>
-  <h1><%= post.data.title %></h1>
+  <h1>%= post.data.title %></h1>
 <% end %>
 ```
 ===
