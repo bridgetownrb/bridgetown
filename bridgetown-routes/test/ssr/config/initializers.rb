@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Bridgetown.configure do |config|
+  require "securerandom"
+  ENV["RODA_SECRET_KEY"] = SecureRandom.hex(64)
   require "bridgetown-routes"
   init :"bridgetown-routes", require_gem: false, additional_source_paths:
     File.expand_path("alt_routes", "#{root_dir}/..")
