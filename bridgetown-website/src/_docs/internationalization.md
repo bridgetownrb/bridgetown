@@ -22,17 +22,29 @@ Bridgetown uses the [Ruby I18n](https://github.com/ruby-i18n/i18n) gem to aid in
 
 ## Setup & Translations
 
-First, you'll want to define your locales in `bridgetown.config.yml`. There are three configuration options, which by default are:
-
-```yml
-available_locales: [en]
-default_locale: en
-prefix_default_locale: false
-```
+First, you'll want to define your locales in `config/initializers.rb` or `bridgetown.config.yml`. There are three configuration options:
 
 * `available_locales`: This is an array of locales you wish to support on your site. They can be simple language codes (`es` for Spanish, `th` for Thai, etc.), or they can also include regional differences known as subtags (`pt-BR` for Brazilian Portuguese, `pt-PT` for Portuguese as spoken in Portugal, etc.). [You can look up various languages and subtags here](https://r12a.github.io/app-subtags/). An example value for English, French, and German would be: `[en, fr, de]`.
 * `default_locale`: This the locale you wish to consider the "default" for your site (aka the locale a visitor would first encounter before specifically choosing a locale). The default is English: `en`.
 * `prefix_default_locale`: As mentioned above, you can either have default locale URLs live within the root of your site, or you can set this to `true` to have the root direct to the default locale's prefix.
+
+{%@ Documentation::Multilang do %}
+```ruby
+Bridgetown.configure do |config|
+  available_locales [:en, :fr, :de]
+  default_locale :en
+  prefix_default_locale false
+end
+```
+===
+{% raw %}
+```yaml
+available_locales: [en]
+default_locale: en
+prefix_default_locale: false
+```
+{% endraw %}
+{% end %}
 
 Once you've completed your intial configuration, create a `src/_locales` folder and add files in YAML, JSON, or Ruby hash format for your locale translations. The first key of the data structure should be the locale, with various hierarchies of subkeys as you deem fit. Here's an example of a `en.yml` file:
 
@@ -205,8 +217,15 @@ Hier sind meine Inhalte auf **Deutsch**.
 
 ### Switching Between Locales
 
-You can use a resource's `all_locales` method to get a list of all matching translated resources. This is perfect for a section of your navbar or site footer which could allow the reader to switch to their preferred locale. Using Liquid:
+You can use a resource's `all_locales` method to get a list of all matching translated resources. This is perfect for a section of your navbar or site footer which could allow the reader to switch to their preferred locale.
 
+{%@ Documentation::Multilang do %}
+```erb
+<% resource.all_locales.each do |local_resource| %>
+  <a href="<%= local_resource.relative_url %>"><%= t(local_resource.data.locale) %></a>
+<% end %>
+```
+===
 {% raw %}
 ```liquid
 {% for local_resource in resource.all_locales %}
@@ -214,19 +233,36 @@ You can use a resource's `all_locales` method to get a list of all matching tran
 {% endfor %}
 ```
 {% endraw %}
+{% end %}
 
 ### Creating Localized Paths & Filtering Collections
 
 The `in_locale` filter/helper can help you link to another part of the site within the currently rendering locale, such as in navbars, sidebars, footers, etc.
 
+{%@ Documentation::Multilang do %}
+```erb
+<a href="<%= relative_url in_locale('/posts') %>"><%= t "nav.posts" %></a>
+```
+===
 {% raw %}
 ```liquid
 <a href="{{ '/posts' | in_locale | relative_url }}">{% t nav.posts %}</a>
 ```
 {% endraw %}
+{% end %}
 
 In addition, if you're accessing and looping through a collection directly, you can use the `in_locale` filter/helper there as well to filter out those resources not in the current locale.
 
+{%@ Documentation::Multilang do %}
+```erb
+<% posts = in_locale(collections.posts.resources) %>
+<% posts.each do |post| %>
+  <li>
+    <a href="<%= post.relative_url %>"><%= post.data.title %></a>
+  </li>
+<% end %>
+```
+===
 {% raw %}
 ```liquid
 {% assign posts = collections.posts.resources | in_locale %}
@@ -237,6 +273,7 @@ In addition, if you're accessing and looping through a collection directly, you 
 {% endfor %}
 ```
 {% endraw %}
+{% end %}
 
 ### Pagination and Prototype Pages
 

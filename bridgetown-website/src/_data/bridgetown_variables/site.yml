@@ -23,26 +23,20 @@
 - name: site.tags.TAG
   description: >-
     The list of all resources with tag <code>TAG</code>.
-- name: site.url, site.config.url
+- name: site.config.url (Ruby) / site.url (Liquid) 
   description: >-
-    Contains the url of your site as it is configured in the <code>bridgetown.config.yml</code>.
-    For example, if you have <code>url: http://mysite.com</code> in your configuration file,
-    then it will be accessible in Liquid as <code>site.url</code>. For the <code>development</code>
+    Contains the url of your site as configured (for example, <code>url "http://mysite.com"</code>). For the <code>development</code>
     environment there is an
-    exception: <code>site.url</code> will be set to the value of <code>host</code>, <code>port</code>,
-    and SSL-related options. This defaults to <code>url: http://localhost:4000</code>.
-    site.url is only available in liquid, but site.config.url is available in all templates.
+    exception: <code>site.config.url</code> will be set to the value of your localhost, as if you had manually configured <code>url "http://localhost:4000"</code>.
 - name: "site.metadata"
   description: >-
     You can put metadata variables in <code>_data/site_metadata.yml</code> so
     they'll be easy to access and will regenerate pages when changed. This is a
     good place to put <code>&lt;head&gt;</code> content like site title,
     description, icon, social media handles, etc. Then you can reference
-    {{ site.metadata.title }}, etc. in your Liquid templates.
-- name: "site.[CONFIGURATION_DATA], site.config[CONFIGURATION_DATA]"
+    <code>site.metadata.title</code>, etc. in your templates.
+- name: "site.config.[KEY] (Ruby) / site.[KEY] (Liquid)"
   description: >-
-    All the variables set via the command line and your <code>bridgetown.config.yml</code> are available
-    through the <code>site</code> variable. For example, if you have <code>foo: bar</code> in
-    your configuration file, then it will be accessible in Liquid as <code>site.foo</code>. In Ruby templating the values are available only through site.config.
-    Bridgetown does not parse changes to <code>bridgetown.config.yml</code> in
-    <code>watch</code> mode, you must restart Bridgetown to see changes to variables.
+    All the variables set via the command line and your configuration are available
+    through the <code>site.config</code> variable. For example, if you have <code>foo "bar"</code> in
+    your initializer, then it will be accessible <code>site.config.foo</code> (or <code>site.foo</code> in Liquid). Bridgetown does not parse changes to config files during live reload—you must restart Bridgetown to see changes to variables.
