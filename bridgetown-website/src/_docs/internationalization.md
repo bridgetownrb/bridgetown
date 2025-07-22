@@ -217,8 +217,15 @@ Hier sind meine Inhalte auf **Deutsch**.
 
 ### Switching Between Locales
 
-You can use a resource's `all_locales` method to get a list of all matching translated resources. This is perfect for a section of your navbar or site footer which could allow the reader to switch to their preferred locale. Using Liquid:
+You can use a resource's `all_locales` method to get a list of all matching translated resources. This is perfect for a section of your navbar or site footer which could allow the reader to switch to their preferred locale.
 
+{%@ Documentation::Multilang do %}
+```erb
+<% resource.all_locales.each do |local_resource| %>
+  <a href="<%= local_resource.relative_url %>"><%= t(local_resource.data.locale) %></a>
+<% end %>
+```
+===
 {% raw %}
 ```liquid
 {% for local_resource in resource.all_locales %}
@@ -226,19 +233,36 @@ You can use a resource's `all_locales` method to get a list of all matching tran
 {% endfor %}
 ```
 {% endraw %}
+{% end %}
 
 ### Creating Localized Paths & Filtering Collections
 
 The `in_locale` filter/helper can help you link to another part of the site within the currently rendering locale, such as in navbars, sidebars, footers, etc.
 
+{%@ Documentation::Multilang do %}
+```erb
+<a href="<%= relative_url in_locale('/posts') %>"><%= t "nav.posts" %></a>
+```
+===
 {% raw %}
 ```liquid
 <a href="{{ '/posts' | in_locale | relative_url }}">{% t nav.posts %}</a>
 ```
 {% endraw %}
+{% end %}
 
 In addition, if you're accessing and looping through a collection directly, you can use the `in_locale` filter/helper there as well to filter out those resources not in the current locale.
 
+{%@ Documentation::Multilang do %}
+```erb
+<% posts = in_locale(collections.posts.resources) %>
+<% posts.each do |post| %>
+  <li>
+    <a href="<%= post.relative_url %>"><%= post.data.title %></a>
+  </li>
+<% end %>
+```
+===
 {% raw %}
 ```liquid
 {% assign posts = collections.posts.resources | in_locale %}
@@ -249,6 +273,7 @@ In addition, if you're accessing and looping through a collection directly, you 
 {% endfor %}
 ```
 {% endraw %}
+{% end %}
 
 ### Pagination and Prototype Pages
 
