@@ -10,7 +10,7 @@ lets you create automatically generated, paginated archives of your content filt
 the search terms you provide. For instance you could set it up so every category has its
 own page, every tag has its own page, or virtually any other search term.
 
-Note that in order to use [pagination](/docs/content/pagination/), you'll need to enable it your site's `bridgetown.config.yml`.
+Note that in order to use [pagination](/docs/content/pagination/), you'll need to enable it in your site's `initializers.rb` or `bridgetown.config.yml`.
 
 {{ toc }}
 
@@ -93,7 +93,7 @@ Prototype pages can be configured to load in extra data from [data files](/docs/
 Here's an example of how that works:
 
 `_posts/2020-04-10-article-by-jared.md`
-```liquid
+```md
 ---
 title: I'm an article
 author: jared
@@ -106,10 +106,34 @@ Content goes here.
 ```yaml
 jared:
   name: Jared White
-  twitter: jaredcwhite
+  mastodon: jaredwhite@indieweb.social
 ```
 
 `authors/author.html`
+{%@ Documentation::Multilang do %}
+```erb
+---
+layout: default
+title: Articles by :prototype-data-label
+prototype:
+  collection: posts
+  term: author
+  data: authors
+  data_label: name
+---
+
+
+<h1><%= data.title %></h1> <-- Articles by Jared White -->
+
+<h2>Mastodon: @<%= data.author_data.mastodon %></h2> <!-- Mastodon: @jaredwhite@indieweb.social -->
+
+<!-- posts where author == jared -->
+
+<% paginator.resources.each do |post| %>
+  <%= render "shared/post", post: %>
+<% end %>
+```
+===
 {% raw %}
 ```liquid
 ---
@@ -123,9 +147,9 @@ prototype:
 ---
 
 
-<h1>{{ page.data.title }}</h1> <-- Articles by Jared White -->
+<h1>{{ data.title }}</h1> <-- Articles by Jared White -->
 
-<h2>Twitter: @{{ page.data.author_data.twitter }}</h2> <!-- Twitter: @jaredcwhite -->
+<h2>Mastodon: @{{ data.author_data.mastodon }}</h2> <!-- Mastodon: @jaredwhite@indieweb.social -->
 
 <!-- posts where author == jared -->
 
@@ -134,8 +158,7 @@ prototype:
 {% endfor %}
 ```
 {% endraw %}
-
-As you can image, the possibilities are endless!
+{% end %}
 
 ## Permalinks
 

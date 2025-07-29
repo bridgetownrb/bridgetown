@@ -86,20 +86,19 @@ defaults:
   - scope:
       path: "images"
     values:
-      image: true
+      is_image: true
 ```
 
-When Bridgetown builds the site, it will treat each image as if it had the front matter value of `image: true`.
+When Bridgetown builds the site, it will treat each image as if it had the front matter value of `is_image: true`.
 
-Now suppose you want to list all your image assets as contained in `src/images`. You could use this Liquid `for` loop to look in the `static_files` object and get all static files that have this front matter property:
+Now suppose you want to list all your image assets as contained in `src/images`. You could use this loop to look in the `static_files` object and get all static files that have this front matter property:
 
 {% raw %}
-```liquid
-{% assign image_files = site.static_files | where: "image", true %}
-{% for myimage in image_files %}
-  {{ myimage.path }}
-{% endfor %}
+```erb
+<% site.static_files.select { _1.data.is_image }.each do |myimage| %>
+  <%= myimage.relative_url %>
+<% end %>
 ```
 {% endraw %}
 
-When you build your site, the output will list the path to each file that meets this front matter condition.
+When you build your site, the output will list the relative URL to each file that meets this front matter condition.

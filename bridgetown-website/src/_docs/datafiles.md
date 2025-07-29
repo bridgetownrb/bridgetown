@@ -64,6 +64,19 @@ This data can be accessed via `site.data.members` (notice that the filename dete
 
 You can now render the list of members in a template:
 
+{%@ Documentation::Multilang do %}
+```erb
+<ul>
+<% site.data.members.each do |member| %>
+  <li>
+    <a href="https://github.com/<%= member.github %>" rel="noopener">
+      <%= member.name %>
+    </a>
+  </li>
+<% end %>
+</ul>
+```
+===
 {% raw %}
 ```liquid
 <ul>
@@ -77,6 +90,7 @@ You can now render the list of members in a template:
 </ul>
 ```
 {% endraw %}
+{% end %}
 
 ## Subfolders
 
@@ -107,6 +121,20 @@ members:
 
 The organizations can then be accessed via `site.data.orgs`, followed by the file name:
 
+{%@ Documentation::Multilang do %}
+```erb
+<ul>
+<% site.data.orgs.each do |_key, org| %>
+  <li>
+    <a href="https://github.com/<%= org.username %>" rel="noopener">
+      <%= org.name %>
+    </a>
+    (<%= org.members.count %> members)
+  </li>
+<% end %>
+</ul>
+```
+===
 {% raw %}
 ```liquid
 <ul>
@@ -122,10 +150,11 @@ The organizations can then be accessed via `site.data.orgs`, followed by the fil
 </ul>
 ```
 {% endraw %}
+{% end %}
 
 ## Merging Site Data into Resource Data
 
-New for Bridgetown 1.2: for easier access to data in your templates whether that data comes from the resource directly or from data files, you can use [front matter](/docs/front-matter/) to specify a data path for merging into the resource.
+For easier access to data in your templates whether that data comes from the resource directly or from data files, you can use [front matter](/docs/front-matter/) to specify a data path for merging into the resource.
 
 Define a front matter variable in a resource like so:
 
@@ -147,11 +176,26 @@ You can access a specific data item from a dataset using a front matter variable
 ```yaml
 dave:
   name: David Smith
-  twitter: DavidSilvaSmith
+  mastodon: coolpeople.social/@dsmith
 ```
 
 That author can then be specified as a variable in a post's front matter:
 
+{%@ Documentation::Multilang do %}
+```erb
+---
+title: Sample Post
+author: dave
+people: site.data.people
+---
+
+<% author = data.people[data.author] %>
+
+<a rel="author" href="https://<%= author.mastodon %>">
+  <%= author.name %>
+</a>
+```
+===
 {% raw %}
 ```liquid
 ---
@@ -162,8 +206,9 @@ people: site.data.people
 
 {% assign author = data.people[data.author] %}
 
-<a rel="author" href="https://twitter.com/{{ author.twitter }}">
+<a rel="author" href="https://{{ author.mastodon }}">
   {{ author.name }}
 </a>
 ```
 {% endraw %}
+{% end %}

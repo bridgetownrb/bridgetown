@@ -60,7 +60,6 @@ configurations in useful ways. Some examples:
 
 * Add instant search to your site with the [bridgetown-quick-search](https://github.com/bridgetownrb/bridgetown-quick-search) plugin
 * Include inline SVG images with the [bridgetown-svg-inliner](https://github.com/ayushn21/bridgetown-svg-inliner) plugin
-* Start your site off with a clean, professional design via the [Bulmatown](https://github.com/whitefusionhq/bulmatown) theme and Bulma CSS framework
 
 You can discover links to these and many more in our [Plugins directory](/plugins/).
 

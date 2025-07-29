@@ -1,6 +1,6 @@
 - name: resource.content
   description: >-
-    The content of the resource.
+    The content of the resource (Markdown, HTML, etc.).
 - name: resource.summary
   description: >-
     An excerpt of the resource from the configured summary service.
@@ -18,18 +18,23 @@
   description: >-
     An identifier unique to the resource and its collection (useful in RSS feeds). e.g.
     <code>repo://posts.collection/2021-10-05-my-post.md</code>
-- name: resource.categories
+- name: resource.data.categories
   description: >-
-    The list of categories to which this post belongs, which can be specified in the
+    The list of categories to which the resource belongs, which can be specified in the
     <a href="/docs/front-matter/">front matter</a>.
+- name: resource.data.tags
+  description: >-
+    The list of tags to which the resource belongs. These can be specified in the
+    <a href="/docs/front-matter/">front matter</a>.
+- name: resource.taxonomies
+  description: >-
+    Access a more comprehensive list of taxonomy objects including <a href="/docs/resources#taxonomies">custom taxonomies</a>.
+- name: resource.relations
+  description: >-
+    Other resources related to this one if you have <a href="/docs/resources#resource-relations">relations</a> set up.
 - name: resource.collection
   description: >-
-    The collection to which this resource belongs. <a href="/docs/collections#liquid-attributes" data-no-swup>Information on collection variables here.</a> If not part of a
-    collection, nothing is returned.
-- name: resource.tags
-  description: >-
-    The list of tags to which this post belongs. These can be specified in the
-    <a href="/docs/front-matter/">front matter</a>.
+    The collection to which this resource belongs. <a href="/docs/collections#collection-attributes">Information on collection variables here.</a>
 - name: resource.relative_path
   description: >-
     The path of the resource relative to the source folder.

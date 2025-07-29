@@ -6,7 +6,7 @@ top_section: Designing Your Site
 order: 0
 ---
 
-A component is a reusable piece of template logic that can be included in any part of the site, and a full suite of components can comprise what is often called a "design system". You can render Ruby component objects directly in your Ruby-based templates, and you can render components from within other components. This provides the basis for a fully-featured view component architecture for ERB and beyond.
+A component is a reusable piece of template logic that can be included in any part of the site, and a full suite of components can comprise what is often called a "design system". You can render Ruby component objects directly in your Ruby-based templates, and you can render components from within other components. This provides the basis for a fully-featured view component architecture for ERB, Serbea, and beyond.
 
 Ruby components can be combined with front-end component strategies using **web components** or other JavaScript libraries/frameworks.
 

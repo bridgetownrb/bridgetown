@@ -5,10 +5,9 @@ top_section: Configuration
 category: variables
 ---
 
-Bridgetown traverses your site looking for files to process. Any files with
-[front matter](/docs/front-matter/) are subject to processing. For each of these
-files, Bridgetown makes a variety of data available in templates.
-The following is a reference of the available data.
+Bridgetown makes a variety of data available to templates. Files with [front matter](/docs/front-matter/) are subject to processing during the static generation process, and you can also use many of the same objects in dynamic routes as well.
+
+The following is an overview of commonly-available data. We also have a [Ruby API Reference](https://api.bridgetownrb.com) available.
 
 ## Global Variables
 
@@ -23,7 +22,7 @@ The following is a reference of the available data.
 {%@ Documentation::VariablesTable data: site.data, scope: :resource, description_size: :bigger %}
 
 {%@ Note do %}
-  #### Top Tip: Use Custom Front Matter
+  #### Using Custom Front Matter
 
   Any custom front matter that you specify will be available under
   `resource`. For example, if you specify `custom_css: true`
