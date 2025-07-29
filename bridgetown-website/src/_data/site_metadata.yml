@@ -10,7 +10,6 @@ email: maintainers@bridgetownrb.com
 description: >-
   Bridgetown is a next-generation, progressive site generator & fullstack framework, powered by Ruby.
 
-twitter: "bridgetownrb"
 mastodon:
   url: "https://ruby.social/@bridgetown"
   username: "bridgetown@ruby.social"

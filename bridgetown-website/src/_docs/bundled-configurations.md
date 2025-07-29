@@ -29,20 +29,10 @@ The full list of configurations can also be seen by running `bridgetown configur
 
 Bundled configurations can also be run while creating a new Bridgetown project using the `--configure=` or `-c` flag and passing in a comma-separated list of configurations.
 
-{%@ Note do %}
-  #### Jared's Recommended "Starter Kit"
-
-  The insane amount of productivity this toolset will provide you is off the charts!
-
-  `bridgetown new born_to_be_wild -t serbea -c turbo,ruby2js,shoelace,lit,bt-postcss,render`
-
-  Keep reading for documentation on all those options.
-{% end %}
-
 {%@ Note type: :warning do %}
   #### Looking for Tailwind?
 
-  The bundled configuration for TailwindCSS has been [relocated to a separate community-maintained repo](https://github.com/bridgetownrb/tailwindcss-automation). However, the Bridgetown core team recommends looking into options such as Open Props, Shoelace, and otherwise "vanilla" CSS (perhaps with a bit of help from PostCSS or Sass) as a best practice for "Use the Platform", future-compatible frontend development.
+  The bundled configuration for TailwindCSS has been [relocated to a separate community-maintained repo](https://github.com/bridgetownrb/tailwindcss-automation). The Bridgetown core team recommends looking into options such as Open Props, Shoelace, and otherwise "vanilla" CSS (perhaps with a bit of help from PostCSS) as a best practice for "Use the Platform", future-compatible frontend development.
 {% end %}
 
 ## Configuration Setup Details

@@ -5,7 +5,7 @@ top_section: Designing Your Site
 order: 0
 ---
 
-By default, templates in Bridgetown websites are powered by the [Liquid template engine](/docs/template-engines/liquid). You can use Liquid in layouts and HTML pages as well as inside of content such as Markdown text.
+Historically, templates in Bridgetown websites were typically powered by the [Liquid template engine](/docs/template-engines/liquid). You can still use Liquid in layouts and HTML pages as well as inside of content such as Markdown text with a configuration change.
 
 A component is a reusable piece of template logic (sometimes referred to as a "partial") that can be included in any part of the site, and a full suite of components can comprise what is often called a "design system".
 
@@ -127,9 +127,9 @@ Now we can render that component and fill in the `logo`, `items_start`, and `ite
     <div class="navbar-item search-item">
       {% render "bridgetown_quick_search/search", placeholder: "Search", input_class: "input" %}
     </div>
-    <a class="navbar-item is-hidden-desktop-only" href="https://twitter.com/{{ metadata.twitter }}" target="_blank" rel="noopener">
-      <span class="icon"><i class="fa fa-twitter is-size-6"></i></span>
-      <span class="is-hidden-tablet">Twitter</span>
+    <a class="navbar-item is-hidden-desktop-only" href="https://{{ metadata.mastodon }}" target="_blank" rel="noopener">
+      <span class="icon"><i class="fa fa-mastodon is-size-6"></i></span>
+      <span class="is-hidden-tablet">Mastodon</span>
     </a>
   {% endwith %}
 {% endrendercontent %}
