@@ -145,11 +145,7 @@ module Bridgetown
         return attributes[method_name] if attributes.key?(method_name)
 
         key = method_name.to_s
-        if key.end_with?("=")
-          key.chop!
-          attributes[key] = args.first
-          return attributes[key]
-        end
+        return attributes[key.chop] = args.first if key.end_with?("=")
 
         Bridgetown.logger.warn "key `#{method_name}' not found in attributes for " \
                                "#{attributes[:id].presence || "new #{self.class}"}"
