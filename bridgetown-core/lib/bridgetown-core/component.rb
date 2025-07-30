@@ -158,10 +158,15 @@ module Bridgetown
 
     # Provide a render helper for evaluation within the component context.
     #
-    # @param item [Object] a component supporting `render_in` or a partial name
-    # @param options [Hash] passed to the `partial` helper if needed
+    # @param item [Object] a component supporting `render_in`, a Streamlined proc, or a partial name
+    # @param options [Hash] keyword arguments passed to the `partial` helper if needed
     # @return [String]
-    def render(item, options = {}, &block)
+    def render(item = nil, **options, &block) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      return @_rbout if !block && options.empty? && item.nil?
+
+      # Defer to Streamline's rendering logic in this case
+      return super if item.is_a?(Proc) || (block && item.nil?)
+
       if item.respond_to?(:render_in)
         result = ""
         capture do # this ensures no leaky interactions between BT<=>VC blocks

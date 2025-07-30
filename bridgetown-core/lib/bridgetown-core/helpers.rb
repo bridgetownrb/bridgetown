@@ -109,12 +109,11 @@ module Bridgetown
       # @param text [String] the content inside the anchor tag
       # @param relative_path [String, Object] source file path, e.g.
       #   "_posts/2020-10-20-my-post.md", or object that responds to `url`
-      # @param options [Hash] key-value pairs of HTML attributes to add to the tag
+      # @param options [Hash] pass keyword arguments to add HTML attributes
       # @return [String] the anchor tag HTML
       # @raise [ArgumentError] if the file cannot be found
-      def link_to(text, relative_path = nil, options = {}, &block)
+      def link_to(text, relative_path = nil, **options, &block)
         if block.present?
-          options = relative_path || {}
           relative_path = text
           text = view.respond_to?(:capture) ? view.capture(&block) : yield
         elsif relative_path.nil?

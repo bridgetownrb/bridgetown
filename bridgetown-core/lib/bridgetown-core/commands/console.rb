@@ -71,7 +71,7 @@ module Bridgetown
         end
         require "amazing_print" unless options[:"bypass-ap"]
 
-        Bridgetown.logger.adjust_verbosity(options)
+        Bridgetown.logger.adjust_verbosity(**options)
 
         Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta} " \
                                             "(codename \"#{Bridgetown::CODE_NAME.yellow}\") " \

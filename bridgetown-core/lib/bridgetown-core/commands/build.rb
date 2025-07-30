@@ -29,7 +29,7 @@ module Bridgetown
       # Build your bridgetown site
       # Continuously watch if `watch` is set to true in the config.
       def build
-        Bridgetown.logger.adjust_verbosity(options)
+        Bridgetown.logger.adjust_verbosity(**options)
 
         # @type [Bridgetown::Configuration]
         config_options = configuration_with_overrides(
