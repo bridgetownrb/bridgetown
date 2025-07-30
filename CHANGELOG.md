@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [2.0.0.beta6] - 2025-04-16
+
+- Fix component class to defer to the Streamlined `render` method for blocks [#1003](https://github.com/bridgetownrb/bridgetown/pull/1003) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Handle `Symbol#to_s` returning chilled strings [#1001](https://github.com/bridgetownrb/bridgetown/pull/1001) ([@michaelherold](https://github.com/michaelherold))
+- Fix bridgetown-routes plugin so it inits ssr with `sessions: true` by default [#1000](https://github.com/bridgetownrb/bridgetown/pull/1000) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Additional docs improvements for ERB defaults
+
 ## [2.0.0.beta5] - 2025-04-16
 
 - Pass options hash as keyword arguments to the partial method [#994](https://github.com/bridgetownrb/bridgetown/pull/994) ([@jaredcwhite](https://github.com/jaredcwhite))
