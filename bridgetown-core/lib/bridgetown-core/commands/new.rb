@@ -174,7 +174,7 @@ module Bridgetown
       # unless the user opts to skip 'bundle install'.
       # rubocop:todo Metrics/CyclomaticComplexity
       # rubocop:disable Metrics/PerceivedComplexity
-      def after_install(path, cli_path, options = {})
+      def after_install(path, cli_path, options)
         git_init path
 
         @skipped_bundle = true # is set to false if bundle install worked

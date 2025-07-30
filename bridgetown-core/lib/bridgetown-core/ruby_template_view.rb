@@ -59,7 +59,7 @@ module Bridgetown
       end
     end
 
-    def liquid_render(component, options = {}, &block)
+    def liquid_render(component, **options, &block)
       options[:_block_content] = capture(&block) if block && respond_to?(:capture)
       render_statement = _render_statement(component, options)
 
