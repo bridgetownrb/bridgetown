@@ -48,6 +48,11 @@ pre.highlight {
   background-color: var(--color-code-background);
   /*color: #272421; */
   font-size: 0.95em;
+
+  @media (--nav-minimal) {
+    font-size: 0.85em;
+    padding: 1em 0.75em;
+  }
 }
 
 div.highlighter-rouge {
