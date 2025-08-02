@@ -2,9 +2,10 @@
 #
 # Learn more at: https://puma.io
 # Bridgetown configuration documentation:
-# https://edge.bridgetownrb.com/docs/configuration/puma
+# https://www.bridgetownrb.com/docs/configuration/puma
 
-# This port number can be overriden by a bind configuration option
+# This port number typically gets overridden by Bridgetown's boot & config loader
+# so you probably don't want to touch the number here
 #
 port ENV.fetch("BRIDGETOWN_PORT") { 4000 }
 
