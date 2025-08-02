@@ -97,7 +97,7 @@ module Bridgetown
             ai.ipv4? && !ai.ipv4_loopback?
           end&.ip_address
           scheme = config_options.bind&.split("://")&.first == "ssl" ? "https" : "http"
-          port = ENV.fetch("BRIDGETOWN_PORT", config_options.port)
+          port = config_options.port
           Bridgetown.logger.info ""
           Bridgetown.logger.info "Now serving at:", "#{scheme}://localhost:#{port}".magenta
           Bridgetown.logger.info "", "#{scheme}://#{external_ip}:#{port}".magenta if external_ip
