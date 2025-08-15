@@ -42,7 +42,6 @@ module Bridgetown
       class_option :port,
                    aliases: "-P",
                    type: :numeric,
-                   default: 4000,
                    desc: "Serve your site on the specified port. Defaults to 4000."
       class_option :bind,
                    aliases: "-B",
@@ -72,7 +71,7 @@ module Bridgetown
 
         # Load Bridgetown configuration into thread memory
         bt_options = configuration_with_overrides(options)
-        port = ENV.fetch("BRIDGETOWN_PORT", bt_options.port)
+        bt_options.port = port = load_env_and_determine_port(bt_options, options)
         # TODO: support Puma serving HTTPS directly?
         bt_bound_url = "http://#{bt_options.bind}:#{port}"
 
@@ -124,6 +123,21 @@ module Bridgetown
         File.exist?("config.ru") ?
           "config.ru" :
           File.expand_path("../rack/default_config.ru", __dir__)
+      end
+
+      def load_env_and_determine_port(config, options)
+        initializer_file = File.join(config.root_dir, "config", "initializers.rb")
+        if File.exist?(initializer_file) && File.read(initializer_file) =~ (%r!init[\s]*:dotenv!)
+          require "dotenv"
+          Bridgetown.load_dotenv(root: config.root_dir)
+        end
+
+        # Options ordering for "who wins" is:
+        #   1. CLI
+        #   2. BRIDGETOWN_PORT env var
+        #   3. YAML config (if present)
+        #   4. 4000
+        options[:port] || ENV.fetch("BRIDGETOWN_PORT", config.port || 4000)
       end
     end
   end
