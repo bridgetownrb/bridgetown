@@ -191,7 +191,14 @@ class TestNewCommand < BridgetownUnitTest
 
     should "create a new directory" do
       refute_exist @site_name_with_spaces
-      invocation = argumentize("new #{@site_name_with_spaces}")
+      invocation = ["new", @site_name_with_spaces]
+      capture_output { Bridgetown::Commands::Base.start(invocation) }
+      assert_exist @site_name_with_spaces
+    end
+
+    should "create a new directory and ignore additoinal options" do
+      refute_exist @site_name_with_spaces
+      invocation = ["new", @site_name_with_spaces, "--help"]
       capture_output { Bridgetown::Commands::Base.start(invocation) }
       assert_exist @site_name_with_spaces
     end
