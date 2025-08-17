@@ -115,5 +115,24 @@ class TestSSR < BridgetownUnitTest
       assert_includes last_response.body, "<ul>\n  <li>Port 80</li>\n</ul>"
       assert_includes last_response.body, "<p>Well that was 246!\n  <em>ya think?</em></p>"
     end
+
+    should "allow plugins to work without order dependence" do
+      get "/order-independence"
+
+      assert last_response.ok?
+      assert_equal({ it: "works" }.to_json, last_response.body)
+    end
+
+    should "allow plugins to work without order dependence with a base path" do
+      original_base_path = site.config.base_path
+      site.config.base_path = "/subpath"
+
+      get "/order-independence"
+
+      assert last_response.ok?
+      assert_equal({ it: "works" }.to_json, last_response.body)
+    ensure
+      site.config.base_path = original_base_path
+    end
   end
 end

@@ -157,9 +157,15 @@ class Roda
           scope.initialize_bridgetown_root
 
           base_path = Bridgetown::Current.preloaded_configuration.base_path.delete_prefix("/")
-          on(base_path.empty? ? true : base_path) do
+
+          if base_path.empty?
             ssg # static file server
             Bridgetown::Rack::Routes.load_all scope
+          else
+            on(base_path) do
+              ssg # static file server
+              Bridgetown::Rack::Routes.load_all scope
+            end
           end
         end
       end
