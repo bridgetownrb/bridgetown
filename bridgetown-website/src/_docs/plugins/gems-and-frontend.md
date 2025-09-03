@@ -13,11 +13,11 @@ do this is to set up a `package.json` manifest and [publish your frontend code a
 
 Let's assume you've been building an awesome plugin called, unsurprisingly,
 `MyAwesomePlugin`. In your `my-awesome-plugin.gemspec` file, all you need to do is
-add the `npm-add` metadata matching the NPM package name and keeping the version
+add the `npm_add` metadata matching the NPM package name and keeping the version
 the same as the Gem version:
 
 ```ruby
-  spec.metadata = { "npm-add" => "my-awesome-plugin@#{MyAwesomePlugin::VERSION}" }
+  spec.metadata = { "npm_add" => "my-awesome-plugin@#{MyAwesomePlugin::VERSION}" }
 ```
 
 With that bit of metadata, Bridgetown will know always to look for that package in

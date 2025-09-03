@@ -102,7 +102,7 @@ module Bridgetown
 
     # rubocop:disable Metrics/PerceivedComplexity, Metrics/CyclomaticComplexity
 
-    # Iterates through loaded gems and finds npm-add gemspec metadata.
+    # Iterates through loaded gems and finds npm_add gemspec metadata.
     # If that exact package hasn't been installed, execute npm i
     #
     # @return [Bundler::SpecSet]
@@ -134,7 +134,7 @@ module Bridgetown
     end
 
     def self.find_npm_dependency(loaded_gem)
-      npm_metadata = loaded_gem.to_spec&.metadata&.dig("npm-add") ||
+      npm_metadata = loaded_gem.to_spec&.metadata&.dig("npm_add") ||
         loaded_gem.to_spec&.metadata&.dig("yarn-add")
       npm_dependency = npm_metadata&.match(NPM_DEPENDENCY_REGEXP)
       return nil if npm_dependency&.length != 3 || npm_dependency[2] == ""

@@ -56,7 +56,7 @@ class TestPluginManager < BridgetownUnitTest
   context "find npm dependencies" do
     should "work if the metadata exists and is in the right format" do
       gem_mock = OpenStruct.new(to_spec: OpenStruct.new(metadata: {
-        "npm-add" => "my-plugin@0.1.0",
+        "npm_add" => "my-plugin@0.1.0",
       }))
       assert_equal ["my-plugin", "0.1.0"], Bridgetown::PluginManager.find_npm_dependency(gem_mock)
     end
@@ -75,12 +75,12 @@ class TestPluginManager < BridgetownUnitTest
 
     should "not work if the metadata isn't in the right format" do
       gem_mock = OpenStruct.new(to_spec: OpenStruct.new(metadata: {
-        "npm-add" => "gobbledeegook",
+        "npm_add" => "gobbledeegook",
       }))
       assert_equal nil, Bridgetown::PluginManager.find_npm_dependency(gem_mock)
 
       gem_mock2 = OpenStruct.new(to_spec: OpenStruct.new(metadata: {
-        "npm-add" => "gobbledee@gook@",
+        "npm_add" => "gobbledee@gook@",
       }))
       assert_equal nil, Bridgetown::PluginManager.find_npm_dependency(gem_mock2)
     end

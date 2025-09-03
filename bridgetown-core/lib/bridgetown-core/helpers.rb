@@ -264,14 +264,19 @@ module Bridgetown
         end
       end
 
-      # TODO: docu
+      # Output a declarative shadow DOM tag to wrap the input argument or block
+      #
+      # @param input [String] content to wrap if block isn't provided
+      # @return [String]
       def dsd(input = nil, &block)
         tmpl_content = block.nil? ? input.to_s : view.capture(&block)
 
         Bridgetown::Utils.dsd_tag(tmpl_content)
       end
 
-      # TODO: docu
+      # Load a sidecar CSS file with a .dsd.css extension and output a style tag
+      #
+      # @return [String]
       def dsd_style
         tmpl_path = caller_locations(1, 2).find do |loc|
                       loc.label.include?("method_missing").!
@@ -292,7 +297,8 @@ module Bridgetown
         style_tag.html_safe
       end
 
-      # TODO: docu
+      # If you need to access signals without creating a tracking dependency, wrap a
+      # block of code in this helper
       def bypass_tracking(...) = Signalize.untracked(...)
     end
   end
