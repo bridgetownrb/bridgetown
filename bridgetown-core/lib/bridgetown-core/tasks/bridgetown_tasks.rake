@@ -11,7 +11,7 @@ namespace :frontend do
   task :watcher, :sidecar do |_task, args|
     # sidecar is when the task is running alongside the start command
     sidecar = args[:sidecar] == true
-    Bridgetown::Utils::Aux.run_process "Frontend", :yellow, "bridgetown frontend:dev"
+    Bridgetown::Utils::Aux.run_process "Frontend", :blue, "bridgetown frontend:dev"
 
     if sidecar
       # give FE bundler time to boot before returning control to the start command
