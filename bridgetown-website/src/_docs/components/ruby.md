@@ -266,7 +266,7 @@ In addition to rendering a template for you, `Bridgetown::Component` provides a 
 
 Some of the components you write will comprise more than pure markup. You may want to affect the styling and behavior of a component as well. For a conceptual overview of this architecture, [read our Components introduction](/docs/components#the-subtle-interplay-of-html-css--javascript).
 
-The easiest way to write frontend component code using "vanilla" web APIs is to wrap your component in a custom element. You can then apply CSS directly to that component from a stylesheet, and even add interactivity via JavaScript. Here's a "trifecta" example:
+The easiest way to write frontend component code using "vanilla" web APIs is to wrap your component in a custom element. You can then apply CSS directly to that component from a stylesheet, and even add interactivity via JavaScript. Here's a "trifecta" example (all the files would live in the same folder as the Ruby component):
 
 ```html
 <!-- output from your component template aka `alert.html.erb` -->
