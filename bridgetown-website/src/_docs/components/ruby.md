@@ -266,11 +266,49 @@ In addition to rendering a template for you, `Bridgetown::Component` provides a 
 
 Some of the components you write will comprise more than pure markup. You may want to affect the styling and behavior of a component as well. For a conceptual overview of this architecture, [read our Components introduction](/docs/components#the-subtle-interplay-of-html-css--javascript).
 
-The easiest way to write frontend component code using "vanilla" web APIs is to wrap your component in a custom element. You can then apply CSS directly to that component from a stylesheet, and even add interactivity via JavaScript.
+The easiest way to write frontend component code using "vanilla" web APIs is to wrap your component in a custom element. You can then apply CSS directly to that component from a stylesheet, and even add interactivity via JavaScript. Here's a "trifecta" example:
 
-==TODO: add HTML/CSS/JS example here==
+```html
+<!-- output from your component template aka `alert.html.erb` -->
+<ui-alert variant="warning">
+  <p>This message will self-destruct in five seconds. Good luck!</p>
+</ui-alert>
+```
 
-For another spin on this, check out our [Lit Components](/docs/components/lit) documentation. You can also read up on how Bridgetown's [frontend build pipeline works](/docs/frontend-assets).
+```css
+/* alert.css */
+ui-alert {
+  --alert-background: lightgray;
+  --alert-color: darkslategray;
 
+  display: block;
+  padding: 1rem;
+  color: var(--alert-color);
+  background: var(--alert-background);
+  border: 2px solid color-mix(in srgb, var(--alert-background), black 25%);
+  border-radius: .5rem;
 
+  &[variant="warning"] {
+    --alert-background: lemonchiffon;
+    --alert-color: saddlebrown;
+  }
+}
+```
 
+```js
+// alert.js
+class AlertElement extends HTMLElement {
+  static {
+    customElements.define("ui-alert", this)
+  }
+
+  connectedCallback() {
+    // remove in five seconds…
+    setTimeout(() => this.remove(), 5000)
+  }
+}
+```
+
+Bear in mind when you write your component-scoped CSS, err on the side of using [child combinators](https://developer.mozilla.org/en-US/docs/Web/CSS/Child_combinator) for nested elements so you don't accidentally overwrite element styles within other components. Alternatively, you can use [shadow DOM](/docs/content/dsd#components-with-sidecar-css) for fully-encapsulated HTML/CSS/JS within a component template!
+
+For another spin on this concept, check out our [Lit Components](/docs/components/lit) documentation. You can also read up on how Bridgetown's [frontend build pipeline works](/docs/frontend-assets).
