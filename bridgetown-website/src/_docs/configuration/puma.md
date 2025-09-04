@@ -8,22 +8,12 @@ back_to: configuration
 
 Bridgetown uses the Puma web server ([along with Roda](/docs/routes)) for serving up statically-built files as well as any dynamic routes.
 
-==TODO: these config options have changed==
+The most common change you might make to your Puma configuration is the port number. By default, Bridgetown serves over HTTP via port `4000`, bound to `0.0.0.0` (this makes it accessible via localhost as well as the network). This is true in production as well as local development. In order of preference, here's how you can change that:
 
-The default port number for the server is `4000`. The easiest way to change this is to add this to your config YAML:
+* **CLI:** `--port=NN` / `-P NN` this will override Puma's port number, even when an environment variable may be set.
+* **Environment:** if the `BRIDGETOWN_PORT` environment variable is set (possibly through using [Dotenv](https://edge.bridgetownrb.com/docs/configuration/initializers#dotenv)), this will be used.
+* **YAML Config:** while generally-speaking Bridgetown configurations are now provided via Ruby, you can use `bridgetown.config.yml` to set the `port` value. Unfortunately due to a timing issue, the port number cannot be overwritten using a Ruby initializer.
 
-```yaml
-bind: "tcp://0.0.0.0:4001"
-
-# or if you only want to change this in development:
-development:
-  bind: "tcp://0.0.0.0:4002"
-```
-
-Alternatively, you can set the `BRIDGETOWN_PORT` environment variable which will be picked up by Puma. Or you can pass an entire bind URL via `-B` or `--bind` on the command line:
-
-```sh
-bin/bridgetown start --bind=tcp://0.0.0.0:3000
-```
+To change the IP address to something other than `0.0.0.0`, you can provide a `--bind` / `-B` command line argument.
 
 Other Puma configuration options are available in the `config/puma.rb` file in your Bridgetown repo. Many of these Ruby <abbr title="Domain-Specific Language">DSL</abbr> options, such as concurrency (how many separate forked Puma processes startup) and per-process threading, are [documented here](https://puma.io/puma/Puma/DSL.html).
