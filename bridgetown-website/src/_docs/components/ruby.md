@@ -145,7 +145,7 @@ Bridgetown components are provided access to a `content` variable which is the o
 
 ### Slotted Content
 
-New in Bridgetown 1.2, you can now provide specific named content from within the calling template to a component. If the `content` variable above could be considered the "default" slot, you'll now learn how to work with named content slots.
+You can provide specific named content from within the calling template to a component. If the `content` variable above could be considered the "default" slot, you'll now learn how to work with named content slots.
 
 Here's an example of supplying and rendering an image within a card.
 
