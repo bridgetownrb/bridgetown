@@ -23,7 +23,7 @@ module Bridgetown::Foundation
         def questionable = Bridgetown::Foundation::QuestionableString.new(self)
 
         def inquiry = Bridgetown::Foundation.deprecation_warning(
-          self, :inquiry, :questionable, 2025, 12
+          self, :inquiry, :questionable, 2026, 12
         ).then { questionable }
       end
     end

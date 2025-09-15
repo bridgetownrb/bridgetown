@@ -6,6 +6,7 @@ module Bridgetown
   class RubyTemplateView
     class Helpers
       using Bridgetown::Refinements
+      include Bridgetown::Refinements::Helper
       include Bridgetown::Filters
       include Bridgetown::Filters::FromLiquid
       include ::Streamlined::Helpers
@@ -127,12 +128,10 @@ module Bridgetown
       # Provide backwards compatibility via Streamlined helper
       alias_method :attributes_from_options, :html_attributes
 
-      # Delegates to <tt>I18n#translate</tt> but also performs two additional
-      # functions.
+      # Delegates to `I18n#translate` but with some additional smarts.
       #
-      # First, if the key starts with a period <tt>translate</tt> will scope
-      # the key by the current view. Calling <tt>translate(".foo")</tt> from
-      # the <tt>people/index.html.erb</tt> template is equivalent to calling
+      # You can scope to the current view. Calling <tt>translate(".foo")</tt> from
+      # the <tt>people/index.erb</tt> template is equivalent to calling
       # <tt>translate("people.index.foo")</tt>. This makes it less
       # repetitive to translate many keys within the same view and provides
       # a convention to scope keys consistently.
@@ -148,14 +147,14 @@ module Bridgetown
       #
       # @return [String] the translated string
       # @see I18n
-      def translate(key, **options) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      def translate(key, **options)
         return key.map { |k| translate(k, **options) } if key.is_a?(Array)
 
         key = key&.to_s
 
         if key&.start_with?(".")
-          view_path = view&.page&.relative_path&.to_s&.split(".")&.first
-          key = "#{view_path.tr("/", ".")}#{key}" if view_path.present?
+          view_path = Bridgetown::Filters::URLFilters.strip_extname(view.resource.relative_path)
+          key = "#{view_path.tr("_/", " .").lstrip}#{key}"
         end
 
         return I18n.translate(key, **options) unless %r{(?:_|\b)html\z}.match?(key)

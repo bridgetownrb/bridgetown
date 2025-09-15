@@ -15,7 +15,7 @@ Bridgetown's implementation language, Ruby, has a rich history of providing "Emb
 <% end %>
 
 <%= render Note.new do %>
-  Under the hood, Bridgetown uses the [Tilt gem](https://github.com/rtomayko/tilt) to load and process ERB & Serbea. Plugin authors can leverage Tilt to add support for other template types.
+  Under the hood, Bridgetown uses the [Tilt gem](https://github.com/jeremyevans/tilt) to load and process ERB & Serbea. Plugin authors can leverage Tilt to add support for other template types.
 <% end %>
 
 <%= toc %>

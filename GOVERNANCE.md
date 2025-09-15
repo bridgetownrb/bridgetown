@@ -23,7 +23,7 @@ Here are some of the tasks they are responsible for:
 - identifying and fixing bugs;
 - triaging issues;
 - reviewing and merging pull requests;
-- providing support via [Discord chat](https://discord.gg/4E6hktQGz4), [Discussions on GitHub](https://github.com/bridgetownrb/bridgetown/discussions), and other channels;
+- providing support via [Discord chat](https://discord.gg/4E6hktQGz4) and other channels;
 - improving the documentation;
 - providing technical feedback and guidance to contributors;
 - coordinating the work of contributors;

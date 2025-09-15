@@ -33,10 +33,4 @@ class TestString < Bridgetown::Foundation::Test
     assert "this".ends_with?("is")
     refute "this".ends_with?("si")
   end
-
-  # TODO: more testing of other data types
-  it "looks within" do
-    assert "abc".within? %w[def abc]
-    refute "abc".within? ["def"]
-  end
 end

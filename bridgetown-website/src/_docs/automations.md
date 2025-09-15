@@ -63,7 +63,7 @@ bin/bridgetown apply https://github.com/bridgetownrb/automations/netlify.rb
 
 An automation script is nothing more than a Ruby code file run in the context
 of an instance of `Bridgetown::Commands::Apply`. Available to you are [all the
-actions provided by Thor](https://github.com/erikhuda/thor/wiki/Actions), such
+actions provided by Thor](https://github.com/rails/thor/wiki/Actions), such
 as `run` to run a CLI executable, or `ask` to prompt the user for details, or
 `say_status` to provide helpful messages in the terminal.
 
