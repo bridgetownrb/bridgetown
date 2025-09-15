@@ -18,7 +18,8 @@ class TestModule < Bridgetown::Foundation::Test
     # rubocop:enable Layout/LineLength
 
     it "nested_parent" do
-      assert_equal Bridgetown::Foundation::CoreExt, Bridgetown::Foundation::CoreExt::String.nested_parent
+      assert_equal Bridgetown::Foundation::CoreExt,
+                   Bridgetown::Foundation::CoreExt::String.nested_parent
     end
 
     it "nested_name" do
