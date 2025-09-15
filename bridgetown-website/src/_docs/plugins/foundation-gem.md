@@ -83,6 +83,8 @@ AddNumbers.new(10).together(15) # 25
 
 You could put this in a config file or in a plugin gem, whatever makes sense for your use case.
 
+`Bridgetown::Refinements` also automatically includes the [HashWithDotAccess](https://codeberg.org/jaredwhite/hash_with_dot_access) refinement which adds an `as_dots` method to Ruby `Hash` to convert a standard hash to one with string/symbol/method key access.
+
 ## Foundation API
 
 The following methods are accessed via refinements unless otherwise noted.

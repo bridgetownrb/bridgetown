@@ -7,7 +7,7 @@ require "zeitwerk"
 require "delegate"
 
 module Bridgetown::Foundation
-  # This is loosly based on the `deprecate` method in `Gem::Deprecate`
+  # This is loosely based on the `deprecate` method in `Gem::Deprecate`
   #
   # @param target [Object]
   # @param name [Symbol] e.g. `:howdy`
