@@ -653,9 +653,9 @@ end
 
 ### Enforcing Streamlined helpers using Rubocop
 
-Streamlined provides a Rubocop linter to make sure template authors are utilizing the `text`, `html`, etc. helpers in HTML heredocs.
+Streamlined provides a Rubocop linter to make sure template authors are utilizing the `text`, `html`, etc. helpers in HTML heredocs, as well as aid with other aspects of your Bridgetown project's Ruby code.
 
-==TODO: write about config here==
+When you install [https://github.com/bridgetownrb/rubocop-bridgetown](https://github.com/bridgetownrb/rubocop-bridgetown), it will automatically detect any heredoc starting with `<<~HTML` and warn you if you aren't utilizing the Streamlined helpers. This will ensure you don't accidentally output raw HTML (a potential security risk) unless you really mean it.
 
 <%= render Note.new do %>
 **Q:** Why does Streamlined rely on heredocs which are actually just strings? Why doesn't Streamlined use a special Ruby DSL for generating HTML similar to other tools like Phlex, Papercraft, or Arbre?
