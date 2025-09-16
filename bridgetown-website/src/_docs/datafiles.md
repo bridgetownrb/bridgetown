@@ -11,13 +11,13 @@ Bridgetown supports loading data from [YAML](http://yaml.org/), [JSON](http://ww
 
 You can also save standard Ruby files (`.rb`) to `_data` which get automatically evaluated. The return value at the end of the file can either be an array or any object which responds to `to_h` (and thus returns a `Hash`).
 
-This powerful feature allows you to avoid repetition in your templates and set site-specific options without changing `bridgetown.config.yml`—and in the case of Ruby data files, perform powerful processing tasks to populate your site content.
+This feature allows you to avoid repetition in your templates and set site-specific options. In the case of Ruby data files, you can perform powerful processing tasks to populate your site content.
 
 {{ toc }}
 
 ## The Data Folder
 
-The `_data` folder is where you can save YAML, JSON, or CSV files (using either the `.yml`, `.yaml`, `.json` or `.csv` extension), and they will be accessible via `site.data`. Also, any files ending in `.rb` within the data folder will be evaluated as Ruby code with a Hash formatted output.
+The `_data` folder is where you can save YAML, JSON, or CSV files (using either the `.yml`, `.yaml`, `.json` or `.csv` extension), and they will be accessible via `site.data` or `site.signals` (more on that below). Also, any files ending in `.rb` within the data folder will be evaluated as Ruby code with a Hash formatted output.
 
 ## The Metadata File
 
@@ -211,4 +211,18 @@ people: site.data.people
 </a>
 ```
 {% endraw %}
+{% end %}
+
+## Using Signals for Fast Refresh Tracking
+
+**New in Bridgetown 2.0:**  One of the downsides to using the `site.data` hash is it won't be tracked by the **fast refresh** process. This means if you update something in a data file after the development server has booted up, you won't immediately see any changes appear. You would have to also go resave the template (resource/layout/etc.) which _references_ that data file in order to see that something has been updated.
+
+Instead, you could utilize `site.signals`. This is a newer construct which works in exactly the same way as `site.data` but it creates a "tracking subscription" automatically. Now when you access `site.signals.stuff.here`, anything in the `src/_data/stuff.yml` file for example which you go and change, you'll then see fast refresh work on the pages which reference it.
+
+{%@ Note type: :warning do %}
+This feature only works in Ruby-based templates. We don't offer a `site.signals` variable within in Liquid templates.
+{% end %}
+
+{%@ Note do %}
+In a future version of Bridgetown, we are planning to make `site.data` itself use signals, and alias `site.signals` to that, but due to compatibility concerns with existing projects we decided to make it an opt-in feature for now.
 {% end %}

@@ -26,17 +26,13 @@ There's a relatively linear process which occurs every time you run a [build com
 1. Once all of the data structures for the entire website are in place, Bridgetown __renders__ all relevant content objects to prepare them for final output. This is when [Front Matter](/docs/front-matter) variables are made available to templates, any [Liquid](/docs/template-engines/liquid) or [Ruby](/docs/template-engines/erb-and-beyond) templates are processed, formats like [Markdown](https://kramdown.gettalong.org/quickref.html) are converted to HTML, resources are placed within layout templates, and generally everything is finalized in its proper output format (HTML, JSON, images, PDFs, etc.).
 1. The final step is to write everything to the destination folder (typically `output`). If all has gone well, that folder will contain a complete, fully-functioning website [which can be deployed](/docs/deployment) to any basic HTTP web server.
 
-Normally during development, you will be running a local dev server, which means
-every time you change a file (update a blog post, edit a template, replace an image
-file, fix a bug in a custom plugin, etc.), that _entire build process_ is run
-through again.
+There's also a second sort of build process which occurs only in development when you run the server with the `bin/bridgetown start` command, called **fast refresh**. This is a **new feature in Bridgetown 2.0**. Prior to this, every time you would change a file (update a blog post, edit a template, replace an image file, fix a bug in a custom plugin, etc.), that _entire build process_ would be run through again. As you can imagine, for really large sites with thousands of pages, build processes can slow down substantially.
 
-For small-to-medium sites and on reasonably modern hardware, this typically happens
-in only a few seconds or less. For really large sites with tens of thousands of
-pages, or if many external API calls are involved, build processes can slow down
-substantially. There are technical solutions to many of these slowdowns, which can
-range from caching API data between builds to limiting the number of files built in development.
-Improving build time is a major goal of the Bridgetown core team as we look to the future.
+Fast refresh uses a pair of techniques called _signals_ and _effects_ to track changes to individuals files and the ways in which data can flow across multiple files. In not all, but in most cases, this results in a much faster rebuild time. If you edit just a single resource file, it's likely only that one resource will get rebuilt. If you edit a [data file](/docs/datafiles) referenced on several pages using `site.signals`, those those several pages will get rebuilt. Fast refresh also tracks access to components within templates. [Read our original announcement blog post](/future/road-to-bridgetown-2.0-fast-refresh/) for a deep dive into this functionality.
+
+{%@ Note do %}
+If you find you are having issues with fast refresh in development, you can set `fast_refresh false` in your `config/initializers.rb` file. We also encourage you to submit a bug report if you can reproduce a particular sequence of events where it's not working.
+{% end %}
 
 ## The Frontend Build Process
 
@@ -53,10 +49,7 @@ essentially _two_ build processes are kicked off: the frontend build process (us
 
 ## Adding Extra Features to Your Site
 
-In addition to the work you do yourself to code, design, and publish your website,
-there are ways you can enhance your site by installing third-party plugins or
-applying automations. These may provide new features, themes, or software
-configurations in useful ways. Some examples:
+In addition to the work you do yourself to code, design, and publish your website, there are ways you can enhance your site by installing third-party plugins or applying automations. These may provide new features, themes, or software configurations in useful ways. Some examples:
 
 * Add instant search to your site with the [bridgetown-quick-search](https://github.com/bridgetownrb/bridgetown-quick-search) plugin
 * Include inline SVG images with the [bridgetown-svg-inliner](https://github.com/ayushn21/bridgetown-svg-inliner) plugin

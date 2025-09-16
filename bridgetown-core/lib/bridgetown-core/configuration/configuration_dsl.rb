@@ -3,6 +3,8 @@
 module Bridgetown
   class Configuration
     class ConfigurationDSL < Bridgetown::FrontMatter::RubyFrontMatter
+      include Bridgetown::Refinements::Helper
+
       attr_reader :context
 
       # @yieldself [ConfigurationDSL]

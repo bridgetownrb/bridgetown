@@ -73,7 +73,7 @@ paginate:
 
 ## Attributes for Defining Pagination
 
-{%@ Documentation::VariablesTable data: site.data, scope: :paginator_attr, description_size: :bigger %}
+{%@ Documentation::VariablesTable data: site.signals, scope: :paginator_attr, description_size: :bigger %}
 
 ## Excluding a Resource from the Paginator
 
@@ -129,7 +129,7 @@ To display pagination links, use the `paginator` object as follows:
 
 The `paginator` Ruby / Liquid object provides the following properties:
 
-{%@ Documentation::VariablesTable data: site.data, scope: :paginator, description_size: :bigger %}
+{%@ Documentation::VariablesTable data: site.signals, scope: :paginator, description_size: :bigger %}
 
 ## Considerations When Using Pagination
 

@@ -5,29 +5,31 @@ top_section: Configuration
 category: plugins
 ---
 
-Plugins allow you to extend Bridgetown's behavior to fit your needs. You can
-write plugins yourself directly in your website codebase, or install gem-based
-plugins and [themes](/docs/themes) for a limitless source of new features and
-capabilities.
+Plugins allow you to extend Bridgetown's behavior to fit your needs. You can write plugins yourself directly in your website codebase, or install gem-based plugins and [themes](/docs/themes) for a limitless source of new features and capabilities.
 
-Be sure to
-[check out our growing list of official and third-party plugins](/plugins/)
-for ways to jazz up your website.
+Be sure to [check out our growing list of official and third-party plugins](/plugins/) for ways to jazz up your website.
 
 Whenever you need more information about the plugins installed on your site and what they're doing, you can use the `bridgetown plugins list` command. You can also copy content out of gem-based plugins with the `bridgetown plugins cd` command. [Read the command reference for further details.](/docs/commands/plugins)
 
 {%@ Note do %}
   #### Turn Your Plugins into Gems
 
-  If you'd like to maintain plugin separation from your site source code,
-  share functionality across multiple projects, and manage dependencies,
-  you can create a Ruby gem for private or public distribution. This is also
-  how you'd create a [Bridgetown theme](/docs/themes).
+  If you'd like to maintain plugin separation from your site source code, share functionality across multiple projects, and manage dependencies, you can create a Ruby gem for private or public distribution. This is also how you'd create a [Bridgetown theme](/docs/themes).
 
   [Read further instructions below on how to create and publish a gem.](#creating-a-gem)
 {% end %}
 
 {{ toc }}
+
+## Our Ruby API
+
+When writing a plugin for Bridgetown, you will be interacting with its Ruby API: objects like `Bridgetown::Site`, `Bridgetown::Resource::Base`, `Bridgetown::GeneratedPage`, etc. Other times you may be interacting with Liquid Drops, which are "safe" representations of the internal Ruby API for use in Liquid templates.
+
+Documentation for Bridgetown's class hierarchy is [available on our API website](https://api.bridgetownrb.com).
+
+The simplest way to debug the code you write is to run `bridgetown console` and interact with the API there. You can then copy working code into your plugin, or test out new ideas before committing them to your plugin code. You can also write `binding.irb` at any point in your code, and you'll be dropped into a console when execution pauses at that point.
+
+**New in Bridgetown 2.0:** we now offer a Foundation gem as part of the Bridgetown API with some handy helpers for strings, hashes, class hierarchies, and more. [Read more about Bridgetown Foundation here.](/docs/plugins/foundation-gem)
 
 ## Setup
 
@@ -130,15 +132,6 @@ end
 ```
 
 [Read further instructions below on how to create and publish a gem.](#creating-a-gem)
-
-## Internal Ruby API
-
-When writing a plugin for Bridgetown, you may sometimes be interacting with
-the internal Ruby API. Objects like `Bridgetown::Site`, `Bridgetown::Resource::Base`, `Bridgetown::GeneratedPage`, etc. Other times you may be interacting with Liquid Drops, which are "safe" representations of the internal Ruby API for use in Liquid templates.
-
-Documentation for Bridgetown's class hierarchy is [available on our API website](https://api.bridgetownrb.com).
-
-The simplest way to debug the code you write is to run `bridgetown console` and interact with the API there. You can then copy working code into your plugin, or test out new ideas before committing them to your plugin code. You can also write `binding.irb` at any point in your code, and you'll be dropped into a console when execution pauses at that point.
 
 ## Plugin Categories
 

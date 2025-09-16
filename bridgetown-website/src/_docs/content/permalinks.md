@@ -72,4 +72,4 @@ All of the segments you see above starting with a colon, such as `:year` or `:sl
 
 Here's the full list of built-in placeholders available:
 
-{%@ Documentation::VariablesTable data: site.data, scope: :permalinks %}
+{%@ Documentation::VariablesTable data: site.signals, scope: :permalinks %}

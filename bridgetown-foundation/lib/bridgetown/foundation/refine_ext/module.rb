@@ -9,7 +9,8 @@ module Bridgetown::Foundation
         def nested_within?(other)
           return false if self == other
 
-          other.nested_parents.within?(nested_parents) #[1..])
+          other_hierarchy = [other, *other.nested_parents]
+          nested_parents[-other_hierarchy.length..] == other_hierarchy
         end
 
         def nested_parents

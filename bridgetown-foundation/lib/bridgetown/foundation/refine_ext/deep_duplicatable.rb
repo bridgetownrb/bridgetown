@@ -10,14 +10,16 @@ module Bridgetown::Foundation
           hash = dup
           each do |key, value|
             hash.delete(key)
+            new_value = if value.is_a?(Array) || value.is_a?(Hash)
+                          value.deep_dup
+                        else
+                          value.dup
+                        end
+
             if key.is_a?(::String) || key.is_a?(::Symbol)
-              hash[key] = value.dup
+              hash[key] = new_value
             else
-              hash[key.dup] = if value.is_a?(Array) || value.is_a?(Hash)
-                                value.deep_dup
-                              else
-                                value.dup
-                              end
+              hash[key.dup] = new_value
             end
           end
           hash
@@ -25,7 +27,7 @@ module Bridgetown::Foundation
       end
 
       refine ::Array do
-        def deep_dep
+        def deep_dup
           map do |item|
             next item.dup unless item.is_a?(Array) || item.is_a?(Hash)
 

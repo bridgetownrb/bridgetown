@@ -1,8 +1,8 @@
 module DoubleNumbers
-  using Bridgetown::Refinements
+  include Bridgetown::Refinements::Helper
 
   def double
-    self * 1.add(1)
+    self * refine(1).add(1)
   end
 end
 Numeric.include DoubleNumbers

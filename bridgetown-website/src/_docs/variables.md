@@ -11,15 +11,15 @@ The following is an overview of commonly-available data. We also have a [Ruby AP
 
 ## Global Variables
 
-{%@ Documentation::VariablesTable data: site.data, scope: :global, description_size: :bigger  %}
+{%@ Documentation::VariablesTable data: site.signals, scope: :global, description_size: :bigger  %}
 
 ## Site Variables
 
-{%@ Documentation::VariablesTable data: site.data, scope: :site, description_size: :bigger %}
+{%@ Documentation::VariablesTable data: site.signals, scope: :site, description_size: :bigger %}
 
 ## Resource Variables
 
-{%@ Documentation::VariablesTable data: site.data, scope: :resource, description_size: :bigger %}
+{%@ Documentation::VariablesTable data: site.signals, scope: :resource, description_size: :bigger %}
 
 {%@ Note do %}
   #### Using Custom Front Matter

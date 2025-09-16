@@ -7,7 +7,7 @@ module Bridgetown::Foundation
         # This method lets you check if the receiver is "within" the other object. In most cases,
         # this check is accomplished via the `include?` method…aka, `10.within? [5, 10]` would
         # return `true` as `[5, 10].include? 10` is true. And String/String comparison are
-        # case-insensivitve.
+        # case-insensitive.
         #
         # However, for certain comparison types: Module/Class, Hash, and Set, the lesser-than (`<`)
         # operator is used instead. This is so you can check `BigDecimal.within? Numeric`,
@@ -23,21 +23,21 @@ module Bridgetown::Foundation
         # @return [Boolean]
         def within?(other) # rubocop:disable Metrics
           # rubocop:disable Style/IfUnlessModifier
-          if is_a?(Module) && other.is_a?(Module)
+          if is_a?(::Module) && other.is_a?(::Module)
+            return self < other == true # return a boolean instead of true/nil default
+          end
+
+          if (is_a?(::Hash) && other.is_a?(::Hash)) || (is_a?(::Set) && other.is_a?(::Set))
             return self < other
           end
 
-          if (is_a?(Hash) && other.is_a?(Hash)) || (is_a?(Set) && other.is_a?(Set))
-            return self < other
-          end
-
-          if is_a?(Array) && other.is_a?(Array)
+          if is_a?(::Array) && other.is_a?(::Array)
             return false if empty?
 
             return difference(other).empty?
           end
 
-          if other.is_a?(Range)
+          if other.is_a?(::Range)
             return other.cover?(self) == true
           end
 
@@ -54,7 +54,7 @@ module Bridgetown::Foundation
         # NOTE: if you _really_ need to preserve Active Support's `in?` functionality, you can just
         #   require "active_support/core_ext/object/inclusion"
         def in?(...) = Bridgetown::Foundation.deprecation_warning(
-          self, :in?, :within?, 2025, 12
+          self, :in?, :within?, 2026, 12
         ).then { within?(...) }
       end
     end

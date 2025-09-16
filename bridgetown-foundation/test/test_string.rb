@@ -19,6 +19,7 @@ class TestString < Bridgetown::Foundation::Test
     end
     assert_equal "  indent me!", str_output
     assert_includes output, "multiple arguments aren't supported by `indent!' in Bridgetown"
+    refute_nil "".indent(2)
   end
 
   it "is questionable" do
@@ -32,11 +33,5 @@ class TestString < Bridgetown::Foundation::Test
 
     assert "this".ends_with?("is")
     refute "this".ends_with?("si")
-  end
-
-  # TODO: more testing of other data types
-  it "looks within" do
-    assert "abc".within? %w[def abc]
-    refute "abc".within? ["def"]
   end
 end

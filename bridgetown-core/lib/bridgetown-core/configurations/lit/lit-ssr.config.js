@@ -1,5 +1,5 @@
-const build = require("bridgetown-lit-renderer/build")
-const { plugins } = require("./esbuild-plugins.js")
+import build from "bridgetown-lit-renderer/build"
+import { plugins } from "./esbuild-plugins.js"
 
 const esbuildOptions = { plugins }
 
