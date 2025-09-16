@@ -5,11 +5,11 @@
         <a href="/">
           {{ svg "/images/bridgetown-logo-2022.svg", class: "logo", role: "img", "aria-label": "Bridgetown" }}
         </a>
-        {% if site.data.edge_version %}
+        {% if site.data.version_label %}
           <edge-label onclick='
             this.style.animation = "none";
             setTimeout(() => this.style.animation = null, 50)
-          '>EDGE</edge-label>
+          '>{{ site.data.version_label }}</edge-label>
         {% end %}
       </sl-bar-item>
       <sl-bar-item mobileonly id="mobile-menu">

@@ -33,8 +33,10 @@ While your competitors are wrestling with complicated build tools, limited progr
 <small class="version-text">Version {{ Bridgetown::VERSION }} released {{ current_version_date }}.
 {% if site.data.edge_version %}
 Looking for [stable release documentation](https://www.bridgetownrb.com/)?
+{% elsif site.data.version_label %}
+**This is documentation for {{ site.data.version_label }}.** Looking for [current release documentation](https://www.bridgetownrb.com/)?
 {% else %}
-Looking for [edge documentation](https://edge.bridgetownrb.com/docs/) or [v0 documentation](https://bridgetown-v0.onrender.com/)?
+**Looking for [edge](https://edge.bridgetownrb.com/docs/), [v1](https://bridgetown-v1.onrender.com/), or [v0](https://bridgetown-v0.onrender.com/) documentation?**
 {% end %}</small>
 
   </section>

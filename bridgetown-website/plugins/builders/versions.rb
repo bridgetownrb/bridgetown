@@ -21,9 +21,15 @@ class Builders::Versions < SiteBuilder
     hook :site, :post_read do
       if Bridgetown::VERSION.include?("alpha") || Bridgetown::VERSION.include?("beta")
         site.data.edge_version = true
+        site.data.version_label = "EDGE"
         site.metadata.title += " [EDGE]"
 
         site.config.url = site.config.url.sub("www.", "edge.")
+      end
+
+      if Bridgetown::VERSION.start_with?("1.")
+        site.metadata.title += " [v1]"
+        site.data.version_label = "v1"
       end
     end
   end
