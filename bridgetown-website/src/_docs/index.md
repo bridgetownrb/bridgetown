@@ -5,7 +5,7 @@ top_section: Introduction
 category: intro
 ---
 
-Excited to get started? Woohoo! In case you're wondering, Bridgetown is a **progressive site generator**. You add content written in an author-friendly markup language like Markdown, alongside layouts and components using template syntax such as Liquid or ERB, and Bridgetown will then compile HTML, CSS, and JavaScript to an output website folder. You can tweak exactly how you want the pages to look, what data gets displayed on the site, and more. Bridgetown is powered by the Ruby programming language, as well as Node for JavaScript-based processing of your frontend assets. Bridgetown [started life as a Jekyll fork](/news/time-to-visit-bridgetown/) in early 2020, but it has since grown into so much more.
+Excited to get started? Woohoo! In case you're wondering, Bridgetown is a **progressive site generator**. You add content written in an author-friendly markup language like Markdown, alongside layouts and components using template syntax such as ERB, and Bridgetown will then compile HTML, CSS, and JavaScript to an output website folder. You can tweak exactly how you want the pages to look, what data gets displayed on the site, and more. Bridgetown is powered by the Ruby programming language, as well as Node for JavaScript-based processing of your frontend assets. Bridgetown [started life as a Jekyll fork](/docs/migrating-from) in early 2020, but it has since grown into so much more.
 
 We'll explain much more about what Bridgetown is and what it can do for you in the sections ahead. Let's go!
 

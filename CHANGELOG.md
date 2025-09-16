@@ -6,8 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
-- Fixed new command not to use all params to create a path #1006 
-  (@mlitwiniuk)
+
+## [2.0.0] (stable release) - 2025-09-16
+
+- Fix routing order dependency in bridgetown_server [#1007](https://github.com/bridgetownrb/bridgetown/pull/1007) ([@michaelherold](https://github.com/michaelherold))
+- Fixed new command not to use all params to create a path [#1006](https://github.com/bridgetownrb/bridgetown/pull/1006) ([@mlitwiniuk](https://github.com/mlitwiniuk))
+- Plus _everything_ since v1.3.4!
 
 ## [2.0.0.beta6] - 2025-04-16
 

@@ -11,10 +11,10 @@ gem "bridgetown-paginate", path: "../bridgetown-paginate"
 
 gem "puma", "< 7"
 
-gem "bridgetown-feed", "~> 3"
+gem "bridgetown-feed", "~> 4"
 gem "bridgetown-quick-search", "~> 3.0"
-gem "bridgetown-seo-tag", "~> 6.0"
-gem "bridgetown-svg-inliner", "~> 2.0"
+gem "bridgetown-seo-tag", "~> 7.0"
+gem "bridgetown-svg-inliner", "~> 2.1"
 
 gem "gems", "~> 1.2"
 gem "nokolexbor", "~> 0.4"

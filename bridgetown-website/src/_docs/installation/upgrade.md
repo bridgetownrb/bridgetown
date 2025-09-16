@@ -12,16 +12,16 @@ There's an **upgrade-help** channel in our [Discord chat](https://discord.gg/4E6
 
 {{ toc }}
 
-## Upgrading to Bridgetown 2.0 (Beta)
+## Upgrading to Bridgetown 2.0
 
-The first thing to know is that there are new minimum versions of both Ruby and Node.js for the v2 release cycle. In general, we try to support the previous two significant releases of these runtimes in addition to the current ones (aka Ruby 3.3 and Node 23) with each major version increase. So you will need to use a minimum of:
+The first thing to know is that there are new minimum versions of both Ruby and Node.js for the v2 release cycle. In general, we try to support the previous two significant releases of these runtimes in addition to the current ones with each major version increase. So you will need to use a minimum of:
 
 * Ruby 3.1.4 (⚠️ there's a bug in earlier versions of Ruby 3.1 which will prevent Bridgetown to run)
 * Node 20.6 (⚠️ earlier versions of Node aren't compatible with esbuild's ESM-based config)
 
-If you use versioning dotfiles (for example `.ruby-version` and `.nvmrc`), you'll want to update those in your projects. We do recommend switching to the latest versions (Ruby 3.3 and Node 22 LTS or 23 as of the time of this writing) if possible.
+If you use versioning dotfiles (for example `.ruby-version` and `.nvmrc`), you'll want to update those in your projects. We do recommend switching to the latest versions (Ruby 3.4 and at least Node 22 LTS as of the time of this writing) if possible.
 
-To upgrade to Bridgetown 2.0, edit your `Gemfile` to update the version numbers in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem to `2.0.0.beta3` and then run `bundle update bridgetown`.
+To upgrade to Bridgetown 2.0, edit your `Gemfile` to update the version numbers in the argument for the `bridgetown` and `bridgetown-routes` (if applicable) gem to `2.0.0` and then run `bundle update bridgetown`.
 
 We also recommend you run `bin/bridgetown esbuild update` so you get the latest default esbuild configuration Bridgetown provides, and you may need to update your `esbuild` version in `package.json` as well.
 
@@ -43,7 +43,7 @@ The default template engine for new Bridgetown sites is ERB, with Liquid being o
 
 ### Fixing `webpack_path` bug 🪲
 
-Bridgetown unfortunately used to ship with templates which referrenced `webpack_path` in Liquid or Ruby-based templates, even when using esbuild. That helper is no longer available in Bridgetown 2.0, as we've removed support for Webpack entirely.
+Bridgetown unfortunately used to ship with templates which referenced `webpack_path` in Liquid or Ruby-based templates, even when using esbuild. That helper is no longer available in Bridgetown 2.0, as we've removed support for Webpack entirely.
 
 You will need to do a search & replace for all uses of `webpack_path` and change them to `asset_path`. This is a one-time fix, and then you'll be good to go for the future or even if you still need to run code on an earlier version of Bridgetown.
 
@@ -81,7 +81,7 @@ Bridgetown v2 has removed a number of dependencies in the codebase on the Active
 
 ### Caveats with Fast Refresh in Development ⏩
 
-Bridgetown v2 comes with a "fast refresh" feature by default. This rebuilds only files needed to display updated content in source files, rather than the entire website from scratch. However, certain features aren't yet compatible with fast refresh—most notabily, **i18n**. If you're using multiple locales in your project, you will likely want to disable fast refresh so you don't end up with broken pages/links by setting `fast_refresh false` in `config/initializers.rb`.
+Bridgetown v2 comes with a "fast refresh" feature by default. This rebuilds only files needed to display updated content in source files, rather than the entire website from scratch. If you need to disable fast refresh because you're seeing broken pages/links, set `fast_refresh false` in `config/initializers.rb`.
 
 ### Quick Search and Other Plugins 🔍
 
