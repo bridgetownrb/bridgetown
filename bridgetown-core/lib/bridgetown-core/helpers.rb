@@ -6,6 +6,7 @@ module Bridgetown
   class RubyTemplateView
     class Helpers
       using Bridgetown::Refinements
+      include Bridgetown::Refinements::Helper
       include Bridgetown::Filters
       include Bridgetown::Filters::FromLiquid
       include ::Streamlined::Helpers
@@ -109,12 +110,11 @@ module Bridgetown
       # @param text [String] the content inside the anchor tag
       # @param relative_path [String, Object] source file path, e.g.
       #   "_posts/2020-10-20-my-post.md", or object that responds to `url`
-      # @param options [Hash] key-value pairs of HTML attributes to add to the tag
+      # @param options [Hash] pass keyword arguments to add HTML attributes
       # @return [String] the anchor tag HTML
       # @raise [ArgumentError] if the file cannot be found
-      def link_to(text, relative_path = nil, options = {}, &block)
+      def link_to(text, relative_path = nil, **options, &block)
         if block.present?
-          options = relative_path || {}
           relative_path = text
           text = view.respond_to?(:capture) ? view.capture(&block) : yield
         elsif relative_path.nil?
@@ -128,12 +128,10 @@ module Bridgetown
       # Provide backwards compatibility via Streamlined helper
       alias_method :attributes_from_options, :html_attributes
 
-      # Delegates to <tt>I18n#translate</tt> but also performs two additional
-      # functions.
+      # Delegates to `I18n#translate` but with some additional smarts.
       #
-      # First, if the key starts with a period <tt>translate</tt> will scope
-      # the key by the current view. Calling <tt>translate(".foo")</tt> from
-      # the <tt>people/index.html.erb</tt> template is equivalent to calling
+      # You can scope to the current view. Calling <tt>translate(".foo")</tt> from
+      # the <tt>people/index.erb</tt> template is equivalent to calling
       # <tt>translate("people.index.foo")</tt>. This makes it less
       # repetitive to translate many keys within the same view and provides
       # a convention to scope keys consistently.
@@ -149,14 +147,14 @@ module Bridgetown
       #
       # @return [String] the translated string
       # @see I18n
-      def translate(key, **options) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+      def translate(key, **options)
         return key.map { |k| translate(k, **options) } if key.is_a?(Array)
 
         key = key&.to_s
 
         if key&.start_with?(".")
-          view_path = view&.page&.relative_path&.to_s&.split(".")&.first
-          key = "#{view_path.tr("/", ".")}#{key}" if view_path.present?
+          view_path = Bridgetown::Filters::URLFilters.strip_extname(view.resource.relative_path)
+          key = "#{view_path.tr("_/", " .").lstrip}#{key}"
         end
 
         return I18n.translate(key, **options) unless %r{(?:_|\b)html\z}.match?(key)
@@ -265,14 +263,19 @@ module Bridgetown
         end
       end
 
-      # TODO: docu
+      # Output a declarative shadow DOM tag to wrap the input argument or block
+      #
+      # @param input [String] content to wrap if block isn't provided
+      # @return [String]
       def dsd(input = nil, &block)
         tmpl_content = block.nil? ? input.to_s : view.capture(&block)
 
         Bridgetown::Utils.dsd_tag(tmpl_content)
       end
 
-      # TODO: docu
+      # Load a sidecar CSS file with a .dsd.css extension and output a style tag
+      #
+      # @return [String]
       def dsd_style
         tmpl_path = caller_locations(1, 2).find do |loc|
                       loc.label.include?("method_missing").!
@@ -293,7 +296,8 @@ module Bridgetown
         style_tag.html_safe
       end
 
-      # TODO: docu
+      # If you need to access signals without creating a tracking dependency, wrap a
+      # block of code in this helper
       def bypass_tracking(...) = Signalize.untracked(...)
     end
   end

@@ -5,7 +5,6 @@
 // This plugin will let you import `.lit.css` files as sidecar stylesheets.
 // Read https://www.bridgetownrb.com/docs/components/lit#sidecar-css-files for documentation.
 import { litCssPlugin } from "esbuild-plugin-lit-css"
-
 import postcss from "postcss"
 
 const postcssrc = (await import("postcss-load-config")).default

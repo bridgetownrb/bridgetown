@@ -32,7 +32,7 @@ Live reloading in development is **dramatically faster** on average now with the
 
 There's now a go-to inflector to handle various **string conversions** (aka `folder_name/file_path.rb` → `FolderName::RubyFilePath`) [using dry-inflector](https://edge.bridgetownrb.com/docs/configuration/initializers#inflector) (docs).
 
-We've added support for new [Serbea 2.0](https://serbea.dev) template features, including the `pipe` helper which can be used even in ERB templates. And in addition, we now have a **pure Ruby template syntax via Streamlined**. Documentation is forthcoming, but [you can take a peak at what authoring HTML using Streamlined looks like](https://github.com/bridgetownrb/streamlined/blob/b5d7e5bab0589b3f581c8a709f970870fa8da327/test/test_streamlined.rb#L32). This is Bridgetown's official answer to techniques like `content_tag` in Rails or gems like Phlex, and it takes a great deal of inspiration from JavaScript's tagged template literals.
+We've added support for new [Serbea 2.0](https://serbea.dev) template features, including the `pipe` helper which can be used even in ERB templates. And in addition, we now have a **pure Ruby template syntax via Streamlined**. Documentation is forthcoming, but [you can take a peak at what authoring HTML using Streamlined looks like](https://codeberg.org/jaredwhite/streamlined/src/commit/7aed52d4fe60f5315d228075a06b80a3fbc6d816/test/test_streamlined.rb#L32). This is Bridgetown's official answer to techniques like `content_tag` in Rails or gems like Phlex, and it takes a great deal of inspiration from JavaScript's tagged template literals.
 
 ### What's Changed
 
@@ -42,7 +42,7 @@ The config **YAML file is now optional**—in fact, in new Bridgetown projects o
 
 We've significantly refactored the [file-based routes plugin](https://edge.bridgetownrb.com/docs/routes#file-based-dynamic-routes) under the hood for more robust behavior and continuing improvements over time to support **advanced full-stack applications**.
 
-As promised, an initial batch of first-party framework code (i.e., [bridgetown-foundation](https://github.com/bridgetownrb/bridgetown/tree/main/bridgetown-foundation)) to **replace Active Support-based dependencies** has landed. And we're making use of the new [Inclusive gem](https://github.com/bridgetownrb/inclusive) to package and import utility code.
+As promised, an initial batch of first-party framework code (i.e., [bridgetown-foundation](https://github.com/bridgetownrb/bridgetown/tree/main/bridgetown-foundation)) to **replace Active Support-based dependencies** has landed. And we're making use of the new [Inclusive gem](https://codeberg.org/jaredwhite/inclusive) to package and import utility code.
 
 Our `start` command now uses Rackup (and [Rack 3](https://github.com/rack/rack)) instead of directly interfacing with Puma. This **paves the way for future developments** such as supporting other Rack-compatible application servers in addition to Puma.
 

@@ -14,10 +14,10 @@ page_class: homepage
   <img src="/images/ruby-plain.svg" width="45" style="padding-bottom:10px" />
 </p>
 
-## A next-generation, progressive site generator & fullstack framework, powered by Ruby.
+## Static Sites? Fullstack Applications? Both? Yes, Yes, and Yes.
 {:style="color:var(--color-brick);"}
 
-Built upon venerated open source languages & technologies such as **Ruby**, **Puma**, **Roda**, and **esbuild**, **Bridgetown**&nbsp;puts&nbsp;power back in the hands of individuals to create extraordinary things.
+You can truly have it all. Built for an **HTML-first**, "vanilla" web paradigm on the foundational tech of **Ruby**, **Roda**, and **esbuild**, **Bridgetown** puts power back in the hands of individuals to create extraordinary things.
 
 While your competitors are wrestling with complicated build tools, limited programming idioms, and mountains of boilerplate, **you’re out changing the world**.
 {:style="margin-left:auto; margin-right:auto; max-width:43em"}
@@ -54,58 +54,33 @@ Looking for [edge documentation](https://edge.bridgetownrb.com/docs/) or [v0 doc
 {:.info-grid}
 - <sl-card markdown="block">
 
-  <q>Bridgetown is so cool. It’s the most fun I’ve had outside of Rails in a long time.</q>
+  <q>Bridgetown is doing a wonderful job of bringing the joy of Ruby into the world of modern static site generators.</q>
 
-  [@_williamkennedy](https://twitter.com/_williamkennedy/status/1323023702502658049?s=21)
-
-- <sl-card markdown="block">
-
-  <q>Coherent, thought through, well-structured, yet powerful and efficient SSG. This is GREAT!</q>
-
-  [@noam__shemesh](https://twitter.com/noam__shemesh/status/1362228411826069504?s=21)
+  [Felipe Vogel](https://fpsvogel.com/posts/2021/build-a-blog-with-ruby-bridgetown)
 
 - <sl-card markdown="block">
 
-  <q>With Rails 7, Hotwire, Stimulus, Strada, Bridgetown, Render, and things like this, I believe Ruby is about to have a renaissance.</q>
+  <q>Bridgetown is one of the underdogs in the ecosystem. It has amazing tools and ingredients inside, and is an example of power of Ruby.</q>
 
-  [@aviflombaum](https://twitter.com/aviflombaum/status/1470438543159930886?s=21)
+  [Alberto Colón Viera](https://youtu.be/5Q0NtSWYI-s?feature=shared)
 
 - <sl-card markdown="block">
 
   <q>Within a very short period of time I went from a blank VSCode editor to fully designed and deployed website using Bridgetown! 👏</q>
 
-  [@rabbigreenberg](https://twitter.com/rabbigreenberg/status/1462403305334788099?s=21)
-
-- <sl-card markdown="block">
-
-  <q>I made my Bridgetown site 'come alive' with automatic redeploys where the site's content is updated via an API. In lieu of a Frankenstein emoji… BRRAAAAAINS!! 🧟🧟🧟</q>
-
-  [@fpsvogel](https://twitter.com/fpsvogel/status/1446469364874625025?s=21)
-
-- <sl-card markdown="block">
-
-  <q>If you need a static site generator and like Ruby, go for
-  Bridgetown. I'm using it on 3 projects right now and it's awesome.</q>
-
-  [@stevediaconou](https://twitter.com/stevediaconou/status/1467124931729178625?s=20)
-
-- <sl-card markdown="block">
-
-  <q>I wish more new tools were doing this well out of the box. Congrats, and good luck!</q>
-
-  [@slightlylate](https://twitter.com/slightlylate/status/1467293827245375492?s=21)
+  [@rabbigreenberg](https://xcancel.com/rabbigreenberg/status/1462403305334788099?s=21)
 
 - <sl-card markdown="block">
 
   <q>Every time I turn around — something new from Bridgetown.</q>
 
-  [@jeffreyguenther](https://twitter.com/jeffreyguenther/status/1464277154154254339?s=21)
+  [@jeffreyguenther](https://xcancel.com/jeffreyguenther/status/1464277154154254339?s=21)
 
 - <sl-card markdown="block">
 
   <q>I just started my first project using Bridgetown today and I’m already loving it!</q>
 
-  [@theluctus](https://twitter.com/theluctus/status/1459287487373877248?s=21)
+  [@theluctus](https://xcancel.com/theluctus/status/1459287487373877248?s=21)
 
 - <sl-card markdown="block">
 
@@ -127,7 +102,7 @@ Looking for [edge documentation](https://edge.bridgetownrb.com/docs/) or [v0 doc
 ## Build fast. Deploy fast. Serve fast.
 {:.serif .colorful}
 
-Like the Ruby language itself, **Bridgetown** is optimized for [web developer happiness](/docs/philosophy). Express yourself in code which is elegant and maintainable. Bundled configurations and resources like our [Bridgetown Community Site](https://community.bridgetown.pub) and [Discord Chat](https://discord.gg/4E6hktQGz4) help you quickly get a leg up. Go from zero to hero in no time with HTML-first build artifacts and rapid Git-based deployment on services like [Render](https://www.render.com).
+Like the Ruby language itself, **Bridgetown** is optimized for [web developer happiness](/docs/philosophy). Express yourself in code which is elegant and maintainable. Bundled configurations and resources like our [community chat](https://discord.gg/4E6hktQGz4) help you quickly get a leg up. Go from zero to hero in no time with atomic build artifacts, lightweight API servers, and rapid Git-based deployment on no-to-low-cost hosting services.
 
 
 <p>
@@ -204,7 +179,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   ### World-Class Template Engine
 
-  Actually more than one. Actually three! Liquid. ERB. Serbea. Increasing levels of power and sophistication with each step. Liquid, created by Shopify, is easy to get started with. Upgrade to ERB for the same syntax Ruby on Rails employs. Or choose Serbea, a superset of ERB which brings the best of Ruby and Liquid templates together.
+  Actually more than one. Actually four! ERB. Serbea. Streamlined. Liquid. Start with ERB for the same familiar syntax you know from other Ruby frameworks. Or choose Serbea, a superset of ERB which brings the best of Ruby and Liquid-style templates together. Or use Streamlined for authoring complex interpolated Ruby & HTML components using heredocs. So many options!
 
   <p><a href="/docs/template-engines"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
@@ -217,7 +192,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   ### Componentized View Layer
 
-  Best practices in modern web design revolve around components, discrete building blocks of visual and semantic functionality. Use Bridgetown components for a modular approach to your site design, pull in GitHub's ViewComponent for even more power, or sprinkle frontend web components on top for that extra sizzle.
+  Best practices in modern web design revolve around components, discrete building blocks of visual and semantic functionality. Use Bridgetown components for a modular approach to your site design. Sprinkle frontend web components on top for that extra sizzle. Include components easily within Markdown syntax for the ultimate in text content authoring.
 
   <p><a href="/docs/components"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
@@ -230,7 +205,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   ### Fullstack Framework
 
-  Some projects don't need an SSR backend. But for the ones that do, Bridgetown's got you covered. It comes with Roda baked-in, one of the fastest Ruby web frameworks in the biz. And when we say "baked-in", we literally mean it. Create a regular view template and add a dynamic route block at the top which can handle all the requests you'll throw at it. Need even more power? Mount a Rails API using Rack. All in one monorepo. Now that's a stack.
+  Some projects don't need an SSR backend. But for the ones that do, Bridgetown's got you covered. It comes with Roda right out of the box, one of the fastest Ruby web frameworks in the biz. Create a view template and add a dynamic route block at the top which can handle all the requests you'll throw at it. Or craft a fully object-oriented server API. Want to connect to a database like PostgreSQL? No problem! Now that's a stack.
 
   <p><a href="/docs/routes"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
@@ -243,7 +218,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
 
   ### Modern Frontend Build System
 
-  Bridgetown sets you up with blazing-fast, zero-config esbuild & PostCSS. Add modern CSS starter kits and JavaScript libraries in a performant way with a few simple commands. Install comprehensive component libraries such as Shoelace for rapid UI development. Go big with interactive functionality or stay minimalist for that “zero JS" experience. It's totally your choice.
+  Bridgetown sets you up with blazing-fast, zero-config esbuild & PostCSS. Add modern CSS starter kits and JavaScript libraries in a performant way with a few simple commands. Install comprehensive component libraries such as Web Awesome for rapid UI development. Go big with interactive functionality or stay minimalist for that “zero JS" experience. It's totally your choice.
 
   <p><a href="/docs/frontend-assets"><sl-button variant="primary" size="small" outline pill>
     Read the Docs
@@ -277,7 +252,7 @@ Bridgetown's philosophy is if we take the time to build what you'll actually nee
   </sl-button></a></p>
 
 
-Then when you're ready, [bundled configurations](/docs/bundled-configurations) and [plugins](/plugins) can take you even farther. Add SEO/social graph support, news feeds, inlined SVGs, asset management integration, headless CMS integration, automated testing, islands architecture, Shoelace, Lit SSR + Hydration, and a whole lot more.
+Then when you're ready, [bundled configurations](/docs/bundled-configurations) and [plugins](/plugins) can take you even farther. Add SEO/social graph support, news feeds, inlined SVGs, asset management integration, database support, automated testing, islands architecture, Lit SSR + Hydration, and a whole lot more.
 {:style="text-align:center; margin-top:3rem; margin-left:auto; margin-right:auto; max-width:50em"}
 
 <p>

@@ -20,21 +20,49 @@ The available styles are:
 
 (Including `.*` at the end means it will output the resource with its own slug and extension. Alternatively, `/` at the end will put the resource in a folder of that slug with `index.html` inside.)
 
-To set a permalink style or template for a **custom collection**, add it to your collection metadata in `bridgetown.config.yml`. For example:
+To set a permalink style or template for a **custom collection**, add it to your collection metadata. For example:
 
+{%@ Documentation::Multilang do %}
+```ruby
+# config/initializers.rb
+Bridgetown.configure do
+  collections do
+    articles do
+      permalink "pretty"
+    end
+  end
+end
+```
+===
 ```yaml
+# bridgetown.config.yml
 collections:
   articles:
     permalink: pretty
 ```
+{% end %}
 
 would make your articles collection behave the same as posts. Or you can create your own template:
 
+{%@ Documentation::Multilang do %}
+```ruby
+# config/initializers.rb
+Bridgetown.configure do
+  collections do
+    articles do
+      permalink "/lots-of/:collection/:year/:title/"
+    end
+  end
+end
+```
+===
 ```yaml
+# bridgetown.config.yml
 collections:
   articles:
     permalink: /lots-of/:collection/:year/:title/
 ```
+{% end %}
 
 This would result in URLs such as `/lots-of/articles/2021/super-neato/`.
 
@@ -44,4 +72,4 @@ All of the segments you see above starting with a colon, such as `:year` or `:sl
 
 Here's the full list of built-in placeholders available:
 
-{%@ Documentation::VariablesTable data: site.data, scope: :permalinks %}
+{%@ Documentation::VariablesTable data: site.signals, scope: :permalinks %}

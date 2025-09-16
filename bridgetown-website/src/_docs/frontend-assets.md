@@ -70,7 +70,7 @@ npm install name-of-css-framework
 And then add:
 
 ```css
-@import "~css-framework/css-framework";
+@use "~css-framework/css-framework";
 ```
 
 to `index.scss`. For example, to add [Bulma](https://bulma.io) which is a modern CSS-only (no JavaScript) framework built around Flexbox, you'd run:
@@ -82,7 +82,7 @@ npm install bulma
 and then add:
 
 ```css
-@import "~bulma/bulma";
+@use "~bulma/bulma";
 ```
 
 to `index.scss`.
@@ -94,7 +94,7 @@ npm install bootstrap
 ```
 
 ```css
-@import "~bootstrap/scss/bootstrap.scss";
+@use "~bootstrap/scss/bootstrap.scss";
 ```
 
 ## Linking to the Output Bundles
@@ -103,12 +103,19 @@ Bridgetown's default esbuild configuration is set up to place all compiled outpu
 
 To reference the compiled JS and CSS files from the frontend bundler in your site template, add the `asset_path` Liquid tag or Ruby helper to your HTML `<head>`. For example:
 
+{%@ Documentation::Multilang do %}
+```erb
+<link rel="stylesheet" href="<%= asset_path :css %>" />
+<script src="<%= asset_path :js %>" defer></script>
+```
+===
 {% raw %}
 ```liquid
 <link rel="stylesheet" href="{% asset_path css %}" />
 <script src="{% asset_path js %}" defer></script>
 ```
 {% endraw %}
+{% end %}
 
 This will automatically produce HTML tags that look something like this:
 
@@ -128,13 +135,19 @@ There's a catch with regard to how this works, because you'll also want to be ab
 * For any files saved inside of `src`, use server-relative paths. For example: `background: url(/images/photo.jpg)` in a frontend CSS file would point to what is saved at `src/images/photo.jpg`.
 * For any files saved inside of `frontend`, use filesystem-relative paths. For example: `background: url("../images/photo.jpg")` in `frontend/styles/index.css` will look for `frontend/images/photo.jpg`. If the file can't be found, esbuild will throw an error.
 
-You can use the `asset_path` Liquid tag/Ruby helper to reference assets within the `frontend` folder:
+You can use the `asset_path` Ruby helper or Liquid tag to reference assets within the `frontend` folder:
 
+{%@ Documentation::Multilang do %}
+```erb
+<img src="<%= asset_path 'images/folder/somefile.png' %>" />
+```
+===
 {% raw %}
 ```liquid
 <img src="{% asset_path images/folder/somefile.png %}" />
 ```
 {% endraw %}
+{% end %}
 
 will look for `frontend/images/folder/somefile.png`.
 
@@ -239,7 +252,7 @@ const esbuildOptions = {
 
 Then replace the `defer` attribute in your HTML head with `type="module"` to ensure your primary JavaScript bundle is loaded as an ES module by the browser. For example:
 
-```
+```erb
 <script src="<%= asset_path :js %>" type="module"></script>
 ```
 
@@ -261,7 +274,7 @@ const doStuff = async () => {
 You can learn more about [dynamic imports on MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#dynamic_imports).
 
 {%@ Note type: :warning do %}
-  ES Module imports have been supported in all modern browsers since 2019, but if you wish to preserve backwards compatibility with older browsers, you'll need to avoid using this technique. 
+  ES Module imports have been supported in all modern browsers since 2019, but if you wish to preserve backwards compatibility with older browsers, you'll need to avoid using this technique.
 {% end %}
 
 ### Islands Architecture

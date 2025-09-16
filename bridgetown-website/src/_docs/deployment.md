@@ -63,69 +63,37 @@ Many modern hosting solutions support deploying with a `Dockerfile`. To build a 
 
 #### Static Site
 
-If you're looking to deploy a static version of your site.
+If you're looking to deploy a static version of your site:
 
 ```Dockerfile
-# Build frontend JS and CSS assets using ESbuild
-FROM node:alpine as asset_builder
+FROM combos/ruby_node:3_22 AS builder
 ENV BRIDGETOWN_ENV=production
-WORKDIR /assets
-COPY . .
-RUN npm install
-RUN npm run esbuild
 
-# Generate your site content as HTML
-FROM ruby:alpine as bridgetown_builder
-ENV BRIDGETOWN_ENV=production
-WORKDIR /app
-RUN apk add --no-cache build-base
-RUN gem install bundler -N
-RUN gem install bridgetown -N
+WORKDIR /opt/src
 COPY . .
-RUN bundle install
-COPY --from=asset_builder /assets/output output/
-COPY --from=asset_builder /assets/.bridgetown-cache .bridgetown-cache/
-RUN ./bin/bridgetown build
 
-# Serve your site in a tiny production container, which serves on port 8043.
-FROM pierrezemb/gostatic
-COPY --from=bridgetown_builder /app/output /srv/http/
+RUN bundle install && npm install && bundle exec bridgetown deploy
+
+FROM lipanski/docker-static-website:latest
+COPY --from=builder /opt/src/output .
+CMD ["/busybox-httpd", "-f", "-v", "-p", "4000"]
 ```
 
 #### Dynamic Site
 
-If you're looking to use things like [Dynamic Routes & SSR](/docs/routes).
+If you want to use Puma as the server directly for [Dynamic Routes & SSR](/docs/routes) support (it's recommended you set up a caching layer in front for static assets like images, CSS, JS, etc.):
 
 ```Dockerfile
-ARG RUBY_VERSION=3.2.2
-FROM ruby:$RUBY_VERSION-slim as base
+FROM combos/ruby_node:3_22
+ENV BRIDGETOWN_ENV=production
 
-ENV VOLTA_HOME=/usr/local
-
-RUN apt-get update &&\
-    apt-get install --yes build-essential git curl
-
-RUN curl https://get.volta.sh | bash &&\
-    volta install node@lts
-
-WORKDIR /app
-
-FROM base as gems
-COPY Gemfile* .
-RUN bundle install
-
-FROM base
+WORKDIR /opt/src
 COPY . .
-COPY --from=base $VOLTA_HOME/bin $VOLTA_HOME/bin
-COPY --from=base $VOLTA_HOME/tools $VOLTA_HOME/tools
-COPY --from=base /app /app
-COPY --from=gems /usr/local/bundle /usr/local/bundle
 
-RUN npm install
-RUN bundle exec bridgetown frontend:build
+RUN bundle install && npm install && bundle exec bridgetown deploy
 
 EXPOSE 4000
-CMD bundle exec bridgetown start
+CMD bundle exec bridgetown start --skip-frontend
 ```
 
 ### GitLab Pages

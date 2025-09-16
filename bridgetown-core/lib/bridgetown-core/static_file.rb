@@ -166,7 +166,7 @@ module Bridgetown
 
     # Applies a similar URL-building technique as resources that takes
     # the collection's URL template into account. The default URL template can
-    # be overriden in the collection's configuration
+    # be overridden in the collection's configuration
     def url
       @url ||= begin
         newly_processed = false
@@ -179,6 +179,7 @@ module Bridgetown
         newly_processed ? base : "#{base}#{extname}"
       end
     end
+    alias_method :relative_url, :url
 
     # @return [Symbol, nil] type of the collection if present
     def type

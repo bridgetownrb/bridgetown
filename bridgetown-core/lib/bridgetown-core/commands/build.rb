@@ -29,7 +29,7 @@ module Bridgetown
       # Build your bridgetown site
       # Continuously watch if `watch` is set to true in the config.
       def build
-        Bridgetown.logger.adjust_verbosity(options)
+        Bridgetown.logger.adjust_verbosity(**options)
 
         # @type [Bridgetown::Configuration]
         config_options = configuration_with_overrides(
@@ -97,7 +97,7 @@ module Bridgetown
             ai.ipv4? && !ai.ipv4_loopback?
           end&.ip_address
           scheme = config_options.bind&.split("://")&.first == "ssl" ? "https" : "http"
-          port = ENV.fetch("BRIDGETOWN_PORT", config_options.port)
+          port = config_options.port
           Bridgetown.logger.info ""
           Bridgetown.logger.info "Now serving at:", "#{scheme}://localhost:#{port}".magenta
           Bridgetown.logger.info "", "#{scheme}://#{external_ip}:#{port}".magenta if external_ip

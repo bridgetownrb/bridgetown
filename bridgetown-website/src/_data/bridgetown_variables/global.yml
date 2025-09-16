@@ -1,7 +1,6 @@
 - name: site
   description: >-
-    Site wide information + configuration settings from <code>bridgetown.config.yml</code>.
-    See below for details.
+    Site wide information + configuration settings. See below for details.
 - name: resource
   description: >-
     Resource <a href="/docs/front-matter/">front matter</a> and other content.
@@ -10,7 +9,10 @@
   description: >-
     Layout specific information + the <a href="/docs/front-matter/">front matter</a>.
     Custom variables set via front matter in layouts will be available here.
-- name: content
+- name: yield (Ruby), content (Liquid)
   description: >-
     In layout files, the rendered content of the resource being wrapped.
     Not defined in resource files themselves.
+- name: environment / env
+  description: >-
+    The deployment environment (development, production, etc.) is obtained from the Bridgetown instance <code>Bridgetown.environment</code> (or <code>Bridgetown.env</code>) in Ruby templating and <code>bridgetown.environment</code> in Liquid.

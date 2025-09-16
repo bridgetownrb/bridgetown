@@ -1,9 +1,13 @@
 ---<%
+flash.now.info = "Flashy!"
+
 render_with(data: {
-  title: "#{params[:yo]} #{@answer_to_life} #{Bridgetown.refine(3).within?([1,2,3])}"
+  title: "#{params[:yo]} #{@answer_to_life} #{refine(3).within?([1,2,3])}"
 })
 %>---
 
 <h1><%= resource.data.title %></h1>
 
 <p>I am <%= roda_app.params[:happy] + r.params[:happy] %>.</p>
+
+<output><%= flash.info %></output>

@@ -325,12 +325,13 @@ module Bridgetown
     alias_method :add_model_resource, :add_resource_from_model
 
     def sort_resources!
-      if metadata["sort_by"].is_a?(String)
+      sort_by_value = metadata["sort_by"]
+      if sort_by_value.is_a?(String) || sort_by_value.is_a?(Symbol)
         sort_resources_by_key!
       else
         resources.sort!
       end
-      resources.reverse! if metadata.sort_direction == "descending"
+      resources.reverse! if metadata.sort_direction.to_s == "descending"
     end
 
     private
@@ -342,7 +343,7 @@ module Bridgetown
     # A custom sort function based on Schwartzian transform
     # Refer https://byparker.com/blog/2017/schwartzian-transform-faster-sorting/ for details
     def sort_resources_by_key!
-      meta_key = metadata["sort_by"]
+      meta_key = metadata["sort_by"].to_s
       # Modify array to cache property along with the Resource instance
       resources.map! { |r| [r.data[meta_key], r] }.sort! do |apples, olives|
         order = determine_sort_order(meta_key, apples, olives)

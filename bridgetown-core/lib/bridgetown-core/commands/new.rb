@@ -16,6 +16,11 @@ module Bridgetown
       end
       summary "Creates a new Bridgetown site scaffold in PATH"
 
+      argument :path,
+               type: :string,
+               required: false, # we're changing for path in new_site method
+               desc: "PATH where new Bridgetown site will be created"
+
       class_option :apply,
                    aliases: "-a",
                    banner: "PATH|URL",
@@ -60,9 +65,9 @@ module Bridgetown
       end
 
       def new_site
-        raise ArgumentError, "You must specify a path." if args.empty?
+        raise ArgumentError, "You must specify a path." if path.nil? || path.empty?
 
-        new_site_path = File.expand_path(args.join(" "), Dir.pwd)
+        new_site_path = File.expand_path(path, Dir.pwd)
         @site_name = new_site_path.split(File::SEPARATOR).last
 
         if preserve_source_location?(new_site_path, options)
@@ -77,7 +82,7 @@ module Bridgetown
 
         say_status :create, new_site_path
         create_site new_site_path
-        after_install new_site_path, args.join(" "), options
+        after_install new_site_path, path, options
       rescue ArgumentError => e
         say_status :alert, e.message, :red
       ensure
@@ -174,7 +179,7 @@ module Bridgetown
       # unless the user opts to skip 'bundle install'.
       # rubocop:todo Metrics/CyclomaticComplexity
       # rubocop:disable Metrics/PerceivedComplexity
-      def after_install(path, cli_path, options = {})
+      def after_install(path, cli_path, options)
         git_init path
 
         @skipped_bundle = true # is set to false if bundle install worked

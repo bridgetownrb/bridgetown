@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
+- Fixed new command not to use all params to create a path #1006 
+  (@mlitwiniuk)
+
+## [2.0.0.beta6] - 2025-04-16
+
+- Fix component class to defer to the Streamlined `render` method for blocks [#1003](https://github.com/bridgetownrb/bridgetown/pull/1003) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Handle `Symbol#to_s` returning chilled strings [#1001](https://github.com/bridgetownrb/bridgetown/pull/1001) ([@michaelherold](https://github.com/michaelherold))
+- Fix bridgetown-routes plugin so it inits ssr with `sessions: true` by default [#1000](https://github.com/bridgetownrb/bridgetown/pull/1000) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Additional docs improvements for ERB defaults
+
+## [2.0.0.beta5] - 2025-04-16
+
+- Pass options hash as keyword arguments to the partial method [#994](https://github.com/bridgetownrb/bridgetown/pull/994) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Multi-locale in front matter now works with Fast Refresh [#985](https://github.com/bridgetownrb/bridgetown/pull/985) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Fixed front matter regex by adding carriage return [#984](https://github.com/bridgetownrb/bridgetown/pull/984) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Fixed frozen string warning for ruby 3.4 [#988](https://github.com/bridgetownrb/bridgetown/pull/988) ([@surrim](https://github.com/surrim))
+- Excluded init initializer from plugins list command count [#771](https://github.com/bridgetownrb/bridgetown/pull/771) ([@akarzim](https://github.com/akarzim))
+- Thanks to [@brainbuz](https://github.com/brainbuz) for numerous (and ongoing) docs improvements!
 
 ## [2.0.0.beta4] - 2025-01-16
 

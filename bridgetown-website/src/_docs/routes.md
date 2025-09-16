@@ -13,7 +13,8 @@ However, to take full advantage of all the Bridgetown has to offer, we recommend
 
 ```rb
 init :ssr # add `sessions: true` if you want to save session data, use flash, etc.
-init :"bridgetown-routes"
+# or:
+init :"bridgetown-routes" # inits ssr automatically
 ```
 
 {%@ Note do %}

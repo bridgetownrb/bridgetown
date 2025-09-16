@@ -127,35 +127,30 @@ front matter of a resource.
 
 ## Custom Variables
 
-You can set your own front matter variables which become accessible via Liquid. For
-instance, if you set a variable called `food`, you can use that in your page:
+You can set your own front matter variables which become accessible within page templates or other places where resources are referenced. For instance, if you set a variable called `food`, you can use that in your template:
 
-{% raw %}
-```liquid
----
-food: Pizza
----
-
-<h1>{{ resource.data.food }}</h1>
-```
-{% endraw %}
-
-Ruby templates (ERB, etc.) work the same way:
-
-```eruby
+{%@ Documentation::Multilang do %}
+```erb
 ---
 food: Pad Thai
 ---
 
-<h1><%= resource.data.food %></h1>
+<h1><%= data.food %></h1>
 ```
+===
+{% raw %}
+```liquid
+---
+food: Pad Thai
+---
 
-You can also use a resource's front matter variables in other places like layouts, and
-you can even reference those variables in loops or as part of more
-complex queries (see the [Liquid](/docs/template-engines/liquid) or [ERB and Beyond](/docs/template-engines/erb-and-beyond) docs for more information).
+<h1>{{ data.food }}</h1>
+```
+{% endraw %}
+{% end %}
 
 {%@Note do %}
-Starting in Bridgetown 1.2, you can use the shorthand `data` method to access resource data in a template. For example: `data.food` instead of `resource.data.food`, `data.slug` instead of `resource.data.slug`, etc. Note that you'll still need to use the `resource` object directly for predefined methods such as `resource.relative_url`, `resource.summary`, and some others.
+You can use the shorthand `data` method to access resource data in a template. For example: `data.food` is the same as `resource.data.food`, `data.slug` is the same as `resource.data.slug`, etc. Note that you'll still need to use the `resource` object directly for predefined methods such as `resource.relative_url`, `resource.summary`, and some others.
 {% end %}
 
 ## Predefined Variables

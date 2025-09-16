@@ -6,7 +6,7 @@ category: customize-your-site
 back_to: configuration
 ---
 
-The "environment" of a Bridgetown site can affect the way certain processes work. Typically your site is run in the `development` environment. When running automated tests it should be run in the `test` environment, and upon deployment it should be run in the `production` environment.
+The "environment" of a Bridgetown site can affect the way certain processes work. Typically your site is run in the `development` environment. When running automated tests it will be run in the `test` environment, and upon deployment it should be run in the `production` environment.
 
 When running CLI commands, you can specify the Bridgetown environment by
 prepending it to your command:
@@ -35,6 +35,13 @@ export BRIDGETOWN_ENV="production"
 
 Suppose you set this conditional statement in your code:
 
+{%@ Documentation::Multilang do %}
+```erb
+<% if Bridgetown.env.production? %>
+  <%= render "analytics" %>
+<% end %>
+```
+===
 {% raw %}
 ```liquid
 {% if bridgetown.environment == "production" %}
@@ -42,41 +49,35 @@ Suppose you set this conditional statement in your code:
 {% endif %}
 ```
 {% endraw %}
+{% end %}
 
 When you build your Bridgetown site, the content inside the `if` statement won't be
 rendered unless you also specify a `production` environment.
 
-{%@ Note do %}
-  If you you're using ERB or another Ruby template language, you can write `Bridgetown.env.development?`, `Bridgetown.env.production?`, and so forth. Refer to the [ERB and Beyond](/docs/template-engines/erb-and-beyond) docs for further details.
-{% end %}
-
 The default value for `BRIDGETOWN_ENV` is `development`. Thus if you omit
 `BRIDGETOWN_ENV` from the build/serve commands, the default value will be
-`BRIDGETOWN_ENV="development"`. Any content inside
-{% raw %}`{% if bridgetown.environment == "development" %}`{% endraw %} tags will
-automatically appear in the build.
+`BRIDGETOWN_ENV="development"`.
 
-Some elements you might want to hide in development environments include comment forms or analytics. Conversely, you might want to expose an "Edit me in GitHub" button in a development or staging environment but not include it in production environments.
+Some elements you might want to hide in development environments include comment forms or analytics. Conversely, you might want to expose an "Edit This Page" button in a development or staging environment but not include it in production environments.
 
-## Environment-specific Configurations
+## Defining Environments
 
-In your `bridgetown.config.yml` config file, as well as the
-`src/_data/site_metadata.yml` metadata file, you can add a block of YAML options
-per environment. For example, given the following metadata:
+The Legacy YAML format defines environments as key/value pairs, config/initializers.rb uses the environment as a condition for applying settings.
 
-```yaml
-# src/_data/site_metadata.yml
+{%@ Documentation::Multilang do %}
+```ruby
+# config/initializers.rb
 
-title: My Website
+if Bridgetown.env.development?
+  unpublished true
+  future true
+elsif Bridgetown.env.staging?
+  unpublished true
+end
 
-development:
-  title: My (DEV) Website
 ```
-
-Your site title would be "My Website" if built with a `production` environment,
-and "My (DEV) Website" if built with a `development` environment. You can specify any
-number of environment blocks that you wish. For example:
-
+===
+{% raw %}
 ```yaml
 # bridgetown.config.yml
 
@@ -87,13 +88,32 @@ development:
 staging:
   unpublished: true
 ```
+{% endraw %}
+{% end %}
 
 The `development` environment will build documents that are marked as unpublished as
-well as having a future date, whereas the `staging` environment will only
+well as having a future date, the `staging` environment will only
 build unpublished. And the `production` environment would exclude both sets.
 
-{%@ Note do %}
-  #### Top Tip: Accessing the Environment in Your Ruby Code and Plugins
+## Environment Specific Metadata
 
-  Anywhere in Ruby code you write, you can check the current environment via `Bridgetown.environment`. You might decide to perform certain tests or verify data or perform some kind of operation in a `development` or `test` environment that you'd leave out in a `production` environment (or visa-versa).
+In your `src/_data/site_metadata.yml`, you can add a block of YAML options
+per environment. For example, given the following metadata:
+
+```yaml
+# src/_data/site_metadata.ymlTITLE
+
+title: My Website
+
+development:
+  title: My (DEV) Website
+```
+
+Your site title would be "My Website" if built with a `production` environment,
+and "My (DEV) Website" if built with a `development` environment. If you define your environments in the Legacy YAML config, you can also set per environment metadata values there. It is recommended to set metadata values in site_metadata.yml and Bridgetown values in initializers.
+
+{%@ Note do %}
+  #### Accessing the Environment in Your Ruby Code and Plugins
+
+  Anywhere in Ruby code you write, you can check the current environment via `Bridgetown.environment` (`env` for short). You might decide to perform certain tests or verify data or perform some kind of operation in a `development` or `test` environment that you'd leave out in a `production` environment (or visa-versa).
 {% end %}

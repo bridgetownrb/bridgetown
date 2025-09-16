@@ -1,13 +1,10 @@
 services:
   - type: web
     name: <%= @render_service_name %>
-    env: static
+    runtime: static
     buildCommand: bin/bridgetown deploy
     staticPublishPath: ./output
     pullRequestPreviewsEnabled: true
-    envVars:
-      - key: BRIDGETOWN_ENV
-        value: production
     headers:
       - path: /*
         name: X-Frame-Options
@@ -27,3 +24,42 @@ services:
       - path: /*
         name: Cache-Control
         value: "public, max-age=86400, s-max-age=86400"
+    envVars:
+      - key: BRIDGETOWN_ENV
+        value: production
+###########
+# Uncomment and modify the following for hybrid deployments, database support, etc.
+#   Use the `routes` rewrite feature to "poke holes" through your static CDN to specific
+#   route handlers in your Roda server application.
+###########
+#
+#       - key: DATABASE_URL
+#         fromDatabase:
+#           name: <%= @render_service_name %>_proddb
+#           property: connectionString
+#       - fromGroup: <%= @render_service_name %>-prod-envs
+#     routes:
+#       - type: rewrite
+#         source: /account/*
+#         destination: https://<%= @render_service_name %>-api.onrender.com/account/*
+#       - type: rewrite
+#         source: /auth/*
+#         destination: https://<%= @render_service_name %>-api.onrender.com/auth/*
+#   - type: web
+#     name: <%= @render_service_name %>-api
+#     plan: standard
+#     runtime: ruby
+#     buildCommand: bundle install && npm install && bin/bridgetown frontend:build
+#     startCommand: bin/bridgetown start
+#     envVars:
+#       - key: BRIDGETOWN_ENV
+#         value: production
+#       - key: DATABASE_URL
+#         fromDatabase:
+#           name: <%= @render_service_name %>_proddb
+#           property: connectionString
+#       - fromGroup: <%= @render_service_name %>-prod-envs
+# databases:
+#   - name: <%= @render_service_name %>_proddb
+#     plan: starter
+#     databaseName: <%= @render_service_name %>_production

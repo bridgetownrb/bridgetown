@@ -14,7 +14,7 @@ render html->{ <<~HTML
   <p>Hello #{text "<u>woRld</u>", -> { downcase | strup }}</p>
   #{ render "a_partial", abc: 123 }
   #{ render "an_erb_partial", abc: 456 }
-  #{ text->{ Bridgetown.refine(self.class).nested_parents }}
+  #{ text->{ refine(self.class).nested_parents }}
   #{ html-> do
     if data.title.include?("Ruby")
       render RubyHTMLText.new

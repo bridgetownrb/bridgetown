@@ -6,7 +6,7 @@ author: jared
 category: future
 ---
 
-**TL;DR:** Bridgetown 2.0 is now under active development! We have a new [Community discussion site](https://community.bridgetown.pub), based on Lemmy! Stay tuned for additional announcements coming soon of what’s next for the ecosystem! And now, on with the post…
+**TL;DR:** Bridgetown 2.0 is now under active development! Stay tuned for additional announcements coming soon of what’s next for the ecosystem! And now, on with the post…
 
 ----
 
@@ -65,13 +65,7 @@ But, y’know, I gave myself lots of time to think and reflect. I chatted a lot 
 
 ### What’s Next for Bridgetown in 2024
 
-This post kicks off a short blog series outlining some of the approach we’re taking to construct the next major release of Bridgetown, version 2.0. But it’s also an announcement: we have a new [Community site](https://community.bridgetown.pub) y’all! 🙌
-
-Part of my general burnout in 2023 was just dealing with the absolute insanity which seems to have taken over the computer industry…not the least of which is the rapid “enshittification” of commercial social networks. It really got me paranoid—not only worrying about which services were actively going sideways (*cough* Reddit *cough*) but which might implode next in the future. Bridgetown has relied heavily on Discord, and to a lesser extent GitHub Discussions, and, well, I’ve been growing increasingly antsy about each.
-
-So rather than wait for more shitty developments and scramble to react to them, I decided to be proactive and set up a new [Bridgetown Community site](https://community.bridgetown.pub), based on Lemmy. This serves as a replacement to GitHub Discussions, and an adjunct to Discord. We’ll still rely on Discord for chit-chat (at least until something can serve as a truly suitable substitute) but look to the Community site for longer forum-style posts, technical conversations, tutorials, and something “bloggy” that’s a bit less formal than posting here on the main blog. There are some interesting tidbits there already, and I look forward to more folks in the Bridgetown ecosystem commenting there going forward!
-
-So let’s wrap up with a brief mention of what we’re announcing today as part of the “Road to Bridgetown 2.0” push. If you read my diatribe above, what I’ll say next probably won’t come as much of a shock.
+This post kicks off a short blog series outlining some of the approach we’re taking to construct the next major release of Bridgetown, version 2.0. Let’s wrap up with a brief mention of what we’re announcing today as part of the “Road to Bridgetown 2.0” push. If you read my diatribe above, what I’ll say next probably won’t come as much of a shock.
 
 **We’ve begun the process of de-37signals-ifying Bridgetown.** (Now there’s a mouthful! 😆)
  
@@ -86,6 +80,3 @@ So that is merely one aspect of the work that’s ongoing as we head towards Bri
 The big takeaway is that I’m feeling more pumped about the future of Bridgetown than I have in many months. Between sorting out feelings of disappointment around past events, and coming up with a list of improvements to the project and the ecosystem I’m very excited to be moving forward on, a new day has dawned. 🌞
 
 **Bridgetown 2.0 represents a sort of clean break**, not just because we can remove deprecated APIs, streamline aspects of the codebase, and improve features in ways that will help make the framework faster and more stable, but because version 0.x represents an experiment, 1.0 represents something stable yet still new, and 2.0 represents _longevity_. Bridgetown is here to stay. We have a full major version bump looming. And we hope you’ll stick around to see what comes next. 🤓
-
-_Want to discuss this post? [Jump over to our Community site and add your comment](https://community.bridgetown.pub/post/11)_ 🔗
-{: style="text-align:center; margin-block-start: 1.5lh"}

@@ -45,6 +45,8 @@ module Kramdown
     end
 
     def initialize(source, options = {}) # rubocop:disable Lint/MissingSuper
+      # NOTE: keep `options = {}` instead of the newer `**options` for Kramdown compatibility
+
       BridgetownDocument.setup(options)
 
       @options = BridgetownDocument.options

@@ -6,7 +6,7 @@ top_section: Designing Your Site
 order: 0
 ---
 
-A component is a reusable piece of template logic that can be included in any part of the site, and a full suite of components can comprise what is often called a "design system". You can render Ruby component objects directly in your Ruby-based templates, and you can render components from within other components. This provides the basis for a fully-featured view component architecture for ERB and beyond.
+A component is a reusable piece of template logic that can be included in any part of the site, and a full suite of components can comprise what is often called a "design system". You can render Ruby component objects directly in your Ruby-based templates, and you can render components from within other components. This provides the basis for a fully-featured view component architecture for ERB, Serbea, and beyond.
 
 Ruby components can be combined with front-end component strategies using **web components** or other JavaScript libraries/frameworks.
 
@@ -44,7 +44,7 @@ Bear in mind that Ruby components aren't accessible from Liquid templates. So if
 
 By subclassing `Bridgetown::Component`, you gain [the ability to write a template](/docs/template-engines/erb-and-beyond) in ERB, Serbea, or Streamlined.
 
-For template engines like ERB, add a template file right next to the component's `.rb` file. The template will automatically get rendered by the component (and you won't need to define a `render_in` method yourself). For example, using ERB:
+For template engines like ERB or Serbea, add a "sidecar" template file right next to the component's `.rb` file. The template will automatically get rendered by the component (and you won't need to define a `render_in` method yourself).
 
 ```ruby
 # src/_components/field_component.rb
@@ -55,6 +55,7 @@ class FieldComponent < Bridgetown::Component
 end
 ```
 
+<%= render Documentation::Multilang.new do %>
 ```erb
 <!-- src/_components/field_component.erb -->
 <field-component>
@@ -62,9 +63,7 @@ end
   <input type="<%%= @type %>" name="<%%= @name %>" />
 </field-component>
 ```
-
-Here's the same example using Serbea template syntax:
-
+===
 ```serb
 <!-- src/_components/field_component.serb -->
 <field-component>
@@ -72,20 +71,33 @@ Here's the same example using Serbea template syntax:
   <input type="{{ @type }}" name="{{ @name }}" />
 </field-component>
 ```
+<% end %>
 
 Rendering out the component in a parent template and passing along arguments looks like this:
 
+<%= render Documentation::Multilang.new do %>
 ```erb
 <%%= render FieldComponent.new(type: "email", name: "email_address", label: "Email Address") %>
 
-  output:
+  <!-- output: -->
   <field-component>
     <label>Email Address</label>
     <input type="email" name="email_address" />
   </field-component>
 ```
+===
+```serb
+{%@ FieldComponent type: "email", name: "email_address", label: "Email Address" %}
 
-You can use Ruby's "squiggly heredoc" syntax as a template language with our Streamlined template engine:
+  <!-- output: -->
+  <field-component>
+    <label>Email Address</label>
+    <input type="email" name="email_address" />
+  </field-component>
+```
+<% end %>
+
+Besides sidecar templates, you can use Ruby's "squiggly heredoc" syntax as a template language with our Streamlined template engine:
 
 ```ruby
 class FieldComponent
@@ -133,7 +145,7 @@ Bridgetown components are provided access to a `content` variable which is the o
 
 ### Slotted Content
 
-New in Bridgetown 1.2, you can now provide specific named content from within the calling template to a component. If the `content` variable above could be considered the "default" slot, you'll now learn how to work with named content slots.
+You can provide specific named content from within the calling template to a component. If the `content` variable above could be considered the "default" slot, you'll now learn how to work with named content slots.
 
 Here's an example of supplying and rendering an image within a card.
 
@@ -207,6 +219,7 @@ end
 
 As expected, helpers are available as well exactly like in standard templates:
 
+<%= render Documentation::Multilang.new do %>
 ```erb
 <!-- src/_components/posts/excerpt.erb -->
 <post-excerpt>
@@ -215,6 +228,16 @@ As expected, helpers are available as well exactly like in standard templates:
   <%%= markdownify @post.data.description %>
 </post-excerpt>
 ```
+===
+```serb
+<!-- src/_components/posts/excerpt.serb -->
+<post-excerpt>
+  <h3>{{ @post.data.title | link_to: @post }}</h3>
+
+  {{ @post.data.description | markdownify }}
+</post-excerpt>
+```
+<% end %>
 
 While components are intended to be encapsulated, sometimes you want quick access to global data through `site`. In that case, you can set the `@site` instance variable and then the `site` accessor will be available in your component:
 
@@ -243,11 +266,49 @@ In addition to rendering a template for you, `Bridgetown::Component` provides a 
 
 Some of the components you write will comprise more than pure markup. You may want to affect the styling and behavior of a component as well. For a conceptual overview of this architecture, [read our Components introduction](/docs/components#the-subtle-interplay-of-html-css--javascript).
 
-The easiest way to write frontend component code using "vanilla" web APIs is to wrap your component in a custom element. You can then apply CSS directly to that component from a stylesheet, and even add interactivity via JavaScript.
+The easiest way to write frontend component code using "vanilla" web APIs is to wrap your component in a custom element. You can then apply CSS directly to that component from a stylesheet, and even add interactivity via JavaScript. Here's a "trifecta" example (all the files would live in the same folder as the Ruby component):
 
-==TODO: add HTML/CSS/JS example here==
+```html
+<!-- output from your component template aka `alert.html.erb` -->
+<ui-alert variant="warning">
+  <p>This message will self-destruct in five seconds. Good luck!</p>
+</ui-alert>
+```
 
-For another spin on this, check out our [Lit Components](/docs/components/lit) documentation. You can also read up on how Bridgetown's [frontend build pipeline works](/docs/frontend-assets).
+```css
+/* alert.css */
+ui-alert {
+  --alert-background: lightgray;
+  --alert-color: darkslategray;
 
+  display: block;
+  padding: 1rem;
+  color: var(--alert-color);
+  background: var(--alert-background);
+  border: 2px solid color-mix(in srgb, var(--alert-background), black 25%);
+  border-radius: .5rem;
 
+  &[variant="warning"] {
+    --alert-background: lemonchiffon;
+    --alert-color: saddlebrown;
+  }
+}
+```
 
+```js
+// alert.js
+class AlertElement extends HTMLElement {
+  static {
+    customElements.define("ui-alert", this)
+  }
+
+  connectedCallback() {
+    // remove in five seconds…
+    setTimeout(() => this.remove(), 5000)
+  }
+}
+```
+
+Bear in mind when you write your component-scoped CSS, err on the side of using [child combinators](https://developer.mozilla.org/en-US/docs/Web/CSS/Child_combinator) for nested elements so you don't accidentally overwrite element styles within other components. Alternatively, you can use [shadow DOM](/docs/content/dsd#components-with-sidecar-css) for fully-encapsulated HTML/CSS/JS within a component template!
+
+For another spin on this concept, check out our [Lit Components](/docs/components/lit) documentation. You can also read up on how Bridgetown's [frontend build pipeline works](/docs/frontend-assets).

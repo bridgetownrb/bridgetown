@@ -55,10 +55,7 @@ class Bridgetown::Signals < Signalize::Struct
     return nil if value.empty? && block.nil?
 
     key = key.to_s
-    if key.end_with?("=")
-      key.chop!
-      return self[key] = value[0]
-    end
+    return self[key.chop] = value[0] if key.end_with?("=")
 
     super(key.to_sym)
   end

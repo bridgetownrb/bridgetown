@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Bridgetown.configure do |config|
+  require "securerandom"
+  ENV["RODA_SECRET_KEY"] = SecureRandom.hex(64)
   require "bridgetown-routes"
   init :"bridgetown-routes", require_gem: false, additional_source_paths:
     File.expand_path("alt_routes", "#{root_dir}/..")
@@ -11,5 +13,5 @@ Bridgetown.configure do |config|
 
   init :adding, require_gem: false
 
-  # puts Bridgetown.refine(Bridgetown.env.to_sym).within?([:test, :production]) # => true
+  # puts refine(Bridgetown.env.to_sym).within?([:test, :production]) # => true
 end

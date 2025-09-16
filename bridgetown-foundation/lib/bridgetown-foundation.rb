@@ -7,7 +7,7 @@ require "zeitwerk"
 require "delegate"
 
 module Bridgetown::Foundation
-  # This is loosly based on the `deprecate` method in `Gem::Deprecate`
+  # This is loosely based on the `deprecate` method in `Gem::Deprecate`
   #
   # @param target [Object]
   # @param name [Symbol] e.g. `:howdy`
@@ -32,6 +32,14 @@ end
 # refinement which lives inside `Bridgetown::Foundation::RefineExt`.
 module Bridgetown::Refinements
   include HashWithDotAccess::Refinements
+
+  # Include this mixin to access `helper` method which delegates to `Bridgetown.refine`
+  #
+  # @param *obj [Object]
+  # @return [Bridgetown::WrappedObjectWithRefinements]
+  module Helper
+    def refine(*obj) = Bridgetown.refine(*obj)
+  end
 end
 
 Zeitwerk.with_loader do |l|
@@ -45,10 +53,7 @@ module Bridgetown
   # Any method call sent will be passed along to the wrapped object with refinements activated
   class WrappedObjectWithRefinements < SimpleDelegator
     using Bridgetown::Refinements
-
-    # rubocop:disable Style/MissingRespondToMissing
-    def method_missing(method, ...) = __getobj__.send(method, ...)
-    # rubocop:enable Style/MissingRespondToMissing
+    def method_missing(...) = __getobj__.send(...) # rubocop:disable Style
   end
 
   # Call this method to wrap any object(s) in order to use Foundation's refinements

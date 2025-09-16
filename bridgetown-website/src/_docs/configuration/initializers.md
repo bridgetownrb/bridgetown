@@ -145,7 +145,7 @@ Bridgetown.initializer :stripe do |api_key:|
 end
 ```
 
-Then when you call `init :stripe, api_key: ENV["STRIPE_API_KEY"]`, code to the effect of `require "stripe"` will get called automatically and the initializer will get passed the value of `api_key`.
+Then when you call `init :stripe, api_key: ENV["STRIPE_API_KEY"]`, code to the effect of `require "stripe"` will get called automatically and the initializer will get passed the value of `api_key`. (You can disable automatic requiring by adding `require_gem: false` to the `init` call.)
 
 Some advanced features provided by initializers will be covered in a later section.
 
@@ -189,6 +189,32 @@ only :server do
 end
 
 puts my_val # => 123 for most contexts, 456 for the server context
+```
+
+### Adding hooks
+
+It's generally recommended to [add hooks using a Builder](/docs/plugins/hooks), but in case you need to tap into a particular hook before builders have been initialized, you can use a `hook` call within the configuration file directly:
+
+```ruby
+hook :site, :after_init do |site|
+  # do something with the site var
+end
+```
+
+You also have the option of using the more verbose `Bridgetown::Hooks.register_one` code within an specific initializer file within `config` or in a gem:
+
+```ruby
+# config/initializers.rb
+init :redact_string, require_gem: false do
+  bad_string "Super Secret Spy"
+end
+
+# config/redact_string.rb
+Bridgetown.initializer :redact_string do |bad_string:|
+  Bridgetown::Hooks.register_one :resources, :post_read do |resource|
+    resource.content = resource.content.gsub(bad_string, "[REDACTED]")
+  end
+end
 ```
 
 ### Adding `roda` blocks
@@ -296,4 +322,4 @@ Because of how Roda works via its dynamic routing tree, there's no straightforwa
 
 However, Roda provides a convention which lets you add code comments next to your routing blocks. These comments are then converted to a JSON file containing route information which can then be printed out with a single command.
 
-TBC…
+==TODO: docs needed==
