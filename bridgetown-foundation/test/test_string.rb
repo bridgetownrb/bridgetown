@@ -19,6 +19,7 @@ class TestString < Bridgetown::Foundation::Test
     end
     assert_equal "  indent me!", str_output
     assert_includes output, "multiple arguments aren't supported by `indent!' in Bridgetown"
+    refute_nil "".indent(2)
   end
 
   it "is questionable" do

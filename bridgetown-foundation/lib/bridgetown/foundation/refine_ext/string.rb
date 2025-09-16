@@ -9,7 +9,10 @@ module Bridgetown::Foundation
             Kernel.warn "multiple arguments aren't supported by `indent!' in Bridgetown", uplevel: 1
           end
 
-          gsub! %r!^(?\!$)!, " " * indent_by
+          # this seems odd, but gsub! can return nil if there's not a match, so
+          # instead we'll return the string unchanged rather than cause a
+          # nil bug
+          gsub!(%r!^(?\!$)!, " " * indent_by) || self
         end
 
         def indent(indent_by, *args)
