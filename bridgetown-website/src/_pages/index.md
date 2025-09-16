@@ -17,7 +17,7 @@ page_class: homepage
 ## Static Sites? Fullstack Applications? Both? Yes, Yes, and Yes.
 {:style="color:var(--color-brick);"}
 
-You can truly have it all. Built for an **HTML-first**, "vanilla" web paradigm on the foundational tech of **Ruby**, **Roda**, and **esbuild**, **Bridgetown**&nbsp;puts&nbsp;power back in the hands of individuals to create extraordinary things.
+You can truly have it all. Built for an **HTML-first**, "vanilla" web paradigm on the foundational tech of **Ruby**, **Roda**, and **esbuild**, **Bridgetown** puts power back in the hands of individuals to create extraordinary things.
 
 While your competitors are wrestling with complicated build tools, limited programming idioms, and mountains of boilerplate, **you’re out changing the world**.
 {:style="margin-left:auto; margin-right:auto; max-width:43em"}
