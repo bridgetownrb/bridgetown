@@ -18,7 +18,7 @@ gem "bridgetown", "~> 2.0"
 gem "bridgetown-routes", "~> 2.0" # if applicable
 ```
 
-and running `bundle update`. [More upgrade details here](https://edge.bridgetownrb.com/docs/installation/upgrade), including switching from Yarn to NPM and from CommonJS to ESM for a modern, streamlined frontend build system. If you run into any issues, [hop in our Discord chat](https://discord.gg/4E6hktQGz4) and let us know how we can help you!
+and running `bundle update`. [More upgrade details here](/docs/installation/upgrade), including switching from Yarn to NPM and from CommonJS to ESM for a modern, streamlined frontend build system. If you run into any issues, [hop in our Discord chat](https://discord.gg/4E6hktQGz4) and let us know how we can help you!
 
 {%@ Note do %}
 **A huge thank you to our many contributors!** 🎉 ayushn21, KonnorRogers, michaelherold, erickguan, MaxLap, jeremyevans, brainbuz, akarzim, surrim, mlitwiniuk, jaredcwhite, and everyone who submitted bug reports and feedback. We couldn't have done this without you!
@@ -100,6 +100,6 @@ We don't feel comfortable with the idea of relocating the **Bridgetown monorepo*
 
 ### Et Cetera and So Forth
 
-([There's much more in the release notes](https://github.com/bridgetownrb/bridgetown/releases/tag/v2.0.0)) showing a large number of bug fixes and refactors for performance and DX, and while software is of course never "done", we are **extremely proud** of the Bridgetown 2.0 release and consider its full feature set to be the culmination of several years of effort. It's likely we'll continue to chip away at the margins of smaller fixes and enhancements for a long while yet in the v2 era, but the bottom line is that **Bridgetown is a mature and stable foundation** on which to build the next generation of static sites and modest web applications, always with HTML-first and "vanilla web" principles in mind.
+[There's much more in the release notes](https://github.com/bridgetownrb/bridgetown/releases/tag/v2.0.0) showing a large number of bug fixes and refactors for performance and DX, and while software is of course never "done", we are **extremely proud** of the Bridgetown 2.0 release and consider its full feature set to be the culmination of several years of effort. It's likely we'll continue to chip away at the margins of smaller fixes and enhancements for a long while yet in the v2 era, but the bottom line is that **Bridgetown is a mature and stable foundation** on which to build the next generation of static sites and modest web applications, always with HTML-first and "vanilla web" principles in mind.
 
 If you run into any issues trying out Bridgetown 2.0, [please hop into our community channels](/community) and let us know how we can help. We welcome your feedback and ideas! In addition, you can [follow us now on Bluesky](https://bsky.app/profile/bridgetownrb.com) as well as [in the fediverse](https://ruby.social/@bridgetown) to stay current on the latest news.
