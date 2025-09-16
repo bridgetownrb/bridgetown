@@ -141,10 +141,6 @@ Now when you view the page, your island element will appear with the styled colo
 
 What's great about this approach is (a) only this element is affected by your stylesheet and nothing else on your page, and (b) these styles aren't loaded _until_ the page containing your island is viewed, keeping your main CSS bundle size low. For more general information on how to use and style your HTML templates and components using shadow DOM, check out our [documentation on DSD](/docs/content/dsd).
 
-{%@ Note do %}
-The `<is-land>` web component automatically polyfills DSD, which is an added benefit of using it. Otherwise, the Turbo bundled configuration also includes a site-wide polyfill for DSD. As of the time of this writing, only some older versions of Safari and Firefox do not offer built-in DSD support.
-{% end %}
-
 {%@ Note type: :warning do %}
 Sidecar CSS files processed through the `dsd_style` helper do not get run through PostCSS—aka they must be 100% "vanilla" CSS. Don't be surprised if you try using a feature that's uniquely enabled by your PostCSS config and it's not available within the DSD template.
 {% end %}
