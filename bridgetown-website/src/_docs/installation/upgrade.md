@@ -8,7 +8,7 @@ order: 0
 
 Ready to try bringing your project up to the latest version? Here are some notes to help you get going. BTW, if you have a really old site, you may want to try incrementally upgrading versions rather than, say, go from 1.0 to 2.0 in one session.
 
-We’ve have a [Technical Help board](https://community.bridgetown.pub/c/technicalhelp) on our **Community** site, so if you get totally suck, folks can give you a leg up! (Access to the problematic repo in question is almost always a given in order to troubleshoot, so if your code needs to remain private, please create a failing example we can access on GitHub.) There's also an **upgrade-help** channel in our [Discord chat](https://discord.gg/4E6hktQGz4) (though it's harder to include code examples and links there).
+There's an **upgrade-help** channel in our [Discord chat](https://discord.gg/4E6hktQGz4). It can be hard to include code examples there, so access to the problematic repo in question is almost always a given in order to troubleshoot. If your code needs to remain private, please create a failing example we can access.
 
 {{ toc }}
 
