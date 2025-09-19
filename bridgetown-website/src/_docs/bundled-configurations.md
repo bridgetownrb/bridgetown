@@ -13,7 +13,7 @@ The configurations we include are:
 - [Turbo](#turbo) (`turbo`)
 - [Stimulus](#stimulus) (`stimulus`)
 - [Lit](#lit) (`lit`)
-- [Shoelace](#shoelace) (`shoelace`)
+- [Web Awesome](#web-awesome) (`webawesome`)
 - [Open Props](#open-props) (`open-props`)
 - [Ruby2JS](#ruby2js) (`ruby2js`)
 - [Bridgetown recommended PostCSS plugins](#bridgetown-recommended-postcss-plugins) (`bt-postcss`)
@@ -32,7 +32,7 @@ Bundled configurations can also be run while creating a new Bridgetown project u
 {%@ Note type: :warning do %}
   #### Looking for Tailwind?
 
-  The bundled configuration for TailwindCSS has been [relocated to a separate community-maintained repo](https://github.com/bridgetownrb/tailwindcss-automation). The Bridgetown core team recommends looking into options such as Open Props, Shoelace, and otherwise "vanilla" CSS (perhaps with a bit of help from PostCSS) as a best practice for "Use the Platform", future-compatible frontend development.
+  The bundled configuration for TailwindCSS has been [relocated to a separate community-maintained repo](https://github.com/bridgetownrb/tailwindcss-automation). The Bridgetown core team recommends looking into options such as Open Props, Web Awesome, and otherwise "vanilla" CSS (perhaps with a bit of help from PostCSS) as a best practice for "Use the Platform", future-compatible frontend development.
 {% end %}
 
 ## Configuration Setup Details
@@ -75,18 +75,18 @@ bin/bridgetown configure lit
 
 Read our full [Lit Components documentation here](/docs/components/lit).
 
-### Shoelace
+### Web Awesome
 
-👟 Installs [Shoelace](https://shoelace.style) for an instant design system and UI component library at your fingertips. Use CSS variables and shadow parts to customize the look and feel of Shoelace components in any way you like. This very website uses Shoelace for example.
+👑 Installs [Web Awesome](https://webawesome.com) for an instant design system and UI component library at your fingertips. Use CSS variables and shadow parts to customize the look and feel of Web Awesome components in any way you like. This very website uses Web Awesome for example.
 
-Individual components can be imported by adding the `import` statement to the `./frontend/javascript/index.js` file. Refer to Shoelace documentation Importing section for each individual component, and copy the `import` statement under the Bundler tab.
+Individual components can be imported by adding the `import` statement to the `./frontend/javascript/index.js` file. Refer to Web Awesome documentation Importing section for each individual component, and copy the `import` statement under the "npm" tab.
 
-Read more at [Frontend Bundling (CSS/JS/etc.)](/docs/frontend-assets#javascript). 
+Read more at [Frontend Bundling (CSS/JS/etc.)](/docs/frontend-assets#javascript).
 
 🛠 **Configure using:**
 
 ```sh
-bin/bridgetown configure shoelace
+bin/bridgetown configure webawesome
 ```
 
 ### Open Props
