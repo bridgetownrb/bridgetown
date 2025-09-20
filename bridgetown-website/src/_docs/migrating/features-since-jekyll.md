@@ -32,7 +32,7 @@ Here's a rundown of some **40 features** Bridgetown has implemented since the fo
 * Support for pagination and prototype (aka archive) pages available out of the box.
 * YAML file-based front matter defaults with folder cascades.
 * Rapid installation of Hotwire (Turbo, Stimulus).
-* Bundled configurations for popular libraries & tools such as Lit, Shoelace, and Open Props.
+* Bundled configurations for popular libraries & tools such as Lit, Web Awesome, and Open Props.
 * Easy website testing setup w/Minitest or Cypress.
 * Auto-reloadable local plugins via Zeitwerk.
 * Thor-based CLI tools with straightfoward extensibility.
