@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+- Move bundled configuration from Shoelace to Web Awesome [#1018](https://github.com/bridgetownrb/bridgetown/pull/1018) ([@fpsvogel](https://github.com/fpsvogel))
+
 ## [2.0.0] (stable release) - 2025-09-16
 
 - Fix routing order dependency in bridgetown_server [#1007](https://github.com/bridgetownrb/bridgetown/pull/1007) ([@michaelherold](https://github.com/michaelherold))
