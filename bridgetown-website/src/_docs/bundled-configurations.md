@@ -24,6 +24,8 @@ The configurations we include are:
 - [GitHub Pages Configuration](#github-pages-configuration) (`gh-pages`)
 - [Automated Test Suite using Minitest](#automated-test-suite-using-minitest) (`minitesting`)
 - [Cypress](#cypress) (`cypress`)
+- [SEO](#seo) (`seo`)
+- [Feed (RSS-like)](#feed) (`feed`)
 
 The full list of configurations can also be seen by running `bridgetown configure` without arguments.
 
@@ -201,4 +203,24 @@ bin/bridgetown configure minitesting
 
 ```sh
 bin/bridgetown configure cypress
+```
+
+### SEO
+
+🔍 Adds metadata tags for search engines and social networks to better index and display your site's content. Check out the [gem readme](https://github.com/bridgetownrb/bridgetown-seo-tag#summary) for more info and configuration options.
+
+🛠 **Configure using:**
+
+```sh
+bin/bridgetown configure seo
+```
+
+### Feed
+
+🍽️ Generate an Atom (RSS-like) feed of your Bridgetown posts and other collection documents. Check out the [gem readme](https://github.com/bridgetownrb/bridgetown-feed#usage) for more info and configuration options.
+
+🛠 **Configure using:**
+
+```sh
+bin/bridgetown configure feed
 ```
