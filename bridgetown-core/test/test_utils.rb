@@ -406,7 +406,7 @@ class TestUtils < BridgetownUnitTest
     end
   end
 
-  context "The \`Utils.build_output_tag_for_template_extname\` method" do
+  context "The `Utils.build_output_tag_for_template_extname` method" do
     setup do
       Utils::TEMPLATE_EXTNAMES_TAGS = {
         ".liquid" => ["{%", "%}"],
