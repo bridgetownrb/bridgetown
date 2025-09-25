@@ -17,16 +17,16 @@ For documentation on how to use Ruby or Liquid syntax in Bridgetown content and 
 
 <p style="margin-top:2em; display:flex; gap:1em; justify-content:center">
   <a href="/docs/template-engines/erb-and-beyond">
-    <sl-button variant="primary" outline>
+    <wa-button variant="brand" appearance="outlined">
       ERB, Serbea, & More
-      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
-    </sl-button>
+      <wa-icon slot="end" library="remixicon" name="arrows/arrow-right-s-fill"></wa-icon>
+    </wa-button>
   </a>
   <a href="/docs/template-engines/liquid">
-    <sl-button variant="primary" outline>
+    <wa-button variant="brand" appearance="outlined">
       Liquid
-      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
-    </sl-button>
+      <wa-icon slot="end" library="remixicon" name="arrows/arrow-right-s-fill"></wa-icon>
+    </wa-button>
   </a>
 </p>
 

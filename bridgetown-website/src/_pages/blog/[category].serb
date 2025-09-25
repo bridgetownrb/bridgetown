@@ -7,16 +7,16 @@ prototype:
 ---
 
 {% data.breadcrumbs_for_layout = capture do %}
-  <sl-breadcrumb style="display:block; margin-bottom:2.1em">
-    <sl-icon library="remixicon" name="arrows/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></sl-icon>
+  <wa-breadcrumb style="display:block; margin-bottom:2.1em">
+    <wa-icon library="remixicon" name="arrows/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></wa-icon>
 
-    <sl-breadcrumb-item href="/blog">Blog</sl-breadcrumb-item>
-    <sl-breadcrumb-item></sl-breadcrumb-item>
-  </sl-breadcrumb>
+    <wa-breadcrumb-item href="/blog">Blog</wa-breadcrumb-item>
+    <wa-breadcrumb-item></wa-breadcrumb-item>
+  </wa-breadcrumb>
 {% end %}
 
 <p class="heading-icon">
-  <sl-icon library="remixicon" name="document/article-fill"></sl-icon>
+  <wa-icon library="remixicon" name="document/article-fill"></wa-icon>
 </p>
 
 <ul class="info-grid highlighted-cards" style="margin-top:2rem !important">
@@ -27,16 +27,16 @@ prototype:
 
 <p style="text-align:right; margin-top:4rem; display:flex; gap:1em; justify-content:space-around">
   {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path }}"><sl-button variant="primary" size="small" outline>
+    <a href="{{ paginator.previous_page_path }}"><wa-button variant="brand" size="small" appearance="outlined">
       Previous Page
-      <sl-icon slot="prefix" library="remixicon" name="arrows/arrow-left-s-fill"></sl-icon>
-    </sl-button></a>
+      <wa-icon slot="start" library="remixicon" name="arrows/arrow-left-s-fill"></wa-icon>
+    </wa-button></a>
   {% end %}
   {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path }}"><sl-button variant="primary" size="small" outline>
+    <a href="{{ paginator.next_page_path }}"><wa-button variant="brand" size="small" appearance="outlined">
       Next Page
-      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
-    </sl-button></a>
+      <wa-icon slot="end" library="remixicon" name="arrows/arrow-right-s-fill"></wa-icon>
+    </wa-button></a>
   {% end %}
 </p>
 

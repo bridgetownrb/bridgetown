@@ -35,13 +35,13 @@ table.settings {
 
   & th,
   & td {
-    border: 1px solid var(--sl-color-neutral-200);
+    border: 1px solid var(--wa-color-neutral-80);
     border-width: 0 0 1px;
     padding: 0.7em 0.75em;
     vertical-align: top;
 
     &:first-child {
-      background: var(--sl-color-neutral-50);
+      background: var(--wa-color-neutral-50);
     }
 
     & p:last-of-type {

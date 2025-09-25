@@ -19,27 +19,36 @@ class ThemePicker < HTMLElement
 
   def build_template(option_name)
     <<~COMPONENT
-      <sl-dropdown>
-        <sl-button slot="trigger" caret size="small" outline>
-          <sl-icon id="dropdown-button-icon" name="#{options_icons[option_name]}" label="Choose color theme"></sl-icon>
-        </sl-button>
+      <style>
+        :host {
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          z-index: 30;
+        }
+        wa-button::part(base) {
+          width: auto; /* fix that's fixed in next Web Awesome release */
+        }
+      </style>
+      <wa-dropdown>
+        <wa-button variant="brand" appearance="outlined" size="small" slot="trigger" with-caret>
+          <wa-icon id="dropdown-button-icon" name="#{options_icons[option_name]}" label="Choose color theme"></wa-icon>
+        </wa-button>
 
-        <sl-menu>
-          #{
-            Object.entries(options_icons).map do |entry|
-              option, icon = entry
+        #{
+          Object.entries(options_icons).map do |entry|
+            option, icon = entry
 
-              <<~MENU_ITEM
-                #{option == DEFAULT ? "<sl-divider></sl-divider>" : ""}
-                <sl-menu-item #{"checked" if option_name == option} value="#{option}">
-                  #{option}
-                  <sl-icon slot="prefix" name="#{icon}"></sl-icon>
-                </sl-menu-item>
-              MENU_ITEM
-            end.join("")
-          }
-        </sl-menu>
-      </sl-dropdown>
+            <<~MENU_ITEM
+              #{option == DEFAULT ? "<wa-divider></wa-divider>" : ""}
+              <wa-dropdown-item #{"checked" if option_name == option} value="#{option}">
+                #{option}
+                <wa-icon slot="icon" name="#{icon}"></wa-icon>
+              </wa-dropdown-item>
+            MENU_ITEM
+          end.join("")
+        }
+      </wa-dropdown>
     COMPONENT
   end
 
@@ -60,19 +69,14 @@ class ThemePicker < HTMLElement
 
     @shadow_root = self.attach_shadow({ mode: "open" })
 
-    self.style["position"] = "absolute"
-    self.style["right"] = "10px"
-    self.style["top"] = "10px"
-    self.style["z-index"] = "30"
-
     @shadow_root.innerHTML = build_template(option_name)
     @dropdown_button_icon = @shadow_root.query_selector("#dropdown-button-icon")
 
     on_theme_toggle(option_name)
 
-    dropdown = @shadow_root.query_selector("sl-dropdown")
+    dropdown = @shadow_root.query_selector("wa-dropdown")
 
-    dropdown.add_event_listener("sl-select") do |event|
+    dropdown.add_event_listener("wa-select") do |event|
       option_name = event.detail.item.value
 
       local_storage.set_item(THEME_STORAGE_KEY, option_name)
@@ -82,7 +86,7 @@ class ThemePicker < HTMLElement
   end
 
   def on_theme_toggle(option_name)
-    @shadow_root.query_selector_all("sl-menu-item").each do |menu_item|
+    @shadow_root.query_selector_all("wa-menu-item").each do |menu_item|
       value = menu_item.get_attribute("value")
 
       if value == option_name
@@ -99,11 +103,11 @@ class ThemePicker < HTMLElement
 
   def set_theme_classes(option_name)
     if option_name == DARK || (option_name == DEFAULT && media_prefers_color_scheme_dark)
-      document.document_element.class_list.add("theme-dark", "sl-theme-dark")
+      document.document_element.class_list.add("theme-dark", "wa-theme-dark")
       search_results = document.query_selector("bridgetown-search-results")
       search_results.set_attribute("theme", "dark") if search_results
     else
-      document.document_element.class_list.remove("theme-dark", "sl-theme-dark")
+      document.document_element.class_list.remove("theme-dark", "wa-theme-dark")
       search_results = document.query_selector("bridgetown-search-results")
       search_results.set_attribute("theme", "light") if search_results
     end
