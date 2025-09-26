@@ -1,9 +1,9 @@
-<sl-alert variant="{{ @type }}" open>
-  <sl-icon
+<wa-callout variant="{{ type }}" appearance="outlined filled">
+  <wa-icon
     slot="icon"
     library="remixicon"
     name="{{ icon }}"
     style="font-size:1.25em"
-  ></sl-icon>
+  ></wa-icon>
   {{ content | markdownify }}
-</sl-alert>
+</wa-callout>

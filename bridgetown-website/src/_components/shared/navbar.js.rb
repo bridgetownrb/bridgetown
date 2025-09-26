@@ -1,19 +1,19 @@
 def menu_show(toggler)
-  bar = document.query_selector("body > nav sl-bar")
+  bar = document.query_selector("body > nav bt-bar")
   bar.set_attribute "expanded", true
-  bar.query_selector_all("sl-bar-item[expandable]").each do |item|
+  bar.query_selector_all("bt-bar-item[expandable]").each do |item|
     item.class_list.add "fade-in-always"
   end
-  toggler.query_selector("sl-icon").name = "system/close"
+  toggler.query_selector("wa-icon").name = "system/close"
 end
 
 def menu_hide(toggler)
-  bar = document.query_selector("body > nav sl-bar")
+  bar = document.query_selector("body > nav bt-bar")
   bar.set_attribute "expanded", false
-  bar.query_selector_all("sl-bar-item[expandable]").each do |item|
+  bar.query_selector_all("bt-bar-item[expandable]").each do |item|
     item.class_list.remove "fade-in-always"
   end
-  toggler.query_selector("sl-icon").name = "system/menu"
+  toggler.query_selector("wa-icon").name = "system/menu"
 end
 
 def set_current_nav_item(nav, path)
@@ -34,7 +34,7 @@ document.add_event_listener "turbo:load" do
 
   nav = document.query_selector("body > nav")
 
-  menu_hide nav.query_selector("sl-button[menutoggle]")
+  menu_hide nav.query_selector("wa-button[menutoggle]")
 
   nav.query_selector_all("a").each do |item|
     item.remove_attribute "aria-current"

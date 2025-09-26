@@ -44,10 +44,10 @@
 
       <p>
         <a href="/feed.xml">
-          <sl-button variant="warning" size="small">
-            <sl-icon slot="prefix" library="remixicon" name="device/rss-fill"></sl-icon>
+          <wa-button variant="warning" size="small">
+            <wa-icon slot="start" library="remixicon" name="device/rss-fill"></wa-icon>
             News Feed
-          </sl-button>
+          </wa-button>
         </a>
       </p>
     </layout-column>

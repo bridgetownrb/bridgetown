@@ -23,25 +23,25 @@ There's also a growing number of companies which provide commercial support for 
 ## Say Hello to the Core Team
 
 <avatar-group style="margin:2em 0">
-  <sl-avatar
+  <wa-avatar
     image="https://avatars.githubusercontent.com/u/658496?v=4"
     label="Jared White"
-  ></sl-avatar>
+  ></wa-avatar>
 
-  <sl-avatar
+  <wa-avatar
     image="https://avatars.githubusercontent.com/u/26425882?v=4"
     label="Konnor Rogers"
-  ></sl-avatar>
+  ></wa-avatar>
 
-  <sl-avatar
+  <wa-avatar
     image="https://avatars.githubusercontent.com/u/4924039?v=4"
     label="Ayush Newatia"
-  ></sl-avatar>
+  ></wa-avatar>
 
-  <sl-avatar
+  <wa-avatar
     image="https://avatars.githubusercontent.com/u/4756285?v=4"
     label="Adrian Valenzuela"
-  ></sl-avatar>
+  ></wa-avatar>
 </avatar-group>
 
 [@jaredcwhite](https://github.com/jaredcwhite) &bull;

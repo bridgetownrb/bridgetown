@@ -74,21 +74,21 @@ Ready to dive more into a particular component flavor? Let's go!
 
 <p style="margin-top:2em; display:flex; gap:1em; justify-content:center">
   <a href="/docs/components/ruby">
-    <sl-button variant="primary" outline>
+    <wa-button variant="brand" appearance="outlined">
       Ruby
-      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
-    </sl-button>
+      <wa-icon slot="end" library="remixicon" name="arrows/arrow-right-s-fill"></wa-icon>
+    </wa-button>
   </a>
   <a href="/docs/components/liquid">
-    <sl-button variant="primary" outline>
+    <wa-button variant="brand" appearance="outlined">
       Liquid
-      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
-    </sl-button>
+      <wa-icon slot="end" library="remixicon" name="arrows/arrow-right-s-fill"></wa-icon>
+    </wa-button>
   </a>
   <a href="/docs/components/lit">
-    <sl-button variant="primary" outline>
+    <wa-button variant="brand" appearance="outlined">
       Lit
-      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
-    </sl-button>
+      <wa-icon slot="end" library="remixicon" name="arrows/arrow-right-s-fill"></wa-icon>
+    </wa-button>
   </a>
 </p>

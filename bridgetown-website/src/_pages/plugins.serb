@@ -37,7 +37,7 @@
 
 <ul class="info-grid">
   {% page.data.plugins.each do |plugin| %}
-    <li><sl-card>
+    <li><wa-card>
       <div slot="header">
         <a href="{{ plugin.html_url }}" style="text-decoration-thickness:1px; text-underline-offset: 0.18em">
           <h3>
@@ -51,7 +51,7 @@
       <div slot="footer">
         {% if plugin.gem_version %}
           <ui-label class="tags" style="padding-right:0.5rem">
-            <sl-tag variant="success">v{{ plugin.gem_version }}</sl-tag>
+            <wa-tag variant="success">v{{ plugin.gem_version }}</wa-tag>
           </ui-label>
         {% end %}
 
@@ -60,6 +60,6 @@
           <a href="{{ plugin.owner.html_url }}"rel="noopener">{{ plugin.owner.login }}</a>
         </ul-layout>
       </div>
-    </sl-card></li>
+    </wa-card></li>
   {% end %}
 </ul>

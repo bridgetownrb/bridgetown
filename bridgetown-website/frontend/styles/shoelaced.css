@@ -1,4 +1,4 @@
-sl-avatar {
+wa-avatar {
   --size: 3em;
 }
 
@@ -6,21 +6,21 @@ avatar-group {
   display: block;
   text-align: center;
 
-  & sl-avatar:not(:first-of-type) {
+  & wa-avatar:not(:first-of-type) {
     margin-left: -1.5rem;
   }
 
-  & sl-avatar::part(base) {
-    border: solid 2px var(--sl-color-neutral-0);
+  & wa-avatar::part(base) {
+    border: solid 2px var(--wa-color-neutral-05);
   }
 }
 
-sl-dialog section {
+wa-dialog section {
   padding: 0 !important;
 }
 
-sl-button {
-  & sl-icon {
+wa-button {
+  & wa-icon {
     font-size: 1.2em;
   }
 
@@ -30,10 +30,12 @@ sl-button {
   }
 }
 
-sl-card {
-  &::part(base) {
-    box-shadow: var(--sl-shadow-large);
-    border-top: 5px solid var(--sl-color-primary-500);
+wa-card {
+  box-shadow: var(--wa-shadow-l);
+  border-top: 5px solid var(--wa-color-brand-50);
+
+  &::part(body) {
+    box-shadow: none;
   }
 
   & h3 {
@@ -45,11 +47,11 @@ sl-card {
   }
 }
 
-.highlighted-cards sl-card::part(base) {
+.highlighted-cards wa-card::part(body) {
   border-top-color: var(--color-light-orange);
 }
 
-sl-dialog {
+wa-dialog {
   &::part(panel) {
     @media (max-width: 420px) {
       max-height: 95vh;
@@ -69,32 +71,27 @@ sl-dialog {
   }
 }
 
-sl-spinner {
+wa-spinner {
   font-size: 3rem;
   --indicator-color: var(--color-orange);
   --track-color: #ffc399;
 }
 
-p > a > sl-icon {
+p > a > wa-icon {
   vertical-align: -0.18em;
   margin-left: 0.2em;
   margin-right: 0.2em;
 }
 
-sl-button[pill] sl-icon[slot="prefix"] {
+wa-button[pill] wa-icon[slot="start"] {
   margin-left: 0.2em;
 }
-sl-button[pill] sl-icon[slot="suffix"] {
+wa-button[pill] wa-icon[slot="end"] {
   margin-left: -0.2em;
 }
 
-sl-alert {
-  --sl-font-size-small: 0.92em;
-  --sl-panel-background-color: var(--color-wintermint);
-
-  &[variant="warning"] {
-    --sl-panel-background-color: var(--sl-color-warning-50);
-  }
+wa-callout {
+  --wa-font-size-s: 0.92em;
 
   margin: 2.5em 1em;
 
@@ -108,11 +105,11 @@ sl-alert {
   }
 }
 
-sl-alert + sl-alert {
+wa-callout + wa-callout {
   margin-top: -1em;
 }
 
-sl-breadcrumb-item {
+wa-breadcrumb-item {
   &::part(label) {
     color: var(--color-medium-gray);
   }
@@ -123,26 +120,26 @@ sl-breadcrumb-item {
 
 /* Multi-lang code examples in docs */
 article {
-  & sl-tab-group {
+  & wa-tab-group {
     --track-width: 4px;
     --track-color: transparent;
   }
-  & sl-tab-group::part(body) {
+  & wa-tab-group::part(body) {
     overflow: visible;
   }
-  & sl-tab-group:defined div.highlighter-rouge::before {
+  & wa-tab-group:defined div.highlighter-rouge::before {
     display: none;
   }
-  & sl-tab-group .highlight {
+  & wa-tab-group .highlight {
     margin-block-start: 0;
   }
-  & sl-tab:not(:defined) {
+  & wa-tab:not(:defined) {
     display: none;
   }
-  & sl-tab::part(base) {
+  & wa-tab::part(base) {
     padding: .4rem .7rem;
   }
-  & sl-tab-panel::part(base) {
+  & wa-tab-panel::part(base) {
     padding-block-end: 0;
   }
 }

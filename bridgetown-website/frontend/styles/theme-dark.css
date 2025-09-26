@@ -4,9 +4,14 @@
 
   /* Shoelace implements its dark mode by "flipping" color tokens */
   /* Here we do the same and flip our tokens w.r.t light mode */
-  --sl-color-primary-700: var(--color-light-green);
-  --sl-color-primary-600: var(--color-medium-green);
-  --sl-color-primary-500: var(--color-dark-green);
+  --wa-color-brand-70: var(--color-light-green);
+  --wa-color-brand-60: var(--color-medium-green);
+  --wa-color-brand-50: var(--color-dark-green);
+
+  --wa-color-text-normal: var(--body-color);
+
+  --wa-color-surface-default: var(--wa-color-neutral-10);
+  --wa-color-surface-border: var(--wa-color-neutral-20);
 
   & .main-wave {
     background-color: var(--body-background);
@@ -24,19 +29,21 @@
     }
   }
 
-  & #mobile-menu sl-button::part(base) {
+  & #mobile-menu wa-button::part(base) {
     color: var(--color-light-gray);
   }
 
-  & sl-breadcrumb-item::part(label) {
+  & wa-breadcrumb-item::part(label) {
     color: var(--color-light-gray);
   }
 
-  & sl-alert {
-    --sl-panel-background-color: var(--sl-color-neutral-50);
+  & wa-callout {
+    --wa-color-fill-quiet: var(--wa-color-neutral-10);
+
+    border-top-width: 5px;
   }
 
-  & sl-card [slot="header"] h3 {
+  & wa-card [slot="header"] h3 {
     color: var(--color-orange);
     text-decoration-color: var(--color-brick);
   }
@@ -175,7 +182,7 @@
   }
 
   & .version-text {
-    color: var(--sl-color-neutral-700);
+    color: var(--wa-color-neutral-30);
   }
 
   & bridgetown-search-form input {
@@ -197,13 +204,13 @@
     );
   }
 
-  & sl-button[variant="primary"]::part(base) {
+  & wa-button[variant="brand"]::part(base) {
     color: var(--color-lighter-green);
     border-color: var(--color-lighter-green);
-    background-color: var(--sl-color-primary-500);
+    background-color: var(--wa-color-brand-50);
 
     &:hover {
-      background-color: var(--sl-color-primary-600);
+      background-color: var(--wa-color-brand-40);
     }
   }
 

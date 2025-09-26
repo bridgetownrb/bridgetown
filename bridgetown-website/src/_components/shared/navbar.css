@@ -1,11 +1,11 @@
 body > nav {
   z-index: 1;
   position: relative;
-  margin: var(--sl-spacing-x-large) 0 var(--sl-spacing-large);
+  margin: var(--wa-space-xl) 0 var(--wa-space-l);
   font-weight: 520;
 
   @media (--nav-minimal) {
-    margin: var(--sl-spacing-medium) 0;
+    margin: var(--wa-space-m) 0;
   }
 
   &.edge {
@@ -32,7 +32,7 @@ body > nav {
     }
   }
 
-  & sl-button[menutoggle] {
+  & wa-button[menutoggle] {
     margin-top: -45px;
   }
 
@@ -43,6 +43,7 @@ body > nav {
     font-weight: var(--body-font-weight);
     opacity: 0.5;
   }
+
 }
 
 html:not([loaded]) #nav-bar {

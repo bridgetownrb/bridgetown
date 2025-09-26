@@ -1,4 +1,4 @@
-<sl-card>
+<wa-card>
   <div slot="header">
     <a href="{{ @post.relative_url }}" style="text-decoration:none">
       <h3 class="serif">
@@ -11,16 +11,16 @@
   
   <div slot="footer">
     <ui-label class="tags" style="padding-right:0.5rem">
-      <sl-tag variant="success" size="small" pill>{{ @post.data.category | titleize }}</sl-tag>
+      <wa-tag variant="success" size="small" pill>{{ @post.data.category | titleize }}</wa-tag>
 
-      <sl-tag variant="warning" size="small" pill>{{ @post.date | strftime: "%-m/%-d/%y" }}</sl-tag>
+      <wa-tag variant="warning" size="small" pill>{{ @post.date | strftime: "%-m/%-d/%y" }}</wa-tag>
     </ui-label>
 
     <a href="{{ @post.relative_url }}">
-      <sl-button variant="primary">
-        <sl-icon slot="prefix" library="remixicon" name="document/article-fill"></sl-icon>
+      <wa-button variant="brand">
+        <wa-icon slot="start" library="remixicon" name="document/article-fill"></wa-icon>
         Read…
-      </sl-button>
+      </wa-button>
     </a>
   </div>
-</sl-card>
+</wa-card>

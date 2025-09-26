@@ -36,7 +36,7 @@
 
   --color-code-background: var(--color-lightest-orange);
 
-  --sl-font-sans: RedHatText, -apple-system, BlinkMacSystemFont, "Segoe UI",
+  --wa-font-sans: RedHatText, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol";
   --display-sans: RedHatDisplay, -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -47,13 +47,23 @@
   --body-font-weight: 425;
   --body-line-height: 1.5;
 
-  --sl-border-radius-medium: 0.35rem;
+  --wa-border-radius-medium: 0.35rem;
 
-  --sl-color-primary-700: var(--color-dark-green);
-  --sl-color-primary-600: var(--color-medium-green);
-  --sl-color-primary-500: var(--color-light-green);
+  --wa-color-brand-40: var(--color-dark-green);
+  --wa-color-brand-50: var(--color-medium-green);
+  --wa-color-brand-60: var(--color-light-green);
 
-  --sl-font-weight-normal: var(--body-font-weight);
+  --wa-color-brand-on-quiet: var(--wa-color-brand-50);
+  --wa-color-brand-border-loud: var(--wa-color-brand-50);
+  --wa-color-brand-fill-quiet: var(--color-wintermint);
+  --wa-color-success-fill-quiet: var(--color-wintermint);
+  --wa-color-success-on-quiet: var(--color-medium-green);
+  --wa-color-warning-fill-quiet: var(--wa-color-warning-95);
+  --wa-color-warning-on-quiet: var(--wa-color-warning-40);
+
+  --wa-font-weight-normal: var(--body-font-weight);
+
+  --wa-font-size-s: 0.75rem;
 
   --spacing-gigantic: 12rem;
   --max-content-width: 80rem;
@@ -63,7 +73,7 @@
   --h3-font-size: 1.6em;
   --h4-font-size: 1.3em;
 
-  @media (--sl-breakpoint-xs) {
+  @media (--wa-breakpoint-xs) {
     --body-size: 115%;
   }
 }
@@ -141,7 +151,7 @@ body {
   padding: 0;
   background: var(--body-background);
   color: var(--body-color);
-  font-family: var(--sl-font-sans);
+  font-family: var(--wa-font-sans);
   font-weight: var(--body-font-weight);
   line-height: var(--body-line-height);
 }
@@ -155,7 +165,7 @@ h5 {
   font-weight: 900;
   letter-spacing: -0.01em;
   margin-top: 0;
-  color: var(--color-medium-gray); /* var(--sl-color-neutral-600);*/
+  color: var(--color-medium-gray); /* var(--wa-color-neutral-60);*/
   outline: none;
   word-break: break-word;
 
@@ -184,7 +194,7 @@ h2 {
     font-size: calc(var(--h2-font-size) + 0.2em);
   }
 
-  @media (--sl-breakpoint-xs) {
+  @media (--wa-breakpoint-xs) {
     position: relative;
     overflow: hidden;
   }
@@ -252,12 +262,12 @@ abbr[title] {
 
 nav,
 body > footer {
-  padding-left: var(--sl-spacing-small);
-  padding-right: var(--sl-spacing-small);
+  padding-left: var(--wa-space-s);
+  padding-right: var(--wa-space-s);
 }
 
 svg-wrapper,
-nav sl-icon {
+nav wa-icon {
   transform: translate(0, 0); /* fix a Safari display bug with transitions */
 }
 svg-wrapper,
@@ -317,13 +327,13 @@ section {
 
   & ul,
   & ol {
-    margin-left: var(--sl-spacing-x-large);
+    margin-left: var(--wa-space-xl);
     margin-right: 0;
     padding-left: 0;
     padding-right: 0;
 
     & > li {
-      margin: 0 0 var(--sl-spacing-small);
+      margin: 0 0 var(--wa-space-s);
 
       &:last-of-type {
         margin-bottom: 0;
@@ -385,9 +395,9 @@ footer {
     }
   }
 
-  & sl-button[size="small"] {
-    --sl-button-font-size-small: 0.8em;
-    --sl-input-height-small: calc(1.5em + 15px);
+  & wa-button[size="small"] {
+    --wa-font-size-s: 0.8em;
+    --wa-input-height-small: calc(1.5em + 15px);
   }
 }
 
@@ -407,7 +417,7 @@ p.heading-icon {
   text-align: center;
   font-size: 250%;
   margin-bottom: 0;
-  color: var(--sl-color-neutral-400);
+  color: var(--wa-color-neutral-60);
 }
 
 section-wrapper[invert] p.heading-icon {
@@ -428,7 +438,7 @@ svg.logo .letter {
 }
 
 .version-text {
-  color: var(--sl-color-neutral-300);
+  color: var(--wa-color-neutral-70);
 }
 
 skip-to-main-content-bar {

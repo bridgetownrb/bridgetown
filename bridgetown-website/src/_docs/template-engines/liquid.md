@@ -19,15 +19,15 @@ In addition to Liquid's standard suite of filters and tags, Bridgetown provides 
 
 <p style="margin-top:2em; display:flex; gap:1em; justify-content:center">
   <a href="/docs/liquid/filters">
-    <sl-button variant="primary" outline>
+    <wa-button variant="brand" appearance="outlined">
       Filters List
-      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
-    </sl-button>
+      <wa-icon slot="end" library="remixicon" name="arrows/arrow-right-s-fill"></wa-icon>
+    </wa-button>
   </a>
   <a href="/docs/liquid/tags">
-    <sl-button variant="primary" outline>
+    <wa-button variant="brand" appearance="outlined">
       Tags List
-      <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
-    </sl-button>
+      <wa-icon slot="end" library="remixicon" name="arrows/arrow-right-s-fill"></wa-icon>
+    </wa-button>
   </a>
 </p>
