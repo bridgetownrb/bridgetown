@@ -120,7 +120,7 @@ article-author {
     width: 100%;
     text-align: center;
 
-    &::part(base) {
+    &::part(body) {
       height: 100%;
     }
 
@@ -138,9 +138,9 @@ article-author {
     }
 
     & [slot="footer"] {
-      display: flex;
+      /* display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: center; */
 
       & :only-child {
         margin: 0 auto;

@@ -8,6 +8,11 @@
   --wa-color-brand-60: var(--color-medium-green);
   --wa-color-brand-50: var(--color-dark-green);
 
+  --wa-color-text-normal: var(--body-color);
+
+  --wa-color-surface-default: var(--wa-color-neutral-10);
+  --wa-color-surface-border: var(--wa-color-neutral-20);
+
   & .main-wave {
     background-color: var(--body-background);
   }
@@ -32,8 +37,10 @@
     color: var(--color-light-gray);
   }
 
-  & wa-alert {
-    --wa-panel-background-color: var(--wa-color-neutral-50);
+  & wa-callout {
+    --wa-color-fill-quiet: var(--wa-color-neutral-10);
+
+    border-top-width: 5px;
   }
 
   & wa-card [slot="header"] h3 {

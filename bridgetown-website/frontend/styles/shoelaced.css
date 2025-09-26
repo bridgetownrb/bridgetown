@@ -31,9 +31,11 @@ wa-button {
 }
 
 wa-card {
+  box-shadow: var(--wa-shadow-l);
+  border-top: 5px solid var(--wa-color-brand-50);
+
   &::part(body) {
-    box-shadow: var(--wa-shadow-l);
-    border-top: 5px solid var(--wa-color-brand-50);
+    box-shadow: none;
   }
 
   & h3 {
