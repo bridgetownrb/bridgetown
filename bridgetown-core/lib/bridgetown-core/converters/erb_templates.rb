@@ -107,6 +107,7 @@ module Bridgetown
       priority :highest
       input :erb
       template_engine :erb
+      helper_delimiters ["<%=", "%>"]
 
       # Logic to do the ERB content conversion.
       #

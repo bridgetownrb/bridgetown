@@ -16,21 +16,6 @@ module Bridgetown
     SLUGIFY_PRETTY_REGEXP = Regexp.new("[^\\p{M}\\p{L}\\p{Nd}._~!$&'()+,;=@]+").freeze
     SLUGIFY_ASCII_REGEXP = Regexp.new("[^[A-Za-z0-9]]+").freeze
 
-    TEMPLATE_EXTNAMES_TAGS = {
-      ".liquid" => [
-        "{%",
-        "%}",
-      ],
-      ".erb"    => [
-        "<%=",
-        "%>",
-      ],
-      ".serb"   => [
-        "{%=",
-        "%}",
-      ],
-    }.freeze
-
     # Takes a slug and turns it into a simple title.
     def titleize_slug(slug)
       slug.gsub(%r![_ ]!, "-").split("-").map!(&:capitalize).join(" ")
@@ -500,13 +485,23 @@ module Bridgetown
       %(<template shadowrootmode="#{shadow_root_mode}">#{input}</template>).html_safe
     end
 
-    def build_output_tag_for_template_extname(extname, content)
-      unless TEMPLATE_EXTNAMES_TAGS.key?(extname)
-        raise "Template engines using file extension #{extname}" \
-              "are not currently supported by default"
+    def helper_code_for_template_extname(extname, content)
+      template_engines_providing_delimiters =
+        Bridgetown::Converter.subclasses
+          .filter_map do |converter|
+            [converter, converter.extname_list] if converter.helper_delimiters
+          end.to_h
+      found_template_engine =
+        template_engines_providing_delimiters.find do |_, extnames|
+          extnames.include?(extname)
+        end&.first
+
+      unless found_template_engine
+        raise "No template engine using file extension #{extname}" \
+              "is currently supported for code generation"
       end
 
-      start_tag, end_tag = TEMPLATE_EXTNAMES_TAGS[extname]
+      start_tag, end_tag = found_template_engine.helper_delimiters
 
       [start_tag, content, end_tag].join(" ")
     end
