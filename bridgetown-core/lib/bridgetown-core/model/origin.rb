@@ -12,14 +12,18 @@ module Bridgetown
       # @return [Bridgetown::Site]
       attr_accessor :site
 
+      # @return [Boolean]
+      attr_accessor :bare_text
+
       # You must implement in subclasses
       def self.handle_scheme?(_scheme)
         false
       end
 
-      def initialize(id, site: Bridgetown::Current.site)
+      def initialize(id, site: Bridgetown::Current.site, bare_text: false)
         self.id = id
         self.site = site
+        self.bare_text = bare_text
       end
 
       # You can override in subclass

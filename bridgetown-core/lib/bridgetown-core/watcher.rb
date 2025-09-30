@@ -70,6 +70,8 @@ module Bridgetown
         # NOTE: inexplicably, this matcher doesn't work with the Listen gem, so
         # we have to run it here manually
         c.reject! { component_frontend_matcher(options).match? _1 }
+        # TODO: the following fix is too simplistic, needs to use an exclusion list
+        c.reject! { _1.start_with?(options.root_dir) && !_1.start_with?(options.source) }
         n = c.length
         next if n.zero?
 
@@ -78,7 +80,7 @@ module Bridgetown
             "Reloading…",
             "#{n} file#{"s" if n > 1} changed at #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
           )
-          c.each { |path| Bridgetown.logger.info "", "- #{path["#{site.root_dir}/".length..]}" }
+          c.each { |path| Bridgetown.logger.info "", "- #{path.delete_prefix("#{site.root_dir}/")}" }
         end
 
         reload_site(
