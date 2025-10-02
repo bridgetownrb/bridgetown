@@ -16,9 +16,20 @@ end
 Bridgetown.initializer :external_sources do |config, contents:|
   Bridgetown::ExternalSources = Module.new
 
+  contents.each do |coll, path|
+    contents[coll] = File.expand_path(path, config.root_dir)
+  end
+
+  if config.context == :static
+    contents.each_value.each_with_index do |path, index|
+      Bridgetown.logger.info(index == 0 ? "External Sources:" : "", path)
+    end
+  end
+
   config.source_manifest(
     origin: Bridgetown::ExternalSources,
-    contents:
+    contents:,
+    bare_text: true
   )
 
   contents.each_value do |path|
