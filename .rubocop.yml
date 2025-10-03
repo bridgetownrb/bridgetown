@@ -82,6 +82,7 @@ Metrics/PerceivedComplexity:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/commands/build.rb
     - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
+    - bridgetown-core/lib/bridgetown-core/commands/start.rb
 Naming/HeredocDelimiterNaming:
   Exclude:
     - bridgetown-core/test/**/*.rb

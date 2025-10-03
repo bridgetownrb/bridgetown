@@ -405,4 +405,17 @@ class TestUtils < BridgetownUnitTest
       end
     end
   end
+
+  context "The `Utils.helper_code_for_template_extname` method" do
+    should "return content within delimiters for the supplied file extname" do
+      assert_equal "{% content %}", Utils.helper_code_for_template_extname(".liquid", "content")
+      assert_equal "<%= content %>", Utils.helper_code_for_template_extname(".erb", "content")
+    end
+
+    should "raise an error if the supplied extname is not supported" do
+      assert_raises do
+        Utils.helper_code_for_template_extname(".not_a_template_engine", "content")
+      end
+    end
+  end
 end

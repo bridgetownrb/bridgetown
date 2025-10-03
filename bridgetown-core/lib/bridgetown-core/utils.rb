@@ -116,7 +116,7 @@ module Bridgetown
       raise Errors::InvalidDateError, "Invalid date '#{input}': #{msg}"
     end
 
-    # Determines whether a given file has
+    # Determines whether a given file has YAML front matter
     #
     # @return [Boolean] if the YAML front matter is present.
     def has_yaml_header?(file) # rubocop: disable Naming/PredicateName
@@ -483,6 +483,27 @@ module Bridgetown
       raise ArgumentError unless [:open, :closed].include? shadow_root_mode
 
       %(<template shadowrootmode="#{shadow_root_mode}">#{input}</template>).html_safe
+    end
+
+    def helper_code_for_template_extname(extname, content)
+      template_engines_providing_delimiters =
+        Bridgetown::Converter.subclasses
+          .filter_map do |converter|
+            [converter, converter.extname_list] if converter.helper_delimiters
+          end.to_h
+      found_template_engine =
+        template_engines_providing_delimiters.find do |_, extnames|
+          extnames.include?(extname)
+        end&.first
+
+      unless found_template_engine
+        raise "No template engine using file extension #{extname}" \
+              "is currently supported for code generation"
+      end
+
+      start_tag, end_tag = found_template_engine.helper_delimiters
+
+      [start_tag, content, end_tag].join(" ")
     end
 
     private
