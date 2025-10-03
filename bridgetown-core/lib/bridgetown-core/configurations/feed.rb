@@ -19,7 +19,7 @@ end
 
 say_status :feed, "Adding feed tags to #{head_file}..."
 
-feed_tag = Bridgetown::Utils.build_output_tag_for_template_extname(
+feed_tag = Bridgetown::Utils.helper_code_for_template_extname(
   File.extname(head_file),
   "feed_meta"
 )

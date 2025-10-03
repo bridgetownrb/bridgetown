@@ -19,7 +19,7 @@ end
 
 say_status :seo, "Adding SEO tags to #{head_file}..."
 
-seo_tag = Bridgetown::Utils.build_output_tag_for_template_extname(
+seo_tag = Bridgetown::Utils.helper_code_for_template_extname(
   File.extname(head_file),
   "seo"
 )
