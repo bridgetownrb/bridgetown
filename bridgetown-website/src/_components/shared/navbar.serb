@@ -1,7 +1,7 @@
 <nav aria-label="Main navigation"{% if site.data.edge_version %} class="edge"{% end %}>
   <navbar-inner id="nav-bar" data-turbo-permanent>
-    <sl-bar align-items="center" spaced="between" expanded="false">
-      <sl-bar-item branding size="4/10 lg:3/10 xl:3/10" style="position:relative">
+    <bt-bar align-items="center" spaced="between" expanded="false">
+      <bt-bar-item branding size="4/10 lg:3/10 xl:3/10" style="position:relative">
         <a href="/">
           {{ svg "/images/bridgetown-logo-2022.svg", class: "logo", role: "img", "aria-label": "Bridgetown" }}
         </a>
@@ -11,46 +11,46 @@
             setTimeout(() => this.style.animation = null, 50)
           '>{{ site.data.version_label }}</edge-label>
         {% end %}
-      </sl-bar-item>
-      <sl-bar-item mobileonly id="mobile-menu">
-        <sl-button menutoggle variant="text" onclick='
-          const bar = this.closest("sl-bar")
+      </bt-bar-item>
+      <bt-bar-item mobileonly id="mobile-menu">
+        <wa-button menutoggle variant="brand" appearance="plain" size="small" onclick='
+          const bar = this.closest("bt-bar")
           if (bar.getAttribute("expanded") != "true") {
             menuShow(this)
           } else {
             menuHide(this)
           }
         '>
-           <sl-icon slot="suffix" library="remixicon" name="system/menu"></sl-icon>
+           <wa-icon slot="end" library="remixicon" name="system/menu"></wa-icon>
            Menu
-        </sl-button>
-      </sl-bar-item>
-      <sl-bar-item expandable style="font-size:120%; white-space:nowrap">
+        </wa-button>
+      </bt-bar-item>
+      <bt-bar-item expandable style="font-size:120%; white-space:nowrap">
         <a href="{%= @metadata.mastodon.url  %}" aria-label="Mastodon">
-          <sl-icon library="remixicon" name="logos/mastodon-fill"></sl-icon>
+          <wa-icon library="remixicon" name="logos/mastodon-fill"></wa-icon>
         </a>
 
         <a href="https://github.com/bridgetownrb/bridgetown" aria-label="GitHub">
-          <sl-icon library="remixicon" name="logos/github-fill"></sl-icon>
+          <wa-icon library="remixicon" name="logos/github-fill"></wa-icon>
         </a>
-      </sl-bar-item>
-      <sl-bar-item expandable>
+      </bt-bar-item>
+      <bt-bar-item expandable>
         <a href="/docs">Documentation</a>
-      </sl-bar-item>
-      <sl-bar-item expandable>
+      </bt-bar-item>
+      <bt-bar-item expandable>
         <a href="/plugins">Plugins</a>
-      </sl-bar-item>
-      <sl-bar-item expandable>
+      </bt-bar-item>
+      <bt-bar-item expandable>
         <a href="/community">Community</a>
-      </sl-bar-item>
-      <sl-bar-item expandable>
+      </bt-bar-item>
+      <bt-bar-item expandable>
         <a href="/blog">Blog</a>
-      </sl-bar-item>
-      <sl-bar-item expandable size="2/10">
+      </bt-bar-item>
+      <bt-bar-item expandable size="2/10">
         {%= liquid_render "bridgetown_quick_search/search", placeholder: "Search" %}
 
         <kbd>cmd/ctrl + k</kbd>
-      </sl-bar-item>
-    </sl-bar>
+      </bt-bar-item>
+    </bt-bar>
   </navbar-inner>
 </nav>

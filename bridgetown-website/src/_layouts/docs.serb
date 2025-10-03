@@ -4,18 +4,18 @@ layout: default
 
 {% url_sections = resource.relative_url.split "/" %}
 <main-content><article>
-  <sl-breadcrumb style="display:block; margin-bottom:2.1em">
-    <sl-icon library="remixicon" name="arrows/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></sl-icon>
+  <wa-breadcrumb style="display:block; margin-bottom:2.1em">
+    <wa-icon library="remixicon" name="arrows/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></wa-icon>
 
-    <sl-breadcrumb-item href="/docs">Documentation</sl-breadcrumb-item>
-    <sl-breadcrumb-item href="#sidebar-{{ resource.data.top_section | slugify }}">{{ resource.data.top_section }}</sl-breadcrumb-item>
+    <wa-breadcrumb-item href="/docs">Documentation</wa-breadcrumb-item>
+    <wa-breadcrumb-item href="#sidebar-{{ resource.data.top_section | slugify }}">{{ resource.data.top_section }}</wa-breadcrumb-item>
     {% if url_sections.size > 3 %}
       {% crumb_label = resource.data.category.gsub("-", " ").titleize %}
       {% crumb_url = "/docs/#{resource.data.back_to || resource.data.category}" %}
-      <sl-breadcrumb-item href="{{ crumb_url }}">{{ crumb_label }}</sl-breadcrumb-item>
+      <wa-breadcrumb-item href="{{ crumb_url }}">{{ crumb_label }}</wa-breadcrumb-item>
     {% end %}
-    <sl-breadcrumb-item></sl-breadcrumb-item>
-  </sl-breadcrumb>
+    <wa-breadcrumb-item></wa-breadcrumb-item>
+  </wa-breadcrumb>
 
   <h1 class="serif colorful">{{ resource.data.title }}</h1>
 
@@ -23,10 +23,10 @@ layout: default
 
   {% if url_sections.size > 3 %}
     <p style="text-align:center; margin-top:4rem">
-      <a href="/docs/{{ resource.data.back_to || resource.data.category }}"><sl-button variant="primary" size="small" outline>
+      <a href="/docs/{{ resource.data.back_to || resource.data.category }}"><wa-button variant="brand" size="small" appearance="outlined">
         Back to {{ resource.data.category | titleize }}
-        <sl-icon slot="prefix" library="remixicon" name="arrows/arrow-up-s-fill"></sl-icon>
-      </sl-button></a>
+        <wa-icon slot="start" library="remixicon" name="arrows/arrow-up-s-fill"></wa-icon>
+      </wa-button></a>
     </p>
   {% else %}
     {% next_order = resource.data.next_page_order %}
@@ -37,10 +37,10 @@ layout: default
     {% next_page = collections.docs.resources.find { _1.data.order == next_order } %}
     {% if next_page %}
       <p style="text-align:right; margin-top:4rem">
-        <a href="{{ next_page.relative_url }}"><sl-button variant="primary" size="small" outline>
+        <a href="{{ next_page.relative_url }}"><wa-button variant="brand" size="small" appearance="outlined">
           {{ next_page.data.title }}
-          <sl-icon slot="suffix" library="remixicon" name="arrows/arrow-right-s-fill"></sl-icon>
-        </sl-button></a>
+          <wa-icon slot="end" library="remixicon" name="arrows/arrow-right-s-fill"></wa-icon>
+        </wa-button></a>
       </p>
     {% end %}
   {% end %}

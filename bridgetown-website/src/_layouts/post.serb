@@ -5,13 +5,13 @@ layout: default
 <main-content>
   <section-wrapper><section>
 
-  <sl-breadcrumb style="display:block; margin-bottom:2.1em">
-    <sl-icon library="remixicon" name="arrows/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></sl-icon>
+  <wa-breadcrumb style="display:block; margin-bottom:2.1em">
+    <wa-icon library="remixicon" name="arrows/arrow-right-s-fill" slot="separator" style="font-size:1.2em; margin-top:0.1em"></wa-icon>
 
-    <sl-breadcrumb-item href="/blog">Blog</sl-breadcrumb-item>
-    <sl-breadcrumb-item href="/blog/{{ data.category }}">Category: {{ data.category | titleize }}</sl-breadcrumb-item>
-    <sl-breadcrumb-item></sl-breadcrumb-item>
-  </sl-breadcrumb>
+    <wa-breadcrumb-item href="/blog">Blog</wa-breadcrumb-item>
+    <wa-breadcrumb-item href="/blog/{{ data.category }}">Category: {{ data.category | titleize }}</wa-breadcrumb-item>
+    <wa-breadcrumb-item></wa-breadcrumb-item>
+  </wa-breadcrumb>
 
   <article>
     <h1 class="serif colorful">{{ data.title }}</h1>
@@ -26,19 +26,19 @@ layout: default
     {%= yield %}
 
     <p style="margin-top:2.5em; text-align:center">
-      <sl-button variant="primary" size="small" pill outline onclick='
+      <wa-button variant="brand" size="small" pill appearance="outlined" onclick='
         navigator.share({url: location.href})
       '>
-        <sl-icon slot="suffix" library="remixicon" name="system/share-box"></sl-icon>
+        <wa-icon slot="end" library="remixicon" name="system/share-box"></wa-icon>
         Share This Article
-      </sl-button>
+      </wa-button>
     </p>
   </article>
 
   <br/><br/>
 
   <p class="heading-icon">
-    <sl-icon library="remixicon" name="document/article-fill"></sl-icon>
+    <wa-icon library="remixicon" name="document/article-fill"></wa-icon>
   </p>
 
   <h2 style="margin-top:0">Latest on the Blog</h2>

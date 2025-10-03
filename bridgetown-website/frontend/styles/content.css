@@ -1,5 +1,5 @@
 body.homepage {
-  @media (--sl-breakpoint-xs) {
+  @media (--wa-breakpoint-xs) {
     --h1-font-size: 2.5em;
     --h2-font-size: 2.5em;
   }
@@ -75,8 +75,8 @@ body.docs {
 
     @media (--nav-minimal) {
       width: 100vw;
-      padding-left: var(--sl-spacing-small);
-      padding-right: var(--sl-spacing-small);
+      padding-left: var(--wa-space-s);
+      padding-right: var(--wa-space-s);
     }
   }
 }
@@ -106,7 +106,7 @@ article-author {
   column-gap: 1.5rem;
   row-gap: 2rem;
 
-  @media (--sl-breakpoint-xs) {
+  @media (--wa-breakpoint-xs) {
     grid-template-columns: 1fr;
   }
 
@@ -114,13 +114,13 @@ article-author {
     margin: 0 !important;
   }
 
-  & sl-card {
+  & wa-card {
     --padding: 2rem 1.25rem;
     height: 100%;
     width: 100%;
     text-align: center;
 
-    &::part(base) {
+    &::part(body) {
       height: 100%;
     }
 
@@ -138,9 +138,9 @@ article-author {
     }
 
     & [slot="footer"] {
-      display: flex;
+      /* display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: center; */
 
       & :only-child {
         margin: 0 auto;
@@ -161,7 +161,7 @@ article-author {
     color: var(--color-dark-brick);
   }
 
-  & sl-card > sl-icon {
+  & wa-card > wa-icon {
     font-size: 1.5em;
     margin-top: -0.25rem;
     margin-bottom: 0.5rem;

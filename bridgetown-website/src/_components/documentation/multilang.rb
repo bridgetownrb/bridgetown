@@ -30,17 +30,17 @@ class Documentation::Multilang < Bridgetown::Component
 
   def template
     html -> { <<~HTML
-      <sl-tab-group>
-        <sl-tab slot="nav" panel="#{text -> { languages[0] }}">#{text -> { titles_for_languages[0] }}</sl-tab>
-        <sl-tab slot="nav" panel="#{text -> { languages[1] }}">#{text -> { titles_for_languages[1] }}</sl-tab>
+      <wa-tab-group>
+        <wa-tab slot="nav" panel="#{text -> { languages[0] }}">#{text -> { titles_for_languages[0] }}</wa-tab>
+        <wa-tab slot="nav" panel="#{text -> { languages[1] }}">#{text -> { titles_for_languages[1] }}</wa-tab>
 
-        <sl-tab-panel name="#{text -> { languages[0] }}" markdown="block">
+        <wa-tab-panel name="#{text -> { languages[0] }}" markdown="block">
       #{html -> { code_blocks[0] }}
-        </sl-tab-panel>
-        <sl-tab-panel name="#{text -> { languages[1] }}" markdown="block">
+        </wa-tab-panel>
+        <wa-tab-panel name="#{text -> { languages[1] }}" markdown="block">
       #{html -> { code_blocks[1] }}
-        </sl-tab-panel>
-      </sl-tab-group>
+        </wa-tab-panel>
+      </wa-tab-group>
     HTML
     }
   end
