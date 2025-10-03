@@ -24,6 +24,7 @@ module Bridgetown
       priority :highest
       template_engine :serbea
       input :serb
+      helper_delimiters ["{%=", "%}"]
 
       # Logic to do the Serbea content conversion
       #

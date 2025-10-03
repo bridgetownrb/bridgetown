@@ -6,6 +6,7 @@ module Bridgetown
       priority :highest
       input :liquid
       template_engine :liquid
+      helper_delimiters ["{%", "%}"]
 
       attr_reader :site, :document, :layout
 
