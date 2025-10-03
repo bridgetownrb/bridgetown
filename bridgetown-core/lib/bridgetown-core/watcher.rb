@@ -101,12 +101,7 @@ module Bridgetown
         I18n.reload! # make sure any locale files get read again
         Bridgetown::Current.sites[site.label] = site # needed in SSR mode apparently
         catch :halt do
-          unless fast_refreshable
-            Bridgetown::Hooks.trigger :site, :pre_reload, site, paths
-            Bridgetown::Hooks.clear_reloadable_hooks
-            site.loaders_manager.reload_loaders
-            Bridgetown::Hooks.trigger :site, :post_reload, site, paths
-          end
+          site.loaders_manager.reload_loaders(site, paths) unless fast_refreshable
 
           if site.ssr?
             site.reset(soft: true)
