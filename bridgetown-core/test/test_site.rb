@@ -153,6 +153,7 @@ class TestSite < BridgetownUnitTest
         about.html
         application.coffee
         bar.html
+        coc.multi.erb
         coffeescript.coffee
         components.liquid
         contacts.html

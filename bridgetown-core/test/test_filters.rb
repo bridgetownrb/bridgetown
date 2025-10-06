@@ -1042,7 +1042,7 @@ class TestFilters < BridgetownUnitTest
               g["items"].is_a?(Array),
               "The list of grouped items for '' is not an Array."
             )
-            assert_equal 18, g["items"].size
+            assert_equal 19, g["items"].size
           end
         end
       end
@@ -1351,7 +1351,7 @@ class TestFilters < BridgetownUnitTest
               g["items"].is_a?(Array),
               "The list of grouped items for '' is not an Array."
             )
-            assert_equal 18, g["items"].size
+            assert_equal 19, g["items"].size
           end
         end
       end
