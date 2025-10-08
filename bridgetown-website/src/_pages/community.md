@@ -42,12 +42,18 @@ There's also a growing number of companies which provide commercial support for 
     image="https://avatars.githubusercontent.com/u/4756285?v=4"
     label="Adrian Valenzuela"
   ></sl-avatar>
+
+  <sl-avatar
+    image="https://avatars.githubusercontent.com/u/9300391?v=4"
+    label="Felipe Vogel"
+  ></sl-avatar>
 </avatar-group>
 
 [@jaredcwhite](https://github.com/jaredcwhite) &bull;
 [@KonnorRogers](https://github.com/KonnorRogers) &bull;
 [@ayushn21](https://github.com/ayushn21) &bull;
-[@adrianvalenz](https://github.com/adrianvalenz)
+[@adrianvalenz](https://github.com/adrianvalenz) &bull;
+[@fpsvogel](https://github.com/fpsvogel)
 {:style="text-align:center"}
 
 ## Bridgetown in the Wild
