@@ -120,6 +120,38 @@ class TestRubyHelpers < BridgetownUnitTest
       assert_equal "foo", helpers.translate(".foo")
     end
 
+    should "return relative translation when key starts with period and view has .multi ext" do
+      helpers = Bridgetown::RubyTemplateView::Helpers.new(
+        Bridgetown::ERBView.new(
+          @site.collections.pages.resources.find { |p| p.basename_without_ext == "coc.multi" }
+        ),
+        @site
+      )
+      assert_equal "foo", helpers.translate(".foo")
+    end
+
+    should "return relative translation when key starts with period and view has underscores in name" do
+      helpers = Bridgetown::RubyTemplateView::Helpers.new(
+        Bridgetown::ERBView.new(
+          @site.collections.pages.resources.find { |p| p.basename_without_ext == "page_using_erb" }
+        ),
+        @site
+      )
+      assert_equal "foo", helpers.translate(".foo")
+    end
+
+    should "return relative translation when key starts with period and view path starts with an underscore" do
+      @site = fixture_site("collections" => { "tutorials" => { "output" => true } })
+      @site.process
+      helpers = Bridgetown::RubyTemplateView::Helpers.new(
+        Bridgetown::ERBView.new(
+          @site.collections.tutorials.resources.find { |p| p.basename_without_ext == "getting-started" }
+        ),
+        @site
+      )
+      assert_equal "foo", helpers.translate(".foo")
+    end
+
     should "return translation missing if key doesn't exist" do
       assert_equal "Translation missing: en.about.not_here", @helpers.translate(".not_here")
     end

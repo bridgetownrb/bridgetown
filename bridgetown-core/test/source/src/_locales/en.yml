@@ -7,3 +7,10 @@ en:
   contacts:
     bar:
       foo: foo
+  coc:
+    foo: foo
+  page_using_erb:
+    foo: foo
+  tutorials:
+    getting-started:
+      foo: foo

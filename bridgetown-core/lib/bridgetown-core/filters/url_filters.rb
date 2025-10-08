@@ -70,7 +70,14 @@ module Bridgetown
       # @return [String]
       def strip_extname(input)
         Pathname.new(input.to_s).then do |path|
-          path.dirname + path.basename(".*")
+          basename = path.basename
+          while basename.to_s.include?(".")
+            new_basename = basename.basename(".*")
+            break if new_basename == basename
+
+            basename = new_basename
+          end
+          path.dirname + basename
         end.to_s
       end
 
