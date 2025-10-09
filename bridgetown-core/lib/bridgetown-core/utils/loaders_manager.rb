@@ -61,7 +61,10 @@ module Bridgetown
         end
       end
 
-      def reload_loaders
+      def reload_loaders(site, paths = [])
+        Bridgetown::Hooks.trigger :site, :pre_reload, site, paths
+        Bridgetown::Hooks.clear_reloadable_hooks
+
         FileUtils.rm_f(Bridgetown.build_errors_path)
 
         @loaders.each do |load_path, loader|
@@ -72,6 +75,8 @@ module Bridgetown
           loader.eager_load if config.eager_load_paths.include?(load_path)
           Bridgetown::Hooks.trigger :loader, :post_reload, loader, load_path
         end
+
+        Bridgetown::Hooks.trigger :site, :post_reload, site, paths
       end
     end
   end
