@@ -16,15 +16,6 @@ module Bridgetown
 
       super(value.to_s)
     end
-    alias_method :append=, :<<
-
-    def safe_expr_append=(val)
-      return self if val.nil? # rubocop:disable Lint/ReturnInVoidContext
-
-      safe_concat val.to_s
-    end
-
-    alias_method :safe_append=, :safe_concat
 
     # Concatenation for <%== %> expressions, whose output is not escaped.
     #
@@ -40,16 +31,10 @@ module Bridgetown
   class ERBEngine < Erubi::CaptureBlockEngine
     private
 
-    def add_code(code)
-      @src << code
-      @src << ";#{@bufvar};" if code.strip.split(".").first == "end"
-      @src << ";" unless code[Erubi::RANGE_LAST] == "\n"
-    end
-
     def add_text(text)
       return if text.empty?
 
-      src << bufvar << ".safe_append='"
+      src << bufvar << ".safe_concat'"
       src << text.gsub(%r{['\\]}, '\\\\\&')
       src << "'.freeze;"
     end
