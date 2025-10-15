@@ -58,10 +58,7 @@ class Bridgetown::Site
       if full_abort || (marked_resources.empty? && !found_gen_pages && !found_route_file)
         # Darn, a full reload is needed (unless we're on a super-fast track)
         if reload_if_needed
-          Bridgetown::Hooks.trigger :site, :pre_reload, self, paths
-          Bridgetown::Hooks.clear_reloadable_hooks
-          loaders_manager.reload_loaders
-          Bridgetown::Hooks.trigger :site, :post_reload, self, paths
+          loaders_manager.reload_loaders(self, paths)
           process # bring out the big guns
         end
         return
