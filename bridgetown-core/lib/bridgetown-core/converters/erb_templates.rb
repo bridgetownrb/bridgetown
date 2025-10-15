@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "tilt/erubi"
+require "erubi/capture_block"
 
 module Bridgetown
   class OutputBuffer < ActiveSupport::SafeBuffer
@@ -9,6 +10,7 @@ module Bridgetown
       encode!
     end
 
+    # Concatenation for <%= %> expressions, whose output is escaped.
     def <<(value)
       return self if value.nil?
 
@@ -23,9 +25,19 @@ module Bridgetown
     end
 
     alias_method :safe_append=, :safe_concat
+
+    # Concatenation for <%== %> expressions, whose output is not escaped.
+    #
+    # rubocop:disable Naming/BinaryOperatorParameterName
+    def |(value)
+      return self if value.nil?
+
+      safe_concat(value.to_s)
+    end
+    # rubocop:enable Naming/BinaryOperatorParameterName
   end
 
-  class ERBEngine < Erubi::Engine
+  class ERBEngine < Erubi::CaptureBlockEngine
     private
 
     def add_code(code)
@@ -40,23 +52,6 @@ module Bridgetown
       src << bufvar << ".safe_append='"
       src << text.gsub(%r{['\\]}, '\\\\\&')
       src << "'.freeze;"
-    end
-
-    # pulled from Rails' ActionView
-    BLOCK_EXPR = %r!\s*((\s+|\))do|\{)(\s*\|[^|]*\|)?\s*\Z!
-
-    def add_expression(indicator, code)
-      src << bufvar << if (indicator == "==") || @escape
-                         ".safe_expr_append="
-                       else
-                         ".append="
-                       end
-
-      if BLOCK_EXPR.match?(code)
-        src << " " << code
-      else
-        src << "(" << code << ");"
-      end
     end
   end
 

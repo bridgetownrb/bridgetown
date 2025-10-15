@@ -35,6 +35,10 @@ class TestERB < BridgetownUnitTest
     should "properly handle block expressions" do
       assert_includes @erb_page.output, "\n===\n+Value: value+\n---\n"
     end
+
+    should "not escape expressions in <%== %>" do
+      assert_includes @erb_page.output, "<em>This is an unescaped expression & it shouldn't be escaped</em>"
+    end
   end
 
   context "ERB layout" do
