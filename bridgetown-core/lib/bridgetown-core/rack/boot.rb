@@ -22,12 +22,11 @@ module Bridgetown
     # Roda app is provided the preloaded Bridgetown site configuration. Handle
     # any uncaught Roda errors.
     def self.boot(*)
-      self.loaders_manager =
-        Bridgetown::Utils::LoadersManager.new(Bridgetown::Current.preloaded_configuration)
-      Bridgetown::Current.preloaded_configuration.run_initializers! context: :server
-      LoaderHooks.autoload_server_folder(
-        File.join(Bridgetown::Current.preloaded_configuration.root_dir, "server")
-      )
+      config = Bridgetown::Current.preloaded_configuration
+      self.loaders_manager = Bridgetown::Utils::LoadersManager.new(config)
+
+      config.run_initializers! context: :server
+      LoaderHooks.autoload_server_folder(File.join(config.root_dir, config.server_dir))
     end
   end
 end

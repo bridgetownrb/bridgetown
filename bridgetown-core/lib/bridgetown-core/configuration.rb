@@ -29,9 +29,10 @@ module Bridgetown
     DEFAULTS = {
       # Where things are
       "root_dir"                     => Dir.pwd,
-      "plugins_dir"                  => "plugins",
       "source"                       => "src",
       "destination"                  => "output",
+      "plugins_dir"                  => "plugins",
+      "server_dir"                   => "server",
       "collections_dir"              => "",
       "cache_dir"                    => ".bridgetown-cache",
       "layouts_dir"                  => "_layouts",
