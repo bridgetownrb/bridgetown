@@ -1,9 +1,24 @@
 # frozen_string_literal: true
 
 require "tilt/erubi"
+require "erubi/capture_block"
 
 module Bridgetown
   class OutputBuffer
+    extend Forwardable
+
+    def_delegators :@buffer,
+                   :empty?,
+                   :encode,
+                   :encode!,
+                   :encoding,
+                   :force_encoding,
+                   :length,
+                   :lines,
+                   :reverse,
+                   :strip,
+                   :valid_encoding?
+
     def initialize(buffer = "")
       @buffer = String.new(buffer)
       @buffer.encode!
@@ -13,32 +28,28 @@ module Bridgetown
       @buffer = other.to_str
     end
 
-    delegate(
-      :blank?,
-      :empty?,
-      :encode,
-      :encode!,
-      :encoding,
-      :force_encoding,
-      :length,
-      :lines,
-      :reverse,
-      :strip,
-      :valid_encoding?,
-      to: :@buffer
-    )
-
+    # Concatenation for <%= %> expressions, whose output is escaped.
     def <<(value)
       return self if value.nil?
 
       value = value.to_s
-      value = CGI.escapeHTML(value) unless value.html_safe?
+      value = Erubi.h(value) unless value.html_safe?
 
       @buffer << value
 
       self
     end
     alias_method :append=, :<<
+
+    # Concatenation for <%== %> expressions, whose output is not escaped.
+    #
+    # rubocop:disable Naming/BinaryOperatorParameterName
+    def |(value)
+      return self if value.nil?
+
+      safe_concat(value.to_s)
+    end
+    # rubocop:enable Naming/BinaryOperatorParameterName
 
     def ==(other)
       other.instance_of?(OutputBuffer) &&
@@ -48,6 +59,8 @@ module Bridgetown
     def html_safe?
       true
     end
+
+    def html_safe = to_s
 
     def safe_concat(value)
       @buffer << value
@@ -70,38 +83,15 @@ module Bridgetown
     end
   end
 
-  class ERBEngine < Erubi::Engine
+  class ERBEngine < Erubi::CaptureBlockEngine
     private
-
-    def add_code(code)
-      @src << code
-      @src << ";#{@bufvar};" if code.strip.split(".").first == "end"
-      @src << ";" unless code[Erubi::RANGE_LAST] == "\n"
-    end
 
     def add_text(text)
       return if text.empty?
 
-      src << bufvar << ".safe_append='"
+      src << bufvar << ".safe_concat'"
       src << text.gsub(%r{['\\]}, '\\\\\&')
       src << "'.freeze;"
-    end
-
-    # pulled from Rails' ActionView
-    BLOCK_EXPR = %r!\s*((\s+|\))do|\{)(\s*\|[^|]*\|)?\s*\Z!
-
-    def add_expression(indicator, code)
-      src << bufvar << if (indicator == "==") || @escape
-                         ".safe_expr_append="
-                       else
-                         ".append="
-                       end
-
-      if BLOCK_EXPR.match?(code)
-        src << " " << code
-      else
-        src << "(" << code << ");"
-      end
     end
   end
 
