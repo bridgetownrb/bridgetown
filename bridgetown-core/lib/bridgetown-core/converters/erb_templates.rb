@@ -24,6 +24,10 @@ module Bridgetown
       @buffer.encode!
     end
 
+    def initialize_copy(other)
+      @buffer = other.to_str
+    end
+
     # Concatenation for <%= %> expressions, whose output is escaped.
     def <<(value)
       return self if value.nil?
