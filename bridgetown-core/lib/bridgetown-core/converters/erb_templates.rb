@@ -56,6 +56,8 @@ module Bridgetown
       true
     end
 
+    def html_safe = to_s
+
     def safe_concat(value)
       @buffer << value
       self
