@@ -3,18 +3,57 @@
 require "tilt/erubi"
 
 module Bridgetown
-  class OutputBuffer < ActiveSupport::SafeBuffer
-    def initialize(*)
-      super
-      encode!
+  class OutputBuffer
+    def initialize(buffer = "")
+      @buffer = String.new(buffer)
+      @buffer.encode!
     end
+
+    def initialize_copy(other)
+      @buffer = other.to_str
+    end
+
+    delegate(
+      :blank?,
+      :empty?,
+      :encode,
+      :encode!,
+      :encoding,
+      :force_encoding,
+      :length,
+      :lines,
+      :reverse,
+      :strip,
+      :valid_encoding?,
+      to: :@buffer
+    )
 
     def <<(value)
       return self if value.nil?
 
-      super(value.to_s)
+      value = value.to_s
+      value = CGI.escapeHTML(value) unless value.html_safe?
+
+      @buffer << value
+
+      self
     end
     alias_method :append=, :<<
+
+    def ==(other)
+      other.instance_of?(OutputBuffer) &&
+        @buffer == other.to_str
+    end
+
+    def html_safe?
+      true
+    end
+
+    def safe_concat(value)
+      @buffer << value
+      self
+    end
+    alias_method :safe_append=, :safe_concat
 
     def safe_expr_append=(val)
       return self if val.nil? # rubocop:disable Lint/ReturnInVoidContext
@@ -22,7 +61,13 @@ module Bridgetown
       safe_concat val.to_s
     end
 
-    alias_method :safe_append=, :safe_concat
+    def to_s
+      @buffer.html_safe
+    end
+
+    def to_str
+      @buffer.dup
+    end
   end
 
   class ERBEngine < Erubi::Engine
