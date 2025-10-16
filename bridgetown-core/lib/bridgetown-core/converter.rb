@@ -9,10 +9,23 @@ module Bridgetown
       #
       # * `input :erb`
       # * `input %i(xls xlsx)`
+      #
+      # @param extnames [Array<Symbol>] extensions
       def input(extnames)
         extnames = Array(extnames)
         self.extname_list ||= []
         self.extname_list += extnames.map { |e| ".#{e.to_s.downcase}" }
+      end
+
+      # Set or return the delimiters used for helper calls in template code
+      # (e.g. `["<%=", "%>"]` for ERB). This is purely informational for the framework's benefit,
+      # not used within a rendering pipeline.
+      #
+      # @param delimiters [Array<String>] delimiters
+      def helper_delimiters(delimiters = nil)
+        return @helper_delimiters if delimiters.nil?
+
+        @helper_delimiters = delimiters
       end
 
       def supports_slots? = @support_slots

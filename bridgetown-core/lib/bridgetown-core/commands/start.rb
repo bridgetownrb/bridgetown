@@ -88,7 +88,7 @@ module Bridgetown
           if server.serveable?
             pid_tracker.create_pid_dir
 
-            bt_options.skip_live_reload = !server.using_puma?
+            bt_options.skip_live_reload ||= !server.using_puma?
 
             build_args = ["-w"] + ARGV.reject { |arg| arg == "start" }
             build_pid = Process.fork { Bridgetown::Commands::Build.start(build_args) }

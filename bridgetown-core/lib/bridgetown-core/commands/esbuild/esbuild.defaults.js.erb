@@ -43,7 +43,7 @@ const generateSourceMappingURL = sourceMap => {
 // Import Sass if available
 let sass
 if (moduleAvailable("sass")) {
-  sass = (await import("sass")).default
+  sass = await import("sass")
 }
 
 // Glob plugin derived from:

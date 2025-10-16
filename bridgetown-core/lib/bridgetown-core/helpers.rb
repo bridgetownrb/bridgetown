@@ -154,7 +154,7 @@ module Bridgetown
 
         if key&.start_with?(".")
           view_path = Bridgetown::Filters::URLFilters.strip_extname(view.resource.relative_path)
-          key = "#{view_path.tr("_/", " .").lstrip}#{key}"
+          key = "#{view_path.tr("/", ".").lstrip.delete_prefix("_")}#{key}"
         end
 
         return I18n.translate(key, **options) unless %r{(?:_|\b)html\z}.match?(key)

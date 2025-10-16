@@ -7,7 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+.
+
+## [2.0.1] - 2025-10-03
+
+- Add bundled configurations for SEO and Atom feed plugins [#1023](https://github.com/bridgetownrb/bridgetown/pull/1023) ([@neilvanbeinum](https://github.com/neilvanbeinum) and [@fpsvogel](https://github.com/fpsvogel))
 - Move bundled configuration from Shoelace to Web Awesome [#1018](https://github.com/bridgetownrb/bridgetown/pull/1018) ([@fpsvogel](https://github.com/fpsvogel))
+- Fix `skip_live_reload` option so it works if set to true [#1029](https://github.com/bridgetownrb/bridgetown/pull/1029) ([@jaredcwhite](https://github.com/jaredcwhite))
 
 ## [2.0.0] (stable release) - 2025-09-16
 
