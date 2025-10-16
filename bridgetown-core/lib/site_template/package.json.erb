@@ -8,19 +8,18 @@
     "esbuild-dev": "node esbuild.config.js --watch"
   },
   "devDependencies": {
-    "esbuild": "^0.20.2",
-    "glob": "^10.3.3",
+    "esbuild": "^0.25.11",
+    "glob": "^11.0.3",
     <%- unless disable_postcss? -%>
-    "postcss": "^8.4.29",
+    "postcss": "^8.5.6",
     "postcss-flexbugs-fixes": "^5.0.2",
-    "postcss-import": "^15.1.0",
-    "postcss-load-config": "^4.0.1",
-    "postcss-preset-env": "^9.1.2",
+    "postcss-import": "^16.1.0",
+    "postcss-load-config": "^6.0.1",
+    "postcss-preset-env": "^10.4.0",
     "read-cache": "^1.0.0"<%= "," unless postcss_option  %>
     <%- end -%>
     <%- unless postcss_option -%>
-    "sass": "^1.66.1",
-    "sass-loader": "^13.3.2"
+    "sass": "^1.93.2"
     <%- end -%>
   }
 }
