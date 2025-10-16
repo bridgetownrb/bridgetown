@@ -102,8 +102,9 @@ module Bridgetown
       result = yield(*args)
       result = @_erbout.presence || result
       @_erbout = previous_buffer_state
+      return result.to_s if result.is_a?(OutputBuffer)
 
-      result.is_a?(String) ? ERB::Util.h(result) : result
+      result.is_a?(String) ? Erubi.h(result) : result
     end
   end
 
