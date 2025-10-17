@@ -1,20 +1,72 @@
 # frozen_string_literal: true
 
 require "tilt/erubi"
+require "erubi/capture_block"
 
 module Bridgetown
-  class OutputBuffer < ActiveSupport::SafeBuffer
-    def initialize(*)
-      super
-      encode!
+  class OutputBuffer
+    extend Forwardable
+
+    def_delegators :@buffer,
+                   :empty?,
+                   :encode,
+                   :encode!,
+                   :encoding,
+                   :force_encoding,
+                   :length,
+                   :lines,
+                   :reverse,
+                   :strip,
+                   :valid_encoding?
+
+    def initialize(buffer = "")
+      @buffer = String.new(buffer)
+      @buffer.encode!
     end
 
+    def initialize_copy(other)
+      @buffer = other.to_str
+    end
+
+    # Concatenation for <%= %> expressions, whose output is escaped.
     def <<(value)
       return self if value.nil?
 
-      super(value.to_s)
+      value = value.to_s
+      value = Erubi.h(value) unless value.html_safe?
+
+      @buffer << value
+
+      self
     end
     alias_method :append=, :<<
+
+    # Concatenation for <%== %> expressions, whose output is not escaped.
+    #
+    # rubocop:disable Naming/BinaryOperatorParameterName
+    def |(value)
+      return self if value.nil?
+
+      safe_concat(value.to_s)
+    end
+    # rubocop:enable Naming/BinaryOperatorParameterName
+
+    def ==(other)
+      other.instance_of?(OutputBuffer) &&
+        @buffer == other.to_str
+    end
+
+    def html_safe?
+      true
+    end
+
+    def html_safe = to_s
+
+    def safe_concat(value)
+      @buffer << value
+      self
+    end
+    alias_method :safe_append=, :safe_concat
 
     def safe_expr_append=(val)
       return self if val.nil? # rubocop:disable Lint/ReturnInVoidContext
@@ -22,41 +74,24 @@ module Bridgetown
       safe_concat val.to_s
     end
 
-    alias_method :safe_append=, :safe_concat
+    def to_s
+      @buffer.html_safe
+    end
+
+    def to_str
+      @buffer.dup
+    end
   end
 
-  class ERBEngine < Erubi::Engine
+  class ERBEngine < Erubi::CaptureBlockEngine
     private
-
-    def add_code(code)
-      @src << code
-      @src << ";#{@bufvar};" if code.strip.split(".").first == "end"
-      @src << ";" unless code[Erubi::RANGE_LAST] == "\n"
-    end
 
     def add_text(text)
       return if text.empty?
 
-      src << bufvar << ".safe_append='"
+      src << bufvar << ".safe_concat'"
       src << text.gsub(%r{['\\]}, '\\\\\&')
       src << "'.freeze;"
-    end
-
-    # pulled from Rails' ActionView
-    BLOCK_EXPR = %r!\s*((\s+|\))do|\{)(\s*\|[^|]*\|)?\s*\Z!
-
-    def add_expression(indicator, code)
-      src << bufvar << if (indicator == "==") || @escape
-                         ".safe_expr_append="
-                       else
-                         ".append="
-                       end
-
-      if BLOCK_EXPR.match?(code)
-        src << " " << code
-      else
-        src << "(" << code << ");"
-      end
     end
   end
 
@@ -67,8 +102,9 @@ module Bridgetown
       result = yield(*args)
       result = @_erbout.presence || result
       @_erbout = previous_buffer_state
+      return result.to_s if result.is_a?(OutputBuffer)
 
-      result.is_a?(String) ? ERB::Util.h(result) : result
+      result.is_a?(String) ? Erubi.h(result) : result
     end
   end
 

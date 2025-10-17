@@ -8,10 +8,7 @@ module Bridgetown
       site = Bridgetown::Current.site
 
       I18n.reload! # make sure any locale files get read again
-      Bridgetown::Hooks.trigger :site, :pre_reload, site
-      Bridgetown::Hooks.clear_reloadable_hooks
-      site.loaders_manager.reload_loaders
-      Bridgetown::Hooks.trigger :site, :post_reload, site
+      site.loaders_manager.reload_loaders(site)
 
       ConsoleMethods.site_reset(site)
     end

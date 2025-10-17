@@ -51,3 +51,5 @@ Oats, <%= array_to_sentence_string ["peas", "beans", "barley"] %> grow.
 <%= render DsdComponent.new do %>
   <p>Default slot content.</p>
 <% end %>
+
+<%== "<em>This is an unescaped expression & it shouldn't be escaped</em>" %>
