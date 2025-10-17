@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 .
 
+## [2.0.2] - 2025-10-17
+
+- Refactor: use Erubi capturi block [#1040](https://github.com/bridgetownrb/bridgetown/pull/1040) ([@fpsvogel](https://github.com/fpsvogel))
+- Make OutputBuffer more performant for 3.2+ YJIT [#723](https://github.com/bridgetownrb/bridgetown/pull/723) ([@michaelherold](https://github.com/michaelherold))
+- Add customizable server_dir config option [#1041](https://github.com/bridgetownrb/bridgetown/pull/1041) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Upgrade frontend package.json defaults [#1042](https://github.com/bridgetownrb/bridgetown/pull/1042) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Refactor loader hooks to be more DRY [#1028](https://github.com/bridgetownrb/bridgetown/pull/1028) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Fix relative translations for multiple locale files [#1032](https://github.com/bridgetownrb/bridgetown/pull/1032) ([@jclusso](https://github.com/jclusso))
+
 ## [2.0.1] - 2025-10-03
 
 - Add bundled configurations for SEO and Atom feed plugins [#1023](https://github.com/bridgetownrb/bridgetown/pull/1023) ([@neilvanbeinum](https://github.com/neilvanbeinum) and [@fpsvogel](https://github.com/fpsvogel))
