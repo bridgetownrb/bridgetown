@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 .
 
+## [2.0.3] - 2025-10-17
+
+- Release emergency patch to fix ERB `capture` helper to avoid improper escape edge case
+
 ## [2.0.2] - 2025-10-17
 
 - Refactor: use Erubi capturi block [#1040](https://github.com/bridgetownrb/bridgetown/pull/1040) ([@fpsvogel](https://github.com/fpsvogel))
