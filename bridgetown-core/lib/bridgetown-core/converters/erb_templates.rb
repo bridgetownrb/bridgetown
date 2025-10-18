@@ -104,7 +104,8 @@ module Bridgetown
       @_erbout = previous_buffer_state
       return result.to_s if result.is_a?(OutputBuffer)
 
-      result.is_a?(String) ? Erubi.h(result) : result
+      # TODO: resolve below logic once Active Support patch to `ERB::Util.h` is removed
+      result.is_a?(String) ? ERB::Util.h(result) : result
     end
   end
 
