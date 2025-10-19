@@ -162,7 +162,7 @@ The location of pages in your source folder structure will by default be mirrore
       </td>
       <td>
         <p>
-          This contains the base Roda appplication structure, used by Bridgetown to faciliate both the static files server and <a href="/docs/routes">SSR/dynamic routes (if present)</a>.
+          This contains the base Roda application structure, used by Bridgetown to facilitate both the static files server and <a href="/docs/routes">SSR/dynamic routes (if present)</a>.
         </p>
       </td>
     </tr>

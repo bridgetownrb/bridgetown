@@ -280,4 +280,3 @@ You can learn more about [dynamic imports on MDN](https://developer.mozilla.org/
 ### Islands Architecture
 
 Starting in Bridgetown 1.3, there's an additional "convention over configuration" option for spreading JavaScript modules across various pages and keeping most code out of the main bundle. [Check out our dedicated Islands documentation](/docs/islands) for how to set this up.
-

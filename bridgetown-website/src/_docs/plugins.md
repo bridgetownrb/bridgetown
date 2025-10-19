@@ -110,7 +110,7 @@ end
 Bridgetown.initializer :my_nifty_plugin do |config, api_key: ''|
   config.my_nifty_plugin ||= {}
   config.my_nifty_plugin.this_goes_to_11 ||= 11
-  config.my_nifty_plugin.api_key = api_key 
+  config.my_nifty_plugin.api_key = api_key
 
   config.builder MyNiftyPlugin::Builder
 end
@@ -143,7 +143,7 @@ For Ruby-based templates such as ERB, Serbea, etc., you can provide custom helpe
 
 ### [Tags](/docs/plugins/tags)
 
-For Liquid-based templates, you can provide tags (aka "shortcodes") which can be called from your content and design templates. 
+For Liquid-based templates, you can provide tags (aka "shortcodes") which can be called from your content and design templates.
 
 ### [Filters](/docs/plugins/filters)
 
