@@ -79,7 +79,7 @@ module Bridgetown
             Result.new(
               content: ruby_content.post_match.lstrip,
               front_matter: process_ruby_data(ruby_content[1], file_path, 2),
-              line_count: ruby_content[1].lines.size - 1
+              line_count: ruby_content[1].lines.size
             )
           elsif self.class.header?(file_path)
             Result.new(
