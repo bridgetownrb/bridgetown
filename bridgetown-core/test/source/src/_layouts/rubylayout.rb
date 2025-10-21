@@ -7,9 +7,12 @@ end
 
 render html->{ <<~HTML
   <h1>#{text->{ resource.data.title }}</h1>
+HTML
+}
 
-  #{html->{ yield }}
+render { yield }
 
+render html->{ <<~HTML
   <aside>Custom var: #{text->{ layout.data.custom_var }}
 HTML
 }

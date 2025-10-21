@@ -5,8 +5,7 @@ require "helper"
 class TestERAndRubyTemplates < BridgetownUnitTest
   before do
     @site = fixture_site
-    #@process_output = capture_output { @site.process }
-    @site.process
+    @process_output = capture_output { @site.process }
     @erb_page = @site.resources.find { |p| p.data[:title] == "I'm an ERB Page" }
   end
 
@@ -92,7 +91,7 @@ class TestERAndRubyTemplates < BridgetownUnitTest
     let(:ruby_page) { @site.resources.find { |p| p.data.layout == :rubylayout }.output }
 
     it "renders and includes yielded page content" do
-      expect(ruby_page).must_include "<h1>Boo</h1>\n\n<p>This is a post with Ruby front matter.</p>"
+      expect(ruby_page).must_include "<h1>Boo</h1>\n<p>This is a post with Ruby front matter.</p>"
       expect(ruby_page).must_include "Custom var: 123"
     end
   end
