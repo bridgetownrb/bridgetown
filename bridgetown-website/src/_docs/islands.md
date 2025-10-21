@@ -5,7 +5,7 @@ top_section: Architecture
 category: islands
 ---
 
-The term [Islands Architecture](https://jasonformat.com/islands-architecture) was coined a few years ago by frontend architect Katie Sylor-Miller and further popularized by Preact creator Jason Miller. It describes a way of architecting website frontends around independent component trees, all rendered server-side initially as HTML but then "hydrated" on the frontend independently of one another.  
+The term [Islands Architecture](https://jasonformat.com/islands-architecture) was coined a few years ago by frontend architect Katie Sylor-Miller and further popularized by Preact creator Jason Miller. It describes a way of architecting website frontends around independent component trees, all rendered server-side initially as HTML but then "hydrated" on the frontend independently of one another.
 
 In Bridgetown, **we've brought islands architecture to you** with a seamless integration between our [view components](/docs/components) and our [esbuild frontend bundling system](/docs/frontend-assets). And for even more flexibility, you can orient your Roda routes around "islands" for a truly modular, full-stack approach to web development.
 
@@ -40,11 +40,11 @@ class BreezyDay extends HTMLElement {
   static {
     customElements.define("breezy-day", this)
   }
-  
+
   connectedCallback() {
     this.textContent = "Welcome to your first island."
   }
-} 
+}
 ```
 
 This JavaScript file, and anything else you import through it, is contained to a single island, meaning it won't be bundled in with your main JavaScript bundle (aka `frontend/javascript/index.js`). Great! But how do you _load_ an island?

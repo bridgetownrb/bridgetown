@@ -71,7 +71,7 @@ following metadata:
   </tbody>
 </table>
 
-Note that in the above table, `file` representes a variable used in logic such as a for loop—you can name it whatever you wish in your own code.
+Note that in the above table, `file` represents a variable used in logic such as a for loop—you can name it whatever you wish in your own code.
 
 ## Add front matter to static files
 
