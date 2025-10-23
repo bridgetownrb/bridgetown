@@ -4,6 +4,7 @@ output/
 .bridgetown-cache
 *-cache-dir/
 .bridgetown-metadata
+gems-index/
 
 # Ruby
 .bundle/
