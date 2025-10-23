@@ -2,7 +2,7 @@
 
 require "helper"
 
-class TestERAndRubyTemplates < BridgetownUnitTest
+class TestERBAndRubyTemplates < BridgetownUnitTest
   before do
     @site = fixture_site
     @process_output = capture_output { @site.process }
