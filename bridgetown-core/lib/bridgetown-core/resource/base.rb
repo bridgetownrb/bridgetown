@@ -355,7 +355,7 @@ module Bridgetown
         @fast_refresh_order = nil
       end
 
-      def prepare_for_fast_refresh! # rubocop:todo Metrics
+      def prepare_for_fast_refresh! # rubocop:todo Metrics, Naming/PredicateMethod
         dispose_of_transform_effect
         FileUtils.rm(destination.output_path, force: true) if requires_destination?
         past_values = @data.peek.select do |key|

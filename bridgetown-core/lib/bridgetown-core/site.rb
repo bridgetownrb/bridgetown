@@ -83,7 +83,7 @@ module Bridgetown
             end
           end.join(", ")
 
-          "#<Bridgetown::Site::Signals#{object_id}>#{var_peeks.empty? ? nil : " #{var_peeks}"}>"
+          "#<Bridgetown::Site::Signals#{object_id}>#{" #{var_peeks}" unless var_peeks.empty?}>"
         end
       end.new(**data_hash)
     end

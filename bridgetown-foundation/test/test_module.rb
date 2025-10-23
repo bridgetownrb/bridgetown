@@ -6,7 +6,6 @@ class TestModule < Bridgetown::Foundation::Test
   using Bridgetown::Refinements
 
   describe "nesting methods" do
-    # rubocop:disable Layout/LineLength
     it "nested_within?" do
       assert Bridgetown::Foundation::CoreExt::String.nested_within? Bridgetown
       assert Bridgetown::Foundation::CoreExt::String.nested_within? Bridgetown::Foundation
@@ -15,7 +14,6 @@ class TestModule < Bridgetown::Foundation::Test
       refute Bridgetown::Foundation::CoreExt.nested_within? Bridgetown::Foundation::CoreExt::String
       refute Bridgetown::Foundation::CoreExt::String.nested_within? Bridgetown::Foundation::RefineExt
     end
-    # rubocop:enable Layout/LineLength
 
     it "nested_parent" do
       assert_equal Bridgetown::Foundation::CoreExt,

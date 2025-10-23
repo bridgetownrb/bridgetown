@@ -53,7 +53,7 @@ module Bridgetown
         @data
       end
 
-      def write(model)
+      def write(model) # rubocop:disable Naming/PredicateMethod
         if File.exist?(original_path) && !Bridgetown::Utils.has_yaml_header?(original_path)
           raise Bridgetown::Errors::InvalidYAMLFrontMatterError,
                 "Only existing files containing YAML front matter can be overwritten by the model"

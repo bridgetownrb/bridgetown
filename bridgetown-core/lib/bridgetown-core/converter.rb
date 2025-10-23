@@ -63,7 +63,7 @@ module Bridgetown
     # @param ext [String] the file's extension (including the dot)
     # @param convertible [Bridgetown::Layout, Bridgetown::Resource::Base]
     # @return [Boolean] Whether the extension matches one in the list
-    def matches(ext, _convertible = nil)
+    def matches(ext, _convertible = nil) # rubocop:disable Naming/PredicateMethod
       (self.class.extname_list || []).include?(ext.downcase)
     end
 
@@ -114,7 +114,7 @@ module Bridgetown
     end
 
     def inspect
-      "#<#{self.class}#{self.class.extname_list ? " #{self.class.extname_list.join(", ")}" : nil}>"
+      "#<#{self.class}#{" #{self.class.extname_list.join(", ")}" if self.class.extname_list}>"
     end
   end
 end

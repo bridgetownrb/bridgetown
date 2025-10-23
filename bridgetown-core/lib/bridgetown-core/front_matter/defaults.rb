@@ -7,6 +7,8 @@ module Bridgetown
     class Defaults
       using Bridgetown::Refinements
 
+      SANITIZATION_REGEX = %r!\A/|(?<=[^/])\z!
+
       # @return [Bridgetown::Site]
       attr_reader :site
 
@@ -63,7 +65,7 @@ module Bridgetown
       def merge_data_cascade_for_path(path, merged_data)
         absolute_path = site.in_source_dir(path)
         site.defaults_reader.path_defaults
-          .select { |k, _v| absolute_path.include? k }
+          .select { |k, _v| absolute_path.include? k } # rubocop:disable Style/HashSlice
           .sort_by { |k, _v| k.length }
           .each do |defaults|
           merged_data.merge!(defaults[1])
@@ -93,7 +95,7 @@ module Bridgetown
         end
       end
 
-      def glob_scope(sanitized_path, rel_scope_path)
+      def glob_scope(sanitized_path, rel_scope_path) # rubocop:disable Naming/PredicateMethod
         site_source    = Pathname.new(site.source)
         abs_scope_path = site_source.join(rel_scope_path).to_s
 
@@ -148,7 +150,7 @@ module Bridgetown
       # @param old_scope [Hash] old scope hash, or nil if there's none
       # @param new_scope [Hash] new scope hash
       # @return [Boolean] true if the new scope has precedence over the older
-      # rubocop: disable Naming/PredicateName
+      # rubocop: disable Naming/PredicatePrefix
       def has_precedence?(old_scope, new_scope)
         return true if old_scope.nil?
 
@@ -163,7 +165,7 @@ module Bridgetown
           !old_scope.key? "collection"
         end
       end
-      # rubocop: enable Naming/PredicateName
+      # rubocop: enable Naming/PredicatePrefix
 
       # Collects a list of sets that match the given path and collection
       #
@@ -204,8 +206,6 @@ module Bridgetown
 
         set["scope"]["collection"] = set["scope"]["type"]
       end
-
-      SANITIZATION_REGEX = %r!\A/|(?<=[^/])\z!
 
       # Sanitizes the given path by removing a leading and adding a trailing slash
       def sanitize_path(path)

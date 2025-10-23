@@ -12,7 +12,7 @@ module Bridgetown
       end
     end
 
-    def add(severity, message = nil, progname = nil)
+    def add(severity, message = nil, progname = nil) # rubocop:disable Naming/PredicateMethod
       severity ||= UNKNOWN
       @logdev = logdevice(severity)
 

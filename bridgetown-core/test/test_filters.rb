@@ -5,6 +5,7 @@ require "helper"
 class TestFilters < BridgetownUnitTest
   class BridgetownFilter
     include Bridgetown::Filters
+
     attr_accessor :site, :context
 
     def initialize(opts)

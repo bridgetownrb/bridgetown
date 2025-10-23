@@ -5,6 +5,7 @@ require "signalize/struct"
 class Bridgetown::Signals < Signalize::Struct
   alias_method :__prev_to_h, :to_h
   include Enumerable
+
   alias_method :to_h, :__prev_to_h
 
   def self.signal_accessor(...)
