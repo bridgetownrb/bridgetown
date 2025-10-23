@@ -62,6 +62,10 @@ module Bridgetown
             File.basename(source_location, ".*")
           )
           supported_template_extensions.each do |ext|
+            # attempt class name first
+            test_path = File.join(File.dirname(stripped_path), "#{nested_name.underscore}.#{ext}")
+            break test_path if File.exist?(test_path)
+
             test_path = "#{stripped_path}.#{ext}"
             break test_path if File.exist?(test_path)
 
