@@ -77,7 +77,7 @@ class TestLiquidDrops < BridgetownUnitTest
         end
 
         should "fetch default value from block first if both argument and block given" do
-          assert_equal "baz", @resource_drop.fetch("bar", "default") { "baz" }
+          assert_equal "baz", @resource_drop.fetch("bar", "default") { "baz" } # rubocop:disable Lint/UselessDefaultValueArgument
         end
 
         should "not change mutability when fetching" do

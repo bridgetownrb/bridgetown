@@ -33,7 +33,7 @@ module Bridgetown
           Result.new(
             content: yaml_content.post_match.lstrip,
             front_matter: YAMLParser.load(yaml_content[1]),
-            line_count: yaml_content[1].lines.size - 1
+            line_count: yaml_content[1].lines.size
           )
         end
       end

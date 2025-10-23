@@ -99,7 +99,7 @@ module Bridgetown
         "esbuild"
       end
 
-      def postcss_option
+      def postcss_option # rubocop:disable Naming/PredicateMethod
         !options["use-sass"]
       end
 

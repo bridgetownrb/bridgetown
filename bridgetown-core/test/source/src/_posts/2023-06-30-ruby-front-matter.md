@@ -1,6 +1,7 @@
 ```ruby
 front_matter do
   title "Boo"
+  layout :rubylayout
 end
 ```
 

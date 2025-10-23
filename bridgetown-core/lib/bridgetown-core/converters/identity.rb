@@ -10,7 +10,7 @@ module Bridgetown
       support_slots
 
       # @return [Boolean] true since it always matches.
-      def matches(*)
+      def matches(*) # rubocop:disable Naming/PredicateMethod
         true
       end
 

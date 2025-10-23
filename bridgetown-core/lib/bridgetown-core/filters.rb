@@ -328,7 +328,7 @@ module Bridgetown
     #
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
-    def compare_property_vs_target(property, target)
+    def compare_property_vs_target(property, target) # rubocop:disable Naming/PredicateMethod
       case target
       when NilClass
         return true if property.nil?

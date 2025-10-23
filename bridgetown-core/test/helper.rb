@@ -135,7 +135,7 @@ class BridgetownUnitTest < Minitest::Test
 
   def load_plugin_content(config)
     config.source_manifests << Bridgetown::Configuration::SourceManifest.new(
-      origin: self.class,
+      origin: Kernel.const_get(self.class.name.split("::").first), # because Minitest `describe` blocks are nested
       components: testing_dir("plugin_content", "components"),
       content: testing_dir("plugin_content", "content"),
       layouts: testing_dir("plugin_content", "layouts")

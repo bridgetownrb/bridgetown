@@ -63,13 +63,22 @@ module Bridgetown
       input :rb
       template_engine :ruby
 
+      # rubocop:disable Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation
       def convert(content, convertible)
         rb_view = Bridgetown::PureRubyView.new(convertible)
-        results = rb_view.instance_eval(
-          content, convertible.path.to_s, line_start(convertible)
+
+        rb_view.instance_eval(
+          "def __ruby_template;#{content};end", convertible.path.to_s, line_start(convertible)
         )
-        rb_view._output_buffer || results.to_s
+
+        results = if convertible.is_a?(Bridgetown::Layout)
+                    rb_view.__ruby_template { convertible.current_document_output.html_safe }
+                  else
+                    rb_view.__ruby_template
+                  end
+        (rb_view._output_buffer || results).to_s
       end
+      # rubocop:enable Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation
     end
   end
 end
