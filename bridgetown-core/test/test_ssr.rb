@@ -18,53 +18,53 @@ class TestSSR < BridgetownUnitTest
     app.opts[:bridgetown_site]
   end
 
-  context "Roda-powered Bridgetown server" do
-    setup do
+  describe "Roda-powered Bridgetown server" do
+    before do
       Bridgetown::Current.site = nil
     end
 
-    teardown do
+    after do
       Bridgetown::Current.preloaded_configuration = nil
     end
 
-    should "return the index page" do
+    it "returns the index page" do
       get "/"
       expect(last_response).is? :ok?
       expect(last_response.body) == "<h1>Index</h1>"
     end
 
-    should "return JSON for the hello route" do
+    it "returns JSON for the hello route" do
       get "/hello/world"
       expect(last_response).is? :ok?
       expect(last_response.body) == { hello: "friend world VALUE" }.to_json
     end
 
-    should "support _method override of POST" do
+    it "supports _method override of POST" do
       post "/hello/methods", _method: "put"
       expect(last_response).is? :ok?
       expect(last_response.body) == { saved: "methods" }.to_json
     end
 
-    should "preserve site data between live reloads" do
+    it "preserves site data between live reloads" do
       expect(site.data.iterations) == 1
       site.reset(soft: true)
       expect(site.data.iterations) == 2
     end
 
-    should "support indifferent cookies" do
+    it "supports indifferent cookies" do
       post "/cookies", value: "Gookie!"
       get "/cookies"
       expect(last_response).is? :ok?
       expect(last_response.body) == { value: "Gookie!" }.to_json
     end
 
-    should "support incoming JSON payloads" do
+    it "supports incoming JSON payloads" do
       post "/ooh_json", { tell_me: "what you're chasin'" }
       expect(last_response).is? :ok?
       expect(last_response.body) == { because_the_night: "will never give you what you want" }.to_json
     end
 
-    should "support redirecting with helpers" do
+    it "supports redirecting with helpers" do
       site.config.url = "http://test.site"
       post "/redirect_me/now"
 
@@ -75,21 +75,21 @@ class TestSSR < BridgetownUnitTest
       expect(last_response.body) == "Redirected!"
     end
 
-    should "return rendered resource" do
+    it "returns rendered resource" do
       get "/render_resource"
 
       expect(last_response).is? :ok?
       expect(last_response.body) << "<p>Hello <strong>world</strong>!</p>"
     end
 
-    should "return model as rendered resource" do
+    it "returns model as rendered resource" do
       get "/render_model"
 
       expect(last_response).is? :ok?
       expect(last_response.body) << "<p class=\"test\">THIS IS A <em>TEST</em>.</p>"
     end
 
-    should "return rendered component" do
+    it "returns rendered component" do
       get "/render_component/wow"
 
       expect(last_response).is? :ok?
@@ -97,7 +97,7 @@ class TestSSR < BridgetownUnitTest
       expect(last_response.body) == "<rss>WOW true</rss>"
     end
 
-    should "return flash value" do
+    it "returns flash value" do
       post "/flashy/abc12356"
 
       get "/flashy"
@@ -106,7 +106,7 @@ class TestSSR < BridgetownUnitTest
       expect(last_response.body) == { "saved" => "Save this value: abc12356" }.to_json
     end
 
-    should "return rendered view" do
+    it "returns rendered view" do
       get "/render_view/Page_Me"
 
       expect(last_response).is? :ok?
@@ -118,14 +118,14 @@ class TestSSR < BridgetownUnitTest
         .include?("<p>Well that was 246!\n  <em>ya think?</em></p>")
     end
 
-    should "allow plugins to work without order dependence" do
+    it "allows plugins to work without order dependence" do
       get "/order-independence"
 
       expect(last_response).is? :ok?
       expect(last_response.body) == { it: "works" }.to_json
     end
 
-    should "allow plugins to work without order dependence with a base path" do
+    it "allows plugins to work without order dependence with a base path" do
       original_base_path = site.config.base_path
       site.config.base_path = "/subpath"
 

@@ -4,13 +4,13 @@ require "features/feature_helper"
 
 # As a plugin author, I want to be able to run code during various stages of the build process
 class TestFastRefresh < BridgetownFeatureTest
-  context "fast refresh" do
-    setup do
+  describe "fast refresh" do
+    before do
       create_directory "config"
       create_configuration fast_refresh: true
     end
 
-    should "rebuild page via signals without a full site build" do
+    it "rebuilds page via signals without a full site build" do
       create_file "config/initializers.rb", <<~RUBY
         Bridgetown.configure do |config|
           iterations = 1
@@ -39,7 +39,7 @@ class TestFastRefresh < BridgetownFeatureTest
       assert_file_contains "Iterations! 3", "output/index.html"
     end
 
-    should "rebuild page because partial changed" do
+    it "rebuilds page because partial changed" do
       create_directory "_partials"
       create_file "config/initializers.rb", <<~RUBY
         Bridgetown.configure do |config|
@@ -69,7 +69,7 @@ class TestFastRefresh < BridgetownFeatureTest
       assert_file_contains "Value: Right value", "output/index.html"
     end
 
-    should "rebuild page because component changed" do
+    it "rebuilds page because component changed" do
       create_directory "_components"
       create_file "config/initializers.rb", <<~RUBY
         Bridgetown.configure do |config|
@@ -107,7 +107,7 @@ class TestFastRefresh < BridgetownFeatureTest
       assert_file_contains "Component: Right value", "output/index.html"
     end
 
-    should "rebuild page because component template changed" do
+    it "rebuilds page because component template changed" do
       create_directory "_components"
       create_file "config/initializers.rb", <<~RUBY
         Bridgetown.configure do |config|
@@ -146,7 +146,7 @@ class TestFastRefresh < BridgetownFeatureTest
       assert_file_contains "Component: Right value", "output/index.html"
     end
 
-    should "rebuild page because layout changed" do
+    it "rebuilds page because layout changed" do
       create_directory "_layouts"
       create_file "config/initializers.rb", <<~RUBY
         Bridgetown.configure do |config|
@@ -180,7 +180,7 @@ class TestFastRefresh < BridgetownFeatureTest
       assert_file_contains "Layout\n: Right value", "output/index.html"
     end
 
-    should "rebuild page because page changed" do
+    it "rebuilds page because page changed" do
       create_file "config/initializers.rb", <<~RUBY
         Bridgetown.configure do |config|
           hook_ran = false
@@ -210,7 +210,7 @@ class TestFastRefresh < BridgetownFeatureTest
       assert_file_contains "<p>Value: <em>Right</em></p>", "output/index.html"
     end
 
-    should "not fast refresh because page taxonomy changed" do
+    it "does not fast refresh because page taxonomy changed" do
       create_file "config/initializers.rb", <<~RUBY
         Bridgetown.configure do |config|
           template_engine "erb"
@@ -242,8 +242,8 @@ class TestFastRefresh < BridgetownFeatureTest
     end
   end
 
-  context "fast refresh and prototype pages" do
-    setup do
+  describe "fast refresh and prototype pages" do
+    before do
       create_directory "config"
       create_directory "_posts"
       create_directory "authors"
@@ -254,7 +254,7 @@ class TestFastRefresh < BridgetownFeatureTest
       create_page "_posts/wargames4.md", "The only winning move is not to play4.", title: "Wargames4", author: "fred ; jackson", date: "2009-06-27"
     end
 
-    should "re-generate author pages on post change" do
+    it "re-generates author pages on post change" do
       example = { num: 1, exist: 3, posts: 1, not_exist: 4, title: "Wargames2" }
       create_configuration fast_refresh: true, pagination: { enabled: true, per_page: example[:num] }
 
@@ -289,7 +289,7 @@ class TestFastRefresh < BridgetownFeatureTest
       assert_file_contains "#jackson #{example[:posts]} WargamesNext", "output/authors/jackson/page/#{example[:exist]}/index.html"
     end
 
-    should "re-generate author pages on protoype change" do
+    it "re-generates author pages on protoype change" do
       example = { num: 1, exist: 3, posts: 1, not_exist: 4, title: "Wargames2" }
       create_configuration fast_refresh: true, pagination: { enabled: true, per_page: example[:num] }
 

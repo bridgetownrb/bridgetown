@@ -5,8 +5,8 @@ require "open-uri"
 
 class TestApplyCommand < BridgetownUnitTest
   unless ENV["GITHUB_ACTIONS"]
-    context "the apply command" do
-      setup do
+    describe "the apply command" do
+      before do
         @cmd = Bridgetown::Commands::Apply.new
         FileUtils.rm_rf("bridgetown.automation.rb")
         @template = "" + <<-TEMPLATE
@@ -17,7 +17,7 @@ class TestApplyCommand < BridgetownUnitTest
         end
       end
 
-      should "automatically run bridgetown.automation.rb" do
+      it "automatically runs bridgetown.automation.rb" do
         output = capture_stdout do
           @cmd.apply_automation
         end
@@ -33,7 +33,7 @@ class TestApplyCommand < BridgetownUnitTest
         assert_match %r!applytest.*?Hear me roar\!!, output
       end
 
-      should "run automations via relative file paths" do
+      it "runs automations via relative file paths" do
         file = "test/fixtures/test_automation.rb"
         output = capture_stdout do
           @cmd.invoke(:apply_automation, [file])
@@ -41,7 +41,7 @@ class TestApplyCommand < BridgetownUnitTest
         assert_match %r!fixture.*?Works\!!, output
       end
 
-      should "run automations from URLs" do
+      it "runs automations from URLs" do
         URI.stub :open, proc { @template } do
           file = "http://randomdomain.com/12345.rb"
           output = capture_stdout do
@@ -52,7 +52,7 @@ class TestApplyCommand < BridgetownUnitTest
         end
       end
 
-      should "automatically add bridgetown.automation.rb to URL folder path" do
+      it "automatically adds bridgetown.automation.rb to URL folder path" do
         URI.stub :open, proc { @template } do
           file = "http://randomdomain.com/foo"
           output = capture_stdout do
@@ -62,7 +62,7 @@ class TestApplyCommand < BridgetownUnitTest
         end
       end
 
-      should "transform GitHub repo URLs automatically" do
+      it "transforms GitHub repo URLs automatically" do
         skip "This causes a system stack error when full suite is run—don't know why!"
 
         URI.stub :open, proc { @template } do
@@ -75,7 +75,7 @@ class TestApplyCommand < BridgetownUnitTest
         end
       end
 
-      should "transform GitHub repo URLs and respect branches" do
+      it "transforms GitHub repo URLs and respects branches" do
         URI.stub :open, proc { @template } do
           # file url includes */tree/<branch>/* for a regular github url
           file = "https://github.com/bridgetownrb/bridgetown-automations/tree/my-tree"
@@ -89,7 +89,7 @@ class TestApplyCommand < BridgetownUnitTest
         end
       end
 
-      should "transform GitHub repo URLs and preserve directories named 'tree'" do
+      it "transforms GitHub repo URLs and preserves directories named 'tree'" do
         URI.stub :open, proc { @template } do
           file = "https://github.com/bridgetownrb/bridgetown-automations/tree/my-tree/tree"
           output = capture_stdout do
@@ -102,7 +102,7 @@ class TestApplyCommand < BridgetownUnitTest
         end
       end
 
-      should "transform GitHub repo URLs and not cause issues if the repo name is 'tree'" do
+      it "transforms GitHub repo URLs and does not cause issues if the repo name is 'tree'" do
         URI.stub :open, proc { @template } do
           file = "https://github.com/bridgetown/tree/tree/my-tree/tree"
           output = capture_stdout do
@@ -115,7 +115,7 @@ class TestApplyCommand < BridgetownUnitTest
         end
       end
 
-      should "transform GitHub file blob URLs" do
+      it "transforms GitHub file blob URLs" do
         URI.stub :open, proc { @template } do
           # file url includes */tree/<branch>/* for a regular github url
           file = "https://github.com/bridgetownrb/bridgetown-automations/blob/branchname/folder/file.rb"
@@ -129,7 +129,7 @@ class TestApplyCommand < BridgetownUnitTest
         end
       end
 
-      should "transform Gist URLs automatically" do
+      it "transforms Gist URLs automatically" do
         URI.stub :open, proc { @template } do
           file = "https://gist.github.com/jaredcwhite/963d40acab5f21b42152536ad6847575"
           output = capture_stdout do

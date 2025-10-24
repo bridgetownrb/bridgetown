@@ -15,102 +15,102 @@ class TestRubyHelpers < BridgetownUnitTest
     )
   end
 
-  context "link_to" do
-    should "return post's relative URL" do
+  describe "link_to" do
+    it "returns post's relative URL" do
       assert_equal "<a href=\"/publish_test/2008/02/02/published/\">Label</a>", @helpers.link_to("Label", "_posts/2008-02-02-published.markdown")
     end
 
-    should "throw error if post doesn't exist" do
+    it "throws error if post doesn't exist" do
       assert_raises ArgumentError do
         @helpers.link_to("Label", "_posts/2008-02-02-publishedMISSING.markdown")
       end
     end
 
-    should "return accept objects which respond to url" do
+    it "returns accept objects which respond to url" do
       assert_equal "<a href=\"/2023/06/30/ruby-front-matter/\">Label</a>", @helpers.link_to("Label", @site.collections.posts.resources.first)
     end
 
-    should "pass through relative/absolute URLs" do
+    it "passes through relative/absolute URLs" do
       assert_equal "<a href=\"/foo/bar\">Label</a>", @helpers.link_to("Label", "/foo/bar")
       assert_equal "<a href=\"https://apple.com\">Label</a>", @helpers.link_to("Label", "https://apple.com")
     end
 
-    should "accept additional attributes" do
+    it "accepts additional attributes" do
       assert_equal "<a href=\"/foo/bar\" class=\"classes\" data-test=\"abc123\">Label</a>", @helpers.link_to("Label", "/foo/bar", class: "classes", data_test: "abc123")
       assert_equal "<a href=\"/foo/bar\" class=\"classes\" data-test=\"abc123\">Label</a>", @helpers.link_to("/foo/bar", class: "classes", data_test: "abc123") { "Label" }
     end
 
-    should "accept hash attributes" do
+    it "accepts hash attributes" do
       assert_equal "<a href=\"/foo/bar\" class=\"classes\" data-controller=\"test\" data-action=\"test#test\">Label</a>", @helpers.link_to("Label", "/foo/bar", class: "classes", data: { controller: "test", action: "test#test" })
     end
 
-    should "accept anchors" do
+    it "accepts anchors" do
       assert_equal "<a href=\"#foo\">Label</a>", @helpers.link_to("Label", "#foo")
     end
 
-    should "accept email links" do
+    it "accepts email links" do
       assert_equal "<a href=\"mailto:a@example.org\">Label</a>", @helpers.link_to("Label", "mailto:a@example.org")
     end
 
-    should "accept telephone links" do
+    it "accepts telephone links" do
       assert_equal "<a href=\"tel:01234\">Label</a>", @helpers.link_to("Label", "tel:01234")
     end
 
-    should "accept block syntax" do
+    it "accepts block syntax" do
       assert_equal "<a href=\"/foo/bar\">Label</a>", @helpers.link_to("/foo/bar") { "Label" }
     end
 
-    should "raise if only one argument was given" do
+    it "raises if only one argument was given" do
       assert_raises ArgumentError do
         @helpers.link_to("Label")
       end
     end
   end
 
-  context "html_attributes" do
-    should "return an attribute string from a hash" do
+  describe "html_attributes" do
+    it "returns an attribute string from a hash" do
       assert_equal "class=\"classes\" data-test=\"abc123\"", @helpers.html_attributes(class: "classes", data_test: "abc123")
     end
 
-    should "handle nested hashes" do
+    it "handles nested hashes" do
       assert_equal "class=\"classes\" data-controller=\"test\" data-action=\"test#test\" data-test-target=\"test_value\" data-test-index-value=\"1\"", @helpers.html_attributes(class: "classes", data: { controller: "test", action: "test#test", test: { target: "test_value", index_value: "1" } })
     end
   end
 
-  context "class_map" do
-    should "provide a classes string" do
+  describe "class_map" do
+    it "provides a classes string" do
       yes_var = "yes"
       assert_includes "<p class=\"#{@helpers.class_map blank: !"".empty?, truthy: true, "more-truthy" => yes_var == "yes", falsy: nil, "more-falsy" => "no" == "yes"}\">classes!</p>", "<p class=\"truthy more-truthy\">"
     end
   end
 
-  context "translate" do
-    should "return translation when given a string" do
+  describe "translate" do
+    it "returns translation when given a string" do
       assert_equal "foo", @helpers.translate("about.foo")
     end
 
-    should "return translations when given an array" do
+    it "returns translations when given an array" do
       assert_equal %w[foo bar], @helpers.translate(%w[about.foo about.bar])
     end
 
-    should "return html safe string when key ends with _html" do
+    it "returns html safe string when key ends with _html" do
       assert @helpers.translate("about.foo_html").html_safe?
     end
 
-    should "return escaped interpolated values within html safe translation" do
+    it "returns escaped interpolated values within html safe translation" do
       assert_equal "<button>Click &lt;span&gt;Me&lt;/span&gt;</button>",
                    @helpers.translate("about.dangerous_html", me: "<span>Me</span>")
     end
 
-    should "not return html safe string when key does not end with _html" do
+    it "does not return html safe string when key does not end with _html" do
       refute @helpers.translate("about.foo").html_safe?
     end
 
-    should "return relative translation when key starts with period" do
+    it "returns relative translation when key starts with period" do
       assert_equal "foo", @helpers.translate(".foo")
     end
 
-    should "return relative translation when key starts with period and view is in a folder" do
+    it "returns relative translation when key starts with period and view is in a folder" do
       helpers = Bridgetown::RubyTemplateView::Helpers.new(
         Bridgetown::ERBView.new(
           @site.collections.pages.resources.find { |p| p.basename_without_ext == "bar" }
@@ -120,7 +120,7 @@ class TestRubyHelpers < BridgetownUnitTest
       assert_equal "foo", helpers.translate(".foo")
     end
 
-    should "return relative translation when key starts with period and view has .multi ext" do
+    it "returns relative translation when key starts with period and view has .multi ext" do
       helpers = Bridgetown::RubyTemplateView::Helpers.new(
         Bridgetown::ERBView.new(
           @site.collections.pages.resources.find { |p| p.basename_without_ext == "coc.multi" }
@@ -130,7 +130,7 @@ class TestRubyHelpers < BridgetownUnitTest
       assert_equal "foo", helpers.translate(".foo")
     end
 
-    should "return relative translation when key starts with period and view has underscores in name" do
+    it "returns relative translation when key starts with period and view has underscores in name" do
       helpers = Bridgetown::RubyTemplateView::Helpers.new(
         Bridgetown::ERBView.new(
           @site.collections.pages.resources.find { |p| p.basename_without_ext == "page_using_erb" }
@@ -140,7 +140,7 @@ class TestRubyHelpers < BridgetownUnitTest
       assert_equal "foo", helpers.translate(".foo")
     end
 
-    should "return relative translation when key starts with period and view path starts with an underscore" do
+    it "returns relative translation when key starts with period and view path starts with an underscore" do
       @site = fixture_site("collections" => { "tutorials" => { "output" => true } })
       @site.process
       helpers = Bridgetown::RubyTemplateView::Helpers.new(
@@ -152,22 +152,22 @@ class TestRubyHelpers < BridgetownUnitTest
       assert_equal "foo", helpers.translate(".foo")
     end
 
-    should "return translation missing if key doesn't exist" do
+    it "returns translation missing if key doesn't exist" do
       assert_equal "Translation missing: en.about.not_here", @helpers.translate(".not_here")
     end
 
-    should "have alias method t" do
+    it "has alias method t" do
       assert_equal @helpers.method(:translate), @helpers.method(:t)
     end
   end
 
-  context "localize" do
-    should "return same output as I18n.localize" do
+  describe "localize" do
+    it "returns same output as I18n.localize" do
       time = Time.now
       assert_equal I18n.localize(time), @helpers.localize(time)
     end
 
-    should "have alias method l" do
+    it "has alias method l" do
       assert_equal @helpers.method(:localize), @helpers.method(:l)
     end
   end

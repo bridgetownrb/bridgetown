@@ -32,11 +32,11 @@ class TestERBAndRubyTemplates < BridgetownUnitTest
       assert_includes @erb_page.output, "This is how capturing works!".reverse
     end
 
-    it "should properly handle block expressions" do
+    it "properly handles block expressions" do
       assert_includes @erb_page.output, "\n===\n+Value: value+\n---\n"
     end
 
-    it "shouldn't escape expressions in <%== %>" do
+    it "doesn't escape expressions in <%== %>" do
       assert_includes @erb_page.output, "<em>This is an unescaped expression & it shouldn't be escaped</em>"
     end
   end
@@ -56,13 +56,13 @@ class TestERBAndRubyTemplates < BridgetownUnitTest
   end
 
   describe "capturing inside of component templates" do
-    it "should not leak into main output" do
+    it "does not leak into main output" do
       refute_includes @erb_page.output, "## You should not see this captured content."
     end
   end
 
   describe "Rails-style extensions" do
-    it "should issue a warning" do
+    it "issues a warning" do
       assert_includes @process_output, "Uh oh! You're using a Rails-style filename extension in:"
       assert_includes @process_output, "rails-style.html.erb"
     end

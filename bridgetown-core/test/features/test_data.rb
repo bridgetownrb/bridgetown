@@ -4,12 +4,12 @@ require "features/feature_helper"
 
 # I want to use _data directory in my site
 class TestData < BridgetownFeatureTest
-  context "autoloading data" do
-    setup do
+  describe "autoloading data" do
+    before do
       create_directory "_data"
     end
 
-    should "support *.yaml" do
+    it "supports *.yaml" do
       create_file "_data/products.yaml", <<~YAML
         - name: sugar
           price: 5.3
@@ -25,7 +25,7 @@ class TestData < BridgetownFeatureTest
       assert_file_contains "salt", "output/index.html"
     end
 
-    should "support *.yml" do
+    it "supports *.yml" do
       create_file "_data/members.yml", <<~YAML
         - name: Jack
           age: 28
@@ -41,7 +41,7 @@ class TestData < BridgetownFeatureTest
       assert_file_contains "Leon", "output/index.html"
     end
 
-    should "support *.json" do
+    it "supports *.json" do
       create_file "_data/members.json", <<~JSON
         [{"name": "Jack", "age": 28},{"name": "Leon", "age": 34}]
       JSON
@@ -54,7 +54,7 @@ class TestData < BridgetownFeatureTest
       assert_file_contains "Leon", "output/index.html"
     end
 
-    should "support *.csv" do
+    it "supports *.csv" do
       create_file "_data/members.csv", <<~CSV
         name,age
         Jack,28
@@ -69,7 +69,7 @@ class TestData < BridgetownFeatureTest
       assert_file_contains "Leon", "output/index.html"
     end
 
-    should "support *.tsv" do
+    it "supports *.tsv" do
       create_file "_data/members.tsv", <<~TSV
         name	age
         Ingrid	28
@@ -84,7 +84,7 @@ class TestData < BridgetownFeatureTest
       assert_file_contains "Gertrude", "output/index.html"
     end
 
-    should "support *.yml with space in name" do
+    it "supports *.yml with space in name" do
       create_file "_data/team members.yml", <<~YAML
         - name: Jack
           age: 28
@@ -100,7 +100,7 @@ class TestData < BridgetownFeatureTest
       assert_file_contains "Leon", "output/index.html"
     end
 
-    should "support *.yml inside of a subdirectory, overwriting similarly-named key in parent file" do
+    it "supports *.yml inside of a subdirectory, overwriting similarly-named key in parent file" do
       create_directory "_data/categories"
       create_file "_data/categories/dairy.yml", <<~YAML
         name: Dairy Products

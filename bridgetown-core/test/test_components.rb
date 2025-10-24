@@ -28,18 +28,18 @@ class TestComponents < BridgetownUnitTest
     @erb_page = @site.collections.pages.resources.find { |page| page.data.title == "I'm an ERB Page" }
   end
 
-  context "basic Ruby components" do
-    should "should render" do
+  describe "basic Ruby components" do
+    it "renders" do
       expect(@erb_page.output) << "Here's the page title! <strong>I'm an ERB Page</strong>"
     end
 
-    should "allow source components to override plugin components" do
+    it "allows source components to override plugin components" do
       expect(@erb_page.output) << "Yay, it got overridden!"
     end
   end
 
-  context "Bridgetown::Component" do
-    should "should render with captured block content" do
+  describe "Bridgetown::Component" do
+    it "renders with captured block content" do
       # lots of funky whitespace from all the erb captures!
       spaces = "  "
       morespaces = "      "
@@ -59,17 +59,17 @@ class TestComponents < BridgetownUnitTest
       HTML
     end
 
-    should "not render if render? is false" do
+    it "does not render if render? is false" do
       expect(@erb_page.output)
         .exclude?("NOPE")
         .exclude?("Canceled!")
     end
 
-    should "handle same-file namespaced components" do
+    it "handles same-file namespaced components" do
       expect(@erb_page.output) << "<card-section>blurb contents</card-section>"
     end
 
-    should "handle nested renders" do
+    it "handles nested renders" do
       levels = []
       4.times do |i|
         levels << "#{i + 1}: Level #{i + 1}"

@@ -15,11 +15,11 @@ class TestResource < BridgetownUnitTest
         end
       end
 
-      it "exist" do
+      it "exists" do
         assert !@resource.nil?
       end
 
-      it "know its relative path" do
+      it "knows its relative path" do
         assert_equal "top-level-page.md", @resource.relative_path.to_s
       end
 
@@ -27,28 +27,28 @@ class TestResource < BridgetownUnitTest
         assert_equal ".md", @resource.extname
       end
 
-      it "know its basename without extname" do
+      it "knows its basename without extname" do
         assert_equal "top-level-page", @resource.basename_without_ext
       end
 
-      it "know its collection" do
+      it "knows its collection" do
         assert_equal "pages", @resource.collection.label
       end
 
-      it "know its layout" do
+      it "knows its layout" do
         assert_equal "default", @resource.layout.label
       end
 
-      it "know its data" do
+      it "knows its data" do
         assert_equal "I'm a Top Level Page!", @resource.data.title
       end
 
-      it "know its date" do
+      it "knows its date" do
         assert_equal Time.now.strftime("%Y/%m/%d"), @resource.date.strftime("%Y/%m/%d")
         assert_equal Time.now.strftime("%Y/%m/%d"), @resource.to_liquid["date"].strftime("%Y/%m/%d")
       end
 
-      it "have untransformed and transformed content" do
+      it "has untransformed and transformed content" do
         assert_equal "That's **great**!", @resource.untransformed_content.lines.first.strip
         assert_equal "<p>That’s <strong>great</strong>!</p>", @resource.content.lines.first.strip
       end
@@ -64,11 +64,11 @@ class TestResource < BridgetownUnitTest
         end
       end
 
-      it "exist" do
+      it "exists" do
         assert !@resource.nil?
       end
 
-      it "have the correct permalink" do
+      it "has the correct permalink" do
         assert_equal "/second-level-page/", @resource.relative_url
       end
     end
@@ -88,20 +88,20 @@ class TestResource < BridgetownUnitTest
         @dest_file = dest_dir("special_events/2020/christmas.html")
       end
 
-      it "produce the right URL" do
+      it "produces the right URL" do
         assert_equal "/special_events/2020/christmas", @resource.relative_url
       end
 
-      it "produce the right destination file" do
+      it "produces the right destination file" do
         assert_equal @dest_file, @resource.destination.output_path
         assert File.exist?(@dest_file)
       end
 
-      it "honor the output extension of its permalink" do
+      it "honors the output extension of its permalink" do
         assert_equal ".html", @resource.destination.output_ext
       end
 
-      it "have transformed content" do
+      it "has transformed content" do
         assert_equal "Christmas 2020", @resource.data.title
         assert_equal "Fa la la la la la la la la!", @resource.content.strip
       end
@@ -121,11 +121,11 @@ class TestResource < BridgetownUnitTest
         @dest_file = dest_dir("events/christmas/index.html")
       end
 
-      it "produce the right URL" do
+      it "produces the right URL" do
         assert_equal "/events/christmas/", @resource.relative_url
       end
 
-      it "produce the right destination file" do
+      it "produces the right destination file" do
         assert_equal @dest_file, @resource.destination.output_path
       end
     end
@@ -144,16 +144,16 @@ class TestResource < BridgetownUnitTest
         @dest_file = dest_dir("events/the-weeknd/index.html")
       end
 
-      it "not have any URL" do
+      it "does not have any URL" do
         assert_equal "", @resource.relative_url
       end
 
-      it "not have any destination file" do
+      it "does not have any destination file" do
         assert_nil @resource.destination
         refute File.exist?(@dest_file)
       end
 
-      it "still have processed content" do
+      it "still has processed content" do
         assert_equal "Ladies and gentlemen, The Weeknd!", @resource.content
       end
     end
@@ -173,24 +173,24 @@ class TestResource < BridgetownUnitTest
         @dest_file = dest_dir("noodles/low-cost/ramen.html")
       end
 
-      it "produce the right URL" do
+      it "produces the right URL" do
         assert_equal "/noodles/low-cost/ramen", @resource.relative_url
       end
 
-      it "produce the right destination file" do
+      it "produces the right destination file" do
         assert_equal @dest_file, @resource.destination.output_path
       end
 
-      it "have transformed content" do
+      it "has transformed content" do
         assert_equal "Mmm, yum!", @resource.content.strip
       end
 
-      it "contain default front matter" do
+      it "contains default front matter" do
         assert_equal %w[noodle dishes], @resource.data.tags
         assert_equal "dishes", @resource.taxonomies.tag.terms[1].label
       end
 
-      it "appear in page loop" do
+      it "appears in page loop" do
         page = @site.collections.pages.resources.find { |pg| pg.data.title == "I'm the Noodles index" }
         assert_includes page.output, "<li>Noodles!: /noodles/low-cost/ramen"
       end
@@ -204,23 +204,23 @@ class TestResource < BridgetownUnitTest
         @dest_file = dest_dir("2019/09/09/bløg-pöst/index.html")
       end
 
-      it "produce the right URL" do
+      it "produces the right URL" do
         assert_equal "/2019/09/09/bløg-pöst/", @resource.relative_url
       end
 
-      it "produce the right destination file" do
+      it "produces the right destination file" do
         assert_equal @dest_file, @resource.destination.output_path
       end
 
-      it "have a fancy title" do
+      it "has a fancy title" do
         assert_equal "I'm a bløg pöst? 😄", @resource.data.title
       end
 
-      it "include content" do
+      it "includes content" do
         assert_equal "<p>W00t!</p>\n", @resource.content
       end
 
-      it "properly load front matter defaults" do
+      it "properly loads front matter defaults" do
         assert_equal "present and accounted for", @resource.data.defaults_are
         assert_equal "present and accounted for", {}.merge(@resource.data.to_h)["defaults_are"]
       end
@@ -234,7 +234,7 @@ class TestResource < BridgetownUnitTest
         @dest_file = dest_dir("2019/09/09/blog-post/index.html")
       end
 
-      it "allow a simpler slugify mode" do
+      it "allows a simpler slugify mode" do
         assert_equal "/2019/09/09/blog-post/", @resource.relative_url
         assert_equal @dest_file, @resource.destination.output_path
       end
@@ -253,19 +253,19 @@ class TestResource < BridgetownUnitTest
         @resource = @site.collections.noodles.resources[0]
       end
 
-      it "have no URL" do
+      it "has no URL" do
         assert_equal "", @resource.relative_url
       end
 
-      it "have no destination file" do
+      it "has no destination file" do
         assert @resource.destination.nil?
       end
 
-      it "have data" do
+      it "has data" do
         assert_equal 1, @resource.data.data.goes.here
       end
 
-      it "be a static file without triple dashes" do
+      it "is a static file without triple dashes" do
         assert_equal 2, @site.collections.noodles.resources.length
         assert_equal "static_file.yml", @site.collections.noodles.static_files.first.name
       end
@@ -278,21 +278,21 @@ class TestResource < BridgetownUnitTest
         @resource = @site.collections.data.resources[0]
       end
 
-      it "have no URL" do
+      it "has no URL" do
         assert_equal "", @resource.relative_url
       end
 
-      it "have no destination file" do
+      it "has no destination file" do
         assert @resource.destination.nil?
       end
 
-      it "have data" do
+      it "has data" do
         assert_equal "cheese", @resource.data.products.first.name
         assert_equal "cheese", @site.data.categories.dairy.products.first.name
         assert_equal 5.3, @site.data.categories.dairy.products.first.price
       end
 
-      it "not overwrite data in same folder" do
+      it "does not overwrite data in same folder" do
         assert_equal "1.jpg", @site.data.gallery.album_1.file
         assert_equal "2.jpg", @site.data.gallery.album_2.file
         assert_equal "3.jpg", @site.data.gallery.album_1.interior.file
@@ -300,7 +300,7 @@ class TestResource < BridgetownUnitTest
     end
 
     describe "a Ruby data resource" do
-      it "provide an array" do
+      it "provides an array" do
         @site = resources_site
         @site.process
         assert_equal "ruby", @site.data.languages[1]
@@ -308,7 +308,7 @@ class TestResource < BridgetownUnitTest
     end
 
     describe "a PORT (Plain Ol' Ruby Template)" do
-      it "render out as HTML" do
+      it "renders out as HTML" do
         @site = resources_site
         @site.process
         @dest_file = File.read(dest_dir("i-am-ruby/index.html"))
@@ -342,7 +342,7 @@ class TestResource < BridgetownUnitTest
     end
 
     describe "dotfile permalink" do
-      it "get saved to destination" do
+      it "gets saved to destination" do
         @site = resources_site
         @site.process
         @dest_file = File.read(dest_dir(".nojekyll"))
@@ -352,7 +352,7 @@ class TestResource < BridgetownUnitTest
     end
 
     describe "previous and next resource methods" do
-      it "return the correct resource" do
+      it "returns the correct resource" do
         @site = resources_site
         @site.process
         @resource = @site.collections.pages.resources[0]
@@ -370,12 +370,12 @@ class TestResource < BridgetownUnitTest
         @dest_file = dest_dir("noodle-archive/ramen/index.html")
       end
 
-      it "be generated for the given term" do
+      it "is generated for the given term" do
         assert File.exist?(@dest_file)
         assert_includes @page.output, "<h1>ramen</h1>"
       end
 
-      it "not persist across rebuilds" do
+      it "does not persist across rebuilds" do
         page_count = @site.generated_pages.size
         Bridgetown::Hooks.trigger :site, :pre_reload, @site
         @site.process
@@ -389,13 +389,13 @@ class TestResource < BridgetownUnitTest
         @site.process
       end
 
-      it "augment the Resource::Base class" do
+      it "augments the Resource::Base class" do
         resource = @site.resources.first
         assert_equal "Ruby return value! ", resource.heres_a_method
         assert_equal "Ruby return value! wee!", resource.heres_a_method("wee!")
       end
 
-      it "augment the Drops::ResourceDrop class" do
+      it "augments the Drops::ResourceDrop class" do
         resource = @site.collections.pages.resources.find do |page|
           page.relative_path.to_s == "top-level-page.md"
         end
@@ -414,7 +414,7 @@ class TestResource < BridgetownUnitTest
         end
       end
 
-      it "work in a Ruby template" do
+      it "works in a Ruby template" do
         assert_equal "That's **great**!", @resource.summary
 
         @resource.singleton_class.include TestingSummaryService::RubyResource
@@ -422,7 +422,7 @@ class TestResource < BridgetownUnitTest
         assert_equal "SUMMARY! That's **gr DONE", @resource.summary
       end
 
-      it "work in a Liquid template" do
+      it "works in a Liquid template" do
         @resource.singleton_class.include TestingSummaryService::RubyResource
         @site.render
 

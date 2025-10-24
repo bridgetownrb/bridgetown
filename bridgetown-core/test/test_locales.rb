@@ -3,8 +3,8 @@
 require "helper"
 
 class TestLocales < BridgetownUnitTest
-  context "similar pages in different locales as specified in filename" do
-    setup do
+  describe "similar pages in different locales as specified in filename" do
+    before do
       reset_i18n_config
       @site = resources_site
       @site.process
@@ -17,18 +17,18 @@ class TestLocales < BridgetownUnitTest
       end
     end
 
-    should "return locales as symbols" do
+    it "returns locales as symbols" do
       assert_equal :en, @english_resource.data.locale
       assert_equal :fr, @french_resource.data.locale
     end
 
-    should "have the correct permalink and locale in English" do
+    it "has the correct permalink and locale in English" do
       assert_equal "/second-level-page/", @english_resource.relative_url
       assert_includes @english_resource.output, "<title>I&#39;m a Second Level Page</title>"
       assert_includes @english_resource.output, "<p>Locale: en</p>"
     end
 
-    should "have the correct permalink and locale in French" do
+    it "has the correct permalink and locale in French" do
       assert_equal "/fr/second-level-page/", @french_resource.relative_url
       assert_includes @french_resource.output, "<title>I&#39;m a Second Level Page in French</title>"
       assert_includes @french_resource.output, "<p>C’est <strong>bien</strong>.</p>\n\n<p>Locale: fr</p>"
@@ -40,8 +40,8 @@ class TestLocales < BridgetownUnitTest
     end
   end
 
-  context "one page which is generated into all available_locales" do
-    setup do
+  describe "one page which is generated into all available_locales" do
+    before do
       reset_i18n_config
       @site = resources_site
       @site.process
@@ -53,14 +53,14 @@ class TestLocales < BridgetownUnitTest
       @french_resource = @resources.find { |page| page.data.locale == :fr }
     end
 
-    should "have the correct permalink and locale in English" do
+    it "has the correct permalink and locale in English" do
       assert_equal "/multi-page/", @english_resource.relative_url
       assert_includes @english_resource.output, 'lang="en"'
       assert_includes @english_resource.output, "<title>Multi-locale page</title>"
       assert_includes @english_resource.output, "<p>English: Multi-locale page</p>"
     end
 
-    should "have the correct permalink and locale in French" do
+    it "has the correct permalink and locale in French" do
       assert_equal "/fr/multi-page/", @french_resource.relative_url
       assert_includes @french_resource.output, 'lang="fr"'
       assert_includes @french_resource.output, "<title>Sur mesure</title>"
@@ -73,8 +73,8 @@ class TestLocales < BridgetownUnitTest
     end
   end
 
-  context "a page with a slug that matches others in this directory and also another directory" do
-    setup do
+  describe "a page with a slug that matches others in this directory and also another directory" do
+    before do
       @site = resources_site
       @site.process
       # @type [Bridgetown::Resource::Base]
@@ -87,15 +87,15 @@ class TestLocales < BridgetownUnitTest
       end
     end
 
-    context "#all_locales" do
-      should "list only the resources with the same slug and the same parent directory" do
+    describe "#all_locales" do
+      it "lists only the resources with the same slug and the same parent directory" do
         assert_equal([@resource, @resource_with_matching_slug_in_same_directory], @resource.all_locales)
       end
     end
   end
 
-  context "one page which is generated into a subset of available_locales (as specified in locales key)" do
-    setup do
+  describe "one page which is generated into a subset of available_locales (as specified in locales key)" do
+    before do
       reset_i18n_config
       @site = resources_site
       @site.process
@@ -106,20 +106,20 @@ class TestLocales < BridgetownUnitTest
       @english_resource = @resources.find { |page| page.data.locale == :en }
     end
 
-    should "have the correct permalink and locale in English" do
+    it "has the correct permalink and locale in English" do
       assert_equal "/multi-page-with-specified-locales/", @english_resource.relative_url
       assert_includes @english_resource.output, 'lang="en"'
       assert_includes @english_resource.output, "<title>Multi-locale with specified locales page</title>"
       assert_includes @english_resource.output, "<p>English: Multi-locale with specified locales page</p>"
     end
 
-    should "not have generated any locales other than English" do
+    it "does not have generated any locales other than English" do
       assert_equal 1, @resources.length
     end
   end
 
-  context "locales and a base_path combined" do
-    setup do
+  describe "locales and a base_path combined" do
+    before do
       reset_i18n_config
       @site = resources_site(base_path: "/basefolder")
       @site.process
@@ -131,14 +131,14 @@ class TestLocales < BridgetownUnitTest
       @french_resource = @resources.find { |page| page.data.locale == :fr }
     end
 
-    should "have the correct permalink and locale in English" do
+    it "has the correct permalink and locale in English" do
       assert_equal "/basefolder/multi-page/", @english_resource.relative_url
       assert_includes @english_resource.output, 'lang="en"'
       assert_includes @english_resource.output, "<title>Multi-locale page</title>"
       assert_includes @english_resource.output, "<p>English: Multi-locale page</p>"
     end
 
-    should "have the correct permalink and locale in French" do
+    it "has the correct permalink and locale in French" do
       assert_equal "/basefolder/fr/multi-page/", @french_resource.relative_url
       assert_includes @french_resource.output, 'lang="fr"'
       assert_includes @french_resource.output, "<title>Sur mesure</title>"
@@ -151,8 +151,8 @@ class TestLocales < BridgetownUnitTest
     end
   end
 
-  context "locales, prefix_default_locale, and base_path combined" do
-    setup do
+  describe "locales, prefix_default_locale, and base_path combined" do
+    before do
       reset_i18n_config
       @site = resources_site(base_path: "/basefolder", prefix_default_locale: true)
       @site.process
@@ -164,14 +164,14 @@ class TestLocales < BridgetownUnitTest
       @french_resource = @resources.find { |page| page.data.locale == :fr }
     end
 
-    should "have the correct permalink and locale in English" do
+    it "has the correct permalink and locale in English" do
       assert_equal "/basefolder/en/multi-page/", @english_resource.relative_url
       assert_includes @english_resource.output, 'lang="en"'
       assert_includes @english_resource.output, "<title>Multi-locale page</title>"
       assert_includes @english_resource.output, "<p>English: Multi-locale page</p>"
     end
 
-    should "have the correct permalink and locale in French" do
+    it "has the correct permalink and locale in French" do
       assert_equal "/basefolder/fr/multi-page/", @french_resource.relative_url
       assert_includes @french_resource.output, 'lang="fr"'
       assert_includes @french_resource.output, "<title>Sur mesure</title>"
@@ -183,8 +183,8 @@ class TestLocales < BridgetownUnitTest
       HTML
     end
 
-    context "translation filters" do
-      setup do
+    describe "translation filters" do
+      before do
         reset_i18n_config
         @site = resources_site
         @site.process
@@ -196,47 +196,47 @@ class TestLocales < BridgetownUnitTest
         @french_resource = @resources.find { |page| page.data.locale == :fr }
       end
 
-      should "pull in the right English translation" do
+      it "pulls in the right English translation" do
         assert_includes @english_resource.output, "<p>English: Test Name</p>"
       end
 
-      should "fall back to English on missing translation" do
+      it "falls back to English on missing translation" do
         assert_includes @french_resource.output, "<p>Français: Test Name</p>"
       end
     end
   end
 
-  context "fallback chain" do
-    setup do
+  describe "fallback chain" do
+    before do
       reset_i18n_config
       @site = resources_site
       @site.process
     end
 
-    should "include English for base language" do
+    it "includes English for base language" do
       assert_equal %i[de en], I18n.fallbacks[:de]
       assert_equal %i[fr en], I18n.fallbacks[:fr]
     end
 
-    should "include English and base language for regional locale" do
+    it "includes English and base language for regional locale" do
       assert_equal %i[de-NL de en], I18n.fallbacks[:"de-NL"]
       assert_equal %i[fr-CA fr en], I18n.fallbacks[:"fr-CA"]
     end
   end
 
-  context "fallback chain with different default locale" do
-    setup do
+  describe "fallback chain with different default locale" do
+    before do
       reset_i18n_config
       @site = resources_site("default_locale" => :es, "available_locales" => %w[en es])
       @site.process
     end
 
-    should "include both the default language and English in the fallback chain" do
+    it "includes both the default language and English in the fallback chain" do
       assert_equal %i[de es en], I18n.fallbacks[:de]
       assert_equal %i[es en], I18n.fallbacks[:es]
     end
 
-    should "include base language, default, and English for regional language" do
+    it "includes base language, default, and English for regional language" do
       assert_equal %i[de-NL de es en], I18n.fallbacks[:"de-NL"]
       assert_equal %i[es-MX es en], I18n.fallbacks[:"es-MX"]
     end

@@ -31,7 +31,6 @@ require_relative "../lib/bridgetown-core/commands/base"
 Bridgetown.logger = Logger.new(StringIO.new, :error)
 
 require "kramdown"
-require "shoulda" # TODO: finish converting tests to Minitest spec and remove this
 
 include Bridgetown
 
@@ -96,12 +95,11 @@ module DirectoryHelpers
     testing_dir("source", "src", *subdirs)
   end
 
-  def test_dir(*subdirs)
+  # Must not be named test_dir, or else the method isn't accessible in Minitest
+  # spec (describe/it) blocks.
+  def testing_dir(*subdirs)
     root_dir("test", *subdirs)
   end
-  # NOTE: I cannot explain why using describe/it results in `test_dir` going
-  # missing. Hence the use of this alias:
-  alias_method :testing_dir, :test_dir
 end
 
 Minitest::Spec::DSL::InstanceMethods.class_eval do
