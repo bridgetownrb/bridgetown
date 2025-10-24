@@ -3,15 +3,15 @@
 require "helper"
 
 class TestModel < BridgetownUnitTest
-  context "Models" do
-    setup do
+  describe "Models" do
+    before do
       # @type [Bridgetown::Site]
       @site = resources_site
       @origin = Bridgetown::Model::RepoOrigin.new_with_collection_path(:pages, "_pages/_test_file.md")
       @filepath = @site.in_source_dir("_pages/_test_file.md")
     end
 
-    should "save and load content" do
+    it "saves and loads content" do
       model = Bridgetown::Model::Base.new(title: "Hello", layout: :page)
       model.content = "Super **great** content!"
       model.origin = @origin
@@ -26,7 +26,7 @@ class TestModel < BridgetownUnitTest
       FileUtils.rm_rf(@filepath)
     end
 
-    should "refrain from overwriting non-YAML front matter files" do
+    it "refrains from overwriting non-YAML front matter files" do
       model = Bridgetown::Model::Base.new(title: "Hello", layout: :page)
       model.content = "Super **great** content!"
       model.origin = @origin

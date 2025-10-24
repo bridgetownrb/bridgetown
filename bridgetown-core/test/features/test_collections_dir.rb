@@ -4,8 +4,8 @@ require "features/feature_helper"
 
 # I want to be able to organize my collections under a single directory and render them from there
 class TestCollectionsDir < BridgetownFeatureTest
-  context "custom collections dir" do
-    should "render only posts" do
+  describe "custom collections dir" do
+    it "renders only posts" do
       create_directory "collections/_posts"
       create_page "collections/_posts/gathered-post.md", "Random Content.", title: "Gathered Post", date: "2009-03-27"
 
@@ -15,7 +15,7 @@ class TestCollectionsDir < BridgetownFeatureTest
       assert_file_contains "Random Content.", "output/2009/03/27/gathered-post/index.html"
     end
 
-    should "render posts and a custom collection" do
+    it "renders posts and a custom collection" do
       create_directory "collections/_puppies"
       create_page "collections/_puppies/rover.md", "Content for Rover.", title: "Rover", date: "2007-12-31"
       create_directory "collections/_posts"
@@ -32,7 +32,7 @@ class TestCollectionsDir < BridgetownFeatureTest
       assert_file_contains "Random Content.", "output/2009/03/27/gathered-post/index.html"
     end
 
-    should "render a custom collection but not posts at root" do
+    it "renders a custom collection but not posts at root" do
       create_directory "collections/_puppies"
       create_page "collections/_puppies/rover.md", "Content for Rover.", title: "Rover", date: "2007-12-31"
       create_directory "_posts"
@@ -49,7 +49,7 @@ class TestCollectionsDir < BridgetownFeatureTest
       refute_exist "output/2009/03/27/gathered-post/index.html"
     end
 
-    should "render a complex site with collections and static files" do
+    it "renders a complex site with collections and static files" do
       create_directory "gathering/_puppies"
       create_directory "gathering/_posts"
       create_directory "_puppies"
@@ -81,8 +81,8 @@ class TestCollectionsDir < BridgetownFeatureTest
     end
   end
 
-  context "front matter with custom collections" do
-    should "render nested documents" do
+  describe "front matter with custom collections" do
+    it "renders nested documents" do
       create_directory "gathering/_players/managers"
       create_directory "gathering/_players/recruits"
       create_directory "gathering/_players/standby"
@@ -157,7 +157,7 @@ class TestCollectionsDir < BridgetownFeatureTest
       assert_file_contains "<p>Loki: Villain: false</p>", "output/index.html"
     end
 
-    should "sort all entries by a Front Matter key" do
+    it "sorts all entries by a Front Matter key" do
       create_directory "gathering"
       setup_collections_fixture "gathering"
 
@@ -194,7 +194,7 @@ class TestCollectionsDir < BridgetownFeatureTest
       assert_file_contains "Next: Dive-In and Publish Already!", "output/tutorials/lets-roll/index.html"
     end
 
-    should "sort all entries by a Front Matter key defined in only some entries" do
+    it "sorts all entries by a Front Matter key defined in only some entries" do
       create_directory "gathering"
       setup_collections_fixture "gathering"
 
