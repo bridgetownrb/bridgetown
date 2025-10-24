@@ -49,11 +49,11 @@ module Bridgetown
       end
 
       def csrf_tag(...)
-        roda_app.csrf_tag(...)
+        roda_app.csrf_tag(...).html_safe
       end
 
       def csrf_token(...)
-        roda_app.csrf_token(...)
+        roda_app.csrf_token(...).html_safe
       end
     end
   end

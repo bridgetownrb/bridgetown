@@ -71,6 +71,11 @@ class TestRoutes < BridgetownUnitTest
       assert_equal({ numbers: [2, 4, 6, 8] }.to_json, last_response.body)
     end
 
+    should "output csrf hidden input tag" do
+      get "/form"
+      expect(last_response.body).must_include('<form><input type="hidden" name="_csrf" value="')
+    end
+
     should "return the proper route within an island" do
       get "/paradise" do
         assert_equal "Living in paradise =)", last_response.body

@@ -151,7 +151,7 @@ class Roda
         def _fake_resource_view(view_class:, roda_app:, bridgetown_site:)
           @_fake_resource_views ||= {}
           @_fake_resource_views[view_class] ||= view_class.new(
-            # TODO: use a Stuct for better performance...?
+            # TODO: use a Struct for better performance...?
             HashWithDotAccess::Hash.new({
               data: {},
               roda_app:,
