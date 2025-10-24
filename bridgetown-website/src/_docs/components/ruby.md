@@ -124,6 +124,10 @@ Streamlined adds some special helpers so that writing properly-escaped HTML as w
 [Read more about how to use Ruby template syntax here.](/docs/template-engines/erb-and-beyond)
 
 <%= render Note.new do %>
+You can also write multiple "inner" Ruby classes namespaced within an outer module or class. For example, you could author a `shared.rb` file containing components `Shared::Navbar`, `Shared::Footer`, etc. For the sidebar templates, they would live in a folder of the underscored parent namespace (aka `MyRubyModule` becomes `my_ruby_module`). In this case, `shared/navbar.erb`, `shared/footer.erb`, etc.
+<% end %>
+
+<%= render Note.new do %>
 Need to add component compatibility with Rails projects? [Try our experimental ViewComponent shim](/docs/components/view-component).
 <% end %>
 
