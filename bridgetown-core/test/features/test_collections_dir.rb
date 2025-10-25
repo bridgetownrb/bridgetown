@@ -15,6 +15,17 @@ class TestCollectionsDir < BridgetownFeatureTest
       assert_file_contains "Random Content.", "output/2009/03/27/gathered-post/index.html"
     end
 
+    should "load data files correctly" do
+      create_directory "collections/_data/astley"
+      create_file "collections/_data/astley/rick.json", '{"give you up?": "never gonna"}'
+      create_page "index.md", "Rick Astley is <%= site.data.astley.rick['give you up?'] %> give you up.", title: "Rickrolled!"
+
+      create_configuration collections_dir: "collections"
+      run_bridgetown "build"
+
+      assert_file_contains "Rick Astley is never gonna give you up.", "output/index.html"
+    end
+
     should "render posts and a custom collection" do
       create_directory "collections/_puppies"
       create_page "collections/_puppies/rover.md", "Content for Rover.", title: "Rover", date: "2007-12-31"
