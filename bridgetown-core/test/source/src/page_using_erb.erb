@@ -38,6 +38,8 @@ Oats, <%= array_to_sentence_string ["peas", "beans", "barley"] %> grow.
   Canceled!
 <% end %>
 
+<%= render Card::CardSection.new(blurb: "blurb contents") %>
+
 <%= render (Nested.new(level: 1)) do %>Level 1<% end %>
 
 <%= render Example::OverrideComponent.new %>

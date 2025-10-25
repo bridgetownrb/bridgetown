@@ -52,25 +52,40 @@ module Bridgetown
         raise "No component rendering engine could be found for .#{ext} templates"
       end
 
+      # Provide a list of potential sidebar template paths (minus extensions).
+      #
+      # @return [Array<String>]
+      def component_template_path_candidates
+        @_tmpl_path_candidates ||= begin
+          dirname = File.dirname(source_location)
+          basename = File.basename(source_location, ".*")
+          stripped_path = File.join(dirname, basename)
+
+          paths = []
+          # same-file inner classes get folders of their own. `Shared::Navbar` inside `shared.rb`
+          # will get `shared/navbar.erb`
+          if (parent_name = nested_parent&.name&.underscore) &&
+              (dirname.split("/").last != parent_name)
+            paths << File.join(dirname, parent_name, nested_name.underscore)
+          end
+
+          paths + [stripped_path, "#{stripped_path}.html"] # that last one is a compatibility nod
+        end
+      end
+
       # Find the first matching template path based on source location and extension.
       #
       # @return [String]
       def component_template_path
-        @_tmpl_path ||= begin
-          stripped_path = File.join(
-            File.dirname(source_location),
-            File.basename(source_location, ".*")
-          )
-          supported_template_extensions.each do |ext|
-            test_path = "#{stripped_path}.#{ext}"
-            break test_path if File.exist?(test_path)
-
-            test_path = "#{stripped_path}.html.#{ext}"
-            break test_path if File.exist?(test_path)
+        @_tmpl_path ||= component_template_path_candidates.map do |candidate|
+          found_path = supported_template_extensions.map do |ext|
+            path = "#{candidate}.#{ext}"
+            break path if File.exist?("#{candidate}.#{ext}")
           end
+          break found_path unless Array(found_path).first.nil?
         end
 
-        unless @_tmpl_path.is_a?(String)
+        if Array(@_tmpl_path).first.nil?
           raise "#{name}: no matching template could be found in #{File.dirname(source_location)}"
         end
 
@@ -210,7 +225,7 @@ module Bridgetown
       (method(:call).arity.zero? ? call : nil) || _renderer.render(self)
     end
 
-    # Typically not used but here as a compatibility nod toward ViewComponent.
+    # Not used by default, but subclasses may utilize it (such as callable view objects)
     def call
       nil
     end

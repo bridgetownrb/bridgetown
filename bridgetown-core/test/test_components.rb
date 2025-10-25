@@ -64,6 +64,10 @@ class TestComponents < BridgetownUnitTest
       expect(@erb_page.output).exclude? "Canceled!"
     end
 
+    should "handle same-file namespaced components" do
+      expect(@erb_page.output) << "<card-section>blurb contents</card-section>"
+    end
+
     should "handle nested renders" do
       levels = []
       4.times do |i|

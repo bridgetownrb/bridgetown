@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Card < Bridgetown::Component
+  class CardSection < Bridgetown::Component
+    def initialize(blurb:) = @blurb = blurb
+  end
+
   def initialize(title:, footer:)
     @title = title
     @footer = footer
