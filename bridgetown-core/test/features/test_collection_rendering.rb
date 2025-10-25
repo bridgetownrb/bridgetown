@@ -4,12 +4,12 @@ require "features/feature_helper"
 
 # I want to be able to configure and verify rendering characteristics of collections
 class TestCollectionRendering < BridgetownFeatureTest
-  context "collections" do
-    setup do
+  describe "collections" do
+    before do
       setup_collections_fixture
     end
 
-    should "not render if configuration doesn't have output: true" do
+    it "does not render if configuration doesn't have output: true" do
       create_file "_methods/static-file.txt", "Static Content"
       create_configuration collections: ["methods"]
       run_bridgetown "build"
@@ -19,7 +19,7 @@ class TestCollectionRendering < BridgetownFeatureTest
       refute_exist "output/methods/static-file.txt"
     end
 
-    should "render if configuration has output: true" do
+    it "renders if configuration has output: true" do
       create_page "index.liquid", "Collections: output => {{ collections.methods.output }} label => {{ collections.methods.label }}", title: "Index"
       create_page "collection_metadata.liquid", "Methods metadata: {{ collections.methods.foo }}", title: "Metadata"
       create_file "_methods/static-file.txt", "Static Content {{ site.title }}"
@@ -34,14 +34,14 @@ class TestCollectionRendering < BridgetownFeatureTest
       assert_file_contains "Static Content {{ site.title }}", "output/methods/static-file.txt"
     end
 
-    should "render with custom permalink" do
+    it "renders with custom permalink" do
       create_configuration collections: { methods: { output: true, permalink: "/cols/:collection/:path/" } }
       run_bridgetown "build"
 
       assert_file_contains "<p>Whatever: foo.bar</p>", "output/cols/methods/configuration/index.html"
     end
 
-    should "gather all resources up into site.resources" do
+    it "gathers all resources up into site.resources" do
       create_page "index.liquid", "All documents: {% for doc in site.resources %}{{ doc.relative_path }} {% endfor %}", title: "Index"
 
       create_configuration collections: ["methods"]
@@ -50,7 +50,7 @@ class TestCollectionRendering < BridgetownFeatureTest
       assert_file_contains "All documents: _methods/3940394-21-9393050-fifif1323-test.md _methods/collection/entries _methods/configuration.md _methods/escape-+ #%20[].md _methods/sanitized_path.md _methods/site/generate.md _methods/site/initialize.md _methods/trailing-dots...md _methods/um_hi.md", "output/index.html"
     end
 
-    should "be filterable in Liquid by where" do
+    it "is filterable in Liquid by where" do
       create_page "index.liquid", "{% assign items = collections.methods.resources | where: 'whatever','foo.bar' %}Item count: {{ items.size }}", title: "Index"
 
       create_configuration collections: ["methods"]
@@ -59,7 +59,7 @@ class TestCollectionRendering < BridgetownFeatureTest
       assert_file_contains "Item count: 2", "output/index.html"
     end
 
-    should "output dateless files" do
+    it "outputs dateless files" do
       create_page "index.liquid", "Collections: {% for method in collections.thanksgiving.resources %}{{ method.title }} {% endfor %}", title: "Index"
 
       create_configuration collections: { thanksgiving: { output: true } }
@@ -71,13 +71,13 @@ class TestCollectionRendering < BridgetownFeatureTest
     end
   end
 
-  context "collection sorting" do
-    setup do
+  describe "collection sorting" do
+    before do
       setup_collections_fixture
       create_directory "_layouts"
     end
 
-    should "sort based on configured front matter key" do
+    it "sorts based on configured front matter key" do
       create_page "index.liquid", "Collections: {{ collections.tutorials.resources | map: 'title' | join: ', ' }}", title: "Index"
       create_file "_layouts/tutorial.liquid", <<~LIQUID
         {% if page.previous %}Previous: {{ page.previous.title }}{% endif %}
@@ -97,7 +97,7 @@ class TestCollectionRendering < BridgetownFeatureTest
       assert_file_contains "Next: Dive-In and Publish Already!", "output/tutorials/lets-roll/index.html"
     end
 
-    should "sort even when front matter key is sometimes missing" do
+    it "sorts even when front matter key is sometimes missing" do
       create_page "index.liquid", "Collections: {{ collections.tutorials.resources | map: 'title' | join: ', ' }}", title: "Index"
       create_file "_layouts/tutorial.liquid", <<~LIQUID
         {% if page.previous %}Previous: {{ page.previous.title }}{% endif %}

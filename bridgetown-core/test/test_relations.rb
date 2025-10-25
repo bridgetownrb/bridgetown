@@ -3,8 +3,8 @@
 require "helper"
 
 class TestRelations < BridgetownUnitTest
-  context "belongs_to and has_many" do
-    setup do
+  describe "belongs_to and has_many" do
+    before do
       @site = resources_site({
         "collections" => {
           "noodles" => {
@@ -25,19 +25,19 @@ class TestRelations < BridgetownUnitTest
       @resource = @site.collections.posts.resources[0]
     end
 
-    should "exist" do
+    it "exists" do
       assert !@resource.nil?
     end
 
-    should "post belongs to noodle" do
+    it "has a relation of posts belongs to noodle" do
       assert_equal "Noodles!", @resource.relations.noodle.data.title
     end
 
-    should "noodle has many posts" do
+    it "has a relation of noodles has many posts" do
       assert_equal "I'm a bløg pöst? 😄", @resource.relations.noodle.relations.posts.first.data.title
     end
 
-    should "be accessible in Liquid loop" do
+    it "is accessible in Liquid loop" do
       page = @site.collections.pages.resources.find { |pg| pg.data.title == "I'm the Noodles index" }
       assert_includes page.output, "<li>Noodles!: /noodles/ramen/ (I'm a bløg pöst? 😄)"
     end

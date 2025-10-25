@@ -15,8 +15,8 @@ class DropFixture < Bridgetown::Drops::Drop
 end
 
 class TestLiquidDrops < BridgetownUnitTest
-  context "Drops" do
-    setup do
+  describe "Drops" do
+    before do
       @site = fixture_site(
         "collections" => ["methods"]
       )
@@ -28,59 +28,59 @@ class TestLiquidDrops < BridgetownUnitTest
       @drop = DropFixture.new({})
     end
 
-    should "reject 'nil' key" do
+    it "rejects 'nil' key" do
       refute @drop.key?(nil)
     end
 
-    should "return values for #[]" do
+    it "returns values for #[]" do
       assert_equal "bar", @drop["foo"]
     end
 
-    should "return values for #invoke_drop" do
+    it "returns values for #invoke_drop" do
       assert_equal "bar", @drop.invoke_drop("foo")
     end
 
-    context "mutations" do
-      should "return mutations for #[]" do
+    describe "mutations" do
+      it "returns mutations for #[]" do
         @drop["foo"] = "baz"
         assert_equal "baz", @drop["foo"]
       end
 
-      should "return mutations for #invoke_drop" do
+      it "returns mutations for #invoke_drop" do
         @drop["foo"] = "baz"
         assert_equal "baz", @drop.invoke_drop("foo")
       end
     end
 
-    context "a resource drop" do
-      context "fetch" do
-        should "raise KeyError if key is not found and no default provided" do
+    describe "a resource drop" do
+      describe "fetch" do
+        it "raises KeyError if key is not found and no default provided" do
           assert_raises KeyError do
             @resource_drop.fetch("not_existing_key")
           end
         end
 
-        should "fetch value without default" do
+        it "fetches value without default" do
           assert_equal "Bridgetown.configuration", @resource_drop.fetch("title")
         end
 
-        should "fetch default if key is not found" do
+        it "fetches default if key is not found" do
           assert_equal "default", @resource_drop.fetch("not_existing_key", "default")
         end
 
-        should "fetch default boolean value correctly" do
+        it "fetches default boolean value correctly" do
           assert_equal false, @resource_drop.fetch("bar", false)
         end
 
-        should "fetch default value from block if key is not found" do
+        it "fetches default value from block if key is not found" do
           assert_equal "default bar", @resource_drop.fetch("bar") { |el| "default #{el}" }
         end
 
-        should "fetch default value from block first if both argument and block given" do
+        it "fetches default value from block first if both argument and block given" do
           assert_equal "baz", @resource_drop.fetch("bar", "default") { "baz" } # rubocop:disable Lint/UselessDefaultValueArgument
         end
 
-        should "not change mutability when fetching" do
+        it "does not change mutability when fetching" do
           assert @drop.class.mutable?
           @drop["foo"] = "baz"
           assert_equal "baz", @drop.fetch("foo")
@@ -89,36 +89,36 @@ class TestLiquidDrops < BridgetownUnitTest
       end
     end
 
-    context "key?" do
-      context "a mutable drop" do
-        should "respond true for native methods" do
+    describe "key?" do
+      describe "a mutable drop" do
+        it "responds true for native methods" do
           assert @drop.key? "foo"
         end
 
-        should "respond true for mutable keys" do
+        it "responds true for mutable keys" do
           @drop["bar"] = "baz"
           assert @drop.key? "bar"
         end
 
-        should "return true for fallback data" do
+        it "returns true for fallback data" do
           assert @drop.key? "baz"
         end
       end
 
-      context "a resource drop" do
-        should "respond true for native methods" do
+      describe "a resource drop" do
+        it "responds true for native methods" do
           assert @resource_drop.key? "collection"
         end
 
-        should "return true for fallback data" do
+        it "returns true for fallback data" do
           assert @resource_drop.key? "title"
         end
       end
     end
   end
 
-  context "a site drop" do
-    setup do
+  describe "a site drop" do
+    before do
       @site = fixture_site(
         "collections" => ["thanksgiving"]
       )
@@ -126,11 +126,11 @@ class TestLiquidDrops < BridgetownUnitTest
       @drop = @site.to_liquid.site
     end
 
-    should "respond to `key?`" do
+    it "responds to `key?`" do
       assert @drop.respond_to?(:key?)
     end
 
-    should "find a key if it's in the collection of the drop" do
+    it "finds a key if it's in the collection of the drop" do
       assert @drop["collections"].key?("thanksgiving")
     end
   end
