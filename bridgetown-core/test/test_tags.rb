@@ -3,8 +3,6 @@
 require "helper"
 
 class TestTags < BridgetownUnitTest
-  include ActiveSupport::Testing::TimeHelpers
-
   def setup
     FileUtils.mkdir_p("tmp")
   end
@@ -909,7 +907,7 @@ class TestTags < BridgetownUnitTest
         4. LOCALIZE NUMERIC MESSAGE: {% l #{timestamp} fr %}
       EOS
 
-      travel_to Time.utc(2023, 7, 12, 11, 22, 33) do
+      Time.stub(:now, Time.utc(2023, 7, 12, 11, 22, 33)) do
         create_post(content,
                     "timezone"          => "UTC",
                     "available_locales" => I18n.available_locales,

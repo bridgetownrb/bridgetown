@@ -19,9 +19,9 @@ class Builders::HTMLInspectors < SiteBuilder
 
       tags = document.query_selector_all("div, span")
         .reject do |tag|
-          (tag.classes & class_allow_list).present? || tag["slot"] ||
+          tag.classes.intersect?(class_allow_list) || tag["slot"] ||
             tag.ancestors("div, span").any? do |parent|
-              (parent.classes & class_allow_list).present?
+              parent.classes.intersect?(class_allow_list)
             end
         end
 

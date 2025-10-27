@@ -100,12 +100,11 @@ module Bridgetown
       previous_buffer_state = @_erbout
       @_erbout = OutputBuffer.new
       result = yield(*args)
-      result = @_erbout.presence || result
+      result = @_erbout unless @_erbout.empty?
       @_erbout = previous_buffer_state
       return result.to_s if result.is_a?(OutputBuffer)
 
-      # TODO: resolve below logic once Active Support patch to `ERB::Util.h` is removed
-      result.is_a?(String) ? ERB::Util.h(result) : result
+      result.is_a?(String) && !result.html_safe? ? Erubi.h(result) : result
     end
   end
 

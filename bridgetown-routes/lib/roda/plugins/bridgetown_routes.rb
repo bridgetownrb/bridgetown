@@ -76,7 +76,7 @@ class Roda
           )
           code = response._route_file_code
 
-          unless code.present?
+          unless code&.length&.positive?
             raise Bridgetown::Errors::FatalException,
                   "`render_with' method must be called from a template-based file in `src/_routes'"
           end
