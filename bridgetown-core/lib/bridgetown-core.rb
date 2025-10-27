@@ -35,10 +35,6 @@ require "yaml"
 require "bridgetown-foundation"
 
 # 3rd party
-require "active_support" # TODO: remove by the end of 2025
-require "active_support/core_ext/object/blank"
-require "active_support/core_ext/string/inflections"
-require "active_support/core_ext/string/output_safety"
 require "addressable/uri"
 require "liquid"
 require "listen"

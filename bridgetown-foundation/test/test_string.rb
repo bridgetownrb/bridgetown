@@ -34,4 +34,10 @@ class TestString < Bridgetown::Foundation::Test
     assert "this".ends_with?("is")
     refute "this".ends_with?("si")
   end
+
+  it "isn't HTML safe by default" do
+    refute "<i>unsafe</i>".html_safe?
+
+    assert 123.html_safe?
+  end
 end
