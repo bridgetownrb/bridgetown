@@ -7,8 +7,7 @@ module Bridgetown
       :event,
       :priority,
       :reloadable,
-      :block,
-      keyword_init: true
+      :block
     ) do
       def to_s
         "#{owner}:#{event} for #{block}"
