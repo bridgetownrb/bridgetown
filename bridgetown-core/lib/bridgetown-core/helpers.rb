@@ -18,7 +18,7 @@ module Bridgetown
       # @return [Bridgetown::Site]
       attr_reader :site
 
-      Context = Struct.new(:registers)
+      Context = Data.define(:registers)
 
       # @return [Bridgetown::Foundation::SafeTranslations]
       packages def translate_package = [Bridgetown::Foundation::Packages::SafeTranslations]

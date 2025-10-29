@@ -32,13 +32,13 @@ class TestFilters < BridgetownUnitTest
     def select; end
   end
 
-  M = Struct.new(:message) do
+  M = Data.define(:message) do
     def to_liquid
       [message]
     end
   end
 
-  T = Struct.new(:name) do
+  T = Data.define(:name) do
     def to_liquid
       {
         "name" => name,

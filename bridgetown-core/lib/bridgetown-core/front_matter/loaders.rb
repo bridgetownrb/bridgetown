@@ -7,7 +7,7 @@ module Bridgetown
       autoload :Ruby, "bridgetown-core/front_matter/loaders/ruby"
       autoload :YAML, "bridgetown-core/front_matter/loaders/yaml"
 
-      Result = Struct.new(:content, :front_matter, :line_count)
+      Result = Data.define(:content, :front_matter, :line_count)
 
       # Constructs a list of possible loaders for a {Model::RepoOrigin} or {Layout}
       #

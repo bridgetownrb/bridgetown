@@ -13,7 +13,7 @@ module Bridgetown
       end
     end
 
-    SourceManifest = Struct.new(:origin, :components, :content, :layouts)
+    SourceManifest = Data.define(:origin, :components, :content, :layouts)
 
     Preflight = Struct.new(:source_manifests, :initializers, keyword_init: true) do
       def initialize(*)

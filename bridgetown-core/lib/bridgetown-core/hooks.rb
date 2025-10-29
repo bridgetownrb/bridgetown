@@ -2,7 +2,7 @@
 
 module Bridgetown
   module Hooks
-    HookRegistration = Struct.new(
+    HookRegistration = Data.define(
       :owner,
       :event,
       :priority,
