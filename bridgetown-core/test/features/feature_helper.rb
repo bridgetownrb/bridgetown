@@ -67,8 +67,8 @@ class BridgetownFeatureTest < BridgetownUnitTest
     [process, output]
   end
 
-  def exec_command(*args)
-    stdin, stdout, stderr, process = Open3.popen3(*args)
+  def exec_command(*)
+    stdin, stdout, stderr, process = Open3.popen3(*)
     out = stdout.read.strip
     err = stderr.read.strip
 

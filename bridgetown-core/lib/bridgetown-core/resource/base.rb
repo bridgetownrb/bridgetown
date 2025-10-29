@@ -170,9 +170,9 @@ module Bridgetown
       # @return [String]
       def call(*) = transform!.output
 
-      def trigger_hooks(hook_name, *args)
-        Bridgetown::Hooks.trigger collection.label.to_sym, hook_name, self, *args if collection
-        Bridgetown::Hooks.trigger :resources, hook_name, self, *args
+      def trigger_hooks(hook_name, *)
+        Bridgetown::Hooks.trigger(collection.label.to_sym, hook_name, self, *) if collection
+        Bridgetown::Hooks.trigger(:resources, hook_name, self, *)
       end
 
       def around_hook(hook_suffix)
