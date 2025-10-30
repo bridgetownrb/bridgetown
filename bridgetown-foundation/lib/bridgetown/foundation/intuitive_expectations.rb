@@ -16,7 +16,12 @@ module Bridgetown::Foundation
     # @param [Module(Minitest)]
     def self.enrich(mod)
       mod::Expectation.include self
-      mod.backtrace_filter.add_filter %r!bridgetown/foundation/intuitive_expectations\.rb!
+      filter_exp = %r!bridgetown/foundation/intuitive_expectations\.rb!
+      if mod.backtrace_filter.respond_to?(:add_filter)
+        mod.backtrace_filter.add_filter filter_exp
+      else
+        mod.backtrace_filter = mod::BacktraceFilter.new(%r!#{mod::BacktraceFilter::MT_RE}|#{filter_exp}!)
+      end
     end
 
     # Expect the object to be a truthy value
@@ -147,10 +152,11 @@ module Bridgetown::Foundation
 
     # Expect the object not to be an instance of a class type
     # @return [Minitest::Expectation]
-    def is_not_a?(klass, msg = nil)
+    def not_a?(klass, msg = nil)
       wont_be_instance_of(klass, msg)
       self
     end
-    alias_method :isnt_a?, :is_not_a?
+    alias_method :isnt_a?, :not_a?
+    alias_method :is_not_a?, :not_a?
   end
 end
