@@ -100,7 +100,19 @@ module DirectoryHelpers
   alias_method :testing_dir, :test_dir
 end
 
+Minitest::Spec::DSL::InstanceMethods.class_eval do
+  # @!method expect
+  #   Takes a value
+  #   @return [Minitest::Expectation]
+end
+
+Minitest::Expectation.class_eval do
+  # @!parse include Bridgetown::Foundation::IntuitiveExpectations
+end
+
 class BridgetownUnitTest < Minitest::Test
+  # @!parse include Minitest::Spec::DSL::InstanceMethods
+  # @!parse extend Minitest::Spec::DSL::InstanceMethods
   extend Minitest::Spec::DSL
   include DirectoryHelpers
   extend DirectoryHelpers
