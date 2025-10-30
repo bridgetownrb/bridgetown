@@ -48,7 +48,7 @@ You can add additional tests via `test_*` methods, and you can create as many te
 
 The `Bridgetown::Test` class includes support for spec-style blocks (`describe`, `it`, etc.) and expectations (`expect(x).must_equal(y)`, etc.), or you can write `test_*` methods and assertions (`assert_equal`). Use whatever style you feel comfortable with when writing your tests. Bridgetown also provides a set of extensions to Minitest's built-in Expectation class called **Intuitive Expectations** which lets you use more concise operators and "Rubyish" syntax.
 
-* Learn more about [Minitest expectations](https://docs.seattlerb.org/minitest/Minitest/Expectations.html) and [Intuitive Expectations]().
+* Learn more about [Minitest expectations](https://docs.seattlerb.org/minitest/Minitest/Expectations.html) and [Intuitive Expectations](/docs/plugins/foundation-gem#intuitive-expectations-for-minitest).
 * Learn more about [Minitest assertions](https://docs.seattlerb.org/minitest/Minitest/Assertions.html).
 
 Methods you can override in a `Bridgetown::Test` subclass:
