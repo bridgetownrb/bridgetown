@@ -35,7 +35,6 @@ require "shoulda" # TODO: finish converting tests to Minitest spec and remove th
 
 include Bridgetown
 
-# Report with color. ::DefaultReporter
 # Switch to Minitest::Reporters::SpecReporter if you want detailed
 # test output!
 Minitest::Reporters.use! [
@@ -70,9 +69,7 @@ module Minitest::Assertions
   end
 end
 
-require "bridgetown-core/concerns/intuitive_expectations"
-Minitest::Expectation.include Bridgetown::IntuitiveExpectations
-Minitest.backtrace_filter.add_filter %r!bridgetown-core/concerns/intuitive_expectations\.rb!
+Bridgetown::Foundation::IntuitiveExpectations.enrich Minitest
 
 module DirectoryHelpers
   def root_dir(*subdirs)

@@ -6,32 +6,33 @@ class TestString < Bridgetown::Foundation::Test
   using Bridgetown::Refinements
 
   it "has a version number" do
-    expect(::Bridgetown::VERSION).wont_be_nil
+    expect(::Bridgetown::VERSION).not_nil?
   end
 
   it "indents strings" do
-    assert_equal "  it\n    is indented\n\n  now", "it\n  is indented\n\nnow".indent(2)
-    refute_equal "  it\n    is indented\n\n  now", "it\n  is indented\n\nnow".indent(4)
+    expect("it\n  is indented\n\nnow".indent(2))
+      .equal? "  it\n    is indented\n\n  now"
+    expect("it\n  is indented\n\nnow".indent(4))
+      .not_equal?("  it\n    is indented\n\n  now")
 
     str_output = +"indent me!"
-    output = capture_stderr do
+    assert_output(nil, %r{multiple arguments}) do
       str_output.indent!(2, "-")
     end
-    assert_equal "  indent me!", str_output
-    assert_includes output, "multiple arguments aren't supported by `indent!' in Bridgetown"
-    refute_nil "".indent(2)
+    expect(str_output) == "  indent me!"
+    expect("".indent(2)).not_nil?
   end
 
   it "is questionable" do
-    assert "test".questionable.test?
-    refute "test".questionable.nope?
+    expect("test".questionable.test?).true?
+    expect("test".questionable.nope?).false?
   end
 
   it "starts and ends with" do
-    assert "this".starts_with?("th")
-    refute "this".starts_with?("ht")
+    expect("this".starts_with?("th")).true?
+    expect("this".starts_with?("ht")).false?
 
-    assert "this".ends_with?("is")
-    refute "this".ends_with?("si")
+    expect("this".ends_with?("is")).true?
+    expect("this".ends_with?("si")).false?
   end
 end

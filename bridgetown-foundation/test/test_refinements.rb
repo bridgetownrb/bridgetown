@@ -19,11 +19,17 @@ class TestRefinements < Bridgetown::Foundation::Test
 
       require_relative "include_refinement"
 
-      assert_equal 15, Bridgetown.refine(10).add(5)
+      expect(Bridgetown.refine(10).add(5)) == 15
     end
 
     it "supports refine helper mixin" do
-      assert_equal({ arr: [1, 2, 3] }, IncludeRefinementsMixin.new.test_dup({ arr: [1, 2, 3] }))
+      expect(
+        IncludeRefinementsMixin.new.test_dup({ arr: [1, 2, 3] })
+      ) == { arr: [1, 2, 3] }
+    end
+
+    it "uses internal refinements for within?" do
+      expect("abc").within? %w[def abc]
     end
   end
 
@@ -46,13 +52,13 @@ class TestRefinements < Bridgetown::Foundation::Test
     end
 
     it "works with ranges" do
-      assert (2..5).within?(1..6)
-      refute (1..5).within?(2..6)
+      expect(2..5).within?(1..5)
+      expect(1..5).not_within?(2..6)
     end
 
     it "works with modules" do
-      assert Integer.within? Numeric
-      refute StringIO.within? String
+      expect(Integer).within? Numeric
+      expect(StringIO).not_within? String
     end
   end
 end
