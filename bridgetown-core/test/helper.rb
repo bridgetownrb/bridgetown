@@ -44,6 +44,9 @@ Minitest::Reporters.use! [
 ]
 
 module Minitest::Assertions
+  ####
+  # TODO: we should remove these and use assert/refute_path_exists
+  # https://docs.seattlerb.org/minitest/Minitest/Assertions.html#method-i-assert_path_exists
   def assert_exist(filename, msg = nil)
     msg = message(msg) { "Expected '#{filename}' to exist" }
     assert File.exist?(filename), msg
@@ -53,6 +56,7 @@ module Minitest::Assertions
     msg = message(msg) { "Expected '#{filename}' not to exist" }
     refute File.exist?(filename), msg
   end
+  ####
 
   def assert_file_contains(regex, filename)
     assert_exist filename

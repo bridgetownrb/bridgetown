@@ -29,20 +29,27 @@ Here's an example of such a test:
 require "minitest_helper"
 
 class TestBlog < Bridgetown::Test
-  def test_authors
-    html get "/blog"
+  describe "authors" do
+    it "shows the right avatar" do
+      html get "/blog"
 
-    assert_equal '<img src="/images/khristi-jamil-avatar.jpg" alt="Khristi Jamil" class="avatar">',
-                 document.query_selector_all(".box .author img").last.outer_html
+      expect(document.query_selector_all(".box .author img").last.outer_html)
+        .must_equal('<img src="/images/khristi-jamil-avatar.jpg" alt="Khristi Jamil" class="avatar">')
+    end
   end
 end
 ```
 
 There are `get`, `post`, and `delete` methods available for testing various server routes. For more information, read the [Rack::Test](https://github.com/rack/rack-test) documentation. You can also access the Bridgetown site object loaded in memory via the `site` helper. For example, `site.metadata.title` would return your site's title as defined in `_data/site_metadata.yml`.
 
+You can create as many test files as you want to handle various parts of the site. Be advised that these tests are run via the `server` initialization context, so it's possible something may not have run as you would expect under a `static` initialization context. But since the static site is already built prior to your tests being executed, it's probably best for you to test static use cases via the output HTML.
+
 You can add additional tests via `test_*` methods, and you can create as many test files as you want to handle various parts of the site. Be advised that these tests are run via the `server` initialization context, so it's possible something may not have run as you would expect under a `static` initialization context. But since the static site is already built prior to your tests being executed, it's probably best for you to test static use cases via the output HTML.
 
-The `Bridgetown::Test` class also includes support for spec-style blocks (`describe`, `it`, etc.) as well as expectations (`expect(x).must_equal(y)`, etc.), so you can use whatever style you feel comfortable with when writing your tests. [Here's a cheat sheet with a list of assertions/expectations](https://www.fullstackruby.dev/cheat-sheets/minitest) provided by Minitest.
+The `Bridgetown::Test` class includes support for spec-style blocks (`describe`, `it`, etc.) and expectations (`expect(x).must_equal(y)`, etc.), or you can write `test_*` methods and assertions (`assert_equal`). Use whatever style you feel comfortable with when writing your tests. Bridgetown also provides a set of extensions to Minitest's built-in Expectation class called **Intuitive Expectations** which lets you use more concise operators and "Rubyish" syntax.
+
+* Learn more about [Minitest expectations](https://docs.seattlerb.org/minitest/Minitest/Expectations.html) and [Intuitive Expectations]().
+* Learn more about [Minitest assertions](https://docs.seattlerb.org/minitest/Minitest/Assertions.html).
 
 Methods you can override in a `Bridgetown::Test` subclass:
 
