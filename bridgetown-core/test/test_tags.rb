@@ -3,18 +3,32 @@
 require "helper"
 
 class TestTags < BridgetownUnitTest
+  using HashWithDotAccess::Refinements
+
   def setup
     FileUtils.mkdir_p("tmp")
   end
 
-  def create_post(content, override = {}, converter_class = Bridgetown::Converters::Markdown) # rubocop:disable Metrics/AbcSize
+  def create_post(content, override = {}, converter_class = Bridgetown::Converters::Markdown, page_title = nil) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     site = fixture_site({ "highlighter" => "rouge" }.merge(override))
 
     site.collections.posts.read if override["read_posts"]
     Reader.new(site).read_collections if override["read_collections"]
     site.read if override["read_all"]
 
-    info = { filters: [Bridgetown::Filters], registers: { site: } }
+    info = {
+      filters: [Bridgetown::Filters],
+      registers: {
+        site:,
+        resource: {
+          site:,
+          data: {
+            title: page_title,
+            layout: "default",
+          },
+        }.as_dots,
+      },
+    }
     @converter = site.converters.find { |c| c.instance_of?(converter_class) }
     payload = {}
     if site.collections.posts.resources
@@ -66,6 +80,33 @@ class TestTags < BridgetownUnitTest
 
       assert_match r, "ruby key=val"
       assert_match r, "ruby a=b c=d"
+    end
+  end
+
+  describe "ruby_render tag" do
+    it "renders a Ruby expression" do
+      content = <<~CONTENT
+        ---
+        title: This is a test
+        ---
+
+        {% ruby_render %w[a b c].join(", ") %}
+      CONTENT
+      create_post(content)
+      assert_match %r{a, b, c}, @result
+    end
+
+    it "renders a simple Ruby component" do
+      page_title = "This is a test"
+      content = <<~CONTENT
+        ---
+        title: #{page_title}
+        ---
+
+        {% ruby_render RubyComponent.new %}
+      CONTENT
+      create_post(content, {}, Bridgetown::Converters::Markdown, page_title)
+      assert_match %r{Here’s the page title! <strong>#{page_title}</strong>}, @result
     end
   end
 
