@@ -151,17 +151,17 @@ module Bridgetown::Foundation
       self
     end
 
-    # Expect the object to be an instance of a class type
+    # Expect the object to be an instance of a class (or a subclass)
     # @return [Minitest::Expectation]
     def is_a?(klass, msg = nil)
-      must_be_instance_of(klass, msg)
+      must_be_kind_of(klass, msg)
       self
     end
 
-    # Expect the object not to be an instance of a class type
+    # Expect the object not to be an instance of a class (or a subclass)
     # @return [Minitest::Expectation]
     def not_a?(klass, msg = nil)
-      wont_be_instance_of(klass, msg)
+      wont_be_kind_of(klass, msg)
       self
     end
     alias_method :isnt_a?, :not_a?

@@ -188,6 +188,8 @@ class BridgetownUnitTest < Minitest::Test
     ENV[key] = old_value
   end
 
+  # TODO: can we simplify this by utilizing Minitest's `capture_io`?
+  # see: https://docs.seattlerb.org/minitest/Minitest/Assertions.html#method-i-capture_io
   def capture_output(level = :debug)
     $stdout = buffer = StringIO.new
     Bridgetown.logger = Logger.new(buffer)
