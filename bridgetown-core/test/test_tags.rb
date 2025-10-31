@@ -11,7 +11,7 @@ class TestTags < BridgetownUnitTest
     FileUtils.mkdir_p("tmp")
   end
 
-  def create_post(content, override = {}, converter_class = Bridgetown::Converters::Markdown, page_title = nil) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  def create_post(content:, override: {}, converter_class: Bridgetown::Converters::Markdown, page_title: nil) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     site = fixture_site({ "highlighter" => "rouge" }.merge(override))
 
     site.collections.posts.read if override["read_posts"]
@@ -41,7 +41,7 @@ class TestTags < BridgetownUnitTest
     @result = @converter.convert(@result)
   end
 
-  def fill_post(code, override = {})
+  def fill_post(code:, override: {})
     content = <<~CONTENT
       ---
       title: This is a test
@@ -56,7 +56,7 @@ class TestTags < BridgetownUnitTest
       #{code}
       {% endhighlight %}
     CONTENT
-    create_post(content, override)
+    create_post(content:, override:)
   end
 
   def highlight_block_with_opts(options_string)
@@ -94,7 +94,7 @@ class TestTags < BridgetownUnitTest
 
         {% ruby_render %w[a b c].join(", ") %}
       CONTENT
-      create_post(content)
+      create_post(content:)
       assert_match %r{a, b, c}, @result
     end
 
@@ -107,7 +107,7 @@ class TestTags < BridgetownUnitTest
 
         {% ruby_render RubyComponent.new %}
       CONTENT
-      create_post(content, {}, Bridgetown::Converters::Markdown, page_title)
+      create_post(content:, page_title:)
       assert_match %r{Here’s the page title! <strong>#{page_title}</strong>}, @result
     end
   end
@@ -180,7 +180,7 @@ class TestTags < BridgetownUnitTest
   context "with the rouge highlighter" do
     context "post content has highlight tag" do
       setup do
-        fill_post("test")
+        fill_post(code: "test")
       end
 
       should "render markdown with rouge" do
@@ -212,7 +212,7 @@ class TestTags < BridgetownUnitTest
           {% endraw %}
           ```
         CONTENT
-        create_post(content)
+        create_post(content:)
       end
 
       should "render markdown with rouge" do
@@ -226,7 +226,7 @@ class TestTags < BridgetownUnitTest
 
     context "post content has highlight with file reference" do
       setup do
-        fill_post("./bridgetown.gemspec")
+        fill_post(code: "./bridgetown.gemspec")
       end
 
       should "not embed the file" do
@@ -240,7 +240,7 @@ class TestTags < BridgetownUnitTest
 
     context "post content has highlight tag with UTF character" do
       setup do
-        fill_post("Æ")
+        fill_post(code: "Æ")
       end
 
       should "render markdown with pygments line handling" do
@@ -253,7 +253,7 @@ class TestTags < BridgetownUnitTest
 
     context "post content has highlight tag with preceding spaces & lines" do
       setup do
-        fill_post <<~EOS
+        fill_post code: <<~EOS
 
 
                [,1] [,2]
@@ -273,7 +273,7 @@ class TestTags < BridgetownUnitTest
     context "post content has highlight tag with " \
             "preceding spaces & lines in several places" do
       setup do
-        fill_post <<~EOS
+        fill_post code: <<~EOS
 
 
                [,1] [,2]
@@ -297,7 +297,7 @@ class TestTags < BridgetownUnitTest
 
     context "post content has highlight tag with linenumbers" do
       setup do
-        create_post <<~EOS
+        create_post content: <<~EOS
           ---
           title: This is a test
           ---
@@ -325,7 +325,7 @@ class TestTags < BridgetownUnitTest
     context "post content has highlight tag with " \
             "preceding spaces & Windows-style newlines" do
       setup do
-        fill_post "\r\n\r\n\r\n     [,1] [,2]"
+        fill_post code: "\r\n\r\n\r\n     [,1] [,2]"
       end
 
       should "only strip the preceding newlines" do
@@ -338,7 +338,7 @@ class TestTags < BridgetownUnitTest
 
     context "post content has highlight tag with only preceding spaces" do
       setup do
-        fill_post <<~EOS
+        fill_post code: <<~EOS
                [,1] [,2]
           [1,] FALSE TRUE
           [2,] FALSE TRUE
@@ -373,7 +373,7 @@ class TestTags < BridgetownUnitTest
 
     context "using Kramdown" do
       setup do
-        create_post(@content, "markdown" => "kramdown")
+        create_post(content: @content, override: { "markdown" => "kramdown" })
       end
 
       should "parse correctly" do
@@ -392,11 +392,13 @@ class TestTags < BridgetownUnitTest
 
         {% post_url 2008-11-21-complex %}
       CONTENT
-      create_post(content,
-                  "permalink"   => "pretty",
-                  "source"      => source_dir,
-                  "destination" => dest_dir,
-                  "read_posts"  => true)
+      create_post(content:,
+                  override: {
+                    "permalink"   => "pretty",
+                    "source"      => source_dir,
+                    "destination" => dest_dir,
+                    "read_posts"  => true,
+                  })
     end
 
     should "not cause an error" do
@@ -417,11 +419,13 @@ class TestTags < BridgetownUnitTest
 
         {% post_url 2016-11-26-special-chars-(+) %}
       CONTENT
-      create_post(content,
-                  "permalink"   => "/foo/:slug.*",
-                  "source"      => source_dir,
-                  "destination" => dest_dir,
-                  "read_posts"  => true)
+      create_post(content: content,
+                  override: {
+                    "permalink"   => "/foo/:slug.*",
+                    "source"      => source_dir,
+                    "destination" => dest_dir,
+                    "read_posts"  => true,
+                  })
     end
 
     should "not cause an error" do
@@ -445,11 +449,13 @@ class TestTags < BridgetownUnitTest
         - 3 {% post_url es/2008-11-21-nested %}
         - 4 {% post_url /es/2008-11-21-nested %}
       CONTENT
-      create_post(content,
-                  "permalink"   => "pretty",
-                  "source"      => source_dir,
-                  "destination" => dest_dir,
-                  "read_posts"  => true)
+      create_post(content: content,
+                  override: {
+                    "permalink"   => "pretty",
+                    "source"      => source_dir,
+                    "destination" => dest_dir,
+                    "read_posts"  => true,
+                  })
     end
 
     should "not cause an error" do
@@ -477,11 +483,13 @@ class TestTags < BridgetownUnitTest
 
           - 1 {% post_url 2008-11-21-nested %}
         CONTENT
-        create_post(content,
-                    "permalink"   => "pretty",
-                    "source"      => source_dir,
-                    "destination" => dest_dir,
-                    "read_posts"  => true)
+        create_post(content:,
+                    override: {
+                      "permalink"   => "pretty",
+                      "source"      => source_dir,
+                      "destination" => dest_dir,
+                      "read_posts"  => true,
+                    })
       end
     end
   end
@@ -497,11 +505,13 @@ class TestTags < BridgetownUnitTest
       CONTENT
 
       assert_raises Bridgetown::Errors::PostURLError do
-        create_post(content,
-                    "permalink"   => "pretty",
-                    "source"      => source_dir,
-                    "destination" => dest_dir,
-                    "read_posts"  => true)
+        create_post(content:,
+                    override: {
+                      "permalink"   => "pretty",
+                      "source"      => source_dir,
+                      "destination" => dest_dir,
+                      "read_posts"  => true,
+                    })
       end
     end
   end
@@ -517,10 +527,12 @@ class TestTags < BridgetownUnitTest
         {% link info.md %}
         {% link /css/screen.css %}
       CONTENT
-      create_post(content,
-                  "source"      => source_dir,
-                  "destination" => dest_dir,
-                  "read_all"    => true)
+      create_post(content:,
+                  override: {
+                    "source"      => source_dir,
+                    "destination" => dest_dir,
+                    "read_all"    => true,
+                  })
     end
 
     should "not cause an error" do
@@ -555,10 +567,12 @@ class TestTags < BridgetownUnitTest
         {% assign screen_css_path = '/css' %}
         {% link {{ screen_css_path }}/screen.css %}
       CONTENT
-      create_post(content,
-                  "source"      => source_dir,
-                  "destination" => dest_dir,
-                  "read_all"    => true)
+      create_post(content:,
+                  override: {
+                    "source"      => source_dir,
+                    "destination" => dest_dir,
+                    "read_all"    => true,
+                  })
     end
 
     should "not cause an error" do
@@ -587,11 +601,13 @@ class TestTags < BridgetownUnitTest
 
         {% link _methods/yaml_with_dots.md %}
       CONTENT
-      create_post(content,
-                  "source"           => source_dir,
-                  "destination"      => dest_dir,
-                  "collections"      => { "methods" => { "output" => true } },
-                  "read_collections" => true)
+      create_post(content:,
+                  override: {
+                    "source"           => source_dir,
+                    "destination"      => dest_dir,
+                    "collections"      => { "methods" => { "output" => true } },
+                    "read_collections" => true,
+                  })
     end
 
     should "not cause an error" do
@@ -613,11 +629,13 @@ class TestTags < BridgetownUnitTest
         {% assign yaml_with_dots_path = '_methods/yaml_with_dots.md' %}
         {% link {{yaml_with_dots_path}} %}
       CONTENT
-      create_post(content,
-                  "source"           => source_dir,
-                  "destination"      => dest_dir,
-                  "collections"      => { "methods" => { "output" => true } },
-                  "read_collections" => true)
+      create_post(content:,
+                  override: {
+                    "source"           => source_dir,
+                    "destination"      => dest_dir,
+                    "collections"      => { "methods" => { "output" => true } },
+                    "read_collections" => true,
+                  })
     end
 
     should "not cause an error" do
@@ -639,11 +657,13 @@ class TestTags < BridgetownUnitTest
         - 1 {% link _methods/sanitized_path.md %}
         - 2 {% link _methods/site/generate.md %}
       CONTENT
-      create_post(content,
-                  "source"           => source_dir,
-                  "destination"      => dest_dir,
-                  "collections"      => { "methods" => { "output" => true } },
-                  "read_collections" => true)
+      create_post(content:,
+                  override: {
+                    "source"           => source_dir,
+                    "destination"      => dest_dir,
+                    "collections"      => { "methods" => { "output" => true } },
+                    "read_collections" => true,
+                  })
     end
 
     should "not cause an error" do
@@ -670,11 +690,13 @@ class TestTags < BridgetownUnitTest
       CONTENT
 
       assert_raises ArgumentError do
-        create_post(content,
-                    "source"           => source_dir,
-                    "destination"      => dest_dir,
-                    "collections"      => { "methods" => { "output" => true } },
-                    "read_collections" => true)
+        create_post(content:,
+                    override: {
+                      "source"           => source_dir,
+                      "destination"      => dest_dir,
+                      "collections"      => { "methods" => { "output" => true } },
+                      "read_collections" => true,
+                    })
       end
     end
   end
@@ -691,11 +713,13 @@ class TestTags < BridgetownUnitTest
       CONTENT
 
       assert_raises ArgumentError do
-        create_post(content,
-                    "source"           => source_dir,
-                    "destination"      => dest_dir,
-                    "collections"      => { "methods" => { "output" => true } },
-                    "read_collections" => true)
+        create_post(content:,
+                    override: {
+                      "source"           => source_dir,
+                      "destination"      => dest_dir,
+                      "collections"      => { "methods" => { "output" => true } },
+                      "read_collections" => true,
+                    })
       end
     end
   end
@@ -712,11 +736,13 @@ class TestTags < BridgetownUnitTest
             * I am Markdown
           {% endrendercontent %}
         CONTENT
-        create_post(content,
-                    "permalink"   => "pretty",
-                    "source"      => source_dir,
-                    "destination" => dest_dir,
-                    "read_posts"  => true)
+        create_post(content:,
+                    override: {
+                      "permalink"   => "pretty",
+                      "source"      => source_dir,
+                      "destination" => dest_dir,
+                      "read_posts"  => true,
+                    })
       end
 
       should "correctly output params and markdown content" do
@@ -742,11 +768,13 @@ class TestTags < BridgetownUnitTest
 
           <button class="{% class_map   is-small: small,  has-text-center:   centered, outlined:  !filled, red-bg: red-background, nodef: notdefined %}">Button</button>
         CONTENT
-        create_post(content,
-                    "permalink"   => "pretty",
-                    "source"      => source_dir,
-                    "destination" => dest_dir,
-                    "read_posts"  => true)
+        create_post(content:,
+                    override: {
+                      "permalink"   => "pretty",
+                      "source"      => source_dir,
+                      "destination" => dest_dir,
+                      "read_posts"  => true,
+                    })
       end
 
       should "correctly output names" do
@@ -768,11 +796,13 @@ class TestTags < BridgetownUnitTest
 
           <button class="{% class_map is-small => small, has-text-center, centered, outlined: !filled, red-bg: red-background, nodef: notdefined %}">Button</button>
         CONTENT
-        create_post(content,
-                    "permalink"   => "pretty",
-                    "source"      => source_dir,
-                    "destination" => dest_dir,
-                    "read_posts"  => true)
+        create_post(content:,
+                    override: {
+                      "permalink"   => "pretty",
+                      "source"      => source_dir,
+                      "destination" => dest_dir,
+                      "read_posts"  => true,
+                    })
       end
 
       should "return an error due to improper formatting" do
@@ -794,11 +824,13 @@ class TestTags < BridgetownUnitTest
 
           POST: {{ post.content }}
         EOS
-        create_post(content,
-                    "permalink"   => "pretty",
-                    "source"      => source_dir,
-                    "destination" => dest_dir,
-                    "read_all"    => true)
+        create_post(content:,
+                    override: {
+                      "permalink"   => "pretty",
+                      "source"      => source_dir,
+                      "destination" => dest_dir,
+                      "read_all"    => true,
+                    })
       end
 
       should "return the post" do
@@ -818,11 +850,13 @@ class TestTags < BridgetownUnitTest
 
           POST: {{ found[1].title }}
         EOS
-        create_post(content,
-                    "permalink"   => "pretty",
-                    "source"      => source_dir,
-                    "destination" => dest_dir,
-                    "read_all"    => true)
+        create_post(content:,
+                    override: {
+                      "permalink"   => "pretty",
+                      "source"      => source_dir,
+                      "destination" => dest_dir,
+                      "read_all"    => true,
+                    })
       end
 
       should "return the post" do
@@ -853,9 +887,11 @@ class TestTags < BridgetownUnitTest
         9. SINGULARIZED LOCALIZED MESSAGE: {% t datetime.distance_in_words.about_x_hours count:1,locale:fr %}
       EOS
 
-      create_post(content,
-                  "available_locales" => I18n.available_locales,
-                  "default_locale"    => I18n.locale)
+      create_post(content:,
+                  override: {
+                    "available_locales" => I18n.available_locales,
+                    "default_locale"    => I18n.locale,
+                  })
     end
 
     should "lookup simple message with default locale" do
@@ -951,10 +987,12 @@ class TestTags < BridgetownUnitTest
       EOS
 
       travel_to Time.utc(2023, 7, 12, 11, 22, 33) do
-        create_post(content,
-                    "timezone"          => "UTC",
-                    "available_locales" => I18n.available_locales,
-                    "default_locale"    => I18n.locale)
+        create_post(content:,
+                    override: {
+                      "timezone"          => "UTC",
+                      "available_locales" => I18n.available_locales,
+                      "default_locale"    => I18n.locale,
+                    })
       end
     end
 
