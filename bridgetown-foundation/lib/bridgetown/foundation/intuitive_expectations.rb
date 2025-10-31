@@ -134,6 +134,7 @@ module Bridgetown::Foundation
       wont_include(other, msg)
       self
     end
+    alias_method :not_include?, :exclude?
 
     # Expect the object to match a regular expression
     # @return [Minitest::Expectation]
@@ -142,6 +143,13 @@ module Bridgetown::Foundation
       self
     end
     alias_method :=~, :match?
+
+    # Expect the object not to match a regular expression
+    # @return [Minitest::Expectation]
+    def not_match?(other, msg = nil)
+      wont_match(other, msg)
+      self
+    end
 
     # Expect the object to be an instance of a class type
     # @return [Minitest::Expectation]
@@ -158,5 +166,36 @@ module Bridgetown::Foundation
     end
     alias_method :isnt_a?, :not_a?
     alias_method :is_not_a?, :not_a?
+
+    # Expect the block not to raise the exception
+    # @return [Minitest::Expectation]
+    def raise?(exception, msg = nil)
+      Warning.warn "Calling `#{__callee__}` for the same block re-executes the block" if @block_ran
+      @block_ran ||= true
+      # we need this ternary operator because `must_raise` takes a variable number of arguments
+      msg ? must_raise(exception, msg) : must_raise(exception)
+      self
+    end
+
+    # Expect the block to send output to stdout and/or stderr
+    # @param stdout [String, Regexp]
+    # @param stderr [String, Regexp]
+    # @return [Minitest::Expectation]
+    def output?(stdout = nil, stderr = nil)
+      Warning.warn "Calling `#{__callee__}` for the same block re-executes the block" if @block_ran
+      @block_ran ||= true
+      must_output stdout, stderr
+      self
+    end
+
+    # Expect the block not to send output to stdout and stderr
+    # @return [Minitest::Expectation]
+    def not_output?
+      Warning.warn "Calling `#{__callee__}` for the same block re-executes the block" if @block_ran
+      @block_ran ||= true
+      must_be_silent
+      self
+    end
+    alias_method :silent?, :not_output?
   end
 end

@@ -13,9 +13,7 @@ end
 class TestRefinements < Bridgetown::Foundation::Test
   describe "add_refinement" do
     it "supports monkey-patch with refine method" do
-      assert_raises NoMethodError do
-        Bridgetown.refine(10).add 5
-      end
+      expect { Bridgetown.refine(10).add 5 }.raise?(NoMethodError)
 
       require_relative "include_refinement"
 

@@ -14,13 +14,14 @@ class TestString < Bridgetown::Foundation::Test
       .equal? "  it\n    is indented\n\n  now"
     expect("it\n  is indented\n\nnow".indent(4))
       .not_equal?("  it\n    is indented\n\n  now")
-
-    str_output = +"indent me!"
-    assert_output(nil, %r{multiple arguments}) do
-      str_output.indent!(2, "-")
-    end
-    expect(str_output) == "  indent me!"
     expect("".indent(2)).not_nil?
+  end
+
+  it "warns if indent receives second argument" do
+    str_output = +"indent me!"
+    expect { str_output.indent!(2, "-") }.output?(nil, %r!multiple arguments!)
+    expect(str_output) == "  indent me!"
+    expect { "abc".indent(10) }.silent?
   end
 
   it "is questionable" do
