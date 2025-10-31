@@ -157,6 +157,7 @@ module Bridgetown::Foundation
       must_be_kind_of(klass, msg)
       self
     end
+    alias_method :kind_of?, :is_a?
 
     # Expect the object not to be an instance of a class (or a subclass)
     # @return [Minitest::Expectation]
@@ -166,6 +167,7 @@ module Bridgetown::Foundation
     end
     alias_method :isnt_a?, :not_a?
     alias_method :is_not_a?, :not_a?
+    alias_method :not_kind_of?, :not_a?
 
     # Expect the block not to raise the exception
     # @return [Minitest::Expectation]
