@@ -328,7 +328,7 @@ In order to simplify more complex lists of HTML attributes you may also pass a h
 <a href="/events/livestream" data-controller="testable" data-action="testable#test">Join our livestream!</a>
 ```
 
-`link_to` uses [`html_attributes`](#html_attributes) under the hood to handle this converstion.
+`link_to` uses [`html_attributes`](#html_attributes) under the hood to handle this conversation.
 
 You can also pass relative or absolute URLs to `link_to` and they'll pass-through to the anchor tag without change:
 
@@ -618,7 +618,7 @@ def template
   }
 
   render do
-    render AnotherComponent.new 
+    render AnotherComponent.new
 
     render html ->{ <<~HTML
       <p>I am more HTML markup.</p>

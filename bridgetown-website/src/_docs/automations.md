@@ -9,7 +9,7 @@ You can write automation scripts which act on new or existing sites to perform
 tasks such as adding gems, updating configuration, inserting code, copying
 files, and much more.
 
-Automations are similar in concept to Gatsby Recipies or Rails App Templates.
+Automations are similar in concept to Gatsby Recipes or Rails App Templates.
 They're uniquely powerful when combined with [plugins](/docs/plugins), as an
 automation can install and configure one or more plugins from a single script.
 

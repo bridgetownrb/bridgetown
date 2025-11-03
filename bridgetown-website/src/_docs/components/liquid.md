@@ -100,7 +100,7 @@ Here's an example of how you might author a navbar component using `with`. First
   </div>
 
   <div class="navbar-end">
-    {{ items_end }}      
+    {{ items_end }}
   </div>
 </nav>
 ```
@@ -182,5 +182,5 @@ In many cases, you may not need to pass such large objects and can be more choos
 
 * Files must not contain hyphens (`-`). Use underscores instead (`_`). So `my_widget`, not `my-widget`.
 * You don't include extensions in the path. It automatically defaults to either `.html` or `.liquid` (preferred). So `my_widget`, not `my_widget.html`
-* As mentioned, any variables you use will have to be passed in explictly. No variables in the scope of a page or layout are available by default in a component.
+* As mentioned, any variables you use will have to be passed in explicitly. No variables in the scope of a page or layout are available by default in a component.
 * The `rendercontent` block tag automatically converts anything you put inside of it from Markdown to HTML. So even in an HTML layout/page, if you have Markdown text inside the block, it will be converted.

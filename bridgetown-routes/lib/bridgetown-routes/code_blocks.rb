@@ -44,12 +44,12 @@ module Bridgetown
             end
           end
 
-          # rubocop:disable Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation
+          # rubocop:disable Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation, Security/Eval
           code_proc = Kernel.eval(
             "proc {|r| #{code} }", TOPLEVEL_BINDING, file, ruby_content ? 2 : 1
           )
           add_route(file_slug, code_postmatch, front_matter_line_count, &code_proc)
-          # rubocop:enable Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation
+          # rubocop:enable Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation, Security/Eval
         end
       end
     end

@@ -5,7 +5,7 @@ top_section: Configuration
 category: plugins
 ---
 
-The Foundation gem is part of the Bridgetown Ruby API, offering some handy helpers for strings, hashes, class hierarchies, and more. Over time we intend to migrate reusable, utility-like patterns elsewhere in the Bridgetown codebase to this Foundation gem. We hope this can prove useful even on non-Bridgetown projects (you could `bundle add bridgetown-foundation` directly).
+The Foundation gem is part of the Bridgetown Ruby API, offering some handy helpers for strings, hashes, class hierarchies, and more. Over time we intend to migrate reusable, utility-like patterns elsewhere in the Bridgetown codebase to this Foundation gem. We hope this can prove useful even on non-Bridgetown projects (see below).
 
 A number of the features in Foundation are provided via a Ruby feature called [refinements](https://docs.ruby-lang.org/en/master/syntax/refinements_rdoc.html). This may not be so well-known to some developers, so we'll explain how it works.
 
@@ -84,6 +84,21 @@ AddNumbers.new(10).together(15) # 25
 You could put this in a config file or in a plugin gem, whatever makes sense for your use case.
 
 `Bridgetown::Refinements` also automatically includes the [HashWithDotAccess](https://codeberg.org/jaredwhite/hash_with_dot_access) refinement which adds an `as_dots` method to Ruby `Hash` to convert a standard hash to one with string/symbol/method key access.
+
+## Using Foundation Outside of Bridgetown
+
+You can `bundle add bridgetown-foundation` to any Ruby project to gain access to features in Foundation. For the entire set of features you can require the gem when your application boots:
+
+```ruby
+require "bridgetown-foundation"
+```
+
+For certain features, you may be able to require them standalone without pulling in the rest of the gem. (Make sure you always require the basic version module to start.) For example, to use the Intuitive Expectations feature:
+
+```ruby
+require "bridgetown/version"
+require "bridgetown/foundation/intuitive_expectations"
+```
 
 ## Foundation API
 
@@ -180,3 +195,90 @@ TranslateWithHTML.new.translate("key.path.to.entry", { name: "Jared White <scrip
 ```
 
 [View code here.](https://github.com/bridgetownrb/bridgetown/blob/main/bridgetown-foundation/lib/bridgetown/foundation/packages/safe_translations.rb)
+
+### Intuitive Expectations for Minitest
+
+Foundation provides a set of extensions to Minitest's built-in Expectation class called **Intuitive Expectations** which lets you use more concise operators and "Rubyish" syntax. These are automatically provided by the `Bridgetown::Test` class which you can use for [automated testing](/docs/testing) (set up via our bundled configuration), but you can also add Intuitive Expectations to your own standalone projects used by Minitest.
+
+Add `bridgetown-foundation` to your Gemfile and then enrich Minitest near the top of your test or main helper file:
+
+```ruby
+require "bridgetown/version"
+require "bridgetown/foundation/intuitive_expectations"
+
+Bridgetown::Foundation::IntuitiveExpectations.enrich Minitest
+```
+
+We also recommend setting `ENV["MT_NO_EXPECTATIONS"] = "true"` to avoid expectations methods being added to all objects.
+
+Now you can write expectations using the new syntax:
+
+```ruby
+describe "great expectations" do
+  it "works!" do
+    str = "yay!"
+    expect(str) == "yay!"
+  end
+end
+
+# some more examples:
+
+expect(some_int) != 123
+expect(some_big_str) << "howdy" # or expect(...).include? ...
+expect(some_bool).true? # aliased to truthy?
+expect(2..4).within?(1..6)
+
+# you can also chain multiple expectations together:
+
+expect(big_string)
+  .include?("foo")
+  .include?("bar")
+  .exclude?("baz")
+
+expect(user)
+  .is?(:moderator?)
+  .isnt?(:admin?)
+```
+
+Learn more about [the Intuitive Expectations API here](https://api.bridgetownrb.com/Bridgetown/Foundation/IntuitiveExpectations.html).
+
+#### Solargraph Configuration
+
+If you are using [Solargraph](https://solargraph.org) as your LSP, you can add typing through Yard comments so you get type hints in your tests for the new expectation methods. First, make sure you have a [configuration YAML file](https://solargraph.org/guides/configuration) with the following added to `require`:
+
+```yaml
+require:
+- "bridgetown-foundation"
+```
+
+(Also take out any test/spec references under `exclude` or this won't work.)
+
+Then in your test or helper file add:
+
+```ruby
+Minitest::Spec::DSL::InstanceMethods.class_eval do
+  # @!method expect
+  #   Takes a value
+  #   @return [Minitest::Expectation]
+end
+
+Minitest::Expectation.class_eval do
+  # @!parse include Bridgetown::Foundation::IntuitiveExpectations
+end
+```
+
+For typical spec-style tests, add this as well:
+
+```ruby
+# @!parse extend Minitest::Spec::DSL::InstanceMethods
+```
+
+Or when using a concrete test superclass:
+
+```ruby
+class ExampleTestSuperclass < Minitest::Test
+  # @!parse extend Minitest::Spec::DSL::InstanceMethods
+
+  extend Minitest::Spec::DSL
+end
+```

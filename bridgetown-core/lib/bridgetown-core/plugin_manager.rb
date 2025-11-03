@@ -20,7 +20,7 @@ module Bridgetown
       end
     end
 
-    def self.setup_bundler
+    def self.setup_bundler # rubocop:disable Naming/PredicateMethod
       if !ENV["BRIDGETOWN_NO_BUNDLER_REQUIRE"] &&
           (Bundler::SharedHelpers.in_bundle? || Bridgetown.env.test?)
         require "bundler"

@@ -101,7 +101,7 @@ module Bridgetown
     #
     # @param dest [String] path to the destination dir
     # @return [Boolean] false if the file was not modified since last time (no-op)
-    def write(dest)
+    def write(dest) # rubocop:disable Naming/PredicateMethod
       dest_path = destination(dest)
       return false if File.exist?(dest_path) && !modified?
 
@@ -157,7 +157,7 @@ module Bridgetown
     # @return [String] cleaned relative path of the static file
     def cleaned_relative_path
       @cleaned_relative_path ||= begin
-        cleaned = relative_path[0..-extname.length - 1]
+        cleaned = relative_path[0..(-extname.length - 1)]
         cleaned.gsub!(%r!\.*\z!, "")
         cleaned.sub!(@collection.relative_path, "") if @collection
         cleaned

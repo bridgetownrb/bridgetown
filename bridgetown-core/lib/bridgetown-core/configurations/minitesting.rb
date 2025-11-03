@@ -43,10 +43,12 @@ create_file "test/test_homepage.rb" do
     require "minitest_helper"
 
     class TestHomepage < Bridgetown::Test
-      def test_homepage
-        html get "/"
+      describe "index" do
+        it "has a body and a head" do
+          html get "/"
 
-        assert document.query_selector("body")
+          expect(document.query_selector("body").inner_html).must_match(/<head.*?>/)
+        end
       end
     end
   RUBY

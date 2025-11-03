@@ -63,7 +63,7 @@ module Bridgetown
     # @param ext [String] the file's extension (including the dot)
     # @param convertible [Bridgetown::Layout, Bridgetown::Resource::Base]
     # @return [Boolean] Whether the extension matches one in the list
-    def matches(ext, _convertible = nil)
+    def matches(ext, _convertible = nil) # rubocop:disable Naming/PredicateMethod
       (self.class.extname_list || []).include?(ext.downcase)
     end
 
@@ -87,28 +87,34 @@ module Bridgetown
       end
     end
 
-    def line_start(convertible) # rubocop:disable Metrics/PerceivedComplexity
-      if convertible.is_a?(Bridgetown::Resource::Base) &&
-          convertible.model.origin.respond_to?(:front_matter_line_count)
-        if convertible.model.origin.front_matter_line_count.nil?
-          1
-        else
-          convertible.model.origin.front_matter_line_count + 4
-        end
-      elsif convertible.is_a?(Bridgetown::GeneratedPage) && convertible.original_resource
-        res = convertible.original_resource
-        if res.model.origin.respond_to?(:front_matter_line_count)
-          res.model.origin.front_matter_line_count + 4
-        else
-          1
-        end
+    def line_start(convertible) # rubocop:disable Metrics/CyclomaticComplexity
+      fmlc = case convertible
+             when Bridgetown::Layout
+               convertible.front_matter_line_count
+             when Bridgetown::Resource::Base
+               convertible.model.origin.respond_to?(:front_matter_line_count) &&
+                 convertible.model.origin.front_matter_line_count
+             when Bridgetown::GeneratedPage
+               res = convertible.original_resource
+               if res&.model&.origin.respond_to?(:front_matter_line_count)
+                 res.model.origin.front_matter_line_count
+               end
+             end
+
+      if fmlc
+        # We add 4 because the line counts are only for the interior of the front matter and we need
+        # to include 2 more lines for the delimiters, plus a blank line, plus 1 to get to content
+        #
+        # That shorthand breaks down if someone authors *no* blank line after front matter, or if
+        # there are multiple blank lines. But those are not best practices, so we'll just fudge it.
+        fmlc + 4
       else
         1
       end
     end
 
     def inspect
-      "#<#{self.class}#{self.class.extname_list ? " #{self.class.extname_list.join(", ")}" : nil}>"
+      "#<#{self.class}#{" #{self.class.extname_list.join(", ")}" if self.class.extname_list}>"
     end
   end
 end

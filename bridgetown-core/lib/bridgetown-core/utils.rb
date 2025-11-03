@@ -3,6 +3,7 @@
 module Bridgetown
   module Utils # rubocop:todo Metrics/ModuleLength
     extend self
+
     autoload :Aux, "bridgetown-core/utils/aux"
     autoload :LoadersManager, "bridgetown-core/utils/loaders_manager"
     autoload :RequireGems, "bridgetown-core/utils/require_gems"
@@ -119,7 +120,7 @@ module Bridgetown
     # Determines whether a given file has YAML front matter
     #
     # @return [Boolean] if the YAML front matter is present.
-    def has_yaml_header?(file) # rubocop: disable Naming/PredicateName
+    def has_yaml_header?(file) # rubocop: disable Naming/PredicatePrefix
       Bridgetown::Deprecator.deprecation_message(
         "Bridgetown::Utils.has_yaml_header? is deprecated, use " \
         "Bridgetown::FrontMatter::Loaders::YAML.header? instead"
@@ -127,7 +128,7 @@ module Bridgetown
       FrontMatter::Loaders::YAML.header?(file)
     end
 
-    def has_rbfm_header?(file) # rubocop: disable Naming/PredicateName
+    def has_rbfm_header?(file) # rubocop: disable Naming/PredicatePrefix
       Bridgetown::Deprecator.deprecation_message(
         "Bridgetown::Utils.has_rbfm_header? is deprecated, use " \
         "Bridgetown::FrontMatter::Loaders::Ruby.header? instead"

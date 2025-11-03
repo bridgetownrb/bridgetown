@@ -205,7 +205,7 @@ end
 
 ## DSL Scope
 
-If you're not familar with Ruby DSLs, you may run into an issue where you need to call a method from your builder plugin within `add_resource` and it's not in scope. For example, this won't work:
+If you're not familiar with Ruby DSLs, you may run into an issue where you need to call a method from your builder plugin within `add_resource` and it's not in scope. For example, this won't work:
 
 ```ruby
 def string_value

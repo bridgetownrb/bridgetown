@@ -12,6 +12,9 @@ module Bridgetown
       # <quoted list> is a space-separated list of numbers
       SYNTAX = %r!^([a-zA-Z0-9.+#_-]+)((\s+\w+(=(\w+|"([0-9]+\s)*[0-9]+"))?)*)$!
 
+      OPTIONS_REGEX = %r!(?:\w="[^"]*"|\w=\w|\w)+!
+      LEADING_OR_TRAILING_LINE_TERMINATORS = %r!\A(\n|\r)+|(\n|\r)+\z!
+
       def initialize(tag_name, markup, tokens)
         super
         unless markup.strip =~ SYNTAX
@@ -27,8 +30,6 @@ module Bridgetown
         @lang = Regexp.last_match(1).downcase
         @highlight_options = parse_options(Regexp.last_match(2))
       end
-
-      LEADING_OR_TRAILING_LINE_TERMINATORS = %r!\A(\n|\r)+|(\n|\r)+\z!
 
       def render(context)
         prefix = context["highlighter_prefix"] || ""
@@ -48,8 +49,6 @@ module Bridgetown
       end
 
       private
-
-      OPTIONS_REGEX = %r!(?:\w="[^"]*"|\w=\w|\w)+!
 
       def parse_options(input)
         options = {}

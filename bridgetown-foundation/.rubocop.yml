@@ -5,3 +5,7 @@ AllCops:
   Exclude:
     - "*.gemspec"
     - "script/console"
+
+Lint/Void:
+  Exclude:
+    - test/**/*.rb

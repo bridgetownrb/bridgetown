@@ -5,7 +5,7 @@ top_section: Writing Content
 category: resources
 ---
 
-A permalink is the determination of what the output URL of your [resource](/docs/resources) will be. Every resource uses a _permalink processer_ to figure out where to save your transformed resource in the output folder tree.
+A permalink is the determination of what the output URL of your [resource](/docs/resources) will be. Every resource uses a _permalink processor_ to figure out where to save your transformed resource in the output folder tree.
 
 Resources in the **pages** collection are the most straightforward. The filenames and folder structure of your pages will result in matching output URLs. For example, a file saved at `src/_pages/this/is/great.md` would be output to `/this/is/great/`.
 

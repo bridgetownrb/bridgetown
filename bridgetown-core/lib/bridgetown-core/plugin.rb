@@ -15,7 +15,7 @@ module Bridgetown
     # Initialize a new plugin. This should be overridden by the subclass (generator or converter)
     #
     # @param config [Bridgetown::Configuration] the configuration for the site
-    def initialize(config = {}) # rubocop:disable Style/RedundantInitialize
+    def initialize(config = {})
       # no-op for default
     end
   end

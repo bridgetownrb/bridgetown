@@ -35,7 +35,6 @@ require "shoulda" # TODO: finish converting tests to Minitest spec and remove th
 
 include Bridgetown
 
-# Report with color. ::DefaultReporter
 # Switch to Minitest::Reporters::SpecReporter if you want detailed
 # test output!
 Minitest::Reporters.use! [
@@ -45,6 +44,9 @@ Minitest::Reporters.use! [
 ]
 
 module Minitest::Assertions
+  ####
+  # TODO: we should remove these and use assert/refute_path_exists
+  # https://docs.seattlerb.org/minitest/Minitest/Assertions.html#method-i-assert_path_exists
   def assert_exist(filename, msg = nil)
     msg = message(msg) { "Expected '#{filename}' to exist" }
     assert File.exist?(filename), msg
@@ -54,6 +56,7 @@ module Minitest::Assertions
     msg = message(msg) { "Expected '#{filename}' not to exist" }
     refute File.exist?(filename), msg
   end
+  ####
 
   def assert_file_contains(regex, filename)
     assert_exist filename
@@ -70,9 +73,7 @@ module Minitest::Assertions
   end
 end
 
-require "bridgetown-core/concerns/intuitive_expectations"
-Minitest::Expectation.include Bridgetown::IntuitiveExpectations
-Minitest.backtrace_filter.add_filter %r!bridgetown-core/concerns/intuitive_expectations\.rb!
+Bridgetown::Foundation::IntuitiveExpectations.enrich Minitest
 
 module DirectoryHelpers
   def root_dir(*subdirs)
@@ -103,7 +104,19 @@ module DirectoryHelpers
   alias_method :testing_dir, :test_dir
 end
 
+Minitest::Spec::DSL::InstanceMethods.class_eval do
+  # @!method expect
+  #   Takes a value
+  #   @return [Minitest::Expectation]
+end
+
+Minitest::Expectation.class_eval do
+  # @!parse include Bridgetown::Foundation::IntuitiveExpectations
+end
+
 class BridgetownUnitTest < Minitest::Test
+  # @!parse include Minitest::Spec::DSL::InstanceMethods
+  # @!parse extend Minitest::Spec::DSL::InstanceMethods
   extend Minitest::Spec::DSL
   include DirectoryHelpers
   extend DirectoryHelpers
@@ -135,7 +148,7 @@ class BridgetownUnitTest < Minitest::Test
 
   def load_plugin_content(config)
     config.source_manifests << Bridgetown::Configuration::SourceManifest.new(
-      origin: self.class,
+      origin: Kernel.const_get(self.class.name.split("::").first), # because Minitest `describe` blocks are nested
       components: testing_dir("plugin_content", "components"),
       content: testing_dir("plugin_content", "content"),
       layouts: testing_dir("plugin_content", "layouts")
@@ -175,6 +188,8 @@ class BridgetownUnitTest < Minitest::Test
     ENV[key] = old_value
   end
 
+  # TODO: can we simplify this by utilizing Minitest's `capture_io`?
+  # see: https://docs.seattlerb.org/minitest/Minitest/Assertions.html#method-i-capture_io
   def capture_output(level = :debug)
     $stdout = buffer = StringIO.new
     Bridgetown.logger = Logger.new(buffer)

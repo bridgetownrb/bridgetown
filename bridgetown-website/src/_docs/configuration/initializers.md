@@ -51,7 +51,7 @@ Bridgetown.configure do |config|
   end
 
   except :static, :console do
-    # you can define hooks witin your initializers file:
+    # you can define hooks within your initializers file:
     hook :site, :after_init do |site|
       # runs after a site is initialized in server, Rake, etc. contexts, but not static or console
     end

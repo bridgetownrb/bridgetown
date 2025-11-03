@@ -128,7 +128,7 @@ module Bridgetown
       def load_env_and_determine_port(config, options)
         initializer_file = File.join(config.root_dir, "config", "initializers.rb")
         if File.exist?(initializer_file) &&
-            File.read(initializer_file) =~ (%r!^[\s]*init[\s]*:dotenv!)
+            File.read(initializer_file) =~ %r!^\s*init\s*:dotenv!
           require "dotenv"
           Bridgetown.load_dotenv(root: config.root_dir)
         end

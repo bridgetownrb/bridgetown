@@ -15,7 +15,7 @@ Starting in Bridgetown 1.1, you can configure multiple locales for your website 
 Routing options _not_ currently supported by Bridgetown at present are the subdomain config (`www.mysite.com`, `es.mysite.com`, `zh.mysite.com`, etc.) and the international domains config (`www.mysite.com`, `www.mysite.co.uk`, etc.). However, if you're able to work within a prefix-style config ([MDN](https://developer.mozilla.org) is a good example of this type of approach out in the wild), Bridgetown is here for you.
 
 {%@ Note do %}
-Bridgetown uses the [Ruby I18n](https://github.com/ruby-i18n/i18n) gem to aid in storing and accessing translations, the same library used by Ruby on Rails. Thus many of the same conventions will apply if you're already familar with i18n in Rails.
+Bridgetown uses the [Ruby I18n](https://github.com/ruby-i18n/i18n) gem to aid in storing and accessing translations, the same library used by Ruby on Rails. Thus many of the same conventions will apply if you're already familiar with i18n in Rails.
 {% end %}
 
 {{ toc }}
@@ -46,7 +46,7 @@ prefix_default_locale: false
 {% endraw %}
 {% end %}
 
-Once you've completed your intial configuration, create a `src/_locales` folder and add files in YAML, JSON, or Ruby hash format for your locale translations. The first key of the data structure should be the locale, with various hierarchies of subkeys as you deem fit. Here's an example of a `en.yml` file:
+Once you've completed your initial configuration, create a `src/_locales` folder and add files in YAML, JSON, or Ruby hash format for your locale translations. The first key of the data structure should be the locale, with various hierarchies of subkeys as you deem fit. Here's an example of a `en.yml` file:
 
 ```yaml
 en:
@@ -138,7 +138,7 @@ If your translation key ends with `_html` or is `html`, it will automatically be
 ```yml
 en:
   products:
-    tagline_html: The <storng>best</strong> product!
+    tagline_html: The <strong>best</strong> product!
 ```
 
 There are many other useful features of the **i18n** gem, so feel free to peruse the [Rails Guide to Internationalization](https://guides.rubyonrails.org/i18n.html) for additional documentation.

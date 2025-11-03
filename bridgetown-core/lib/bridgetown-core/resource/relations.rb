@@ -110,7 +110,7 @@ module Bridgetown
 
       # @param type [Symbol]
       # @return [Array<Bridgetown::Resource::Base>]
-      def has_many_relation_for_type(type) # rubocop:disable Naming/PredicateName
+      def has_many_relation_for_type(type) # rubocop:disable Naming/PredicatePrefix
         label, singular_label = collection_labels
 
         other_collection_for_type(type).resources.select do |other_resource|
@@ -122,7 +122,7 @@ module Bridgetown
 
       # @param type [Symbol]
       # @return [Bridgetown::Resource::Base]
-      def has_one_relation_for_type(type) # rubocop:disable Naming/PredicateName
+      def has_one_relation_for_type(type) # rubocop:disable Naming/PredicatePrefix
         label, singular_label = collection_labels
 
         other_collection_for_type(type).resources.find do |other_resource|
