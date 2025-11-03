@@ -10,6 +10,6 @@ class TestHash < Bridgetown::Foundation::Test
 
     new_hsh = hsh.deep_dup
 
-    refute_equal new_hsh[:a].object_id, hsh[:a].object_id
+    expect(hsh[:a].object_id) != new_hsh[:a].object_id
   end
 end

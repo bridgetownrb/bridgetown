@@ -60,8 +60,9 @@ class TestComponents < BridgetownUnitTest
     end
 
     should "not render if render? is false" do
-      expect(@erb_page.output).exclude? "NOPE"
-      expect(@erb_page.output).exclude? "Canceled!"
+      expect(@erb_page.output)
+        .exclude?("NOPE")
+        .exclude?("Canceled!")
     end
 
     should "handle same-file namespaced components" do

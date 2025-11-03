@@ -29,72 +29,72 @@ class TestSSR < BridgetownUnitTest
 
     should "return the index page" do
       get "/"
-      expect(last_response).must_be :ok?
+      expect(last_response).is? :ok?
       expect(last_response.body) == "<h1>Index</h1>"
     end
 
     should "return JSON for the hello route" do
       get "/hello/world"
-      assert last_response.ok?
-      assert_equal({ hello: "friend world VALUE" }.to_json, last_response.body)
+      expect(last_response).is? :ok?
+      expect(last_response.body) == { hello: "friend world VALUE" }.to_json
     end
 
     should "support _method override of POST" do
       post "/hello/methods", _method: "put"
-      assert last_response.ok?
-      assert_equal({ saved: "methods" }.to_json, last_response.body)
+      expect(last_response).is? :ok?
+      expect(last_response.body) == { saved: "methods" }.to_json
     end
 
     should "preserve site data between live reloads" do
-      assert_equal 1, site.data.iterations
+      expect(site.data.iterations) == 1
       site.reset(soft: true)
-      assert_equal 2, site.data.iterations
+      expect(site.data.iterations) == 2
     end
 
     should "support indifferent cookies" do
       post "/cookies", value: "Gookie!"
       get "/cookies"
-      assert last_response.ok?
-      assert_equal({ value: "Gookie!" }.to_json, last_response.body)
+      expect(last_response).is? :ok?
+      expect(last_response.body) == { value: "Gookie!" }.to_json
     end
 
     should "support incoming JSON payloads" do
       post "/ooh_json", { tell_me: "what you're chasin'" }
-      assert last_response.ok?
-      assert_equal({ because_the_night: "will never give you what you want" }.to_json, last_response.body)
+      expect(last_response).is? :ok?
+      expect(last_response.body) == { because_the_night: "will never give you what you want" }.to_json
     end
 
     should "support redirecting with helpers" do
       site.config.url = "http://test.site"
       post "/redirect_me/now"
 
-      refute last_response.ok?
+      expect(last_response).isnt? :ok?
 
       get last_response["Location"].sub("http://test.site", "")
-      assert last_response.ok?
-      assert_equal("Redirected!", last_response.body)
+      expect(last_response).is? :ok?
+      expect(last_response.body) == "Redirected!"
     end
 
     should "return rendered resource" do
       get "/render_resource"
 
-      assert last_response.ok?
-      assert_includes last_response.body, "<p>Hello <strong>world</strong>!</p>"
+      expect(last_response).is? :ok?
+      expect(last_response.body) << "<p>Hello <strong>world</strong>!</p>"
     end
 
     should "return model as rendered resource" do
       get "/render_model"
 
-      assert last_response.ok?
-      assert_includes last_response.body, "<p class=\"test\">THIS IS A <em>TEST</em>.</p>"
+      expect(last_response).is? :ok?
+      expect(last_response.body) << "<p class=\"test\">THIS IS A <em>TEST</em>.</p>"
     end
 
     should "return rendered component" do
       get "/render_component/wow"
 
-      assert last_response.ok?
-      assert_equal "application/rss+xml", last_response["Content-Type"]
-      assert_equal "<rss>WOW true</rss>", last_response.body
+      expect(last_response).is? :ok?
+      expect(last_response["Content-Type"]) == "application/rss+xml"
+      expect(last_response.body) == "<rss>WOW true</rss>"
     end
 
     should "return flash value" do
@@ -102,25 +102,27 @@ class TestSSR < BridgetownUnitTest
 
       get "/flashy"
 
-      assert_equal({ "saved" => "Save this value: abc12356" }, JSON.parse(last_response.body))
+      expect(last_response).is? :ok?
+      expect(last_response.body) == { "saved" => "Save this value: abc12356" }.to_json
     end
 
     should "return rendered view" do
       get "/render_view/Page_Me"
 
-      assert last_response.ok?
-      assert_includes last_response.body, "<title>PAGE_ME | So Awesome</title>"
-      assert_includes last_response.body, "<body class=\"page some-extras\">"
-      assert_includes last_response.body, "<h1>PAGE_ME</h1>"
-      assert_includes last_response.body, "<ul>\n  <li>Port 80</li>\n</ul>"
-      assert_includes last_response.body, "<p>Well that was 246!\n  <em>ya think?</em></p>"
+      expect(last_response).is? :ok?
+      expect(last_response.body)
+        .include?("<title>PAGE_ME | So Awesome</title>")
+        .include?("<body class=\"page some-extras\">")
+        .include?("<h1>PAGE_ME</h1>")
+        .include?("<ul>\n  <li>Port 80</li>\n</ul>")
+        .include?("<p>Well that was 246!\n  <em>ya think?</em></p>")
     end
 
     should "allow plugins to work without order dependence" do
       get "/order-independence"
 
-      assert last_response.ok?
-      assert_equal({ it: "works" }.to_json, last_response.body)
+      expect(last_response).is? :ok?
+      expect(last_response.body) == { it: "works" }.to_json
     end
 
     should "allow plugins to work without order dependence with a base path" do
@@ -129,8 +131,8 @@ class TestSSR < BridgetownUnitTest
 
       get "/order-independence"
 
-      assert last_response.ok?
-      assert_equal({ it: "works" }.to_json, last_response.body)
+      expect(last_response).is? :ok?
+      expect(last_response.body) == { it: "works" }.to_json
     ensure
       site.config.base_path = original_base_path
     end

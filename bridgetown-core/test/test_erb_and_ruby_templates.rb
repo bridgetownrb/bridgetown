@@ -91,8 +91,8 @@ class TestERBAndRubyTemplates < BridgetownUnitTest
     let(:ruby_page) { @site.resources.find { |p| p.data.layout == :rubylayout }.output }
 
     it "renders and includes yielded page content" do
-      expect(ruby_page).must_include "<h1>Boo</h1>\n<p>This is a post with Ruby front matter.</p>"
-      expect(ruby_page).must_include "Custom var: 123"
+      expect(ruby_page) << "<h1>Boo</h1>\n<p>This is a post with Ruby front matter.</p>"
+      expect(ruby_page) << "Custom var: 123"
     end
   end
 end

@@ -16,12 +16,12 @@ class TestModule < Bridgetown::Foundation::Test
     end
 
     it "nested_parent" do
-      assert_equal Bridgetown::Foundation::CoreExt,
-                   Bridgetown::Foundation::CoreExt::String.nested_parent
+      expect(Bridgetown::Foundation::CoreExt::String.nested_parent) == Bridgetown::Foundation::CoreExt
     end
 
     it "nested_name" do
-      assert_equal "CoreExt", Bridgetown::Foundation::CoreExt.nested_name
+      expect(Bridgetown::Foundation::CoreExt.nested_name) == "CoreExt"
+      expect(Bridgetown::Foundation::CoreExt.nested_parent.nested_name) == "Foundation"
     end
   end
 end

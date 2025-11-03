@@ -17,8 +17,8 @@ class TestRoutes < BridgetownUnitTest
   context "Roda-powered Bridgetown server" do # rubocop:todo Metrics/BlockLength
     should "return the static index page" do
       get "/"
-      assert last_response.ok?
-      assert_equal "<h1>Index</h1>", last_response.body
+      expect(last_response).is? :ok?
+      expect(last_response.body) == "<h1>Index</h1>"
     end
 
     should "return the dynamic index page if present" do
@@ -53,7 +53,7 @@ class TestRoutes < BridgetownUnitTest
 
     should "return HTML for a route localized in italian" do
       get "/it/localized"
-      assert_equal "<h1>Localized for it - it</h1>\n", last_response.body
+      expect(last_response.body) == "<h1>Localized for it - it</h1>\n"
     end
 
     should "return HTML for nested index RESTful route" do
@@ -73,7 +73,7 @@ class TestRoutes < BridgetownUnitTest
 
     should "output csrf hidden input tag" do
       get "/form"
-      expect(last_response.body).must_include('<form><input type="hidden" name="_csrf" value="')
+      expect(last_response.body) << '<form><input type="hidden" name="_csrf" value="'
     end
 
     should "return the proper route within an island" do

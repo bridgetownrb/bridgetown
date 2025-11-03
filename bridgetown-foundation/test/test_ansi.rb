@@ -16,20 +16,20 @@ class TestAnsi < Bridgetown::Foundation::Test
   end
 
   it "outputs red string" do
-    expect("red".red).must_equal "\e[31mred\e[0m"
+    expect("red".red) == "\e[31mred\e[0m"
   end
 
   describe "color helpers" do
     it "can strip color" do
-      assert_equal "hello", ansi.strip(ansi.yellow(ansi.red("hello")))
+      expect(ansi.strip(ansi.yellow(ansi.red("hello")))) == "hello"
     end
 
     it "is able to detect color" do
-      assert ansi.has?("hello".cyan)
+      expect(ansi.has?("hello".cyan)).true?
     end
 
     it "will reset color" do
-      assert "reset", "reset".reset_ansi
+      expect("reset".reset_ansi) == "\e[0mreset"
     end
   end
 end

@@ -37,9 +37,9 @@ class TestHelpers < BridgetownUnitTest
         outvar: "@_erbout"
       ) { content }
       result = tmpl.render(@erb_view)
-      assert_equal "This is the Within Helpers Scope Based I'm a post! " \
-                   "HelpersBuilder i-am-groot Bridgetown::ERBView " \
-                   "Bridgetown::Site helper", result
+      expect(result) == "This is the Within Helpers Scope Based I'm a post! " \
+                        "HelpersBuilder i-am-groot Bridgetown::ERBView " \
+                        "Bridgetown::Site helper"
     end
 
     it "work with methods" do
@@ -48,8 +48,8 @@ class TestHelpers < BridgetownUnitTest
         outvar: "@_erbout"
       ) { content }
       result = tmpl.render(@erb_view)
-      assert_equal "This is the Method Based I'm a post! HelpersBuilder Bridgetown::ERBView helper",
-                   result
+      expect(result) ==
+        "This is the Method Based I'm a post! HelpersBuilder Bridgetown::ERBView helper"
     end
   end
 end
