@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 .
 
+## [2.0.4] - 2025-11-03
+
+- Spruce up and properly document & type “Intuitive Expectations” code [#1054](https://github.com/bridgetownrb/bridgetown/pull/1054) ([@jaredcwhite](https://github.com/jaredcwhite))
+  - Relocate to Foundation gem so it's easier for other projects to pull in
+- Support same-file namespaced component classes [#1047](https://github.com/bridgetownrb/bridgetown/pull/1047) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Update site template gemfile and default index page [#1048](https://github.com/bridgetownrb/bridgetown/pull/1048) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Fix for custom collections dir won't load data files into `_data` key [#1049](https://github.com/bridgetownrb/bridgetown/pull/1049) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Support pure Ruby (`.rb`) layouts [#1046](https://github.com/bridgetownrb/bridgetown/pull/1046) ([@jaredcwhite](https://github.com/jaredcwhite))
+  - Also fix some issues with front matter line counts in exceptions
+- Thanks to @injms for documentation fixes
+
 ## [2.0.3] - 2025-10-17
 
 - Release emergency patch to fix ERB `capture` helper to avoid improper escape edge case

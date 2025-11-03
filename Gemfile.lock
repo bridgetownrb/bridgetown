@@ -1,17 +1,17 @@
 PATH
   remote: bridgetown-builder
   specs:
-    bridgetown-builder (2.0.3)
-      bridgetown-core (= 2.0.3)
+    bridgetown-builder (2.0.4)
+      bridgetown-core (= 2.0.4)
 
 PATH
   remote: bridgetown-core
   specs:
-    bridgetown-core (2.0.3)
+    bridgetown-core (2.0.4)
       activesupport (>= 6.0, < 8.0)
       addressable (~> 2.4)
       amazing_print (~> 1.2)
-      bridgetown-foundation (= 2.0.3)
+      bridgetown-foundation (= 2.0.4)
       csv (~> 3.2)
       dry-inflector (>= 1.0)
       erubi (~> 1.9)
@@ -38,7 +38,7 @@ PATH
 PATH
   remote: bridgetown-foundation
   specs:
-    bridgetown-foundation (2.0.3)
+    bridgetown-foundation (2.0.4)
       hash_with_dot_access (~> 2.0)
       inclusive (~> 1.0)
       zeitwerk (~> 2.5)
@@ -46,22 +46,22 @@ PATH
 PATH
   remote: bridgetown-paginate
   specs:
-    bridgetown-paginate (2.0.3)
-      bridgetown-core (= 2.0.3)
+    bridgetown-paginate (2.0.4)
+      bridgetown-core (= 2.0.4)
 
 PATH
   remote: bridgetown
   specs:
-    bridgetown (2.0.3)
-      bridgetown-builder (= 2.0.3)
-      bridgetown-core (= 2.0.3)
-      bridgetown-foundation (= 2.0.3)
-      bridgetown-paginate (= 2.0.3)
+    bridgetown (2.0.4)
+      bridgetown-builder (= 2.0.4)
+      bridgetown-core (= 2.0.4)
+      bridgetown-foundation (= 2.0.4)
+      bridgetown-paginate (= 2.0.4)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.2.2.2)
+    activesupport (7.2.3)
       base64
       benchmark (>= 0.3)
       bigdecimal
@@ -88,7 +88,7 @@ GEM
     concurrent-ruby (1.3.5)
     connection_pool (2.5.4)
     csv (3.3.5)
-    date (3.4.1)
+    date (3.5.0)
     diff-lcs (1.6.2)
     docile (1.4.1)
     drb (2.2.3)
@@ -113,12 +113,12 @@ GEM
       concurrent-ruby (~> 1.0)
     inclusive (1.1.0)
     io-console (0.8.1)
-    irb (1.15.2)
+    irb (1.15.3)
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jaro_winkler (1.6.1)
-    json (2.15.1)
+    json (2.15.2)
     kramdown (2.5.1)
       rexml (>= 3.3.9)
     kramdown-parser-gfm (1.1.0)
@@ -140,7 +140,7 @@ GEM
       minitest (>= 5.0)
       ruby-progressbar
     minitest-stub_any_instance (1.0.3)
-    net-http (0.6.0)
+    net-http (0.7.0)
       uri
     nokogiri (1.18.10)
       mini_portile2 (~> 2.8.2)
@@ -158,7 +158,7 @@ GEM
     observer (0.1.2)
     ostruct (0.6.3)
     parallel (1.27.0)
-    parser (3.3.9.0)
+    parser (3.3.10.0)
       ast (~> 2.4.1)
       racc
     pp (0.6.3)
@@ -170,19 +170,19 @@ GEM
       stringio
     public_suffix (6.0.2)
     racc (1.8.1)
-    rack (3.2.3)
+    rack (3.2.4)
     rack-test (2.2.0)
       rack (>= 1.3)
     rackup (2.2.1)
       rack (>= 3)
     rainbow (3.1.1)
-    rake (13.3.0)
+    rake (13.3.1)
     rb-fsevent (0.11.2)
     rb-inotify (0.11.1)
       ffi (~> 1.0)
     rbs (3.9.5)
       logger
-    rdoc (6.15.0)
+    rdoc (6.15.1)
       erb
       psych (>= 4.0.0)
       tsort
@@ -195,7 +195,7 @@ GEM
     roda (3.97.0)
       rack
     rouge (4.6.1)
-    rubocop (1.81.6)
+    rubocop (1.81.7)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -270,7 +270,7 @@ GEM
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
-    uri (1.0.4)
+    uri (1.1.0)
     yard (0.9.37)
     yard-activesupport-concern (0.0.1)
       yard (>= 0.8)
