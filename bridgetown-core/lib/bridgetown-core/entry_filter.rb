@@ -19,10 +19,7 @@ module Bridgetown
       @base_directory.to_s
     end
 
-    def derive_base_directory(site, base_dir)
-      base_dir[site.source] = "" if base_dir.start_with?(site.source)
-      base_dir
-    end
+    def derive_base_directory(site, base_dir) = base_dir.delete_prefix!(site.source)
 
     def relative_to_source(entry)
       File.join(
