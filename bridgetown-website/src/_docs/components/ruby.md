@@ -266,6 +266,16 @@ In addition to rendering a template for you, `Bridgetown::Component` provides a 
 * `render?` – if you define this method and return `false`, the component will not get rendered at all.
 * `before_render` – called right before the component is rendered when the view_context is known and all helpers available.
 
+## Rendering Ruby Components from Liquid Templates
+
+You can use the `ruby_render` helper from Liquid templates to render Ruby components.
+
+```liquid
+{% ruby_render TestComponent.new(test_param: "Ruby FTW!") %}
+```
+
+[Passing in content via a block](#content) is not yet supported.
+
 ## Sidecar JS/CSS Assets
 
 Some of the components you write will comprise more than pure markup. You may want to affect the styling and behavior of a component as well. For a conceptual overview of this architecture, [read our Components introduction](/docs/components#the-subtle-interplay-of-html-css--javascript).
