@@ -33,9 +33,9 @@ module Bridgetown
         # Strip out file extension and process each segment of a URL to swap out
         # placeholders such as :categories or :title
         url_segments = Bridgetown::Filters::URLFilters.strip_extname(permalink).split("/")
-        new_url = url_segments.map do |segment|
+        new_url = url_segments.filter_map do |segment|
           segment.starts_with?(":") ? process_segment(segment.sub(%r{^:}, "")) : segment
-        end.select(&:present?).join("/")
+        end.reject(&:empty?).join("/")
         # No relative URLs should ever end in /index.html
         new_url.sub!(%r{/index$}, "") if final_ext == ".html"
 
@@ -97,7 +97,7 @@ module Bridgetown
       end
 
       def ensure_base_path(permalink)
-        if resource.site.base_path.present?
+        unless resource.site.base_path.empty?
           return "#{resource.site.base_path(strip_slash_only: true)}#{permalink}"
         end
 
@@ -110,7 +110,7 @@ module Bridgetown
       register_placeholder :path, ->(resource) do
         {
           raw_value: resource.relative_path_basename_without_prefix.tap do |path|
-            if resource.site.config["collections_dir"].present?
+            if resource.site.config["collections_dir"].length.positive?
               path.delete_prefix! "#{resource.site.config["collections_dir"]}/"
             end
 

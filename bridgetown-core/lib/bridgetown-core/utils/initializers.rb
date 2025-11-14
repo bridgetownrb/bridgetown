@@ -33,7 +33,7 @@ Bridgetown.initializer :parse_routes do |config|
     file_contents = File.read(route_file)
     routes = parser.parse(file_contents)
 
-    next unless routes.present?
+    next if routes.empty?
 
     routes.each do |route|
       route["file"] = route_file

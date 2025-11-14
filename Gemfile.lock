@@ -8,7 +8,6 @@ PATH
   remote: bridgetown-core
   specs:
     bridgetown-core (2.0.4)
-      activesupport (>= 6.0, < 8.0)
       addressable (~> 2.4)
       amazing_print (~> 1.2)
       bridgetown-foundation (= 2.0.4)

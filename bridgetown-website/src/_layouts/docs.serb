@@ -10,7 +10,7 @@ layout: default
     <sl-breadcrumb-item href="/docs">Documentation</sl-breadcrumb-item>
     <sl-breadcrumb-item href="#sidebar-{{ resource.data.top_section | slugify }}">{{ resource.data.top_section }}</sl-breadcrumb-item>
     {% if url_sections.size > 3 %}
-      {% crumb_label = resource.data.category.gsub("-", " ").titleize %}
+      {% crumb_label = pipe(resource.data.category) { titleize } %}
       {% crumb_url = "/docs/#{resource.data.back_to || resource.data.category}" %}
       <sl-breadcrumb-item href="{{ crumb_url }}">{{ crumb_label }}</sl-breadcrumb-item>
     {% end %}
