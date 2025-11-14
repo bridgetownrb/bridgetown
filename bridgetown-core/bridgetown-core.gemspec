@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
 
   spec.rdoc_options = ["--charset=UTF-8"]
 
-  spec.required_ruby_version     = ">= 3.1.0"
+  spec.required_ruby_version     = ">= 3.2.0"
 
   spec.add_dependency("activesupport",             [">= 6.0", "< 8.0"])
   spec.add_dependency("addressable",               "~> 2.4")

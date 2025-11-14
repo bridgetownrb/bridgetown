@@ -32,13 +32,13 @@ class TestFilters < BridgetownUnitTest
     def select; end
   end
 
-  M = Struct.new(:message) do
+  M = Data.define(:message) do
     def to_liquid
       [message]
     end
   end
 
-  T = Struct.new(:name) do
+  T = Data.define(:name) do
     def to_liquid
       {
         "name" => name,
@@ -1483,7 +1483,7 @@ class TestFilters < BridgetownUnitTest
 
     describe "inspect filter" do
       it "returns a HTML-escaped string representation of an object" do
-        assert_equal "{&quot;&lt;a&gt;&quot;=&gt;1}", @filter.inspect("<a>" => 1)
+        assert_equal "[&quot;&lt;a&gt;&quot;, 1]", @filter.inspect(["<a>", 1])
       end
 
       it "quotes strings" do
