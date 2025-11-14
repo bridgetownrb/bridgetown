@@ -96,10 +96,10 @@ module Bridgetown
   end
 
   module ERBCapture
-    def capture(*args)
+    def capture(*)
       previous_buffer_state = @_erbout
       @_erbout = OutputBuffer.new
-      result = yield(*args)
+      result = yield(*)
       result = @_erbout.presence || result
       @_erbout = previous_buffer_state
       return result.to_s if result.is_a?(OutputBuffer)
