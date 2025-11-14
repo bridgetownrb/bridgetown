@@ -3,14 +3,14 @@
 require "helper"
 
 class TestUtils < BridgetownUnitTest
-  context "The `Utils.deep_merge_hashes` method" do
-    setup do
+  describe "The `Utils.deep_merge_hashes` method" do
+    before do
       clear_dest
       @site = fixture_site
       @site.process
     end
 
-    should "merge a drop into a hash" do
+    it "merges a drop into a hash" do
       data = { "page" => {} }
       merged = Utils.deep_merge_hashes(data, @site.site_payload)
       assert merged.is_a? Hash
@@ -18,7 +18,7 @@ class TestUtils < BridgetownUnitTest
       assert_equal data["page"], merged["page"]
     end
 
-    should "merge a hash into a drop" do
+    it "merges a hash into a drop" do
       data = { "page" => {} }
       assert_nil @site.site_payload["page"]
       merged = Utils.deep_merge_hashes(@site.site_payload, data)
@@ -28,85 +28,85 @@ class TestUtils < BridgetownUnitTest
     end
   end
 
-  context "hash" do
-    context "pluralized_array" do
-      should "return empty array with no values" do
+  describe "hash" do
+    describe "pluralized_array" do
+      it "returns empty array with no values" do
         data = {}
         assert_equal [], Utils.pluralized_array_from_hash(data, "tag", "tags")
       end
 
-      should "return empty array with no matching values" do
+      it "returns empty array with no matching values" do
         data = { "foo" => "bar" }
         assert_equal [], Utils.pluralized_array_from_hash(data, "tag", "tags")
       end
 
-      should "return plural array with nil singular" do
+      it "returns plural array with nil singular" do
         data = { "foo" => "bar", "tag" => nil, "tags" => %w(dog cat) }
         assert_equal %w(dog cat), Utils.pluralized_array_from_hash(data, "tag", "tags")
       end
 
-      should "return plural array with merged singular" do
+      it "returns plural array with merged singular" do
         data = { "foo" => "bar", "tag" => "dog", "tags" => %w(dog cat) }
         assert_equal %w[dog cat], Utils.pluralized_array_from_hash(data, "tag", "tags")
       end
 
-      should "return array with singular added to pluaral with spaces" do
+      it "returns array with singular added to pluaral with spaces" do
         data = { "foo" => "bar", "tag" => "dog cat", "tags" => %w(dog cat) }
         assert_equal ["dog cat", "dog", "cat"], Utils.pluralized_array_from_hash(data, "tag", "tags")
       end
 
-      should "return empty array with matching nil plural" do
+      it "returns empty array with matching nil plural" do
         data = { "foo" => "bar", "tags" => nil }
         assert_equal [], Utils.pluralized_array_from_hash(data, "tag", "tags")
       end
 
-      should "return empty array with matching empty array" do
+      it "returns empty array with matching empty array" do
         data = { "foo" => "bar", "tags" => [] }
         assert_equal [], Utils.pluralized_array_from_hash(data, "tag", "tags")
       end
 
-      should "return single value array with matching plural with single string value" do
+      it "returns single value array with matching plural with single string value" do
         data = { "foo" => "bar", "tags" => "dog" }
         assert_equal ["dog"], Utils.pluralized_array_from_hash(data, "tag", "tags")
       end
 
-      should "return multiple value array with matching plural with " \
-             "single string value with spaces" do
+      it "returns multiple value array with matching plural with " \
+         "single string value with spaces" do
         data = { "foo" => "bar", "tags" => "dog cat" }
         assert_equal %w(dog cat), Utils.pluralized_array_from_hash(data, "tag", "tags")
       end
 
-      should "return single value array with matching plural with single value array" do
+      it "returns single value array with matching plural with single value array" do
         data = { "foo" => "bar", "tags" => ["dog"] }
         assert_equal ["dog"], Utils.pluralized_array_from_hash(data, "tag", "tags")
       end
 
-      should "return multiple value array with matching plural with " \
-             "multiple value array" do
+      it "returns multiple value array with matching plural with " \
+         "multiple value array" do
         data = { "foo" => "bar", "tags" => %w(dog cat) }
         assert_equal %w(dog cat), Utils.pluralized_array_from_hash(data, "tag", "tags")
       end
     end
   end
 
-  context "The `Utils.parse_date` method" do
-    should "parse a properly formatted date" do
+  describe "The `Utils.parse_date` method" do
+    it "parses a properly formatted date" do
       assert Utils.parse_date("2014-08-02 14:43:06 PDT").is_a? Time
     end
 
-    should "throw an error if the input contains no date data" do
+    it "throws an error if the input contains no date data" do
       assert_raises Bridgetown::Errors::InvalidDateError do
         Utils.parse_date("Blah")
       end
     end
 
-    should "throw an error if the input is out of range" do
+    it "throws an error if the input is out of range" do
       assert_raises Bridgetown::Errors::InvalidDateError do
         Utils.parse_date("9999-99-99")
       end
     end
 
-    should "throw an error with the default message if no message is passed in" do
+    it "throws an error with the default message if no message is passed in" do
       date = "Blah this is invalid"
       assert_raises(
         Bridgetown::Errors::InvalidDateError,
@@ -116,7 +116,7 @@ class TestUtils < BridgetownUnitTest
       end
     end
 
-    should "throw an error with the provided message if a message is passed in" do
+    it "throws an error with the provided message if a message is passed in" do
       date = "Blah this is invalid"
       message = "Aaaah, the world has exploded!"
       assert_raises(
@@ -128,26 +128,26 @@ class TestUtils < BridgetownUnitTest
     end
   end
 
-  context "The `Utils.slugify` method" do
-    should "return nil if passed nil" do
+  describe "The `Utils.slugify` method" do
+    it "returns nil if passed nil" do
       assert Utils.slugify(nil).nil?
     rescue NoMethodError
       assert false, "Threw NoMethodError"
     end
 
-    should "replace whitespace with hyphens" do
+    it "replaces whitespace with hyphens" do
       assert_equal "working-with-drafts", Utils.slugify("Working with drafts")
     end
 
-    should "replace consecutive whitespace with a single hyphen" do
+    it "replaces consecutive whitespace with a single hyphen" do
       assert_equal "basic-usage", Utils.slugify("Basic   Usage")
     end
 
-    should "trim leading and trailing whitespace" do
+    it "trims leading and trailing whitespace" do
       assert_equal "working-with-drafts", Utils.slugify("  Working with drafts   ")
     end
 
-    should "drop trailing punctuation" do
+    it "drops trailing punctuation" do
       assert_equal(
         "so-what-is-bridgetown-exactly",
         Utils.slugify("So what is Bridgetown, exactly?")
@@ -155,62 +155,62 @@ class TestUtils < BridgetownUnitTest
       assert_equal "كيف-حالك", Utils.slugify("كيف حالك؟")
     end
 
-    should "ignore hyphens" do
+    it "ignores hyphens" do
       assert_equal "pre-releases", Utils.slugify("Pre-releases")
     end
 
-    should "replace underscores with hyphens" do
+    it "replaces underscores with hyphens" do
       assert_equal "the-config-yml-file", Utils.slugify("The _config.yml file")
     end
 
-    should "combine adjacent hyphens and spaces" do
+    it "combines adjacent hyphens and spaces" do
       assert_equal(
         "customizing-git-git-hooks",
         Utils.slugify("Customizing Git - Git Hooks")
       )
     end
 
-    should "replace punctuation in any scripts by hyphens" do
+    it "replaces punctuation in any scripts by hyphens" do
       assert_equal "5時-6時-三-一四", Utils.slugify("5時〜6時 三・一四")
     end
 
-    should "not replace Unicode 'Mark', 'Letter', or 'Number: Decimal Digit' category characters" do
+    it "does not replace Unicode 'Mark', 'Letter', or 'Number: Decimal Digit' category characters" do
       assert_equal "மல்லிப்பூ-வகைகள்", Utils.slugify("மல்லிப்பூ வகைகள்")
       assert_equal "மல்லிப்பூ-வகைகள்", Utils.slugify("மல்லிப்பூ வகைகள்", mode: "pretty")
     end
 
-    should "not modify the original string" do
+    it "does not modify the original string" do
       title = "Quick-start guide"
       Utils.slugify(title)
       assert_equal "Quick-start guide", title
     end
 
-    should "not change behaviour if mode is default" do
+    it "does not change behaviour if mode is default" do
       assert_equal(
         "the-config-yml-file",
         Utils.slugify("The _config.yml file?", mode: "default")
       )
     end
 
-    should "not change behaviour if mode is nil" do
+    it "does not change behaviour if mode is nil" do
       assert_equal "the-config-yml-file", Utils.slugify("The _config.yml file?")
     end
 
-    should "not replace period and underscore if mode is pretty" do
+    it "does not replace period and underscore if mode is pretty" do
       assert_equal(
         "the-_config.yml-file",
         Utils.slugify("The _config.yml file?", mode: "pretty")
       )
     end
 
-    should "replace everything else but ASCII characters" do
+    it "replaces everything else but ASCII characters" do
       assert_equal "the-config-yml-file",
                    Utils.slugify("The _config.yml file?", mode: "ascii")
       assert_equal "f-rtive-glance",
                    Utils.slugify("fürtive glance!!!!", mode: "ascii")
     end
 
-    should "map accented latin characters to ASCII characters" do
+    it "maps accented latin characters to ASCII characters" do
       assert_equal "the-config-yml-file",
                    Utils.slugify("The _config.yml file?", mode: "latin")
       assert_equal "furtive-glance",
@@ -221,21 +221,21 @@ class TestUtils < BridgetownUnitTest
                    Utils.slugify("Aあわれ鬱господинZ", mode: "latin")
     end
 
-    should "only replace whitespace if mode is raw" do
+    it "only replaces whitespace if mode is raw" do
       assert_equal(
         "the-_config.yml-file?",
         Utils.slugify("The _config.yml file?", mode: "raw")
       )
     end
 
-    should "return the given string if mode is none" do
+    it "returns the given string if mode is none" do
       assert_equal(
         "the _config.yml file?",
         Utils.slugify("The _config.yml file?", mode: "none")
       )
     end
 
-    should "Keep all uppercase letters if cased is true" do
+    it "keeps all uppercase letters if cased is true" do
       assert_equal(
         "Working-with-drafts",
         Utils.slugify("Working with drafts", cased: true)
@@ -286,13 +286,13 @@ class TestUtils < BridgetownUnitTest
       )
     end
 
-    should "not include emoji characters" do
+    it "does not include emoji characters" do
       assert_equal "", Utils.slugify("💎")
     end
   end
 
-  context "The `Utils.titleize_slug` method" do
-    should "capitalize all words and not drop any words" do
+  describe "The `Utils.titleize_slug` method" do
+    it "capitalizes all words and does not drop any words" do
       assert_equal(
         "This Is A Long Title With Mixed Capitalization",
         Utils.titleize_slug("This-is-a-Long-title-with-Mixed-capitalization")
@@ -308,46 +308,46 @@ class TestUtils < BridgetownUnitTest
     end
   end
 
-  context "The `Utils.safe_glob` method" do
-    should "not apply pattern to the dir" do
+  describe "The `Utils.safe_glob` method" do
+    it "does not apply pattern to the dir" do
       dir = "test/safe_glob_test["
       assert_equal [], Dir.glob("#{dir}/*")
       assert_equal ["test/safe_glob_test[/find_me.txt"], Utils.safe_glob(dir, "*")
     end
 
-    should "return the same data to #glob" do
+    it "returns the same data to #glob" do
       dir = "test"
       assert_equal Dir.glob("#{dir}/*"), Utils.safe_glob(dir, "*")
       assert_equal Dir.glob("#{dir}/**/*"), Utils.safe_glob(dir, "**/*")
     end
 
-    should "return the same data to #glob if dir is not found" do
+    it "returns the same data to #glob if dir is not found" do
       dir = "dir_not_exist"
       assert_equal [], Utils.safe_glob(dir, "*")
       assert_equal Dir.glob("#{dir}/*"), Utils.safe_glob(dir, "*")
     end
 
-    should "return the same data to #glob if pattern is blank" do
+    it "returns the same data to #glob if pattern is blank" do
       dir = "test"
       assert_equal [dir], Utils.safe_glob(dir, "")
       assert_equal Dir.glob(dir), Utils.safe_glob(dir, "")
       assert_equal Dir.glob(dir), Utils.safe_glob(dir, nil)
     end
 
-    should "return the same data to #glob if flag is given" do
+    it "returns the same data to #glob if flag is given" do
       dir = "test"
       assert_equal Dir.glob("#{dir}/*", File::FNM_DOTMATCH),
                    Utils.safe_glob(dir, "*", File::FNM_DOTMATCH)
     end
 
-    should "support pattern as an array to support windows" do
+    it "supports pattern as an array to support windows" do
       dir = "test"
       assert_equal Dir.glob("#{dir}/**/*"), Utils.safe_glob(dir, ["**", "*"])
     end
   end
 
-  context "The `Utils.has_yaml_header?` method" do
-    should "outputs a deprecation message" do
+  describe "The `Utils.has_yaml_header?` method" do
+    it "outputs a deprecation message" do
       file = source_dir("_posts", "2008-10-18-foo-bar.markdown")
 
       output = capture_output do
@@ -358,8 +358,8 @@ class TestUtils < BridgetownUnitTest
     end
   end
 
-  context "The `Utils.has_rbfm_header?` method" do
-    should "outputs a deprecation message" do
+  describe "The `Utils.has_rbfm_header?` method" do
+    it "outputs a deprecation message" do
       file = source_dir("_posts", "2008-10-18-foo-bar.markdown")
 
       output = capture_output do
@@ -370,21 +370,21 @@ class TestUtils < BridgetownUnitTest
     end
   end
 
-  context "The `Utils.merged_file_read_opts` method" do
-    should "ignore encoding if it's not there" do
+  describe "The `Utils.merged_file_read_opts` method" do
+    it "ignores encoding if it's not there" do
       opts = Utils.merged_file_read_opts(nil, {})
       assert_nil opts["encoding"]
       assert_nil opts[:encoding]
     end
 
-    should "add bom to encoding" do
+    it "adds bom to encoding" do
       opts = { "encoding" => "utf-8", :encoding => "utf-8" }
       merged = Utils.merged_file_read_opts(nil, opts)
       assert_equal "bom|utf-8", merged["encoding"]
       assert_equal "bom|utf-8", merged[:encoding]
     end
 
-    should "preserve bom in encoding" do
+    it "preserves bom in encoding" do
       opts = { "encoding" => "bom|another", :encoding => "bom|another" }
       merged = Utils.merged_file_read_opts(nil, opts)
       assert_equal "bom|another", merged["encoding"]
@@ -392,27 +392,27 @@ class TestUtils < BridgetownUnitTest
     end
   end
 
-  context "The `Utils.default_github_branch_name` method" do
-    should "return the correct default branch name" do
+  describe "The `Utils.default_github_branch_name` method" do
+    it "returns the correct default branch name" do
       Faraday.stub :get, HashWithDotAccess::Hash.new(body: JSON.generate({ "default_branch" => "my_default_branch" })) do
         assert_equal "my_default_branch", Utils.default_github_branch_name("https://github.com/whitefusionhq/phaedra/abc/12344")
       end
     end
 
-    should "return main if all else fails" do
+    it "returns main if all else fails" do
       Faraday.stub :get, proc { raise("nope") } do
         assert_equal "main", Utils.default_github_branch_name("https://github.com/thisorgdoesntexist/thisrepoistotallybogus")
       end
     end
   end
 
-  context "The `Utils.helper_code_for_template_extname` method" do
-    should "return content within delimiters for the supplied file extname" do
+  describe "The `Utils.helper_code_for_template_extname` method" do
+    it "returns content within delimiters for the supplied file extname" do
       assert_equal "{% content %}", Utils.helper_code_for_template_extname(".liquid", "content")
       assert_equal "<%= content %>", Utils.helper_code_for_template_extname(".erb", "content")
     end
 
-    should "raise an error if the supplied extname is not supported" do
+    it "raises an error if the supplied extname is not supported" do
       assert_raises do
         Utils.helper_code_for_template_extname(".not_a_template_engine", "content")
       end

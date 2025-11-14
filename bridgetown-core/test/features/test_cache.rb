@@ -5,8 +5,8 @@ require "features/feature_helper"
 # I want to be able to cache certain aspects across multiple builds
 # And retrieve the cached aspects when needed
 class TestCache < BridgetownFeatureTest
-  context "cache folder" do
-    should "exist after build" do
+  describe "cache folder" do
+    it "exists after build" do
       create_page "index.md", "<%= data.title %>", title: "Hello World"
 
       run_bridgetown "build"
@@ -16,7 +16,7 @@ class TestCache < BridgetownFeatureTest
       assert_file_contains "<p>Hello World</p>", "output/index.html"
     end
 
-    should "support custom cache configuration" do
+    it "supports custom cache configuration" do
       create_page "index.md", "<%= data.title %>", title: "Hello World"
 
       create_configuration cache_dir: ".foo-cache"
@@ -28,7 +28,7 @@ class TestCache < BridgetownFeatureTest
       assert_file_contains "<p>Hello World</p>", "output/index.html"
     end
 
-    should "not exist after build with CLI flag" do
+    it "does not exist after build with CLI flag" do
       create_page "index.md", "<%= data.title %>", title: "Hello World"
 
       run_bridgetown "build", "--disable-disk-cache"

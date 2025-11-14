@@ -319,8 +319,8 @@ module Bridgetown
       def <=>(other) # rubocop:todo Metrics/AbcSize
         return nil unless other.respond_to?(:data)
 
-        cmp = if data.date.respond_to?(:to_datetime) && other.data.date.respond_to?(:to_datetime)
-                data.date.to_datetime <=> other.data.date.to_datetime
+        cmp = if data.date.respond_to?(:to_time) && other.data.date.respond_to?(:to_time)
+                data.date.to_time <=> other.data.date.to_time
               end
 
         cmp = data["date"] <=> other.data["date"] if cmp.nil?
@@ -387,6 +387,7 @@ module Bridgetown
       def ensure_default_data
         determine_locale
         merge_requested_site_data
+        normalize_date_as_time
 
         slug = if matches = relative_path.to_s.match(DATE_FILENAME_MATCHER) # rubocop:disable Lint/AssignmentInCondition
                  set_date_from_string(matches[1]) unless data.date
@@ -410,6 +411,11 @@ module Bridgetown
           data_path = v.delete_prefix("site.data.")
           data[k] = site.data.dig(*data_path.split("."))
         end
+      end
+
+      def normalize_date_as_time
+        data_date = data.date
+        data.date = data_date.to_time if data_date.is_a?(Date)
       end
 
       def set_date_from_string(new_date) # rubocop:disable Naming/AccessorMethodName
@@ -441,9 +447,9 @@ module Bridgetown
         end
       end
 
-      def determine_locale # rubocop:todo Metrics/AbcSize
+      def determine_locale
         unless data.locale
-          data.locale = locale_from_alt_data_or_filename.presence || site.config.default_locale
+          data.locale = locale_from_alt_data_or_filename || site.config.default_locale
         end
 
         return unless data.locale_overrides.is_a?(Hash) && data.locale_overrides&.key?(data.locale)
