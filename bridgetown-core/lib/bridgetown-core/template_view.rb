@@ -178,6 +178,7 @@ module Bridgetown
     def _locate_partial(partial_name)
       found_file = nil
 
+      # TODO: make this configurable
       %w(erb serb rb slim haml).each do |ext|
         next if found_file
 
@@ -185,7 +186,7 @@ module Bridgetown
         found_file = File.exist?(path) && path
       end
 
-      raise "No matching partial could be found for #{found_partial_name}" unless found_file
+      raise "No matching partial could be found for #{partial_name}" unless found_file
 
       found_file
     end
