@@ -3,7 +3,7 @@
 require "helper"
 
 class TestComponents < BridgetownUnitTest
-  def refresh_zeitwork
+  def refresh_zeitwerk
     components_loader = Zeitwerk::Registry.loaders.each.find do |loader|
       loader.dirs.any? do |path|
         path.include?("_components")
@@ -19,7 +19,7 @@ class TestComponents < BridgetownUnitTest
   end
 
   def setup
-    refresh_zeitwork do
+    refresh_zeitwerk do
       Example.send(:remove_const, "OverrideComponent") if defined?(Example::OverrideComponent)
       @site = fixture_site({ level: "Level" })
     end
