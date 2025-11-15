@@ -119,7 +119,6 @@ module Bridgetown
     def partial(partial_name = nil, **options, &block)
       partial_name = options[:template] if partial_name.nil? && options[:template]
       partial_path = _partial_path(partial_name, self.class.extname_list.first.delete_prefix("."))
-      Bridgetown.logger.debug(["PATH!", partial_path])
       unless File.exist?(partial_path)
         @_call_super_method = true
         return super
