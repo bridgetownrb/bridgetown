@@ -56,6 +56,9 @@ module Bridgetown
     end
   end
 
+  # TODO: this class alias is deprecated and will be removed in the next major Bridgetown release
+  PureRubyView = RubyView
+
   module Converters
     class RubyTemplates < Converter
       priority :highest
