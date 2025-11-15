@@ -10,6 +10,8 @@ PATH
     bridgetown-core (2.0.4)
       addressable (~> 2.4)
       amazing_print (~> 1.2)
+      base64 (>= 0.3)
+      bigdecimal (>= 3.2)
       bridgetown-foundation (= 2.0.4)
       csv (~> 3.2)
       dry-inflector (>= 1.0)
@@ -60,18 +62,6 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (7.2.3)
-      base64
-      benchmark (>= 0.3)
-      bigdecimal
-      concurrent-ruby (~> 1.0, >= 1.3.1)
-      connection_pool (>= 2.2.5)
-      drb
-      i18n (>= 1.6, < 2)
-      logger (>= 1.4.2)
-      minitest (>= 5.1)
-      securerandom (>= 0.3)
-      tzinfo (~> 2.0, >= 2.0.5)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     amazing_print (1.8.1)
@@ -83,17 +73,13 @@ GEM
     benchmark-ips (2.14.0)
     bigdecimal (3.3.1)
     builder (3.3.0)
-    cgi (0.5.0)
     concurrent-ruby (1.3.5)
-    connection_pool (2.5.4)
     csv (3.3.5)
     date (3.5.0)
     diff-lcs (1.6.2)
     docile (1.4.1)
-    drb (2.2.3)
     dry-inflector (1.2.0)
-    erb (4.0.4)
-      cgi (>= 0.3.3)
+    erb (6.0.0)
     erubi (1.13.1)
     faraday (2.14.0)
       faraday-net_http (>= 2.0, < 3.5)
@@ -101,8 +87,8 @@ GEM
       logger
     faraday-follow_redirects (0.4.0)
       faraday (>= 1, < 3)
-    faraday-net_http (3.4.1)
-      net-http (>= 0.5.0)
+    faraday-net_http (3.4.2)
+      net-http (~> 0.5)
     ffi (1.17.2)
     ffi (1.17.2-arm64-darwin)
     ffi (1.17.2-x86_64-darwin)
@@ -117,7 +103,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jaro_winkler (1.6.1)
-    json (2.15.2)
+    json (2.16.0)
     kramdown (2.5.1)
       rexml (>= 3.3.9)
     kramdown-parser-gfm (1.1.0)
@@ -130,8 +116,7 @@ GEM
       rb-inotify (~> 0.9, >= 0.9.10)
     logger (1.7.0)
     memory_profiler (1.1.0)
-    mini_portile2 (2.8.9)
-    minitest (5.26.0)
+    minitest (5.26.1)
     minitest-profile (0.0.2)
     minitest-reporters (1.7.1)
       ansi
@@ -139,11 +124,8 @@ GEM
       minitest (>= 5.0)
       ruby-progressbar
     minitest-stub_any_instance (1.0.3)
-    net-http (0.7.0)
-      uri
-    nokogiri (1.18.10)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
+    net-http (0.8.0)
+      uri (>= 0.11.1)
     nokogiri (1.18.10-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.18.10-x86_64-darwin)
@@ -186,12 +168,12 @@ GEM
       psych (>= 4.0.0)
       tsort
     regexp_parser (2.11.3)
-    reline (0.6.2)
+    reline (0.6.3)
       io-console (~> 0.5)
     reverse_markdown (3.0.0)
       nokogiri
     rexml (3.4.4)
-    roda (3.97.0)
+    roda (3.98.0)
       rack
     rouge (4.6.1)
     rubocop (1.81.7)
@@ -205,7 +187,7 @@ GEM
       rubocop-ast (>= 1.47.1, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.47.1)
+    rubocop-ast (1.48.0)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
     rubocop-bridgetown (0.7.0)
@@ -216,10 +198,9 @@ GEM
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.47.1, < 2.0)
     ruby-progressbar (1.13.0)
-    securerandom (0.4.1)
-    serbea (2.3.0)
-      erubi (>= 1.11)
-      tilt (>= 2.1)
+    serbea (2.4.0)
+      erubi (>= 1.13)
+      tilt (>= 2.6)
     signalize (1.3.1)
       concurrent-ruby (~> 1.2)
     simplecov (0.22.0)
@@ -249,31 +230,28 @@ GEM
       yard (~> 0.9, >= 0.9.24)
       yard-activesupport-concern (~> 0.0)
       yard-solargraph (~> 0.1)
-    streamlined (0.6.1)
+    streamlined (0.6.2)
       serbea (>= 2.1)
       zeitwerk (~> 2.5)
-    stringio (3.1.7)
+    stringio (3.1.8)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.4.0)
     tilt (2.6.1)
     tsort (0.2.0)
-    tzinfo (2.0.6)
-      concurrent-ruby (~> 1.0)
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
-    uri (1.1.0)
+    uri (1.1.1)
     yard (0.9.37)
     yard-activesupport-concern (0.0.1)
       yard (>= 0.8)
     yard-solargraph (0.1.0)
       yard (~> 0.9)
-    zeitwerk (2.6.18)
+    zeitwerk (2.7.3)
 
 PLATFORMS
   arm64-darwin-22
-  ruby
   x86_64-darwin-21
   x86_64-linux
 
@@ -300,4 +278,4 @@ DEPENDENCIES
   yard (~> 0.9)
 
 BUNDLED WITH
-   2.5.6
+   2.7.2
