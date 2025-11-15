@@ -4,6 +4,8 @@ require "streamlined/renderable"
 
 module Bridgetown
   class PureRubyView < ERBView
+    input :rb
+
     def render(item = nil, **options, &block) # rubocop:disable Metrics
       return @_erbout if !block && options.empty? && item.nil?
 
@@ -25,10 +27,7 @@ module Bridgetown
       end
     end
 
-    def _render_partial(partial_name, options) # rubocop:todo Metrics
-      partial_path = _partial_path(partial_name, "rb")
-      return super unless File.exist?(partial_path)
-
+    def _render_partial(partial_path, options) # rubocop:todo Metrics
       (@_locals_stack ||= []).push(options)
       (@_buffer_stack ||= []).push(@_erbout)
       @_erbout = OutputBuffer.new

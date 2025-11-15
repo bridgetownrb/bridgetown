@@ -28,6 +28,31 @@ module Bridgetown
     attr_reader :layout, :resource, :paginator, :site, :content
     alias_method :page, :resource
 
+    class << self
+      attr_accessor :extname_list
+
+      # View renderers can provide one or more extensions they accept. Examples:
+      #
+      # * `input :erb`
+      # * `input %i(rb ruby)`
+      #
+      # @param extnames [Array<Symbol>] extensions
+      def input(extnames)
+        extnames = Array(extnames)
+        self.extname_list ||= []
+        self.extname_list += extnames.map { |e| ".#{e.to_s.downcase}" }
+      end
+
+      def virtual_view
+        @virtual_res ||= Bridgetown::Model::Base.build(
+          { site: Bridgetown::Current.site }.as_dots, :pages, "VIRTUAL", {}
+        ).to_resource
+        @virtual_view ||= new(@virtual_res)
+      end
+
+      def render(...) = virtual_view.render(...)
+    end
+
     def initialize(convertible)
       if convertible.is_a?(Layout)
         @layout = convertible
@@ -48,7 +73,15 @@ module Bridgetown
 
     def site_drop = site.site_payload.site
 
-    def partial(_partial_name = nil, **_options) = raise("Must be implemented in a subclass")
+    def template_view_classes
+      @template_view_classes ||= begin
+        RubyTemplateView.descendants.each_with_object({}) do |klass, hsh|
+          klass.extname_list.each do |ext|
+            hsh[ext] = klass
+          end
+        end
+      end
+    end
 
     def render(item, **options, &)
       if item.respond_to?(:render_in)
@@ -71,6 +104,16 @@ module Bridgetown
                                LiquidRenderer.format_error(e, path || document.relative_path)
       end
       template.render!(options.as_dots, _liquid_context).html_safe
+    end
+
+    def partial(partial_name = nil, **options, &)
+      partial_name = options[:template] if partial_name.nil? && options[:template]
+      found_file = _locate_partial(partial_name)
+      view_class = _view_class_for_partial(found_file)
+
+      view_class.virtual_view.tap do |view|
+        view.resource.roda_app = self.class.virtual_view.resource.roda_app
+      end.partial(partial_name, **options, &)
     end
 
     def helpers
@@ -132,6 +175,29 @@ module Bridgetown
       partial_name = partial_name.split("/").tap { _1.last.prepend("_") }.join("/")
 
       site.in_source_dir(site.config[:partials_dir], "#{partial_name}.#{ext}")
+    end
+
+    def _locate_partial(partial_name)
+      found_file = nil
+
+      %w(erb serb rb slim haml).each do |ext|
+        next if found_file
+
+        path = _partial_path(partial_name, ext)
+        found_file = File.exist?(path) && path
+      end
+
+      raise "No matching partial could be found for #{found_partial_name}" unless found_file
+
+      found_file
+    end
+
+    def _view_class_for_partial(path)
+      view_class = template_view_classes[File.extname(path)]
+
+      raise "No view renderer could be found for #{File.basename(path)}" unless view_class
+
+      view_class
     end
   end
 end

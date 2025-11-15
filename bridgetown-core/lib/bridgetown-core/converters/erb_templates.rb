@@ -110,20 +110,32 @@ module Bridgetown
   end
 
   class ERBView < RubyTemplateView
+    input :erb
+
     def h(input)
       Erubi.h(input)
     end
 
     def partial(partial_name = nil, **options, &block)
       partial_name = options[:template] if partial_name.nil? && options[:template]
+      partial_path = _partial_path(partial_name, self.class.extname_list.first.delete_prefix("."))
+      Bridgetown.logger.debug(["PATH!", partial_path])
+      unless File.exist?(partial_path)
+        @_call_super_method = true
+        return super
+      end
+
       options.merge!(options[:locals]) if options[:locals]
       options[:content] = capture(&block) if block
 
-      _render_partial partial_name, options
+      if @_call_super_method
+        method(:_render_partial).super_method.call partial_path, options
+      else
+        _render_partial partial_path, options
+      end
     end
 
-    def _render_partial(partial_name, options)
-      partial_path = _partial_path(partial_name, "erb")
+    def _render_partial(partial_path, options)
       site.tmp_cache["partial-tmpl:#{partial_path}"] ||= {
         signal: site.config.fast_refresh ? Signalize.signal(1) : nil,
       }
