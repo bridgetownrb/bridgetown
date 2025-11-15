@@ -59,4 +59,4 @@ module Bridgetown
   end
 end
 
-Bridgetown::RubyTemplateView::Helpers.include Bridgetown::Routes::ViewHelpers
+Bridgetown::TemplateView::Helpers.include Bridgetown::Routes::ViewHelpers

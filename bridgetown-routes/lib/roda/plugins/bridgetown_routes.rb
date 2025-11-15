@@ -105,7 +105,7 @@ class Roda
         end
 
         def view(*)
-          Bridgetown::RubyTemplateView.tap { _1.virtual_view.resource.roda_app = self }
+          Bridgetown::TemplateView.tap { _1.virtual_view.resource.roda_app = self }
         end
       end
 

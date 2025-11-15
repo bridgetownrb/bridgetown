@@ -93,7 +93,7 @@ class Builders::Helpers < SiteBuilder
 end
 ```
 
-The `helpers.view` method will return a subclassed instance of `Bridgetown::RubyTemplateView` which reflects the current template engine in use. For example, it will be `Bridgetown::ERBView` for ERB templates. This gives you access to engine-specific view methods such as `partial`, as well as any other custom methods that may have been defined for the view to use.
+The `helpers.view` method will return a subclassed instance of `Bridgetown::TemplateView` which reflects the current template engine in use. For example, it will be `Bridgetown::ERBView` for ERB templates. This gives you access to engine-specific view methods such as `partial`, as well as any other custom methods that may have been defined for the view to use.
 
 ## Using the Capture Helper
 

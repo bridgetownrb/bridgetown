@@ -109,7 +109,7 @@ module Bridgetown
     end
   end
 
-  class ERBView < RubyTemplateView
+  class ERBView < TemplateView
     input :erb
 
     def h(input)

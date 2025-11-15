@@ -3,7 +3,7 @@
 require "streamlined/renderable"
 
 module Bridgetown
-  class PureRubyView < ERBView
+  class RubyView < ERBView
     input :rb
 
     def render(item = nil, **options, &block) # rubocop:disable Metrics
@@ -64,7 +64,7 @@ module Bridgetown
 
       # rubocop:disable Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation
       def convert(content, convertible)
-        rb_view = Bridgetown::PureRubyView.new(convertible)
+        rb_view = Bridgetown::RubyView.new(convertible)
 
         rb_view.instance_eval(
           "def __ruby_template;#{content};end", convertible.path.to_s, line_start(convertible)

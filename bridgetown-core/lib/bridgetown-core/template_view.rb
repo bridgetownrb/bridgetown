@@ -19,7 +19,7 @@ module Bridgetown
     alias_method :macro, :helper
   end
 
-  class RubyTemplateView
+  class TemplateView
     require "bridgetown-core/helpers"
 
     using Bridgetown::Refinements
@@ -74,7 +74,7 @@ module Bridgetown
     def site_drop = site.site_payload.site
 
     def template_view_classes
-      @template_view_classes ||= RubyTemplateView.descendants.each_with_object({}) do |klass, hsh|
+      @template_view_classes ||= TemplateView.descendants.each_with_object({}) do |klass, hsh|
         klass.extname_list.each do |ext|
           hsh[ext] = klass
         end
@@ -198,4 +198,7 @@ module Bridgetown
       view_class
     end
   end
+
+  # TODO: this class alias is deprecated and will be removed in the next major Bridgetown release
+  RubyTemplateView = TemplateView
 end

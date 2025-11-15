@@ -7,7 +7,7 @@ class TestRubyHelpers < BridgetownUnitTest
     reset_i18n_config
     @site = fixture_site
     @site.read
-    @helpers = Bridgetown::RubyTemplateView::Helpers.new(
+    @helpers = Bridgetown::TemplateView::Helpers.new(
       Bridgetown::ERBView.new(
         @site.collections.pages.resources.find { |p| p.basename_without_ext == "about" }
       ),
@@ -111,7 +111,7 @@ class TestRubyHelpers < BridgetownUnitTest
     end
 
     should "return relative translation when key starts with period and view is in a folder" do
-      helpers = Bridgetown::RubyTemplateView::Helpers.new(
+      helpers = Bridgetown::TemplateView::Helpers.new(
         Bridgetown::ERBView.new(
           @site.collections.pages.resources.find { |p| p.basename_without_ext == "bar" }
         ),
@@ -121,7 +121,7 @@ class TestRubyHelpers < BridgetownUnitTest
     end
 
     should "return relative translation when key starts with period and view has .multi ext" do
-      helpers = Bridgetown::RubyTemplateView::Helpers.new(
+      helpers = Bridgetown::TemplateView::Helpers.new(
         Bridgetown::ERBView.new(
           @site.collections.pages.resources.find { |p| p.basename_without_ext == "coc.multi" }
         ),
@@ -131,7 +131,7 @@ class TestRubyHelpers < BridgetownUnitTest
     end
 
     should "return relative translation when key starts with period and view has underscores in name" do
-      helpers = Bridgetown::RubyTemplateView::Helpers.new(
+      helpers = Bridgetown::TemplateView::Helpers.new(
         Bridgetown::ERBView.new(
           @site.collections.pages.resources.find { |p| p.basename_without_ext == "page_using_erb" }
         ),
@@ -143,7 +143,7 @@ class TestRubyHelpers < BridgetownUnitTest
     should "return relative translation when key starts with period and view path starts with an underscore" do
       @site = fixture_site("collections" => { "tutorials" => { "output" => true } })
       @site.process
-      helpers = Bridgetown::RubyTemplateView::Helpers.new(
+      helpers = Bridgetown::TemplateView::Helpers.new(
         Bridgetown::ERBView.new(
           @site.collections.tutorials.resources.find { |p| p.basename_without_ext == "getting-started" }
         ),
