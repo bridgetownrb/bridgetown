@@ -44,6 +44,9 @@ module Bridgetown
       end
 
       def virtual_view
+        # if site object has changed, clear previous state
+        @virtual_res = @virtual_view = nil if @virtual_res&.site != Bridgetown::Current.site
+
         @virtual_res ||= Bridgetown::Model::Base.build(
           { site: Bridgetown::Current.site }.as_dots, :pages, "VIRTUAL", {}
         ).to_resource
