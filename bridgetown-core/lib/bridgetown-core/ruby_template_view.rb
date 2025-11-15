@@ -74,11 +74,9 @@ module Bridgetown
     def site_drop = site.site_payload.site
 
     def template_view_classes
-      @template_view_classes ||= begin
-        RubyTemplateView.descendants.each_with_object({}) do |klass, hsh|
-          klass.extname_list.each do |ext|
-            hsh[ext] = klass
-          end
+      @template_view_classes ||= RubyTemplateView.descendants.each_with_object({}) do |klass, hsh|
+        klass.extname_list.each do |ext|
+          hsh[ext] = klass
         end
       end
     end

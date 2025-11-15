@@ -197,7 +197,7 @@ class BridgetownUnitTest < Minitest::Test
     Bridgetown.logger.log_level = level
     begin
       yield
-    rescue Exception => e
+    rescue Exception => e # rubocop:disable Lint/RescueException
       orig_error = e
     end
     $stdout = STDOUT
@@ -206,7 +206,7 @@ class BridgetownUnitTest < Minitest::Test
     buffer.string.to_s.tap do |str|
       next unless orig_error
 
-      puts str
+      puts str # rubocop:disable Bridgetown/NoPutsAllowed
       raise orig_error
     end
   end
