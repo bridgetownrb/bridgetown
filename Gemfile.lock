@@ -34,7 +34,7 @@ PATH
       streamlined (>= 0.6.0)
       thor (~> 1.1)
       tilt (~> 2.0)
-      zeitwerk (~> 2.5)
+      zeitwerk (>= 2.7.3)
 
 PATH
   remote: bridgetown-foundation
