@@ -221,7 +221,7 @@ class BridgetownUnitTest < Minitest::Test
     I18n.enforce_available_locales = false
     I18n.locale = nil
     I18n.default_locale = nil
-    I18n.load_path = Gem.find_files_from_load_path("active_support/locale/en.*") # restore basic translations
+    I18n.load_path = Gem.find_files_from_load_path("bridgetown-core/locale/en.*") # restore basic translations
     I18n.available_locales = nil
     I18n.backend = nil
     I18n.default_separator = nil
