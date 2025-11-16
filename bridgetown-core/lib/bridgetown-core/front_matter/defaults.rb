@@ -134,7 +134,7 @@ module Bridgetown
       # @param collection [Symbol] the collection of the resource being processed
       # @return [Boolean] whether either of the above conditions are satisfied
       def applies_collection?(scope, collection)
-        !scope.key?("collection") || scope["collection"].eql?(collection.to_s)
+        !scope.key?("collection") || scope["collection"].to_s.eql?(collection.to_s)
       end
 
       # Checks if a given set of default values is valid
