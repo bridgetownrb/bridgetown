@@ -19,8 +19,8 @@ class TestEsbuildCommand < BridgetownUnitTest
     File.join(@full_path, "Rakefile")
   end
 
-  context "the esbuild command" do
-    setup do
+  describe "the esbuild command" do
+    before do
       @path = SecureRandom.alphanumeric
       FileUtils.mkdir_p(File.expand_path("../tmp", __dir__))
       @full_path = File.join(File.expand_path("../tmp", __dir__), @path)
@@ -29,11 +29,11 @@ class TestEsbuildCommand < BridgetownUnitTest
       @cmd = Bridgetown::Commands::Esbuild.new
     end
 
-    teardown do
+    after do
       FileUtils.rm_r @full_path if File.directory?(@full_path)
     end
 
-    should "list all available actions when invoked without args" do
+    it "lists all available actions when invoked without args" do
       output = capture_stdout do
         @cmd.esbuild
       end
@@ -42,7 +42,7 @@ class TestEsbuildCommand < BridgetownUnitTest
       assert_match %r!migrate-from-webpack!, output
     end
 
-    should "show error when action doesn't exist" do
+    it "shows error when action doesn't exist" do
       output = capture_stdout do
         @cmd.invoke(:esbuild, ["qwerty"])
       end
@@ -50,7 +50,7 @@ class TestEsbuildCommand < BridgetownUnitTest
       assert_match %r!Please enter a valid action!, output
     end
 
-    should "setup esbuild defaults and config" do
+    it "sets up esbuild defaults and config" do
       File.delete esbuild_defaults # Delete the file created during setup
 
       @cmd.inside(@full_path) do
@@ -61,7 +61,7 @@ class TestEsbuildCommand < BridgetownUnitTest
       assert_exist esbuild_config
     end
 
-    should "update esbuild config" do
+    it "updates esbuild config" do
       File.write(esbuild_defaults, "OLD_VERSION")
 
       @cmd.inside(@full_path) do

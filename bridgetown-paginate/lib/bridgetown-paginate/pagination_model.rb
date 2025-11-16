@@ -125,7 +125,7 @@ module Bridgetown
       # raw_collection_names can either be a list of collections separated by a
       # ',' or ' ' or a single string
       def get_docs_in_collections(raw_collection_names, template)
-        if raw_collection_names.blank?
+        if raw_collection_names.empty?
           @logging_lambda.call "Missing collection name for paginated page: " \
                                "#{template.relative_path}"
           return []

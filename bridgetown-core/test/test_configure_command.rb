@@ -7,38 +7,38 @@ class TestConfigureCommand < BridgetownUnitTest
     File.expand_path(root_dir("lib", "bridgetown-core", "configurations"), __dir__)
   end
 
-  context "the configure command" do
-    setup do
-      FileUtils.cp(test_dir("fixtures", "test_automation.rb"), configurations_path)
+  describe "the configure command" do
+    before do
+      FileUtils.cp(testing_dir("fixtures", "test_automation.rb"), configurations_path)
       @cmd = Bridgetown::Commands::Configure.new
     end
 
-    teardown do
+    after do
       File.delete("#{configurations_path}/test_automation.rb")
     end
 
-    should "list all available configurations when invoked without args" do
+    it "lists all available configurations when invoked without args" do
       output = capture_stdout do
         @cmd.perform_configurations
       end
       assert_match %r!test_automation!, output
     end
 
-    should "show error when configuration doesn't exist" do
+    it "shows error when configuration doesn't exist" do
       output = capture_stdout do
         @cmd.invoke(:perform_configurations, ["qwerty"])
       end
       assert_match %r!Configuration doesn't exist: qwerty!, output
     end
 
-    should "perform configuration" do
+    it "performs configuration" do
       output = capture_stdout do
         @cmd.invoke(:perform_configurations, ["test_automation"])
       end
       assert_match %r!fixture.*?Works\!!, output
     end
 
-    should "perform multiple configurations" do
+    it "performs multiple configurations" do
       File.open("#{configurations_path}/roar.rb", "w") do |f|
         f.puts "say_status :applytest, 'I am Bridgetown. Hear me roar!'"
       end

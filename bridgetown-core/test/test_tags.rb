@@ -3,8 +3,6 @@
 require "helper"
 
 class TestTags < BridgetownUnitTest
-  include ActiveSupport::Testing::TimeHelpers
-
   def setup
     FileUtils.mkdir_p("tmp")
   end
@@ -54,8 +52,8 @@ class TestTags < BridgetownUnitTest
     )
   end
 
-  context "language name" do
-    should "match only the required set of chars" do
+  describe "language name" do
+    it "matches only the required set of chars" do
       r = Bridgetown::Tags::HighlightBlock::SYNTAX
       assert_match r, "ruby"
       assert_match r, "c#"
@@ -71,13 +69,13 @@ class TestTags < BridgetownUnitTest
     end
   end
 
-  context "highlight tag" do
-    should "set the no options with just a language name" do
+  describe "highlight tag" do
+    it "sets the no options with just a language name" do
       tag = highlight_block_with_opts("ruby ")
       assert_equal({}, tag.instance_variable_get(:@highlight_options))
     end
 
-    should "set the linenos option as 'inline' if no linenos value" do
+    it "sets the linenos option as 'inline' if no linenos value" do
       tag = highlight_block_with_opts("ruby linenos ")
       assert_equal(
         { linenos: "inline" },
@@ -85,8 +83,8 @@ class TestTags < BridgetownUnitTest
       )
     end
 
-    should "set the linenos option to 'table' " \
-           "if the linenos key is given the table value" do
+    it "sets the linenos option to 'table' " \
+       "if the linenos key is given the table value" do
       tag = highlight_block_with_opts("ruby linenos=table ")
       assert_equal(
         { linenos: "table" },
@@ -94,7 +92,7 @@ class TestTags < BridgetownUnitTest
       )
     end
 
-    should "recognize nowrap option with linenos set" do
+    it "recognizes nowrap option with linenos set" do
       tag = highlight_block_with_opts("ruby linenos=table nowrap ")
       assert_equal(
         { linenos: "table", nowrap: true },
@@ -102,7 +100,7 @@ class TestTags < BridgetownUnitTest
       )
     end
 
-    should "recognize the cssclass option" do
+    it "recognizes the cssclass option" do
       tag = highlight_block_with_opts("ruby linenos=table cssclass=hl ")
       assert_equal(
         { cssclass: "hl", linenos: "table" },
@@ -110,7 +108,7 @@ class TestTags < BridgetownUnitTest
       )
     end
 
-    should "recognize the hl_linenos option and its value" do
+    it "recognizes the hl_linenos option and its value" do
       tag = highlight_block_with_opts("ruby linenos=table cssclass=hl hl_linenos=3 ")
       assert_equal(
         { cssclass: "hl", linenos: "table", hl_linenos: "3" },
@@ -118,7 +116,7 @@ class TestTags < BridgetownUnitTest
       )
     end
 
-    should "recognize multiple values of hl_linenos" do
+    it "recognizes multiple values of hl_linenos" do
       tag = highlight_block_with_opts 'ruby linenos=table cssclass=hl hl_linenos="3 5 6" '
       assert_equal(
         { cssclass: "hl", linenos: "table", hl_linenos: %w(3 5 6) },
@@ -126,7 +124,7 @@ class TestTags < BridgetownUnitTest
       )
     end
 
-    should "treat language name as case insensitive" do
+    it "treats language name as case insensitive" do
       tag = highlight_block_with_opts("Ruby ")
       assert_equal(
         "ruby",
@@ -136,20 +134,20 @@ class TestTags < BridgetownUnitTest
     end
   end
 
-  context "with the rouge highlighter" do
-    context "post content has highlight tag" do
-      setup do
+  describe "with the rouge highlighter" do
+    describe "post content has highlight tag" do
+      before do
         fill_post("test")
       end
 
-      should "render markdown with rouge" do
+      it "renders markdown with rouge" do
         assert_match(
           %(<pre><code class="language-text" data-lang="text">test</code></pre>),
           @result
         )
       end
 
-      should "render markdown with rouge with line numbers" do
+      it "renders markdown with rouge with line numbers" do
         assert_match <<~HTML.chomp, @result
           <table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
           </pre></td><td class="code"><pre>test
@@ -158,8 +156,8 @@ class TestTags < BridgetownUnitTest
       end
     end
 
-    context "post content has raw tag" do
-      setup do
+    describe "post content has raw tag" do
+      before do
         content = <<~CONTENT
           ---
           title: This is a test
@@ -174,7 +172,7 @@ class TestTags < BridgetownUnitTest
         create_post(content)
       end
 
-      should "render markdown with rouge" do
+      it "renders markdown with rouge" do
         assert_match(
           %(<div class="language-liquid highlighter-rouge">) +
             %(<div class="highlight"><pre class="highlight"><code>),
@@ -183,12 +181,12 @@ class TestTags < BridgetownUnitTest
       end
     end
 
-    context "post content has highlight with file reference" do
-      setup do
+    describe "post content has highlight with file reference" do
+      before do
         fill_post("./bridgetown.gemspec")
       end
 
-      should "not embed the file" do
+      it "does not embed the file" do
         assert_match(
           '<pre><code class="language-text" data-lang="text">' \
           "./bridgetown.gemspec</code></pre>",
@@ -197,12 +195,12 @@ class TestTags < BridgetownUnitTest
       end
     end
 
-    context "post content has highlight tag with UTF character" do
-      setup do
+    describe "post content has highlight tag with UTF character" do
+      before do
         fill_post("Æ")
       end
 
-      should "render markdown with pygments line handling" do
+      it "renders markdown with pygments line handling" do
         assert_match(
           '<pre><code class="language-text" data-lang="text">Æ</code></pre>',
           @result
@@ -210,8 +208,8 @@ class TestTags < BridgetownUnitTest
       end
     end
 
-    context "post content has highlight tag with preceding spaces & lines" do
-      setup do
+    describe "post content has highlight tag with preceding spaces & lines" do
+      before do
         fill_post <<~EOS
 
 
@@ -221,7 +219,7 @@ class TestTags < BridgetownUnitTest
         EOS
       end
 
-      should "only strip the preceding newlines" do
+      it "only strips the preceding newlines" do
         assert_match(
           '<pre><code class="language-text" data-lang="text">     [,1] [,2]',
           @result
@@ -229,9 +227,9 @@ class TestTags < BridgetownUnitTest
       end
     end
 
-    context "post content has highlight tag with " \
-            "preceding spaces & lines in several places" do
-      setup do
+    describe "post content has highlight tag with " \
+             "preceding spaces & lines in several places" do
+      before do
         fill_post <<~EOS
 
 
@@ -245,7 +243,7 @@ class TestTags < BridgetownUnitTest
         EOS
       end
 
-      should "only strip the newlines which precede and succeed the entire block" do
+      it "only strips the newlines which precede and succeed the entire block" do
         assert_match(
           "<pre><code class=\"language-text\" data-lang=\"text\">     [,1] [,2]\n\n\n" \
           "[1,] FALSE TRUE\n[2,] FALSE TRUE</code></pre>",
@@ -254,8 +252,8 @@ class TestTags < BridgetownUnitTest
       end
     end
 
-    context "post content has highlight tag with linenumbers" do
-      setup do
+    describe "post content has highlight tag with linenumbers" do
+      before do
         create_post <<~EOS
           ---
           title: This is a test
@@ -270,7 +268,7 @@ class TestTags < BridgetownUnitTest
         EOS
       end
 
-      should "should stop highlighting at boundary with rouge" do
+      it "stops highlighting at boundary with rouge" do
         expected = <<~EOS
           <p>This is not yet highlighted</p>
           <figure class="highlight"><pre><code class="language-php" data-lang="php"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
@@ -281,13 +279,13 @@ class TestTags < BridgetownUnitTest
       end
     end
 
-    context "post content has highlight tag with " \
-            "preceding spaces & Windows-style newlines" do
-      setup do
+    describe "post content has highlight tag with " \
+             "preceding spaces & Windows-style newlines" do
+      before do
         fill_post "\r\n\r\n\r\n     [,1] [,2]"
       end
 
-      should "only strip the preceding newlines" do
+      it "only strips the preceding newlines" do
         assert_match(
           '<pre><code class="language-text" data-lang="text">     [,1] [,2]',
           @result
@@ -295,8 +293,8 @@ class TestTags < BridgetownUnitTest
       end
     end
 
-    context "post content has highlight tag with only preceding spaces" do
-      setup do
+    describe "post content has highlight tag with only preceding spaces" do
+      before do
         fill_post <<~EOS
                [,1] [,2]
           [1,] FALSE TRUE
@@ -304,7 +302,7 @@ class TestTags < BridgetownUnitTest
         EOS
       end
 
-      should "only strip the preceding newlines" do
+      it "only strips the preceding newlines" do
         assert_match(
           '<pre><code class="language-text" data-lang="text">     [,1] [,2]',
           @result
@@ -313,8 +311,8 @@ class TestTags < BridgetownUnitTest
     end
   end
 
-  context "simple post with markdown and pre tags" do
-    setup do
+  describe "simple post with markdown and pre tags" do
+    before do
       @content = <<~CONTENT
         ---
         title: Kramdown post with pre
@@ -330,20 +328,20 @@ class TestTags < BridgetownUnitTest
       CONTENT
     end
 
-    context "using Kramdown" do
-      setup do
+    describe "using Kramdown" do
+      before do
         create_post(@content, "markdown" => "kramdown")
       end
 
-      should "parse correctly" do
+      it "parses correctly" do
         assert_match %r{<em>FIGHT!</em>}, @result
         assert_match %r!<em>FINISH HIM</em>!, @result
       end
     end
   end
 
-  context "simple page with post linking" do
-    setup do
+  describe "simple page with post linking" do
+    before do
       content = <<~CONTENT
         ---
         title: Post linking
@@ -358,17 +356,17 @@ class TestTags < BridgetownUnitTest
                   "read_posts"  => true)
     end
 
-    should "not cause an error" do
+    it "does not cause an error" do
       refute_match(%r!markdown-html-error!, @result)
     end
 
-    should "have the URL to the 'complex' post from 2008-11-21" do
+    it "has the URL to the 'complex' post from 2008-11-21" do
       assert_match %r!/2008/11/21/complex/!, @result
     end
   end
 
-  context "simple page with post linking containing special characters" do
-    setup do
+  describe "simple page with post linking containing special characters" do
+    before do
       content = <<~CONTENT
         ---
         title: Post linking
@@ -383,17 +381,17 @@ class TestTags < BridgetownUnitTest
                   "read_posts"  => true)
     end
 
-    should "not cause an error" do
+    it "does not cause an error" do
       refute_match(%r!markdown-html-error!, @result)
     end
 
-    should "have the URL to the 'special-chars' post from 2016-11-26" do
+    it "has the URL to the 'special-chars' post from 2016-11-26" do
       assert_match %r!/foo/special-chars-\(\+\)!, @result
     end
   end
 
-  context "simple page with nested post linking" do
-    setup do
+  describe "simple page with nested post linking" do
+    before do
       content = <<~CONTENT
         ---
         title: Post linking
@@ -411,23 +409,23 @@ class TestTags < BridgetownUnitTest
                   "read_posts"  => true)
     end
 
-    should "not cause an error" do
+    it "does not cause an error" do
       refute_match(%r!markdown-html-error!, @result)
     end
 
-    should "have the URL to the 'complex' post from 2008-11-21" do
+    it "has the URL to the 'complex' post from 2008-11-21" do
       assert_match %r!1\s/2008/11/21/complex/!, @result
       assert_match %r!2\s/2008/11/21/complex/!, @result
     end
 
-    should "have the URL to the 'nested' post from 2008-11-21" do
+    it "has the URL to the 'nested' post from 2008-11-21" do
       assert_match %r!3\s/2008/11/21/nested/!, @result
       assert_match %r!4\s/2008/11/21/nested/!, @result
     end
   end
 
-  context "simple page with nested post linking and path not used in `post_url`" do
-    should "cause an error" do
+  describe "simple page with nested post linking and path not used in `post_url`" do
+    it "causes an error" do
       assert_raises Bridgetown::Errors::PostURLError do
         content = <<~CONTENT
           ---
@@ -445,8 +443,8 @@ class TestTags < BridgetownUnitTest
     end
   end
 
-  context "simple page with invalid post name linking" do
-    should "cause an error" do
+  describe "simple page with invalid post name linking" do
+    it "causes an error" do
       content = <<~CONTENT
         ---
         title: Invalid post name linking
@@ -465,8 +463,8 @@ class TestTags < BridgetownUnitTest
     end
   end
 
-  context "simple page with linking to a page" do
-    setup do
+  describe "simple page with linking to a page" do
+    before do
       content = <<~CONTENT
         ---
         title: linking
@@ -482,25 +480,25 @@ class TestTags < BridgetownUnitTest
                   "read_all"    => true)
     end
 
-    should "not cause an error" do
+    it "does not cause an error" do
       refute_match(%r!markdown-html-error!, @result)
     end
 
-    should "have the URL to the 'contacts' item" do
+    it "has the URL to the 'contacts' item" do
       assert_match(%r!/contacts/!, @result)
     end
 
-    should "have the URL to the 'info' item" do
+    it "has the URL to the 'info' item" do
       assert_match(%r!/info/!, @result)
     end
 
-    should "have the URL to the 'screen.css' item" do
+    it "has the URL to the 'screen.css' item" do
       assert_match(%r!/css/screen\.css!, @result)
     end
   end
 
-  context "simple page with dynamic linking to a page" do
-    setup do
+  describe "simple page with dynamic linking to a page" do
+    before do
       content = <<~CONTENT
         ---
         title: linking
@@ -520,25 +518,25 @@ class TestTags < BridgetownUnitTest
                   "read_all"    => true)
     end
 
-    should "not cause an error" do
+    it "does not cause an error" do
       refute_match(%r!markdown-html-error!, @result)
     end
 
-    should "have the URL to the 'contacts' item" do
+    it "has the URL to the 'contacts' item" do
       assert_match(%r!/contacts/!, @result)
     end
 
-    should "have the URL to the 'info' item" do
+    it "has the URL to the 'info' item" do
       assert_match(%r!/info/!, @result)
     end
 
-    should "have the URL to the 'screen.css' item" do
+    it "has the URL to the 'screen.css' item" do
       assert_match(%r!/css/screen\.css!, @result)
     end
   end
 
-  context "simple page with linking" do
-    setup do
+  describe "simple page with linking" do
+    before do
       content = <<~CONTENT
         ---
         title: linking
@@ -553,17 +551,17 @@ class TestTags < BridgetownUnitTest
                   "read_collections" => true)
     end
 
-    should "not cause an error" do
+    it "does not cause an error" do
       refute_match(%r!markdown-html-error!, @result)
     end
 
-    should "have the URL to the 'yaml_with_dots' item" do
+    it "has the URL to the 'yaml_with_dots' item" do
       assert_match(%r!/methods/yaml_with_dots/!, @result)
     end
   end
 
-  context "simple page with dynamic linking" do
-    setup do
+  describe "simple page with dynamic linking" do
+    before do
       content = <<~CONTENT
         ---
         title: linking
@@ -579,17 +577,17 @@ class TestTags < BridgetownUnitTest
                   "read_collections" => true)
     end
 
-    should "not cause an error" do
+    it "does not cause an error" do
       refute_match(%r!markdown-html-error!, @result)
     end
 
-    should "have the URL to the 'yaml_with_dots' item" do
+    it "has the URL to the 'yaml_with_dots' item" do
       assert_match(%r!/methods/yaml_with_dots/!, @result)
     end
   end
 
-  context "simple page with nested linking" do
-    setup do
+  describe "simple page with nested linking" do
+    before do
       content = <<~CONTENT
         ---
         title: linking
@@ -605,21 +603,21 @@ class TestTags < BridgetownUnitTest
                   "read_collections" => true)
     end
 
-    should "not cause an error" do
+    it "does not cause an error" do
       refute_match(%r!markdown-html-error!, @result)
     end
 
-    should "have the URL to the 'sanitized_path' item" do
+    it "has the URL to the 'sanitized_path' item" do
       assert_match %r!1\s/methods/sanitized_path/!, @result
     end
 
-    should "have the URL to the 'site/generate' item" do
+    it "has the URL to the 'site/generate' item" do
       assert_match %r!2\s/methods/site/generate/!, @result
     end
   end
 
-  context "simple page with invalid linking" do
-    should "cause an error" do
+  describe "simple page with invalid linking" do
+    it "causes an error" do
       content = <<~CONTENT
         ---
         title: Invalid linking
@@ -638,8 +636,8 @@ class TestTags < BridgetownUnitTest
     end
   end
 
-  context "simple page with invalid dynamic linking" do
-    should "cause an error" do
+  describe "simple page with invalid dynamic linking" do
+    it "causes an error" do
       content = <<~CONTENT
         ---
         title: Invalid linking
@@ -659,9 +657,9 @@ class TestTags < BridgetownUnitTest
     end
   end
 
-  context "rendercontent tag" do
-    context "with one parameter" do
-      setup do
+  describe "rendercontent tag" do
+    describe "with one parameter" do
+      before do
         content = <<~CONTENT
           ---
           title: Tag parameters
@@ -678,7 +676,7 @@ class TestTags < BridgetownUnitTest
                     "read_posts"  => true)
       end
 
-      should "correctly output params and markdown content" do
+      it "correctly outputs params and markdown content" do
         assert_match "<span id=\"include-param\">value</span>", @result
         assert_match "<main>\n<ul>\n  <li>I am Markdown</li>\n</ul>\n</main>", @result
         refute_match "---", @result
@@ -686,9 +684,9 @@ class TestTags < BridgetownUnitTest
     end
   end
 
-  context "class_map tag" do
-    context "renders without error" do
-      setup do
+  describe "class_map tag" do
+    describe "renders without error" do
+      before do
         content = <<~CONTENT
           ---
           title: Class Map parameters
@@ -708,13 +706,13 @@ class TestTags < BridgetownUnitTest
                     "read_posts"  => true)
       end
 
-      should "correctly output names" do
+      it "correctly outputs names" do
         assert_match "<button class=\"is-small has-text-center outlined\">Button</button>", @result
       end
     end
 
-    context "Returns an error if not properly formatted" do
-      setup do
+    describe "Returns an error if not properly formatted" do
+      before do
         content = <<~CONTENT
           ---
           title: Class Map parameters
@@ -734,16 +732,16 @@ class TestTags < BridgetownUnitTest
                     "read_posts"  => true)
       end
 
-      should "return an error due to improper formatting" do
+      it "returns an error due to improper formatting" do
         refute_match "<button class=\"is-small has-text-center outlined\">Button</button>", @result
         assert_match "<button class=\"invalid-class-map\">Button</button>", @result
       end
     end
   end
 
-  context "find tag" do
-    context "can find a single post" do
-      setup do
+  describe "find tag" do
+    describe "can find a single post" do
+      before do
         content = <<~EOS
           ---
           title: This is a test
@@ -760,14 +758,14 @@ class TestTags < BridgetownUnitTest
                     "read_all"    => true)
       end
 
-      should "return the post" do
+      it "returns the post" do
         expected = "POST: Best <em>post</em> ever"
         assert_match(expected, @result)
       end
     end
 
-    context "can find multiple posts" do
-      setup do
+    describe "can find multiple posts" do
+      before do
         content = <<~EOS
           ---
           title: This is a test
@@ -784,15 +782,15 @@ class TestTags < BridgetownUnitTest
                     "read_all"    => true)
       end
 
-      should "return the post" do
+      it "returns the post" do
         expected = "POST: Special Characters"
         assert_match(expected, @result)
       end
     end
   end
 
-  context "translate tag" do
-    setup do
+  describe "translate tag" do
+    before do
       I18n.available_locales = [:eo, :fr]
       I18n.locale = :eo
 
@@ -817,54 +815,54 @@ class TestTags < BridgetownUnitTest
                   "default_locale"    => I18n.locale)
     end
 
-    should "lookup simple message with default locale" do
+    it "looks up simple message with default locale" do
       expected = "LOOKUP MESSAGE: ne estas nombro"
       assert_match(expected, @result)
     end
 
-    should "localize simple message with french locale" do
+    it "localizes simple message with french locale" do
       expected = "LOCALIZED MESSAGE: n’est pas un nombre"
       assert_match(expected, @result)
     end
 
-    should "scope simple message with default locale" do
+    it "scopes simple message with default locale" do
       expected = "SCOPED MESSAGE: ne estas nombro"
       assert_match(expected, @result)
     end
 
-    should "scope simple message with french locale" do
+    it "scopes simple message with french locale" do
       expected = "SCOPED LOCALIZED MESSAGE: n’est pas un nombre"
       assert_match(expected, @result)
     end
 
-    should "fallback to default message" do
+    it "falls back to default message" do
       expected = "DEFAULT MESSAGE: oops"
       assert_match(expected, @result)
     end
 
-    should "pluralize simple message with default locale" do
+    it "pluralizes simple message with default locale" do
       expected = "PLURALIZED MESSAGE: ĉirkaŭ 3 horoj"
       assert_match(expected, @result)
     end
 
-    should "singuralize simple message with default locale" do
+    it "singuralizes simple message with default locale" do
       expected = "SINGULARIZED MESSAGE: ĉirkaŭ unu horo"
       assert_match(expected, @result)
     end
 
-    should "pluralize simple message with french locale" do
+    it "pluralizes simple message with french locale" do
       expected = "PLURALIZED LOCALIZED MESSAGE: environ 3 heures"
       assert_match(expected, @result)
     end
 
-    should "singuralize simple message with french locale" do
+    it "singuralizes simple message with french locale" do
       expected = "SINGULARIZED LOCALIZED MESSAGE: environ une heure"
       assert_match(expected, @result)
     end
   end
 
-  context "localize tag" do
-    setup do
+  describe "localize tag" do
+    before do
       I18n.available_locales = [:eo, :fr]
       I18n.locale = :eo
 
@@ -909,7 +907,7 @@ class TestTags < BridgetownUnitTest
         4. LOCALIZE NUMERIC MESSAGE: {% l #{timestamp} fr %}
       EOS
 
-      travel_to Time.utc(2023, 7, 12, 11, 22, 33) do
+      Time.stub(:now, Time.utc(2023, 7, 12, 11, 22, 33)) do
         create_post(content,
                     "timezone"          => "UTC",
                     "available_locales" => I18n.available_locales,
@@ -917,122 +915,122 @@ class TestTags < BridgetownUnitTest
       end
     end
 
-    should "lookup now message with default locale" do
+    it "looks up now message with default locale" do
       expected = "LOOKUP NOW MESSAGE: 12 julio 2023 11:22:33"
       assert_match(expected, @result)
     end
 
-    should "lookup now short message with default locale" do
+    it "looks up now short message with default locale" do
       expected = "LOOKUP NOW SHORT MESSAGE: 12 jul. 11:22"
       assert_match(expected, @result)
     end
 
-    should "localize now message with french locale" do
+    it "localizes now message with french locale" do
       expected = "LOCALIZE NOW MESSAGE: 12 juillet 2023 11h 22min 33s"
       assert_match(expected, @result)
     end
 
-    should "localize now short message with french locale" do
+    it "localizes now short message with french locale" do
       expected = "LOCALIZE NOW SHORT MESSAGE: 12 juil. 11h22"
       assert_match(expected, @result)
     end
 
-    should "lookup today message with default locale" do
+    it "looks up today message with default locale" do
       expected = "LOOKUP TODAY MESSAGE: 12 julio 2023 11:22:33"
       assert_match(expected, @result)
     end
 
-    should "lookup today short message with default locale" do
+    it "looks up today short message with default locale" do
       expected = "LOOKUP TODAY SHORT MESSAGE: 12 jul. 11:22"
       assert_match(expected, @result)
     end
 
-    should "localize today message with french locale" do
+    it "localizes today message with french locale" do
       expected = "LOCALIZE TODAY MESSAGE: 12 juillet 2023 11h 22min 33s"
       assert_match(expected, @result)
     end
 
-    should "localize today short message with french locale" do
+    it "localizes today short message with french locale" do
       expected = "LOCALIZE TODAY SHORT MESSAGE: 12 juil. 11h22"
       assert_match(expected, @result)
     end
 
-    should "lookup date message with default locale" do
+    it "looks up date message with default locale" do
       expected = "LOOKUP DATE MESSAGE: 21 decembro 1995 00:00:00"
       assert_match(expected, @result)
     end
 
-    should "lookup date short message with default locale" do
+    it "looks up date short message with default locale" do
       expected = "LOOKUP DATE SHORT MESSAGE: 21 dec. 00:00"
       assert_match(expected, @result)
     end
 
-    should "localize date message with french locale" do
+    it "localizes date message with french locale" do
       expected = "LOCALIZE DATE MESSAGE: 21 décembre 1995 00h 00min 00s"
       assert_match(expected, @result)
     end
 
-    should "localize date short message with french locale" do
+    it "localizes date short message with french locale" do
       expected = "LOCALIZE DATE SHORT MESSAGE: 21 déc. 00h00"
       assert_match(expected, @result)
     end
 
-    should "lookup time message with default locale" do
+    it "looks up time message with default locale" do
       expected = "LOOKUP TIME MESSAGE: 12 julio 2023 11:22:33"
       assert_match(expected, @result)
     end
 
-    should "lookup time short message with default locale" do
+    it "looks up time short message with default locale" do
       expected = "LOOKUP TIME SHORT MESSAGE: 12 jul. 11:22"
       assert_match(expected, @result)
     end
 
-    should "localize time message with french locale" do
+    it "localizes time message with french locale" do
       expected = "LOCALIZE TIME MESSAGE: 12 juillet 2023 11h 22min 33s"
       assert_match(expected, @result)
     end
 
-    should "localize time short message with french locale" do
+    it "localizes time short message with french locale" do
       expected = "LOCALIZE TIME SHORT MESSAGE: 12 juil. 11h22"
       assert_match(expected, @result)
     end
 
-    should "lookup datetime message with default locale" do
+    it "looks up datetime message with default locale" do
       expected = "LOOKUP DATETIME MESSAGE: 21 decembro 1995 11:22:33"
       assert_match(expected, @result)
     end
 
-    should "lookup datetime short message with default locale" do
+    it "looks up datetime short message with default locale" do
       expected = "LOOKUP DATETIME SHORT MESSAGE: 21 dec. 11:22"
       assert_match(expected, @result)
     end
 
-    should "localize datetime message with french locale" do
+    it "localizes datetime message with french locale" do
       expected = "LOCALIZE DATETIME MESSAGE: 21 décembre 1995 11h 22min 33s"
       assert_match(expected, @result)
     end
 
-    should "localize datetime short message with french locale" do
+    it "localizes datetime short message with french locale" do
       expected = "LOCALIZE DATETIME SHORT MESSAGE: 21 déc. 11h22"
       assert_match(expected, @result)
     end
 
-    should "lookup numeric message with default locale" do
+    it "looks up numeric message with default locale" do
       expected = "LOOKUP NUMERIC MESSAGE: 13 februaro 2009 23:31:30"
       assert_match(expected, @result)
     end
 
-    should "lookup numeric short message with default locale" do
+    it "looks up numeric short message with default locale" do
       expected = "LOOKUP NUMERIC SHORT MESSAGE: 13 feb. 23:31"
       assert_match(expected, @result)
     end
 
-    should "localize numeric message with french locale" do
+    it "localizes numeric message with french locale" do
       expected = "LOCALIZE NUMERIC MESSAGE: 13 février 2009 23h 31min 30s"
       assert_match(expected, @result)
     end
 
-    should "localize numeric short message with french locale" do
+    it "localizes numeric short message with french locale" do
       expected = "LOCALIZE NUMERIC SHORT MESSAGE: 13 fév. 23h31"
       assert_match(expected, @result)
     end

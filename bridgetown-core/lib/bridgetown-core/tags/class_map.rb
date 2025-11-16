@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "set"
-
 module Bridgetown
   module Tags
     # A ClassMap class is meant to take a hash and append styles based on if the

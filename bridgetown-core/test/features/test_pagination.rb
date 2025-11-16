@@ -4,8 +4,8 @@ require "features/feature_helper"
 
 # I want divide up my post listings across several pages
 class TestPagination < BridgetownFeatureTest
-  context "paginator" do
-    setup do
+  describe "paginator" do
+    before do
       create_directory "_posts"
 
       create_page "_posts/wargames.md", "The only winning move is not to play.", title: "Wargames", date: "2009-03-27"
@@ -21,7 +21,7 @@ class TestPagination < BridgetownFeatureTest
     ]
 
     examples1.each do |example|
-      should "paginate with #{example[:num]} posts per page" do
+      it "paginates with #{example[:num]} posts per page" do
         create_configuration pagination: { enabled: true, per_page: example[:num] }
 
         create_page "index.liquid", "{{ paginator.resources.size }} {{ paginator.resources[0].title }}", pagination: { collection: "posts" }
@@ -47,7 +47,7 @@ class TestPagination < BridgetownFeatureTest
     ]
 
     examples2.each do |example|
-      should "paginate #{example[:exist]} while setting a custom pagination path" do
+      it "paginates #{example[:exist]} while setting a custom pagination path" do
         create_configuration pagination: { enabled: true, per_page: 1, permalink: "/page-:num/" },
                              permalink: "/blog/:year/:month/:day/:title"
 
@@ -62,8 +62,8 @@ class TestPagination < BridgetownFeatureTest
     end
   end
 
-  context "paginator and tags" do
-    setup do
+  describe "paginator and tags" do
+    before do
       create_directory "_posts"
 
       create_page "_posts/wargames.md", "The only winning move is not to play.", title: "Wargames", tags: "strange difficult", date: "2009-03-27"
@@ -78,7 +78,7 @@ class TestPagination < BridgetownFeatureTest
     ]
 
     examples1.each do |example|
-      should "paginate #{example[:num]} posts per page with tags" do
+      it "paginates #{example[:num]} posts per page with tags" do
         create_configuration pagination: { enabled: true, per_page: example[:num] }
 
         create_page "index.liquid", "{{ paginator.resources.size }} {{ paginator.resources[0].title }}", pagination: { collection: "posts", tag: "scary" }

@@ -7,13 +7,13 @@ module Bridgetown
 
     REQUIRE_DENYLIST = %i(parse_routes ssr) # rubocop:disable Style/MutableConstant
 
-    Initializer = Struct.new(:name, :block, :completed, keyword_init: true) do
+    Initializer = Struct.new(:name, :block, :completed) do
       def to_s
         "#{name} (Initializer)"
       end
     end
 
-    SourceManifest = Struct.new(:origin, :components, :content, :layouts, keyword_init: true)
+    SourceManifest = Struct.new(:origin, :components, :content, :layouts)
 
     Preflight = Struct.new(:source_manifests, :initializers, keyword_init: true) do
       def initialize(*)

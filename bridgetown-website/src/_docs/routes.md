@@ -40,7 +40,7 @@ class Routes::Preview < Bridgetown::Rack::Routes
       r.get String, String do |collection, path|
         item = Bridgetown::Model::Base.find("repo://#{collection}/#{path}")
 
-        unless item.content.present?
+        if item.content.empty?
           response.status = 404
           next Bridgetown::Model::Base.find("repo://pages/_pages/404.html")
         end

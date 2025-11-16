@@ -57,7 +57,7 @@ class TestInspectors < BridgetownUnitTest
                    resource.output.strip
     end
 
-    it "bypass inspectors with special front matter variable" do
+    it "bypasses inspectors with special front matter variable" do
       add_resource :posts, "html-inspectors-bypass.md" do
         title "I'm a Markdown post!"
         bypass_inspectors true

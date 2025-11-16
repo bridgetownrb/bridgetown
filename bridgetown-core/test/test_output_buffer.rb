@@ -8,7 +8,7 @@ class TestOutputBuffer < BridgetownUnitTest
       @buffer = Bridgetown::OutputBuffer.new
     end
 
-    it "should be able to be duped" do
+    it "is able to be duped" do
       @buffer << "Hello"
       copy = @buffer.dup
       copy << " world!"

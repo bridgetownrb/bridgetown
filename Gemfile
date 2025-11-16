@@ -20,7 +20,6 @@ group :test do
   gem "nokolexbor"
   gem "rack-test"
   gem "rubocop-bridgetown", "~> 0.6", require: false
-  gem "shoulda"
   gem "simplecov"
   gem "terminal-table"
 end

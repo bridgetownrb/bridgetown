@@ -1,0 +1,7 @@
+---{%
+render_with do
+  title from: -> { view.render("testing/title") }
+end
+%}---
+
+<h1>{{ resource.data.title }}</h1>

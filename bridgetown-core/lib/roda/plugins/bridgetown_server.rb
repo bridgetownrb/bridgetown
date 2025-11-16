@@ -3,7 +3,7 @@
 class Roda
   module RodaPlugins
     module BridgetownServer
-      SiteContext = Struct.new(:registers) # for use by Liquid-esque URL helpers
+      SiteContext = Data.define(:registers) # for use by Liquid-esque URL helpers
 
       def self.load_dependencies(app) # rubocop:disable Metrics
         unless Bridgetown::Current.preloaded_configuration

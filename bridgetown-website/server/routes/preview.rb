@@ -6,7 +6,7 @@ class Routes::Preview < Bridgetown::Rack::Routes
       r.get String, String do |collection, path|
         item = Bridgetown::Model::Base.find("repo://#{collection}/#{path}")
 
-        unless item.content.present?
+        if item.content.empty?
           next Bridgetown::Model::Base.find("repo://pages/_pages/404.html")
             .render_as_resource
             .output
