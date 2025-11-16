@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 .
 
+## [2.0.5] - 2025-11-16
+
+- Fix: patch to bring back missing commit for nested components bugfix (I _swear_ I had fixed this, but somehow it mysteriously vanished from the final 2.0.4 release!)
+
 ## [2.0.4] - 2025-11-03
 
 - Spruce up and properly document & type “Intuitive Expectations” code [#1054](https://github.com/bridgetownrb/bridgetown/pull/1054) ([@jaredcwhite](https://github.com/jaredcwhite))
