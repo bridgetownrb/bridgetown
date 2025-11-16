@@ -65,7 +65,8 @@ class Roda
             [key, b.local_variable_get(key)]
           end.to_h
 
-          Bridgetown::FrontMatter::RubyFrontMatter.new(data:).tap { _1.instance_exec(&block) }.to_h
+          Bridgetown::FrontMatter::RubyFrontMatter.new(data:, scope: self)
+            .tap { _1.instance_exec(&block) }.to_h
         end
 
         def render_with(data: {}, &) # rubocop:todo Metrics/AbcSize, Metrics/MethodLength
@@ -103,11 +104,8 @@ class Roda
           view.render(...)
         end
 
-        def view(view_class: Bridgetown::ERBView)
-          # TODO: support user choosing templates by extension rather than class
-          response._fake_resource_view(
-            view_class:, roda_app: self, bridgetown_site:
-          )
+        def view(*)
+          Bridgetown::TemplateView.tap { _1.virtual_view.resource.roda_app = self }
         end
       end
 
@@ -147,18 +145,6 @@ class Roda
 
         # we need to know where the real template starts for good error reporting
         def _front_matter_line_count = @_front_matter_line_count
-
-        def _fake_resource_view(view_class:, roda_app:, bridgetown_site:)
-          @_fake_resource_views ||= {}
-          @_fake_resource_views[view_class] ||= view_class.new(
-            # TODO: use a Struct for better performance...?
-            HashWithDotAccess::Hash.new({
-              data: {},
-              roda_app:,
-              site: bridgetown_site,
-            })
-          )
-        end
       end
     end
 

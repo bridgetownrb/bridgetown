@@ -19,6 +19,9 @@ module Bridgetown
       # @return [Bridgetown::Site]
       attr_reader :site
 
+      # @return [Roda]
+      attr_accessor :roda_app
+
       # @return [Array<Bridgetown::Slot>]
       attr_reader :slots
 

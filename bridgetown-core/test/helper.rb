@@ -189,15 +189,24 @@ class BridgetownUnitTest < Minitest::Test
   # TODO: can we simplify this by utilizing Minitest's `capture_io`?
   # see: https://docs.seattlerb.org/minitest/Minitest/Assertions.html#method-i-capture_io
   def capture_output(level = :debug)
+    orig_error = nil
     $stdout = buffer = StringIO.new
     Bridgetown.logger = Logger.new(buffer)
     Bridgetown.logger.log_level = level
-    yield
-    buffer.rewind
-    buffer.string.to_s
-  ensure
+    begin
+      yield
+    rescue Exception => e # rubocop:disable Lint/RescueException
+      orig_error = e
+    end
     $stdout = STDOUT
     Bridgetown.logger = Logger.new(StringIO.new, :error)
+    buffer.rewind
+    buffer.string.to_s.tap do |str|
+      next unless orig_error
+
+      puts str # rubocop:disable Bridgetown/NoPutsAllowed
+      raise orig_error
+    end
   end
   alias_method :capture_stdout, :capture_output
   alias_method :capture_stderr, :capture_output

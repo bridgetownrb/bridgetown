@@ -34,16 +34,4 @@ Bridgetown.initializer :"bridgetown-routes" do |
   end
 
   require_relative "bridgetown-routes/view_helpers"
-
-  config.builder :BridgetownRoutesBuilder do
-    def build
-      define_resource_method :roda_app do
-        @roda_app
-      end
-
-      define_resource_method :roda_app= do |app|
-        @roda_app = app
-      end
-    end
-  end
 end

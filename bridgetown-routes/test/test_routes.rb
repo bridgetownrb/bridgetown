@@ -41,6 +41,11 @@ class TestRoutes < BridgetownUnitTest
       assert_equal "<h1>joe 42 true</h1>\n\n<p>I am pleasedpleased.</p>\n\n<output>Flashy!</output>\n", last_response.body # rubocop:todo Layout/LineLength
     end
 
+    it "returns HTML which includes Roda-level render call using virtual view" do
+      get "/calling_render"
+      expect(last_response.body) == "<h1>And HERE WE GO! RodaApp</h1>\n"
+    end
+
     it "returns HTML for a route in an arbitrary folder" do
       get "/yello/my-friend"
       assert_equal "<p>So arbitrary!</p>\n", last_response.body

@@ -20,7 +20,7 @@ module Bridgetown
     # @return [Bridgetown::Site]
     attr_reader :site # will be nil unless you explicitly set a `@site` ivar
 
-    # @return [Bridgetown::RubyTemplateView, Bridgetown::Component]
+    # @return [Bridgetown::TemplateView, Bridgetown::Component]
     attr_reader :view_context
 
     class << self
@@ -208,7 +208,7 @@ module Bridgetown
 
     # This is where the magic happens. Render the component within a view context.
     #
-    # @param view_context [Bridgetown::RubyTemplateView]
+    # @param view_context [Bridgetown::TemplateView]
     def render_in(view_context, &block)
       @view_context = view_context
       @_content_block = block
@@ -262,7 +262,7 @@ module Bridgetown
     end
 
     def helpers
-      @helpers ||= Bridgetown::RubyTemplateView::Helpers.new(self, view_context&.site)
+      @helpers ||= Bridgetown::TemplateView::Helpers.new(self, view_context&.site)
     end
 
     def method_missing(method, ...)
