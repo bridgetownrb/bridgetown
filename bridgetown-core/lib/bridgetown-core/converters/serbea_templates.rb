@@ -9,6 +9,8 @@ module Bridgetown
 
     input :serb
 
+    protected
+
     def _render_partial(partial_path, options)
       site.tmp_cache["partial-tmpl:#{partial_path}"] ||= {
         signal: site.config.fast_refresh ? Signalize.signal(1) : nil,

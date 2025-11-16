@@ -27,6 +27,11 @@ module Bridgetown
       end
     end
 
+    # @return [OutputBuffer, nil]
+    def output_buffer = @_erbout
+
+    protected
+
     def _render_partial(partial_path, options) # rubocop:todo Metrics
       (@_locals_stack ||= []).push(options)
       (@_buffer_stack ||= []).push(@_erbout)
@@ -47,13 +52,7 @@ module Bridgetown
       end
     end
 
-    def _output_buffer
-      @_erbout # might be nil
-    end
-
-    def locals
-      @_locals_stack&.last || {}
-    end
+    def locals = @_locals_stack&.last || {}
   end
 
   # TODO: this class alias is deprecated and will be removed in the next major Bridgetown release
@@ -78,7 +77,7 @@ module Bridgetown
                   else
                     rb_view.__ruby_template
                   end
-        (rb_view._output_buffer || results).to_s
+        (rb_view.output_buffer || results).to_s
       end
       # rubocop:enable Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation
     end

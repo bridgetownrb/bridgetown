@@ -56,9 +56,7 @@ module Bridgetown
         @buffer == other.to_str
     end
 
-    def html_safe?
-      true
-    end
+    def html_safe? = true
 
     def html_safe = to_s
 
@@ -74,13 +72,9 @@ module Bridgetown
       safe_concat val.to_s
     end
 
-    def to_s
-      @buffer.html_safe
-    end
+    def to_s = @buffer.html_safe
 
-    def to_str
-      @buffer.dup
-    end
+    def to_str = @buffer.dup
   end
 
   class ERBEngine < Erubi::CaptureBlockEngine
@@ -112,14 +106,12 @@ module Bridgetown
   class ERBView < TemplateView
     input :erb
 
-    def h(input)
-      Erubi.h(input)
-    end
+    def h(input) = Erubi.h(input)
 
     def partial(partial_name = nil, **options, &block)
       partial_name = options[:template] if partial_name.nil? && options[:template]
       partial_path = _partial_path(partial_name, self.class.extname_list.first.delete_prefix("."))
-      unless File.exist?(partial_path)
+      unless _partial_path_exist?(partial_path)
         @_call_super_method = true
         return super
       end
@@ -127,12 +119,20 @@ module Bridgetown
       options.merge!(options[:locals]) if options[:locals]
       options[:content] = capture(&block) if block
 
+      # The reason we have to do this funky rigamarole is because if a view superclass ends up
+      # needing to render the the partial, we want to call the superclass' `_render_partial`
+      # method, not the subclass'. Like, if `partial` is called for `SerbeaView`, and a `.serb`
+      # partial can't be found, we'll kick up to `ERBView`. Then if an `.erb` partial is found,
+      # we want `_render_partial` to be called via the `ERBView` definition, not `SerbeaView`!
       if @_call_super_method
+        @_call_super_method = false
         method(:_render_partial).super_method.call partial_path, options
       else
         _render_partial partial_path, options
       end
     end
+
+    protected
 
     def _render_partial(partial_path, options)
       site.tmp_cache["partial-tmpl:#{partial_path}"] ||= {

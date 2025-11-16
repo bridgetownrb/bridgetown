@@ -186,13 +186,15 @@ module Bridgetown
         next if found_file
 
         path = _partial_path(partial_name, ext)
-        found_file = File.exist?(path) && path
+        found_file = _partial_path_exist?(path) && path
       end
 
       raise "No matching partial could be found for #{partial_name}" unless found_file
 
       found_file
     end
+
+    def _partial_path_exist?(path) = site.tmp_cache["partial-tmpl:#{path}"] || File.exist?(path)
 
     def _view_class_for_partial(path)
       view_class = template_view_classes[File.extname(path)]
