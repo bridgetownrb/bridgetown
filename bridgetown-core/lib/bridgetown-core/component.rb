@@ -64,7 +64,7 @@ module Bridgetown
           paths = []
           # same-file inner classes get folders of their own. `Shared::Navbar` inside `shared.rb`
           # will get `shared/navbar.erb`
-          if (parent_name = nested_parent&.name&.underscore) &&
+          if (parent_name = nested_parent&.nested_name&.underscore) &&
               (dirname.split("/").last != parent_name)
             paths << File.join(dirname, parent_name, nested_name.underscore)
           end
