@@ -3,7 +3,9 @@
 require "streamlined/renderable"
 
 module Bridgetown
-  class PureRubyView < ERBView
+  class RubyView < ERBView
+    input :rb
+
     def render(item = nil, **options, &block) # rubocop:disable Metrics
       return @_erbout if !block && options.empty? && item.nil?
 
@@ -25,10 +27,12 @@ module Bridgetown
       end
     end
 
-    def _render_partial(partial_name, options) # rubocop:todo Metrics
-      partial_path = _partial_path(partial_name, "rb")
-      return super unless File.exist?(partial_path)
+    # @return [OutputBuffer, nil]
+    def output_buffer = @_erbout
 
+    protected
+
+    def _render_partial(partial_path, options) # rubocop:todo Metrics
       (@_locals_stack ||= []).push(options)
       (@_buffer_stack ||= []).push(@_erbout)
       @_erbout = OutputBuffer.new
@@ -48,14 +52,11 @@ module Bridgetown
       end
     end
 
-    def _output_buffer
-      @_erbout # might be nil
-    end
-
-    def locals
-      @_locals_stack&.last || {}
-    end
+    def locals = @_locals_stack&.last || {}
   end
+
+  # TODO: this class alias is deprecated and will be removed in the next major Bridgetown release
+  PureRubyView = RubyView
 
   module Converters
     class RubyTemplates < Converter
@@ -65,7 +66,7 @@ module Bridgetown
 
       # rubocop:disable Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation
       def convert(content, convertible)
-        rb_view = Bridgetown::PureRubyView.new(convertible)
+        rb_view = Bridgetown::RubyView.new(convertible)
 
         rb_view.instance_eval(
           "def __ruby_template;#{content};end", convertible.path.to_s, line_start(convertible)
@@ -76,7 +77,7 @@ module Bridgetown
                   else
                     rb_view.__ruby_template
                   end
-        (rb_view._output_buffer || results).to_s
+        (rb_view.output_buffer || results).to_s
       end
       # rubocop:enable Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation
     end
