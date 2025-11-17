@@ -18,7 +18,7 @@ module Bridgetown
       # @return [Bridgetown::Site]
       attr_reader :site
 
-      Context = Struct.new(:registers)
+      Context = Data.define(:registers)
 
       # @return [Bridgetown::Foundation::SafeTranslations]
       packages def translate_package = [Bridgetown::Foundation::Packages::SafeTranslations]
@@ -162,9 +162,9 @@ module Bridgetown
       end
       alias_method :t, :translate
 
-      def translate_with_html(key, **options)
+      def translate_with_html(key, **)
         escaper = ->(input) { input.to_s.encode(xml: :attr).gsub(%r{\A"|"\Z}, "") }
-        translate_package.translate(key, escaper, **options)
+        translate_package.translate(key, escaper, **)
       end
 
       # Delegates to <tt>I18n.localize</tt> with no additional functionality.

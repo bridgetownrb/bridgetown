@@ -1,6 +1,5 @@
 ---<%
-special_config = Struct.new(:should_output).new
-special_config.should_output = false
+special_config = Data.define(:should_output).new(should_output: false)
 
 front_matter scope: special_config do
   title "The Weeknd"

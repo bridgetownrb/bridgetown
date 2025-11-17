@@ -56,8 +56,8 @@ module Bridgetown
         Bridgetown::Hooks.register_one(owner, event, priority:, reloadable: false, &)
       end
 
-      def source_manifest(**kwargs)
-        @scope.source_manifests << SourceManifest.new(**kwargs)
+      def source_manifest(**)
+        @scope.source_manifests << SourceManifest.new(**)
       end
 
       def builder(klass = nil, &)

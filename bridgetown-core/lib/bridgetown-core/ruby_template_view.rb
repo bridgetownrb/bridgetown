@@ -50,12 +50,12 @@ module Bridgetown
 
     def partial(_partial_name = nil, **_options) = raise("Must be implemented in a subclass")
 
-    def render(item, **options, &)
+    def render(item, **, &)
       if item.respond_to?(:render_in)
         result = item.render_in(self, &)
         result&.html_safe
       else
-        partial(item, **options, &)&.html_safe
+        partial(item, **, &)&.html_safe
       end
     end
 
