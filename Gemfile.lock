@@ -1,18 +1,18 @@
 PATH
   remote: bridgetown-builder
   specs:
-    bridgetown-builder (2.0.4)
-      bridgetown-core (= 2.0.4)
+    bridgetown-builder (2.0.5)
+      bridgetown-core (= 2.0.5)
 
 PATH
   remote: bridgetown-core
   specs:
-    bridgetown-core (2.0.4)
+    bridgetown-core (2.0.5)
       addressable (~> 2.4)
       amazing_print (~> 1.2)
       base64 (>= 0.3)
       bigdecimal (>= 3.2)
-      bridgetown-foundation (= 2.0.4)
+      bridgetown-foundation (= 2.0.5)
       csv (~> 3.2)
       dry-inflector (>= 1.0)
       erubi (~> 1.9)
@@ -40,7 +40,7 @@ PATH
 PATH
   remote: bridgetown-foundation
   specs:
-    bridgetown-foundation (2.0.4)
+    bridgetown-foundation (2.0.5)
       hash_with_dot_access (~> 2.0)
       inclusive (~> 1.0)
       zeitwerk (~> 2.5)
@@ -48,17 +48,17 @@ PATH
 PATH
   remote: bridgetown-paginate
   specs:
-    bridgetown-paginate (2.0.4)
-      bridgetown-core (= 2.0.4)
+    bridgetown-paginate (2.0.5)
+      bridgetown-core (= 2.0.5)
 
 PATH
   remote: bridgetown
   specs:
-    bridgetown (2.0.4)
-      bridgetown-builder (= 2.0.4)
-      bridgetown-core (= 2.0.4)
-      bridgetown-foundation (= 2.0.4)
-      bridgetown-paginate (= 2.0.4)
+    bridgetown (2.0.5)
+      bridgetown-builder (= 2.0.5)
+      bridgetown-core (= 2.0.5)
+      bridgetown-foundation (= 2.0.5)
+      bridgetown-paginate (= 2.0.5)
 
 GEM
   remote: https://rubygems.org/
@@ -117,6 +117,7 @@ GEM
       rb-inotify (~> 0.9, >= 0.9.10)
     logger (1.7.0)
     memory_profiler (1.1.0)
+    mini_portile2 (2.8.9)
     minitest (5.26.1)
     minitest-profile (0.0.2)
     minitest-reporters (1.7.1)
@@ -127,6 +128,9 @@ GEM
     minitest-stub_any_instance (1.0.3)
     net-http (0.8.0)
       uri (>= 0.11.1)
+    nokogiri (1.18.10)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.18.10-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.18.10-x86_64-darwin)
