@@ -40,7 +40,7 @@ desc "Prerequisite task which loads site and provides automation"
 task :environment do # rubocop:todo Metrics/BlockLength
   class HammerActions < Thor # rubocop:disable Lint/ConstantDefinitionInBlock
     include Thor::Actions
-    include Bridgetown::Commands::Actions
+    #include Bridgetown::Commands::Actions
 
     def self.source_root
       Dir.pwd

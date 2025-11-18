@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  module Commands
+  module Commands2
     module ConfigurationOverridable
-      def self.included(klass)
+      def self.include_options(klass)
         desc = "The environment used for this command (aka development, test, production, etc.)"
-        klass.class_option :environment,
-                           aliases: "-e",
-                           desc:
+        klass.option "-e/--environment <ENV>", desc
       end
 
       # Create a full Bridgetown configuration with the options passed in as overrides

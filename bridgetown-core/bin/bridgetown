@@ -9,12 +9,12 @@ require "bridgetown"
 
 # Support NO_COLOR: https://no-color.org
 # TODO: need to change behavior of Colorator gem
-ENV["THOR_SHELL"] = "Basic" if ENV["NO_COLOR"]
+#ENV["THOR_SHELL"] = "Basic" if ENV["NO_COLOR"]
 
-output_version = if ARGV[0] == "-v" || ARGV[0] == "--version"
-                   puts "bridgetown #{Bridgetown::VERSION} \"#{Bridgetown::CODE_NAME}\""
-                   true
-                 end
+if ARGV[0] == "-v" || ARGV[0] == "--version"
+  puts "bridgetown #{Bridgetown::VERSION} \"#{Bridgetown::CODE_NAME}\""
+  exit(true)
+end
 
 if env_index = ARGV.index { |arg| arg == "-e" } # rubocop:disable Lint/AssignmentInCondition
   env = ARGV[env_index + 1]
@@ -25,9 +25,21 @@ end
 
 Bridgetown.begin!
 
-require "bridgetown-core/commands/base"
+#require "bridgetown-core/commands/base"
+require "bridgetown-core/commands2/application"
+
 begin
-  Bridgetown::Commands::Base.start unless output_version
+  Bridgetown::Commands2::Application.parse(ARGV).call
+rescue Samovar::InvalidInputError => e
+  if e.command.respond_to?(:locate_token)
+    e.command.locate_token(e.token, input: e.input)
+  else
+    puts "Unknown token: #{e.token}\n\n"
+
+    e.command.print_usage
+  end
+
+  #puts e.command, e.token
 rescue StandardError => e
   Bridgetown::Errors.print_build_error(e)
   exit(false)
