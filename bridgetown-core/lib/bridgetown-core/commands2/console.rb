@@ -35,28 +35,13 @@ module Bridgetown
       options do
         ConfigurationOverridable.include_options(self)
         option "--blank", "Skip reading content and running generators before opening console"
+        option "--bypass-ap", "Don't load AmazingPrint when IRB opens"
+        option "--config <FILE1,FILE2>", "Custom configuration file(s)" do |value|
+          value.split(%r{\s*,\s*})
+        end
         option "-s/--server-config", "Load server configurations"
         option "-V/--verbose", "Print verbose output."
       end
-
-      # class_option :config,
-      #              type: :array,
-      #              banner: "FILE1 FILE2",
-      #              desc: "Custom configuration file(s)"
-      # class_option :"bypass-ap",
-      #              type: :boolean,
-      #              desc: "Don't load AmazingPrint when IRB opens"
-      # class_option :blank,
-      #              type: :boolean,
-      #              desc: "Skip reading content and running generators before opening console"
-      # class_option :"server-config",
-      #              aliases: "-s",
-      #              type: :boolean,
-      #              desc: "Load server configurations"
-      # class_option :verbose,
-      #              aliases: "-V",
-      #              type: :boolean,
-      #              desc: "Print verbose output."
 
       def call # rubocop:disable Metrics
         require "irb"
@@ -67,7 +52,7 @@ module Bridgetown
           # Code path for Ruby 3.3+
           new_history_behavior = true
         end
-        require "amazing_print" unless options[:"bypass-ap"]
+        require "amazing_print" unless options[:bypass_ap]
 
         Bridgetown.logger.adjust_verbosity(**options)
 
@@ -111,7 +96,7 @@ module Bridgetown
 
         begin
           catch(:IRB_EXIT) do
-            unless options[:"bypass-ap"]
+            unless options[:bypass_ap]
               AmazingPrint.defaults = {
                 indent: 2,
               }

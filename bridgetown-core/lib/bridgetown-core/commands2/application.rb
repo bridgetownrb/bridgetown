@@ -8,14 +8,59 @@ Samovar::Command.class_eval do
   def self.summary = description
 end
 
+# Monkey-patch to support `--key=value`
+Samovar::Options.class_eval do
+  def parse(input, parent = nil, default = nil)
+    values = (default || @defaults).dup
+
+    while option = (@keyed[input.first] || @keyed[input.first&.split("=")&.first])
+      # prefix = input.first
+      result = option.parse(input)
+      if result != nil
+        values[option.key] = result
+      end
+    end
+
+    # Validate required options
+    @ordered.each do |option|
+      if option.required && !values.key?(option.key)
+        raise Samovar::MissingValueError.new(parent, option.key)
+      end
+    end
+
+    return values
+  end   # Generate a string representation for usage output.
+end
+
+Samovar::ValueFlag.class_eval do
+  # Parse this flag from the input.
+  # 
+  # @parameter input [Array(String)] The command-line arguments.
+  # @returns [String | Symbol | Nil] The parsed value.
+  def parse(input)
+    if prefix?(input.first)
+      # Whether we are expecting to parse a value from input:
+      if @value
+        # Get the actual value from input:
+        flag, value = input.shift(2)
+        return value
+      else
+        # Otherwise, we are just a boolean flag:
+        input.shift
+        return key
+      end
+    elsif prefix?(input.first.split("=").first)
+      value = input.shift(1)[0].split("=").last
+      return value
+    end
+  end
+end
+
 module Bridgetown
   module Commands2
     class Application < Samovar::Command
-      self.description = "next-generation, progressive site generator & fullstack framework, powered by Ruby"
-
-      # options do
-      #   option "--help", "Do you need help?"
-      # end
+      self.description =
+        "next-generation, progressive site generator & fullstack framework, powered by Ruby"
 
       def self.registrations = @registrations ||= {}
 
@@ -27,10 +72,6 @@ module Bridgetown
 
       nested(:command, registrations)
 
-      # nested :command, {
-      #   "console" => Console
-      # }
-
       def call
         if @command
           @command.()
@@ -39,28 +80,24 @@ module Bridgetown
         end
       end
 
-      def print_usage
+      def print_usage # rubocop:disable Metrics
         puts "Bridgetown v#{Bridgetown::VERSION.magenta} \"#{Bridgetown::CODE_NAME.yellow}\" " \
              "is a #{self.class.description}"
         puts ""
         puts "Usage:"
 
-        puts "  bridgetown <command> [options]"
-        puts ""
+        puts "  bridgetown <command> [options]\n\n"
         puts "Commands:"
-        item = self.class.table[:command]
 
-        commands = item.commands.to_h do |name, command|
+        commands = self.class.table[:command].commands.to_h do |name, command|
           inputs = command.table.each.find { _1.is_a?(Samovar::Many) || _1.is_a?(Samovar::One) }
           name = "#{name} #{inputs.key.upcase}" if inputs
-
           [name, command]
         end
 
         name_max_length = commands.keys.map { _1.to_s.length }.max
         commands.find do |name, command|
           spaces = " " * (name_max_length - name.length)
-
           puts "  bridgetown #{name}  #{spaces}# #{command.description}"
         end
 
@@ -87,9 +124,7 @@ module Bridgetown
           return
         end
 
-        item = self.class.table[:command]
-
-        completed = item.commands.find do |name, command|
+        completed = self.class.table[:command].commands.find do |name, command|
           next unless name.start_with?(token)
 
           input.shift
@@ -103,7 +138,7 @@ module Bridgetown
         e.command.print_usage
       end
 
-      def handle_no_command_error(cmd)
+      def handle_no_command_error(cmd) # rubocop:todo Metrics
         require "rake"
         Rake::TaskManager.record_task_metadata = true
 
@@ -122,8 +157,8 @@ module Bridgetown
           if Rake::Task.task_defined?(cmd.split("[")[0])
             rake.top_level
           else
-            puts "Unknown task: #{cmd.split("[")[0]}\n\nHere's a list of tasks you can run:"
-            display_rake_tasks(rake)
+            puts "Unknown token: #{cmd.split("[")[0]}\n\n"
+            print_usage
           end
         rescue RuntimeError => e
           # re-raise error unless it's an error through Minitest
@@ -153,5 +188,3 @@ module Bridgetown
     end
   end
 end
-
-#Bridgetown::Commands2::Application.table[:command].commands["configure"] = Bridgetown::Commands2::Configure
