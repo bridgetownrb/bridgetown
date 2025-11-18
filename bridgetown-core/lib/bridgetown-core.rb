@@ -260,7 +260,8 @@ module Bridgetown
     end
 
     def load_tasks
-      require "bridgetown-core/commands/base"
+      #require "bridgetown-core/commands/base"
+      require "bridgetown-core/commands2/application"
       unless Bridgetown::Current.preloaded_configuration
         Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
       end
