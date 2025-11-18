@@ -23,6 +23,10 @@ AllCops:
     - lib/site_template/plugins/site_builder.rb
     - lib/site_template/server/roda_app.rb
 
+Bridgetown/NoPutsAllowed:
+  Exclude:
+    - lib/bridgetown-core/commands2/**/*
+
 Lint/ConstantDefinitionInBlock:
   Exclude:
     - test/test_liquid_extensions.rb
