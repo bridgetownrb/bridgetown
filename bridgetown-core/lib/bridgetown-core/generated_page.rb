@@ -289,8 +289,8 @@ module Bridgetown
       basename == "index"
     end
 
-    def trigger_hooks(hook_name, *args)
-      Bridgetown::Hooks.trigger :generated_pages, hook_name, self, *args
+    def trigger_hooks(hook_name, *)
+      Bridgetown::Hooks.trigger(:generated_pages, hook_name, self, *)
     end
 
     def type

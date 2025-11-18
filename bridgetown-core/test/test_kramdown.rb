@@ -19,8 +19,8 @@ class TestKramdown < BridgetownUnitTest
     )
   end
 
-  context "kramdown" do
-    setup do
+  describe "kramdown" do
+    before do
       @config = {
         "kramdown" => {
           "smart_quotes"            => "lsquo,rsquo,ldquo,rdquo",
@@ -47,22 +47,22 @@ class TestKramdown < BridgetownUnitTest
       @converter = fixture_converter(@config)
     end
 
-    should "not break kramdown" do
+    it "does not break kramdown" do
       kramdown_doc = Kramdown::Document.new("# Some Header #", @config["kramdown"])
       assert_equal :class, kramdown_doc.options[:syntax_highlighter_opts][:css]
       assert_equal "lipsum", kramdown_doc.options[:syntax_highlighter_opts][:foobar]
     end
 
-    should "run Kramdown" do
+    it "runs Kramdown" do
       assert_equal "<h1>Some Header</h1>", @converter.convert("# Some Header #").strip
     end
 
-    should "render mark tags" do
+    it "renders mark tags" do
       assert_equal "<p>This is <mark>highlighted</mark> like <mark>this.</mark></p>",
                    @converter.convert("This is ::highlighted:: like ==this.==").strip
     end
 
-    should "should log kramdown warnings" do
+    it "logs kramdown warnings" do
       mock = Minitest::Mock.new
       mock.expect :call, nil, ["Kramdown warning:", "foo"]
 
@@ -74,7 +74,7 @@ class TestKramdown < BridgetownUnitTest
       mock.verify
     end
 
-    should "render fenced code blocks with syntax highlighting" do
+    it "renders fenced code blocks with syntax highlighting" do
       result = nokogiri_fragment(@converter.convert(<<~MARKDOWN))
         ~~~ruby
         puts "Hello World"
@@ -85,8 +85,8 @@ class TestKramdown < BridgetownUnitTest
       refute(result.css(selector).empty?, result.to_html)
     end
 
-    context "when asked to convert smart quotes" do
-      should "convert" do
+    describe "when asked to convert smart quotes" do
+      it "converts" do
         converter = fixture_converter(@config)
         assert_match(
           %r!<p>(&#8220;|“)Pit(&#8217;|’)hy(&#8221;|”)</p>!,
@@ -94,7 +94,7 @@ class TestKramdown < BridgetownUnitTest
         )
       end
 
-      should "support custom types" do
+      it "supports custom types" do
         override = {
           "highlighter" => nil,
           "kramdown"    => {

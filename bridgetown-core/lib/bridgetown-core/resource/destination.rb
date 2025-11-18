@@ -33,7 +33,7 @@ module Bridgetown
 
       def output_path
         path = Utils.unencode_uri(relative_url)
-        if resource.site.base_path.present?
+        unless resource.site.base_path.empty?
           path = path.delete_prefix resource.site.base_path(strip_slash_only: true)
         end
         path = resource.site.in_dest_dir(path)

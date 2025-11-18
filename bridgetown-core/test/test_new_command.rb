@@ -70,19 +70,19 @@ class TestNewCommand < BridgetownUnitTest
     end
   end
 
-  context "when args contains a path" do
-    setup do
+  describe "when args contains a path" do
+    before do
       @path = SecureRandom.alphanumeric
       @args = "new #{@path}"
       @full_path = File.expand_path(@path, Dir.pwd)
       @full_path_source = File.expand_path("src", @full_path)
     end
 
-    teardown do
+    after do
       FileUtils.rm_r @full_path if File.directory?(@full_path)
     end
 
-    should "create a new folder with Gemfile and package.json" do
+    it "creates a new folder with Gemfile and package.json" do
       gemfile = File.join(@full_path, "Gemfile")
       packagejson = File.join(@full_path, "package.json")
       refute_exist @full_path
@@ -95,7 +95,7 @@ class TestNewCommand < BridgetownUnitTest
       assert_match(%r!"esbuild":!, File.read(packagejson))
     end
 
-    should "display a success message" do
+    it "displays a success message" do
       output = capture_output do
         Bridgetown::Commands::Base.start(argumentize(@args))
       end
@@ -105,7 +105,7 @@ class TestNewCommand < BridgetownUnitTest
       assert_includes output, success_message
     end
 
-    should "copy the static files for erb templates config in site template to the new directory" do
+    it "copies the static files for erb templates config in site template to the new directory" do
       postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
       generated_template_files = static_template_files + postcss_config_files + template_config_files + erb_config_files + esbuild_config_files
 
@@ -117,10 +117,10 @@ class TestNewCommand < BridgetownUnitTest
         f.end_with?("welcome-to-bridgetown.md")
       end
 
-      assert_same_elements generated_template_files, new_site_files
+      assert_equal generated_template_files.sort, new_site_files.sort
     end
 
-    should "copy the static files for liquid templates config to the new directory" do
+    it "copies the static files for liquid templates config to the new directory" do
       postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
       generated_template_files = static_template_files + postcss_config_files + template_config_files + liquid_config_files + esbuild_config_files
 
@@ -132,10 +132,10 @@ class TestNewCommand < BridgetownUnitTest
         f.end_with?("welcome-to-bridgetown.md")
       end
 
-      assert_same_elements generated_template_files, new_site_files
+      assert_equal generated_template_files.sort, new_site_files.sort
     end
 
-    should "process any ERB files" do
+    it "processes any ERB files" do
       erb_template_files = dir_contents(site_template_source).select do |f|
         File.extname(f) == ".erb"
       end
@@ -157,11 +157,11 @@ class TestNewCommand < BridgetownUnitTest
         erb_template_files.include? f
       end
 
-      assert_same_elements erb_template_files, new_site_files
+      assert_equal erb_template_files.sort, new_site_files.sort
       assert_match(%r!<% collections\.posts\.each do |post| %>!, File.read("#{@full_path_source}/posts.md"))
     end
 
-    should "force created folder" do
+    it "forces created folder" do
       capture_output { Bridgetown::Commands::Base.start(argumentize(@args)) }
       output = capture_output do
         Bridgetown::Commands::Base.start(argumentize("#{@args} --force"))
@@ -169,7 +169,7 @@ class TestNewCommand < BridgetownUnitTest
       assert_match %r!new Bridgetown site was generated in!, output
     end
 
-    should "skip bundle install when opted to" do
+    it "skips bundle install when opted to" do
       output = capture_output do
         Bridgetown::Commands::Base.start(argumentize("#{@args} --skip-bundle"))
       end
@@ -180,23 +180,23 @@ class TestNewCommand < BridgetownUnitTest
     end
   end
 
-  context "when multiple args are given" do
-    setup do
+  describe "when multiple args are given" do
+    before do
       @site_name_with_spaces = "new site name"
     end
 
-    teardown do
+    after do
       FileUtils.rm_r File.expand_path(@site_name_with_spaces, Dir.pwd)
     end
 
-    should "create a new directory" do
+    it "creates a new directory" do
       refute_exist @site_name_with_spaces
       invocation = ["new", @site_name_with_spaces]
       capture_output { Bridgetown::Commands::Base.start(invocation) }
       assert_exist @site_name_with_spaces
     end
 
-    should "create a new directory and ignore additoinal options" do
+    it "creates a new directory and ignores additional options" do
       refute_exist @site_name_with_spaces
       invocation = ["new", @site_name_with_spaces, "--help"]
       capture_output { Bridgetown::Commands::Base.start(invocation) }
@@ -204,12 +204,12 @@ class TestNewCommand < BridgetownUnitTest
     end
   end
 
-  context "when no args are given" do
-    setup do
+  describe "when no args are given" do
+    before do
       @empty_args = []
     end
 
-    should "display an error message" do
+    it "displays an error message" do
       output = capture_output do
         Bridgetown::Commands::Base.start(["new"])
       end

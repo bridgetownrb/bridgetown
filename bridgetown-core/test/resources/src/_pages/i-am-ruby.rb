@@ -14,6 +14,7 @@ render html->{ <<~HTML
   <p>Hello #{text "<u>woRld</u>", -> { downcase | strup }}</p>
   #{ render "a_partial", abc: 123 }
   #{ render "an_erb_partial", abc: 456 }
+  #{ render "a_serb_partial", abc: 789 }
   #{ text->{ refine(self.class).nested_parents }}
   #{ html-> do
     if data.title.include?("Ruby")

@@ -36,4 +36,10 @@ class TestString < Bridgetown::Foundation::Test
     expect("this".ends_with?("is")).true?
     expect("this".ends_with?("si")).false?
   end
+
+  it "isn't HTML safe by default" do
+    refute "<i>unsafe</i>".html_safe?
+
+    assert 123.html_safe?
+  end
 end

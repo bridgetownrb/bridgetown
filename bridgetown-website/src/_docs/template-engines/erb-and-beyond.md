@@ -190,7 +190,7 @@ Bridgetown includes access to some helpful [Liquid filters](/docs/liquid/filters
 <%%= date_to_string site.time, "ordinal" %>
 ```
 
-These helpers are actually methods of the `helper` object which is an instance of `Bridgetown::RubyTemplateView::Helpers`.
+These helpers are actually methods of the `helper` object which is an instance of `Bridgetown::TemplateView::Helpers`.
 
 A few Liquid tags are also available as helpers too, such as [`class_map`](/docs/liquid/tags#class-map-tag){:data-no-swup="true"} and [`asset_path`](/docs/frontend-assets#linking-to-the-output-bundles){:data-no-swup="true"}.
 
@@ -469,7 +469,7 @@ Alternatively, you could open up the `Helpers` class and define additional metho
 ```ruby
 # plugins/site_builder.rb
 
-Bridgetown::RubyTemplateView::Helpers.class_eval do
+Bridgetown::TemplateView::Helpers.class_eval do
   def uppercase_string(input)
     input.upcase
   end
@@ -495,7 +495,7 @@ module MyFilters
 end
 
 Liquid::Template.register_filter MyFilters
-Bridgetown::RubyTemplateView::Helpers.include MyFilters
+Bridgetown::TemplateView::Helpers.include MyFilters
 ```
 
 And at the call site:

@@ -4,8 +4,8 @@ require "features/feature_helper"
 
 # I want to create new paginated pages based on the prototype term like category or tag
 class TestPrototypePages < BridgetownFeatureTest
-  context "prototype page for categories" do
-    setup do
+  describe "prototype page for categories" do
+    before do
       create_directory "_posts"
       create_directory "categories"
 
@@ -23,7 +23,7 @@ class TestPrototypePages < BridgetownFeatureTest
     ]
 
     examples.each do |example|
-      should "generate category pages and paginate ##{example[:num]}" do
+      it "generates category pages and paginates ##{example[:num]}" do
         create_configuration pagination: { enabled: true, per_page: example[:num] }
 
         create_page "categories/category.liquid", "{{ paginator.resources.size }} {{ paginator.resources[0].title }}", prototype: { collection: "posts", term: "category" }
@@ -38,8 +38,8 @@ class TestPrototypePages < BridgetownFeatureTest
     end
   end
 
-  context "prototype page for tags" do
-    setup do
+  describe "prototype page for tags" do
+    before do
       create_directory "_posts"
       create_directory "tags"
 
@@ -55,7 +55,7 @@ class TestPrototypePages < BridgetownFeatureTest
     ]
 
     examples.each do |example|
-      should "generate tag pages and paginate ##{example[:num]}" do
+      it "generates tag pages and paginates ##{example[:num]}" do
         create_configuration pagination: { enabled: true, per_page: example[:num] }
 
         create_page "tags/tag.liquid", "\#{{ page.tag }} {{ paginator.resources.size }} {{ paginator.resources[0].title }}", prototype: { collection: "posts", term: "tag" }
@@ -70,8 +70,8 @@ class TestPrototypePages < BridgetownFeatureTest
     end
   end
 
-  context "prototype page for authors" do
-    setup do
+  describe "prototype page for authors" do
+    before do
       create_directory "_posts"
       create_directory "authors"
 
@@ -87,7 +87,7 @@ class TestPrototypePages < BridgetownFeatureTest
     ]
 
     examples.each do |example|
-      should "generate author pages and paginate ##{example[:num]}" do
+      it "generates author pages and paginates ##{example[:num]}" do
         create_configuration pagination: { enabled: true, per_page: example[:num] }
 
         create_page "authors/author.liquid", "\#{{ page.author }} {{ paginator.resources.size }} {{ paginator.resources[0].title }}", prototype: { collection: "posts", term: "author" }

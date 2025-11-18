@@ -8,6 +8,8 @@ class Bridgetown::Site
     def locale
       @locale ||= begin
         locale = ENV.fetch("BRIDGETOWN_LOCALE", config[:default_locale]).to_sym
+        I18n.load_path += Gem.find_files_from_load_path("bridgetown-core/locale/en.*")
+        I18n.load_path.uniq!
         I18n.load_path += Dir["#{in_source_dir("_locales")}/**/*.{json,rb,yml}"]
         I18n.available_locales = config[:available_locales]
         I18n.default_locale = locale

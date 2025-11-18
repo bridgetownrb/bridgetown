@@ -3,7 +3,7 @@
 require "streamlined/helpers"
 
 module Bridgetown
-  class RubyTemplateView
+  class TemplateView
     class Helpers
       using Bridgetown::Refinements
       include Bridgetown::Refinements::Helper
@@ -12,18 +12,18 @@ module Bridgetown
       include ::Streamlined::Helpers
       include Inclusive
 
-      # @return [Bridgetown::RubyTemplateView, Bridgetown::Component]
+      # @return [Bridgetown::TemplateView, Bridgetown::Component]
       attr_reader :view
 
       # @return [Bridgetown::Site]
       attr_reader :site
 
-      Context = Struct.new(:registers)
+      Context = Data.define(:registers)
 
       # @return [Bridgetown::Foundation::SafeTranslations]
       packages def translate_package = [Bridgetown::Foundation::Packages::SafeTranslations]
 
-      # @param view [Bridgetown::RubyTemplateView, Bridgetown::Component]
+      # @param view [Bridgetown::TemplateView, Bridgetown::Component]
       # @param site [Bridgetown::Site]
       def initialize(view = nil, site = nil)
         @view = view
@@ -112,10 +112,10 @@ module Bridgetown
       # @param options [Hash] pass keyword arguments to add HTML attributes
       # @return [String] the anchor tag HTML
       # @raise [ArgumentError] if the file cannot be found
-      def link_to(text, relative_path = nil, **options, &block)
-        if block.present?
+      def link_to(text, relative_path = nil, **options, &)
+        if block_given?
           relative_path = text
-          text = view.respond_to?(:capture) ? view.capture(&block) : yield
+          text = view.respond_to?(:capture) ? view.capture(&) : yield
         elsif relative_path.nil?
           raise ArgumentError, "You must provide a relative path"
         end
@@ -162,9 +162,9 @@ module Bridgetown
       end
       alias_method :t, :translate
 
-      def translate_with_html(key, **options)
+      def translate_with_html(key, **)
         escaper = ->(input) { input.to_s.encode(xml: :attr).gsub(%r{\A"|"\Z}, "") }
-        translate_package.translate(key, escaper, **options)
+        translate_package.translate(key, escaper, **)
       end
 
       # Delegates to <tt>I18n.localize</tt> with no additional functionality.
@@ -176,8 +176,7 @@ module Bridgetown
       end
       alias_method :l, :localize
 
-      # For template contexts where ActiveSupport's output safety is loaded, we
-      # can ensure a string has been marked safe
+      # In template contexts with output safety, we can ensure a string has been marked safe
       #
       # @param input [Object]
       # @return [String]
