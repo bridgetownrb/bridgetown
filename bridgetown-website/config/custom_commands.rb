@@ -27,7 +27,7 @@ module MyPlugin
       end
 
       desc "flow", "Old man river, he just keeps on rolling along"
-      option :destination, desc: "Override configuration file destination"
+      option :destination, desc: "Override configuration file destination", required: true
       def flow
         config = configuration_with_overrides(options)
         destination = config["destination"]
