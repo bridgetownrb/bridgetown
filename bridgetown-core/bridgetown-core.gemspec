@@ -41,6 +41,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency("erubi",                     "~> 1.9")
   spec.add_dependency("faraday",                   "~> 2.0")
   spec.add_dependency("faraday-follow_redirects",  "~> 0.3")
+  spec.add_dependency("freyia",                    ">= 0.5")
   spec.add_dependency("i18n",                      "~> 1.0")
   spec.add_dependency("irb",                       ">= 1.14")
   spec.add_dependency("kramdown",                  "~> 2.1")
