@@ -34,13 +34,17 @@ require custom_commands_file if File.exist?(custom_commands_file)
 begin
   Bridgetown::Commands2::Registrations.load_registrations Bridgetown::Commands2::Application
   Bridgetown::Commands2::Application.parse(ARGV).call
+rescue Samovar::MissingValueError => e
+  puts "Command error: #{e.message}"
+  e.command.print_usage
+  exit(false)
 rescue Samovar::InvalidInputError => e
   if e.command.respond_to?(:locate_token)
     e.command.locate_token(e.token, input: e.input)
   else
     puts "Unknown token: #{e.token}\n\n"
-
     e.command.print_usage
+    exit(false)
   end
 
   #puts e.command, e.token
