@@ -18,6 +18,7 @@ PATH
       erubi (~> 1.9)
       faraday (~> 2.0)
       faraday-follow_redirects (~> 0.3)
+      freyia (>= 0.5)
       i18n (~> 1.0)
       irb (>= 1.14)
       kramdown (~> 2.1)
@@ -96,13 +97,12 @@ GEM
     faraday-net_http (3.4.2)
       net-http (~> 0.5)
     ffi (1.17.2)
-    ffi (1.17.2-arm64-darwin)
-    ffi (1.17.2-x86_64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
     fiber-annotation (0.2.0)
     fiber-local (1.1.0)
       fiber-storage
     fiber-storage (1.0.1)
+    freyia (0.5.0)
     hash_with_dot_access (2.2.0)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
@@ -140,15 +140,9 @@ GEM
     minitest-stub_any_instance (1.0.3)
     net-http (0.8.0)
       uri (>= 0.11.1)
-    nokogiri (1.18.10-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.18.10-x86_64-darwin)
-      racc (~> 1.4)
     nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
     nokolexbor (0.6.2)
-    nokolexbor (0.6.2-arm64-darwin)
-    nokolexbor (0.6.2-x86_64-darwin)
     nokolexbor (0.6.2-x86_64-linux)
     observer (0.1.2)
     ostruct (0.6.3)
@@ -270,8 +264,6 @@ GEM
     zeitwerk (2.7.3)
 
 PLATFORMS
-  arm64-darwin-22
-  x86_64-darwin-21
   x86_64-linux
 
 DEPENDENCIES

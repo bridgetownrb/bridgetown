@@ -41,8 +41,8 @@ require "kramdown"
 require "i18n"
 require "i18n/backend/fallbacks"
 require "faraday"
+require "samovar"
 require "signalize"
-require "thor"
 
 # Ensure we can set up fallbacks so the default locale gets used
 I18n::Backend::Simple.include I18n::Backend::Fallbacks
@@ -102,6 +102,7 @@ module Bridgetown
   autoload :YAMLParser,          "bridgetown-core/yaml_parser"
 
   # extensions
+  require "bridgetown-core/commands2/thor_shim.rb"
   require "bridgetown-core/commands/registrations"
   require "bridgetown-core/plugin"
   require "bridgetown-core/converter"

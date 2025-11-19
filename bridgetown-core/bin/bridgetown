@@ -28,7 +28,11 @@ Bridgetown.begin!
 #require "bridgetown-core/commands/base"
 require "bridgetown-core/commands2/application"
 
+custom_commands_file = File.expand_path("config/custom_commands.rb", Dir.pwd)
+require custom_commands_file if File.exist?(custom_commands_file)
+
 begin
+  Bridgetown::Commands2::Registrations.load_registrations Bridgetown::Commands2::Application
   Bridgetown::Commands2::Application.parse(ARGV).call
 rescue Samovar::InvalidInputError => e
   if e.command.respond_to?(:locate_token)

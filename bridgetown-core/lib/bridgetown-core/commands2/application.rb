@@ -1,4 +1,5 @@
 require "samovar"
+require "freyia"
 
 require_all "bridgetown-core/commands2/concerns"
 require "bridgetown-core/commands2/registrations"
@@ -13,12 +14,10 @@ Samovar::Options.class_eval do
   def parse(input, parent = nil, default = nil)
     values = (default || @defaults).dup
 
-    while option = (@keyed[input.first] || @keyed[input.first&.split("=")&.first])
+    while option = @keyed[input.first] || @keyed[input.first&.split("=")&.first]
       # prefix = input.first
       result = option.parse(input)
-      if result != nil
-        values[option.key] = result
-      end
+      values[option.key] = result unless result.nil?
     end
 
     # Validate required options
@@ -28,13 +27,13 @@ Samovar::Options.class_eval do
       end
     end
 
-    return values
-  end   # Generate a string representation for usage output.
+    values
+  end # Generate a string representation for usage output.
 end
 
 Samovar::ValueFlag.class_eval do
   # Parse this flag from the input.
-  # 
+  #
   # @parameter input [Array(String)] The command-line arguments.
   # @returns [String | Symbol | Nil] The parsed value.
   def parse(input)
@@ -42,16 +41,16 @@ Samovar::ValueFlag.class_eval do
       # Whether we are expecting to parse a value from input:
       if @value
         # Get the actual value from input:
-        flag, value = input.shift(2)
-        return value
+        _, value = input.shift(2)
+        value
       else
         # Otherwise, we are just a boolean flag:
         input.shift
-        return key
+        key
       end
     elsif prefix?(input.first.split("=").first)
-      value = input.shift(1)[0].split("=").last
-      return value
+      input.shift(1)[0].split("=").last
+
     end
   end
 end
@@ -68,9 +67,25 @@ module Bridgetown
         registrations[name] = klass
       end
 
-      Registrations.load_registrations(self)
-
       nested(:command, registrations)
+
+      def self.desc(name, description)
+        @next_cmd_name = name.split.first
+        @next_cmd_description = description
+      end
+
+      def self.subcommand(name, klass)
+        return unless @next_cmd_name == name
+
+        table[:command].commands[name] = klass
+        klass.description = @next_cmd_description
+
+        @next_cmd_name = nil
+        @next_cmd_description = nil
+      end
+
+      #       desc "river <command>", "Take me to the river"
+      # subcommand "river", River
 
       def call
         if @command
@@ -90,7 +105,9 @@ module Bridgetown
         puts "Commands:"
 
         commands = self.class.table[:command].commands.to_h do |name, command|
-          inputs = command.table.each.find { _1.is_a?(Samovar::Many) || _1.is_a?(Samovar::One) }
+          inputs = command.table.each.find do
+            _1.is_a?(Samovar::Many) || _1.is_a?(Samovar::One) || _1.is_a?(Samovar::Nested)
+          end
           name = "#{name} #{inputs.key.upcase}" if inputs
           [name, command]
         end
@@ -124,7 +141,18 @@ module Bridgetown
           return
         end
 
-        completed = self.class.table[:command].commands.find do |name, command|
+        completed = case token
+                    when "c"
+                      input.shift
+                      Console.new(input, name: "console", parent: self).()
+                      true
+                    when "s"
+                      input.shift
+                      Start.new(input(name: "start", parent: self)).()
+                      true
+                    end
+
+        completed ||= self.class.table[:command].commands.find do |name, command|
           next unless name.start_with?(token)
 
           input.shift
