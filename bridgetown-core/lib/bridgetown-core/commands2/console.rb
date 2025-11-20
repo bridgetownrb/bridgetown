@@ -86,6 +86,9 @@ module Bridgetown
         IRB.conf[:MAIN_CONTEXT] = irb.context
         irb.context.io.load_history if new_history_behavior
         Bridgetown.logger.info "Console:", "Your site is now available as #{"site".cyan}"
+        if options[:server_config]
+          Bridgetown.logger.info "", "Your Roda app is available as #{Roda.subclasses[0].to_s.cyan}"
+        end
         Bridgetown.logger.info "",
                                "You can also access #{"collections".cyan} or perform a " \
                                "#{"reload!".cyan}"

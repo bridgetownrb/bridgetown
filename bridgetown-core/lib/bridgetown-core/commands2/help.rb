@@ -11,7 +11,7 @@ module Bridgetown
 
       def call
         unless command
-          print_usage
+          parent.print_usage
           return
         end
 
@@ -19,10 +19,10 @@ module Bridgetown
 
         found_command&.new(name: command)&.print_usage
 
-        unless found_command
-          puts "Unknown command: #{command}\n\n"
-          parent.print_usage
-        end
+        return if found_command
+
+        puts "Unknown command: #{command}\n\n"
+        parent.print_usage
       end
     end
   end
