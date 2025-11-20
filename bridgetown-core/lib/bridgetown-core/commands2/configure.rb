@@ -19,8 +19,8 @@ module Bridgetown
       end
 
       def call
-        self.destination_root = Dir.pwd
         self.source_paths = [self.class.source_root]
+        self.destination_root = Dir.pwd
 
         unless configurations
           print_usage

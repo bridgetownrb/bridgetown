@@ -97,12 +97,11 @@ module Bridgetown
   autoload :Transformable,       "bridgetown-core/concerns/transformable"
   autoload :Viewable,            "bridgetown-core/concerns/viewable"
   autoload :Utils,               "bridgetown-core/utils"
-  autoload :VERSION,             "bridgetown-core/version"
   autoload :Watcher,             "bridgetown-core/watcher"
   autoload :YAMLParser,          "bridgetown-core/yaml_parser"
 
   # extensions
-  require "bridgetown-core/commands2/thor_shim.rb"
+  require "bridgetown-core/commands2/thor_shim"
   require "bridgetown-core/commands/registrations"
   require "bridgetown-core/plugin"
   require "bridgetown-core/converter"

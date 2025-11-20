@@ -39,15 +39,9 @@ rescue Samovar::MissingValueError => e
   e.command.print_usage
   exit(false)
 rescue Samovar::InvalidInputError => e
-  if e.command.respond_to?(:locate_token)
-    e.command.locate_token(e.token, input: e.input)
-  else
-    puts "Unknown token: #{e.token}\n\n"
-    e.command.print_usage
-    exit(false)
-  end
-
-  #puts e.command, e.token
+  puts "Unknown token: #{e.token}\n\n"
+  e.command.print_usage
+  exit(false)
 rescue StandardError => e
   Bridgetown::Errors.print_build_error(e)
   exit(false)

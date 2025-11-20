@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "samovar"
 require "freyia"
 
@@ -11,11 +13,10 @@ end
 
 # Monkey-patch to support `--key=value`
 Samovar::Options.class_eval do
-  def parse(input, parent = nil, default = nil)
+  def parse(input, parent = nil, default = nil) # rubocop:disable Metrics
     values = (default || @defaults).dup
 
-    while option = @keyed[input.first] || @keyed[input.first&.split("=")&.first]
-      # prefix = input.first
+    while option = @keyed[input.first] || @keyed[input.first&.split("=")&.first] # rubocop:disable Lint/AssignmentInCondition
       result = option.parse(input)
       values[option.key] = result unless result.nil?
     end
@@ -28,7 +29,7 @@ Samovar::Options.class_eval do
     end
 
     values
-  end # Generate a string representation for usage output.
+  end
 end
 
 Samovar::ValueFlag.class_eval do
@@ -84,8 +85,19 @@ module Bridgetown
         @next_cmd_description = nil
       end
 
-      #       desc "river <command>", "Take me to the river"
-      # subcommand "river", River
+      def parse(input)
+        self.class.table.merged.parse(input, self)
+
+        return self if input.empty?
+
+        new_input = locate_command(input)
+        unless new_input
+          locate_rake_task(input)
+          return self
+        end
+
+        parse(new_input)
+      end
 
       def call
         if @command
@@ -105,8 +117,8 @@ module Bridgetown
         puts "Commands:"
 
         commands = self.class.table[:command].commands.to_h do |name, command|
-          inputs = command.table.each.find do
-            _1.is_a?(Samovar::Many) || _1.is_a?(Samovar::One) || _1.is_a?(Samovar::Nested)
+          inputs = command.table.each.find do |item|
+            item.is_a?(Samovar::Many) || item.is_a?(Samovar::One) || item.is_a?(Samovar::Nested)
           end
           name = "#{name} #{inputs.key.upcase}" if inputs
           [name, command]
@@ -135,40 +147,33 @@ module Bridgetown
         end
       end
 
-      def locate_token(token, input:)
-        if ["--help", "-help", "-h"].include?(token)
-          print_usage
-          return
+      def locate_command(input)
+        token = input.first
+
+        case token
+        when "--help", "-help", "-h"
+          input[0] = "help"
+          input
+        when "c"
+          input[0] = "console"
+          input
+        when "s"
+          input[0] = "start"
+          input
+        else
+          self.class.table[:command].commands.find do |name, _command|
+            next unless name.start_with?(token)
+
+            input[0] = name
+            input
+          end
         end
-
-        completed = case token
-                    when "c"
-                      input.shift
-                      Console.new(input, name: "console", parent: self).()
-                      true
-                    when "s"
-                      input.shift
-                      Start.new(input(name: "start", parent: self)).()
-                      true
-                    end
-
-        completed ||= self.class.table[:command].commands.find do |name, command|
-          next unless name.start_with?(token)
-
-          input.shift
-          command.new(input, name:, parent: self).()
-          true
-        end
-
-        handle_no_command_error(token) unless completed
-      rescue Samovar::InvalidInputError => e
-        puts e.token
-        e.command.print_usage
       end
 
-      def handle_no_command_error(cmd) # rubocop:todo Metrics
+      def locate_rake_task(input) # rubocop:todo Metrics
         require "rake"
         Rake::TaskManager.record_task_metadata = true
+        cmd = input.first
 
         Rake.with_application do |rake|
           rake.standard_exception_handling do
@@ -182,11 +187,11 @@ module Bridgetown
             load_rake_tasks(rake)
           end
 
+          # either return a command proc or nothing, #call will handle either case
           if Rake::Task.task_defined?(cmd.split("[")[0])
-            rake.top_level
+            @command = -> { rake.top_level }
           else
             puts "Unknown token: #{cmd.split("[")[0]}\n\n"
-            print_usage
           end
         rescue RuntimeError => e
           # re-raise error unless it's an error through Minitest
