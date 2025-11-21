@@ -18,12 +18,12 @@ module Bridgetown
         true
       end
 
-      def call
+      def call(new_site_dir: nil)
         @logger = Bridgetown.logger
         return show_actions unless command
 
         self.source_paths = [File.expand_path("../commands/esbuild", __dir__)]
-        self.destination_root = config.root_dir
+        self.destination_root = new_site_dir || config.root_dir
 
         if supported_actions.include?(command.to_sym)
           perform command
@@ -49,7 +49,7 @@ module Bridgetown
 
       def perform(action)
         automation = find_in_source_paths("#{action}.rb")
-        inside(destination_root) do #(New.created_site_dir || Dir.pwd)
+        inside(destination_root) do
           apply automation, verbose: false
         end
       end
