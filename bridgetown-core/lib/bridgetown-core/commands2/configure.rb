@@ -18,9 +18,9 @@ module Bridgetown
         File.expand_path("../configurations", __dir__)
       end
 
-      def call
+      def call(new_site_dir: nil)
         self.source_paths = [self.class.source_root]
-        self.destination_root = Dir.pwd
+        self.destination_root = new_site_dir || Dir.pwd
 
         unless configurations
           print_usage
@@ -42,7 +42,7 @@ module Bridgetown
       def configure(configuration)
         configuration_file = find_in_source_paths("#{configuration}.rb")
 
-        inside(Dir.pwd) do #New.created_site_dir || Dir.pwd) do
+        inside(destination_root) do
           @templates_dir = File.expand_path("../configurations/#{configuration}", __dir__)
           apply configuration_file, verbose: false
         end

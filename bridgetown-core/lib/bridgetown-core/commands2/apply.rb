@@ -14,12 +14,12 @@ module Bridgetown
 
       one :path_or_url, "Either a path or a URL to an automation file or Git repo"
 
-      def call(from_new_command: false, created_site_dir: nil)
+      def call(new_site_dir: nil)
         self.source_paths = [Dir.pwd]
         @logger = Bridgetown.logger
 
-        if from_new_command
-          apply_after_new_command(created_site_dir)
+        if new_site_dir
+          apply_after_new_command new_site_dir
         else
           apply_in_pwd
         end
