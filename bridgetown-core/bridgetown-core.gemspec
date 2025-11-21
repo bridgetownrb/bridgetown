@@ -37,7 +37,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency("bigdecimal",                ">= 3.2")
   spec.add_dependency("bridgetown-foundation",     Bridgetown::VERSION)
   spec.add_dependency("csv",                       "~> 3.2")
-  spec.add_dependency("dry-inflector",             ">= 1.0")
   spec.add_dependency("erubi",                     "~> 1.9")
   spec.add_dependency("faraday",                   "~> 2.0")
   spec.add_dependency("faraday-follow_redirects",  "~> 0.3")

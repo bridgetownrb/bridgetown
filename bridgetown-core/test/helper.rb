@@ -26,7 +26,7 @@ require "minitest/reporters"
 require "minitest/profile"
 require "minitest/stub_any_instance"
 require_relative "../lib/bridgetown-core"
-require_relative "../lib/bridgetown-core/commands/base"
+require_relative "../lib/bridgetown-core/commands2/application"
 
 Bridgetown.logger = Logger.new(StringIO.new, :error)
 

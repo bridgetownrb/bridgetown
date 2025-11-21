@@ -2,7 +2,7 @@
 
 require "dry/inflector"
 
-module Bridgetown
+module Bridgetown::Foundation
   class Inflector < Dry::Inflector
     def initialize(&) # rubocop:disable Lint/MissingSuper
       @inflections = Dry::Inflector::Inflections.build do |inflections|
@@ -23,12 +23,12 @@ module Bridgetown
     end
 
     def to_s
-      "#<Bridgetown::Inflector>"
+      "#<Bridgetown::Foundation::Inflector>"
     end
     alias_method :inspect, :to_s
 
     def ==(other)
-      return super unless other.is_a?(Bridgetown::Inflector)
+      return super unless other.is_a?(Bridgetown::Foundation::Inflector)
 
       # NOTE: strictly speaking, this might be wrong if two inflector instances have different
       # rule sets…but as this equality check is mainly done within the automated test suite, we
