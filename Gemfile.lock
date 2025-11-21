@@ -14,7 +14,6 @@ PATH
       bigdecimal (>= 3.2)
       bridgetown-foundation (= 2.0.5)
       csv (~> 3.2)
-      dry-inflector (>= 1.0)
       erubi (~> 1.9)
       faraday (~> 2.0)
       faraday-follow_redirects (~> 0.3)
@@ -43,6 +42,7 @@ PATH
   remote: bridgetown-foundation
   specs:
     bridgetown-foundation (2.0.5)
+      dry-inflector (>= 1.0)
       hash_with_dot_access (~> 2.0)
       inclusive (~> 1.0)
       zeitwerk (~> 2.5)

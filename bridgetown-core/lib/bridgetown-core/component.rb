@@ -3,15 +3,6 @@
 module Bridgetown
   class Component
     using Bridgetown::Refinements
-    # TODO: extract the following into Foundation?
-    module StringUnderscorable
-      refine String do
-        def underscore
-          Component.inflector.underscore(self)
-        end
-      end
-    end
-    using StringUnderscorable
     include Bridgetown::Streamlined
     extend Forwardable
 
@@ -34,10 +25,6 @@ module Bridgetown
         end[0].absolute_path
 
         super
-      end
-
-      def inflector
-        @inflector ||= Bridgetown::Current.preloaded_configuration&.inflector || Bridgetown::Inflector.new
       end
 
       # Return the appropriate template renderer for a given extension.

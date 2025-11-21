@@ -7,14 +7,9 @@ module Bridgetown
 
       self.description = "Show detailed command usage information and exit"
 
-      one :command, "The name of a Bridgetown command"
+      one :command, "The name of a Bridgetown command", required: true
 
       def call
-        unless command
-          parent.print_usage
-          return
-        end
-
         found_command = parent.class.table[:command].commands[command]
 
         found_command&.new(name: command)&.print_usage

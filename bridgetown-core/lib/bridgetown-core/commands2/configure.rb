@@ -32,7 +32,7 @@ module Bridgetown
 
         configurations.each do |configuration|
           configure configuration
-        rescue Thor::Error
+        rescue Freyia::Error
           @logger.error "Error:".red, "🚨 Configuration doesn't exist: #{configuration}"
         end
       end

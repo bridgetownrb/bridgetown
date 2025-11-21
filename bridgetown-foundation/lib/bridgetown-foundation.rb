@@ -50,6 +50,8 @@ Zeitwerk.with_loader do |l|
 end
 
 module Bridgetown
+  Inflector = Foundation::Inflector # compatibility alias
+
   # Any method call sent will be passed along to the wrapped object with refinements activated
   class WrappedObjectWithRefinements < SimpleDelegator
     using Bridgetown::Refinements
