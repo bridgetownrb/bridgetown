@@ -2,13 +2,11 @@
 
 module Bridgetown
   module Commands
-    class New < Samovar::Command
-      using Bridgetown::Refinements
-      include Freyia::Setup
+    class New < Bridgetown::Command
       include Automations
       include GitHelpers
 
-      Registrations.register New, "new"
+      using Bridgetown::Refinements
 
       self.description = "Creates a new Bridgetown site scaffold in PATH"
 
@@ -234,5 +232,7 @@ module Bridgetown
         say_status :alert, "Could not load npm. NPM install skipped.", :red
       end
     end
+
+    register_command :new, New
   end
 end

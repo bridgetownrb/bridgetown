@@ -25,10 +25,8 @@ module Bridgetown
   end
 
   module Commands
-    class Console < Samovar::Command
+    class Console < Bridgetown::Command
       include ConfigurationOverridable
-
-      Registrations.register Console, "console"
 
       self.description = "Invoke an IRB console with the site loaded"
 
@@ -40,7 +38,7 @@ module Bridgetown
           value.split(%r{\s*,\s*})
         end
         option "-s/--server-config", "Load server configurations"
-        option "-V/--verbose", "Print verbose output."
+        option "-V/--verbose", "Print verbose output"
       end
 
       def call # rubocop:disable Metrics
@@ -113,5 +111,7 @@ module Bridgetown
         end
       end
     end
+
+    register_command :console, Console
   end
 end

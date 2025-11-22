@@ -24,8 +24,8 @@ module Bridgetown
         klass.option "-U/--unpublished", "Render posts that were marked as unpublished"
         klass.option "--disable-disk-cache", "Disable caching to disk"
         klass.option "--profile", "Generate a Liquid rendering profile"
-        klass.option "-q/--quiet", "Silence output."
-        klass.option "-V/--verbose", "Print verbose output."
+        klass.option "-q/--quiet", "Silence output"
+        klass.option "-V/--verbose", "Print verbose output"
         klass.option "--strict-front-matter", "Fail if errors are present in front matter"
       end
     end

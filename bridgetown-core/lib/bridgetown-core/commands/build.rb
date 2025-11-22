@@ -2,10 +2,8 @@
 
 module Bridgetown
   module Commands
-    class Build < Samovar::Command
+    class Build < Bridgetown::Command
       include ConfigurationOverridable
-
-      Registrations.register Build, "build"
 
       self.description = "Build your site and save to destination folder"
 
@@ -130,5 +128,7 @@ module Bridgetown
         end
       end
     end
+
+    register_command :build, Build
   end
 end

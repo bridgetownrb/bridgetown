@@ -2,10 +2,8 @@
 
 module Bridgetown
   module Commands
-    class Clean < Samovar::Command
+    class Clean < Bridgetown::Command
       include ConfigurationOverridable
-
-      Registrations.register Clean, "clean"
 
       self.description = "Clean the site (removes site output and metadata file) without building"
 
@@ -37,5 +35,7 @@ module Bridgetown
         end
       end
     end
+
+    register_command :clean, Clean
   end
 end

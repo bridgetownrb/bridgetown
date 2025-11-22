@@ -2,11 +2,8 @@
 
 module Bridgetown
   module Commands
-    class Esbuild < Samovar::Command
-      include Freyia::Setup
+    class Esbuild < Bridgetown::Command
       include Automations
-
-      Registrations.register Esbuild, "esbuild"
 
       self.description = "Perform actions on the Bridgetown esbuild configuration"
 
@@ -70,5 +67,7 @@ module Bridgetown
         }
       end
     end
+
+    register_command :esbuild, Esbuild
   end
 end

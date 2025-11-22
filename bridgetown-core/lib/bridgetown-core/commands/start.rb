@@ -28,27 +28,22 @@ module Bridgetown
   end
 
   module Commands
-    class Start < Samovar::Command
+    class Start < Bridgetown::Command
       include ConfigurationOverridable
       include Freyia::Setup
       include Inclusive
-
-      Registrations.register do
-        register(Start, "start")
-        register(Start, "dev")
-      end
 
       self.description = "Start the web server, frontend bundler, and Bridgetown watcher"
 
       options do
         BuildOptions.include_options(self)
-        option "-P/--port",
-               "Serve your site on the specified port. Defaults to 4000.",
+        option "-P/--port <NUM>",
+               "Serve your site on the specified port. Defaults to 4000",
                type: Integer
-        option "-B/--bind", "URL for the server to bind to.", default: "0.0.0.0"
-        option "--skip-frontend", "Don't load the frontend bundler (always true for production)."
+        option "-B/--bind <IP>", "IP address for the server to bind to", default: "0.0.0.0"
+        option "--skip-frontend", "Don't load the frontend bundler (always true for production)"
         option "--skip-live-reload",
-               "Don't use the live reload functionality (always true for production)."
+               "Don't use the live reload functionality (always true for production)"
       end
 
       def call # rubocop:disable Metrics
@@ -132,5 +127,11 @@ module Bridgetown
         options[:port] || ENV.fetch("BRIDGETOWN_PORT", config.port || 4000)
       end
     end
+
+    Dev = Start.dup
+    Dev.description = "Alias for the start command"
+
+    register_command :start, Start
+    register_command :dev, Dev
   end
 end

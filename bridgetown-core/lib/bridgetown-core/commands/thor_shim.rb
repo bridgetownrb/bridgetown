@@ -55,12 +55,28 @@ unless defined?(Thor)
         new_cmd.options do
           next_cmd_options.each do |opt|
             name = opt[:args].shift
+            name = "--#{name}"
+            extra_kwargs = {}
+            extra_block = nil
             if !opt[:kwargs][:type] || opt[:kwargs][:type] != :boolean
-              # TODO: support other value types
-              name = "#{name} <text>"
+              name = case opt[:kwargs][:type] # rubocop:disable Metrics/BlockNesting
+                     when :numeric
+                       extra_kwargs[:type] = Integer
+                       "#{name} <NUM>"
+                     when :array
+                       extra_block = proc do |value|
+                         value.split(%r{\s*,\s*})
+                       end
+                       "#{name} <ARR1,ARR2>"
+                     else
+                       "#{name} <STR>"
+                     end
             end
 
-            option("--#{name}", opt[:args][1], required: opt[:kwargs][:required])
+            name = "#{opt[:kwargs][:aliases]}/#{name}" if opt[:kwargs][:aliases]
+
+            option(name, opt[:args][1], required: opt[:kwargs][:required], **extra_kwargs,
+                   &extra_block)
           end
         end
       end
