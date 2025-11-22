@@ -87,7 +87,7 @@ class TestNewCommand < BridgetownUnitTest
       packagejson = File.join(@full_path, "package.json")
       refute_exist @full_path
       capture_output do
-        Bridgetown::Commands::Base.start(argumentize(@args))
+        Bridgetown::Commands::Application[*argumentize(@args)].()
       end
       assert_exist gemfile
       assert_exist packagejson
@@ -97,7 +97,7 @@ class TestNewCommand < BridgetownUnitTest
 
     it "displays a success message" do
       output = capture_output do
-        Bridgetown::Commands::Base.start(argumentize(@args))
+        Bridgetown::Commands::Application[*argumentize(@args)].()
       end
       success_message = "Your new Bridgetown site was generated in " \
                         "#{@path.cyan}."
@@ -110,7 +110,7 @@ class TestNewCommand < BridgetownUnitTest
       generated_template_files = static_template_files + postcss_config_files + template_config_files + erb_config_files + esbuild_config_files
 
       capture_output do
-        Bridgetown::Commands::Base.start(argumentize(@args))
+        Bridgetown::Commands::Application[*argumentize(@args)].()
       end
 
       new_site_files = dir_contents(@full_path).reject do |f|
@@ -125,7 +125,7 @@ class TestNewCommand < BridgetownUnitTest
       generated_template_files = static_template_files + postcss_config_files + template_config_files + liquid_config_files + esbuild_config_files
 
       capture_output do
-        Bridgetown::Commands::Base.start(argumentize("#{@args} -t liquid"))
+        Bridgetown::Commands::Application[*argumentize("#{@args} -t liquid")].()
       end
 
       new_site_files = dir_contents(@full_path).reject do |f|
@@ -149,7 +149,7 @@ class TestNewCommand < BridgetownUnitTest
 
       capture_output do
         Time.stub_any_instance :strftime, stubbed_date do
-          Bridgetown::Commands::Base.start(argumentize(@args))
+          Bridgetown::Commands::Application[*argumentize(@args)].()
         end
       end
 
@@ -162,16 +162,16 @@ class TestNewCommand < BridgetownUnitTest
     end
 
     it "forces created folder" do
-      capture_output { Bridgetown::Commands::Base.start(argumentize(@args)) }
+      capture_output { Bridgetown::Commands::Application[*argumentize(@args)].() }
       output = capture_output do
-        Bridgetown::Commands::Base.start(argumentize("#{@args} --force"))
+        Bridgetown::Commands::Application[*argumentize("#{@args} --force")].()
       end
       assert_match %r!new Bridgetown site was generated in!, output
     end
 
     it "skips bundle install when opted to" do
       output = capture_output do
-        Bridgetown::Commands::Base.start(argumentize("#{@args} --skip-bundle"))
+        Bridgetown::Commands::Application[*argumentize("#{@args} --skip-bundle")].()
       end
 
       refute_exist File.join(@full_path, "Gemfile.lock")
@@ -192,14 +192,14 @@ class TestNewCommand < BridgetownUnitTest
     it "creates a new directory" do
       refute_exist @site_name_with_spaces
       invocation = ["new", @site_name_with_spaces]
-      capture_output { Bridgetown::Commands::Base.start(invocation) }
+      capture_output { Bridgetown::Commands::Application[*invocation].() }
       assert_exist @site_name_with_spaces
     end
 
     it "creates a new directory and ignores additional options" do
       refute_exist @site_name_with_spaces
       invocation = ["new", @site_name_with_spaces, "--help"]
-      capture_output { Bridgetown::Commands::Base.start(invocation) }
+      capture_output { Bridgetown::Commands::Application[*invocation].() }
       assert_exist @site_name_with_spaces
     end
   end
@@ -210,11 +210,9 @@ class TestNewCommand < BridgetownUnitTest
     end
 
     it "displays an error message" do
-      output = capture_output do
-        Bridgetown::Commands::Base.start(["new"])
-      end
-
-      assert_includes output, "You must specify a path."
+      expect do
+        Bridgetown::Commands::Application.parse(["new"]).()
+      end.raise? Samovar::MissingValueError
     end
   end
 end

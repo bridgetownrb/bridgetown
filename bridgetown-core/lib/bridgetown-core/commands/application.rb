@@ -85,6 +85,7 @@ module Bridgetown
       end
 
       def parse(input)
+        Registrations.load_registrations self.class
         self.class.table.merged.parse(input, self)
 
         return self if input.empty?

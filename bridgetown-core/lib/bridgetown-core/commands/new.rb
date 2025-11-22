@@ -18,6 +18,7 @@ module Bridgetown
         option "-a/--apply <PATH|URL>", "Apply an automation after creating the site scaffold"
         option "-c/--configure <CONFIGURATION(S)>",
                "Comma separated list of bundled configurations to perform"
+        option "-h/--help", "Print help for the new command"
         option "-t/--templates <erb|serbea|liquid>", "Preferred template engine (defaults to ERB)"
         option "--force", "Force creation even if PATH already exists"
         option "--skip-bundle", "Skip 'bundle install'"
@@ -40,6 +41,12 @@ module Bridgetown
       end
 
       def call # rubocop:disable Metrics
+        case path
+        when "--help", "-help", "-h"
+          print_usage
+          return
+        end
+
         self.source_paths = [self.class.source_root]
 
         new_site_path = File.expand_path(path, Dir.pwd)

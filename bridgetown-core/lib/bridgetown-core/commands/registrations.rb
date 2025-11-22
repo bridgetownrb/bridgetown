@@ -17,6 +17,7 @@ module Bridgetown
         registrations.each do |block|
           command.instance_exec(&block)
         end
+        @registrations = []
       end
     end
   end
