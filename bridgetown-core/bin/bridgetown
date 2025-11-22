@@ -25,7 +25,6 @@ end
 
 Bridgetown.begin!
 
-#require "bridgetown-core/commands/base"
 require "bridgetown-core/commands2/application"
 
 custom_commands_file = File.expand_path("config/custom_commands.rb", Dir.pwd)

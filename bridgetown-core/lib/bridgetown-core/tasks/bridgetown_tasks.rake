@@ -37,14 +37,11 @@ namespace :roda do
 end
 
 desc "Prerequisite task which loads site and provides automation"
-task :environment do # rubocop:todo Metrics/BlockLength
-  class HammerActions < Thor # rubocop:disable Lint/ConstantDefinitionInBlock
-    #include Thor::Actions
-    #include Bridgetown::Commands::Actions
+task :environment do
+  require "freyia"
 
-    def self.source_root
-      Dir.pwd
-    end
+  class Hamr < Freyia::Base # rubocop:disable Lint/ConstantDefinitionInBlock
+    include Bridgetown::Commands::Actions
 
     def self.exit_on_failure?
       true
@@ -62,14 +59,14 @@ task :environment do # rubocop:todo Metrics/BlockLength
   end
 
   define_singleton_method :automation do |*args, &block|
-    @hammer ||= HammerActions.new
-    @hammer.instance_exec(*args, &block)
+    @hamr ||= Hamr.new(source: Dir.pwd, dest: Dir.pwd)
+    @hamr.instance_exec(*args, &block)
   end
 
   %i(site run_initializers).each do |meth|
     define_singleton_method meth do |**kwargs|
-      @hammer ||= HammerActions.new
-      @hammer.send(:site, **kwargs)
+      @hamr ||= Hamr.new(source: Dir.pwd, dest: Dir.pwd)
+      @hamr.send(:site, **kwargs)
     end
   end
 end
