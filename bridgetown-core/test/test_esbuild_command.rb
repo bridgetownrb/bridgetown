@@ -25,8 +25,8 @@ class TestEsbuildCommand < BridgetownUnitTest
       FileUtils.mkdir_p(File.expand_path("../tmp", __dir__))
       @full_path = File.join(File.expand_path("../tmp", __dir__), @path)
 
-      capture_stdout { Bridgetown::Commands::Base.start(["new", @full_path, "-e", "esbuild"]) }
-      @cmd = Bridgetown::Commands::Esbuild.new
+      capture_stdout { Bridgetown::Commands::New[@full_path].() }
+      @cmd = Bridgetown::Commands::Esbuild
     end
 
     after do
@@ -35,7 +35,7 @@ class TestEsbuildCommand < BridgetownUnitTest
 
     it "lists all available actions when invoked without args" do
       output = capture_stdout do
-        @cmd.esbuild
+        @cmd.()
       end
       assert_match %r!setup!, output
       assert_match %r!update!, output
@@ -44,7 +44,7 @@ class TestEsbuildCommand < BridgetownUnitTest
 
     it "shows error when action doesn't exist" do
       output = capture_stdout do
-        @cmd.invoke(:esbuild, ["qwerty"])
+        @cmd["qwerty"].()
       end
 
       assert_match %r!Please enter a valid action!, output
@@ -53,9 +53,7 @@ class TestEsbuildCommand < BridgetownUnitTest
     it "sets up esbuild defaults and config" do
       File.delete esbuild_defaults # Delete the file created during setup
 
-      @cmd.inside(@full_path) do
-        capture_stdout { @cmd.invoke(:esbuild, ["setup"]) }
-      end
+      capture_stdout { @cmd["setup"].(new_site_dir: @full_path) }
 
       assert_exist esbuild_defaults
       assert_exist esbuild_config
@@ -64,9 +62,7 @@ class TestEsbuildCommand < BridgetownUnitTest
     it "updates esbuild config" do
       File.write(esbuild_defaults, "OLD_VERSION")
 
-      @cmd.inside(@full_path) do
-        capture_stdout { @cmd.invoke(:esbuild, ["update"]) }
-      end
+      capture_stdout { @cmd["update"].(new_site_dir: @full_path) }
 
       assert_file_contains %r!export default async!, esbuild_defaults
       refute_file_contains %r!OLD_VERSION!, esbuild_defaults

@@ -202,10 +202,10 @@ module Bridgetown
           end
           say ""
           say_status "Done!", "Have fun writing your new #{name} plugin :)"
-          say_status "Remember:", "Don't forget to rename the SamplePlugin" \
-                                  " code identifiers and paths to your own" \
-                                  " identifier, as well as update your README" \
-                                  " and CHANGELOG files as necessary."
+          say_status "Remember:", "Don't forget to rename the SamplePlugin " \
+                                  "code identifiers and paths to your own " \
+                                  "identifier, as well as update your README " \
+                                  "and CHANGELOG files as necessary."
         end
       end
 

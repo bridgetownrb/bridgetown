@@ -20,13 +20,13 @@ module Bridgetown
         klass.option "--future", "Publishes posts with a future date"
         klass.option "-u/--url <URL>", "Override the configured url for the website"
         klass.option "-b/--base-path", "Serve the website from the given base path"
-        klass.option "--force_polling", "Force watch to use polling"
+        klass.option "--force-polling", "Force watch to use polling"
         klass.option "-U/--unpublished", "Render posts that were marked as unpublished"
-        klass.option "--disable_disk_cache", "Disable caching to disk"
+        klass.option "--disable-disk-cache", "Disable caching to disk"
         klass.option "--profile", "Generate a Liquid rendering profile"
         klass.option "-q/--quiet", "Silence output."
         klass.option "-V/--verbose", "Print verbose output."
-        klass.option "--strict_front_matter", "Fail if errors are present in front matter"
+        klass.option "--strict-front-matter", "Fail if errors are present in front matter"
       end
     end
   end
