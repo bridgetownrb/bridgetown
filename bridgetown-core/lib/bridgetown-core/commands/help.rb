@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  module Commands2
+  module Commands
     class Help < Samovar::Command
       Registrations.register Help, "help"
 

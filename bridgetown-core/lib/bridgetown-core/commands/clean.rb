@@ -2,21 +2,18 @@
 
 module Bridgetown
   module Commands
-    class Clean < Thor::Group
-      extend BuildOptions
-      extend Summarizable
+    class Clean < Samovar::Command
       include ConfigurationOverridable
 
-      Registrations.register do
-        register(Clean, "clean", "clean", Clean.summary)
+      Registrations.register Clean, "clean"
+
+      self.description = "Clean the site (removes site output and metadata file) without building"
+
+      options do
+        BuildOptions.include_options(self)
       end
 
-      def self.banner
-        "bridgetown clean [options]"
-      end
-      summary "Clean the site (removes site output and metadata file) without building"
-
-      def clean
+      def call
         config = configuration_with_overrides(options, Bridgetown::Current.preloaded_configuration)
         destination = config["destination"]
         metadata_file = File.join(config["root_dir"], ".bridgetown-metadata")

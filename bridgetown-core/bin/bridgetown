@@ -25,14 +25,14 @@ end
 
 Bridgetown.begin!
 
-require "bridgetown-core/commands2/application"
+require "bridgetown-core/commands/application"
 
 custom_commands_file = File.expand_path("config/custom_commands.rb", Dir.pwd)
 require custom_commands_file if File.exist?(custom_commands_file)
 
 begin
-  Bridgetown::Commands2::Registrations.load_registrations Bridgetown::Commands2::Application
-  Bridgetown::Commands2::Application.parse(ARGV).call
+  Bridgetown::Commands::Registrations.load_registrations Bridgetown::Commands::Application
+  Bridgetown::Commands::Application.parse(ARGV).call
 rescue Samovar::MissingValueError => e
   puts "Command error: #{e.message}"
   e.command.print_usage

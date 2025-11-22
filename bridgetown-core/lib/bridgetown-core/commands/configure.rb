@@ -2,37 +2,37 @@
 
 module Bridgetown
   module Commands
-    class Configure < Thor::Group
-      include Thor::Actions
-      include Actions
-      extend Summarizable
+    class Configure < Samovar::Command
+      include Freyia::Setup
+      include Automations
 
-      Registrations.register do
-        register(Configure, "configure", "configure CONFIGURATION", Configure.summary)
-      end
+      Registrations.register Configure, "configure"
 
-      def self.banner
-        "bridgetown configure CONFIGURATION(S)"
-      end
-      summary "Set up bundled Bridgetown configurations"
+      self.description = "Set up bundled Bridgetown configurations"
 
-      def self.exit_on_failure?
-        true
-      end
-
-      def perform_configurations
-        @logger = Bridgetown.logger
-        list_configurations if args.empty?
-
-        args.each do |configuration|
-          configure configuration
-        rescue Thor::Error
-          @logger.error "Error:".red, "🚨 Configuration doesn't exist: #{configuration}"
-        end
-      end
+      many :configurations, "One or more configuration names, separated by spaces"
 
       def self.source_root
         File.expand_path("../configurations", __dir__)
+      end
+
+      def call(new_site_dir: nil)
+        self.source_paths = [self.class.source_root]
+        self.destination_root = new_site_dir || Dir.pwd
+
+        unless configurations
+          print_usage
+          list_configurations
+          return
+        end
+
+        @logger = Bridgetown.logger
+
+        configurations.each do |configuration|
+          configure configuration
+        rescue Freyia::Error
+          @logger.error "Error:".red, "🚨 Configuration doesn't exist: #{configuration}"
+        end
       end
 
       protected
@@ -40,7 +40,7 @@ module Bridgetown
       def configure(configuration)
         configuration_file = find_in_source_paths("#{configuration}.rb")
 
-        inside(New.created_site_dir || Dir.pwd) do
+        inside(destination_root) do
           @templates_dir = File.expand_path("../configurations/#{configuration}", __dir__)
           apply configuration_file, verbose: false
         end
@@ -48,7 +48,8 @@ module Bridgetown
 
       def list_configurations
         say "Please specify a valid packaged configuration from the below list:\n\n"
-        configurations.each do |configuration|
+
+        configuration_files.each do |configuration|
           configuration = set_color configuration, :blue, :bold
           say configuration
         end
@@ -58,7 +59,7 @@ module Bridgetown
         say "For more info, check out the docs at: #{docs_url}"
       end
 
-      def configurations
+      def configuration_files
         inside self.class.source_root do
           return Dir.glob("*.rb").map { |file| file.sub(".rb", "") }.sort
         end

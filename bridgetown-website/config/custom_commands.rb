@@ -1,5 +1,5 @@
 class Floob < Samovar::Command
-  Bridgetown::Commands2::Registrations.register Floob, "floob"
+  Bridgetown::Commands::Registrations.register Floob, "floob"
 
   self.description = "Florb the floob"
 
@@ -11,12 +11,12 @@ end
 module MyPlugin
   module Commands
     class River < Thor
-      include Bridgetown::Commands2::ConfigurationOverridable
+      include Bridgetown::Commands::ConfigurationOverridable
 
       include Thor::Actions
       include Bridgetown::Commands::Actions
 
-      Bridgetown::Commands2::Registrations.register do
+      Bridgetown::Commands::Registrations.register do
         desc "river <command>", "Take me to the river"
         subcommand "river", River
       end
