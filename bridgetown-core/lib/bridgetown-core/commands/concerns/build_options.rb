@@ -3,66 +3,30 @@
 module Bridgetown
   module Commands
     module BuildOptions
-      def self.extended(klass)
-        klass.class_option :trace,
-                           type: :boolean,
-                           aliases: "-t",
-                           desc: "Show the full backtrace when an error occurs during watch mode"
-
-        klass.class_option :config,
-                           type: :array,
-                           banner: "FILE1 FILE2",
-                           desc: "Custom configuration file(s)"
-        klass.class_option :source,
-                           aliases: "-s",
-                           desc: "Source directory (defaults to src)"
-        klass.class_option :destination,
-                           aliases: "-d",
-                           desc: "Destination directory (defaults to output)"
-        klass.class_option :root_dir,
-                           aliases: "-r",
-                           desc: "The top-level root folder " \
-                                 "where config files are located"
-        klass.class_option :plugins_dir,
-                           aliases: "-p",
-                           type: :array,
-                           banner: "DIR1 DIR2",
-                           desc: "Plugins directory (defaults to plugins)"
-        klass.class_option :layouts_dir,
-                           desc: "Layouts directory (defaults to src/_layouts)"
-        klass.class_option :future,
-                           type: :boolean,
-                           desc: "Publishes posts with a future date"
-        klass.class_option :url,
-                           aliases: "-u",
-                           desc: "Override the configured url for the website"
-        klass.class_option :base_path,
-                           aliases: "-b",
-                           desc: "Serve the website from the given base path"
-        klass.class_option :force_polling,
-                           type: :boolean,
-                           desc: "Force watch to use polling"
-        klass.class_option :unpublished,
-                           type: :boolean,
-                           aliases: "-U",
-                           desc: "Render posts that were marked as unpublished"
-        klass.class_option :disable_disk_cache,
-                           type: :boolean,
-                           desc: "Disable caching to disk"
-        klass.class_option :profile,
-                           type: :boolean,
-                           desc: "Generate a Liquid rendering profile"
-        klass.class_option :quiet,
-                           aliases: "-q",
-                           type: :boolean,
-                           desc: "Silence output."
-        klass.class_option :verbose,
-                           aliases: "-V",
-                           type: :boolean,
-                           desc: "Print verbose output."
-        klass.class_option :strict_front_matter,
-                           type: :boolean,
-                           desc: "Fail if errors are present in front matter"
+      def self.include_options(klass) # rubocop:disable Metrics/MethodLength
+        klass.option "-t/--trace", "Show the full backtrace when an error occurs during watch mode"
+        klass.option "--config <FILE1,FILE2>", "Custom configuration file(s)" do |value|
+          value.split(%r{\s*,\s*})
+        end
+        klass.option "-s/--source <SOURCE>", "Source directory (defaults to src)"
+        klass.option "-d/--destination <DESTINATION>", "Destination directory (defaults to output)"
+        klass.option "-r/--root-dir <DIR>", "The top-level root folder " \
+                                            "where config files are located"
+        klass.option "-p/--plugins-dir <DIR1,DIR2>",
+                     "Plugins directory (defaults to plugins)" do |value|
+          value.split(%r{\s*,\s*})
+        end
+        klass.option "--layouts-dir <DIR>", "Layouts directory (defaults to src/_layouts)"
+        klass.option "--future", "Publishes posts with a future date"
+        klass.option "-u/--url <URL>", "Override the configured url for the website"
+        klass.option "-b/--base-path", "Serve the website from the given base path"
+        klass.option "--force_polling", "Force watch to use polling"
+        klass.option "-U/--unpublished", "Render posts that were marked as unpublished"
+        klass.option "--disable_disk_cache", "Disable caching to disk"
+        klass.option "--profile", "Generate a Liquid rendering profile"
+        klass.option "-q/--quiet", "Silence output."
+        klass.option "-V/--verbose", "Print verbose output."
+        klass.option "--strict_front_matter", "Fail if errors are present in front matter"
       end
     end
   end

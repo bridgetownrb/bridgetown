@@ -10,7 +10,7 @@ class TestConfigureCommand < BridgetownUnitTest
   describe "the configure command" do
     before do
       FileUtils.cp(testing_dir("fixtures", "test_automation.rb"), configurations_path)
-      @cmd = Bridgetown::Commands2::Configure
+      @cmd = Bridgetown::Commands::Configure
     end
 
     after do

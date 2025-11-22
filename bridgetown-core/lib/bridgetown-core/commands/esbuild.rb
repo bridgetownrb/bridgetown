@@ -2,43 +2,34 @@
 
 module Bridgetown
   module Commands
-    class Esbuild < Thor::Group
-      include Thor::Actions, Bridgetown::Commands::Actions
-      extend Summarizable
+    class Esbuild < Samovar::Command
+      include Freyia::Setup
+      include Automations
 
-      Registrations.register do
-        register(Esbuild, "esbuild", "esbuild ACTION", Esbuild.summary)
-      end
+      Registrations.register Esbuild, "esbuild"
 
-      def self.banner
-        "bridgetown esbuild ACTION"
-      end
-      summary "Perform actions on the Bridgetown esbuild configuration"
+      self.description = "Perform actions on the Bridgetown esbuild configuration"
+
+      one :command, "setup, update, migrate-from-webpack"
 
       def self.exit_on_failure?
         true
       end
 
-      def esbuild
+      def call(new_site_dir: nil)
         @logger = Bridgetown.logger
-        return show_actions if args.empty?
+        return show_actions unless command
 
-        action = args.first
-        if supported_actions.include?(action.to_sym)
-          perform action
+        self.source_paths = [File.expand_path("../commands/esbuild", __dir__)]
+        self.destination_root = new_site_dir || config.root_dir
+
+        if supported_actions.include?(command.to_sym)
+          perform command
         else
           @logger.error "Error:".red, "🚨 Please enter a valid action."
           say "\n"
           show_actions
         end
-      end
-
-      def self.source_root
-        File.expand_path("./esbuild", __dir__)
-      end
-
-      def self.destination_root
-        config.root_dir
       end
 
       protected
@@ -56,7 +47,7 @@ module Bridgetown
 
       def perform(action)
         automation = find_in_source_paths("#{action}.rb")
-        inside(New.created_site_dir || Dir.pwd) do
+        inside(destination_root) do
           apply automation, verbose: false
         end
       end

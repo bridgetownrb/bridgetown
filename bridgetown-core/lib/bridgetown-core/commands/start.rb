@@ -28,45 +28,36 @@ module Bridgetown
   end
 
   module Commands
-    class Start < Thor::Group
-      extend BuildOptions
-      extend Summarizable
+    class Start < Samovar::Command
       include ConfigurationOverridable
+      include Freyia::Setup
       include Inclusive
 
       Registrations.register do
-        register(Start, "start", "start", Start.summary)
-        register(Start, "dev", "dev", "Alias of start")
+        register(Start, "start")
+        register(Start, "dev")
       end
 
-      class_option :port,
-                   aliases: "-P",
-                   type: :numeric,
-                   desc: "Serve your site on the specified port. Defaults to 4000."
-      class_option :bind,
-                   aliases: "-B",
-                   type: :string,
-                   default: "0.0.0.0",
-                   desc: "URL for the server to bind to."
-      class_option :skip_frontend,
-                   type: :boolean,
-                   desc: "Don't load the frontend bundler (always true for production)."
-      class_option :skip_live_reload,
-                   type: :boolean,
-                   desc: "Don't use the live reload functionality (always true for production)."
+      self.description = "Start the web server, frontend bundler, and Bridgetown watcher"
 
-      def self.banner
-        "bridgetown start [options]"
+      options do
+        BuildOptions.include_options(self)
+        option "-P/--port",
+               "Serve your site on the specified port. Defaults to 4000.",
+               type: Integer
+        option "-B/--bind", "URL for the server to bind to.", default: "0.0.0.0"
+        option "--skip-frontend", "Don't load the frontend bundler (always true for production)."
+        option "--skip-live-reload",
+               "Don't use the live reload functionality (always true for production)."
       end
-      summary "Start the web server, frontend bundler, and Bridgetown watcher"
 
-      def start
+      def call # rubocop:disable Metrics
         pid_tracker = packages[Bridgetown::Foundation::Packages::PidTracker]
         Bridgetown.logger.writer.enable_prefix
         Bridgetown::Commands::Build.print_startup_message
         sleep 0.25
 
-        options = Thor::CoreExt::HashWithIndifferentAccess.new(self.options)
+        options = HashWithDotAccess::Hash.new(self.options)
         options[:start_command] = true
 
         # Load Bridgetown configuration into thread memory
@@ -90,8 +81,8 @@ module Bridgetown
 
             bt_options.skip_live_reload ||= !server.using_puma?
 
-            build_args = ["-w"] + ARGV.reject { |arg| arg == "start" }
-            build_pid = Process.fork { Bridgetown::Commands::Build.start(build_args) }
+            build_args = ["-w"] + Array(ARGV[1..])
+            build_pid = Process.fork { Bridgetown::Commands::Build[*build_args].() }
             pid_tracker.add_pid(build_pid, file: :bridgetown)
 
             after_stop_callback = -> {

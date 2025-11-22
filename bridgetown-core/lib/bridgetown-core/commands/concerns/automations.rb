@@ -2,7 +2,7 @@
 
 module Bridgetown
   module Commands
-    module Actions
+    module Automations
       using Bridgetown::Refinements
 
       GITHUB_REGEX = %r!https://github\.com!
@@ -169,5 +169,7 @@ module Bridgetown
       end
       # rubocop:enable Metrics/MethodLength
     end
+
+    Actions = Automations # alias
   end
 end

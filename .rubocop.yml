@@ -21,9 +21,6 @@ Lint/NestedPercentLiteral:
 Lint/RescueException:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/watcher.rb
-Lint/SuppressedException:
-  Exclude:
-    - bridgetown-core/lib/bridgetown-core/commands/new.rb
 Lint/UnusedBlockArgument:
   Exclude:
     - bridgetown-core/lib/site_template/**/*.rb
@@ -32,11 +29,6 @@ Lint/Void:
     - bridgetown-core/lib/bridgetown-core/concerns/site/configurable.rb
 Metrics/AbcSize:
   Exclude:
-    - bridgetown-core/lib/bridgetown-core/commands/build.rb
-    - bridgetown-core/lib/bridgetown-core/commands/new.rb
-    - bridgetown-core/lib/bridgetown-core/commands/console.rb
-    - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
-    - bridgetown-core/lib/bridgetown-core/commands/start.rb
     - bridgetown-core/lib/bridgetown-core/watcher.rb
 Metrics/BlockLength:
   Exclude:
@@ -47,16 +39,11 @@ Metrics/ClassLength:
   Exclude:
     - !ruby/regexp /bridgetown-core/features\/.*.rb$/
     - !ruby/regexp /bridgetown-core/test\/.*.rb$/
-    - bridgetown-core/lib/bridgetown-core/commands/serve.rb
     - bridgetown-core/lib/bridgetown-core/configuration.rb
     - bridgetown-core/lib/bridgetown-core/collection.rb
 Metrics/CyclomaticComplexity:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/utils.rb
-    - bridgetown-core/lib/bridgetown-core/commands/build.rb
-    - bridgetown-core/lib/bridgetown-core/commands/serve.rb
-    - bridgetown-core/lib/bridgetown-core/commands/start.rb
-    - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
 Layout/LineLength:
   Exclude:
     - !ruby/regexp /bridgetown-core/features\/.*.rb/
@@ -64,25 +51,12 @@ Layout/LineLength:
     - bridgetown-core/Rakefile
     - bridgetown-core/rake/*.rake
     - Gemfile
-Metrics/MethodLength:
-  Exclude:
-    - bridgetown-core/lib/bridgetown-core/commands/concerns/build_options.rb
-    - bridgetown-core/lib/bridgetown-core/commands/build.rb
-    - bridgetown-core/lib/bridgetown-core/commands/console.rb
-    - bridgetown-core/lib/bridgetown-core/commands/new.rb
-    - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
-    - bridgetown-core/lib/bridgetown-core/commands/start.rb
 Metrics/ModuleLength:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/filters.rb
 Metrics/ParameterLists:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/hooks.rb
-Metrics/PerceivedComplexity:
-  Exclude:
-    - bridgetown-core/lib/bridgetown-core/commands/build.rb
-    - bridgetown-core/lib/bridgetown-core/commands/plugins.rb
-    - bridgetown-core/lib/bridgetown-core/commands/start.rb
 Naming/HeredocDelimiterNaming:
   Exclude:
     - bridgetown-core/test/**/*.rb
@@ -102,9 +76,6 @@ Style/FormatStringToken:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/utils/ansi.rb
     - bridgetown-core/lib/bridgetown-core/liquid_renderer/table.rb
-Style/GlobalVars:
-  Exclude:
-    - bridgetown-core/lib/bridgetown-core/commands/console.rb
 Style/MixinUsage:
   Exclude:
     - bridgetown-core/test/helper.rb

@@ -3,9 +3,8 @@
 require "samovar"
 require "freyia"
 
-require_all "bridgetown-core/commands2/concerns"
-require "bridgetown-core/commands2/registrations"
-require_all "bridgetown-core/commands2"
+require_all "bridgetown-core/commands/concerns"
+require_all "bridgetown-core/commands"
 
 Samovar::Command.class_eval do
   def self.summary = description
@@ -57,7 +56,7 @@ Samovar::ValueFlag.class_eval do
 end
 
 module Bridgetown
-  module Commands2
+  module Commands
     class Application < Samovar::Command
       self.description =
         "next-generation, progressive site generator & fullstack framework, powered by Ruby"

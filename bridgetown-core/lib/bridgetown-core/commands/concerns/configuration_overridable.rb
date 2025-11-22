@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Bridgetown
-  module Commands2
+  module Commands
     module ConfigurationOverridable
       def self.include_options(klass)
         desc = "The environment used for this command (aka development, test, production, etc.)"
