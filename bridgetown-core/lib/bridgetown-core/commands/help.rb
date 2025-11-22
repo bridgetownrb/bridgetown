@@ -2,9 +2,7 @@
 
 module Bridgetown
   module Commands
-    class Help < Samovar::Command
-      Registrations.register Help, "help"
-
+    class Help < Bridgetown::Command
       self.description = "Show detailed command usage information and exit"
 
       one :command, "The name of a Bridgetown command", required: true
@@ -20,5 +18,7 @@ module Bridgetown
         parent.print_usage
       end
     end
+
+    register_command :help, Help
   end
 end

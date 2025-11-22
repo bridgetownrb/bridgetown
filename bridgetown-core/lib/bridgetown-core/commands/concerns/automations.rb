@@ -3,6 +3,8 @@
 module Bridgetown
   module Commands
     module Automations
+      include Freyia::Setup
+
       using Bridgetown::Refinements
 
       GITHUB_REGEX = %r!https://github\.com!

@@ -68,6 +68,7 @@ module Bridgetown
   autoload :Current,             "bridgetown-core/current"
   autoload :Cleaner,             "bridgetown-core/cleaner"
   autoload :Collection,          "bridgetown-core/collection"
+  autoload :Command,             "bridgetown-core/command"
   autoload :Component,           "bridgetown-core/component"
   autoload :DefaultsReader,      "bridgetown-core/readers/defaults_reader"
   autoload :Deprecator,          "bridgetown-core/deprecator"

@@ -57,7 +57,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency("serbea",                    ">= 2.4.1")
   spec.add_dependency("signalize",                 "~> 1.3")
   spec.add_dependency("streamlined",               ">= 0.6.0")
-  spec.add_dependency("thor",                      "~> 1.1")
   spec.add_dependency("tilt",                      "~> 2.0")
   spec.add_dependency("zeitwerk",                  ">= 2.7.3")
 end

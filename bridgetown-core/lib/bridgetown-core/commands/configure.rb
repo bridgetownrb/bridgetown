@@ -2,11 +2,8 @@
 
 module Bridgetown
   module Commands
-    class Configure < Samovar::Command
-      include Freyia::Setup
+    class Configure < Bridgetown::Command
       include Automations
-
-      Registrations.register Configure, "configure"
 
       self.description = "Set up bundled Bridgetown configurations"
 
@@ -71,5 +68,7 @@ module Bridgetown
         end
       end
     end
+
+    register_command :configure, Configure
   end
 end

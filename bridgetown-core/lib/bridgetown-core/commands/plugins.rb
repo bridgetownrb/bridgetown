@@ -2,12 +2,10 @@
 
 module Bridgetown
   module Commands
-    class Plugins < Samovar::Command
-      Registrations.register Plugins, "plugins"
-
+    class Plugins < Bridgetown::Command
       self.description = "List installed plugins or access plugin content"
 
-      class List < Samovar::Command
+      class List < Bridgetown::Command
         include ConfigurationOverridable
 
         self.description = "List information about installed plugins"
@@ -136,7 +134,7 @@ module Bridgetown
         end
       end
 
-      class New < Samovar::Command
+      class New < Bridgetown::Command
         using Bridgetown::Refinements
         include Freyia::Setup
         include Automations
@@ -209,7 +207,7 @@ module Bridgetown
         end
       end
 
-      class CD < Samovar::Command
+      class CD < Bridgetown::Command
         include ConfigurationOverridable
 
         self.description = "Open content folder within the plugin origin"
@@ -284,5 +282,7 @@ module Bridgetown
         end
       end
     end
+
+    register_command :plugins, Plugins
   end
 end

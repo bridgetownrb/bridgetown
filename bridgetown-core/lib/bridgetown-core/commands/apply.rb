@@ -2,11 +2,8 @@
 
 module Bridgetown
   module Commands
-    class Apply < Samovar::Command
-      include Freyia::Setup
+    class Apply < Bridgetown::Command
       include Automations
-
-      Registrations.register Apply, "apply"
 
       self.description = "Applies an automation to the current site"
 
@@ -59,5 +56,7 @@ module Bridgetown
         @logger.warn "Oops!", e.message
       end
     end
+
+    register_command :apply, Apply
   end
 end

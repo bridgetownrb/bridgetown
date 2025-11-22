@@ -1,70 +1,30 @@
 # frozen_string_literal: true
 
-require "samovar"
-require "freyia"
+module Bridgetown
+  module Commands
+    # Register a new command for the Bridgetown CLI
+    #
+    # @param name [Symbol]
+    # @param klass [Bridgetown::Command]
+    def self.register_command(name, klass)
+      Registrations.register(klass, name)
+    end
+  end
+end
 
 require_all "bridgetown-core/commands/concerns"
 require_all "bridgetown-core/commands"
 
-Samovar::Command.class_eval do
-  def self.summary = description
-end
-
-# Monkey-patch to support `--key=value`
-Samovar::Options.class_eval do
-  def parse(input, parent = nil, default = nil) # rubocop:disable Metrics
-    values = (default || @defaults).dup
-
-    while option = @keyed[input.first] || @keyed[input.first&.split("=")&.first] # rubocop:disable Lint/AssignmentInCondition
-      result = option.parse(input)
-      values[option.key] = result unless result.nil?
-    end
-
-    # Validate required options
-    @ordered.each do |option|
-      if option.required && !values.key?(option.key)
-        raise Samovar::MissingValueError.new(parent, option.key)
-      end
-    end
-
-    values
-  end
-end
-
-Samovar::ValueFlag.class_eval do
-  # Parse this flag from the input.
-  #
-  # @parameter input [Array(String)] The command-line arguments.
-  # @returns [String | Symbol | Nil] The parsed value.
-  def parse(input)
-    if prefix?(input.first)
-      # Whether we are expecting to parse a value from input:
-      if @value
-        # Get the actual value from input:
-        _, value = input.shift(2)
-        value
-      else
-        # Otherwise, we are just a boolean flag:
-        input.shift
-        key
-      end
-    elsif prefix?(input.first.split("=").first)
-      input.shift(1)[0].split("=").last
-
-    end
-  end
-end
-
 module Bridgetown
   module Commands
-    class Application < Samovar::Command
+    class Application < Bridgetown::Command
       self.description =
         "next-generation, progressive site generator & fullstack framework, powered by Ruby"
 
       def self.registrations = @registrations ||= {}
 
       def self.register(klass, name, *)
-        registrations[name] = klass
+        registrations[name.to_s] = klass
       end
 
       nested(:command, registrations)
@@ -219,5 +179,19 @@ module Bridgetown
         end)
       end
     end
+
+    class Dream < Bridgetown::Command
+      self.description = "There's a place where that idea still exists as a reality"
+
+      def call
+        puts ""
+        puts "🎶 The Dream of the 90s is Alive in Portland... ✨"
+        puts "          https://youtu.be/U4hShMEk1Ew"
+        puts "          https://youtu.be/0_HGqPGp9iY"
+        puts ""
+      end
+    end
+
+    register_command :dream, Dream
   end
 end
