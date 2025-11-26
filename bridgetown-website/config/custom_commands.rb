@@ -1,10 +1,16 @@
-class Floob < Samovar::Command
-  Bridgetown::Commands::Registrations.register Floob, "floob"
+module Bridgetown
+  module Commands
+    class Floob < Bridgetown::Command
+      Bridgetown::Commands::Registrations.register Floob, "floob"
 
-  self.description = "Florb the floob"
+      self.description = "Florb the floob"
 
-  def call
-    puts "YES!"
+      def call
+        puts "YES!"
+      end
+    end
+
+    register_command :floob, Floob
   end
 end
 
@@ -22,8 +28,11 @@ module MyPlugin
       end
 
       desc "bank", "Walk along the river bank"
+      option :lolz, aliases: "-l", required: true, type: :numeric
+      option :derp, type: :array
       def bank
-        puts "Out for a stroll..."
+        puts options[:derp].inspect
+        puts "Out for a stroll... #{options[:lolz].class} #{options[:lolz]}"
       end
 
       desc "flow", "Old man river, he just keeps on rolling along"
