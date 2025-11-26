@@ -19,6 +19,7 @@ module Bridgetown
     alias_method :macro, :helper
   end
 
+  # Holds context for page rendering and is subclassed by various template engines like ERB.
   class TemplateView
     require "bridgetown-core/helpers"
 
@@ -43,16 +44,40 @@ module Bridgetown
         self.extname_list += extnames.map { |e| ".#{e.to_s.downcase}" }
       end
 
+      # Returns a global "virtual" TemplateView for use in rendering out side of a specific
+      # context
+      #
+      # @return [TemplateView]
       def virtual_view
         # if site object has changed, clear previous state
         @virtual_res = @virtual_view = nil if @virtual_res&.site != Bridgetown::Current.site
 
         @virtual_res ||= Bridgetown::Model::Base.build(
           { site: Bridgetown::Current.site }.as_dots, :pages, "VIRTUAL", {}
-        ).to_resource
+        ).to_resource.read!
         @virtual_view ||= new(@virtual_res)
       end
 
+      # Creates a new virtual TemplateView with a "resource" containing the provided data
+      #
+      # @param virtual_path [String] a fictional "relative URL" for the resource
+      # @param **data [Hash] to be passed along to the resource
+      # @return [TemplateView]
+      def new_with_data(virtual_path = "VIRTUAL", **data)
+        res = Bridgetown::Model::Base.build(
+          { site: Bridgetown::Current.site }.as_dots, :pages, virtual_path, data
+        ).to_resource.read!
+
+        new(res)
+      end
+
+      # Calls the render method of a global TemplateView which lets you output partials and
+      # components outside of a specific rendering context
+      #
+      # @see {TemplateView#render}
+      # @param item [String, Bridgetown::Component]
+      # @param **locals [Array] - relevant for partials
+      # @return [String]
       def render(...) = virtual_view.render(...)
     end
 
@@ -84,6 +109,12 @@ module Bridgetown
       end
     end
 
+    # Renders a partial, or a component object which responds to `render_in`
+    #
+    # @param item [String, Bridgetown::Component]
+    # @param **locals [Array] - relevant for partials
+    # @yield optional block which is passed along to the component's `render_in` method
+    # @return [String]
     def render(item, **, &)
       if item.respond_to?(:render_in)
         result = item.render_in(self, &)
