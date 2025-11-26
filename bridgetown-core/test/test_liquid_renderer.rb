@@ -3,13 +3,13 @@
 require "helper"
 
 class TestLiquidRenderer < BridgetownUnitTest
-  context "profiler" do
-    setup do
+  describe "profiler" do
+    before do
       @site = Site.new(site_configuration)
       @renderer = @site.liquid_renderer
     end
 
-    should "return a table with profiling results" do
+    it "returns a table with profiling results" do
       @site.process
 
       output = @renderer.stats_table

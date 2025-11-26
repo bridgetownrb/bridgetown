@@ -5,18 +5,18 @@ require "helper"
 class TestSite < BridgetownUnitTest
   using Bridgetown::Refinements
 
-  context "configuring sites" do
-    should "default base_path to `/`" do
+  describe "configuring sites" do
+    it "defaults base_path to `/`" do
       site = Site.new(Bridgetown::Configuration::DEFAULTS.deep_dup)
       assert_equal "/", site.base_path
     end
 
-    should "expose base_path passed in from config" do
+    it "exposes base_path passed in from config" do
       site = Site.new(site_configuration("base_path" => "/blog"))
       assert_equal "/blog", site.base_path
     end
 
-    should "configure cache_dir" do
+    it "configures cache_dir" do
       fixture_site.process
       assert File.directory?(
         site_root_dir(".bridgetown-cache", "Bridgetown", "Cache")
@@ -27,27 +27,27 @@ class TestSite < BridgetownUnitTest
       )
     end
 
-    should "use .bridgetown-cache directory at root as cache_dir by default" do
+    it "uses .bridgetown-cache directory at root as cache_dir by default" do
       site = Site.new(Bridgetown::Configuration::DEFAULTS.deep_dup)
       assert_equal File.join(site.root_dir, ".bridgetown-cache"), site.cache_dir
     end
   end
 
-  context "creating sites" do
-    setup do
+  describe "creating sites" do
+    before do
       @site = Site.new(site_configuration)
       @num_invalid_posts = 8
     end
 
-    teardown do
+    after do
       self.class.send(:remove_const, :MyGenerator) if defined?(MyGenerator)
     end
 
-    should "have an empty tag hash by default" do
+    it "has an empty tag hash by default" do
       assert_equal({}, @site.tags)
     end
 
-    should "reset data before processing" do
+    it "resets data before processing" do
       clear_dest
       @site.process
       before_posts = @site.collections.posts.resources.length
@@ -68,7 +68,7 @@ class TestSite < BridgetownUnitTest
       assert before_time <= @site.time
     end
 
-    should "write only modified static files" do
+    it "writes only modified static files" do
       clear_dest
       StaticFile.reset_cache
 
@@ -97,7 +97,7 @@ class TestSite < BridgetownUnitTest
       assert_equal mtime3, mtime4 # no modifications, so must be the same
     end
 
-    should "write static files if not modified but missing in destination" do
+    it "writes static files if not modified but missing in destination" do
       clear_dest
       StaticFile.reset_cache
 
@@ -126,7 +126,7 @@ class TestSite < BridgetownUnitTest
       assert_equal mtime3, mtime4 # no modifications, so remain the same
     end
 
-    should "setup plugins in priority order" do
+    it "sets up plugins in priority order" do
       assert_equal(
         @site.converters.sort_by(&:class).map { |c| c.class.priority },
         @site.converters.map { |c| c.class.priority }
@@ -137,7 +137,7 @@ class TestSite < BridgetownUnitTest
       )
     end
 
-    should "sort pages alphabetically" do
+    it "sorts pages alphabetically" do
       clear_dest
       method = Dir.method(:entries)
       Dir.stub(:entries, proc do |*args, &block|
@@ -183,25 +183,25 @@ class TestSite < BridgetownUnitTest
       assert_equal sorted_pages, @site.collections.pages.resources.map { |page| page.relative_path.basename.to_s }.sort!.uniq!
     end
 
-    should "read pages with YAML front matter" do
+    it "reads pages with YAML front matter" do
       abs_path = File.expand_path("about.html", @site.source)
       assert_equal true, Utils.has_yaml_header?(abs_path)
     end
 
-    should "enforce a strict 3-dash limit on the start of the YAML front matter" do
+    it "enforces a strict 3-dash limit on the start of the YAML front matter" do
       abs_path = File.expand_path("pgp.key", @site.source)
       assert_equal false, Utils.has_yaml_header?(abs_path)
     end
 
-    should "expose bridgetown version to site payload" do
+    it "exposes bridgetown version to site payload" do
       assert_equal Bridgetown::VERSION, @site.site_payload["bridgetown"]["version"]
     end
 
-    should "expose list of static files to site payload" do
+    it "exposes list of static files to site payload" do
       assert_equal @site.static_files, @site.site_payload["site"]["static_files"]
     end
 
-    should "deploy payload" do
+    it "deploys payload" do
       clear_dest
       @site.process
 
@@ -218,20 +218,20 @@ class TestSite < BridgetownUnitTest
       assert_equal 4, @site.categories["foo"].size
     end
 
-    context "error handling" do
-      should "raise if destination is included in source" do
+    describe "error handling" do
+      it "raises if destination is included in source" do
         assert_raises Bridgetown::Errors::FatalException do
           Site.new(site_configuration("destination" => source_dir))
         end
       end
 
-      should "raise if destination is source" do
+      it "raises if destination is source" do
         assert_raises Bridgetown::Errors::FatalException do
           Site.new(site_configuration("destination" => File.join(source_dir, "..")))
         end
       end
 
-      should "raise for bad frontmatter if strict_front_matter is set" do
+      it "raises for bad frontmatter if strict_front_matter is set" do
         site = Site.new(site_configuration(
                           "collections"         => ["broken"],
                           "strict_front_matter" => true
@@ -241,7 +241,7 @@ class TestSite < BridgetownUnitTest
         end
       end
 
-      should "not raise for bad frontmatter if strict_front_matter is not set" do
+      it "does not raise for bad frontmatter if strict_front_matter is not set" do
         site = Site.new(site_configuration(
                           "collections"         => ["broken"],
                           "strict_front_matter" => false
@@ -250,8 +250,8 @@ class TestSite < BridgetownUnitTest
       end
     end
 
-    context "with orphaned files in destination" do
-      setup do
+    describe "with orphaned files in destination" do
+      before do
         clear_dest
         @site.process
         # generate some orphaned files:
@@ -273,7 +273,7 @@ class TestSite < BridgetownUnitTest
         FileUtils.touch(dest_dir("_bridgetown/static"))
       end
 
-      teardown do
+      after do
         FileUtils.rm_f(dest_dir("obsolete.html"))
         FileUtils.rm_rf(dest_dir("qux"))
         FileUtils.rm_f(dest_dir("quux"))
@@ -283,7 +283,7 @@ class TestSite < BridgetownUnitTest
         FileUtils.rm_rf(dest_dir("_bridgetown"))
       end
 
-      should "remove orphaned files in destination" do
+      it "removes orphaned files in destination" do
         @site.process
         refute_exist dest_dir("obsolete.html")
         refute_exist dest_dir("qux")
@@ -293,7 +293,7 @@ class TestSite < BridgetownUnitTest
         assert_exist dest_dir("_bridgetown", "static")
       end
 
-      should "remove orphaned files in destination - keep_files .svn" do
+      it "removes orphaned files in destination - keep_files .svn" do
         config = site_configuration("keep_files" => %w(.svn))
         @site = Site.new(config)
         @site.process
@@ -309,8 +309,8 @@ class TestSite < BridgetownUnitTest
       end
     end
 
-    context "using a non-default markdown processor in the configuration" do
-      should "use the non-default markdown processor" do
+    describe "using a non-default markdown processor in the configuration" do
+      it "uses the non-default markdown processor" do
         class Bridgetown::Converters::Markdown::CustomMarkdown
           def initialize(*args)
             @args = args
@@ -329,7 +329,7 @@ class TestSite < BridgetownUnitTest
         Bridgetown::Converters::Markdown.send(:remove_const, :CustomMarkdown)
       end
 
-      should "ignore, if there are any bad characters in the class name" do
+      it "ignores, if there are any bad characters in the class name" do
         module Bridgetown::Converters::Markdown::Custom
           class Markdown
             def initialize(*args)
@@ -355,13 +355,13 @@ class TestSite < BridgetownUnitTest
       end
     end
 
-    context "with an invalid markdown processor in the configuration" do
-      should "not throw an error at initialization time" do
+    describe "with an invalid markdown processor in the configuration" do
+      it "does not throw an error at initialization time" do
         bad_processor = "not a processor name"
         assert Site.new(site_configuration("markdown" => bad_processor))
       end
 
-      should "throw FatalException at process time" do
+      it "throws FatalException at process time" do
         bad_processor = "not a processor name"
         s = Site.new(site_configuration(
                        "markdown"    => bad_processor
@@ -372,8 +372,8 @@ class TestSite < BridgetownUnitTest
       end
     end
 
-    context "data directory" do
-      should "auto load yaml files" do
+    describe "data directory" do
+      it "auto loads yaml files" do
         site = Site.new(site_configuration)
         site.process
 
@@ -383,7 +383,7 @@ class TestSite < BridgetownUnitTest
         assert_equal site.site_payload["site"]["data"]["members"], file_content
       end
 
-      should "auto load yml files" do
+      it "auto loads yml files" do
         site = Site.new(site_configuration)
         site.process
 
@@ -393,7 +393,7 @@ class TestSite < BridgetownUnitTest
         assert_equal site.site_payload["site"]["data"]["languages"], file_content
       end
 
-      should "auto load json files" do
+      it "auto loads json files" do
         site = Site.new(site_configuration)
         site.process
 
@@ -403,7 +403,7 @@ class TestSite < BridgetownUnitTest
         assert_equal site.site_payload["site"]["data"]["members"], file_content
       end
 
-      should "auto load yaml files in subdirectory" do
+      it "auto loads yaml files in subdirectory" do
         site = Site.new(site_configuration)
         site.process
 
@@ -418,7 +418,7 @@ class TestSite < BridgetownUnitTest
         )
       end
 
-      should "load symlink files" do
+      it "loads symlink files" do
         site = Site.new(site_configuration)
         site.process
 
@@ -429,50 +429,49 @@ class TestSite < BridgetownUnitTest
       end
     end
 
-    context "manipulating the Bridgetown environment" do
-      setup do
+    describe "manipulating the Bridgetown environment" do
+      before do
         ENV.delete("BRIDGETOWN_ENV")
         @site = Site.new(site_configuration)
         @site.process
         @page = @site.collections.pages.resources.find { |p| p.relative_path.basename.to_s == "environment.html" }
       end
 
-      teardown do
+      after do
         ENV["BRIDGETOWN_ENV"] = "test"
       end
 
-      should "default to 'development'" do
+      it "defaults to 'development'" do
         assert_equal "development", @page.content.strip
       end
 
-      context "in production" do
-        setup do
+      describe "in production" do
+        before do
           ENV["BRIDGETOWN_ENV"] = "production"
           @site = Site.new(site_configuration)
           @site.process
           @page = @site.collections.pages.resources.find { |p| p.relative_path.basename.to_s == "environment.html" }
         end
 
-        should "be overridden by BRIDGETOWN_ENV" do
+        it "is overridden by BRIDGETOWN_ENV" do
           assert_equal "production", @page.content.strip
         end
       end
     end
 
-    context "with liquid profiling" do
-      setup do
+    describe "with liquid profiling" do
+      before do
         @site = Site.new(site_configuration("profile" => true))
-      end
-
-      # Suppress output while testing
-      setup do
+        # Suppress output while testing
         $stdout = StringIO.new
       end
-      teardown do
+
+      # Restore output after testing
+      after do
         $stdout = STDOUT
       end
 
-      should "print profile table" do
+      it "prints profile table" do
         method_ran = false
         @site.liquid_renderer.stub :stats_table, proc { method_ran = true } do
           @site.process
@@ -481,8 +480,8 @@ class TestSite < BridgetownUnitTest
       end
     end
 
-    context "#in_cache_dir method" do
-      setup do
+    describe "#in_cache_dir method" do
+      before do
         @site = Site.new(
           site_configuration(
             "cache_dir" => "../../custom-cache-dir"
@@ -490,7 +489,7 @@ class TestSite < BridgetownUnitTest
         )
       end
 
-      should "create sanitized paths within the cache directory" do
+      it "creates sanitized paths within the cache directory" do
         assert_equal File.join(@site.root_dir, "custom-cache-dir"), @site.cache_dir
         assert_equal(
           File.join(@site.root_dir, "custom-cache-dir", "foo.md.metadata"),

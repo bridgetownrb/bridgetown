@@ -29,11 +29,12 @@ Gem::Specification.new do |spec|
 
   spec.rdoc_options = ["--charset=UTF-8"]
 
-  spec.required_ruby_version     = ">= 3.1.0"
+  spec.required_ruby_version     = ">= 3.2.0"
 
-  spec.add_dependency("activesupport",             [">= 6.0", "< 8.0"])
   spec.add_dependency("addressable",               "~> 2.4")
   spec.add_dependency("amazing_print",             "~> 1.2")
+  spec.add_dependency("base64",                    ">= 0.3")
+  spec.add_dependency("bigdecimal",                ">= 3.2")
   spec.add_dependency("bridgetown-foundation",     Bridgetown::VERSION)
   spec.add_dependency("csv",                       "~> 3.2")
   spec.add_dependency("dry-inflector",             ">= 1.0")
@@ -51,10 +52,11 @@ Gem::Specification.new do |spec|
   spec.add_dependency("rake",                      ">= 13.0")
   spec.add_dependency("roda",                      "~> 3.46")
   spec.add_dependency("rouge",                     [">= 3.0", "< 5.0"])
+  spec.add_dependency("securerandom",              "~> 0.4")
   spec.add_dependency("serbea",                    "~> 2.1")
   spec.add_dependency("signalize",                 "~> 1.3")
   spec.add_dependency("streamlined",               ">= 0.6.0")
   spec.add_dependency("thor",                      "~> 1.1")
   spec.add_dependency("tilt",                      "~> 2.0")
-  spec.add_dependency("zeitwerk",                  "~> 2.5")
+  spec.add_dependency("zeitwerk",                  ">= 2.7.3")
 end

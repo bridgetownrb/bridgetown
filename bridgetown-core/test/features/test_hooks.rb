@@ -4,13 +4,13 @@ require "features/feature_helper"
 
 # As a plugin author, I want to be able to run code during various stages of the build process
 class TestHooks < BridgetownFeatureTest
-  context "hooks" do
-    setup do
+  describe "hooks" do
+    before do
       create_directory "plugins"
       create_directory "config"
     end
 
-    should "run after site reset" do
+    it "runs after site reset" do
       create_file "plugins/ext.rb", <<~RUBY
         module Ext
           Bridgetown::Hooks.register :site, :after_reset do |site|
@@ -27,7 +27,7 @@ class TestHooks < BridgetownFeatureTest
       assert_file_contains "mytinypage", "output/foo/index.html"
     end
 
-    should "modify the site after being read" do
+    it "modifies the site after being read" do
       create_page "page1.html", "page1", title: "Page 1"
       create_page "page2.html", "page2", title: "Page 2"
 
@@ -45,7 +45,7 @@ class TestHooks < BridgetownFeatureTest
       assert_file_contains "page2", "output/page2/index.html"
     end
 
-    should "work with site files after being written to disk" do
+    it "works with site files after being written to disk" do
       create_page "page1.html", "page1", title: "Page 1"
 
       create_file "config/initializers.rb", <<~RUBY
@@ -63,7 +63,7 @@ class TestHooks < BridgetownFeatureTest
       assert_file_contains "page1", "output/firstpage.html"
     end
 
-    should "modify page contents before writing to disk" do
+    it "modifies page contents before writing to disk" do
       create_page "index.html", "WRAP ME", title: "Simple Test"
 
       create_file "plugins/ext.rb", <<~RUBY
@@ -79,7 +79,7 @@ class TestHooks < BridgetownFeatureTest
       assert_file_contains "{{{{{ WRAP ME }}}}}", "output/index.html"
     end
 
-    should "work with a page after writing it to disk" do
+    it "works with a page after writing it to disk" do
       create_page "index.html", "HELLO FROM A PAGE", title: "Simple Test"
 
       create_file "plugins/ext.rb", <<~RUBY
@@ -97,7 +97,7 @@ class TestHooks < BridgetownFeatureTest
       assert_file_contains "HELLO FROM A PAGE", "output/index.html.moved"
     end
 
-    should "alter a post right after it is initialized" do
+    it "alters a post right after it is initialized" do
       create_file "config/initializers.rb", <<~RUBY
         Bridgetown.configure do |config|
           hook :posts, :post_init do |post|
@@ -115,7 +115,7 @@ class TestHooks < BridgetownFeatureTest
       assert_file_contains "pbagrag sbe ragel1.", "output/2015/03/14/entry1/index.html"
     end
 
-    should "alter frontmatter data for certain posts" do
+    it "alters frontmatter data for certain posts" do
       create_file "config/initializers.rb", <<~RUBY
         Bridgetown.configure do |config|
           hook :posts, :pre_render do |post|
@@ -138,7 +138,7 @@ class TestHooks < BridgetownFeatureTest
       assert_file_contains "new post", "output/2015/03/15/entry2/index.html"
     end
 
-    should "modify post contents before writing to disk" do
+    it "modifies post contents before writing to disk" do
       create_file "config/initializers.rb", <<~RUBY
         Bridgetown.configure do |config|
           hook :posts, :post_render do |post|
@@ -157,7 +157,7 @@ class TestHooks < BridgetownFeatureTest
       assert_file_contains "48", "output/2015/03/15/entry2/index.html"
     end
 
-    should "work with a post after writing it to disk" do
+    it "works with a post after writing it to disk" do
       create_file "config/initializers.rb", <<~RUBY
         Bridgetown.configure do |config|
           # Log all post filesystem writes
@@ -180,7 +180,7 @@ class TestHooks < BridgetownFeatureTest
       assert_file_contains "output/2015/03/15/entry2/index.html at #{Time.now.year}", "output/post-build.log"
     end
 
-    should "register with multiple owners" do
+    it "registers with multiple owners" do
       create_file "plugins/ext.rb", <<~RUBY
         module Ext
           Bridgetown::Hooks.register [:pages, :posts], :post_render do |owner|
@@ -199,7 +199,7 @@ class TestHooks < BridgetownFeatureTest
       assert_file_contains "{{{{{ <p>entry one</p> }}}}}", "output/2015/03/14/entry1/index.html"
     end
 
-    should "allow different named priorities" do
+    it "allows different named priorities" do
       create_file "plugins/ext.rb", <<~RUBY
         module Ext
           Bridgetown::Hooks.register :pages, :post_render, priority: :normal do |owner|
@@ -228,7 +228,7 @@ class TestHooks < BridgetownFeatureTest
       assert_file_contains "4 3 1 2 WRAP ME", "output/index.html"
     end
 
-    should "alter a document right after it is initialized" do
+    it "alters a document right after it is initialized" do
       create_file "config/initializers.rb", <<~RUBY
         Bridgetown.configure do |config|
           # Log all post filesystem writes

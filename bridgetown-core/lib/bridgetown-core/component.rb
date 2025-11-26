@@ -3,6 +3,15 @@
 module Bridgetown
   class Component
     using Bridgetown::Refinements
+    # TODO: extract the following into Foundation?
+    module StringUnderscorable
+      refine String do
+        def underscore
+          Component.inflector.underscore(self)
+        end
+      end
+    end
+    using StringUnderscorable
     include Bridgetown::Streamlined
     extend Forwardable
 
@@ -11,7 +20,7 @@ module Bridgetown
     # @return [Bridgetown::Site]
     attr_reader :site # will be nil unless you explicitly set a `@site` ivar
 
-    # @return [Bridgetown::RubyTemplateView, Bridgetown::Component]
+    # @return [Bridgetown::TemplateView, Bridgetown::Component]
     attr_reader :view_context
 
     class << self
@@ -25,6 +34,10 @@ module Bridgetown
         end[0].absolute_path
 
         super
+      end
+
+      def inflector
+        @inflector ||= Bridgetown::Current.preloaded_configuration&.inflector || Bridgetown::Inflector.new
       end
 
       # Return the appropriate template renderer for a given extension.
@@ -195,7 +208,7 @@ module Bridgetown
 
     # This is where the magic happens. Render the component within a view context.
     #
-    # @param view_context [Bridgetown::RubyTemplateView]
+    # @param view_context [Bridgetown::TemplateView]
     def render_in(view_context, &block)
       @view_context = view_context
       @_content_block = block
@@ -249,7 +262,7 @@ module Bridgetown
     end
 
     def helpers
-      @helpers ||= Bridgetown::RubyTemplateView::Helpers.new(self, view_context&.site)
+      @helpers ||= Bridgetown::TemplateView::Helpers.new(self, view_context&.site)
     end
 
     def method_missing(method, ...)

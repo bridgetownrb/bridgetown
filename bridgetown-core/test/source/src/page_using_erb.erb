@@ -44,6 +44,8 @@ Oats, <%= array_to_sentence_string ["peas", "beans", "barley"] %> grow.
 
 <%= render Example::OverrideComponent.new %>
 
+<%= render "testing/universal", original_extname: "erb" %>
+
 ===
 <%= test_block_helpers do |item| %>
 <%= item[:value] %>

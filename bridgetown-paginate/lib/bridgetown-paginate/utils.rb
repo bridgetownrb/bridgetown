@@ -79,10 +79,7 @@ module Bridgetown
         return -1 if a.nil? && !b.nil?
         return 1 if !a.nil? && b.nil?
         return a.downcase <=> b.downcase if a.is_a?(String)
-
-        if a.respond_to?(:to_datetime) && b.respond_to?(:to_datetime)
-          return a.to_datetime <=> b.to_datetime
-        end
+        return a.to_time <=> b.to_time if a.respond_to?(:to_time) && b.respond_to?(:to_time)
 
         # By default use the built in sorting for the data type
         a <=> b

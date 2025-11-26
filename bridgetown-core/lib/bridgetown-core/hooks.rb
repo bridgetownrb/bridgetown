@@ -2,13 +2,12 @@
 
 module Bridgetown
   module Hooks
-    HookRegistration = Struct.new(
+    HookRegistration = Data.define(
       :owner,
       :event,
       :priority,
       :reloadable,
-      :block,
-      keyword_init: true
+      :block
     ) do
       def to_s
         "#{owner}:#{event} for #{block}"

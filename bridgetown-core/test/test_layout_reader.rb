@@ -3,12 +3,12 @@
 require "helper"
 
 class TestLayoutReader < BridgetownUnitTest
-  context "reading layouts" do
-    setup do
+  describe "reading layouts" do
+    before do
       @site = fixture_site
     end
 
-    should "read layouts" do
+    it "reads layouts" do
       layouts = LayoutReader.new(@site).read
       assert_equal ["default",
                     "erblayout",
@@ -21,14 +21,14 @@ class TestLayoutReader < BridgetownUnitTest
                    layouts.keys.sort
     end
 
-    context "when no _layouts directory exists in CWD" do
-      should "know to use the layout directory relative to the site source" do
+    describe "when no _layouts directory exists in CWD" do
+      it "knows to use the layout directory relative to the site source" do
         assert_equal LayoutReader.new(@site).layout_directory, source_dir("_layouts")
       end
     end
 
-    context "when a _layouts directory exists in CWD" do
-      should "ignore the layout directory in CWD and use the directory relative to site source" do
+    describe "when a _layouts directory exists in CWD" do
+      it "ignores the layout directory in CWD and uses the directory relative to site source" do
         refute_equal source_dir("blah/_layouts"), LayoutReader.new(@site).layout_directory
         assert_equal source_dir("_layouts"), LayoutReader.new(@site).layout_directory
       end
