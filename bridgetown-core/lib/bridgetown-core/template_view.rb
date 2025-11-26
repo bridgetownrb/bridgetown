@@ -143,7 +143,7 @@ module Bridgetown
       found_file = _locate_partial(partial_name)
       view_class = _view_class_for_partial(found_file)
 
-      view_class.virtual_view.tap do |view|
+      view_class.new(resource).tap do |view|
         view.resource.roda_app = self.class.virtual_view.resource.roda_app
       end.partial(partial_name, **options, &)
     end
