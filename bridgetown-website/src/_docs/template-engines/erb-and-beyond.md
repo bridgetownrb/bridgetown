@@ -662,3 +662,27 @@ When you install [https://github.com/bridgetownrb/rubocop-bridgetown](https://gi
 
 **A:** Many of us prefer writing HTML syntax—and beyond that, the value of using a template system which is fully compatible with the vast ecosystem of HTML on the web cannot be overstated. Also as mentioned previously, Streamlined represents an effort to approximate JavaScript's "tagged template literals" in Ruby—an experience already appealing to many frontend developers.
 <% end %>
+
+## Universal Rendering
+
+New in Bridgetown 2.1, you have the ability to render partials in template languages other than the one calling the render function. For example, in an ERB page layout you could render a Serbea partial. Or in a Markdown resource with a site configured to use Serbea by default, you could render a pure Ruby partial.
+
+In addition, you can render both partials and components outside of any view context by calling the `render` class method of `TemplateView`. For instance, you could pull up a Bridgetown console and type in the following:
+
+```ruby
+Bridgetown::TemplateView.render("path/to/partial", my_var: "it works!")
+# or:
+Bridgetown::TemplateView.render(MyRubyComponent.new(param1: 123))
+```
+
+Partials & components rendered in this manner use a "virtual" resource under-the-hood as part of the view context. If you need to provide front matter data to that resource in order for a partial or component to render as desired, use `new_with_data`:
+
+```ruby
+Bridgetown::TemplateView.new_with_data(title: "Here's a title!").render("path/to/partial")
+```
+
+You can also provide a virtual path for use by URL helpers:
+
+```ruby
+Bridgetown::TemplateView.new_with_data("path/to/page", title: "Page title", description: "...")
+```
