@@ -53,7 +53,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency("roda",                      "~> 3.46")
   spec.add_dependency("rouge",                     [">= 3.0", "< 5.0"])
   spec.add_dependency("securerandom",              "~> 0.4")
-  spec.add_dependency("serbea",                    "~> 2.1")
+  spec.add_dependency("serbea",                    ">= 2.4.1")
   spec.add_dependency("signalize",                 "~> 1.3")
   spec.add_dependency("streamlined",               ">= 0.6.0")
   spec.add_dependency("thor",                      "~> 1.1")
