@@ -5,6 +5,10 @@ module Bridgetown
     module Automations
       include Freyia::Setup
 
+      def self.included(klass)
+        klass.extend Freyia::Setup::ClassMethods
+      end
+
       using Bridgetown::Refinements
 
       GITHUB_REGEX = %r!https://github\.com!
