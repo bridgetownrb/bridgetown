@@ -179,7 +179,7 @@ Add new types of front matter to the resource objects and layouts in your site.
 
 ### [Commands](/docs/plugins/commands)
 
-Commands extend the `bridgetown` executable using the Thor CLI toolkit.
+Commands extend the `bridgetown` executable using the Samovar CLI toolkit.
 
 ### [Converters](/docs/plugins/converters)
 

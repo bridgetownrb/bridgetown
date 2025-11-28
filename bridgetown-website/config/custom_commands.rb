@@ -1,8 +1,6 @@
 module Bridgetown
   module Commands
     class Floob < Bridgetown::Command
-      Bridgetown::Commands::Registrations.register Floob, "floob"
-
       self.description = "Florb the floob"
 
       def call

@@ -35,7 +35,7 @@ Here's a rundown of some **40 features** Bridgetown has implemented since the fo
 * Bundled configurations for popular libraries & tools such as Lit, Web Awesome, and Open Props.
 * Easy website testing setup w/Minitest or Cypress.
 * Auto-reloadable local plugins via Zeitwerk.
-* Thor-based CLI tools with straightforward extensibility.
+* Samovar-based CLI tools with straightforward extensibility.
 * `<mark>` highlighter support in Markdown content via `::` or `==`.
 * SSR via an integration with Roda, a blazing-fast Ruby web toolkit.
 * File-based dynamic routes.

@@ -18,7 +18,7 @@ apply that to a brand-new site to set everything up exactly how you want it in a
 repeatable and automatic fashion.
 
 Automations can be loaded from a local path, or they can be loaded from remote
-URLs including GitHub repositories and gists. You can also run automation scripts [from within Rake tasks](/docs/command-line-usage#rakefile-and-rake-tasks).
+URLs including repositories. You can also run automation scripts [from within Rake tasks](/docs/command-line-usage#rakefile-and-rake-tasks).
 
 ## Running Automations
 
@@ -62,10 +62,12 @@ bin/bridgetown apply https://github.com/bridgetownrb/automations/netlify.rb
 ## Writing Automations
 
 An automation script is nothing more than a Ruby code file run in the context
-of an instance of `Bridgetown::Commands::Apply`. Available to you are [all the
-actions provided by Thor](https://github.com/rails/thor/wiki/Actions), such
+of an instance of `Bridgetown::Commands::Apply`. Available to you are all the
+automation tasks provided by [Freyia](https://codeberg.org/jaredwhite/freyia), such
 as `run` to run a CLI executable, or `ask` to prompt the user for details, or
 `say_status` to provide helpful messages in the terminal.
+
+You can read documentation on [file tasks](https://www.rubydoc.info/gems/freyia/Freyia/Automations), [shell tasks](https://www.rubydoc.info/gems/freyia/Freyia/Shell/Basic), and [Bridgetown-specific tasks](https://bridgetown-api-pr-1060.onrender.com/Bridgetown/Commands/Automations.html).
 
 Here's an example of an automation which creates a new file in a
 site repo:
@@ -84,7 +86,7 @@ create_file "netlify.toml" do
 end
 ```
 
-Bridgetown also provides actions which are useful for working in the context
+Bridgetown provides tasks which are useful specifically for working in the context
 of website projects.
 
 Here's an example of a plugin's `bridgetown.automation.rb` which adds itself
@@ -106,7 +108,7 @@ append_to_file "bridgetown.config.yml" do
 end
 ```
 
-There is a whole variety of possible actions at your disposal:
+There is a whole variety of possible tasks at your disposal:
 
 ```ruby
 add_bridgetown_plugin "my-plugin" # bundle add…
