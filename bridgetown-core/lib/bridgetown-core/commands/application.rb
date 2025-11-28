@@ -71,23 +71,22 @@ module Bridgetown
         puts "Bridgetown v#{Bridgetown::VERSION.magenta} \"#{Bridgetown::CODE_NAME.yellow}\" " \
              "is a #{self.class.description}"
         puts ""
-        puts "Usage:"
-
-        puts "  bridgetown <command> [options]\n\n"
-        puts "Commands:"
+        puts "Usage:".bold.green + " #{"bridgetown".bold.cyan} #{"<command> [options]".cyan}\n\n"
+        puts "Commands:".bold.green
 
         commands = self.class.table[:command].commands.to_h do |name, command|
           inputs = command.table.each.find do |item|
             item.is_a?(Samovar::Many) || item.is_a?(Samovar::One) || item.is_a?(Samovar::Nested)
           end
-          name = "#{name} #{inputs.key.upcase}" if inputs
+          name = name.bold.cyan
+          name = "#{name} #{"<#{inputs.key.upcase}>".cyan}" if inputs
           [name, command]
         end
 
-        name_max_length = commands.keys.map { _1.to_s.length }.max
+        name_max_length = commands.keys.map { Foundation::Packages::Ansi.strip(_1).length }.max
         commands.find do |name, command|
-          spaces = " " * (name_max_length - name.length)
-          puts "  bridgetown #{name}  #{spaces}# #{command.description}"
+          spaces = " " * (name_max_length - Foundation::Packages::Ansi.strip(name).length)
+          puts "  #{"bridgetown".cyan} #{name}  #{spaces}#{command.description}"
         end
 
         puts ""
@@ -101,12 +100,13 @@ module Bridgetown
             return unless rakefile # rubocop:disable Lint/NonLocalExitFromIterator
 
             load_rake_tasks(rake)
-            puts "Available Rake Tasks:"
-            display_rake_tasks(rake)
+            puts "Available Rake Tasks:".bold.green
+            display_rake_tasks(rake, name_max_length)
           end
         end
       end
 
+      # @param input [String]
       def locate_command(input)
         token = input.first
 
@@ -130,6 +130,7 @@ module Bridgetown
         end
       end
 
+      # @param input [String]
       def locate_rake_task(input) # rubocop:todo Metrics
         require "rake"
         Rake::TaskManager.record_task_metadata = true
@@ -151,7 +152,7 @@ module Bridgetown
           if Rake::Task.task_defined?(cmd.split("[")[0])
             @command = -> { rake.top_level }
           else
-            puts "Unknown token: #{cmd.split("[")[0]}\n\n"
+            puts "#{"Unknown token:".bold.red} #{cmd.split("[")[0].yellow}\n\n"
           end
         rescue RuntimeError => e
           # re-raise error unless it's an error through Minitest
@@ -163,13 +164,21 @@ module Bridgetown
         end
       end
 
-      def display_rake_tasks(rake)
-        rake.options.show_all_tasks = true
-        rake.options.show_task_pattern = Regexp.new("")
-        rake.options.show_tasks = :tasks
-        rake.display_tasks_and_comments
+      # @param rake [Rake::Application]
+      def display_rake_tasks(rake, previous_max_length)
+        # based in part on `Rake::Application#display_tasks_and_comments`
+        displayable_tasks = rake.tasks.to_h do |t|
+          [t.name_with_args, t.comment]
+        end
+
+        name_max_length = [previous_max_length, displayable_tasks.keys.map(&:length).max].max
+        displayable_tasks.find do |name, comment|
+          spaces = " " * (name_max_length - name.length)
+          puts "  #{"bridgetown".cyan} #{name.cyan}  #{spaces}#{comment}"
+        end
       end
 
+      # @param rake [Rake::Application]
       def load_rake_tasks(rake)
         rake.load_rakefile
         tasks = rake.instance_variable_get(:@tasks)

@@ -33,11 +33,11 @@ require custom_commands_file if File.exist?(custom_commands_file)
 begin
   Bridgetown::Commands::Application.parse(ARGV).call
 rescue Samovar::MissingValueError => e
-  puts "Command error: #{e.message}"
+  puts "#{"Command error:".bold.red} #{e.message.to_s.yellow}\n\n"
   e.command.print_usage
   exit(false)
 rescue Samovar::InvalidInputError => e
-  puts "Unknown token: #{e.token}\n\n"
+  puts "#{"Unknown token:".bold.red} #{e.token.yellow}\n\n"
   e.command.print_usage
   exit(false)
 rescue StandardError => e
