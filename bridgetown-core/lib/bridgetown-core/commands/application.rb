@@ -174,7 +174,7 @@ module Bridgetown
         name_max_length = [previous_max_length, displayable_tasks.keys.map(&:length).max].max
         displayable_tasks.find do |name, comment|
           spaces = " " * (name_max_length - name.length)
-          puts "  #{"bridgetown".cyan} #{name.cyan}  #{spaces}#{comment}"
+          puts "  #{"bridgetown".cyan} #{name.bold.cyan}  #{spaces}#{comment}"
         end
       end
 

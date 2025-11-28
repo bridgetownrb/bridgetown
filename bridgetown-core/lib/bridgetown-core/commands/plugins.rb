@@ -212,16 +212,16 @@ module Bridgetown
 
         self.description = "Open content folder within the plugin origin"
 
-        one :path, <<~DOC, required: true
+        one :path, <<~DOC.strip, required: true
           Open a directory (content, layouts, etc.) within the plugin origin. \n
-          First: run bridgetown plugins list to view source manifests currently
-          set up on your site.\n
-          Then: look for the origin of the manifest and the folder you'd like to
-          open. Your project path is saved as the $BRIDGETOWN_SITE env var.\n
-          So for example, with an origin of SamplePlugin and a folder of
-          Layouts, you'd run:\n
+          #{format("%c[0m", 27)}First: run bridgetown plugins list to view source manifests currently
+          #{format("%c[0m", 27)}set up on your site.\n
+          #{format("%c[0m", 27)}Then: look for the origin of the manifest and the folder you'd like to
+          #{format("%c[0m", 27)}open. Your project path is saved as the $BRIDGETOWN_SITE env var.\n
+          #{format("%c[0m", 27)}So for example, with an origin of SamplePlugin and a folder of
+          #{format("%c[0m", 27)}Layouts, you'd run:\n
           $ bridgetown plugins cd SamplePlugin/Layouts
-          $ cp -r * $BRIDGETOWN_SITE/src/_layouts
+          $ cp -r * $BRIDGETOWN_SITE/src/_layouts\n\n<path>
         DOC
 
         # This is super useful if you want to copy files out of plugins to override.
