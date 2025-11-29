@@ -63,15 +63,10 @@ class TestApplyCommand < BridgetownUnitTest
       end
 
       it "transforms GitHub repo URLs automatically" do
-        skip "This causes a system stack error when full suite is run—don't know why!"
-
-        URI.stub :open, proc { @template } do
+        Bridgetown::Utils.stub :default_github_branch_name, proc { "main" } do
           file = "https://github.com/bridgetownrb/bridgetown-automations"
-          output = capture_stdout do
-            @cmd[file].()
-          end
-          assert_match %r!apply.*?https://raw\.githubusercontent.com/bridgetownrb/bridgetown-automations/main/bridgetown\.automation\.rb!, output
-          assert_match %r!urltest.*?Works\!!, output
+          expect(@cmd[file].send(:transform_automation_url, file)) ==
+            "https://raw.githubusercontent.com/bridgetownrb/bridgetown-automations/main/bridgetown.automation.rb"
         end
       end
 
@@ -136,6 +131,35 @@ class TestApplyCommand < BridgetownUnitTest
             @cmd[file].()
           end
           assert_match %r!apply.*?https://gist\.githubusercontent.com/jaredcwhite/963d40acab5f21b42152536ad6847575/raw/bridgetown\.automation\.rb!, output
+          assert_match %r!urltest.*?Works\!!, output
+        end
+      end
+
+      it "transforms GitLab repo URLs automatically" do
+        Bridgetown::Utils.stub :default_gitlab_branch_name, proc { "main" } do
+          file = "https://gitlab.com/bridgetownrb/bridgetown-automations"
+          expect(@cmd[file].send(:transform_automation_url, file)) ==
+            "https://gitlab.com/bridgetownrb/bridgetown-automations/-/raw/main/bridgetown.automation.rb"
+        end
+      end
+
+      it "transforms Codeberg repo URLs automatically" do
+        Bridgetown::Utils.stub :default_codeberg_branch_name, proc { "main" } do
+          file = "https://codeberg.org/bridgetownrb/bridgetown-automations"
+          expect(@cmd[file].send(:transform_automation_url, file)) ==
+            "https://codeberg.org/bridgetownrb/bridgetown-automations/raw/branch/main/bridgetown.automation.rb"
+        end
+      end
+
+      it "transforms CodeBerg file blob URLs" do
+        URI.stub :open, proc { @template } do
+          file = "https://codeberg.org/bridgetownrb/bridgetown-automations/src/branch/branchname/folder/file.rb"
+          output = capture_stdout do
+            @cmd[file].()
+          end
+
+          # when pulling raw content, */tree/<branch>/* transforms to */<branch>/*
+          assert_match %r!apply.*?https://codeberg.org/bridgetownrb/bridgetown-automations/raw/branch/branchname/folder/file.rb!, output
           assert_match %r!urltest.*?Works\!!, output
         end
       end

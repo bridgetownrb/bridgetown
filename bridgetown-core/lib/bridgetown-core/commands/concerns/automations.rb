@@ -178,7 +178,7 @@ module Bridgetown
       private
 
       def determine_remote_filename(arg)
-        arg.sub!(%r!\?.*$!, "") # chop query string if need be
+        arg = arg.sub(%r!\?.*$!, "") # chop query string if need be
         if arg.end_with?(".rb")
           arg.split("/").then do |segments|
             arg.sub!(%r!/#{segments.last}$!, "")
