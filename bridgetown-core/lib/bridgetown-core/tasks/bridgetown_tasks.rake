@@ -41,7 +41,7 @@ task :environment do
   require "freyia"
 
   class Hamr < Freyia::Base # rubocop:disable Lint/ConstantDefinitionInBlock
-    include Bridgetown::Commands::Actions
+    include Bridgetown::Commands::Automations
 
     def self.exit_on_failure?
       true
