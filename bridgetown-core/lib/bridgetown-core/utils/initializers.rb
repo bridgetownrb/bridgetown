@@ -20,6 +20,10 @@ Bridgetown.initializer :external_sources do |config, contents:|
     origin: Bridgetown::ExternalSources,
     contents:
   )
+
+  contents.each_value do |path|
+    config.additional_watch_paths << path
+  end
 end
 
 Bridgetown.initializer :parse_routes do |config|

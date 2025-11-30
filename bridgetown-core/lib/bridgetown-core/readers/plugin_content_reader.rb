@@ -32,7 +32,10 @@ module Bridgetown
       end
 
       Find.find(content_dir) do |path|
-        next if File.directory?(path)
+        if File.directory?(path)
+          Find.prune if EntryFilter::SPECIAL_LEADING_CHAR_REGEX.match?(File.basename(path))
+          next
+        end
 
         if File.symlink?(path)
           Bridgetown.logger.warn "Plugin content reader:", "Ignored symlinked asset: #{path}"
@@ -42,12 +45,15 @@ module Bridgetown
       end
     end
 
+    # @param collection [Bridgetown::Collection]
     def read_content_file(content_dir, path, collection)
       dir = File.dirname(path.sub("#{content_dir}/", ""))
       name = File.basename(path)
 
       @content_files << if FrontMatter::Loaders.front_matter?(path)
                           collection.read_resource(path, manifest:)
+                        elsif path.end_with?(".md") # TODO: make this configurable
+                          collection.read_resource(path, manifest:, bare_text: true)
                         else
                           Bridgetown::StaticFile.new(site, content_dir, "/#{dir}", name)
                         end
