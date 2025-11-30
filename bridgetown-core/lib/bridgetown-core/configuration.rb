@@ -379,9 +379,9 @@ module Bridgetown
     end
 
     DEFAULT_EXCLUDES = %w(
-      .sass-cache .bridgetown-cache tmp
+      .sass-cache/ .bridgetown-cache/ tmp/
       gemfiles Gemfile Gemfile.lock gems.rb gems.locked
-      node_modules config
+      node_modules/ config/
       vendor/bundle/ vendor/cache/ vendor/gems/ vendor/ruby/
     ).freeze
 
