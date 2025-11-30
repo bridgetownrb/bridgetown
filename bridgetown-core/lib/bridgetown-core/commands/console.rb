@@ -71,7 +71,7 @@ module Bridgetown
               def app = Roda.subclasses[0].app
             end
             @rack_test_installed = true
-          rescue LoadError
+          rescue LoadError # rubocop:disable Lint/SuppressedException
           end
         else
           config_options.run_initializers! context: :console
@@ -94,9 +94,10 @@ module Bridgetown
         irb.context.io.load_history if new_history_behavior
         Bridgetown.logger.info "Console:", "Your site is now available as #{"site".cyan}."
         if options[:server_config]
-          Bridgetown.logger.info "", "Your Roda app is available as #{Roda.subclasses[0].to_s.cyan}."
+          Bridgetown.logger.info "",
+                                 "Your Roda app is available as #{Roda.subclasses[0].to_s.cyan}."
           if @rack_test_installed
-            Bridgetown.logger.info "", "You can use #{"Rack::Test".magenta} methods like #{"get".cyan}, #{"post".cyan}, and #{"last_response".cyan} to inspect"
+            Bridgetown.logger.info "", "You can use #{"Rack::Test".magenta} methods like #{"get".cyan}, #{"post".cyan}, and #{"last_response".cyan} to inspect" # rubocop:disable Layout/LineLength
             Bridgetown.logger.info "", "  static & dynamic routes in your application."
           end
         end
