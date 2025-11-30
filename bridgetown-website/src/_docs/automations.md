@@ -18,7 +18,11 @@ apply that to a brand-new site to set everything up exactly how you want it in a
 repeatable and automatic fashion.
 
 Automations can be loaded from a local path, or they can be loaded from remote
-URLs including repositories. You can also run automation scripts [from within Rake tasks](/docs/command-line-usage#rakefile-and-rake-tasks).
+URLs including repositories. You can also run automation scripts [from within Rake tasks](/docs/command-line-usage#rakefile-and-rake-tasks), and the exact same automation DSL can be used directly within [custom commands](/docs/plugins/commands).
+
+{%@ Note type: :warning do %}
+As with any other case where you are executing code downloaded from the Internet, **this is a potential security risk!** Make sure you apply automations from only those sources you are able to trust (and verify)!
+{% end %}
 
 ## Running Automations
 
@@ -45,14 +49,14 @@ bin/bridgetown apply
 ```
 
 Remote URLs to automation scripts are also supported, and GitHub repo or gist
-URLs are automatically transformed to locate the right file from GitHub's CDN:
+URLs, GitLab repos, and Codeberg repos are automatically transformed to locate the right file from their servers:
 
 ```sh
 # Install and configure the bridgetown-cloudinary gem
 bin/bridgetown apply https://github.com/bridgetownrb/bridgetown-cloudinary
 ```
 
-You can also load a file other than `bridgetown.automation.rb` from GitHub:
+You can also load a file other than `bridgetown.automation.rb` from a repo:
 
 ```sh
 # Set up a default configuration for Netlify hosting
