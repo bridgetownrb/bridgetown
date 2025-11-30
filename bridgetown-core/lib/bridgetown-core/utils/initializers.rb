@@ -21,8 +21,8 @@ Bridgetown.initializer :external_sources do |config, contents:|
   end
 
   if config.context == :static
-    contents.each_value.each_with_index do |path, index|
-      Bridgetown.logger.info(index == 0 ? "External Sources:" : "", path)
+    contents.each_value.with_index do |path, index|
+      Bridgetown.logger.info(index.zero? ? "External Sources:" : "", path)
     end
   end
 

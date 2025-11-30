@@ -29,6 +29,8 @@ class TestExternalSources < BridgetownFeatureTest
 
       _, output = run_bridgetown "build"
 
+      expect(output).match?(%r{External Sources:.*bridgetown-core/test/external_sources_folder})
+
       assert_file_contains "This page lives outside of the root dir!", "output/subfolder/external_page/index.html"
       assert_file_contains "<head><title>Marked Down</title></head><body><h1 id=\"marked-down\">Marked Down</h1>\n\n<p>This is <strong>Markdown</strong> text. It’s as easy as 1, 2, 3!</p>\n",
                            "output/marked_down/index.html"
