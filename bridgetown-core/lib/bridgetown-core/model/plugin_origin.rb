@@ -27,7 +27,9 @@ module Bridgetown
       end
 
       def original_path
-        @original_path ||= relative_path.expand_path(manifest.content)
+        @original_path ||= relative_path.expand_path(
+          manifest.dig(:contents, collection.label.to_sym) || manifest.content
+        )
       end
     end
   end

@@ -5,7 +5,8 @@ module Bridgetown
   class Configuration < HashWithDotAccess::Hash
     using Bridgetown::Refinements
 
-    REQUIRE_DENYLIST = %i(parse_routes ssr) # rubocop:disable Style/MutableConstant
+    # Built-in initializer list which isn't Gem-backed:
+    REQUIRE_DENYLIST = %i(external_sources parse_routes ssr) # rubocop:disable Style/MutableConstant
 
     Initializer = Struct.new(:name, :block, :completed) do
       def to_s
@@ -13,9 +14,11 @@ module Bridgetown
       end
     end
 
-    SourceManifest = Struct.new(:origin, :components, :content, :layouts)
+    SourceManifest = Struct.new(
+      :origin, :components, :content, :contents, :layouts
+    )
 
-    Preflight = Struct.new(:source_manifests, :initializers, keyword_init: true) do
+    Preflight = Struct.new(:source_manifests, :initializers) do
       def initialize(*)
         super
         self.source_manifests ||= Set.new
