@@ -14,9 +14,26 @@ module Bridgetown
       end
     end
 
-    SourceManifest = Struct.new(
-      :origin, :components, :content, :contents, :layouts
-    )
+    SourceManifest = Struct.new(:origin, :components, :contents, :layouts) do
+      def initialize(**kwargs)
+        # for backwards compatibility, we need to support plugin code which sets `content`
+        # directly, rather than uses the new multi-collections `contents` hash
+        if kwargs[:content]
+          kwargs[:contents] = { pages: kwargs[:content] }
+          kwargs.delete :content
+        end
+
+        super
+      end
+
+      def content
+        Bridgetown::Deprecator.deprecation_message(
+          "source_manifest.content is deprecated, use " \
+          "source_manifest.contents instead"
+        )
+        contents.values.first
+      end
+    end
 
     Preflight = Struct.new(:source_manifests, :initializers) do
       def initialize(*)

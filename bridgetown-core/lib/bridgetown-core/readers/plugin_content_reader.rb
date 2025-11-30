@@ -9,11 +9,7 @@ module Bridgetown
     def initialize(site, manifest)
       @site = site
       @manifest = manifest
-      @content_dirs = if manifest.contents
-                        manifest.contents
-                      elsif manifest.content
-                        { pages: manifest.content }
-                      end
+      @content_dirs = manifest.contents
       @content_files = Set.new
     end
 
