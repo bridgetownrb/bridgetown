@@ -7,6 +7,11 @@ require "rack/test"
 class TestSSR < BridgetownUnitTest
   include Rack::Test::Methods
 
+  def setup
+    # The test suite is more stable when this is run first separately
+    skip("Tested in a separate pass.") if ENV["BYPASS_TEST_IN_FULL_SUITE"]
+  end
+
   def app
     @@ssr_app ||= begin # rubocop:disable Style/ClassVars
       ENV["RODA_SECRET_KEY"] = SecureRandom.hex(64)
