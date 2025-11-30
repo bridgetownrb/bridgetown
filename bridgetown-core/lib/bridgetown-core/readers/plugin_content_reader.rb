@@ -11,6 +11,8 @@ module Bridgetown
       @manifest = manifest
       @content_dirs = manifest.contents
       @content_files = Set.new
+      @supports_bare_text = manifest.bare_text
+      @bare_text_extensions = site.config.markdown_ext.split(",").map { ".#{_1}" } + [".html"]
     end
 
     def read
@@ -49,10 +51,11 @@ module Bridgetown
     def read_content_file(content_dir, path, collection)
       dir = File.dirname(path.sub("#{content_dir}/", ""))
       name = File.basename(path)
+      extname = File.extname(path)
 
       @content_files << if FrontMatter::Loaders.front_matter?(path)
                           collection.read_resource(path, manifest:)
-                        elsif path.end_with?(".md") # TODO: make this configurable
+                        elsif @supports_bare_text && @bare_text_extensions.any? { extname == _1 }
                           collection.read_resource(path, manifest:, bare_text: true)
                         else
                           Bridgetown::StaticFile.new(site, content_dir, "/#{dir}", name)

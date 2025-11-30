@@ -14,7 +14,7 @@ module Bridgetown
       end
     end
 
-    SourceManifest = Struct.new(:origin, :components, :contents, :layouts) do
+    SourceManifest = Struct.new(:origin, :components, :contents, :layouts, :bare_text) do
       def initialize(**kwargs)
         # for backwards compatibility, we need to support plugin code which sets `content`
         # directly, rather than uses the new multi-collections `contents` hash
@@ -379,9 +379,9 @@ module Bridgetown
     end
 
     DEFAULT_EXCLUDES = %w(
-      .sass-cache .bridgetown-cache
+      .sass-cache .bridgetown-cache tmp
       gemfiles Gemfile Gemfile.lock gems.rb gems.locked
-      node_modules
+      node_modules config
       vendor/bundle/ vendor/cache/ vendor/gems/ vendor/ruby/
     ).freeze
 
