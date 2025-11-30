@@ -64,6 +64,15 @@ module Bridgetown
         if options[:server_config]
           require "bridgetown-core/rack/boot"
           Bridgetown::Rack.boot
+          begin
+            require "rack/test"
+            IRB::ExtendCommandBundle.include ::Rack::Test::Methods
+            ConsoleMethods.module_eval do
+              def app = Roda.subclasses[0].app
+            end
+            @rack_test_installed = true
+          rescue LoadError
+          end
         else
           config_options.run_initializers! context: :console
         end
@@ -83,9 +92,13 @@ module Bridgetown
         IRB.conf[:IRB_RC]&.call(irb.context)
         IRB.conf[:MAIN_CONTEXT] = irb.context
         irb.context.io.load_history if new_history_behavior
-        Bridgetown.logger.info "Console:", "Your site is now available as #{"site".cyan}"
+        Bridgetown.logger.info "Console:", "Your site is now available as #{"site".cyan}."
         if options[:server_config]
-          Bridgetown.logger.info "", "Your Roda app is available as #{Roda.subclasses[0].to_s.cyan}"
+          Bridgetown.logger.info "", "Your Roda app is available as #{Roda.subclasses[0].to_s.cyan}."
+          if @rack_test_installed
+            Bridgetown.logger.info "", "You can use #{"Rack::Test".magenta} methods like #{"get".cyan}, #{"post".cyan}, and #{"last_response".cyan} to inspect"
+            Bridgetown.logger.info "", "  static & dynamic routes in your application."
+          end
         end
         Bridgetown.logger.info "",
                                "You can also access #{"collections".cyan} or perform a " \

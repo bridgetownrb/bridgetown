@@ -145,6 +145,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.4)
+    rack-test (2.2.0)
+      rack (>= 1.3)
     rackup (2.2.1)
       rack (>= 3)
     rake (13.3.1)
@@ -199,6 +201,7 @@ DEPENDENCIES
   gems (~> 1.2)
   nokolexbor (~> 0.4)
   puma (< 7)
+  rack-test (~> 2.2)
   ruby2js (~> 5.1)
 
 BUNDLED WITH
