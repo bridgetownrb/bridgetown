@@ -4,8 +4,8 @@ require "features/feature_helper"
 
 # Render content which lives in an external folder (outside of the site root)
 class TestExternalSources < BridgetownFeatureTest
-  context "external_sources initializer" do
-    should "render ERB file" do
+  describe "external_sources initializer" do
+    it "renders ERB file" do
       sources_folder = File.expand_path("../external_sources_folder", __dir__)
 
       create_directory "config"
