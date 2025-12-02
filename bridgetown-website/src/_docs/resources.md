@@ -25,7 +25,7 @@ Here's what I look like:
 
 In this example, the [layout](/docs/layouts) of the resource is specified as `page`, the title is "About Me" (which will be used by the layout and related templates), and a headshot filename is given which can then inform the final URL of the image in the body of the content.
 
-You can save resources as files within your source tree, and you can also [generate resources programatically](/docs/plugins/external-apis) via a builder plugin—perhaps based on data from a headless CMS or other third-party APIs.
+You can save resources as files within your source tree, and you can also [generate resources programatically](/docs/plugins/external-apis) via a builder plugin—perhaps based on data from a headless CMS or other third-party APIs. In addition, it's possible to configure the `external_sources` initializer to pull content files in from outside your source tree.
 
 Every resource you create is part of a [collection](/docs/collections). Bridgetown comes with two built-in collections, **posts** and **pages**, as well as a no-output **data** collection. You can easily create custom collections to group related content and facilitate pagination and archiving functionality.
 
@@ -258,6 +258,10 @@ The three types of relations you can configure are:
 * **has_many**: multiple resources you want to reference will define the slug of the current resource in their front matter
 
 The inflections between the various singular and plural relation names are handled by Bridgetown's inflector automatically. If you need to customize the inflector with words it doesn't specifically recognize, you can add additional rules in the [`config/initializers.rb`](/docs/configuration/initializers#inflector) file.
+
+## External Content Sources
+
+You can also load resources for your project, such as Markdown files and associated images, from folders outside of a Bridgetown site project. This is ideal for content authored using third-party applications such as Obsidian. [Read this documentation to learn more.](/docs/content/external-sources)
 
 ## Configuring Permalinks
 
