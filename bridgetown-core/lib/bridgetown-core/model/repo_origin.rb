@@ -36,7 +36,9 @@ module Bridgetown
 
       def read
         begin
-          @data = (in_data_collection? ? read_file_data : read_front_matter(original_path)) || {}
+          @data = (
+            in_data_collection? ? read_file_data : read_front_matter(original_path, bare_text:)
+          ) || {}
         rescue SyntaxError => e
           Bridgetown.logger.error "Error:",
                                   "Ruby Exception in #{e.message}"

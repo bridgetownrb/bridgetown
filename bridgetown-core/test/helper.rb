@@ -38,9 +38,19 @@ include Bridgetown
 # test output!
 Minitest::Reporters.use! [
   Minitest::Reporters::DefaultReporter.new(
-    color: true
+    color: true,
+    detailed_skip: !ENV["BYPASS_TEST_IN_FULL_SUITE"] # don't print out noisy skip messages in full suite
   ),
 ]
+
+if ENV["BYPASS_TEST_IN_FULL_SUITE"]
+  # monkey-patch so we don't get lots of annoying yellow "S" characters
+  Minitest::Reporters::DefaultReporter.class_eval do
+    def record_skip(record)
+      # no-op
+    end
+  end
+end
 
 module Minitest::Assertions
   ####

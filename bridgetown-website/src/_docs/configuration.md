@@ -89,6 +89,7 @@ Values from bridgetown.config.yml are processed first, then config/initializers.
 * [Initializers](/docs/configuration/initializers)
 * [Configuration Options](/docs/configuration/options)
 * [Environments](/docs/configuration/environments)
+* [External Content Sources](/docs/content/external-sources)
 * [Markdown Options](/docs/configuration/markdown)
 * [Liquid Options](/docs/configuration/liquid)
 * [Puma Configuration](/docs/configuration/puma)

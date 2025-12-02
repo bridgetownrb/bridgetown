@@ -5,7 +5,8 @@ module Bridgetown
   class Configuration < HashWithDotAccess::Hash
     using Bridgetown::Refinements
 
-    REQUIRE_DENYLIST = %i(parse_routes ssr) # rubocop:disable Style/MutableConstant
+    # Built-in initializer list which isn't Gem-backed:
+    REQUIRE_DENYLIST = %i(external_sources parse_routes ssr) # rubocop:disable Style/MutableConstant
 
     Initializer = Struct.new(:name, :block, :completed) do
       def to_s
@@ -13,9 +14,28 @@ module Bridgetown
       end
     end
 
-    SourceManifest = Struct.new(:origin, :components, :content, :layouts)
+    SourceManifest = Struct.new(:origin, :components, :contents, :layouts, :bare_text) do
+      def initialize(**kwargs)
+        # for backwards compatibility, we need to support plugin code which sets `content`
+        # directly, rather than uses the new multi-collections `contents` hash
+        if kwargs[:content]
+          kwargs[:contents] = { pages: kwargs[:content] }
+          kwargs.delete :content
+        end
 
-    Preflight = Struct.new(:source_manifests, :initializers, keyword_init: true) do
+        super
+      end
+
+      def content
+        Bridgetown::Deprecator.deprecation_message(
+          "source_manifest.content is deprecated, use " \
+          "source_manifest.contents instead"
+        )
+        contents.values.first
+      end
+    end
+
+    Preflight = Struct.new(:source_manifests, :initializers) do
       def initialize(*)
         super
         self.source_manifests ||= Set.new
@@ -359,9 +379,9 @@ module Bridgetown
     end
 
     DEFAULT_EXCLUDES = %w(
-      .sass-cache .bridgetown-cache
+      .sass-cache/ .bridgetown-cache/ tmp/
       gemfiles Gemfile Gemfile.lock gems.rb gems.locked
-      node_modules
+      node_modules/ config/
       vendor/bundle/ vendor/cache/ vendor/gems/ vendor/ruby/
     ).freeze
 

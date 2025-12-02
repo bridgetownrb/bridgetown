@@ -25,78 +25,71 @@ site for deployment. [Read more about environments here.](/docs/configuration/en
 This will also help you if you wish to utilize additional logic within your site templates or plugins to determine what's a "development" build vs. "production" build.
 {% end %}
 
+{%= toc %}
+
 ## Automatic Deployment
 
-We recommend setting up an automatic deployment solution at the earliest opportunity. This way every time you push a commit up to your Git repository on a service such as GitHub, your site is automatically rebuilt and deployed quickly.
+We recommend setting up an automatic deployment solution at the earliest opportunity. This way every time you push a commit up to your Git repository on a service such as Codeberg, your site is automatically rebuilt and deployed quickly.
 
 Some popular services include:
+
+### Statichost.eu
+
+[Statichost.eu](https://statichost.eu) is a privacy-first, GDPR-compliant static site hosting provider based in Europe, founded on the belief that it's possible to run a web hosting company without processing any personal data.
+
+To deploy a Bridgetown site on statichost.eu with a repo hosted on [Codeberg](https://codeberg.org) (an open-source European Git forge):
+
+1. Add a `statichost.yml` config file to specify a Docker image for the build process as well as the build command and public output folder. (See example below.)
+2. Copy the repo "clone" URL (ending in `.git`) from Codeberg for use in creating a new site project on statichost.eu.
+3. You'll need to add a deploy key to your Codeberg repo. When viewing your repo, click **Settings**, then click **Deploy keys** in the sidebar.
+4. Before completing your site setup, don’t forget to ensure the `BRIDGETOWN_ENV=production` environment variable is set!
+5. Now statichost.eu will attempt a trial build. Assuming all goes well, you will then need to press the **Publish** button to complete the set (as well as set up your DNS appropriately).
+6. **Important:** make sure you add a “Forgejo”-style webhook so for every push to Codeberg, your site rebuilds! Go to **Settings** > **Webhooks** on Codeberg and make sure it will ping `https://builder.statichost.eu/YOUR_SITE_NAME`.
+
+If you get stuck on some of these steps, [Codeberg's documentation](https://www.statichost.eu/docs/git-providers/#forgejo-eg-codeberg) should be able to help.
+
+Here's an example `statichost.yml` config file:
+
+```yml
+# Docker image to use for building
+image: combos/ruby_node:3_22
+# Build command
+command: bundle install && npm install && bundle exec bridgetown deploy
+# Public directory
+public: output
+```
 
 ### Render
 
 [Render](https://render.com) provides the easiest cloud for all your static sites, APIs, databases, and containers. Render is a unified platform which can build and run apps and websites with free SSL, a global CDN, private networks, and auto deploys from Git. Use Render's admin dashboard or write an "infrastructure as code" YAML file to configure all your services at once. The choice is yours.
 
-### Vercel
-
-[Vercel](https://www.vercel.com) combines a great developer experience with an obsessive focus on end-user performance. Changes instantly go live on their global edge network along with SSL encryption and cache invalidation. Vercel is the platform for developers and designers…and those who aspire to become one.
+For easy setup of Bridgetown sites on Render, we've provided this [bundled configuration](/docs/bundled-configurations#render-yaml-configuration).
 
 ### Netlify
 
 [Netlify](https://www.netlify.com) is a web developer platform which focuses on productivity and global scale without requiring costly infrastructure. Get set up with continuous deployment, lead gen forms, one click HTTPS, and so much more.
 
+For easy setup of Bridgetown sites on Netlify, we've provided this [bundled configuration](/docs/bundled-configurations#netlify-toml-configuration).
+
 ### Fly.io
 
 [Fly.io](https://fly.io) is a platform that focuses on container based deployment. Their service transforms containers into micro-VMs that run on hardware all across the globe. The section below on [Docker](/docs/deployment#docker) has some examples that can be used with Fly.
 
-## Manual Deployment
+### GitHub Pages
 
-The most basic method of deployment is transferring the contents of your `output` folder to any web server. You can use something like `scp` to securely copy the folder, or you can use a more advanced tool:
+Much like with GitLab, you can also deploy static sites to [GitHub Pages](https://pages.github.com/). You can make use of [GitHub Actions](https://github.com/features/actions) to automate building and deploying your site to GitHub Pages.
 
-### rsync
+Bridgetown includes a [bundled configuration to set up GitHub pages](/docs/bundled-configurations#github-pages-configuration). You can apply it with the following command:
 
-Rsync is similar to scp except it can be faster as it will only send changed
-parts of files as opposed to the entire file. You can learn more about using
-rsync in the [Digital Ocean tutorial](https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps).
-
-### Docker
-
-Many modern hosting solutions support deploying with a `Dockerfile`. To build a Bridgetown site for one of these services, create a `Dockerfile` in the root directory of your project. See the examples below.
-
-#### Static Site
-
-If you're looking to deploy a static version of your site:
-
-```Dockerfile
-FROM combos/ruby_node:3_22 AS builder
-ENV BRIDGETOWN_ENV=production
-
-WORKDIR /opt/src
-COPY . .
-
-RUN bundle install && npm install && bundle exec bridgetown deploy
-
-FROM lipanski/docker-static-website:latest
-COPY --from=builder /opt/src/output .
-CMD ["/busybox-httpd", "-f", "-v", "-p", "4000"]
+```shell
+bin/bridgetown configure gh-pages
 ```
 
-#### Dynamic Site
-
-If you want to use Puma as the server directly for [Dynamic Routes & SSR](/docs/routes) support (it's recommended you set up a caching layer in front for static assets like images, CSS, JS, etc.):
-
-```Dockerfile
-FROM combos/ruby_node:3_22
-ENV BRIDGETOWN_ENV=production
-
-WORKDIR /opt/src
-COPY . .
-
-RUN bundle install && npm install && bundle exec bridgetown deploy
-
-EXPOSE 4000
-CMD bundle exec bridgetown start --skip-frontend
-```
+Make sure to update your repo's GitHub Pages Settings at `https://github.com/<your-account>/<your-site>/settings/pages` to have the pages Source set to GitHub Actions. You'll also likely need to set a [`base_path`](/docs/configuration/options#build-command-options) in your Bridgetown configuration unless you're setting up a custom domain.
 
 ### GitLab Pages
+
+{%@ "docs/help_needed", resource: resource %}
 
 [GitLab pages](https://docs.gitlab.com/ee/user/project/pages/) can host static websites. Create a repository on GitLab,
 which we suppose is at https://gitlab.com/bridgetownrb/mysite
@@ -178,17 +171,54 @@ pages:
 
 For more details, [see the documentation](https://docs.gitlab.com/ee/user/project/pages/introduction.html#serving-compressed-assets).
 
-### GitHub Pages
+## Manual Deployment
 
-Much like with GitLab, you can also deploy static sites to [GitHub Pages](https://pages.github.com/). You can make use of [GitHub Actions](https://github.com/features/actions) to automate building and deploying your site to GitHub Pages.
+The most basic method of deployment is transferring the contents of your `output` folder to any web server. You can use something like `scp` to securely copy the folder, or you can use a more advanced tool:
 
-Bridgetown includes a [bundled configuration to set up GitHub pages](/docs/bundled-configurations#github-pages-configuration). You can apply it with the following command:
+### rsync
 
-```shell
-bin/bridgetown configure gh-pages
+Rsync is similar to scp except it can be faster as it will only send changed
+parts of files as opposed to the entire file. You can learn more about using
+rsync in the [Digital Ocean tutorial](https://www.digitalocean.com/community/tutorials/how-to-use-rsync-to-sync-local-and-remote-directories-on-a-vps).
+
+### Docker
+
+Many modern hosting solutions support deploying with a `Dockerfile`. To build a Bridgetown site for one of these services, create a `Dockerfile` in the root directory of your project. See the examples below.
+
+#### Static Site
+
+If you're looking to deploy a static version of your site:
+
+```Dockerfile
+FROM combos/ruby_node:3_22 AS builder
+ENV BRIDGETOWN_ENV=production
+
+WORKDIR /opt/src
+COPY . .
+
+RUN bundle install && npm install && bundle exec bridgetown deploy
+
+FROM lipanski/docker-static-website:latest
+COPY --from=builder /opt/src/output .
+CMD ["/busybox-httpd", "-f", "-v", "-p", "4000"]
 ```
 
-Make sure to update your repo's GitHub Pages Settings at `https://github.com/<your-account>/<your-site>/settings/pages` to have the pages Source set to GitHub Actions. You'll also likely need to set a [`base_path`](/docs/configuration/options#build-command-options) in your Bridgetown configuration unless you're setting up a custom domain.
+#### Dynamic Site
+
+If you want to use Puma as the server directly for [Dynamic Routes & SSR](/docs/routes) support (it's recommended you set up a caching layer in front for static assets like images, CSS, JS, etc.):
+
+```Dockerfile
+FROM combos/ruby_node:3_22
+ENV BRIDGETOWN_ENV=production
+
+WORKDIR /opt/src
+COPY . .
+
+RUN bundle install && npm install && bundle exec bridgetown deploy
+
+EXPOSE 4000
+CMD bundle exec bridgetown start --skip-frontend
+```
 
 ### Dokku
 

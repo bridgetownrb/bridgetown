@@ -95,7 +95,7 @@ Having access to the `config` object is handy if you want to manipulate existing
 config.autoload_paths << "models"
 ```
 
-Besides setting primary configuration options, you can call `init`, `only`,  `except`, `roda`, and `hook`. Continue reading for further details.
+Besides setting primary configuration options, you can call `init`, `only`,  `except`, `roda`, and `hook`. Plugins authors also have access to `builder` and `source_manifest`. Continue reading for further details.
 
 ### The `init` method and initializers
 
@@ -147,7 +147,13 @@ end
 
 Then when you call `init :stripe, api_key: ENV["STRIPE_API_KEY"]`, code to the effect of `require "stripe"` will get called automatically and the initializer will get passed the value of `api_key`. (You can disable automatic requiring by adding `require_gem: false` to the `init` call.)
 
-Some advanced features provided by initializers will be covered in a later section.
+Initializers are not only useful in Bridgetown site projects, they're vital to the development of [gem-based plugins](/docs/plugins#gem-based-plugins). The configuration in progress is passed as the first argument to an initializer block so you can access it and modify it using the same configuration DSL:
+
+```ruby
+Bridgetown.initializer :my_initializer do |config|
+  config.init :another_initializer
+end
+```
 
 ### Using `only`, `except`, and understanding initialization contexts
 
@@ -270,6 +276,36 @@ init :"bridgetown-routes", additional_source_paths: ["some_more_routes"], additi
 
 For more on how SSR works in Bridgetown, check out our [Routes documentation here](/docs/routes).
 
+### Inline Builders
+
+Instead of writing a standalone [Builder class](/docs/plugins#introduction-to-the-builder-api) in your site project or gem-based plugin, you can also define a builder directly within a configuration or initializer. This is a handy shortcut for minimalist Bridgetown site structures, or a plugin with very modest needs in its associated builder. Note that the builder is always subclassed directly from `Bridgetown::Builder` and not the site project's `SiteBuilder`.
+
+```ruby
+Bridgetown.initializer :create_a_builder do |config|
+  config.builder :MyNewBuilder do
+    def build
+      # you can write methods and use the Builder DSL here
+    end
+  end
+end
+
+# then...
+
+Bridgetown.configure do
+  init :create_a_builder
+
+  builder :SomeOtherBuilder do
+    def build
+      # ...
+    end
+  end
+end
+```
+
+### Source Manifests
+
+Plugin & theme authors can add new content (resources, layouts, components, and more) to any Bridgetown project where they're installed by using the Source Manifest API. [Read this documentation to learn more.](/docs/plugins/source-manifests)
+
 ## Low-level Boot Customization
 
 If you need to run Ruby code at the earliest possible moment, essentially right when the `bridgetown` executable has finished its startup process, you can add a `config/boot.rb` file to your repo. This is particularly useful if you wish to extend `bridgetown` with new commands.
@@ -301,6 +337,10 @@ init :dotenv
 ```
 
 Now anywhere in your Ruby plugins, templates, etc., you can access environment variables via `ENV` once you've defined your `.env` file. Our integration also supports specially-named files such as `.env.development`, `.env.test`, etc.
+
+### External Content Sources
+
+You can load in additional content, such as Markdown files and associated images, from folders outside of a Bridgetown site project. [Read this documentation to learn more.](/docs/content/external-sources)
 
 ### Inflector
 

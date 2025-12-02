@@ -133,6 +133,10 @@ end
 
 [Read further instructions below on how to create and publish a gem.](#creating-a-gem)
 
+{%@ Note do %}
+As a shortcut, your plugin can also define an inline builder directly within its initializer by passing a symbol and block to `config.builder`. [Read this documentation to learn more.](/docs/configuration/initializers#inline-builders)
+{% end %}
+
 ## Plugin Categories
 
 There are several categories of functionality you can add to your Bridgetown plugin:
