@@ -11,7 +11,7 @@ Running an automated test suite after your Bridgetown site has been built is a g
 
 ## Use Ruby and Minitest to Test HTML Directly
 
-Bridgetown provides a [bundled configuration](/docs/bundled-configurations#automated-test-suite-using-minitest) to add gems for [Minitest](https://docs.seattlerb.org/minitest/) and [Rack::Test](https://github.com/rack/rack-test) and set up the test environment in the `test` folder.
+Bridgetown provides a [bundled configuration](/docs/bundled-configurations#automated-test-suite-using-minitest) to add gems for [Minitest](https://docs.seattlerb.org/minitest/) and [Rack::Test](https://github.com/rack/rack-test) and set up the test environment in the `test` folder. Once this is installed, you can also access `Rack::Test` DSL directly from the [console](/docs/command-line-usage).
 
 To install, run the following command:
 

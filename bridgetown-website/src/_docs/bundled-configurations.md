@@ -10,21 +10,20 @@ configurations. You can run these scripts using `bin/bridgetown
 configure [CONFIGURATION]`
 
 The configurations we include are:
-- [Turbo](#turbo) (`turbo`)
-- [Stimulus](#stimulus) (`stimulus`)
-- [Lit](#lit) (`lit`)
+
+- [SEO](#seo) (`seo`)
+- [Feed (RSS-like)](#feed) (`feed`)
 - [Web Awesome](#web-awesome) (`webawesome`)
+- [Automated Test Suite using Minitest](#automated-test-suite-using-minitest) (`minitesting`)
 - [Open Props](#open-props) (`open-props`)
+- [Lit](#lit) (`lit`)
 - [Ruby2JS](#ruby2js) (`ruby2js`)
 - [Bridgetown recommended PostCSS plugins](#bridgetown-recommended-postcss-plugins) (`bt-postcss`)
 - [PurgeCSS Post-Build Hook](#purgecss-post-build-hook) (`purgecss`)
 - [Render YAML Configuration](#render-yaml-configuration) (`render`)
 - [Netlify TOML Configuration](#netlify-toml-configuration) (`netlify`)
 - [GitHub Pages Configuration](#github-pages-configuration) (`gh-pages`)
-- [Automated Test Suite using Minitest](#automated-test-suite-using-minitest) (`minitesting`)
 - [Cypress](#cypress) (`cypress`)
-- [SEO](#seo) (`seo`)
-- [Feed (RSS-like)](#feed) (`feed`)
 
 The full list of configurations can also be seen by running `bridgetown configure` without arguments.
 
@@ -36,45 +35,35 @@ Bundled configurations can also be run while creating a new Bridgetown project u
   The bundled configuration for TailwindCSS has been [relocated to a separate community-maintained repo](https://github.com/bridgetownrb/tailwindcss-automation). The Bridgetown core team recommends looking into options such as Open Props, Web Awesome, and otherwise "vanilla" CSS (perhaps with a bit of help from PostCSS) as a best practice for "Use the Platform", future-compatible frontend development.
 {% end %}
 
-## Configuration Setup Details
-
-### Turbo
-
-⚡️ Adds and configures [Turbo](https://turbo.hotwired.dev). Turbo gives you the speed of a single-page web application without having to write any additional JavaScript.
-
-🛠 **Configure using:**
-
-```sh
-bin/bridgetown configure turbo
-```
-
-An optional script (`turbo_transitions.js`) is provided to add transition animation to Turbo navigation. If you don't wish to use any transition animations, you're welcome to delete the file. You can also edit the script to adjust the animation style or change the element being animated from `<main>` to whatever you prefer.
-
 {%@ Note type: :warning do %}
-It is recommended you add the `data-turbo-track="reload"` attribute to the `script` and CSS `link` tags in your HTML head. This will allow Turbo to perform a full page reload any time newly-deployed assets are available.
+  #### Looking for Turbo or Stimulus?
+
+  The bundled configurations for Turbo & Stimulus have been [relocated to a separate community-maintained repo](https://github.com/bridgetownrb/turbo-stimulus-automation).
 {% end %}
 
-### Stimulus
+## Configuration Setup Details
 
-⚙️ Sets up [Stimulus](https://stimulus.hotwired.dev) and adds an example controller. Stimulus is "the modest JavaScript framework for the HTML you already have."
 
-🛠 **Configure using:**
+### SEO
 
-```sh
-bin/bridgetown configure stimulus
-```
-
-### Lit
-
-🔥 Sets up [Lit](https://lit.dev) plus the Lit SSR Renderer plugin and adds an example component. Every Lit component is a native web component, with the superpower of interoperability. This makes Lit ideal for building shareable components, design systems, or maintainable, future-ready sites and apps.
+🔍 Adds metadata tags for search engines and social networks to better index and display your site's content. Check out the [gem readme](https://github.com/bridgetownrb/bridgetown-seo-tag#summary) for more info and configuration options.
 
 🛠 **Configure using:**
 
 ```sh
-bin/bridgetown configure lit
+bin/bridgetown configure seo
 ```
 
-Read our full [Lit Components documentation here](/docs/components/lit).
+### Feed
+
+🍽️ Generate an Atom (RSS-like) feed of your Bridgetown posts and other collection documents. Check out the [gem readme](https://github.com/bridgetownrb/bridgetown-feed#usage) for more info and configuration options.
+
+🛠 **Configure using:**
+
+```sh
+bin/bridgetown configure feed
+```
+
 
 ### Web Awesome
 
@@ -90,6 +79,16 @@ Read more at [Frontend Bundling (CSS/JS/etc.)](/docs/frontend-assets#javascript)
 bin/bridgetown configure webawesome
 ```
 
+### Automated Test Suite using Minitest
+
+⚙️ Adds a test suite using [Minitest](https://rubygems.org/gems/minitest) and [Rack::Test](https://github.com/rack/rack-test) which lets you test both static and dynamic routes. Check out [our automated testing guide](/docs/testing#use-ruby-and-minitest-to-test-html-directly) for more information.
+
+🛠 **Configure using:**
+
+```sh
+bin/bridgetown configure minitesting
+```
+
 ### Open Props
 
 🎨 Installs [Open Props](https://open-props.style), a collection of "supercharged CSS variables" and optional normalize stylesheet to help you create your own design system.
@@ -99,6 +98,18 @@ bin/bridgetown configure webawesome
 ```sh
 bin/bridgetown configure open-props
 ```
+
+### Lit
+
+🔥 Sets up [Lit](https://lit.dev) plus the Lit SSR Renderer plugin and adds an example component. Every Lit component is a native web component, with the superpower of interoperability. This makes Lit ideal for building shareable components, design systems, or maintainable, future-ready sites and apps.
+
+🛠 **Configure using:**
+
+```sh
+bin/bridgetown configure lit
+```
+
+Read our full [Lit Components documentation here](/docs/components/lit).
 
 ### Ruby2JS
 
@@ -174,15 +185,6 @@ Make sure you follow the provided instructions after you run this command so you
 bin/bridgetown configure gh-pages
 ```
 
-### Automated Test Suite using Minitest
-
-⚙️ Adds a test suite using [Minitest](https://rubygems.org/gems/minitest) and [Rack::Test](https://github.com/rack/rack-test) which lets you test both static and dynamic routes. Check out [our automated testing guide](/docs/testing#use-ruby-and-minitest-to-test-html-directly) for more information.
-
-🛠 **Configure using:**
-
-```sh
-bin/bridgetown configure minitesting
-```
 
 ### Cypress
 
@@ -192,24 +194,4 @@ bin/bridgetown configure minitesting
 
 ```sh
 bin/bridgetown configure cypress
-```
-
-### SEO
-
-🔍 Adds metadata tags for search engines and social networks to better index and display your site's content. Check out the [gem readme](https://github.com/bridgetownrb/bridgetown-seo-tag#summary) for more info and configuration options.
-
-🛠 **Configure using:**
-
-```sh
-bin/bridgetown configure seo
-```
-
-### Feed
-
-🍽️ Generate an Atom (RSS-like) feed of your Bridgetown posts and other collection documents. Check out the [gem readme](https://github.com/bridgetownrb/bridgetown-feed#usage) for more info and configuration options.
-
-🛠 **Configure using:**
-
-```sh
-bin/bridgetown configure feed
 ```
