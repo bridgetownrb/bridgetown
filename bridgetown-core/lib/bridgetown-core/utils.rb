@@ -398,11 +398,29 @@ module Bridgetown
     end
 
     def default_github_branch_name(repo_url)
-      repo_match = Bridgetown::Commands::Actions::GITHUB_REPO_REGEX.match(repo_url)
+      repo_match = Bridgetown::Commands::Automations::GITHUB_REPO_REGEX.match(repo_url)
       api_endpoint = "https://api.github.com/repos/#{repo_match[1]}"
       JSON.parse(Faraday.get(api_endpoint).body)["default_branch"] || "main"
     rescue StandardError => e
       Bridgetown.logger.warn("Unable to connect to GitHub API: #{e.message}")
+      "main"
+    end
+
+    def default_gitlab_branch_name(repo_url)
+      repo_match = Bridgetown::Commands::Automations::GITLAB_REPO_REGEX.match(repo_url)
+      api_endpoint = "https://gitlab.com/api/v4/projects/#{repo_match[1].sub("/", "%2F")}"
+      JSON.parse(Faraday.get(api_endpoint).body)["default_branch"] || "main"
+    rescue StandardError => e
+      Bridgetown.logger.warn("Unable to connect to GitLab API: #{e.message}")
+      "main"
+    end
+
+    def default_codeberg_branch_name(repo_url)
+      repo_match = Bridgetown::Commands::Automations::CODEBERG_REPO_REGEX.match(repo_url)
+      api_endpoint = "https://codeberg.org/api/v1/repos/#{repo_match[1]}"
+      JSON.parse(Faraday.get(api_endpoint).body)["default_branch"] || "main"
+    rescue StandardError => e
+      Bridgetown.logger.warn("Unable to connect to Codeberg API: #{e.message}")
       "main"
     end
 

@@ -64,7 +64,7 @@ module Bridgetown
         category: { key: "categories", title: "Category" }, tag: { key: "tags", title: "Tag" },
       },
       "autoload_paths"               => [],
-      "inflector"                    => Bridgetown::Inflector.new,
+      "inflector"                    => Bridgetown::Foundation::Inflector.new,
       "eager_load_paths"             => [],
       "autoloader_collapsed_paths"   => [],
       "additional_watch_paths"       => [],

@@ -41,8 +41,8 @@ require "kramdown"
 require "i18n"
 require "i18n/backend/fallbacks"
 require "faraday"
+require "samovar"
 require "signalize"
-require "thor"
 
 # Ensure we can set up fallbacks so the default locale gets used
 I18n::Backend::Simple.include I18n::Backend::Fallbacks
@@ -68,6 +68,7 @@ module Bridgetown
   autoload :Current,             "bridgetown-core/current"
   autoload :Cleaner,             "bridgetown-core/cleaner"
   autoload :Collection,          "bridgetown-core/collection"
+  autoload :Command,             "bridgetown-core/command"
   autoload :Component,           "bridgetown-core/component"
   autoload :DefaultsReader,      "bridgetown-core/readers/defaults_reader"
   autoload :Deprecator,          "bridgetown-core/deprecator"
@@ -76,7 +77,6 @@ module Bridgetown
   autoload :FrontMatter,         "bridgetown-core/front_matter"
   autoload :GeneratedPage,       "bridgetown-core/generated_page"
   autoload :Hooks,               "bridgetown-core/hooks"
-  autoload :Inflector,           "bridgetown-core/inflector"
   autoload :Layout,              "bridgetown-core/layout"
   autoload :LayoutPlaceable,     "bridgetown-core/concerns/layout_placeable"
   autoload :LayoutReader,        "bridgetown-core/readers/layout_reader"
@@ -97,11 +97,11 @@ module Bridgetown
   autoload :Transformable,       "bridgetown-core/concerns/transformable"
   autoload :Viewable,            "bridgetown-core/concerns/viewable"
   autoload :Utils,               "bridgetown-core/utils"
-  autoload :VERSION,             "bridgetown-core/version"
   autoload :Watcher,             "bridgetown-core/watcher"
   autoload :YAMLParser,          "bridgetown-core/yaml_parser"
 
   # extensions
+  require "bridgetown-core/commands/thor_shim"
   require "bridgetown-core/commands/registrations"
   require "bridgetown-core/plugin"
   require "bridgetown-core/converter"
@@ -260,7 +260,7 @@ module Bridgetown
     end
 
     def load_tasks
-      require "bridgetown-core/commands/base"
+      require "bridgetown-core/commands/application"
       unless Bridgetown::Current.preloaded_configuration
         Bridgetown::Current.preloaded_configuration = Bridgetown::Configuration::Preflight.new
       end

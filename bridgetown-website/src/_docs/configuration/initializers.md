@@ -315,14 +315,14 @@ If you need to run Ruby code at the earliest possible moment, essentially right 
 # this Bundler setup:
 Bundler.setup(:default, Bridgetown.env)
 
-# Now you can require a gem which adds a command to `bridgetown` via Thor:
+# Now you can require a gem which adds a command to `bridgetown` via Samovar:
 require "some_gem_here"
 
 # Or require your own Ruby file:
 require_relative "../ruby_code_file.rb"
 ```
 
-[Read more about defining Thor-based commands here.](/docs/plugins/commands)
+[Read more about defining Samovar-based commands here.](/docs/plugins/commands)
 
 ## Built-in Initializers
 

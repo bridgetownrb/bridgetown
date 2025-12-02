@@ -14,10 +14,10 @@ PATH
       bigdecimal (>= 3.2)
       bridgetown-foundation (= 2.0.5)
       csv (~> 3.2)
-      dry-inflector (>= 1.0)
       erubi (~> 1.9)
       faraday (~> 2.0)
       faraday-follow_redirects (~> 0.3)
+      freyia (>= 0.5)
       i18n (~> 1.0)
       irb (>= 1.14)
       kramdown (~> 2.1)
@@ -29,11 +29,11 @@ PATH
       rake (>= 13.0)
       roda (~> 3.46)
       rouge (>= 3.0, < 5.0)
+      samovar (>= 2.4)
       securerandom (~> 0.4)
       serbea (>= 2.4.1)
       signalize (~> 1.3)
       streamlined (>= 0.6.0)
-      thor (~> 1.1)
       tilt (~> 2.0)
       zeitwerk (>= 2.7.3)
 
@@ -41,6 +41,7 @@ PATH
   remote: ../bridgetown-foundation
   specs:
     bridgetown-foundation (2.0.5)
+      dry-inflector (>= 1.0)
       hash_with_dot_access (~> 2.0)
       inclusive (~> 1.0)
       zeitwerk (~> 2.5)
@@ -80,6 +81,10 @@ GEM
       csv
       nokogiri
     concurrent-ruby (1.3.5)
+    console (1.34.2)
+      fiber-annotation
+      fiber-local (~> 1.1)
+      json
     csv (3.3.5)
     date (3.5.0)
     dry-inflector (1.2.0)
@@ -93,8 +98,12 @@ GEM
       faraday (>= 1, < 3)
     faraday-net_http (3.4.2)
       net-http (~> 0.5)
-    ffi (1.17.2-arm64-darwin)
     ffi (1.17.2-x86_64-linux-gnu)
+    fiber-annotation (0.2.0)
+    fiber-local (1.1.0)
+      fiber-storage
+    fiber-storage (1.0.1)
+    freyia (0.5.0)
     gems (1.3.0)
     hash_with_dot_access (2.2.0)
     i18n (1.14.7)
@@ -115,14 +124,12 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     logger (1.7.0)
+    mapping (1.1.3)
     net-http (0.8.0)
       uri (>= 0.11.1)
     nio4r (2.7.5)
-    nokogiri (1.18.10-arm64-darwin)
-      racc (~> 1.4)
     nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
-    nokolexbor (0.6.2-arm64-darwin)
     nokolexbor (0.6.2-x86_64-linux)
     parser (3.3.10.0)
       ast (~> 2.4.1)
@@ -138,6 +145,8 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.4)
+    rack-test (2.2.0)
+      rack (>= 1.3)
     rackup (2.2.1)
       rack (>= 3)
     rake (13.3.1)
@@ -158,6 +167,9 @@ GEM
     ruby2js (5.1.2)
       parser
       regexp_parser (~> 2.1.1)
+    samovar (2.4.1)
+      console (~> 1.0)
+      mapping (~> 1.0)
     securerandom (0.4.1)
     serbea (2.4.1)
       erubi (>= 1.13)
@@ -168,14 +180,12 @@ GEM
       serbea (>= 2.1)
       zeitwerk (~> 2.5)
     stringio (3.1.8)
-    thor (1.4.0)
     tilt (2.6.1)
     tsort (0.2.0)
     uri (1.1.1)
     zeitwerk (2.7.3)
 
 PLATFORMS
-  arm64-darwin-22
   x86_64-linux
 
 DEPENDENCIES
@@ -191,6 +201,7 @@ DEPENDENCIES
   gems (~> 1.2)
   nokolexbor (~> 0.4)
   puma (< 7)
+  rack-test (~> 2.2)
   ruby2js (~> 5.1)
 
 BUNDLED WITH

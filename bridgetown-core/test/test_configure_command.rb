@@ -10,7 +10,7 @@ class TestConfigureCommand < BridgetownUnitTest
   describe "the configure command" do
     before do
       FileUtils.cp(testing_dir("fixtures", "test_automation.rb"), configurations_path)
-      @cmd = Bridgetown::Commands::Configure.new
+      @cmd = Bridgetown::Commands::Configure
     end
 
     after do
@@ -19,21 +19,21 @@ class TestConfigureCommand < BridgetownUnitTest
 
     it "lists all available configurations when invoked without args" do
       output = capture_stdout do
-        @cmd.perform_configurations
+        @cmd.()
       end
       assert_match %r!test_automation!, output
     end
 
     it "shows error when configuration doesn't exist" do
       output = capture_stdout do
-        @cmd.invoke(:perform_configurations, ["qwerty"])
+        @cmd["qwerty"].()
       end
       assert_match %r!Configuration doesn't exist: qwerty!, output
     end
 
     it "performs configuration" do
       output = capture_stdout do
-        @cmd.invoke(:perform_configurations, ["test_automation"])
+        @cmd["test_automation"].()
       end
       assert_match %r!fixture.*?Works\!!, output
     end
@@ -44,7 +44,7 @@ class TestConfigureCommand < BridgetownUnitTest
       end
 
       output = capture_stdout do
-        @cmd.invoke(:perform_configurations, %w[test_automation roar fail])
+        @cmd[*%w[test_automation roar fail]].()
       end
       assert_match %r!fixture.*?Works\!!, output
       assert_match %r!applytest.*?Hear me roar\!!, output
