@@ -3,432 +3,434 @@
 require "helper"
 
 class TestResource < BridgetownUnitTest
-  # The test suite is more stable when this is run first separately
-  unless ENV["BYPASS_RESOURCE_TEST"]
-    describe "a top-level page" do
-      before do
-        @site = resources_site
-        @site.process
-        # @type [Bridgetown::Resource::Base]
-        @resource = @site.collections.pages.resources.find do |page|
-          page.relative_path.to_s == "top-level-page.md"
-        end
-      end
+  def setup
+    # The test suite is more stable when this is run first separately
+    skip("Tested in a separate pass.") if ENV["BYPASS_TEST_IN_FULL_SUITE"]
+  end
 
-      it "exists" do
-        assert !@resource.nil?
-      end
-
-      it "knows its relative path" do
-        assert_equal "top-level-page.md", @resource.relative_path.to_s
-      end
-
-      it "knows its extname" do
-        assert_equal ".md", @resource.extname
-      end
-
-      it "knows its basename without extname" do
-        assert_equal "top-level-page", @resource.basename_without_ext
-      end
-
-      it "knows its collection" do
-        assert_equal "pages", @resource.collection.label
-      end
-
-      it "knows its layout" do
-        assert_equal "default", @resource.layout.label
-      end
-
-      it "knows its data" do
-        assert_equal "I'm a Top Level Page!", @resource.data.title
-      end
-
-      it "knows its date" do
-        assert_equal Time.now.strftime("%Y/%m/%d"), @resource.date.strftime("%Y/%m/%d")
-        assert_equal Time.now.strftime("%Y/%m/%d"), @resource.to_liquid["date"].strftime("%Y/%m/%d")
-      end
-
-      it "has untransformed and transformed content" do
-        assert_equal "That's **great**!", @resource.untransformed_content.lines.first.strip
-        assert_equal "<p>That’s <strong>great</strong>!</p>", @resource.content.lines.first.strip
+  describe "a top-level page" do
+    before do
+      @site = resources_site
+      @site.process
+      # @type [Bridgetown::Resource::Base]
+      @resource = @site.collections.pages.resources.find do |page|
+        page.relative_path.to_s == "top-level-page.md"
       end
     end
 
-    describe "a second-level page" do
-      before do
-        @site = resources_site
-        @site.process
-        # @type [Bridgetown::Resource::Base]
-        @resource = @site.collections.pages.resources.find do |page|
-          page.relative_path.to_s == "_pages/second-level-page.en.md"
-        end
-      end
+    it "exists" do
+      assert !@resource.nil?
+    end
 
-      it "exists" do
-        assert !@resource.nil?
-      end
+    it "knows its relative path" do
+      assert_equal "top-level-page.md", @resource.relative_path.to_s
+    end
 
-      it "has the correct permalink" do
-        assert_equal "/second-level-page/", @resource.relative_url
+    it "knows its extname" do
+      assert_equal ".md", @resource.extname
+    end
+
+    it "knows its basename without extname" do
+      assert_equal "top-level-page", @resource.basename_without_ext
+    end
+
+    it "knows its collection" do
+      assert_equal "pages", @resource.collection.label
+    end
+
+    it "knows its layout" do
+      assert_equal "default", @resource.layout.label
+    end
+
+    it "knows its data" do
+      assert_equal "I'm a Top Level Page!", @resource.data.title
+    end
+
+    it "knows its date" do
+      assert_equal Time.now.strftime("%Y/%m/%d"), @resource.date.strftime("%Y/%m/%d")
+      assert_equal Time.now.strftime("%Y/%m/%d"), @resource.to_liquid["date"].strftime("%Y/%m/%d")
+    end
+
+    it "has untransformed and transformed content" do
+      assert_equal "That's **great**!", @resource.untransformed_content.lines.first.strip
+      assert_equal "<p>That’s <strong>great</strong>!</p>", @resource.content.lines.first.strip
+    end
+  end
+
+  describe "a second-level page" do
+    before do
+      @site = resources_site
+      @site.process
+      # @type [Bridgetown::Resource::Base]
+      @resource = @site.collections.pages.resources.find do |page|
+        page.relative_path.to_s == "_pages/second-level-page.en.md"
       end
     end
 
-    describe "a resource in a collection with custom filename permalinks" do
-      before do
-        @site = resources_site(
-          "collections" => {
-            "events" => {
-              "output"    => true,
-              "permalink" => "/special_events/:year/:slug.*",
-            },
-          }
-        )
-        @site.process
-        @resource = @site.collections.events.resources[0]
-        @dest_file = dest_dir("special_events/2020/christmas.html")
+    it "exists" do
+      assert !@resource.nil?
+    end
+
+    it "has the correct permalink" do
+      assert_equal "/second-level-page/", @resource.relative_url
+    end
+  end
+
+  describe "a resource in a collection with custom filename permalinks" do
+    before do
+      @site = resources_site(
+        "collections" => {
+          "events" => {
+            "output"    => true,
+            "permalink" => "/special_events/:year/:slug.*",
+          },
+        }
+      )
+      @site.process
+      @resource = @site.collections.events.resources[0]
+      @dest_file = dest_dir("special_events/2020/christmas.html")
+    end
+
+    it "produces the right URL" do
+      assert_equal "/special_events/2020/christmas", @resource.relative_url
+    end
+
+    it "produces the right destination file" do
+      assert_equal @dest_file, @resource.destination.output_path
+      assert File.exist?(@dest_file)
+    end
+
+    it "honors the output extension of its permalink" do
+      assert_equal ".html", @resource.destination.output_ext
+    end
+
+    it "has transformed content" do
+      assert_equal "Christmas 2020", @resource.data.title
+      assert_equal "Fa la la la la la la la la!", @resource.content.strip
+    end
+  end
+
+  describe "a resource in a collection with default permalinks" do
+    before do
+      @site = resources_site(
+        "collections" => {
+          "events" => {
+            "output" => true,
+          },
+        }
+      )
+      @site.process
+      @resource = @site.collections.events.resources[0]
+      @dest_file = dest_dir("events/christmas/index.html")
+    end
+
+    it "produces the right URL" do
+      assert_equal "/events/christmas/", @resource.relative_url
+    end
+
+    it "produces the right destination file" do
+      assert_equal @dest_file, @resource.destination.output_path
+    end
+  end
+
+  describe "a resource that's configured not to output" do
+    before do
+      @site = resources_site(
+        "collections" => {
+          "events" => {
+            "output" => true,
+          },
+        }
+      )
+      @site.process
+      @resource = @site.collections.events.resources[1]
+      @dest_file = dest_dir("events/the-weeknd/index.html")
+    end
+
+    it "does not have any URL" do
+      assert_equal "", @resource.relative_url
+    end
+
+    it "does not have any destination file" do
+      assert_nil @resource.destination
+      refute File.exist?(@dest_file)
+    end
+
+    it "still has processed content" do
+      assert_equal "Ladies and gentlemen, The Weeknd!", @resource.content
+    end
+  end
+
+  describe "a resource in a collection with a :simple_ext permalink style" do
+    before do
+      @site = resources_site(
+        "collections" => {
+          "noodles" => {
+            "output"    => true,
+            "permalink" => "simple_ext",
+          },
+        }
+      )
+      @site.process
+      @resource = @site.collections.noodles.resources[1]
+      @dest_file = dest_dir("noodles/low-cost/ramen.html")
+    end
+
+    it "produces the right URL" do
+      assert_equal "/noodles/low-cost/ramen", @resource.relative_url
+    end
+
+    it "produces the right destination file" do
+      assert_equal @dest_file, @resource.destination.output_path
+    end
+
+    it "has transformed content" do
+      assert_equal "Mmm, yum!", @resource.content.strip
+    end
+
+    it "contains default front matter" do
+      assert_equal %w[noodle dishes], @resource.data.tags
+      assert_equal "dishes", @resource.taxonomies.tag.terms[1].label
+    end
+
+    it "appears in page loop" do
+      page = @site.collections.pages.resources.find { |pg| pg.data.title == "I'm the Noodles index" }
+      assert_includes page.output, "<li>Noodles!: /noodles/low-cost/ramen"
+    end
+  end
+
+  describe "a resource in the posts collection with a weird filename" do
+    before do
+      @site = resources_site
+      @site.process
+      @resource = @site.collections.posts.resources[0]
+      @dest_file = dest_dir("2019/09/09/bløg-pöst/index.html")
+    end
+
+    it "produces the right URL" do
+      assert_equal "/2019/09/09/bløg-pöst/", @resource.relative_url
+    end
+
+    it "produces the right destination file" do
+      assert_equal @dest_file, @resource.destination.output_path
+    end
+
+    it "has a fancy title" do
+      assert_equal "I'm a bløg pöst? 😄", @resource.data.title
+    end
+
+    it "includes content" do
+      assert_equal "<p>W00t!</p>\n", @resource.content
+    end
+
+    it "properly loads front matter defaults" do
+      assert_equal "present and accounted for", @resource.data.defaults_are
+      assert_equal "present and accounted for", {}.merge(@resource.data.to_h)["defaults_are"]
+    end
+  end
+
+  describe "a resource in the posts collection" do
+    before do
+      @site = resources_site({ slugify_mode: "latin" })
+      @site.process
+      @resource = @site.collections.posts.resources[0]
+      @dest_file = dest_dir("2019/09/09/blog-post/index.html")
+    end
+
+    it "allows a simpler slugify mode" do
+      assert_equal "/2019/09/09/blog-post/", @resource.relative_url
+      assert_equal @dest_file, @resource.destination.output_path
+    end
+  end
+
+  describe "a resource in a collection that's only a YAML file" do
+    before do
+      @site = resources_site(
+        "collections" => {
+          "noodles" => {
+            "output" => true,
+          },
+        }
+      )
+      @site.process
+      @resource = @site.collections.noodles.resources[0]
+    end
+
+    it "has no URL" do
+      assert_equal "", @resource.relative_url
+    end
+
+    it "has no destination file" do
+      assert @resource.destination.nil?
+    end
+
+    it "has data" do
+      assert_equal 1, @resource.data.data.goes.here
+    end
+
+    it "is a static file without triple dashes" do
+      assert_equal 2, @site.collections.noodles.resources.length
+      assert_equal "static_file.yml", @site.collections.noodles.static_files.first.name
+    end
+  end
+
+  describe "a resource in the data collection" do
+    before do
+      @site = resources_site
+      @site.process
+      @resource = @site.collections.data.resources[0]
+    end
+
+    it "has no URL" do
+      assert_equal "", @resource.relative_url
+    end
+
+    it "has no destination file" do
+      assert @resource.destination.nil?
+    end
+
+    it "has data" do
+      assert_equal "cheese", @resource.data.products.first.name
+      assert_equal "cheese", @site.data.categories.dairy.products.first.name
+      assert_equal 5.3, @site.data.categories.dairy.products.first.price
+    end
+
+    it "does not overwrite data in same folder" do
+      assert_equal "1.jpg", @site.data.gallery.album_1.file
+      assert_equal "2.jpg", @site.data.gallery.album_2.file
+      assert_equal "3.jpg", @site.data.gallery.album_1.interior.file
+    end
+  end
+
+  describe "a Ruby data resource" do
+    it "provides an array" do
+      @site = resources_site
+      @site.process
+      assert_equal "ruby", @site.data.languages[1]
+    end
+  end
+
+  describe "a PORT (Plain Ol' Ruby Template)" do
+    it "renders out as HTML" do
+      @site = resources_site
+      @site.process
+      @dest_file = File.read(dest_dir("i-am-ruby/index.html"))
+      Serbea::Pipeline.raise_on_missing_filters = true
+
+      # rubocop:disable Layout/TrailingWhitespace
+      assert_includes @dest_file, <<~HTML
+        <body>
+        <p>Hello &lt;U&gt;WORLD&lt;/U&gt;</p>
+        <output>DOES THIS WORK? 123</output>
+
+        <output>Does this work? 456</output>
+        <output>Does this work? 789</output>
+        [Bridgetown]
+        <p>This is &lt;b&gt;escaped!&lt;/b&gt;</p>
+        <p>piping &lt;i&gt;bad&lt;/i&gt; <b>good</b></p>
+        <p><em>yay</em></p>
+
+        <blockquote>
+          <p>Well, <em>this</em> is quite interesting &lt;script&gt;alert('bad!')&lt;/script&gt;! =)</p>
+        </blockquote><ul>
+        <li>0</li>
+        <li>1</li>
+        <li>2</li>
+        
+        </ul>
+        
+        </body>
+      HTML
+      # rubocop:enable Layout/TrailingWhitespace
+    end
+  end
+
+  describe "dotfile permalink" do
+    it "gets saved to destination" do
+      @site = resources_site
+      @site.process
+      @dest_file = File.read(dest_dir(".nojekyll"))
+
+      assert_equal "nojekyll", @dest_file.strip
+    end
+  end
+
+  describe "previous and next resource methods" do
+    it "returns the correct resource" do
+      @site = resources_site
+      @site.process
+      @resource = @site.collections.pages.resources[0]
+
+      assert_equal @site.collections.pages.resources[1], @resource.next_resource
+      assert_equal @site.collections.pages.resources[0], @resource.next_resource.previous_resource
+    end
+  end
+
+  describe "prototype pages" do
+    before do
+      @site = resources_site
+      @site.process
+      @page = @site.generated_pages.find { |page| page.data.title == "Noodles Archive" }
+      @dest_file = dest_dir("noodle-archive/ramen/index.html")
+    end
+
+    it "is generated for the given term" do
+      assert File.exist?(@dest_file)
+      assert_includes @page.output, "<h1>ramen</h1>"
+    end
+
+    it "does not persist across rebuilds" do
+      page_count = @site.generated_pages.size
+      Bridgetown::Hooks.trigger :site, :pre_reload, @site
+      @site.process
+      assert_equal page_count, @site.generated_pages.size
+    end
+  end
+
+  describe "resource extensions" do
+    before do
+      @site = resources_site
+      @site.process
+    end
+
+    it "augments the Resource::Base class" do
+      resource = @site.resources.first
+      assert_equal "Ruby return value! ", resource.heres_a_method
+      assert_equal "Ruby return value! wee!", resource.heres_a_method("wee!")
+    end
+
+    it "augments the Drops::ResourceDrop class" do
+      resource = @site.collections.pages.resources.find do |page|
+        page.relative_path.to_s == "top-level-page.md"
       end
 
-      it "produces the right URL" do
-        assert_equal "/special_events/2020/christmas", @resource.relative_url
-      end
+      assert_includes resource.output, "Test extension: Liquid return value"
+    end
+  end
 
-      it "produces the right destination file" do
-        assert_equal @dest_file, @resource.destination.output_path
-        assert File.exist?(@dest_file)
-      end
+  describe "summary extensions" do
+    before do
+      @site = resources_site
+      @site.read
 
-      it "honors the output extension of its permalink" do
-        assert_equal ".html", @resource.destination.output_ext
-      end
-
-      it "has transformed content" do
-        assert_equal "Christmas 2020", @resource.data.title
-        assert_equal "Fa la la la la la la la la!", @resource.content.strip
+      @resource = @site.collections.pages.resources.find do |page|
+        page.relative_path.to_s == "top-level-page.md"
       end
     end
 
-    describe "a resource in a collection with default permalinks" do
-      before do
-        @site = resources_site(
-          "collections" => {
-            "events" => {
-              "output" => true,
-            },
-          }
-        )
-        @site.process
-        @resource = @site.collections.events.resources[0]
-        @dest_file = dest_dir("events/christmas/index.html")
-      end
+    it "works in a Ruby template" do
+      assert_equal "That's **great**!", @resource.summary
 
-      it "produces the right URL" do
-        assert_equal "/events/christmas/", @resource.relative_url
-      end
+      @resource.singleton_class.include TestingSummaryService::RubyResource
 
-      it "produces the right destination file" do
-        assert_equal @dest_file, @resource.destination.output_path
-      end
+      assert_equal "SUMMARY! That's **gr DONE", @resource.summary
     end
 
-    describe "a resource that's configured not to output" do
-      before do
-        @site = resources_site(
-          "collections" => {
-            "events" => {
-              "output" => true,
-            },
-          }
-        )
-        @site.process
-        @resource = @site.collections.events.resources[1]
-        @dest_file = dest_dir("events/the-weeknd/index.html")
-      end
+    it "works in a Liquid template" do
+      @resource.singleton_class.include TestingSummaryService::RubyResource
+      @site.render
 
-      it "does not have any URL" do
-        assert_equal "", @resource.relative_url
-      end
-
-      it "does not have any destination file" do
-        assert_nil @resource.destination
-        refute File.exist?(@dest_file)
-      end
-
-      it "still has processed content" do
-        assert_equal "Ladies and gentlemen, The Weeknd!", @resource.content
-      end
-    end
-
-    describe "a resource in a collection with a :simple_ext permalink style" do
-      before do
-        @site = resources_site(
-          "collections" => {
-            "noodles" => {
-              "output"    => true,
-              "permalink" => "simple_ext",
-            },
-          }
-        )
-        @site.process
-        @resource = @site.collections.noodles.resources[1]
-        @dest_file = dest_dir("noodles/low-cost/ramen.html")
-      end
-
-      it "produces the right URL" do
-        assert_equal "/noodles/low-cost/ramen", @resource.relative_url
-      end
-
-      it "produces the right destination file" do
-        assert_equal @dest_file, @resource.destination.output_path
-      end
-
-      it "has transformed content" do
-        assert_equal "Mmm, yum!", @resource.content.strip
-      end
-
-      it "contains default front matter" do
-        assert_equal %w[noodle dishes], @resource.data.tags
-        assert_equal "dishes", @resource.taxonomies.tag.terms[1].label
-      end
-
-      it "appears in page loop" do
-        page = @site.collections.pages.resources.find { |pg| pg.data.title == "I'm the Noodles index" }
-        assert_includes page.output, "<li>Noodles!: /noodles/low-cost/ramen"
-      end
-    end
-
-    describe "a resource in the posts collection with a weird filename" do
-      before do
-        @site = resources_site
-        @site.process
-        @resource = @site.collections.posts.resources[0]
-        @dest_file = dest_dir("2019/09/09/bløg-pöst/index.html")
-      end
-
-      it "produces the right URL" do
-        assert_equal "/2019/09/09/bløg-pöst/", @resource.relative_url
-      end
-
-      it "produces the right destination file" do
-        assert_equal @dest_file, @resource.destination.output_path
-      end
-
-      it "has a fancy title" do
-        assert_equal "I'm a bløg pöst? 😄", @resource.data.title
-      end
-
-      it "includes content" do
-        assert_equal "<p>W00t!</p>\n", @resource.content
-      end
-
-      it "properly loads front matter defaults" do
-        assert_equal "present and accounted for", @resource.data.defaults_are
-        assert_equal "present and accounted for", {}.merge(@resource.data.to_h)["defaults_are"]
-      end
-    end
-
-    describe "a resource in the posts collection" do
-      before do
-        @site = resources_site({ slugify_mode: "latin" })
-        @site.process
-        @resource = @site.collections.posts.resources[0]
-        @dest_file = dest_dir("2019/09/09/blog-post/index.html")
-      end
-
-      it "allows a simpler slugify mode" do
-        assert_equal "/2019/09/09/blog-post/", @resource.relative_url
-        assert_equal @dest_file, @resource.destination.output_path
-      end
-    end
-
-    describe "a resource in a collection that's only a YAML file" do
-      before do
-        @site = resources_site(
-          "collections" => {
-            "noodles" => {
-              "output" => true,
-            },
-          }
-        )
-        @site.process
-        @resource = @site.collections.noodles.resources[0]
-      end
-
-      it "has no URL" do
-        assert_equal "", @resource.relative_url
-      end
-
-      it "has no destination file" do
-        assert @resource.destination.nil?
-      end
-
-      it "has data" do
-        assert_equal 1, @resource.data.data.goes.here
-      end
-
-      it "is a static file without triple dashes" do
-        assert_equal 2, @site.collections.noodles.resources.length
-        assert_equal "static_file.yml", @site.collections.noodles.static_files.first.name
-      end
-    end
-
-    describe "a resource in the data collection" do
-      before do
-        @site = resources_site
-        @site.process
-        @resource = @site.collections.data.resources[0]
-      end
-
-      it "has no URL" do
-        assert_equal "", @resource.relative_url
-      end
-
-      it "has no destination file" do
-        assert @resource.destination.nil?
-      end
-
-      it "has data" do
-        assert_equal "cheese", @resource.data.products.first.name
-        assert_equal "cheese", @site.data.categories.dairy.products.first.name
-        assert_equal 5.3, @site.data.categories.dairy.products.first.price
-      end
-
-      it "does not overwrite data in same folder" do
-        assert_equal "1.jpg", @site.data.gallery.album_1.file
-        assert_equal "2.jpg", @site.data.gallery.album_2.file
-        assert_equal "3.jpg", @site.data.gallery.album_1.interior.file
-      end
-    end
-
-    describe "a Ruby data resource" do
-      it "provides an array" do
-        @site = resources_site
-        @site.process
-        assert_equal "ruby", @site.data.languages[1]
-      end
-    end
-
-    describe "a PORT (Plain Ol' Ruby Template)" do
-      it "renders out as HTML" do
-        @site = resources_site
-        @site.process
-        @dest_file = File.read(dest_dir("i-am-ruby/index.html"))
-        Serbea::Pipeline.raise_on_missing_filters = true
-
-        # rubocop:disable Layout/TrailingWhitespace
-        assert_includes @dest_file, <<~HTML
-          <body>
-          <p>Hello &lt;U&gt;WORLD&lt;/U&gt;</p>
-          <output>DOES THIS WORK? 123</output>
-
-          <output>Does this work? 456</output>
-          <output>Does this work? 789</output>
-          [Bridgetown]
-          <p>This is &lt;b&gt;escaped!&lt;/b&gt;</p>
-          <p>piping &lt;i&gt;bad&lt;/i&gt; <b>good</b></p>
-          <p><em>yay</em></p>
-
-          <blockquote>
-            <p>Well, <em>this</em> is quite interesting &lt;script&gt;alert('bad!')&lt;/script&gt;! =)</p>
-          </blockquote><ul>
-          <li>0</li>
-          <li>1</li>
-          <li>2</li>
-          
-          </ul>
-          
-          </body>
-        HTML
-        # rubocop:enable Layout/TrailingWhitespace
-      end
-    end
-
-    describe "dotfile permalink" do
-      it "gets saved to destination" do
-        @site = resources_site
-        @site.process
-        @dest_file = File.read(dest_dir(".nojekyll"))
-
-        assert_equal "nojekyll", @dest_file.strip
-      end
-    end
-
-    describe "previous and next resource methods" do
-      it "returns the correct resource" do
-        @site = resources_site
-        @site.process
-        @resource = @site.collections.pages.resources[0]
-
-        assert_equal @site.collections.pages.resources[1], @resource.next_resource
-        assert_equal @site.collections.pages.resources[0], @resource.next_resource.previous_resource
-      end
-    end
-
-    describe "prototype pages" do
-      before do
-        @site = resources_site
-        @site.process
-        @page = @site.generated_pages.find { |page| page.data.title == "Noodles Archive" }
-        @dest_file = dest_dir("noodle-archive/ramen/index.html")
-      end
-
-      it "is generated for the given term" do
-        assert File.exist?(@dest_file)
-        assert_includes @page.output, "<h1>ramen</h1>"
-      end
-
-      it "does not persist across rebuilds" do
-        page_count = @site.generated_pages.size
-        Bridgetown::Hooks.trigger :site, :pre_reload, @site
-        @site.process
-        assert_equal page_count, @site.generated_pages.size
-      end
-    end
-
-    describe "resource extensions" do
-      before do
-        @site = resources_site
-        @site.process
-      end
-
-      it "augments the Resource::Base class" do
-        resource = @site.resources.first
-        assert_equal "Ruby return value! ", resource.heres_a_method
-        assert_equal "Ruby return value! wee!", resource.heres_a_method("wee!")
-      end
-
-      it "augments the Drops::ResourceDrop class" do
-        resource = @site.collections.pages.resources.find do |page|
-          page.relative_path.to_s == "top-level-page.md"
-        end
-
-        assert_includes resource.output, "Test extension: Liquid return value"
-      end
-    end
-
-    describe "summary extensions" do
-      before do
-        @site = resources_site
-        @site.read
-
-        @resource = @site.collections.pages.resources.find do |page|
-          page.relative_path.to_s == "top-level-page.md"
-        end
-      end
-
-      it "works in a Ruby template" do
-        assert_equal "That's **great**!", @resource.summary
-
-        @resource.singleton_class.include TestingSummaryService::RubyResource
-
-        assert_equal "SUMMARY! That's **gr DONE", @resource.summary
-      end
-
-      it "works in a Liquid template" do
-        @resource.singleton_class.include TestingSummaryService::RubyResource
-        @site.render
-
-        assert_includes @resource.output, "Summary: :SUMMARY! That’s **gr DONE:"
-      end
+      assert_includes @resource.output, "Summary: :SUMMARY! That’s **gr DONE:"
     end
   end
 end

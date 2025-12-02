@@ -66,7 +66,7 @@ class TestConfiguration < BridgetownUnitTest
     end
 
     it "always excludes node_modules" do
-      assert_includes @config["exclude"], "node_modules"
+      assert_includes @config["exclude"], "node_modules/"
     end
 
     it "always excludes Gemfile and related paths" do
@@ -86,8 +86,8 @@ class TestConfiguration < BridgetownUnitTest
 
     it "always excludes default cache directories" do
       exclude = @config["exclude"]
-      assert_includes exclude, ".sass-cache"
-      assert_includes exclude, ".bridgetown-cache"
+      assert_includes exclude, ".sass-cache/"
+      assert_includes exclude, ".bridgetown-cache/"
     end
   end
 

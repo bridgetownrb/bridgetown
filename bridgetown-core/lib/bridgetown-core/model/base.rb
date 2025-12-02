@@ -6,14 +6,14 @@ module Bridgetown
       include Bridgetown::RodaCallable
 
       class << self
-        def find(id, site: Bridgetown::Current.site)
+        def find(id, site: Bridgetown::Current.site, bare_text: false)
           raise "A Bridgetown site must be initialized and added to Current" unless site
 
-          origin = origin_for_id(id, site:)
+          origin = origin_for_id(id, site:, bare_text:)
           klass_for_id(id, origin:).new(origin.read)
         end
 
-        def origin_for_id(id, site: Bridgetown::Current.site)
+        def origin_for_id(id, site: Bridgetown::Current.site, bare_text: false)
           scheme = URI.parse(id).scheme
           origin_klass = Origin.descendants.find do |klass|
             klass.handle_scheme?(scheme)
@@ -21,7 +21,7 @@ module Bridgetown
 
           raise "No origin could be found for #{id}" unless origin_klass
 
-          origin_klass.new(id, site:)
+          origin_klass.new(id, site:, bare_text:)
         end
 
         def klass_for_id(id, origin: nil)

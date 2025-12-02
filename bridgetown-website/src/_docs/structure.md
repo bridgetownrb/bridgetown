@@ -9,7 +9,7 @@ The typical folder structure for a Bridgetown site usually looks something like 
 
 ```shell
 .
-├── config # this is where frontend and server defaults are stored
+├── config # this is where frontend, initializers, and server defaults are stored
 ├── frontend # this is where you put your CSS and JS for esbuild
 │   ├── javascript
 │   │   ├── index.js
@@ -37,8 +37,7 @@ The typical folder structure for a Bridgetown site usually looks something like 
 │   ├── some_page.md
 │   └── index.html # or index.md
 ├── output # this is the generated site after build process
-├── plugins # this is where you can write custom plugins
-├── bridgetown.config.yml # this is your Bridgetown configuration file
+├── plugins # this is where you can write plugins with the Builder API
 ├── config.ru # Puma uses this to boot up the web server
 ├── esbuild.config.js # frontend bundler config
 ├── Gemfile
