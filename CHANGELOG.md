@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.1.0.beta1] - 2025-12-03
 
+- Add built-in initializer plugin for external sources [#886](https://github.com/bridgetownrb/bridgetown/pull/886) ([@jaredcwhite](https://github.com/jaredcwhite))
 - Samovar command line and Freyia automations migration (from Thor) [#1060](https://github.com/bridgetownrb/bridgetown/pull/1060) ([@jaredcwhite](https://github.com/jaredcwhite))
   - Automation URLs for GitLab & Codeberg repos now supported
   - **Possible breaking change:** a Thor "shim" is provided but may not support 100% of custom commands in the wild
