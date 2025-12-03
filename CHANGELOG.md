@@ -9,6 +9,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 .
 
+## [2.1.0.beta1] - 2025-12-03
+
+- Samovar command line and Freyia automations migration (from Thor) [#1060](https://github.com/bridgetownrb/bridgetown/pull/1060) ([@jaredcwhite](https://github.com/jaredcwhite))
+  - Automation URLs for GitLab & Codeberg repos now supported
+  - **Possible breaking change:** a Thor "shim" is provided but may not support 100% of custom commands in the wild
+- Universal rendering for partials & components [#1059](https://github.com/bridgetownrb/bridgetown/pull/1059) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Bump minimum Ruby version to 3.2, Node version to 22 [#1057](https://github.com/bridgetownrb/bridgetown/pull/1057) ([@fpsvogel](https://github.com/fpsvogel))
+- Remove Active Support as a dependency [#1053](https://github.com/bridgetownrb/bridgetown/pull/1053) ([@jaredcwhite](https://github.com/jaredcwhite))
+  - **Possible breaking change:** if you've written code reliant on functionality from Active Support, you may need to adjust or re-add the Active Support gem manually
+- Normalize resource dates as Time objects [#1052](https://github.com/bridgetownrb/bridgetown/pull/1052) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Use Minitest spec instead of Shoulda [#1050](https://github.com/bridgetownrb/bridgetown/pull/1050) ([@fpsvogel](https://github.com/fpsvogel))
+- docs: migrate Turbo & Stimulus bundled configs to community repo, mention `Rack::Test` for console
+- docs: add deployment information for statichost.eu, remove Vercel
+
 ## [2.0.5] - 2025-11-16
 
 - Fix: patch to bring back missing commit for nested components bugfix (I _swear_ I had fixed this, but somehow it mysteriously vanished from the final 2.0.4 release!)
