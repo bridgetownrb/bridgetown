@@ -88,13 +88,13 @@ module Bridgetown
         return input.absolute_url if input.respond_to?(:absolute_url)
 
         input = input.url if input.respond_to?(:url)
-        return input if Addressable::URI.parse(input.to_s).absolute?
+        return input if URI.parse(input.to_s).absolute?
 
         site = @context.registers[:site]
         site_url = site.config["url"]
         return relative_url(input) if site_url.nil? || site_url == ""
 
-        Addressable::URI.parse(
+        URI.parse(
           site_url.to_s + relative_url(input)
         ).normalize.to_s
       end
@@ -104,11 +104,11 @@ module Bridgetown
         return input.relative_url if input.respond_to?(:relative_url)
 
         input = input.url if input.respond_to?(:url)
-        return input if Addressable::URI.parse(input.to_s).absolute?
+        return input if URI.parse(input.to_s).absolute?
 
         site = @context.registers[:site]
         parts = [site.base_path.chomp("/"), input]
-        Addressable::URI.parse(
+        URI.parse(
           parts.compact.map { |part| ensure_leading_slash(part.to_s) }.join
         ).normalize.to_s
       end

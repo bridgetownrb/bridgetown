@@ -84,7 +84,7 @@ class Roda
 
           data = Bridgetown::Model::BuilderOrigin.new(
             Bridgetown::Model::BuilderOrigin.id_for_builder_path(
-              self, Addressable::URI.encode(source_path.to_s)
+              self, broad_uri_encode(source_path.to_s)
             )
           ).read do
             data[:_collection_] = bridgetown_site.collections.pages

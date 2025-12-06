@@ -17,7 +17,7 @@ module Bridgetown
       end
 
       def absolute_url
-        Addressable::URI.parse(
+        URI.parse(
           resource.site.config.url.to_s + relative_url
         ).normalize.to_s
       end

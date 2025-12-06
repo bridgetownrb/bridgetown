@@ -10,6 +10,27 @@ module Bridgetown
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
     autoload :SmartyPantsConverter, "bridgetown-core/utils/smarty_pants_converter"
 
+    # Constants for use in URI encode (replacing Addressable)
+    ALPHA = "a-zA-Z"
+    DIGIT = "0-9"
+    GEN_DELIMS = "\\:\\/\\?\\#\\[\\]\\@"
+    SUB_DELIMS = "\\!\\$\\&\\'\\(\\)\\*\\+\\,\\;\\="
+    RESERVED = (GEN_DELIMS + SUB_DELIMS).freeze
+    UNRESERVED = "#{ALPHA}#{DIGIT}\\-\\.\\_\\~".freeze
+    RESERVED_AND_UNRESERVED = RESERVED + UNRESERVED
+
+    # URI encode with broader set of character classes (same as Addressable)
+    def broad_uri_encode(str)
+      URI.send(:_encode_uri_component, %r{[^#{RESERVED_AND_UNRESERVED}]}o, URI::TBLENCURICOMP_, str,
+               nil)
+    end
+
+    # Replacing Addressable::URI.normalize_component
+    def normalize_component(str)
+      decoded_str = URI.decode_uri_component(str)
+      addressable_encode(decoded_str)
+    end
+
     # Constants for use in #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
     SLUGIFY_RAW_REGEXP = Regexp.new("\\s+").freeze
@@ -40,7 +61,7 @@ module Bridgetown
       path = path.encode("utf-8")
       return path unless path.include?("%")
 
-      Addressable::URI.unencode(path)
+      URI.decode_uri_component(path)
     end
 
     # Non-destructive version of deep_merge_hashes! See that method.
@@ -351,7 +372,7 @@ module Bridgetown
         *additional_parts,
       ]
       path_parts[0] = "/#{path_parts[0]}" unless path_parts[0].empty?
-      Addressable::URI.parse(path_parts.join("/")).normalize.to_s
+      URI.parse(path_parts.join("/")).normalize.to_s
     end
 
     def log_frontend_asset_error(site, asset_type)
