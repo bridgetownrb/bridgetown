@@ -418,4 +418,15 @@ class TestUtils < BridgetownUnitTest
       end
     end
   end
+
+  describe "The new `normalize_component` method" do
+    it "both decodes and encodes like Addressable::URI:normalize_component did" do
+      str1 = "simple%2Fex%61mple "
+      expected1 = "simple/example%20"
+      assert_equal normalize_component(str1), expected1
+      str2 = "a%25more%26complicated%24example"
+      expected2 = "a/more&complicated$example"
+      assert_equal normalize_component(str2), expected2
+    end
+  end
 end

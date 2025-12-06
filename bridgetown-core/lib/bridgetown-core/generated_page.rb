@@ -141,7 +141,7 @@ module Bridgetown
         else
           result.gsub(":#{token.first}", token.last)
         end
-      end.then { Addressable::URI.normalize_component _1 }
+      end.then { normalize_component _1 }
 
       @url = "/#{results.sub("#", "%23")}".gsub("..", "/").gsub("./", "").squeeze("/")
     end
