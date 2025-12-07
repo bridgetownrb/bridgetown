@@ -405,7 +405,7 @@ module Bridgetown
       scheme = manifest ? "plugin" : "repo"
       id = "#{scheme}://#{label}.collection/"
       id += "#{manifest.origin}/" if manifest
-      id += broad_uri_encode(model_relative_path).gsub("#", "%23")
+      id += Bridgetown::Utils.broad_uri_encode(model_relative_path).gsub("#", "%23")
       id
     end
 

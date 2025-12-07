@@ -28,10 +28,10 @@ module Bridgetown
     # Replacing Addressable::URI.normalize_component
     def normalize_component(str)
       decoded_str = URI.decode_uri_component(str)
-      addressable_encode(decoded_str)
+      broad_uri_encode(decoded_str)
     end
 
-    # Constants for use in #slugify
+    # Constants for use gitin #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
     SLUGIFY_RAW_REGEXP = Regexp.new("\\s+").freeze
     SLUGIFY_DEFAULT_REGEXP = Regexp.new("[^\\p{M}\\p{L}\\p{Nd}]+").freeze
