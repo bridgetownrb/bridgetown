@@ -83,32 +83,36 @@ module Bridgetown
 
       private
 
+      # rubocop:disable Metrics/CyclomaticComplexity, Metrics/AbcSize
       def compute_absolute_url(input)
         return if input.nil?
+        return input.to_s if input.is_a?(Hash)
         return input.absolute_url if input.respond_to?(:absolute_url)
 
         input = input.url if input.respond_to?(:url)
-        return input if URI.parse(input.to_s).absolute?
+        return input if Utils.parse_uri(input.to_s).absolute?
 
         site = @context.registers[:site]
         site_url = site.config["url"]
-        return relative_url(input) if site_url.nil? || site_url == ""
+        encoded_site_url = Utils.encode_uri(site_url)
+        return relative_url(input) if encoded_site_url.nil? || encoded_site_url == ""
 
-        URI.parse(
+        Utils.parse_uri(
           site_url.to_s + relative_url(input)
         ).normalize.to_s
       end
+      # rubocop:enable Metrics/CyclomaticComplexity, Metrics/AbcSize
 
       def compute_relative_url(input)
         return if input.nil?
         return input.relative_url if input.respond_to?(:relative_url)
 
         input = input.url if input.respond_to?(:url)
-        return input if URI.parse(input.to_s).absolute?
+        return input if Utils.parse_uri(input.to_s).absolute?
 
         site = @context.registers[:site]
         parts = [site.base_path.chomp("/"), input]
-        URI.parse(
+        Utils.parse_uri(
           parts.compact.map { |part| ensure_leading_slash(part.to_s) }.join
         ).normalize.to_s
       end

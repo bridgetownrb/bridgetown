@@ -57,6 +57,13 @@ module Bridgetown
       )
     end
 
+    # URI::parse throws an error for strings with certain special characters
+    # or Unicode characters, unless they are encoded first.
+    def parse_uri(str)
+      encoded_str = Utils.encode_uri(str)
+      URI.parse(encoded_str)
+    end
+
     # Constants for use gitin #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
     SLUGIFY_RAW_REGEXP = Regexp.new("\\s+").freeze
@@ -391,7 +398,7 @@ module Bridgetown
         *additional_parts,
       ]
       path_parts[0] = "/#{path_parts[0]}" unless path_parts[0].empty?
-      URI.parse(path_parts.join("/")).normalize.to_s
+      parse_uri(path_parts.join("/")).normalize.to_s
     end
 
     def log_frontend_asset_error(site, asset_type)

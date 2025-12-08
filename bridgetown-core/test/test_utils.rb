@@ -446,4 +446,11 @@ class TestUtils < BridgetownUnitTest
       assert_equal expected, Bridgetown::Utils.normalize_uri(input)
     end
   end
+
+  describe "The `Utils.parse_uri` method" do
+    it "parses a URI containing unencoded characters" do
+      input = "simple%2Fex%61mple "
+      refute_nil Bridgetown::Utils.parse_uri(input).path
+    end
+  end
 end

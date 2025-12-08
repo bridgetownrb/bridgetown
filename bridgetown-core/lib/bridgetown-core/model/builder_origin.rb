@@ -22,7 +22,7 @@ module Bridgetown
       end
 
       def url
-        @url ||= URI.parse(id)
+        @url ||= Utils.parse_uri(id)
       end
 
       def read

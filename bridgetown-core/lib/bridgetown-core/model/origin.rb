@@ -28,7 +28,7 @@ module Bridgetown
 
       # You can override in subclass
       def verify_model?(klass)
-        collection_name = URI.parse(id).host.chomp(".collection")
+        collection_name = Utils.parse_uri(id).host.chomp(".collection")
 
         return klass.collection_name.to_s == collection_name if klass.respond_to?(:collection_name)
 
