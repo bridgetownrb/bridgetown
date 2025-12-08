@@ -78,7 +78,7 @@ module Bridgetown
 
       def relative_path
         @relative_path ||= Pathname.new(
-          URI.decode_uri_component(url.path.delete_prefix("/"))
+          Utils.decode_uri(url.path.delete_prefix("/"))
         )
       end
 

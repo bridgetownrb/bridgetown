@@ -429,6 +429,14 @@ class TestUtils < BridgetownUnitTest
     end
   end
 
+  describe "The `Utils.decode_uri` method" do
+    it "no-ops on a string that is not URI-encoded" do
+      input = "/+/%# +/"
+      expected = "/+/%# +/"
+      assert_equal expected, Bridgetown::Utils.decode_uri(input)
+    end
+  end
+
   describe "The `Utils.normalize_component` method" do
     it "decodes and then encodes" do
       # input and expected are from Addressable::URI::normalize_component docs,

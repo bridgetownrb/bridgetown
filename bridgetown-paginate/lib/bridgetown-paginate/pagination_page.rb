@@ -66,7 +66,7 @@ module Bridgetown
       def destination(dest)
         path = site.in_dest_dir(
           dest, Bridgetown::Utils
-            .unencode_uri(url)
+            .decode_uri(url)
             .delete_prefix(site.base_path(strip_slash_only: true))
         )
         path = File.join(path, "index") if url.end_with?("/")

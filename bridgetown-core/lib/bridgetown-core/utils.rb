@@ -34,10 +34,18 @@ module Bridgetown
       )
     end
 
+    def decode_uri(path)
+      path = path.encode("utf-8")
+      return path unless path.include?("%")
+
+      encoded_path = URI.encode_uri_component(path)
+      URI.decode_uri_component(encoded_path)
+    end
+
     # Decoodes and then encodes a string.
     # Replaces Addressable::URI.normalize_component
     def normalize_component(str)
-      decoded_str = URI.decode_uri_component(str)
+      decoded_str = decode_uri(str)
       # Encode with an even more limited set of characters that are not encoded
       # than in encode_uri_limited.
       URI.send(
@@ -73,13 +81,6 @@ module Bridgetown
     # @return [String] the escaped String.
     def xml_escape(input)
       input.to_s.encode(xml: :attr).gsub(%r!\A"|"\Z!, "")
-    end
-
-    def unencode_uri(path)
-      path = path.encode("utf-8")
-      return path unless path.include?("%")
-
-      URI.decode_uri_component(path)
     end
 
     # Non-destructive version of deep_merge_hashes! See that method.

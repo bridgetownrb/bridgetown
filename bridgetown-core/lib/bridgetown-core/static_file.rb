@@ -58,7 +58,7 @@ module Bridgetown
       if site.base_path.length.positive? && collection
         dest_url = dest_url.delete_prefix site.base_path(strip_slash_only: true)
       end
-      site.in_dest_dir(dest, Bridgetown::Utils.unencode_uri(dest_url))
+      site.in_dest_dir(dest, Bridgetown::Utils.decode_uri(dest_url))
     end
 
     def destination_rel_dir
