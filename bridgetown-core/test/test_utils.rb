@@ -419,14 +419,23 @@ class TestUtils < BridgetownUnitTest
     end
   end
 
-  describe "The new `normalize_component` method" do
-    it "both decodes and encodes like Addressable::URI:normalize_component did" do
-      str1 = "simple%2Fex%61mple "
-      expected1 = "simple/example%20"
-      assert_equal Bridgetown::Utils.normalize_component(str1), expected1
-      str2 = "a%25more%26complicated%24example"
-      expected2 = "a/more&complicated$example"
-      assert_equal Bridgetown::Utils.normalize_component(str2), expected2
+  describe "The `Utils.encode_uri_limited` method" do
+    it "encodes with a limited set of characters that are encoded" do
+      input = "_posts/2014-03-22-escape-+ %20[]"
+      expected = "_posts/2014-03-22-escape-+%20%2520%5B%5D"
+      # in contrast, URI::encode_uri_component would return "_posts%2F2014-03-22-escape-%2B%20%2520%5B%5D"
+      # also in contrast, Utils::normalize_component would return "_posts/2014-03-22-escape-+%20%20[]"
+      assert_equal expected, Bridgetown::Utils.encode_uri_limited(input)
+    end
+  end
+
+  describe "The `Utils.normalize_component` method" do
+    it "decodes and then encodes" do
+      # input and expected are from Addressable::URI::normalize_component docs,
+      # to show that the behavior here is the same.
+      input = "simple%2Fex%61mple "
+      expected = "simple/example%20"
+      assert_equal expected, Bridgetown::Utils.normalize_component(input)
     end
   end
 end

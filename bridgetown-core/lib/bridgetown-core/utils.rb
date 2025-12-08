@@ -10,7 +10,7 @@ module Bridgetown
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
     autoload :SmartyPantsConverter, "bridgetown-core/utils/smarty_pants_converter"
 
-    # Constants for use in URI encode (replacing Addressable)
+    # Constants for use in URI encoding. From Addressable::URI.
     ALPHA = "a-zA-Z"
     DIGIT = "0-9"
     GEN_DELIMS = "\\:\\/\\?\\#\\[\\]\\@"
@@ -18,17 +18,35 @@ module Bridgetown
     RESERVED = (GEN_DELIMS + SUB_DELIMS).freeze
     UNRESERVED = "#{ALPHA}#{DIGIT}\\-\\.\\_\\~".freeze
     RESERVED_AND_UNRESERVED = RESERVED + UNRESERVED
+    PCHAR = "#{UNRESERVED}#{SUB_DELIMS}\\:\\@".freeze
+    PATH = "#{PCHAR}\\/".freeze
 
-    # URI encode with broader set of character classes (same as Addressable)
-    def broad_uri_encode(str)
-      URI.send(:_encode_uri_component, %r{[^#{RESERVED_AND_UNRESERVED}]}o, URI::TBLENCURICOMP_, str,
-               nil)
+    # URI encode with more limited set of characters that are encoded than in
+    # the public URI::encode_uri_component.
+    # Replaces Addressable::URI::encode
+    def encode_uri_limited(str)
+      URI.send(
+        :_encode_uri_component,
+        %r{[^#{PATH}]}o,
+        URI::TBLENCURICOMP_,
+        str,
+        nil
+      )
     end
 
-    # Replacing Addressable::URI.normalize_component
+    # Decoodes and then encodes a string.
+    # Replaces Addressable::URI.normalize_component
     def normalize_component(str)
       decoded_str = URI.decode_uri_component(str)
-      broad_uri_encode(decoded_str)
+      # Encode with an even more limited set of characters that are not encoded
+      # than in encode_uri_limited.
+      URI.send(
+        :_encode_uri_component,
+        %r{[^#{RESERVED_AND_UNRESERVED}]}o,
+        URI::TBLENCURICOMP_,
+        decoded_str,
+        nil
+      )
     end
 
     # Constants for use gitin #slugify
