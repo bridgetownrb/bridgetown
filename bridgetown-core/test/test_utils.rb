@@ -424,7 +424,7 @@ class TestUtils < BridgetownUnitTest
       input = "_posts/2014-03-22-escape-+ %20[]"
       expected = "_posts/2014-03-22-escape-+%20%2520%5B%5D"
       # in contrast, URI::encode_uri_component would return "_posts%2F2014-03-22-escape-%2B%20%2520%5B%5D"
-      # also in contrast, Utils::normalize_component would return "_posts/2014-03-22-escape-+%20%20[]"
+      # also in contrast, Utils::normalize_uri would return "_posts/2014-03-22-escape-+%20%20[]"
       assert_equal expected, Bridgetown::Utils.encode_uri_limited(input)
     end
   end
@@ -437,13 +437,13 @@ class TestUtils < BridgetownUnitTest
     end
   end
 
-  describe "The `Utils.normalize_component` method" do
+  describe "The `Utils.normalize_uri` method" do
     it "decodes and then encodes" do
-      # input and expected are from Addressable::URI::normalize_component docs,
+      # input and expected are from Addressable::URI::normalize_uri docs,
       # to show that the behavior here is the same.
       input = "simple%2Fex%61mple "
       expected = "simple/example%20"
-      assert_equal expected, Bridgetown::Utils.normalize_component(input)
+      assert_equal expected, Bridgetown::Utils.normalize_uri(input)
     end
   end
 end

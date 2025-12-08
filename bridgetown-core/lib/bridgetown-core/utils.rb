@@ -44,7 +44,7 @@ module Bridgetown
 
     # Decoodes and then encodes a string.
     # Replaces Addressable::URI.normalize_component
-    def normalize_component(str)
+    def normalize_uri(str)
       decoded_str = decode_uri(str)
       # Encode with an even more limited set of characters that are not encoded
       # than in encode_uri_limited.
