@@ -24,7 +24,7 @@ module Bridgetown
     # URI encode with more limited set of characters that are encoded than in
     # the public URI::encode_uri_component.
     # Replaces Addressable::URI::encode
-    def encode_uri_limited(str)
+    def encode_uri(str)
       URI.send(
         :_encode_uri_component,
         %r{[^#{PATH}]}o,
@@ -47,7 +47,7 @@ module Bridgetown
     def normalize_uri(str)
       decoded_str = decode_uri(str)
       # Encode with an even more limited set of characters that are not encoded
-      # than in encode_uri_limited.
+      # than in Utils::encode_uri.
       URI.send(
         :_encode_uri_component,
         %r{[^#{RESERVED_AND_UNRESERVED}]}o,

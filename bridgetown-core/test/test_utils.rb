@@ -419,13 +419,13 @@ class TestUtils < BridgetownUnitTest
     end
   end
 
-  describe "The `Utils.encode_uri_limited` method" do
+  describe "The `Utils.encode_uri` method" do
     it "encodes with a limited set of characters that are encoded" do
       input = "_posts/2014-03-22-escape-+ %20[]"
       expected = "_posts/2014-03-22-escape-+%20%2520%5B%5D"
       # in contrast, URI::encode_uri_component would return "_posts%2F2014-03-22-escape-%2B%20%2520%5B%5D"
       # also in contrast, Utils::normalize_uri would return "_posts/2014-03-22-escape-+%20%20[]"
-      assert_equal expected, Bridgetown::Utils.encode_uri_limited(input)
+      assert_equal expected, Bridgetown::Utils.encode_uri(input)
     end
   end
 
