@@ -14,7 +14,7 @@ module Bridgetown
         end
 
         def origin_for_id(id, site: Bridgetown::Current.site, bare_text: false)
-          scheme = URI.parse(id).scheme
+          scheme = Utils.parse_uri(id).scheme
           origin_klass = Origin.descendants.find do |klass|
             klass.handle_scheme?(scheme)
           end

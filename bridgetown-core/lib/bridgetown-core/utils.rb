@@ -10,7 +10,61 @@ module Bridgetown
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"
     autoload :SmartyPantsConverter, "bridgetown-core/utils/smarty_pants_converter"
 
-    # Constants for use in #slugify
+    # Constants for use in URI encoding. From Addressable::URI.
+    ALPHA = "a-zA-Z"
+    DIGIT = "0-9"
+    GEN_DELIMS = "\\:\\/\\?\\#\\[\\]\\@"
+    SUB_DELIMS = "\\!\\$\\&\\'\\(\\)\\*\\+\\,\\;\\="
+    RESERVED = (GEN_DELIMS + SUB_DELIMS).freeze
+    UNRESERVED = "#{ALPHA}#{DIGIT}\\-\\.\\_\\~".freeze
+    RESERVED_AND_UNRESERVED = RESERVED + UNRESERVED
+    PCHAR = "#{UNRESERVED}#{SUB_DELIMS}\\:\\@".freeze
+    PATH = "#{PCHAR}\\/".freeze
+
+    # URI encode with more limited set of characters that are encoded than in
+    # the public URI::encode_uri_component.
+    # Replaces Addressable::URI::encode
+    def encode_uri(str)
+      URI.send(
+        :_encode_uri_component,
+        %r{[^#{PATH}]}o,
+        URI::TBLENCURICOMP_,
+        str,
+        nil
+      )
+    end
+
+    def decode_uri(path)
+      path = path.encode("utf-8")
+      return path unless path.include?("%")
+
+      encoded_path = URI.encode_uri_component(path)
+      URI.decode_uri_component(encoded_path)
+    end
+
+    # Decoodes and then encodes a string.
+    # Replaces Addressable::URI.normalize_component
+    def normalize_uri(str)
+      decoded_str = decode_uri(str)
+      # Encode with an even more limited set of characters that are not encoded
+      # than in Utils::encode_uri.
+      URI.send(
+        :_encode_uri_component,
+        %r{[^#{RESERVED_AND_UNRESERVED}]}o,
+        URI::TBLENCURICOMP_,
+        decoded_str,
+        nil
+      )
+    end
+
+    # URI::parse throws an error for strings with certain special characters
+    # or Unicode characters, unless they are encoded first.
+    def parse_uri(str)
+      encoded_str = Utils.encode_uri(str)
+      URI.parse(encoded_str)
+    end
+
+    # Constants for use gitin #slugify
     SLUGIFY_MODES = %w(raw default pretty simple ascii latin).freeze
     SLUGIFY_RAW_REGEXP = Regexp.new("\\s+").freeze
     SLUGIFY_DEFAULT_REGEXP = Regexp.new("[^\\p{M}\\p{L}\\p{Nd}]+").freeze
@@ -34,13 +88,6 @@ module Bridgetown
     # @return [String] the escaped String.
     def xml_escape(input)
       input.to_s.encode(xml: :attr).gsub(%r!\A"|"\Z!, "")
-    end
-
-    def unencode_uri(path)
-      path = path.encode("utf-8")
-      return path unless path.include?("%")
-
-      Addressable::URI.unencode(path)
     end
 
     # Non-destructive version of deep_merge_hashes! See that method.
@@ -351,7 +398,7 @@ module Bridgetown
         *additional_parts,
       ]
       path_parts[0] = "/#{path_parts[0]}" unless path_parts[0].empty?
-      Addressable::URI.parse(path_parts.join("/")).normalize.to_s
+      parse_uri(path_parts.join("/")).normalize.to_s
     end
 
     def log_frontend_asset_error(site, asset_type)

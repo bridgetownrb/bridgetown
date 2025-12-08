@@ -418,4 +418,39 @@ class TestUtils < BridgetownUnitTest
       end
     end
   end
+
+  describe "The `Utils.encode_uri` method" do
+    it "encodes with a limited set of characters that are encoded" do
+      input = "_posts/2014-03-22-escape-+ %20[]"
+      expected = "_posts/2014-03-22-escape-+%20%2520%5B%5D"
+      # in contrast, URI::encode_uri_component would return "_posts%2F2014-03-22-escape-%2B%20%2520%5B%5D"
+      # also in contrast, Utils::normalize_uri would return "_posts/2014-03-22-escape-+%20%20[]"
+      assert_equal expected, Bridgetown::Utils.encode_uri(input)
+    end
+  end
+
+  describe "The `Utils.decode_uri` method" do
+    it "no-ops on a string that is not URI-encoded" do
+      input = "/+/%# +/"
+      expected = "/+/%# +/"
+      assert_equal expected, Bridgetown::Utils.decode_uri(input)
+    end
+  end
+
+  describe "The `Utils.normalize_uri` method" do
+    it "decodes and then encodes" do
+      # input and expected are from Addressable::URI::normalize_uri docs,
+      # to show that the behavior here is the same.
+      input = "simple%2Fex%61mple "
+      expected = "simple/example%20"
+      assert_equal expected, Bridgetown::Utils.normalize_uri(input)
+    end
+  end
+
+  describe "The `Utils.parse_uri` method" do
+    it "parses a URI containing unencoded characters" do
+      input = "simple%2Fex%61mple "
+      refute_nil Bridgetown::Utils.parse_uri(input).path
+    end
+  end
 end

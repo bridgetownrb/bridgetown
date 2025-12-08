@@ -141,7 +141,7 @@ module Bridgetown
         else
           result.gsub(":#{token.first}", token.last)
         end
-      end.then { Addressable::URI.normalize_component _1 }
+      end.then { Utils.normalize_uri _1 }
 
       @url = "/#{results.sub("#", "%23")}".gsub("..", "/").gsub("./", "").squeeze("/")
     end
@@ -256,7 +256,7 @@ module Bridgetown
     #
     # @return [String]
     def destination(dest)
-      path = site.in_dest_dir(dest, Utils.unencode_uri(url))
+      path = site.in_dest_dir(dest, Utils.decode_uri(url))
       path = File.join(path, "index") if url.end_with?("/")
       path << output_ext unless path.end_with? output_ext
       path

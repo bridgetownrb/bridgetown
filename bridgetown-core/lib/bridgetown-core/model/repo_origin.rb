@@ -73,12 +73,12 @@ module Bridgetown
       end
 
       def url
-        @url ||= URI.parse(id)
+        @url ||= Utils.parse_uri(id)
       end
 
       def relative_path
         @relative_path ||= Pathname.new(
-          Addressable::URI.unescape(url.path.delete_prefix("/"))
+          Utils.decode_uri(url.path.delete_prefix("/"))
         )
       end
 
