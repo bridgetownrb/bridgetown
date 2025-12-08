@@ -84,7 +84,7 @@ module Bridgetown
     # @param input [String]
     # @return [String]
     def uri_escape(input)
-      Bridgetown::Utils.normalize_component(input)
+      Utils.normalize_component(input)
     end
 
     # Obfuscate an email, telephone number etc.
