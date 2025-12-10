@@ -5,11 +5,11 @@ module Bridgetown
     attr_reader :site, :manifest, :content_dirs
 
     # @param site [Bridgetown::Site]
-    # @param manifest [Bridgetown::Plugin::SourceManifest]
+    # @param manifest [Bridgetown::Configuration::SourceManifest]
     def initialize(site, manifest)
       @site = site
       @manifest = manifest
-      @content_dirs = manifest.contents
+      @content_dirs = manifest.contents || {}
       @content_files = Set.new
       @supports_bare_text = manifest.bare_text
       @bare_text_extensions = site.config.markdown_ext.split(",").map { ".#{_1}" } + [".html"]
