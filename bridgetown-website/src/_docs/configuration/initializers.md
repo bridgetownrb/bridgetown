@@ -358,8 +358,34 @@ Bridgetown's inflector is based on `Dry::Inflector`, so you can [read up on how 
 
 ### Parse Roda Routes
 
-Because of how Roda works via its dynamic routing tree, there's no straightforward way to programmatically list out all the routes in your application.
+Because of how Roda's dynamic routing tree works, there's no programmatic method of listing out all the routes in your application.
 
-However, Roda provides a convention which lets you add code comments next to your routing blocks. These comments are then converted to a JSON file containing route information which can then be printed out with a single command.
+However, Roda provides a convention which lets you add code comments next to your routing blocks. These comments are then converted to a JSON file containing route information which can then be printed out with a single command. [Here is documentation on how to write these route comments.](https://github.com/jeremyevans/roda-route_list?tab=readme-ov-file#label-Basic+Usage)
 
-==TODO: docs needed==
+To begin with, run `bundle add roda-route_list` to add the route parser to your `Gemfile`. (You can skip this step if you're also using the `bridgetown-routes` plugin.)
+
+Then add to your configuration:
+
+```ruby
+only :server do
+  init :parse_routes
+end
+```
+
+Now every time your application server starts up, it will save `.routes.json` to your repo root with a JSON listing of the routes. Then you can run the following command to print out all your routes:
+
+```sh
+bin/bridgetown roda:routes
+```
+
+In addition, this will add the `route_list` plugin to your Roda app automatically. This allows you to call `RodaApp.route_list` to get a Ruby hash of all the routes, as well as access the `listed_route` method for accessing specific routes by name. For example, if you had a route comment defined as:
+
+```ruby
+# route[subscribe_to_newsletter]: POST /account/subscribe-to-newsletter/:newsletter
+```
+
+You could then get the relative URL for use in links or redirection, e.g.:
+
+```ruby
+r.redirect listed_route(:subscribe_to_newsletter, newsletter: "product_promotion")
+```
