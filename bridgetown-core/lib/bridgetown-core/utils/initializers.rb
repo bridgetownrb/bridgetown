@@ -40,10 +40,13 @@ end
 Bridgetown.initializer :parse_routes do |config|
   # This builds upon the work done here:
   # https://github.com/jeremyevans/roda-route_list/blob/master/bin/roda-parse_routes
+  config.roda do |app|
+    app.plugin :route_list, file: ".routes.json"
+  end
 
   require "roda-route_parser"
 
-  route_files = Dir["#{config.root_dir}/server/**/*.rb"]
+  route_files = Dir["#{config.root_dir}/#{config.server_dir}/**/*.rb"]
   if config.key?(:routes)
     config.routes.source_paths.each do |routes_dir|
       routes_dir = File.expand_path(routes_dir, config.source)

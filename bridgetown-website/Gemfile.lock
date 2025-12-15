@@ -163,6 +163,8 @@ GEM
     rexml (3.4.4)
     roda (3.98.0)
       rack
+    roda-route_list (2.1.0)
+      roda
     rouge (4.6.1)
     ruby2js (5.1.2)
       parser
@@ -202,6 +204,7 @@ DEPENDENCIES
   nokolexbor (~> 0.4)
   puma (< 7)
   rack-test (~> 2.2)
+  roda-route_list (~> 2.1)
   ruby2js (~> 5.1)
 
 BUNDLED WITH
