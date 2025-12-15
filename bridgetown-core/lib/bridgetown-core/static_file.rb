@@ -145,7 +145,7 @@ module Bridgetown
     end
 
     # Generates a relative path with the collection's directory removed when applicable
-    #   and additionally removes any multiple periods in the string.
+    # and additionally removes any multiple periods in the string.
     #
     # NOTE: `String#gsub!` removes all trailing periods (in comparison to `String#chomp!`)
     #

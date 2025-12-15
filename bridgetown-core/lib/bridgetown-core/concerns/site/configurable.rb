@@ -45,7 +45,7 @@ class Bridgetown::Site
     end
 
     # Returns the current instance of {FrontMatter::Defaults} or
-    #   creates a new instance {FrontMatter::Defaults} if it doesn't already exist.
+    # creates a new instance {FrontMatter::Defaults} if it doesn't already exist.
     #
     # @return [FrontMatter::Defaults]
     #   Returns an instance of {FrontMatter::Defaults}

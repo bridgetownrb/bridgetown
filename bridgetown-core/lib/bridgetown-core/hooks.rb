@@ -68,7 +68,7 @@ module Bridgetown
     # @yield the block will be called when the event is triggered. Typically it receives at
     #   least one argument.
     # @yieldparam obj the object which triggered the event hook
-    # @return [Proc] the block that was pased in
+    # @return [Proc] the block that was passed in
     def self.register_one(owner, event, priority: DEFAULT_PRIORITY, reloadable: true, &block)
       @registry[owner] ||= []
 

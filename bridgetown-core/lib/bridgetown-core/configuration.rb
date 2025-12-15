@@ -148,6 +148,12 @@ module Bridgetown
       end
     end
 
+    def initializers_dsl(context:)
+      ConfigurationDSL.new(scope: self, data: self).tap do |dsl|
+        dsl.instance_variable_set(:@context, context)
+      end
+    end
+
     def run_initializers!(context:) # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity
       initializers_file = File.join(root_dir, "config", "initializers.rb")
       unless File.file?(initializers_file)
@@ -166,8 +172,7 @@ module Bridgetown
       Bridgetown.logger.debug "", initializers_file
       self.init_params = {}
       cached_url = url&.include?("//localhost") ? url : nil
-      dsl = ConfigurationDSL.new(scope: self, data: self)
-      dsl.instance_variable_set(:@context, context)
+      dsl = initializers_dsl(context:)
       dsl.instance_exec(dsl, &init_init.block)
       dsl._run_builtins!
       self.url = cached_url if cached_url # restore local development URL if need be

@@ -7,7 +7,18 @@ module Bridgetown
 
       attr_reader :context
 
-      # @yieldself [ConfigurationDSL]
+      # Initialize a Bridgetown plugin, optionally passing along configuration data. By default,
+      # requires the associated Ruby gem as well, but this can be switched off for local
+      # initializer files.
+      #
+      # @param name [Symbol]
+      # @param require_gem [Boolean] set `false` if you don't want the named gem to be required
+      # @param require_initializer [Boolean] set `false` if the named file in your `config` folder
+      #   shouldn't get processed as an initializer
+      # @param kwargs [Hash] pass keyword arguments as configuration along to the plugin. This can
+      #   also be accomplished via a block using "Ruby front matter" syntax
+      # @yieldreceiver [ConfigurationDSL]
+      # @return [void]
       def init(name, require_gem: true, require_initializer: true, **kwargs, &block) # rubocop:todo Metrics
         return if @scope.initializers.key?(name.to_sym) &&
           @scope.initializers[name.to_sym].completed
@@ -35,18 +46,40 @@ module Bridgetown
         initializer.completed = true
       end
 
+      # Execute the provided block for configuration only if the current context matches the
+      # provided criteria.
+      #
+      # @param context [Symbol] supply one or more contexts for execution. Generally these are
+      #   `:static`, `:console`, `:rake`, and `:server`
+      # @return [void]
       def only(*context, &)
         return unless context.any? { _1 == @context }
 
         instance_exec(&)
       end
 
+      # Do not execute the provided block for configuration if the current context matches the
+      # provided criteria.
+      #
+      # @param context [Symbol] supply one or more contexts for avoiding execution. Generally these
+      #   are `:static`, `:console`, `:rake`, and `:server`
+      # @return [void]
       def except(*context, &)
         return if context.any? { _1 == @context }
 
         instance_exec(&)
       end
 
+      # Provides a wrapper around the `register_one` method of the `Hooks` class.
+      #
+      # @see Bridgetown::Hooks.register_one
+      # @param owner [Symbol] name of the owner (`:site`, `:resource`, etc.)
+      # @param event [Symbol] name of the event (`:pre_read`, `:post_render`, etc.)
+      # @param priority [Integer, Symbol] either `:low`, `:normal`, or `:high`, or an integer.
+      #   Default is normal (20)
+      # @yield the block will be called when the event is triggered. Typically it receives at
+      #   least one argument.
+      # @yieldparam obj the object which triggered the event hook
       def hook(
         owner,
         event,
@@ -56,10 +89,20 @@ module Bridgetown
         Bridgetown::Hooks.register_one(owner, event, priority:, reloadable: false, &)
       end
 
+      # Used by plugins to supply a source manifest.
+      #
+      # @see SourceManifest.new
+      # @return [void]
       def source_manifest(**)
         @scope.source_manifests << SourceManifest.new(**)
       end
 
+      # Used by plugins to register the provided Builder class, or alternatively
+      # register an "inline builder" by defining the class body in a block using the
+      # provided symbol as the class name.
+      #
+      # @param klass [Class<Bridgetown::Builder>, Symbol]
+      # @return [void]
       def builder(klass = nil, &)
         return klass.register if klass.is_a?(Class) && klass < Bridgetown::Builder
 
@@ -72,10 +115,18 @@ module Bridgetown
         )
       end
 
+      # Define an initializer block which is called when the Roda server is being configured.
+      #
+      # @yieldparam app [Class<Roda>]
+      # @return [void]
       def roda(&block)
         @scope.roda_initializers << block
       end
 
+      # Set the TZ environment variable to use the timezone specified
+      #
+      # @param timezone [String] the IANA Time Zone
+      # @return [void]
       def timezone(new_timezone)
         @data[:timezone] = new_timezone
         Bridgetown.set_timezone(new_timezone)
@@ -112,6 +163,8 @@ module Bridgetown
                      end
       end
 
+      # Similar to `init` but it simply prints out a list of the configuration options accepted
+      # as keyword arguments by the initializer
       def reflect(name, require_gem: true, require_initializer: true)
         initializer = _setup_initializer(
           name:, require_gem:, require_initializer:
@@ -130,9 +183,14 @@ module Bridgetown
         initializer.block.parameters.each do |param|
           next if param[0] == :opt
 
+          option = param[1].to_s
+          option = "** #{option}" if param[0] == :keyrest
+
           Bridgetown.logger.info("",
-                                 "* #{param[1].to_s.cyan}#{" (required)" if param[0] == :keyreq}")
+                                 "- #{option.cyan}#{" (required)" if param[0] == :keyreq}")
         end
+
+        nil
       end
 
       # @return [Bridgetown::Configuration::Initializer]
@@ -156,6 +214,17 @@ module Bridgetown
       def _run_builtins!
         init :streamlined
       end
+
+      ### Document configuration options ###
+      # TODO: many more to follow!
+
+      # @!method url(url)
+      #   Sets the base URL for absolute links. (This will be overridden with something like
+      #   `localhost:4000` in development.)
+      #   @param url [String]
+
+      # @!method inflector
+      #   @return [Bridgetown::Foundation::Inflector]
     end
   end
 end
