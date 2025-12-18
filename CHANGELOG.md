@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+.
+
+## [2.1.0.beta2] - 2025-12-17
+
+- Fix: ensure plugin reader contents isn't nil
+- Add documentation on how to use the `parse_routes` plugin
+- Update `is-land` bundled configuration
 - Remove `ruby2js` bundled configuration, use JS files on website frontend
 
 ## [2.1.0.beta1] - 2025-12-03
