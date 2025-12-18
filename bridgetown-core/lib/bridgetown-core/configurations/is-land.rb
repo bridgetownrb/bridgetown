@@ -7,7 +7,6 @@ add_npm_package "@11ty/is-land"
 javascript_import do
   <<~JS
     import "@11ty/is-land/is-land.js"
-    import "@11ty/is-land/is-land-autoinit.js"
   JS
 end
 
