@@ -1,9 +1,9 @@
 <!--
   Thanks for creating a Pull Request! Before you submit, please make sure
-  you've done the following:
+  you've read our Contributing Guide, including the section regarding
+  AI-generated code. (TL;DR: we do not accept AI-generated code. ☺️)
 
-  - I read the Project Goals and Future Roadmap pages at: https://bridgetownrb.com/docs/philosophy/
-  - I read the Code of Conduct: https://github.com/bridgetownrb/bridgetown/blob/main/CODE_OF_CONDUCT.md
+  https://github.com/bridgetownrb/bridgetown/blob/main/CONTRIBUTING.md
 -->
 
 <!--
