@@ -125,7 +125,7 @@ module Bridgetown
             next unless name.start_with?(token)
 
             input[0] = name
-            input
+            break input
           end
         end
       end
