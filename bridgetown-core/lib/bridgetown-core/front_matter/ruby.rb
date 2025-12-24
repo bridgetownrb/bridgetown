@@ -25,6 +25,8 @@ module Bridgetown
 
       def get(key) = @data[key]
 
+      def key?(key) = @data.key?(key)
+
       def set(key, value = nil, &block)
         # Handle nested data within a block
         if block

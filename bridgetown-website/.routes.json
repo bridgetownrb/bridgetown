@@ -1,0 +1,6 @@
+[
+  {
+    "path": "/preview/:collection/:path",
+    "file": "/home/jared/BRIDGETOWN/bridgetown/bridgetown-website/server/routes/preview.rb"
+  }
+]

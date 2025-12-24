@@ -14,7 +14,7 @@ module Bridgetown
       }.freeze
 
       class << self
-        # rubocop:disable Bridgetown/NoPutsAllowed, Metrics/MethodLength
+        # rubocop:disable Bridgetown/NoPutsAllowed, Metrics
         def print_routes
           # TODO: this needs to be fully documented
           routes = begin
@@ -26,24 +26,27 @@ module Bridgetown
           rescue StandardError
             []
           end
+
+          puts "Routes:".bold.green
           puts
-          puts "Routes:"
-          puts "=======\n"
+
           if routes.empty?
             puts "No routes found. Have you commented all of your routes?"
-            puts "Documentation: https://github.com/jeremyevans/roda-route_list#basic-usage-"
+            puts "Documentation: https://github.com/jeremyevans/roda-route_list#label-Basic+Usage"
           end
 
-          routes.each do |route|
-            puts [
-              route["methods"]&.join("|") || "GET",
-              route["path"],
-              route["file"] ? "\n  File: #{route["file"]}" : nil,
-            ].compact.join(" ")
+          routes.group_by { _1["file"] }.each do |file, file_routes|
+            file_routes.each_with_index do |route, index|
+              puts [
+                (route["methods"]&.join("|") || "GET").cyan,
+                route["path"],
+                file && index == file_routes.length - 1 ? "\n  #{"File:".yellow} #{file}" : nil,
+              ].compact.join(" ")
+            end
+            puts
           end
-          puts
         end
-        # rubocop:enable Bridgetown/NoPutsAllowed, Metrics/MethodLength
+        # rubocop:enable Bridgetown/NoPutsAllowed, Metrics
 
         # @return [Proc]
         attr_accessor :router_block

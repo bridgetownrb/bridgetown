@@ -11,7 +11,7 @@ class TestSiteConfiguration < BridgetownFeatureTest
 
       create_configuration source: "src/_sourcedir"
 
-      run_bridgetown "build"
+      run_bridgetown "b" # test shorthand command
 
       assert_file_contains "Changing source directory", "output/index.html"
     end

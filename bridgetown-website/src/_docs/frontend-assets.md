@@ -27,7 +27,7 @@ The starting place for JavaScript code lives at `./frontend/javascript/index.js`
 
 JS files placed anywhere inside `src/_components` are automatically imported and bundled as well.
 
-Because Bridgetown utilizes standard ES bundler functionality, you can trick out your JavaScript setup with additional language enhancements and libraries like Ruby2JS, Lit, Turbo, Web Awesome, and many others. And for automated installation of the aforementioned libraries in particular, check out our [Bundled Configurations](/docs/bundled-configurations).
+Because Bridgetown utilizes standard ES bundler functionality, you can trick out your JavaScript setup with additional language enhancements and libraries like htmx, Lit, Web Awesome, and many others. And for automated installation of the aforementioned libraries in particular, check out our [Bundled Configurations](/docs/bundled-configurations).
 
 {%@ Note do %}
   #### What about TypeScript?
@@ -186,10 +186,6 @@ const esbuildOptions = {
   ]
 }
 ```
-
-{%@ Note do %}
-  Check out the [Ruby2JS Bundled Configuration](/docs/bundled-configurations#ruby2js) for an automated way to install Ruby2JS.
-{% end %}
 
 ### Path Aliases
 

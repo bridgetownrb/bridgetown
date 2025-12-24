@@ -1,18 +1,18 @@
 PATH
   remote: ../bridgetown-builder
   specs:
-    bridgetown-builder (2.1.0.beta1)
-      bridgetown-core (= 2.1.0.beta1)
+    bridgetown-builder (2.1.0.beta3)
+      bridgetown-core (= 2.1.0.beta3)
 
 PATH
   remote: ../bridgetown-core
   specs:
-    bridgetown-core (2.1.0.beta1)
+    bridgetown-core (2.1.0.beta3)
       addressable (~> 2.4)
       amazing_print (~> 1.2)
       base64 (>= 0.3)
       bigdecimal (>= 3.2)
-      bridgetown-foundation (= 2.1.0.beta1)
+      bridgetown-foundation (= 2.1.0.beta3)
       csv (~> 3.2)
       erubi (~> 1.9)
       faraday (~> 2.0)
@@ -40,7 +40,7 @@ PATH
 PATH
   remote: ../bridgetown-foundation
   specs:
-    bridgetown-foundation (2.1.0.beta1)
+    bridgetown-foundation (2.1.0.beta3)
       dry-inflector (>= 1.0)
       hash_with_dot_access (~> 2.0)
       inclusive (~> 1.0)
@@ -49,17 +49,17 @@ PATH
 PATH
   remote: ../bridgetown-paginate
   specs:
-    bridgetown-paginate (2.1.0.beta1)
-      bridgetown-core (= 2.1.0.beta1)
+    bridgetown-paginate (2.1.0.beta3)
+      bridgetown-core (= 2.1.0.beta3)
 
 PATH
   remote: ../bridgetown
   specs:
-    bridgetown (2.1.0.beta1)
-      bridgetown-builder (= 2.1.0.beta1)
-      bridgetown-core (= 2.1.0.beta1)
-      bridgetown-foundation (= 2.1.0.beta1)
-      bridgetown-paginate (= 2.1.0.beta1)
+    bridgetown (2.1.0.beta3)
+      bridgetown-builder (= 2.1.0.beta3)
+      bridgetown-core (= 2.1.0.beta3)
+      bridgetown-foundation (= 2.1.0.beta3)
+      bridgetown-paginate (= 2.1.0.beta3)
 
 GEM
   remote: https://rubygems.org/
@@ -67,7 +67,6 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     amazing_print (1.8.1)
-    ast (2.4.3)
     base64 (0.3.0)
     bigdecimal (3.3.1)
     bridgetown-feed (4.0.0)
@@ -131,9 +130,6 @@ GEM
     nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
     nokolexbor (0.6.2-x86_64-linux)
-    parser (3.3.10.0)
-      ast (~> 2.4.1)
-      racc
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -157,16 +153,14 @@ GEM
       erb
       psych (>= 4.0.0)
       tsort
-    regexp_parser (2.1.1)
     reline (0.6.3)
       io-console (~> 0.5)
     rexml (3.4.4)
     roda (3.98.0)
       rack
+    roda-route_list (2.1.0)
+      roda
     rouge (4.6.1)
-    ruby2js (5.1.2)
-      parser
-      regexp_parser (~> 2.1.1)
     samovar (2.4.1)
       console (~> 1.0)
       mapping (~> 1.0)
@@ -202,7 +196,7 @@ DEPENDENCIES
   nokolexbor (~> 0.4)
   puma (< 7)
   rack-test (~> 2.2)
-  ruby2js (~> 5.1)
+  roda-route_list (~> 2.1)
 
 BUNDLED WITH
    2.7.2

@@ -17,7 +17,6 @@ The configurations we include are:
 - [Automated Test Suite using Minitest](#automated-test-suite-using-minitest) (`minitesting`)
 - [Open Props](#open-props) (`open-props`)
 - [Lit](#lit) (`lit`)
-- [Ruby2JS](#ruby2js) (`ruby2js`)
 - [Bridgetown recommended PostCSS plugins](#bridgetown-recommended-postcss-plugins) (`bt-postcss`)
 - [PurgeCSS Post-Build Hook](#purgecss-post-build-hook) (`purgecss`)
 - [Render YAML Configuration](#render-yaml-configuration) (`render`)
@@ -110,18 +109,6 @@ bin/bridgetown configure lit
 ```
 
 Read our full [Lit Components documentation here](/docs/components/lit).
-
-### Ruby2JS
-
-🔴 Installs [Ruby2JS](https://www.ruby2js.com), an extensible Ruby to modern JavaScript transpiler you can use in production today. It produces JavaScript that looks hand-crafted, rather than machine generated. You can convert Ruby-like syntax and semantics as cleanly and “natively” as possible. This means that (most of the time) you’ll get a line-by-line, 1:1 correlation between your source code and the JS output.
-
-Write your files in `frontend/javascript` or in `src/_components` with a `.js.rb` extension and they'll be supported the same way as `.js` file by Bridgetown's frontend bundling pipeline.
-
-🛠 **Configure using:**
-
-```sh
-bin/bridgetown configure ruby2js
-```
 
 ### Bridgetown recommended PostCSS plugins
 

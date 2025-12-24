@@ -19,6 +19,6 @@ gem "bridgetown-svg-inliner", "~> 2.1"
 gem "gems", "~> 1.2"
 gem "nokolexbor", "~> 0.4"
 
-gem "ruby2js", "~> 5.1"
-
 gem "rack-test", "~> 2.2"
+
+gem "roda-route_list", "~> 2.1"

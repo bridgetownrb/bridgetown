@@ -7,6 +7,10 @@
     "esbuild-dev": "node esbuild.config.js --watch",
     "lint:html": "npm run linthtml \"src/**/*.{html,erb,serb,liquid,md}\""
   },
+  "prettier": {
+    "printWidth": 100,
+    "semi": false
+  },
   "devDependencies": {
     "@linthtml/linthtml": "^0.8.4",
     "esbuild": "^0.19.2",
@@ -19,13 +23,9 @@
   },
   "dependencies": {
     "@hotwired/turbo": "^7.1.0",
-    "@ruby2js/esbuild-plugin": "^1.0.0",
     "@shoelace-style/shoelace": "^2.2.0",
     "bridgetown-quick-search": "^3.0.3",
     "hotkeys-js": "^3.8.7",
     "smoothscroll-polyfill": "^0.4.4"
-  },
-  "resolutions": {
-    "@ruby2js/ruby2js": "5.0.1"
   }
 }

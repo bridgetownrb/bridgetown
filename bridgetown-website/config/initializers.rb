@@ -9,4 +9,8 @@ Bridgetown.configure do |config|
   config.inflector.configure do |inflections|
     inflections.acronym "W3C"
   end
+
+  only :server do
+    init :parse_routes
+  end
 end

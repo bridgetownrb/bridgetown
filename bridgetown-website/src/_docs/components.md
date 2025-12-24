@@ -35,7 +35,7 @@ An emerging technology which has the potential to change how we approach develop
 
 As previously mentioned, a component will often encompass styling via CSS and client-side interactivity via JavaScript, alongside the output HTML coming from the component's logic/template.
 
-In those cases, where you place your CSS and JS code will vary depending on the environment. For most components, you will write what are called "sidecar" files which live alongside your component classes/templates. In contrast, Lit components fall under the category of Single-File Components. The logic, template, and styling is all part of the same unit of code. Lit components can be written in either vanilla JavaScript or Ruby2JS (a Ruby-like syntax and set of idioms which then transpiles to JavaScript). However, with a smidge of extra configuration, you do have the option of splitting the CSS of a Lit component out to its own sidecar file if you so choose.
+In those cases, where you place your CSS and JS code will vary depending on the environment. For most components, you will write what are called "sidecar" files which live alongside your component classes/templates. In contrast, Lit components fall under the category of Single-File Components. The logic, template, and styling is all part of the same unit of code. However, with a smidge of extra configuration, you do have the option of splitting the CSS of a Lit component out to its own sidecar file if you so choose.
 
 Here's an example file structure showing all three environments in use:
 
@@ -66,7 +66,7 @@ Now let's talk about the lifecycle of these components.
 
 * The Liquid component's lifecycle is static-only. The HTML is rendered out during the build process and that's it.
 * The `Shared::Navbar` Ruby component starts out as static HTML + global CSS, and the lifecycle is then extended on the client by JavaScript code which can perform tasks such as attach event handlers or highlight certain items based on real-time navigational changes.
-* The Lit components offer true hybrid lifecycles. They are written in JavaScript (or Ruby2JS) and are initially rendered as part of the build process (and thus present in the output HTML) by the Lit Renderer plugin, using an emerging spec called Declarative Shadow DOM. The components are then "hydrated" on the client-side so they can manage state, offer interactivity, and re-render as needed.
+* The Lit components offer true hybrid lifecycles. They are written in JavaScript and are initially rendered as part of the build process (and thus present in the output HTML) by the Lit Renderer plugin, using an emerging spec called Declarative Shadow DOM. The components are then "hydrated" on the client-side so they can manage state, offer interactivity, and re-render as needed.
 
 Regarding that last item, due to various performance concerns both on the static-build/server-side and the client-side, it should be noted that you likely wouldn't want pepper pages with dozens (or hundreds!) of Lit component renders. Instead you'd want to create what's called an "island" within your page, using the `lit` helper. You can read more about this on the Lit components page.
 
