@@ -12,6 +12,7 @@ Here's a rundown of some **40 features** Bridgetown has implemented since the fo
 * Pages, posts, and custom collection items all share a common interface and behave in a predicable manner.
 * Fully custom taxonomies and defined relations (belongs to, has many, etc.) between resources.
 * Content model objects with load/save abilities which underlie resources.
+* Fast refresh by default for the development server.
 * The resource extension API.
 * Ruby front matter in addition to YAML.
 * Inspectors for Nokogiri-based modification of HTML & XML resources.
@@ -31,22 +32,20 @@ Here's a rundown of some **40 features** Bridgetown has implemented since the fo
 * A powerful external API DSL for generating new content.
 * Support for pagination and prototype (aka archive) pages available out of the box.
 * YAML file-based front matter defaults with folder cascades.
-* Rapid installation of Hotwire (Turbo, Stimulus).
 * Bundled configurations for popular libraries & tools such as Lit, Web Awesome, and Open Props.
 * Easy website testing setup w/Minitest or Cypress.
 * Auto-reloadable local plugins via Zeitwerk.
-* Thor-based CLI tools with straightforward extensibility.
+* Samovar-based CLI tools with straightforward extensibility.
 * `<mark>` highlighter support in Markdown content via `::` or `==`.
 * SSR via an integration with Roda, a blazing-fast Ruby web toolkit.
 * File-based dynamic routes.
 * Environment-specific metadata.
 * Streamlined installation processes on modern Unix-style OSes with modern Ruby versions.
-* YARD API documentation (still a work in progress but getting there!).
-* ViewComponent compatibility shim.
+* YARD API documentation
 * Modern Liquid (v5+) support.
 * SSG/SSR & client-side hydration of Lit-based web components.
-* Many Ruby enhancements included via ActiveSupport.
+* Ruby-based configuration file format
 * A large number of "breaking" fixes Jekyll had left unaddressed.
-* Active first-party support via community Discord & GitHub Discussions + commercial support.
+* Active first-party support via community Discord + commercial support.
 
 **Ready to migrate to Bridgetown?** [Here's an overview guide of the steps you'll want to take.](/docs/migrating/jekyll)

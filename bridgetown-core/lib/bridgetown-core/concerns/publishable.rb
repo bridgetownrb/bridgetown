@@ -14,9 +14,7 @@ module Bridgetown
       return false unless published? || @site.config.unpublished
 
       future_allowed = collection.metadata.future || @site.config.future
-      this_time = date.is_a?(Date) ? date.to_time.to_i : date.to_i
-
-      future_allowed || this_time <= @site.time.to_i
+      future_allowed || date <= @site.time
     end
   end
 end

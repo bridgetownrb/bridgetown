@@ -4,13 +4,13 @@ require "features/feature_helper"
 
 # Render content with ERB and place in Layouts
 class TestRubyRendering < BridgetownFeatureTest
-  context "ERB" do
-    setup do
+  describe "ERB" do
+    before do
       create_directory "_layouts"
       create_directory "_posts"
     end
 
-    should "render by default" do
+    it "renders by default" do
       create_page "_posts/star-wars.md", <<~ERB, title: "Star Wars", date: "2009-03-27", layout: "simple"
         _Luke_, <%= ["I", "am"].join(" ") %> your father.
       ERB
@@ -23,7 +23,7 @@ class TestRubyRendering < BridgetownFeatureTest
       assert_file_contains "<h1>Star Wars</h1>", "output/2009/03/27/star-wars/index.html"
     end
 
-    should "render with Liquid layout" do
+    it "renders with Liquid layout" do
       create_page "_posts/star-wars.md", <<~ERB, title: "Star Wars", date: "2009-03-27", layout: "simple"
         _Luke_, <%= ["I", "am"].join(" ") %> your father.
       ERB
@@ -36,7 +36,7 @@ class TestRubyRendering < BridgetownFeatureTest
       assert_file_contains "<h1>Star Wars</h1>", "output/2009/03/27/star-wars/index.html"
     end
 
-    should "render layout with Liquid resource" do
+    it "renders layout with Liquid resource" do
       create_page "liquidpage.liquid", <<~LIQUID, title: "Star Wars", date: "2009-03-27", layout: "simple"
         Luke, {{ "I,am" | split: "," | join: " " }} your <%= 'father'.upcase %>.
       LIQUID
@@ -51,7 +51,7 @@ class TestRubyRendering < BridgetownFeatureTest
       assert_file_contains "<h1>Star Wars</h1>", "output/liquidpage/index.html"
     end
 
-    should "render with Liquid layout via front matter" do
+    it "renders with Liquid layout via front matter" do
       create_page "_posts/star-wars.md", <<~ERB, title: "Star Wars", date: "2009-03-27", layout: "simple"
         _Luke_, <%= ["I", "am"].join(" ") %> your father.
       ERB
@@ -71,7 +71,7 @@ class TestRubyRendering < BridgetownFeatureTest
       assert_file_contains "<h1>Star Wars</h1>", "output/2009/03/27/star-wars/index.html"
     end
 
-    should "render with Liquid but post with template_engine erb" do
+    it "renders with Liquid but post with template_engine erb" do
       create_page "_posts/star-wars.md", <<~ERB, title: "Star Wars", date: "2009-03-27", layout: "simple", template_engine: "erb"
         _Luke_, <%= ["I", "am"].join(" ") %> your father.
       ERB
@@ -86,7 +86,7 @@ class TestRubyRendering < BridgetownFeatureTest
       assert_file_contains "<h1>Star Wars</h1>", "output/2009/03/27/star-wars/index.html"
     end
 
-    should "render with custom extension" do
+    it "renders with custom extension" do
       create_file "data.json", <<~ERB
         ---
         ---
@@ -100,7 +100,7 @@ class TestRubyRendering < BridgetownFeatureTest
       assert_file_contains '{"key":[1,2,3]}', "output/data.json"
     end
 
-    should "not render when template_engine is none" do
+    it "does not render when template_engine is none" do
       create_page "_posts/star-wars.md", <<~ERB, title: "Star Wars", date: "2009-03-27", layout: "simple", template_engine: "none"
         _Luke_, <%= ["I", "am"].join(" ") %> your father.
       ERB
@@ -116,13 +116,13 @@ class TestRubyRendering < BridgetownFeatureTest
     end
   end
 
-  context "pure Ruby" do
-    setup do
+  describe "pure Ruby" do
+    before do
       create_directory "_posts"
       create_directory "_layouts"
     end
 
-    should "render for .rb files" do
+    it "renders for .rb files" do
       create_page "_posts/star-wars.rb", <<~RUBY, title: "Star Wars", date: "2009-03-27", layout: "simple"
         luke = "Luke"
         i_am = ["I", "am"].join(" ")
@@ -138,13 +138,13 @@ class TestRubyRendering < BridgetownFeatureTest
     end
   end
 
-  context "slotted content" do
-    setup do
+  describe "slotted content" do
+    before do
       create_directory "_layouts"
       create_directory "_posts"
     end
 
-    should "render" do
+    it "renders" do
       create_page "_posts/star-wars.md", <<~ERB, title: "Star Wars", date: "2009-03-27", layout: "simple"
         _Luke_, <%= ["I", "am"].join(" ") %> your father<% slot :subtitle, "V: ", transform: false %><% slot :subtitle, "The Empire Strikes Back", transform: false %>.
       ERB
@@ -159,7 +159,7 @@ class TestRubyRendering < BridgetownFeatureTest
       assert_file_contains "<h1>Star Wars V: The Empire Strikes Back</h1>", "output/2009/03/27/star-wars/index.html"
     end
 
-    should "show default" do
+    it "shows default" do
       create_page "_posts/star-wars.md", <<~ERB, title: "Star Wars", date: "2009-03-27", layout: "simple"
         What a piece of junk!
       ERB
@@ -173,7 +173,7 @@ class TestRubyRendering < BridgetownFeatureTest
       assert_file_contains "<h1>Star Wars: [BLANK]</h1>", "output/2009/03/27/star-wars/index.html"
     end
 
-    should "replace slot" do
+    it "replaces slot" do
       create_page "_posts/star-wars.md", <<~ERB, title: "Star Wars", date: "2009-03-27", layout: "simple"
         <% slot "title" do %># Star Trek<% end %><% slot "title", replace: true do %> # <%= data.title %><% end %>
 

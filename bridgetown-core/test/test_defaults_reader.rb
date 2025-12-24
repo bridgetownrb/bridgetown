@@ -8,8 +8,8 @@ class TestDefaultsReader < BridgetownUnitTest
     @reader.read
   end
 
-  context "default files" do
-    should "be loaded" do
+  describe "default files" do
+    it "is loaded" do
       assert_equal "groovy", @reader.path_defaults["#{fixture_site.source}/_posts/"][:ruby3]
       assert_equal "trippin", @reader.path_defaults["#{fixture_site.source}/_posts/es/"][:ruby3]
     end

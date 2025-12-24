@@ -65,12 +65,11 @@ module Bridgetown
         ignore: listen_ignore_paths(options),
         force_polling: options["force_polling"]
       ) do |modified, added, removed|
-        c = modified + added + removed
+        paths = modified + added + removed
 
-        # NOTE: inexplicably, this matcher doesn't work with the Listen gem, so
-        # we have to run it here manually
-        c.reject! { component_frontend_matcher(options).match? _1 }
-        n = c.length
+        filter_paths(paths, options)
+
+        n = paths.length
         next if n.zero?
 
         unless site.ssr?
@@ -78,13 +77,13 @@ module Bridgetown
             "Reloading…",
             "#{n} file#{"s" if n > 1} changed at #{Time.now.strftime("%Y-%m-%d %H:%M:%S")}"
           )
-          c.each { |path| Bridgetown.logger.info "", "- #{path["#{site.root_dir}/".length..]}" }
+          paths.each { Bridgetown.logger.info "", "- #{_1.delete_prefix("#{site.root_dir}/")}" }
         end
 
         reload_site(
           site,
           options,
-          paths: c,
+          paths:,
           fast_refreshable: site.config.fast_refresh && (added + removed).empty?
         )
       end.start
@@ -146,7 +145,7 @@ module Bridgetown
     # rubocop:enable Layout/LineLength
 
     def to_exclude(options)
-      [
+      @to_exclude ||= [
         options["destination"],
         custom_excludes(options),
       ].flatten
@@ -176,6 +175,15 @@ module Bridgetown
           # Could not find a relative path
         end
       end
+    end
+
+    def filter_paths(paths, options)
+      # NOTE: inexplicably, this matcher doesn't work with the Listen gem, so
+      # we have to run it here manually
+      paths.reject! { component_frontend_matcher(options).match? _1 }
+      # Filter again by ignore exclusions, needed for "folder inversion" projects where the
+      # Bridgetown root is inside of the main folder being watched
+      paths.reject! { |path| to_exclude(options).any? { path == _1 || path.start_with?(_1) } }
     end
 
     def sleep_forever

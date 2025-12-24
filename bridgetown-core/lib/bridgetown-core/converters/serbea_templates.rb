@@ -7,8 +7,11 @@ module Bridgetown
   class SerbeaView < ERBView
     include Serbea::Helpers
 
-    def _render_partial(partial_name, options)
-      partial_path = _partial_path(partial_name, "serb")
+    input :serb
+
+    protected
+
+    def _render_partial(partial_path, options)
       site.tmp_cache["partial-tmpl:#{partial_path}"] ||= {
         signal: site.config.fast_refresh ? Signalize.signal(1) : nil,
       }

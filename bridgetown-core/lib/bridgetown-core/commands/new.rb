@@ -2,53 +2,27 @@
 
 module Bridgetown
   module Commands
-    class New < Thor::Group
-      include Thor::Actions
+    class New < Bridgetown::Command
+      include Automations
       include GitHelpers
-      extend Summarizable
 
-      Registrations.register do
-        register(New, "new", "new PATH", New.summary)
+      using Bridgetown::Refinements
+
+      self.description = "Creates a new Bridgetown site scaffold in PATH"
+
+      one :path, "where new Bridgetown site will be created", required: true
+
+      options do
+        option "-a/--apply <PATH|URL>", "Apply an automation after creating the site scaffold"
+        option "-c/--configure <CONFIGURATION(S)>",
+               "Comma separated list of bundled configurations to perform"
+        option "-h/--help", "Print help for the new command"
+        option "-t/--templates <erb|serbea|liquid>", "Preferred template engine (defaults to ERB)"
+        option "--force", "Force creation even if PATH already exists"
+        option "--skip-bundle", "Skip 'bundle install'"
+        option "--skip-npm", "Skip 'npm install'"
+        option "--use-sass", "Set up a Sass configuration for your stylesheet"
       end
-
-      def self.banner
-        "bridgetown new PATH"
-      end
-      summary "Creates a new Bridgetown site scaffold in PATH"
-
-      argument :path,
-               type: :string,
-               required: false, # we're changing for path in new_site method
-               desc: "PATH where new Bridgetown site will be created"
-
-      class_option :apply,
-                   aliases: "-a",
-                   banner: "PATH|URL",
-                   desc: "Apply an automation after creating the site scaffold"
-      class_option :configure,
-                   aliases: "-c",
-                   banner: "CONFIGURATION(S)",
-                   desc: "Comma separated list of bundled configurations to perform"
-      class_option :templates,
-                   aliases: "-t",
-                   banner: "erb|serbea|liquid",
-                   desc: "Preferred template engine (defaults to ERB)"
-      class_option :"frontend-bundling",
-                   aliases: "-e",
-                   banner: "esbuild",
-                   desc: "Choose frontend bundling stack (defaults to esbuild)"
-      class_option :force,
-                   type: :boolean,
-                   desc: "Force creation even if PATH already exists"
-      class_option :"skip-bundle",
-                   type: :boolean,
-                   desc: "Skip 'bundle install'"
-      class_option :"skip-npm",
-                   type: :boolean,
-                   desc: "Skip 'npm install'"
-      class_option :"use-sass",
-                   type: :boolean,
-                   desc: "Set up a Sass configuration for your stylesheet"
 
       DOCSURL = "https://bridgetownrb.com/docs"
 
@@ -64,8 +38,14 @@ module Bridgetown
         attr_accessor :created_site_dir
       end
 
-      def new_site
-        raise ArgumentError, "You must specify a path." if path.nil? || path.empty?
+      def call # rubocop:disable Metrics
+        case path
+        when "--help", "-help", "-h"
+          print_usage
+          return
+        end
+
+        self.source_paths = [self.class.source_root]
 
         new_site_path = File.expand_path(path, Dir.pwd)
         @site_name = new_site_path.split(File::SEPARATOR).last
@@ -92,7 +72,7 @@ module Bridgetown
       protected
 
       def preserve_source_location?(path, options)
-        !options["force"] && Dir.exist?(path)
+        !options[:force] && Dir.exist?(path)
       end
 
       def frontend_bundling_option
@@ -100,7 +80,7 @@ module Bridgetown
       end
 
       def postcss_option # rubocop:disable Naming/PredicateMethod
-        !options["use-sass"]
+        !options[:use_sass]
       end
 
       def disable_postcss?
@@ -108,9 +88,9 @@ module Bridgetown
         false
       end
 
-      def create_site(new_site_path)
+      def create_site(new_site_dir) # rubocop:disable Metrics
         directory ".", ".", exclude_pattern: %r!\.erb|TEMPLATES|DS_Store$|\.(s[ac]|c)ss$!
-        FileUtils.chmod_R "u+w", new_site_path
+        FileUtils.chmod_R "u+w", new_site_dir
 
         template(
           "src/_posts/0000-00-00-welcome-to-bridgetown.md.erb",
@@ -125,7 +105,7 @@ module Bridgetown
         template("src/posts.md.erb", "src/posts.md")
         copy_file("frontend/styles/syntax-highlighting.css")
 
-        case options["templates"]
+        case options[:templates]
         when "serbea"
           setup_serbea_templates
         when "liquid"
@@ -138,7 +118,7 @@ module Bridgetown
 
         return unless frontend_bundling_option == "esbuild"
 
-        invoke(Esbuild, ["setup"], {})
+        Esbuild["setup"].(new_site_dir:)
       end
 
       def setup_erb_templates
@@ -177,19 +157,17 @@ module Bridgetown
       # After a new site has been created, print a success notification and
       # then automatically execute bundle install from within the new site dir
       # unless the user opts to skip 'bundle install'.
-      # rubocop:todo Metrics/CyclomaticComplexity
-      # rubocop:disable Metrics/PerceivedComplexity
-      def after_install(path, cli_path, options)
+      def after_install(path, cli_path, options) # rubocop:disable Metrics
         git_init path
 
         @skipped_bundle = true # is set to false if bundle install worked
-        bundle_install path unless options["skip-bundle"]
+        bundle_install path unless options[:skip_bundle]
 
         @skipped_npm = true
-        npm_install path unless options["skip-npm"]
+        npm_install path unless options[:skip_npm]
 
-        invoke(Apply, [], options) if options[:apply]
-        invoke(Configure, options[:configure].split(","), {}) if options[:configure]
+        Apply[options[:apply]].(new_site_dir: path) if options[:apply]
+        Configure[*options[:configure].split(",")].(new_site_dir: path) if options[:configure]
 
         logger = Bridgetown.logger
         bt_start = "bin/bridgetown start"
@@ -214,8 +192,6 @@ module Bridgetown
 
         logger.info "NPM install skipped.".yellow if @skipped_npm
       end
-      # rubocop:enable Metrics/CyclomaticComplexity
-      # rubocop:enable Metrics/PerceivedComplexity
 
       def bundle_install(path)
         unless Bridgetown.environment.test?
@@ -256,5 +232,7 @@ module Bridgetown
         say_status :alert, "Could not load npm. NPM install skipped.", :red
       end
     end
+
+    register_command :new, New
   end
 end

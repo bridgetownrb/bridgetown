@@ -4,8 +4,8 @@ require "features/feature_helper"
 
 # Render content with Liquid and place in Layouts
 class TestLiquidRendering < BridgetownFeatureTest
-  context "Liquid templates" do
-    should "pull resource data into layout" do
+  describe "Liquid templates" do
+    it "pulls resource data into layout" do
       create_page "index.html", "", layout: "simple", author: "John Doe", template_engine: "liquid"
 
       create_directory "_layouts"
@@ -16,7 +16,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_file_contains "John Doe:John Doe:John Doe", "output/index.html"
     end
 
-    should "support a site with parentheses in its path name" do
+    it "supports a site with parentheses in its path name" do
       create_directory "omega(beta)"
       create_directory "omega(beta)/_components"
       create_directory "omega(beta)/_layouts"
@@ -31,7 +31,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_file_contains "Snippet: <p>Hello World</p>", "output/test/index.html"
     end
 
-    should "render various variables and front matter" do
+    it "renders various variables and front matter" do
       create_directory "_layouts"
       create_file "_layouts/simple.liquid", <<~LIQUID
         Post url: {{ page.relative_url }}
@@ -52,13 +52,13 @@ class TestLiquidRendering < BridgetownFeatureTest
     end
   end
 
-  context "taxonomies" do
-    setup do
+  describe "taxonomies" do
+    before do
       create_directory "_layouts"
       create_directory "_posts"
     end
 
-    should "render tags via post.tags" do
+    it "renders tags via post.tags" do
       create_page "_posts/2023-05-18-star-wars.md", "Luke, I am your father.", layout: "simple", tags: "twist"
       create_file "_layouts/simple.liquid", "Post tags: {{ page.tags }}"
 
@@ -67,7 +67,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_file_contains "Post tags: twist", "output/2023/05/18/star-wars/index.html"
     end
 
-    should "render categories via post.categories" do
+    it "renders categories via post.categories" do
       create_page "_posts/2023-05-18-star-wars.md", "Luke, I am your father.", layout: "simple", category: "movies"
       create_file "_layouts/simple.liquid", "Post category: {{ page.categories }}"
 
@@ -76,7 +76,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_file_contains "Post category: movies", "output/movies/2023/05/18/star-wars/index.html"
     end
 
-    should "render categories de-duped via post.categories" do
+    it "renders categories de-duped via post.categories" do
       create_page "_posts/2023-05-18-star-wars.md", "Luke, I am your father.", layout: "simple", category: %w[movies movies]
       create_file "_layouts/simple.liquid", "Post category: {{ page.categories }}."
 
@@ -85,7 +85,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_file_contains "Post category: movies.", "output/movies/2023/05/18/star-wars/index.html"
     end
 
-    should "render multiple categories in a human-readable way" do
+    it "renders multiple categories in a human-readable way" do
       create_page "_posts/2023-05-18-star-wars.md", "Luke, I am your father.", layout: "simple", categories: %w[scifi movies]
       create_file "_layouts/simple.liquid", "Post categories: {{ resource.categories | array_to_sentence_string }}"
 
@@ -95,13 +95,13 @@ class TestLiquidRendering < BridgetownFeatureTest
     end
   end
 
-  context "other Liquid and front matter features" do
-    setup do
+  describe "other Liquid and front matter features" do
+    before do
       create_directory "_layouts"
       create_directory "_posts"
     end
 
-    should "not process Liquid when render_with_liquid: false" do
+    it "does not process Liquid when render_with_liquid: false" do
       create_page "_posts/unrendered-post.md", "Hello {{ page.title }}", date: "2017-07-06"
       create_page "_posts/rendered-post.md", "Hello {{ page.title }}", date: "2017-07-06", template_engine: "liquid"
 
@@ -112,7 +112,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_file_contains "Hello Rendered Post", "output/2017/07/06/rendered-post/index.html"
     end
 
-    should "not render posts with published: false" do
+    it "does not render posts with published: false" do
       create_page "index.html", "Published!", title: "Published page"
       create_page "_posts/the-princess-bride.md", "Inconceivable!", date: "2024-03-02", published: false
 
@@ -122,7 +122,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_file_contains "Published!", "output/index.html"
     end
 
-    should "render previous and next posts title" do
+    it "renders previous and next posts title" do
       create_file "_layouts/ordered.liquid", "Previous post: {{ page.previous.title }} and next post: {{ page.next.title }}"
 
       create_page "_posts/star-wars.md", "Luke, I am your father.", title: "Star Wars", date: "2009-03-27", layout: "ordered"
@@ -135,8 +135,8 @@ class TestLiquidRendering < BridgetownFeatureTest
     end
   end
 
-  context "bad Liquid" do
-    should "throws exception" do
+  describe "bad Liquid" do
+    it "throws exception" do
       create_page "index.liquid", "{% BLAH %}", layout: "simple"
 
       create_directory "_layouts"
@@ -148,7 +148,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_includes output, "Liquid Exception"
     end
 
-    should "component throws exception" do
+    it "components throws exception" do
       create_directory "_components"
       create_file "_components/invalid.liquid", "{% INVALID %}"
 
@@ -163,7 +163,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_includes output, "Liquid syntax error (line 1): Unknown tag 'INVALID'"
     end
 
-    should "component with weird filter throws exception" do
+    it "throws exception for components with weird filter" do
       create_directory "_components"
       create_file "_components/invalid.liquid", "{{ site.title | prepend 'Prepended Text' }}"
 
@@ -178,7 +178,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_includes output, "Liquid error (invalid line 1): wrong number of arguments (given 1, expected 2)"
     end
 
-    should "not crash simply with a missing filter" do
+    it "does not crash simply with a missing filter" do
       create_page "index.liquid", "{{ page.title | foobar }}\n\n{{ page.author }}", title: "Simple Test"
 
       _, output = run_bridgetown "build"
@@ -186,7 +186,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       refute_includes output, "Liquid Exception:"
     end
 
-    should "not build when there's a bad date in frontmatter" do
+    it "does not build when there's a bad date in frontmatter" do
       create_directory "_posts"
       create_page "_posts/2016-01-01-test.md", "invalid date", date: "tuesday"
 
@@ -196,7 +196,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_includes output, "Invalid date 'tuesday': Resource '_posts/2016-01-01-test.md' does not have a valid date."
     end
 
-    should "not build when there's a bad date in filename" do
+    it "does not build when there's a bad date in filename" do
       create_directory "_posts"
       create_page "_posts/2016-22-01-test.md", "invalid date", title: "bad date"
 
@@ -207,8 +207,8 @@ class TestLiquidRendering < BridgetownFeatureTest
     end
   end
 
-  context "strict Liquid" do
-    should "fail on non-existent variable" do
+  describe "strict Liquid" do
+    it "fails on non-existent variable" do
       create_page "index.liquid", "{{ page.title }}\n\n{{ page.author }}", title: "Simple Test"
 
       create_configuration liquid: { strict_variables: true }
@@ -219,7 +219,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_includes output, "Liquid error (line 3): undefined variable author"
     end
 
-    should "fail on non-existent filter" do
+    it "fails on non-existent filter" do
       create_page "index.liquid", "{{ page.title }}\n\n{{ page.author | foobar }}", author: "Jane Doe"
 
       create_configuration liquid: { strict_filters: true }
@@ -231,8 +231,8 @@ class TestLiquidRendering < BridgetownFeatureTest
     end
   end
 
-  context "overridden defaults and placed layouts" do
-    should "ensure layout set to none doesn't render any layout" do
+  describe "overridden defaults and placed layouts" do
+    it "ensures layout set to none doesn't render any layout" do
       create_page "index.md", "Hi there, <%= site.config.author %>!", layout: "none"
 
       create_directory "_trials"
@@ -261,8 +261,8 @@ class TestLiquidRendering < BridgetownFeatureTest
     end
   end
 
-  context "site data" do
-    should "render site.time" do
+  describe "site data" do
+    it "renders site.time" do
       create_page "index.liquid", "{{ site.time }}", title: "Simple Test"
 
       run_bridgetown "build"
@@ -270,7 +270,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_file_contains seconds_agnostic_time(Time.now), "output/index.html"
     end
 
-    should "render posts" do
+    it "renders posts" do
       create_page "index.liquid", "{{ collections.posts.resources.first.title }}: {{ collections.posts.resources.first.relative_url }}", title: "Simple Test"
 
       create_directory "_posts"
@@ -283,7 +283,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_file_contains "Third Post: /2009/03/27/third-post/", "output/index.html"
     end
 
-    should "render posts in a loop" do
+    it "renders posts in a loop" do
       create_page "index.liquid", "{% for post in collections.posts.resources %} {{ post.title }} {% endfor %}", title: "Simple Test"
 
       create_directory "_posts"
@@ -296,7 +296,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_file_contains "Third Post  Second Post  First Post", "output/index.html"
     end
 
-    should "find posts in category" do
+    it "finds posts in category" do
       create_page "index.liquid", "{% for post in site.categories.code %} {{ post.title }} {% endfor %}", title: "Simple Test"
 
       create_directory "_posts"
@@ -309,7 +309,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       refute_file_contains "Delicious Beer", "output/index.html"
     end
 
-    should "find posts in tags" do
+    it "finds posts in tags" do
       create_page "index.liquid", "{% for post in site.tags.beer %} {{ post.content }} {% endfor %}", title: "Simple Test"
 
       create_directory "_posts"
@@ -323,8 +323,8 @@ class TestLiquidRendering < BridgetownFeatureTest
     end
   end
 
-  context "ordering and configuration" do
-    should "order posts by name when on the same date" do
+  describe "ordering and configuration" do
+    it "orders posts by name when on the same date" do
       create_page "index.liquid", "{% for post in collections.posts.resources %}{{ post.title }}:{{ post.previous.title}},{{ post.next.title}} {% endfor %}", title: "Simple Test"
 
       create_directory "_posts"
@@ -339,7 +339,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_file_contains "last:,C C:last,B B:C,A A:B,first first:A,", "output/index.html"
     end
 
-    should "use configuration date in site payload" do
+    it "uses configuration date in site payload" do
       create_page "index.liquid", "{{ site.url }}", title: "Simple Test"
 
       create_configuration url: "http://example.com"
@@ -349,7 +349,7 @@ class TestLiquidRendering < BridgetownFeatureTest
       assert_file_contains "http://example.com", "output/index.html"
     end
 
-    should "render Bridgetown version and environment" do
+    it "renders Bridgetown version and environment" do
       create_page "index.liquid", "{{ bridgetown.version }}:{{ bridgetown.environment }}", title: "Simple Test"
 
       run_bridgetown "build"

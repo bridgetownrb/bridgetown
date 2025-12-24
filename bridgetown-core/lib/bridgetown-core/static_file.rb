@@ -55,7 +55,7 @@ module Bridgetown
     def destination(dest)
       dest = site.in_dest_dir(dest)
       dest_url = url
-      if site.base_path.present? && collection
+      if site.base_path.length.positive? && collection
         dest_url = dest_url.delete_prefix site.base_path(strip_slash_only: true)
       end
       site.in_dest_dir(dest, Bridgetown::Utils.unencode_uri(dest_url))
@@ -145,7 +145,7 @@ module Bridgetown
     end
 
     # Generates a relative path with the collection's directory removed when applicable
-    #   and additionally removes any multiple periods in the string.
+    # and additionally removes any multiple periods in the string.
     #
     # NOTE: `String#gsub!` removes all trailing periods (in comparison to `String#chomp!`)
     #

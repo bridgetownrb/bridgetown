@@ -23,7 +23,7 @@ Available commands are:
 * `bin/bridgetown deploy` - Ensures that all frontend assets get built alongside the published Bridgetown output. This is the command you'll want to use for [deployment](/docs/deployment).
 * `bin/bridgetown build` or `b` - Performs a single build of your site to the `output` folder. Add the `-w` flag to also regenerate the site whenever a source file changes.
 * `bin/bridgetown console` or `c` - Opens up an IRB console and lets you inspect your site configuration and content "under the hood" using Bridgetown's native Ruby API. See below for information on how to add your own console methods.
-  * The console command loads up the `console` [configuration context](/docs/configuration/initializers/#using-only-except-and-understanding-initialization-contexts) by default. Use the `--server-config` option (or `-s`) to load the server context instead (which also requires Puma and instantiates the Roda server application) for troubleshooting. In the future we hope to provide Rack Test `get`/`post`/etc. methods so you can try out responses right in the console.
+  * The console command loads up the `console` [configuration context](/docs/configuration/initializers/#using-only-except-and-understanding-initialization-contexts) by default. Use the `--server-config` option (or `-s`) to load the server context instead (which also requires Puma and instantiates the Roda server application) for troubleshooting. If you've added the [Rack::Test](https://github.com/rack/rack-test) gem (included automatically via the [Minitest bundled configuration](/docs/bundled-configurations#automated-test-suite-using-minitest)), the `get`/`post`/etc. DSL is available so you can try out responses right in the console.
 * [`bin/bridgetown plugins [list|cd]`](/docs/commands/plugins) - Display information about installed plugins or allow you to copy content out of gem-based plugins into your site folders.
 * `bin/bridgetown apply` - Run an [automation script](/docs/automations) for your existing site.
 * `bin/bridgetown configure CONFIGURATION` - Run a [bundled configuration](/docs/bundled-configurations) for your existing site. Invoke without arguments to see all available configurations.
@@ -77,7 +77,7 @@ task :linthtml do # this is custom for the website project
 end
 ```
 
-As is shown in comments for the default Rakefile, you can add your own [automations](/docs/automations) directly inside of Rake tasks. In the provided example, you can see that a `site` object is available, and within an `automation` block you can call Thor actions like standard automation scripts:
+As is shown in comments for the default Rakefile, you can add your own [automations](/docs/automations) directly inside of Rake tasks. In the provided example, you can see that a `site` object is available, and within an `automation` block you can call Freyia actions like standard automation scripts:
 
 ```ruby
 task :my_task => :environment do
@@ -88,7 +88,7 @@ task :my_task => :environment do
 end
 ```
 
-Running `bin/bridgetown my_task` would result in printing out the root path of the site as well as executing the `say_status` Thor action.
+Running `bin/bridgetown my_task` would result in printing out the root path of the site as well as executing the `say_status` Freyia action.
 
 {%@ Note type: :warning do %}
   The `site` variable is lazy-loaded, aka the site doesn't initialize before the `site` variable is accessed. You can add `run_initializers` to the top of your task block to ensure all site configurations, hooks, etc. have been executed. You can also pass a different initializer context (other than `:rake`) by providing the context as an argument. For example: `run_initializers context: :server`

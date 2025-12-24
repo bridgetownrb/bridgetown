@@ -1,0 +1,1 @@
+<p>Rendering from {{ original_extname }} via {{ resource.relative_path }}!</p>

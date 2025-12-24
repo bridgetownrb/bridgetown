@@ -6,6 +6,10 @@ AllCops:
     - "*.gemspec"
     - "script/console"
 
+Metrics/BlockLength:
+  Exclude:
+  - test/**/*.rb
+
 Lint/Void:
   Exclude:
-    - test/**/*.rb
+  - test/**/*.rb

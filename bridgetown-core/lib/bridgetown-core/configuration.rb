@@ -5,17 +5,37 @@ module Bridgetown
   class Configuration < HashWithDotAccess::Hash
     using Bridgetown::Refinements
 
-    REQUIRE_DENYLIST = %i(parse_routes ssr) # rubocop:disable Style/MutableConstant
+    # Built-in initializer list which isn't Gem-backed:
+    REQUIRE_DENYLIST = %i(external_sources parse_routes ssr) # rubocop:disable Style/MutableConstant
 
-    Initializer = Struct.new(:name, :block, :completed, keyword_init: true) do
+    Initializer = Struct.new(:name, :block, :completed) do
       def to_s
         "#{name} (Initializer)"
       end
     end
 
-    SourceManifest = Struct.new(:origin, :components, :content, :layouts, keyword_init: true)
+    SourceManifest = Struct.new(:origin, :components, :contents, :layouts, :bare_text) do
+      def initialize(**kwargs)
+        # for backwards compatibility, we need to support plugin code which sets `content`
+        # directly, rather than uses the new multi-collections `contents` hash
+        if kwargs[:content]
+          kwargs[:contents] = { pages: kwargs[:content] }
+          kwargs.delete :content
+        end
 
-    Preflight = Struct.new(:source_manifests, :initializers, keyword_init: true) do
+        super
+      end
+
+      def content
+        Bridgetown::Deprecator.deprecation_message(
+          "source_manifest.content is deprecated, use " \
+          "source_manifest.contents instead"
+        )
+        contents.values.first
+      end
+    end
+
+    Preflight = Struct.new(:source_manifests, :initializers) do
       def initialize(*)
         super
         self.source_manifests ||= Set.new
@@ -44,7 +64,7 @@ module Bridgetown
         category: { key: "categories", title: "Category" }, tag: { key: "tags", title: "Tag" },
       },
       "autoload_paths"               => [],
-      "inflector"                    => Bridgetown::Inflector.new,
+      "inflector"                    => Bridgetown::Foundation::Inflector.new,
       "eager_load_paths"             => [],
       "autoloader_collapsed_paths"   => [],
       "additional_watch_paths"       => [],
@@ -128,6 +148,12 @@ module Bridgetown
       end
     end
 
+    def initializers_dsl(context:)
+      ConfigurationDSL.new(scope: self, data: self).tap do |dsl|
+        dsl.instance_variable_set(:@context, context)
+      end
+    end
+
     def run_initializers!(context:) # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity
       initializers_file = File.join(root_dir, "config", "initializers.rb")
       unless File.file?(initializers_file)
@@ -146,8 +172,7 @@ module Bridgetown
       Bridgetown.logger.debug "", initializers_file
       self.init_params = {}
       cached_url = url&.include?("//localhost") ? url : nil
-      dsl = ConfigurationDSL.new(scope: self, data: self)
-      dsl.instance_variable_set(:@context, context)
+      dsl = initializers_dsl(context:)
       dsl.instance_exec(dsl, &init_init.block)
       dsl._run_builtins!
       self.url = cached_url if cached_url # restore local development URL if need be
@@ -359,9 +384,9 @@ module Bridgetown
     end
 
     DEFAULT_EXCLUDES = %w(
-      .sass-cache .bridgetown-cache
+      .sass-cache/ .bridgetown-cache/ tmp/
       gemfiles Gemfile Gemfile.lock gems.rb gems.locked
-      node_modules
+      node_modules/ config/
       vendor/bundle/ vendor/cache/ vendor/gems/ vendor/ruby/
     ).freeze
 

@@ -2,34 +2,19 @@
 
 module Bridgetown
   module Commands
-    class Apply < Thor::Group
-      include Thor::Actions
-      include Actions
-      extend Summarizable
+    class Apply < Bridgetown::Command
+      include Automations
 
-      Registrations.register do
-        register(Apply, "apply", "apply", Apply.summary)
-      end
+      self.description = "Applies an automation to the current site"
 
-      def self.banner
-        "bridgetown apply PATH or URL"
-      end
-      summary "Applies an automation to the current site"
+      one :path_or_url, "Either a path or a URL to an automation file or Git repo"
 
-      def self.source_root
-        Dir.pwd
-      end
-
-      def self.exit_on_failure?
-        true
-      end
-
-      def apply_automation
-        @source_paths = [Dir.pwd]
+      def call(new_site_dir: nil)
+        self.source_paths = [Dir.pwd]
         @logger = Bridgetown.logger
 
-        if options[:apply]
-          apply_after_new_command
+        if new_site_dir
+          apply_after_new_command new_site_dir
         else
           apply_in_pwd
         end
@@ -43,21 +28,22 @@ module Bridgetown
 
       protected
 
-      def apply_after_new_command
+      def apply_after_new_command(created_site_dir)
         # Coming from the new command, so set up proper bundler env
         Bridgetown.with_unbundled_env do
-          self.destination_root = New.created_site_dir
-          inside(New.created_site_dir) do
-            apply_from_url options[:apply]
+          self.destination_root = created_site_dir
+          inside(created_site_dir) do
+            apply_from_url path_or_url
           end
         end
       end
 
       def apply_in_pwd
         # Running standalone
-        automation_command = args.empty? ? "bridgetown.automation.rb" : args[0]
+        self.destination_root = Dir.pwd
+        automation_command = path_or_url.nil? ? "bridgetown.automation.rb" : path_or_url
 
-        if args.empty? && !File.exist?("bridgetown.automation.rb")
+        if path_or_url.nil? && !File.exist?("bridgetown.automation.rb")
           raise ArgumentError, "You must specify a path or a URL, " \
                                "or add bridgetown.automation.rb to the " \
                                "current folder."
@@ -70,5 +56,7 @@ module Bridgetown
         @logger.warn "Oops!", e.message
       end
     end
+
+    register_command :apply, Apply
   end
 end

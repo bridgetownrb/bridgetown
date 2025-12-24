@@ -12,9 +12,6 @@ AllCops:
     - tmp/**/*
     - test/source/**/*
     - test/resources/src/**/*.rb
-    - lib/bridgetown-core/commands/base.rb
-    - lib/bridgetown-core/commands/plugins.rb
-    - lib/bridgetown-core/configurations/ruby2js/**/*
     - lib/bridgetown-core/rack/roda.rb
     - lib/site_template/TEMPLATES/**/*
     - lib/site_template/Rakefile
@@ -22,6 +19,10 @@ AllCops:
     - lib/site_template/config/**/*
     - lib/site_template/plugins/site_builder.rb
     - lib/site_template/server/roda_app.rb
+
+Bridgetown/NoPutsAllowed:
+  Exclude:
+    - lib/bridgetown-core/commands/**/*
 
 Lint/ConstantDefinitionInBlock:
   Exclude:

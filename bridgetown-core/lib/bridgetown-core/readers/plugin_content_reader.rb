@@ -2,37 +2,61 @@
 
 module Bridgetown
   class PluginContentReader
-    attr_reader :site, :manifest, :content_dir
+    attr_reader :site, :manifest, :content_dirs
 
     # @param site [Bridgetown::Site]
-    # @param manifest [Bridgetown::Plugin::SourceManifest]
+    # @param manifest [Bridgetown::Configuration::SourceManifest]
     def initialize(site, manifest)
       @site = site
       @manifest = manifest
-      @content_dir = manifest.content
+      @content_dirs = manifest.contents || {}
       @content_files = Set.new
+      @supports_bare_text = manifest.bare_text
+      @bare_text_extensions = site.config.markdown_ext.split(",").map { ".#{_1}" } + [".html"]
     end
 
     def read
-      return unless content_dir
+      return if content_dirs.empty?
+
+      content_dirs.each do |collection_name, root|
+        read_content_root collection_name, root
+      end
+    end
+
+    def read_content_root(collection_name, content_dir)
+      collection = site.collections[collection_name]
+      unless collection
+        Bridgetown.logger.warn(
+          "Reading",
+          "Plugin requested missing collection #{collection_name}, cannot continue"
+        )
+        return
+      end
 
       Find.find(content_dir) do |path|
-        next if File.directory?(path)
+        if File.directory?(path)
+          Find.prune if EntryFilter::SPECIAL_LEADING_CHAR_REGEX.match?(File.basename(path))
+          next
+        end
 
         if File.symlink?(path)
           Bridgetown.logger.warn "Plugin content reader:", "Ignored symlinked asset: #{path}"
         else
-          read_content_file(path)
+          read_content_file(content_dir, path, collection)
         end
       end
     end
 
-    def read_content_file(path)
+    # @param collection [Bridgetown::Collection]
+    def read_content_file(content_dir, path, collection)
       dir = File.dirname(path.sub("#{content_dir}/", ""))
       name = File.basename(path)
+      extname = File.extname(path)
 
       @content_files << if FrontMatter::Loaders.front_matter?(path)
-                          site.collections.pages.read_resource(path, manifest:)
+                          collection.read_resource(path, manifest:)
+                        elsif @supports_bare_text && @bare_text_extensions.any? { extname == _1 }
+                          collection.read_resource(path, manifest:, bare_text: true)
                         else
                           Bridgetown::StaticFile.new(site, content_dir, "/#{dir}", name)
                         end

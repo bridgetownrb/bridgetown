@@ -4,19 +4,19 @@ require "features/feature_helper"
 
 # Various ways of re-configuring Bridgetown
 class TestSiteConfiguration < BridgetownFeatureTest
-  context "directory configuration" do
-    should "support different source dir" do
+  describe "directory configuration" do
+    it "supports different source dir" do
       create_directory "_sourcedir"
       create_page "_sourcedir/index.html", "Changing source directory", title: "Simple test"
 
       create_configuration source: "src/_sourcedir"
 
-      run_bridgetown "build"
+      run_bridgetown "b" # test shorthand command
 
       assert_file_contains "Changing source directory", "output/index.html"
     end
 
-    should "support different destination dir" do
+    it "supports different destination dir" do
       create_page "index.html", "Changing destination directory", title: "Simple test"
 
       create_configuration destination: "_mysite"
@@ -27,8 +27,8 @@ class TestSiteConfiguration < BridgetownFeatureTest
     end
   end
 
-  context "exclusion configuration" do
-    should "not output certain files" do
+  describe "exclusion configuration" do
+    it "does not output certain files" do
       create_file "Rakefile", "I want to be excluded"
       create_file "README", "I want to be excluded"
       create_file "index.html", "I want to be included"
@@ -43,7 +43,7 @@ class TestSiteConfiguration < BridgetownFeatureTest
       refute_exist "output/README"
     end
 
-    should "output included files even if they're in excluded directories" do
+    it "outputs included files even if they're in excluded directories" do
       create_directory "exclude_me"
       create_file "exclude_me/Rakefile", "I want to be excluded"
       create_file "exclude_me/README", "I want to be included"
@@ -56,8 +56,8 @@ class TestSiteConfiguration < BridgetownFeatureTest
     end
   end
 
-  context "future posts" do
-    should "not output past site time with future: false" do
+  describe "future posts" do
+    it "does not output past site time with future: false" do
       create_directory "_posts"
       create_page "index.liquid", "site time: {{ site.time | date: '%Y-%m-%d' }}", title: "Simple test"
       create_page "_posts/entry1.md", "content for entry 1", date: "2017-12-31", title: "entry1"
@@ -72,7 +72,7 @@ class TestSiteConfiguration < BridgetownFeatureTest
       refute_exist "output/2027/01/31/entry2/index.html"
     end
 
-    should "output past site time with future: true" do
+    it "outputs past site time with future: true" do
       create_directory "_posts"
       create_page "index.liquid", "site time: {{ site.time | date: '%Y-%m-%d' }}", title: "Simple test"
       create_page "_posts/entry1.md", "content for entry 1", date: "2017-12-31", title: "entry1"
@@ -87,7 +87,7 @@ class TestSiteConfiguration < BridgetownFeatureTest
       assert_file_contains "<p>content for entry 2</p>", "output/2027/01/31/entry2/index.html"
     end
 
-    should "output past site time with future CLI flag" do
+    it "outputs past site time with future CLI flag" do
       create_directory "_posts"
       create_page "index.liquid", "site time: {{ site.time | date: '%Y-%m-%d' }}", title: "Simple test"
       create_page "_posts/entry1.md", "content for entry 1", date: "2017-12-31", title: "entry1"
@@ -103,8 +103,8 @@ class TestSiteConfiguration < BridgetownFeatureTest
     end
   end
 
-  context "post-specific timezones" do
-    should "render dates with the site timezone" do
+  describe "post-specific timezones" do
+    it "renders dates with the site timezone" do
       create_directory "_layouts"
       create_directory "_posts"
       create_file "_layouts/page.liquid", "Page Layout: {{ collections.posts.resources.size }}"
@@ -125,8 +125,8 @@ class TestSiteConfiguration < BridgetownFeatureTest
     end
   end
 
-  context "abritrary layout location" do
-    should "not break the build" do
+  describe "abritrary layout location" do
+    it "does not break the build" do
       create_page "index.html", "FOO", layout: "page"
       create_configuration layouts_dir: "../../../../../../../../../../../../../../usr/include"
 
@@ -137,8 +137,8 @@ class TestSiteConfiguration < BridgetownFeatureTest
     end
   end
 
-  context "Zeitwerk" do
-    should "allow collapsed dirs with specific dir name" do
+  describe "Zeitwerk" do
+    it "allows collapsed dirs with specific dir name" do
       create_directory "plugins/nested"
       create_file "plugins/nested/top_level.rb", <<~RUBY
         module TopLevel
@@ -158,7 +158,7 @@ class TestSiteConfiguration < BridgetownFeatureTest
       assert_file_contains "Zeitwerk specific dir", "output/foo/index.html"
     end
 
-    should "allow collapsed dirs using globs" do
+    it "allows collapsed dirs using globs" do
       create_directory "plugins/nested/subnested"
       create_file "plugins/nested/top_level.rb", <<~RUBY
         module TopLevel

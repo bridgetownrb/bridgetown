@@ -33,7 +33,7 @@ module Bridgetown
             end
           end
 
-          Bridgetown::RubyTemplateView::Helpers.include(m)
+          Bridgetown::TemplateView::Helpers.include(m)
 
           functions << { name:, filter: m }
         end

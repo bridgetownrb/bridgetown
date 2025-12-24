@@ -21,13 +21,11 @@ module Bridgetown
         set(key, value[0], &block)
       end
 
-      def each(&)
-        @data.each(&)
-      end
+      def each(&) = @data.each(&)
 
-      def get(key)
-        @data[key]
-      end
+      def get(key) = @data[key]
+
+      def key?(key) = @data.key?(key)
 
       def set(key, value = nil, &block)
         # Handle nested data within a block
@@ -45,9 +43,7 @@ module Bridgetown
         @data[key] = value
       end
 
-      def to_h
-        @data
-      end
+      def to_h = @data
     end
   end
 end

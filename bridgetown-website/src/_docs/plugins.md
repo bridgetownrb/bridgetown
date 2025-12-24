@@ -133,6 +133,10 @@ end
 
 [Read further instructions below on how to create and publish a gem.](#creating-a-gem)
 
+{%@ Note do %}
+As a shortcut, your plugin can also define an inline builder directly within its initializer by passing a symbol and block to `config.builder`. [Read this documentation to learn more.](/docs/configuration/initializers#inline-builders)
+{% end %}
+
 ## Plugin Categories
 
 There are several categories of functionality you can add to your Bridgetown plugin:
@@ -179,7 +183,7 @@ Add new types of front matter to the resource objects and layouts in your site.
 
 ### [Commands](/docs/plugins/commands)
 
-Commands extend the `bridgetown` executable using the Thor CLI toolkit.
+Commands extend the `bridgetown` executable using the Samovar CLI toolkit.
 
 ### [Converters](/docs/plugins/converters)
 
@@ -231,20 +235,43 @@ plugins/my_plugin/woo/zoo.rb -> MyPlugin::Woo::Zoo
 
 You can read more about [Zeitwerk's file conventions here](https://github.com/fxn/zeitwerk#file-structure).
 
-In addition to the `plugins` folder provided by default, **you can add your own folders** with autoloading support! Add to the `autoload_paths` setting in your config YAML:
+In addition to the `plugins` folder provided by default, **you can add your own folders** with autoloading support! Add to the `autoload_paths` setting in your config:
 
+{%@ Documentation::Multilang do %}
+```ruby
+# config/initializers.rb
+Bridgetown.configure do |config|
+  config.autoload_paths << "loadme"
+end
+```
+===
 ```yaml
+# bridgetown.config.yml
 autoload_paths:
   - loadme
 ```
+{% end %}
 
 Now any Ruby file in your project's `./loadme` folder will be autoloaded. By default, files in your custom folders not "eager loaded", meaning that the Ruby code isn't actually processed unless/until you access the class or module name of the file somewhere in your code elsewhere. This can improve performance in certain cases. However, if you need to rely on the fact that your Ruby code is always loaded when the site is instantiated, set `eager` to true in your config:
 
+{%@ Documentation::Multilang do %}
+```ruby
+# config/initializers.rb
+Bridgetown.configure do |config|
+  config.autoload_paths << {
+    path: "loadme",
+    eager: true
+  }
+end
+```
+===
 ```yaml
+# bridgetown.config.yml
 autoload_paths:
   - path: loadme
     eager: true
 ```
+{% end %}
 
 There may be times when you want to bypass Zeitwerk's default folder-based namespacing. For example, if you wanted something like this:
 
@@ -255,17 +282,37 @@ plugins/helpers/hashify.rb -> Hashify
 
 where the files in `builders` use a `Builders` namespace, but the files in `helpers` don't use a `Helpers` namespace, you can use the `autoloader_collapsed_paths` setting:
 
+{%@ Documentation::Multilang do %}
+```ruby
+# config/initializers.rb
+Bridgetown.configure do |config|
+  config.autoloader_collapsed_paths << "plugins/helpers"
+end
+```
+===
 ```yaml
+# bridgetown.config.yml
 autoloader_collapsed_paths:
   - plugins/helpers
 ```
+{% end %}
 
 And if you don't want namespacing for _any_ subfolders, you can use a glob pattern:
 
+{%@ Documentation::Multilang do %}
+```ruby
+# config/initializers.rb
+Bridgetown.configure do
+  autoloader_collapsed_paths << "top_level/*"
+end
+```
+===
 ```yaml
+# bridgetown.config.yml
 autoloader_collapsed_paths:
   - top_level/*
 ```
+{% end %}
 
 Thus no files directly in `top_level` as well as any of its immediate subfolders will be namespaced (that is, no `TopLevel` module will be implied).
 

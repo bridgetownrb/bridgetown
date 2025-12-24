@@ -150,7 +150,7 @@ module Bridgetown
     alias_method :directory, :absolute_path
 
     # The full path to the folder containing the collection, with
-    #   optional subpaths.
+    # optional subpaths.
     #
     # @param *files [Array<String>] any other path pieces relative to the
     #   folder to append to the path
@@ -190,7 +190,7 @@ module Bridgetown
 
     # Produce a sanitized label name
     # Label names may not contain anything but alphanumeric characters,
-    #   underscores, and hyphens.
+    # underscores, and hyphens.
     #
     # @param label [String] the possibly-unsafe label
     # @return [String] sanitized version of the label.
@@ -210,7 +210,7 @@ module Bridgetown
     end
 
     # Whether the collection's resources ought to be written as individual
-    #   files in the output.
+    # files in the output.
     #
     # @return [Boolean] true if the 'write' metadata is true, false otherwise.
     def write?
@@ -292,11 +292,12 @@ module Bridgetown
     # @param full_path [String]
     # @param manifest [Bridgetown::Configuration::SourceManifest]
     # @return [void]
-    def read_resource(full_path, manifest: nil)
+    def read_resource(full_path, manifest: nil, bare_text: false)
       model_relative_path = relative_model_path_for(full_path, manifest:)
       model = Bridgetown::Model::Base.find(
         model_id_from_relative_path(model_relative_path, manifest:),
-        site:
+        site:,
+        bare_text:
       )
 
       if model_is_multi_locale?(model, model_relative_path)
@@ -396,7 +397,7 @@ module Bridgetown
 
     def relative_model_path_for(full_path, manifest: nil)
       Pathname(full_path).relative_path_from(
-        manifest ? Pathname(manifest.content) : Pathname(site.source)
+        manifest ? manifest.contents[label.to_sym] : site.source
       ).to_s
     end
 

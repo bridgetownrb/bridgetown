@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.summary       = "Ruby language extensions and other utilities useful for the Bridgetown ecosystem"
   spec.homepage      = "https://github.com/bridgetownrb/bridgetown/tree/main/bridgetown-foundation"
   spec.license       = "MIT"
-  spec.required_ruby_version = ">= 3.1"
+  spec.required_ruby_version = ">= 3.2"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r!^(test|script)/!) }
   spec.require_paths = ["lib"]
@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
     "rubygems_mfa_required" => "true",
   }
 
+  spec.add_dependency("dry-inflector", ">= 1.0")
   spec.add_dependency("hash_with_dot_access", "~> 2.0")
   spec.add_dependency("inclusive", "~> 1.0")
   spec.add_dependency("zeitwerk", "~> 2.5")

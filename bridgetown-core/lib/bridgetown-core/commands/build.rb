@@ -2,24 +2,15 @@
 
 module Bridgetown
   module Commands
-    class Build < Thor::Group
-      extend BuildOptions
-      extend Summarizable
+    class Build < Bridgetown::Command
       include ConfigurationOverridable
 
-      Registrations.register do
-        register(Build, "build", "build", Build.summary)
-      end
+      self.description = "Build your site and save to destination folder"
 
-      def self.banner
-        "bridgetown build [options]"
+      options do
+        BuildOptions.include_options(self)
+        option "-w/--watch", "Watch for changes and rebuild"
       end
-      summary "Build your site and save to destination folder"
-
-      class_option :watch,
-                   type: :boolean,
-                   aliases: "-w",
-                   desc: "Watch for changes and rebuild"
 
       def self.print_startup_message
         Bridgetown.logger.info "Starting:", "Bridgetown v#{Bridgetown::VERSION.magenta} " \
@@ -28,7 +19,7 @@ module Bridgetown
 
       # Build your bridgetown site
       # Continuously watch if `watch` is set to true in the config.
-      def build
+      def call # rubocop:disable Metrics
         Bridgetown.logger.adjust_verbosity(**options)
 
         # @type [Bridgetown::Configuration]
@@ -90,7 +81,7 @@ module Bridgetown
       # Watch for file changes and rebuild the site
       #
       # @param options [Bridgetown::Configuration] options loaded from config and/or CLI
-      def watch_site(config_options)
+      def watch_site(config_options) # rubocop:disable Metrics
         if config_options["url"]&.include?("://localhost")
           require "socket"
           external_ip = Socket.ip_address_list.find do |ai|
@@ -137,5 +128,7 @@ module Bridgetown
         end
       end
     end
+
+    register_command :build, Build
   end
 end

@@ -8,10 +8,16 @@ module Bridgetown
         klass.include Bridgetown::FrontMatter::RubyDSL
       end
 
-      def read_front_matter(file_path)
+      def read_front_matter(file_path, bare_text: false) # rubocop:todo Metrics/MethodLength
         file_contents = File.read(
           file_path, **Bridgetown::Utils.merged_file_read_opts(Bridgetown::Current.site, {})
         )
+
+        if bare_text
+          self.content = file_contents
+          return {}
+        end
+
         fm_result = nil
         Loaders.for(self).each do |loader|
           fm_result = loader.read(file_contents, file_path:) and break

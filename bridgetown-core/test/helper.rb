@@ -26,12 +26,11 @@ require "minitest/reporters"
 require "minitest/profile"
 require "minitest/stub_any_instance"
 require_relative "../lib/bridgetown-core"
-require_relative "../lib/bridgetown-core/commands/base"
+require_relative "../lib/bridgetown-core/commands/application"
 
 Bridgetown.logger = Logger.new(StringIO.new, :error)
 
 require "kramdown"
-require "shoulda" # TODO: finish converting tests to Minitest spec and remove this
 
 include Bridgetown
 
@@ -39,9 +38,19 @@ include Bridgetown
 # test output!
 Minitest::Reporters.use! [
   Minitest::Reporters::DefaultReporter.new(
-    color: true
+    color: true,
+    detailed_skip: !ENV["BYPASS_TEST_IN_FULL_SUITE"] # don't print out noisy skip messages in full suite
   ),
 ]
+
+if ENV["BYPASS_TEST_IN_FULL_SUITE"]
+  # monkey-patch so we don't get lots of annoying yellow "S" characters
+  Minitest::Reporters::DefaultReporter.class_eval do
+    def record_skip(record)
+      # no-op
+    end
+  end
+end
 
 module Minitest::Assertions
   ####
@@ -96,12 +105,11 @@ module DirectoryHelpers
     testing_dir("source", "src", *subdirs)
   end
 
-  def test_dir(*subdirs)
+  # Must not be named test_dir, or else the method isn't accessible in Minitest
+  # spec (describe/it) blocks.
+  def testing_dir(*subdirs)
     root_dir("test", *subdirs)
   end
-  # NOTE: I cannot explain why using describe/it results in `test_dir` going
-  # missing. Hence the use of this alias:
-  alias_method :testing_dir, :test_dir
 end
 
 Minitest::Spec::DSL::InstanceMethods.class_eval do
@@ -191,15 +199,24 @@ class BridgetownUnitTest < Minitest::Test
   # TODO: can we simplify this by utilizing Minitest's `capture_io`?
   # see: https://docs.seattlerb.org/minitest/Minitest/Assertions.html#method-i-capture_io
   def capture_output(level = :debug)
+    orig_error = nil
     $stdout = buffer = StringIO.new
     Bridgetown.logger = Logger.new(buffer)
     Bridgetown.logger.log_level = level
-    yield
-    buffer.rewind
-    buffer.string.to_s
-  ensure
+    begin
+      yield
+    rescue Exception => e # rubocop:disable Lint/RescueException
+      orig_error = e
+    end
     $stdout = STDOUT
     Bridgetown.logger = Logger.new(StringIO.new, :error)
+    buffer.rewind
+    buffer.string.to_s.tap do |str|
+      next unless orig_error
+
+      puts str # rubocop:disable Bridgetown/NoPutsAllowed
+      raise orig_error
+    end
   end
   alias_method :capture_stdout, :capture_output
   alias_method :capture_stderr, :capture_output
@@ -223,7 +240,7 @@ class BridgetownUnitTest < Minitest::Test
     I18n.enforce_available_locales = false
     I18n.locale = nil
     I18n.default_locale = nil
-    I18n.load_path = Gem.find_files_from_load_path("active_support/locale/en.*") # restore basic translations
+    I18n.load_path = Gem.find_files_from_load_path("bridgetown-core/locale/en.*") # restore basic translations
     I18n.available_locales = nil
     I18n.backend = nil
     I18n.default_separator = nil
