@@ -12,6 +12,32 @@ There's an **upgrade-help** channel in our [Discord chat](https://discord.gg/4E6
 
 {{ toc }}
 
+## Upgrading to Bridgetown 2.1
+
+Most projects should load fine in 2.1 as-is, but there are a few caveats to be aware of.
+
+First, the minimum supported language versions are Ruby 3.2 and Node 22. Usually you can edit your `.ruby-version` file and tools like `rbenv` will pick that up. Some deployment options require updating ENV vars. For Node, we recommend using a version manager like `nvm` where you can define Node versions in an `.nvmrc` file. Sometimes it's also simply a matter of updating an ENV var at your hosting provider.
+
+We've also made two substantial changes in the internals of Bridgetown, which could potentially affect certain third-party plugins. These represent the tail-end of our ongoing pledge to ensure Bridgetown is free of dependencies directly managed by 37signals, and now that we've completed that effort, we don't anticipate any further disruptions on that front. _Three cheers for stability!_
+
+### Samovar, Freyia, and Custom Commands
+
+In Bridgetown 2.1, we've migrated away from using Thor for our command-line interface (CLI) and are now using [Samovar](https://github.com/ioquatix/samovar), created by Samuel Williams. It is also much easier for you to extend Bridgetown's CLI with your own commands in any project by creating a `config/custom_commands.rb` file to add your own `Bridgetown::Command` subclasses. We believe in most cases this is a more powerful & flexible solution than authoring new Rake tasks. [Docs here.](/docs/plugins/commands)
+
+Note that for the 2.1 release cycle, we have provided a Thor "shim" so existing sites and plugins which provide Thor commands should continue to work as before. In a future release, we will be removing the shim so please update your commands accordingly. In the meantime, if you run into any compatibility issues with the shim please report them and let us know!
+
+Another of our prior uses of Thor was for the Automations functionality (which also powers our Bundled Configurations). Because this functionality is so important, and also near-impossible to replicate verbatim using an alternative library, we have _extracted_ the "actions" & "shell" portions of Thor as a hard fork out to a new gem called [Freyia](https://codeberg.org/jaredwhite/freyia). We will be actively developing Freyia as its own independent project going forward, refactoring and adding new features as needed.
+
+### Removal of Active Support
+
+In Bridgetown 2.1, we have finalized the removal of the Active Support gem. If you have written your own code which assumes the availability of Active Support, you may need to `bundle add activesupport` and require pieces of it yourself. For example, if you want to use `.blank?`, `.present?`, etc. and don't wish to refactor, you can add the gem and include the following in your `config/initializers.rb` file:
+
+```ruby
+require "active_support/core_ext/object/blank"
+```
+
+[Documentation on Active Support is available here.](https://guides.rubyonrails.org/v8.0/active_support_core_extensions.html)
+
 ## Upgrading to Bridgetown 2.0
 
 The first thing to know is that there are new minimum versions of both Ruby and Node.js for the v2 release cycle. In general, we try to support the previous two significant releases of these runtimes in addition to the current ones with each major version increase. So you will need to use a minimum of:

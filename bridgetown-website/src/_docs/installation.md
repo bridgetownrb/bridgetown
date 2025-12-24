@@ -37,6 +37,25 @@ system:
 * [Ubuntu Linux](/docs/installation/ubuntu)
 * [Windows (via Linux Subsystem + Ubuntu)](/docs/installation/windows)
 
+## Gem Servers
+
+By default, Bundler will install gems from the RubyGems service. You can configure your Bridgetown project post-install to bundle via the alternative community gem server [gem.coop](https://gem.coop) by modifying the `source` at the top of your project's `Gemfile`:
+
+```ruby
+source "https://gem.coop"
+```
+
+In addition, you also have the option of loading first-party Bridgetown gems directly from our own canonical gem server, [gems.bridgetownrb.com](https://gems.bridgetownrb.com). For example:
+
+```ruby
+source "https://gems.bridgetownrb.com" do
+  gem "bridgetown"
+  gem "bridgetown-feed"
+end
+```
+
+The list of available gems is provided at the link.
+
 ## Upgrading?
 
-We now have an [official upgrade guide](/docs/installation/upgrade) for migrating your Bridgetown v0.2x website to v1.0.
+We now have an [official upgrade guide](/docs/installation/upgrade) for migrating your Bridgetown website to v2.x.
