@@ -223,7 +223,75 @@ module Bridgetown
       #   `localhost:4000` in development.)
       #   @param url [String]
 
+      # @!method source(path)
+      #   Change the directory where Bridgetown will read content files
+      #   @param path [String] - default: `src`
+
+      # @!method destination(path)
+      #   Change the directory where Bridgetown will write files
+      #   @param path [String] - default: `output`
+
+      # @!method template_engine(engine)
+      #   Change the template engine Bridgetown uses by default to process content files
+      #   @param engine [Symbol] - default: `:erb`, alternatives: `:serbea`, `:liquid`
+
+      # @!method permalink(style)
+      #   Change the default permalink style or template used by pages & blog posts
+      #   @param style [String] - default: `:pretty`, alternatives: `:pretty_ext`, `:simple`, `:simple_ext`
+
+      # @!method fast_refresh(bool)
+      #   Control the behavior of Bridgetown's live reload functionality in development
+      #   @param bool [Boolean] - default: `true`
+
+      # @!method exclude(files_list)
+      #   Exclude source directories and/or files from the build conversion
+      #   @param files_list [Array<String>]
+
+      # @!method include(files_list)
+      #   Force inclusion of directories and/or files in the conversion (e.g. starting with underscores or dots)
+      #   @param files_list [Array<String>]
+
+      # @!method keep_files(files_list)
+      #   Files to keep when clobbering the site destination (aka not generated in typical Bridgetown builds)
+      #   @param files_list [Array<String>]
+
+      # @!method autoload_paths
+      #   Add paths to the Zeitwerk autoloader. Use a `config.defaults << "..."` syntax or a more advanced hash config
+      #   @example Add a new path for autoloading and eager load on boot
+      #       config.autoload_paths << {
+      #         path: "loadme",
+      #         eager: true
+      #       }
+
+      # @!method additional_watch_paths(paths)
+      #   Watch additional directories for reloads not normally covered by autoloader (relative to project root)
+      #   @param paths [Array<String>]
+
+      # @!method timezone(zone)
+      #   Set the time zone for site generation, using IANA Time Zone Database
+      #   @param zone [String]
+
+      # @!method defaults
+      #   Use a `config.defaults << {...}` syntax to add front matter defaults
+      #   @example Set a default layout for a collection
+      #       config.defaults << {
+      #         scope: { collection: :docs },
+      #         values: { layout: :default },
+      #       }
+
+      # @!method pagination
+      #   Enable and configure the settings for the paginator
+      #   @example Basic setup
+      #       pagination do
+      #         enabled true
+      #       end
+
+      # @!method base_path(url)
+      #   Optionally host your site off a path, e.g. `/blog`
+      #   @param url [String] - default: `/`
+
       # @!method inflector
+      #   Configure the inflector to add new inflection types, based on `Dry::Inflector`
       #   @return [Bridgetown::Foundation::Inflector]
     end
   end
