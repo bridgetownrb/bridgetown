@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 .
 
+## [2.1.0] (stable release) - 2025-12-24
+
+- No code changes since beta 3.
+
 ## [2.1.0.beta3] - 2025-12-18
 
 - Fix: shorthand commands preserve proper args
