@@ -237,7 +237,8 @@ module Bridgetown
 
       # @!method permalink(style)
       #   Change the default permalink style or template used by pages & blog posts
-      #   @param style [String] - default: `:pretty`, alternatives: `:pretty_ext`, `:simple`, `:simple_ext`
+      #   @param style [String] - default: `:pretty`, alternatives: `:pretty_ext`, `:simple`,
+      #     `:simple_ext`
 
       # @!method fast_refresh(bool)
       #   Control the behavior of Bridgetown's live reload functionality in development
@@ -248,15 +249,18 @@ module Bridgetown
       #   @param files_list [Array<String>]
 
       # @!method include(files_list)
-      #   Force inclusion of directories and/or files in the conversion (e.g. starting with underscores or dots)
+      #   Force inclusion of directories and/or files in the conversion (e.g. starting with
+      #   underscores or dots)
       #   @param files_list [Array<String>]
 
       # @!method keep_files(files_list)
-      #   Files to keep when clobbering the site destination (aka not generated in typical Bridgetown builds)
+      #   Files to keep when clobbering the site destination (aka not generated in typical
+      #   Bridgetown builds)
       #   @param files_list [Array<String>]
 
       # @!method autoload_paths
-      #   Add paths to the Zeitwerk autoloader. Use a `config.defaults << "..."` syntax or a more advanced hash config
+      #   Add paths to the Zeitwerk autoloader. Use a `config.defaults << "..."` syntax or a more
+      #   advanced hash config
       #   @example Add a new path for autoloading and eager load on boot
       #       config.autoload_paths << {
       #         path: "loadme",
@@ -264,7 +268,8 @@ module Bridgetown
       #       }
 
       # @!method additional_watch_paths(paths)
-      #   Watch additional directories for reloads not normally covered by autoloader (relative to project root)
+      #   Watch additional directories for reloads not normally covered by autoloader
+      #   (relative to project root)
       #   @param paths [Array<String>]
 
       # @!method timezone(zone)
