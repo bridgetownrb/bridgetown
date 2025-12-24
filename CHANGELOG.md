@@ -9,6 +9,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 .
 
+## [2.1.0] (stable release) - 2025-12-24
+
+- No code changes since beta 3.
+
+## [2.1.0.beta3] - 2025-12-18
+
+- Fix: shorthand commands preserve proper args
+
+## [2.1.0.beta2] - 2025-12-17
+
+- Fix: ensure plugin reader contents isn't nil
+- Add documentation on how to use the `parse_routes` plugin
+- Update `is-land` bundled configuration
+- Remove `ruby2js` bundled configuration, use JS files on website frontend
+
 ## [2.1.0.beta1] - 2025-12-03
 
 - Add built-in initializer plugin for external sources [#886](https://github.com/bridgetownrb/bridgetown/pull/886) ([@jaredcwhite](https://github.com/jaredcwhite))
