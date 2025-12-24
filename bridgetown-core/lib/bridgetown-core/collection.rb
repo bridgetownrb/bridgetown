@@ -150,7 +150,7 @@ module Bridgetown
     alias_method :directory, :absolute_path
 
     # The full path to the folder containing the collection, with
-    #   optional subpaths.
+    # optional subpaths.
     #
     # @param *files [Array<String>] any other path pieces relative to the
     #   folder to append to the path
@@ -190,7 +190,7 @@ module Bridgetown
 
     # Produce a sanitized label name
     # Label names may not contain anything but alphanumeric characters,
-    #   underscores, and hyphens.
+    # underscores, and hyphens.
     #
     # @param label [String] the possibly-unsafe label
     # @return [String] sanitized version of the label.
@@ -210,7 +210,7 @@ module Bridgetown
     end
 
     # Whether the collection's resources ought to be written as individual
-    #   files in the output.
+    # files in the output.
     #
     # @return [Boolean] true if the 'write' metadata is true, false otherwise.
     def write?

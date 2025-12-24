@@ -13,6 +13,7 @@ module Bridgetown::Foundation
       configure(&) if block_given?
     end
 
+    # @yieldparam inflections [Dry::Inflector::Inflections]
     def configure
       yield inflections
     end

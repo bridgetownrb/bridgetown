@@ -52,7 +52,7 @@ module Bridgetown::Foundation
         end
 
         # NOTE: if you _really_ need to preserve Active Support's `in?` functionality, you can just
-        #   require "active_support/core_ext/object/inclusion"
+        # require "active_support/core_ext/object/inclusion"
         def in?(...) = Bridgetown::Foundation.deprecation_warning(
           self, :in?, :within?, 2026, 12
         ).then { within?(...) }

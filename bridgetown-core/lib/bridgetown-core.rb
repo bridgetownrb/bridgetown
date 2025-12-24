@@ -247,7 +247,8 @@ module Bridgetown
         )
     end
 
-    # @yieldself [Bridgetown::Configuration::ConfigurationDSL]
+    # @yieldparam config [Bridgetown::Configuration::ConfigurationDSL]
+    # @yieldreceiver [Bridgetown::Configuration::ConfigurationDSL]
     def configure(&)
       initializer(:init, &)
     end
@@ -300,7 +301,6 @@ module Bridgetown
     # Set the TZ environment variable to use the timezone specified
     #
     # @param timezone [String] the IANA Time Zone
-    #
     # @return [void]
     # rubocop:disable Naming/AccessorMethodName
     def set_timezone(timezone)
