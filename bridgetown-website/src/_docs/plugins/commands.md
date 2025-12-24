@@ -115,3 +115,16 @@ Then your command can run those automations:
 ```ruby
 say_status :river, "Go with the flow! :)"
 ```
+
+You might also need a site object loaded up into memory. Ensure you have included the `ConfigurationOverridable` mixin as in the example above, then initialize a site at the start of your command logic:
+
+```ruby
+config = configuration_with_overrides(options)
+config.run_initializers! context: :static
+site = Bridgetown::Site.new(config)
+
+# optionally run setup hooks and read in content if needed:
+site.reset
+site.read
+site.generate
+```
