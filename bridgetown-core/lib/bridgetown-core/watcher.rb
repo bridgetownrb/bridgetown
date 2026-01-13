@@ -67,7 +67,7 @@ module Bridgetown
       ) do |modified, added, removed|
         paths = modified + added + removed
 
-        filter_paths(paths, options)
+        filter_paths(paths, options, keep: [bundling_path])
 
         n = paths.length
         next if n.zero?
@@ -177,13 +177,17 @@ module Bridgetown
       end
     end
 
-    def filter_paths(paths, options)
+    def filter_paths(paths, options, keep: [])
       # NOTE: inexplicably, this matcher doesn't work with the Listen gem, so
       # we have to run it here manually
       paths.reject! { component_frontend_matcher(options).match? _1 }
       # Filter again by ignore exclusions, needed for "folder inversion" projects where the
       # Bridgetown root is inside of the main folder being watched
-      paths.reject! { |path| to_exclude(options).any? { path == _1 || path.start_with?(_1) } }
+      paths.reject! do |path|
+        next false if keep.any? { path.start_with?(_1) }
+
+        to_exclude(options).any? { path == _1 || path.start_with?(_1) }
+      end
     end
 
     def sleep_forever
