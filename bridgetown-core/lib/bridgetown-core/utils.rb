@@ -150,29 +150,29 @@ module Bridgetown
     # are not replaced with hyphen.
     #
     # When mode is `ascii`, some everything else except ASCII characters
-    # `a-z` (lowercase), `A-Z` (uppercase) and `0-9` (numbers) are not replaced with hyphen.
+    # `a-z` (lowercase), `A-Z` (uppercase) and `0-9` (numbers) are replaced with hyphen.
     #
     # When mode is `latin`, the input string is first preprocessed so that
     # any letters with accents are replaced with the plain letter. Afterwards,
     # it follows the `default` mode of operation.
     #
-    # If `cased` is `true`, all uppercase letters in the result string are
+    # If `cased` is `false`, all uppercase letters in the result string are
     # replaced with their lowercase counterparts.
     #
     # @example
     #   slugify("The _config.yml file")
     #   # => "the-config-yml-file"
     #
-    #   slugify("The _config.yml file", "pretty")
+    #   slugify("The _config.yml file", mode: "pretty")
     #   # => "the-_config.yml-file"
     #
-    #   slugify("The _config.yml file", "pretty", true)
-    #   # => "The-_config.yml file"
+    #   slugify("The _config.yml file", mode: "pretty", cased: true)
+    #   # => "The-_config.yml-file"
     #
-    #   slugify("The _config.yml file", "ascii")
+    #   slugify("The _config.yml file", mode: "ascii")
     #   # => "the-config-yml-file"
     #
-    #   slugify("The _config.yml file", "latin")
+    #   slugify("The _config.yml file", mode: "latin")
     #   # => "the-config-yml-file"
     #
     # @param string [String] filename or title to slugify
