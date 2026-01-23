@@ -84,18 +84,6 @@ class TestTags < BridgetownUnitTest
   end
 
   describe "ruby_render tag" do
-    it "renders a Ruby expression" do
-      content = <<~CONTENT
-        ---
-        title: This is a test
-        ---
-
-        {% ruby_render %w[a b c].join(", ") %}
-      CONTENT
-      create_post(content:)
-      assert_match %r{a, b, c}, @result
-    end
-
     it "renders a simple Ruby component" do
       page_title = "This is a test"
       content = <<~CONTENT
@@ -103,10 +91,24 @@ class TestTags < BridgetownUnitTest
         title: #{page_title}
         ---
 
-        {% ruby_render RubyComponent.new %}
+        {% ruby_render "ruby_component" %}
       CONTENT
       create_post(content:, page_title:)
-      assert_match %r{Here’s the page title! <strong>#{page_title}</strong>}, @result
+      assert_match "Here’s the page title! <strong>#{page_title}</strong>", @result
+    end
+
+    it "renders a Bridgetown::Component with arguments" do
+      page_title = "This is a test"
+      content = <<~CONTENT
+        ---
+        title: #{page_title}
+        ---
+
+        {% ruby_render "card", title: "Hello", footer: "I am a card" %}
+      CONTENT
+      create_post(content:, page_title:)
+      assert_match "HELLO", @result
+      assert_match "I am a card", @result
     end
   end
 
