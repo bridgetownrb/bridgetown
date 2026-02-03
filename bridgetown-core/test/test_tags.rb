@@ -104,7 +104,8 @@ class TestTags < BridgetownUnitTest
         title: #{page_title}
         ---
 
-        {% ruby_render "card", title: "Hello", footer: "I am a card" %}
+        {% assign footer_text = "I am a card" %}
+        {% ruby_render "card", title: "Hello", footer: footer_text %}
       CONTENT
       create_post(content:, page_title:)
       assert_match "HELLO", @result
