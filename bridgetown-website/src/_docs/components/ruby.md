@@ -271,10 +271,10 @@ In addition to rendering a template for you, `Bridgetown::Component` provides a 
 You can use the `ruby_render` helper from Liquid templates to render Ruby components.
 
 ```liquid
-{% ruby_render "test_component", title: "Ruby FTW!", my_values: [20, 30] %}
+{% ruby_render "test_component", title: "Ruby FTW!" %}
 ```
 
-In this example, `TestComponent` is initialized with the keyword arguments `title` and `my_values`, then rendered.
+In this example, `TestComponent` is initialized with the keyword argument `title`, then rendered.
 
 [Passing in content via a block](#content) is not yet supported.
 
