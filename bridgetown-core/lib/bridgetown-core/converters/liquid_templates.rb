@@ -79,6 +79,7 @@ module Bridgetown
             site:,
             page: payload["page"],
             cached_partials: self.class.cached_partials,
+            resource: document,
           },
           strict_filters: site.config["liquid"]["strict_filters"],
           strict_variables: site.config["liquid"]["strict_variables"],
