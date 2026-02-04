@@ -15,6 +15,8 @@ class TestExternalSources < BridgetownFeatureTest
             contents do
               pages "#{sources_folder}"
             end
+
+            filter ->(name) { !name.start_with?("_") }
           end
 
           config.defaults << {
@@ -35,6 +37,7 @@ class TestExternalSources < BridgetownFeatureTest
       assert_file_contains "<head><title>Marked Down</title></head><body><h1 id=\"marked-down\">Marked Down</h1>\n\n<p>This is <strong>Markdown</strong> text. It’s as easy as 1, 2, 3!</p>\n",
                            "output/marked_down/index.html"
       refute_exist "output/.ignore"
+      refute_exist "output/index.html" # from _omit.md (filtered out)
     end
   end
 end

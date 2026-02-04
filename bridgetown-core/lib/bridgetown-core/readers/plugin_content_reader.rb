@@ -23,6 +23,7 @@ module Bridgetown
       end
     end
 
+    # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
     def read_content_root(collection_name, content_dir)
       collection = site.collections[collection_name]
       unless collection
@@ -34,6 +35,12 @@ module Bridgetown
       end
 
       Find.find(content_dir) do |path|
+        if site.config.external_sources_filter &&
+            !site.config.external_sources_filter.call(File.basename(path))
+          Find.prune if File.directory?(path)
+          next
+        end
+
         if File.directory?(path)
           Find.prune if EntryFilter::SPECIAL_LEADING_CHAR_REGEX.match?(File.basename(path))
           next
@@ -46,6 +53,7 @@ module Bridgetown
         end
       end
     end
+    # rubocop:enable Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Metrics/AbcSize
 
     # @param collection [Bridgetown::Collection]
     def read_content_file(content_dir, path, collection)

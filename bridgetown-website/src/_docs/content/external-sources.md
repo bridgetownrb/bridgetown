@@ -5,7 +5,7 @@ top_section: Writing Content
 category: resources
 ---
 
-There are times you may want Bridgetown to include resources you've created which live outside of your site project folder hierarchy. In particular, you may have a folder(s) of Markdown files already saved somewhere and would like those to be included in your site build. 
+There are times you may want Bridgetown to include resources you've created which live outside of your site project folder hierarchy. In particular, you may have a folder(s) of Markdown files already saved somewhere and would like those to be included in your site build.
 
 To add a new content source to your project, use the `external_sources` plugin initializer in your `config/initializers.rb` file:
 
@@ -40,6 +40,18 @@ init :external_sources do
   contents do
     docs "/var/wiki"
   end
+end
+```
+
+If you want to include only certain files from external sources, add the `filter` option with a lambda. For example, to include only files and folders that do not start with an underscore:
+
+```ruby
+init :external_sources do
+  contents do
+    pages "path/to/folder"
+  end
+
+  filter ->(name) { !name.start_with?("_") }
 end
 ```
 
