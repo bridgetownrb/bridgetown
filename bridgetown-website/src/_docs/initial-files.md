@@ -6,17 +6,15 @@ description: Explanation of initial files scaffold
 category: files-scaffold
 ---
 
-You can start a web application with one file (like `config.ru` for Roda or other Rack-based apps) and build from there.
+If you are a beginner having just run `bridgetown new` for the first time, you may be thinking something like: _"Wow, this is a lot of files. What do they all mean? Do I need to know what they all mean? Maybe this isn't for me after all…"_
 
-If instead you use a framework like Bridgetown (or Sinatra, Rails, etc.), you will be provided with a "scaffold" of initial files and folders, setting up a standard organization for your project.
+Like other frameworks (Sinatra, Rails, etc.), Bridgetown provides a "scaffold" of initial files and folders, setting up a standard organization for your project. 
 
-This is very useful, but can also confuse beginning developers, as it presents a number of building blocks in a manner that is conventional and convenient _if you know what each part is for_.
+But do you need to know what all those files and folders are for? _Not really!_
+
+Below is a quick summary of the building blocks and scaffold, followed by additional details about the main files and folders that you will use when starting with Bridgetown.
 
 ![view of the Bridgetown scaffold](/images/bridgetown-scaffold.png)
-
-Some of this know-how comes from general programming knowledge (about Ruby, JavaScript, etc.), something that everyone possesses in different amounts at different times. Other Bridgetown specific information can be found in the official documentation. Yet when first starting with Bridgetown, it can be useful to have a quick summary of the building blocks and scaffold that you are beginning to work with.
-
-This is an attempt at making such a summary, followed by additional details about the main files and folders that you will use when starting with Bridgetown.
 
 ## The building blocks (a.k.a. "the stack")
 
