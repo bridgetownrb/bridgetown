@@ -6,9 +6,9 @@ description: If Bridgetown is your first web framework
 category: first-steps
 ---
 
-You have just installed Bridgetown by following the [Getting Started][getting-started] guide. Great! Now what?
+You have just installed Bridgetown by following the [Getting Started](https://www.bridgetownrb.com/docs) guide. Great! Now what?
 
-If you are not familiar with other web frameworks, your brand new site may seem confusing. Head to our [explanation][initial-files] to discover what all these files and folders are about!
+If you are not familiar with other web frameworks, your brand new site may seem confusing. Head to our [explanation](/docs/initial_files) to discover what all these files and folders are about!
 
 ## First posts and pages
 
@@ -37,7 +37,7 @@ In this case, it will list the titles of all your posts, with links to the corre
 
 ## A custom collection
 
-If you want to create a custom collection (let's say for your documentation), you will need to initialize it in the `config/initializers.rb` file. (See [detailed instructions here][custom-collections].)
+If you want to create a custom collection (let's say for your documentation), you will need to initialize it in the `config/initializers.rb` file. (See [detailed instructions here](https://www.bridgetownrb.com/docs/collections#custom-collections).)
 
 ```ruby
 Bridgetown.configure do |config|
@@ -72,19 +72,10 @@ Now, you can add your content, either as a page, a post, or an item in a custom 
 
 Bridgetown comes with a decent default theme. You can edit the CSS directly in `frontend/styles/index.css`.
 
-You can also search the web for CSS themes, and either place the contents of the theme's CSS file in index.css, or follow the theme's installation instructions (for instance [pico][pico-theme])
+You can also search the web for CSS themes, and either place the contents of the theme's CSS file in index.css, or follow the theme's installation instructions (for instance [pico](https://picocss.com/docs#install-manually))
 
 ## What next?
 
 You now have a basic Bridgetown site set up, and you can focus on what matters most: your content.
 
-When you are ready for more complex stuff, we recommend taking a look at Bridgetown's [bundled configurations][bundled-configurations] and [how to deploy to production][deploy].
-
-<!--LINKS-->
-
-[getting-started]: https://www.bridgetownrb.com/docs
-[initial-files]: /docs/initial_files
-[custom-collections]: https://www.bridgetownrb.com/docs/collections#custom-collections
-[pico-theme]: https://picocss.com/docs#install-manually
-[bundled-configurations]: https://www.bridgetownrb.com/docs/bundled-configurations
-[deploy]: https://www.bridgetownrb.com/docs/deployment
+When you are ready for more complex stuff, we recommend taking a look at Bridgetown's [bundled configurations](https://www.bridgetownrb.com/docs/bundled-configurations) and [how to deploy to production](https://www.bridgetownrb.com/docs/deployment).
