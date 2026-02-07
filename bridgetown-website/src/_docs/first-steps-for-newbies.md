@@ -30,7 +30,9 @@ For now, `index.md` and `about.md` are static pages, respectively a home page an
 </ul>
 ```
 
-In this case, it will list the titles of all your posts, with links to the corresponding posts. You can also access other properties of your posts. For instance, `post.data.date` will give you the date. Any custom metadata that you specify in the front matter (see below) can be accessed in the same way.
+In this case, it will list the titles of all your posts, with links to the corresponding posts. You can also access other properties of your posts. For instance, `post.data.date` will give you the date. 
+
+This metadata is as versatile as you need it to be! You can create custom metadata in the [front matter](https://www.bridgetownrb.com/docs/front-matter) and access it in the same way with `post.data.order` or `post.data.category`.
 
 ```yaml
 ---
