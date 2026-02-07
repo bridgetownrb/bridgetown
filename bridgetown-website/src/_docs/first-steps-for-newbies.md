@@ -90,4 +90,6 @@ You can also search the web for CSS themes, and either place the contents of the
 
 You now have a basic Bridgetown site set up, and you can focus on what matters most: your content.
 
-When you are ready for more complex stuff, we recommend taking a look at Bridgetown's [bundled configurations](https://www.bridgetownrb.com/docs/bundled-configurations) and [how to deploy to production](https://www.bridgetownrb.com/docs/deployment).
+To make your site more accessible on the Web, consider adding the [SEO](/docs/bundled-configurations#seo) and [Feed](https://www.bridgetownrb.com/docs/bundled-configurations#feed) bundled configurations (instructions in the links).
+
+When you're ready to publish your site, head over to our [deployment guide](/docs/deployment).
