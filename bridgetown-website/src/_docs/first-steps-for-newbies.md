@@ -49,7 +49,7 @@ category: first-steps
 
 ## A custom collection
 
-If you want to create a custom collection (let's say for your documentation), you will need to initialize it in the `config/initializers.rb` file. (See [detailed instructions here](https://www.bridgetownrb.com/docs/collections#custom-collections).)
+If you want to create a custom collection (let's say "Docs" for your documentation), you will need to initialize it in the `config/initializers.rb` file. (See [detailed instructions here](https://www.bridgetownrb.com/docs/collections#custom-collections).)
 
 ```ruby
 Bridgetown.configure do |config|
@@ -61,9 +61,9 @@ Bridgetown.configure do |config|
 end
 ```
 
-Then, create a `_docs` folder under the `src` folder, and add your files in it. You can use an existing layout, or create a custom layout in the `layouts` folder.
+Then, create a `_docs` folder under the `src` folder, and add your documentation files in it. You can use an existing layout, or create a [custom layout](https://www.bridgetownrb.com/docs/layouts) in the `layouts` folder.
 
-Add a `docs.md` file under the `src` folder to create a collection page similar to the `posts.md` page.
+Add a `docs.md` file under the `src` folder to create a collection page similar to the `posts.md` page. You can create a list of docs, filtered by metadata, by accessing `collections.docs.each do |doc|`, just like for the posts above.
 
 Edit the `components/shared/navbar.erb` file to add your new collection to the navigation bar (you can follow the format used for pages and posts).
 
