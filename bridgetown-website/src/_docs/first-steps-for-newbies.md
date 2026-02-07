@@ -20,7 +20,15 @@ For now, `index.md` and `about.md` are static pages, respectively a home page an
 
 `posts.md` contains an example of how to access the items in a collection.
 
-![getting posts](/images/posts-each.png)
+```ruby
+<ul>
+  <% collections.posts.each do |post| %>
+    <li>
+      <a href="<%= post.relative_url %>"><%= post.data.title %></a>
+    </li>
+  <% end %>
+</ul>
+```
 
 In this case, it will list the titles of all your posts, with links to the corresponding posts. You can also access other properties of your posts. For instance, `post.data.date` will give you the date. Any custom metadata that you specify in the front matter can be accessed in the same way.
 
@@ -29,15 +37,34 @@ In this case, it will list the titles of all your posts, with links to the corre
 
 ## A custom collection
 
-If you want to create a custom collection, you will need to initialize it in the `config/initializers.rb` file. (See [detailed instructions here][custom-collections].)
+If you want to create a custom collection (let's say for your documentation), you will need to initialize it in the `config/initializers.rb` file. (See [detailed instructions here][custom-collections].)
 
-Then, create a `_your-collection` folder under the `src` folder, and add your files in it. You can use an existing layout, or create a custom layout in the `layouts` folder.
+```ruby
+Bridgetown.configure do |config|
+  collections do
+    docs do
+      output true
+    end
+  end
+end
+```
 
-Add a `your-collection.md` file under the `src` folder to create a collection page similar to the `posts.md` page.
+Then, create a `_docs` folder under the `src` folder, and add your files in it. You can use an existing layout, or create a custom layout in the `layouts` folder.
+
+Add a `docs.md` file under the `src` folder to create a collection page similar to the `posts.md` page.
 
 Edit the `components/shared/navbar.erb` file to add your new collection to the navigation bar (you can follow the format used for pages and posts).
 
-![navbar](/images/navbar.png)
+```ruby
+<nav>
+  <ul>
+    <li><a href="<%= relative_url '/' %>">Home</a></li>
+    <li><a href="<%= relative_url '/about' %>">About</a></li>
+    <li><a href="<%= relative_url '/posts' %>">Posts</a></li>
+    <li><a href="<%= relative_url '/docs' %>">Docs</a></li>
+  </ul>
+</nav>
+```
 
 Now, you can add your content, either as a page, a post, or an item in a custom collection. But how will it look?
 
