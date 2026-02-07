@@ -30,10 +30,20 @@ For now, `index.md` and `about.md` are static pages, respectively a home page an
 </ul>
 ```
 
-In this case, it will list the titles of all your posts, with links to the corresponding posts. You can also access other properties of your posts. For instance, `post.data.date` will give you the date. Any custom metadata that you specify in the front matter can be accessed in the same way.
+In this case, it will list the titles of all your posts, with links to the corresponding posts. You can also access other properties of your posts. For instance, `post.data.date` will give you the date. Any custom metadata that you specify in the front matter (see below) can be accessed in the same way.
+
+```yaml
+---
+order: 45
+title: First Steps for Newbies
+top_section: Setup
+description: If Bridgetown is your first web framework
+category: first-steps
+---
+```
 
 > [!NOTE]:
-> If you create custom metadata for one post, you will need to include the same data for all other posts, in order to access it with an `each` method. The best strategy, if not all posts need this specific data, is to add it in a `_defaults.yml` file at the top of your directory tree, and leave it empty there.
+> If you create custom metadata for one post, you will need to include the same data for all other posts. If not all posts need this specific data, it is best to add it in a `_defaults.yml` file in your `_posts` directory, and leave it empty there.
 
 ## A custom collection
 
