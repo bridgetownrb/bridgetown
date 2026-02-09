@@ -20,7 +20,7 @@ For now, `index.md` and `about.md` are static pages, respectively a home page an
 
 `posts.md` contains an example of how to access the items in a collection.
 
-```ruby
+```erb
 <ul>
   <% collections.posts.each do |post| %>
     <li>
@@ -67,7 +67,7 @@ Add a `docs.md` file under the `src` folder to create a collection page similar 
 
 Edit the `components/shared/navbar.erb` file to add your new collection to the navigation bar (you can follow the format used for pages and posts).
 
-```ruby
+```erb
 <nav>
   <ul>
     <li><a href="<%= relative_url '/' %>">Home</a></li>
