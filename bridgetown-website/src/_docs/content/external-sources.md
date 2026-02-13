@@ -43,7 +43,7 @@ init :external_sources do
 end
 ```
 
-If you want to include only certain files from external sources, add the `filter` option with a lambda. For example, to include only files and folders that do not start with an underscore:
+If you want to include only certain files from an external source, you can do so in a `filters` block. For example, here is how to add a filter to external sources to the `pages` collection, so as to include only files and folders that do not start with an underscore:
 
 ```ruby
 init :external_sources do
@@ -51,7 +51,9 @@ init :external_sources do
     pages "path/to/folder"
   end
 
-  filter ->(name) { !name.start_with?("_") }
+  filters do
+    pages ->(name) { !name.start_with?("_") }
+  end
 end
 ```
 

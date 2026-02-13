@@ -7,16 +7,26 @@ class TestExternalSources < BridgetownFeatureTest
   describe "external_sources initializer" do
     it "renders ERB file" do
       sources_folder = File.expand_path("../external_sources_folder", __dir__)
+      other_sources_folder = File.expand_path("../external_sources_folder_not_filtered", __dir__)
 
       create_directory "config"
       create_file "config/initializers.rb", <<~RUBY
         Bridgetown.configure do |config|
+          collections do
+            other_pages do
+              output true
+            end
+          end
+
           init :external_sources do
             contents do
               pages "#{sources_folder}"
+              other_pages "#{other_sources_folder}"
             end
 
-            filter ->(name) { !name.start_with?("_") }
+            filters do
+              pages ->(name) { !name.start_with?("_") }
+            end
           end
 
           config.defaults << {
@@ -38,6 +48,8 @@ class TestExternalSources < BridgetownFeatureTest
                            "output/marked_down/index.html"
       refute_exist "output/.ignore"
       refute_exist "output/index.html" # from _omit.md (filtered out)
+      # from external_sources_folder_not_filtered/subfolder/_do_not_omit.md
+      assert_file_contains "This content should NOT be filtered out.", "output/other_pages/subfolder/index.html"
     end
   end
 end
