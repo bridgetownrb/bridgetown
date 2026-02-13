@@ -13,7 +13,7 @@ Bridgetown.initializer :ssr do |config, setup: nil, **options|
   end
 end
 
-Bridgetown.initializer :external_sources do |config, contents:|
+Bridgetown.initializer :external_sources do |config, contents:, filters: nil|
   Bridgetown::ExternalSources = Module.new
 
   contents.each do |coll, path|
@@ -34,6 +34,11 @@ Bridgetown.initializer :external_sources do |config, contents:|
 
   contents.each_value do |path|
     config.additional_watch_paths << path
+  end
+
+  config.external_sources_filters = {} if filters
+  filters.each do |coll, filter|
+    config.external_sources_filters[coll] = filter
   end
 end
 
