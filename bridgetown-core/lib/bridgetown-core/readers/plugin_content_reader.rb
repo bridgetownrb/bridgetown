@@ -37,7 +37,7 @@ module Bridgetown
       Find.find(content_dir) do |path|
         if site.config.external_sources_filters &&
             site.config.external_sources_filters[collection_name] &&
-            !site.config.external_sources_filters[collection_name].call(File.basename(path))
+            !site.config.external_sources_filters[collection_name].call(File.basename(path), path)
           Find.prune if File.directory?(path)
           next
         end

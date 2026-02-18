@@ -25,7 +25,7 @@ class TestExternalSources < BridgetownFeatureTest
             end
 
             filters do
-              pages ->(name) { !name.start_with?("_") }
+              pages ->(name, path) { !name.start_with?("_") }
             end
           end
 

@@ -43,7 +43,7 @@ init :external_sources do
 end
 ```
 
-If you want to include only certain files from an external source, you can do so in a `filters` block. For example, here is how to add a filter to external sources to the `pages` collection, so as to include only files and folders that do not start with an underscore:
+If you want to include only certain files from an external source, you can do so in a `filters` block. For example, here is how to add a filter to external sources to the `pages` collection, so as to include only files and folders whose name does not start with an underscore:
 
 ```ruby
 init :external_sources do
@@ -52,7 +52,7 @@ init :external_sources do
   end
 
   filters do
-    pages ->(name) { !name.start_with?("_") }
+    pages ->(name, path) { !name.start_with?("_") }
   end
 end
 ```
