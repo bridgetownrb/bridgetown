@@ -376,5 +376,46 @@ class TestConfiguration < BridgetownUnitTest
 
       assert_equal "GMT", Bridgetown.timezone
     end
+
+    it "keep_files, include, exclude may append file" do
+      dsl = Configuration::ConfigurationDSL.new(scope: @config, data: @config)
+
+      dsl.instance_variable_set(:@context, :testing)
+      dsl.instance_exec(dsl) do
+        keep_files << "some_file1.txt"
+        include << "some_file2.txt"
+        exclude << "some_file3.txt"
+      end
+
+      assert_includes @config["keep_files"], "some_file1.txt"
+      assert_includes @config["include"], "some_file2.txt"
+      assert_includes @config["exclude"], "some_file3.txt"
+    end
+
+    it "keep_files, include, exclude may accept list of files" do
+      dsl = Configuration::ConfigurationDSL.new(scope: @config, data: @config)
+
+      dsl.instance_variable_set(:@context, :testing)
+      dsl.instance_exec(dsl) do
+        keep_files "some_file1.txt"
+        keep_files "some_file2.txt", "some_file3.txt"
+
+        include "some_file4.txt"
+        include "some_file5.txt", "some_file6.txt"
+
+        exclude "some_file7.txt"
+        exclude "some_file8.txt", "some_file9.txt"
+      end
+
+      ["some_file1.txt", "some_file2.txt", "some_file3.txt"].each do |f|
+        assert_includes @config["keep_files"], f
+      end
+      ["some_file4.txt", "some_file5.txt", "some_file6.txt"].each do |f|
+        assert_includes @config["include"], f
+      end
+      ["some_file7.txt", "some_file8.txt", "some_file9.txt"].each do |f|
+        assert_includes @config["exclude"], f
+      end
+    end
   end
 end
