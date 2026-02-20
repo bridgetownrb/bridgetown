@@ -36,9 +36,11 @@ Bridgetown.initializer :external_sources do |config, contents:, filters: nil|
     config.additional_watch_paths << path
   end
 
-  config.external_sources_filters = {} if filters
-  filters.each do |coll, filter|
-    config.external_sources_filters[coll] = filter
+  if filters
+    config.external_sources_filters = {}
+    filters.each do |coll, filter|
+      config.external_sources_filters[coll] = filter
+    end
   end
 end
 
