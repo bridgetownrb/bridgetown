@@ -48,8 +48,9 @@ class TestExternalSources < BridgetownFeatureTest
                            "output/marked_down/index.html"
       refute_exist "output/.ignore"
       refute_exist "output/index.html" # from _omit.md (filtered out)
-      # from external_sources_folder_not_filtered/subfolder/_do_not_omit.md
-      assert_file_contains "This content should NOT be filtered out.", "output/other_pages/subfolder/index.html"
+      refute_exist "output/_omit_subfolder"
+      # from external_sources_folder_not_filtered/_do_not_omit.md
+      assert_file_contains "This content should NOT be filtered out.", "output/other_pages/index.html"
     end
   end
 end
