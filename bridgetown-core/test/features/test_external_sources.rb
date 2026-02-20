@@ -25,7 +25,7 @@ class TestExternalSources < BridgetownFeatureTest
             end
 
             filters do
-              pages ->(name, path) { !name.start_with?("_") }
+              pages ->(name, path) { !name.start_with?("x_") }
             end
           end
 
@@ -47,10 +47,9 @@ class TestExternalSources < BridgetownFeatureTest
       assert_file_contains "<head><title>Marked Down</title></head><body><h1 id=\"marked-down\">Marked Down</h1>\n\n<p>This is <strong>Markdown</strong> text. It’s as easy as 1, 2, 3!</p>\n",
                            "output/marked_down/index.html"
       refute_exist "output/.ignore"
-      refute_exist "output/index.html" # from _omit.md (filtered out)
-      refute_exist "output/_omit_subfolder"
-      # from external_sources_folder_not_filtered/_do_not_omit.md
-      assert_file_contains "This content should NOT be filtered out.", "output/other_pages/index.html"
+      refute_exist "output/x_omit/index.html"
+      refute_exist "output/x_omit_subfolder"
+      assert_file_contains "This content should NOT be filtered out.", "output/other_pages/x_do_not_omit/index.html"
     end
   end
 end
