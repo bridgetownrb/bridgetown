@@ -35,6 +35,12 @@
   Peruse our growing collection of official and third-party plugins which provide new capabilities to your Bridgetown site. If you've authored a <a href="/docs/plugins/#creating-a-gem">plugin gem</a>, add the <code>bridgetown-plugin</code> topic to your GitHub repo to include it here.
 </p>
 
+{%@ Note do %}
+#### Interested in joining the Bridgetown Center program?
+
+Get support, promotions, and community! [Learn more about Center here.](/center)
+{% end %}
+
 <ul class="info-grid">
   {% page.data.plugins.each do |plugin| %}
     <li><sl-card>
