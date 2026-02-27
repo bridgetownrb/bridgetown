@@ -87,7 +87,7 @@ module Bridgetown
           external_ip = Socket.ip_address_list.find do |ai|
             ai.ipv4? && !ai.ipv4_loopback?
           end&.ip_address
-          scheme = config_options.bind&.split("://")&.first == "ssl" ? "https" : "http"
+          scheme = config_options.url&.split("://")&.first == "ssl" ? "https" : "http"
           port = config_options.port
           Bridgetown.logger.info ""
           Bridgetown.logger.info "Now serving at:", "#{scheme}://localhost:#{port}".magenta
