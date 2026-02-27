@@ -23,6 +23,7 @@ module Bridgetown
       end
     end
 
+    # rubocop:disable Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def read_content_root(collection_name, content_dir)
       collection = site.collections[collection_name]
       unless collection
@@ -35,9 +36,15 @@ module Bridgetown
 
       Find.find(content_dir) do |path|
         if File.directory?(path)
-          Find.prune if EntryFilter::SPECIAL_LEADING_CHAR_REGEX.match?(File.basename(path))
+          if rejected_by_external_sources_filter?(path, collection_name) ||
+              EntryFilter::SPECIAL_LEADING_CHAR_REGEX.match?(File.basename(path))
+            Find.prune
+          end
+
           next
         end
+
+        next if rejected_by_external_sources_filter?(path, collection_name)
 
         if File.symlink?(path)
           Bridgetown.logger.warn "Plugin content reader:", "Ignored symlinked asset: #{path}"
@@ -45,6 +52,14 @@ module Bridgetown
           read_content_file(content_dir, path, collection)
         end
       end
+    end
+    # rubocop:enable Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
+    def rejected_by_external_sources_filter?(path, collection_name)
+      filter = site.config.external_sources_filters&.dig(collection_name)
+      return false unless filter
+
+      !filter.call(File.basename(path), path)
     end
 
     # @param collection [Bridgetown::Collection]
