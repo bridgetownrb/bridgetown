@@ -185,10 +185,10 @@ Bridgetown is built by:
 |<a href="https://github.com/michaelherold">@michaelherold</a>|<a href="https://github.com/joemasilotti">@joemasilotti</a>|<a href="https://github.com/Ikass">@ikass</a>|<a href="https://github.com/jw81">@jw81</a>|<a href="https://github.com/MSILycanthropy">@MSILycanthropy</a>|
 |Omaha, NE|Portland, OR|Latvia|Kansas City, MO|Kansas City, MO|
 
-|<img src="https://avatars.githubusercontent.com/jeremyevans?s=256" alt="jeremyevans" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
-|:---:|:---:|
-|<a href="https://github.com/jeremyevans">@jeremyevans</a>|You Next?|
-|Sacramento, CA|Anywhere|
+|<img src="https://avatars.githubusercontent.com/jeremyevans?s=256" alt="jeremyevans" width="128" />|<img src="https://avatars.githubusercontent.com/Yegorov?s=256" alt="Yegorov" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|:---:|
+|<a href="https://github.com/jeremyevans">@jeremyevans</a>|<a href="https://github.com/Yegorov">@Yegorov</a>|You Next?|
+|Sacramento, CA||Anywhere|
 
 ## License
 

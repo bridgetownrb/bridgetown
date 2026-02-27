@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-.
+- Add support pass an array of files as an argument for `include`, `exclude`, and `keep_files` config options [#1079]
 
 ## [2.1.1] - 2026-01-12
 
