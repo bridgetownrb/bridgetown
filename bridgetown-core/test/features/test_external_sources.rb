@@ -48,6 +48,7 @@ class TestExternalSources < BridgetownFeatureTest
                            "output/marked_down/index.html"
       refute_exist "output/.ignore"
       refute_exist "output/subfolder/skipme_notes/index.html"
+      assert_file_contains "This content should NOT be filtered out.", "output/subfolder/notes/index.html"
       refute_exist "output/skipme_subfolder"
       assert_file_contains "This content should NOT be filtered out.", "output/other_pages/skipme_actually_dont/index.html"
     end
