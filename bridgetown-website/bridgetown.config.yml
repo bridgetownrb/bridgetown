@@ -9,6 +9,8 @@ collections:
     permalink: "/:collection/:path.*"
     sort_by: order
     name: Documentation
+  plugins:
+    output: true
 
 pagination:
   enabled: true
