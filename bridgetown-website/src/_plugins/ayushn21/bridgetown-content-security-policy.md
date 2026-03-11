@@ -1,5 +1,6 @@
 ---
-title: bridgetown-content-security-policy
+title: Content Security Policy
+center_program: true
 repo_url: https://github.com/ayushn21/bridgetown-content-security-policy
 author:
   handle: ayushn21

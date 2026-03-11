@@ -1,5 +1,6 @@
 ---
-title: bridgetown-feed
+title: Feed
+center_program: true
 repo_url: https://github.com/bridgetownrb/bridgetown-feed
 author:
   handle: bridgetownrb

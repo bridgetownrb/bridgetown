@@ -1,5 +1,6 @@
 ---
 title: SVG Inliner
+center_program: true
 repo_url: https://github.com/ayushn21/bridgetown-svg-inliner
 author:
   handle: ayushn21

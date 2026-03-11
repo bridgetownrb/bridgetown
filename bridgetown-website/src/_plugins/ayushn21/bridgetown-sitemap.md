@@ -1,5 +1,6 @@
 ---
-title: bridgetown-sitemap
+title: Sitemap
+center_program: true
 repo_url: https://github.com/ayushn21/bridgetown-sitemap
 author:
   handle: ayushn21

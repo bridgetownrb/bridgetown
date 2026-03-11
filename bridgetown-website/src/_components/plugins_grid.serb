@@ -1,28 +1,5 @@
----
-title: Plugins (NEW)
-exclude_from_search: true
----
-
-{%@ Note do %}
-#### Interested in joining the Bridgetown Center program?
-
-Get support, promotions, and community! [Learn more about Center here.](/center)
-
-<style>
-  @scope {
-    :scope {
-      display: block;
-      max-inline-size: 38rem;
-      margin-inline: auto;
-    }
-  }
-</style>
-
-{% end %}
-
-
 <ul class="info-grid">
-  {% collections.plugins.each do |plugin| %}
+  {% @plugins.each do |plugin| %}
     <li><sl-card>
       <div slot="header">
         <a href="{{ plugin.data.repo_url }}" style="text-decoration-thickness:1px; text-underline-offset: 0.18em">
