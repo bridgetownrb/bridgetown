@@ -1,5 +1,6 @@
 ---
-title: bridgetown-lit-renderer
+title: Lit Renderer
+center_program: true
 repo_url: https://github.com/bridgetownrb/bridgetown-lit-renderer
 author:
   handle: bridgetownrb

@@ -1,5 +1,6 @@
 ---
-title: bridgetown_sequel
+title: Sequel Integration
+center_program: true
 repo_url: https://github.com/bridgetownrb/bridgetown_sequel
 author:
   handle: bridgetownrb

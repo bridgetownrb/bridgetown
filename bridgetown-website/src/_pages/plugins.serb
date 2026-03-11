@@ -1,71 +1,47 @@
-~~~{%
-{
-  title: "Jazz Up Your Site with Themes & Plugins",
-  exclude_from_search: true,
-  plugins: -> do
-    ::Builders::Versions.cache.getset("plugins") do
-      endpoint = "https://api.github.com/search/repositories?q=topic:bridgetown-plugin%20archived:false&per_page=100"
+```ruby
+front_matter do
+  title "Plugins Directory"
+  exclude_from_search true
+  center_plugins -> { site.collections.plugins.select { _1.data.center_program } }
+  regular_plugins -> { site.collections.plugins.reject { _1.data.center_program } }
+end
+```
 
-      conn = Faraday.new(
-        url: endpoint,
-        headers: {"Accept" => "application/vnd.github.v3+json"}
-      ) do |faraday|
-        if ENV["BRIDGETOWN_GITHUB_TOKEN"]
-          username, token = ENV["BRIDGETOWN_GITHUB_TOKEN"].split(":")
-          faraday.request :authorization, :basic, username, token
-        end
-      end
-      items = JSON.parse(conn.get.body)["items"].sort_by {|item| item["name"]}
+{%= markdownify do %}
 
-      items.each do |item|
-        branchname = item.fetch("default_branch", "master")
-        gem_url = "https://raw.githubusercontent.com/#{item["full_name"]}/#{branchname}/lib/#{item["name"]}/version.rb"
-        result = Faraday.get(gem_url).body
-        begin
-          item["gem_version"] = result.match(/VERSION = "(.*?)"/)[1]
-        rescue NoMethodError
-        end
-      end
-    end
-  end
-}
-%}~~~
+Bridgetown plugins are typically straightforward to install. You add the gem to your site's `Gemfile`, add an `init` statement to your configuration, and the features of the plugins are now available in your project. You can also write your own plugins, either for yourself alone or for publishing out to the world! [Documentation on how the plugin API works is available here.](/docs/plugins)
 
-<p>
-  Peruse our growing collection of official and third-party plugins which provide new capabilities to your Bridgetown site. If you've authored a <a href="/docs/plugins/#creating-a-gem">plugin gem</a>, add the <code>bridgetown-plugin</code> topic to your GitHub repo to include it here.
-</p>
+{% end %}
+
+{{ svg "/images/bridgetown-center.svg", width: "100%", height: "100%", style: "color: #561c2d; max-width:750px; margin:0 auto 2rem; display:block" }}
+
+{%= markdownify do %}
+
+🎉 _**NEW!**_ In 2026, we're pleased to announce the **Bridgetown Center** program. Plugins which are part of Center are carefully maintained and updated to ensure good compatibility and quality standards as Bridgetown & the Ruby ecosystem evolves. The developers of Center plugins also pledge to refrain from adding generative AI code to their projects, and to respect user privacy & security with overt disclosures of any necessary external API calls. [Let us know](/community) what you'd like to see added to Bridgetown Center!
+
+{% end %}
 
 {%@ Note do %}
 #### Interested in joining the Bridgetown Center program?
 
-Get support, promotions, and community! [Learn more about Center here.](/center)
+Get support, promotions, and community! [Learn more about Center here.](/plugins/center)
+
+<style>
+  @scope {
+    :scope {
+      display: block;
+      max-inline-size: 38rem;
+      margin-inline: auto;
+    }
+  }
+</style>
+
 {% end %}
 
-<ul class="info-grid">
-  {% page.data.plugins.each do |plugin| %}
-    <li><sl-card>
-      <div slot="header">
-        <a href="{{ plugin.html_url }}" style="text-decoration-thickness:1px; text-underline-offset: 0.18em">
-          <h3>
-            {{ plugin.name }}
-          </h3>
-        </a>
-      </div>
+{%@ PluginsGrid plugins: data.center_plugins %}
 
-      <p>{{ plugin.description }}</p>
+<hr />
 
-      <div slot="footer">
-        {% if plugin.gem_version %}
-          <ui-label class="tags" style="padding-right:0.5rem">
-            <sl-tag variant="success">v{{ plugin.gem_version }}</sl-tag>
-          </ui-label>
-        {% end %}
+<h2>Additional Plugins</h2>
 
-        <ui-label>
-          <img src="{{ plugin.owner.avatar_url }}" alt="{{ plugin.owner.login }}" class="avatar" loading="lazy" />
-          <a href="{{ plugin.owner.html_url }}"rel="noopener">{{ plugin.owner.login }}</a>
-        </ul-layout>
-      </div>
-    </sl-card></li>
-  {% end %}
-</ul>
+{%@ PluginsGrid plugins: data.regular_plugins %}

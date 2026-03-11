@@ -1,5 +1,6 @@
 ---
-title: bridgetown-seo-tag
+title: SEO Tag
+center_program: true
 repo_url: https://github.com/bridgetownrb/bridgetown-seo-tag
 author:
   handle: bridgetownrb
