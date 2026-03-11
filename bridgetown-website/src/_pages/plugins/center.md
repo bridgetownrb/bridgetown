@@ -15,7 +15,7 @@ title: What is Bridgetown Center & How to Apply
 
 **Bridgetown Center** is a new community DevRel program and "seal of quality" for a choice group of plugins & themes built for the Bridgetown web framework.
 
-It of course remains true that anyone can write a plugin or a theme (which is a type of plugin) for Bridgetown and publish it online, with the code hosted on the Git forge of their choosing (Codeberg, GitLab, and GitHub being popular options). We provide [documentation here](https://beta.bridgetownrb.com/docs/plugins#creating-a-gem) to help you get started, and you can file a PR in the Bridgetown repo to include your project in our [Plugins Directory](https://beta.bridgetownrb.com/plugins).
+It of course remains true that anyone can write a plugin or a theme (which is a type of plugin) for Bridgetown and publish it online, with the code hosted on the Git forge of their choosing (Codeberg, GitLab, and GitHub being popular options). We provide [documentation here](/docs/plugins#creating-a-gem) to help you get started, and you can file a PR in the Bridgetown repo to include your project in our [Plugins Directory](/plugins).
 
 But if you're keen to take your efforts to the next level, and are perhaps in search of an extra degree of mentorship in the development & promotion of your plugin(s), we are pleased to offer **Bridgetown Center**. This brand-new program presents the opportunity to have an outsized impact on developers & users alike. Developers are incentivized to grow their presence and innovate within the Bridgetown ecosystem, and users of Bridgetown will be likely to gravitate towards **Center** plugins as they craft their own websites and web applications due to the justified expectation of quality.
 
@@ -44,7 +44,7 @@ If this sounds like a potential fit for your aspirations as a plugin developer, 
 
 As part of **Center**, your projects will be enthusiastically recommended and promoted by the Bridgetown team in official marketing channels as well as during community support. For example:
 
-*   Your plugin(s) will be featured in a special highlighted section of the [Plugins Directory](https://beta.bridgetownrb.com/plugins).
+*   Your plugin(s) will be featured in a special highlighted section of the [Plugins Directory](/plugins).
 *   Upcoming documentation or tutorials we publish may incorporate the use of your plugin.
 *   Questions from community members of how to add features or solve problems in their site builds are more likely to be addressed to preference **Center** plugins.
 *   We will use our blog, social media, and other channels to feature **Center** plugins as well their maintainers.
@@ -61,22 +61,22 @@ In addition, joining this program will afford you a greater degree of access to 
 
 The only principle requirement is that you have at least one plugin developed—either published or in a private beta stage—and you agree to abide by the rules of the program as described previously.
 
-📋 To get started, [**fill out this form** with some brief information about](https://heyform.net/f/HYX33LNW):
+📋 To get started, [**fill out this form** with some brief information about](https://heyform.net/f/HYX33LNW){: target="_blank"}:
 
 *   Why you wish to join **Center**
 *   Your experience (if any) in working on open source projects
 *   What degree of mentorship (if any) you may be hoping to access
-*   Your willingness to adhere to the [Bridgetown Code of Conduct](https://github.com/bridgetownrb/bridgetown/blob/main/CODE_OF_CONDUCT.md)
+*   Your willingness to adhere to the [Bridgetown Code of Conduct](https://github.com/bridgetownrb/bridgetown/blob/main/CODE_OF_CONDUCT.md){: target="_blank"}
 *   Link(s) to your project(s) for our evaluation (if they are publicly available).
     
 Unless there are any unexpected red flags, we are very likely to be pleased to accept you into the program!
 
-If you have any additional questions about the program, [please ask us in our Discord or Matrix room](https://beta.bridgetownrb.com/community). 💬
+If you have any additional questions about the program, [please ask us in our Discord or Matrix room](/community). 💬
 
 {{ svg "/images/bridgetown-center.svg", width: "100%", height: "100%", style: "color: #561c2d; max-width:750px; margin:3rem auto 1rem; display:block" }}
 
 <p style="text-align:center; opacity: 0.75">
   <small>
-  Center iconography based upon <a href="https://phosphoricons.com" rel="noopener noreferrer">Phosphor</a>
+  Center iconography based upon <a href="https://phosphoricons.com" target="_blank" rel="noopener noreferrer">Phosphor</a>
   </small>
 </p>
