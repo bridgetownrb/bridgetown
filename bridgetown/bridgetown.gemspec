@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "../bridgetown-foundation/lib/bridgetown/version"
+require_relative "./lib/bridgetown/version"
 
 Gem::Specification.new do |s|
   s.name          = "bridgetown"
