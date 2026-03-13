@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require "bridgetown/version"
 require "hash_with_dot_access"
 require "inclusive"
 require "zeitwerk"
@@ -44,7 +43,6 @@ end
 
 Zeitwerk.with_loader do |l|
   l.push_dir "#{__dir__}/bridgetown/foundation", namespace: Bridgetown::Foundation
-  l.ignore "#{__dir__}/bridgetown/foundation/version.rb"
   l.setup
   l.eager_load
 end
