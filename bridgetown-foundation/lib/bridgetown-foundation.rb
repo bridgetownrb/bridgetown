@@ -5,24 +5,26 @@ require "inclusive"
 require "zeitwerk"
 require "delegate"
 
-module Bridgetown::Foundation
-  # This is loosely based on the `deprecate` method in `Gem::Deprecate`
-  #
-  # @param target [Object]
-  # @param name [Symbol] e.g. `:howdy`
-  # @param repl [Symbol] e.g. `:hello`
-  # @param year [Integer] e.g. `2025`
-  # @param month [Integer] e.g. `1` for January
-  def self.deprecation_warning(target, name, repl, year, month) # rubocop:disable Metrics/ParameterLists
-    klass = target.is_a?(Module)
-    target = klass ? "#{self}." : "#{self.class}#"
-    msg = [
-      "NOTE: #{target}#{name} is deprecated",
-      repl == :none ? " with no replacement" : "; use #{repl} instead",
-      format(". It will be removed on or after %4d-%02d.", year, month), # rubocop:disable Style/FormatStringToken
-      "\n#{target}#{name} called from #{Gem.location_of_caller.join(":")}",
-    ]
-    warn "#{msg.join}."
+module Bridgetown
+  module Foundation
+    # This is loosely based on the `deprecate` method in `Gem::Deprecate`
+    #
+    # @param target [Object]
+    # @param name [Symbol] e.g. `:howdy`
+    # @param repl [Symbol] e.g. `:hello`
+    # @param year [Integer] e.g. `2025`
+    # @param month [Integer] e.g. `1` for January
+    def self.deprecation_warning(target, name, repl, year, month) # rubocop:disable Metrics/ParameterLists
+      klass = target.is_a?(Module)
+      target = klass ? "#{self}." : "#{self.class}#"
+      msg = [
+        "NOTE: #{target}#{name} is deprecated",
+        repl == :none ? " with no replacement" : "; use #{repl} instead",
+        format(". It will be removed on or after %4d-%02d.", year, month), # rubocop:disable Style/FormatStringToken
+        "\n#{target}#{name} called from #{Gem.location_of_caller.join(":")}",
+      ]
+      warn "#{msg.join}."
+    end
   end
 end
 
