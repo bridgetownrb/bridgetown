@@ -114,29 +114,39 @@ module Bridgetown
           file_to_check = Bridgetown.live_reload_path
           errors_file = Bridgetown.build_errors_path
 
+          # rubocop:disable Metrics/BlockLength
           app.request.get "_bridgetown/live_reload" do
             @_mod = File.exist?(file_to_check) ? File.stat(file_to_check).mtime.to_i : 0
             event_stream = proc do |stream|
-              Thread.new do
-                loop do
-                  new_mod = File.exist?(file_to_check) ? File.stat(file_to_check).mtime.to_i : 0
-
-                  if @_mod < new_mod
-                    stream.write "data: reloaded!\n\n"
-                    break
-                  elsif File.exist?(errors_file)
-                    stream.write "event: builderror\ndata: #{File.read(errors_file).to_json}\n\n"
-                  else
-                    stream.write "data: #{new_mod}\n\n"
-                  end
-
-                  sleep sleep_interval
-                rescue Errno::EPIPE # User refreshed the page
-                  break
+              # We don't need to do this when using Falcon.
+              # Puma hangs with Ctrl+C without this manual interruption.
+              # Very very hacky, but it's only in dev.
+              # https://github.com/puma/puma/issues/3569
+              unless defined? Falcon
+                trap(:INT) do
+                  stream.close
+                  raise Interrupt
                 end
-              ensure
-                stream.close
               end
+
+              loop do
+                new_mod = File.exist?(file_to_check) ? File.stat(file_to_check).mtime.to_i : 0
+
+                if @_mod < new_mod
+                  stream.write "data: reloaded!\n\n"
+                  break
+                elsif File.exist?(errors_file)
+                  stream.write "event: builderror\ndata: #{File.read(errors_file).to_json}\n\n"
+                else
+                  stream.write "data: #{new_mod}\n\n"
+                end
+
+                sleep sleep_interval
+              rescue Errno::EPIPE # User refreshed the page
+                break
+              end
+            ensure
+              stream.close
             end
 
             app.request.halt [200, {
@@ -144,6 +154,7 @@ module Bridgetown
               "cache-control" => "no-cache",
             }, event_stream,]
           end
+          # rubocop:enable Metrics/BlockLength
         end
       end
 
