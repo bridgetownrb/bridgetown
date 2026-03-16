@@ -318,39 +318,24 @@ Thus no files directly in `top_level` as well as any of its immediate subfolders
 
 ## Creating a Gem
 
-The `bridgetown plugins new NAME` command will create an entire gem scaffold
-for you to customize and publish to the [RubyGems.org](https://rubygems.org)
-and [NPM](https://www.npmjs.com) registries. This is a great way to provide
-[themes](/docs/themes), builders, and other sorts of add-on functionality to
-Bridgetown websites. You'll want to make sure you update the `gemspec`,
-`package.json`, `README.md`, and `CHANGELOG.md` files as you work on your
-plugin to ensure all the necessary metadata and user documentation is present
-and accounted for.
+The `bridgetown plugins new NAME` command will create an entire gem scaffold for you to customize and publish to the [RubyGems.org](https://rubygems.org)
+(and for frontend assets: [NPM](https://www.npmjs.com)) registries. This is a great way to provide [themes](/docs/themes), builders, helpers, and other sorts of add-on functionality to Bridgetown websites. You'll want to make sure you update the `gemspec`, `package.json`, `README.md`, and `CHANGELOG.md` files as you work on your plugin to ensure all the necessary metadata and user documentation is present and accounted for.
 
 {%@ Note do %}
-  Starting with Bridgetown 1.2, it's a preferred convention to use underscores for your plugin name, aka `my_plugin` rather than `my-plugin`. Many existing plugins start with a `bridgetown` prefix (such as `bridgetown-seo-tag`), but going forward we recommend that if you choose that prefix you still use underscores (aka `bridgetown_plugin_name_here`). While arguably that doesn't fit neatly with standard gem naming conventions, it solves a number of DX headaches. Which is a good thing!
+  Starting with Bridgetown 1.2, it's a preferred convention to use underscores for your plugin name, aka `my_plugin` rather than `my-plugin`. While some of the existing plugins in the ecosystem start with a `bridgetown-` prefix (such as `bridgetown-seo-tag`), going forward underscores are preferred as they are easy to specify in configuration files as symbols.
 {% end %}
 
-Bridgetown plugins should provide an [initializer](/docs/configuration/initializers) so that they can be easily required and configured via the user's configuration block within `config/initializers.rb`. It's a good practice to ensure at least simple configuration options can alternatively be provided using YAML in `bridgetown.config.yml`.
+Bridgetown plugins should provide an [initializer](/docs/configuration/initializers) so that they can be easily required and configured via the user's configuration block within `config/initializers.rb`. For greater backward compatibility, you might ensure at least simple configuration options can alternatively be provided using YAML in `bridgetown.config.yml`.
 
-Make sure you [follow these instructions](/docs/plugins/gems-and-frontend/) to integrate your plugin's frontend code with the users' esbuild  setup. Also read up on [Source Manifests](/docs/plugins/source-manifests/) if you have layouts, components, resources, static files, and other content you would like your plugin to provide.
+Make sure you [follow these instructions](/docs/plugins/gems-and-frontend/) to integrate your plugin's frontend code (if any) with the users' esbuild setup. Also read up on [Source Manifests](/docs/plugins/source-manifests/) if you have layouts, components, resources, static files, and other content you would like your plugin to provide.
 
-You can also provide an automation via your plugin's GitHub repository by adding
-`bridgetown.automation.rb` to the root of your repo. This is a great way to
-provide advanced and interactive setup for your plugin. [More information on
-automations here.](/docs/automations)
+You can also provide an automation via your plugin's GitHub repository by adding `bridgetown.automation.rb` to the root of your repo. This is a great way to provide advanced and interactive setup for your plugin. [More information on automations here.](/docs/automations)
 
-When you're ready, publish your plugin gem to the [RubyGems.org](https://rubyplugins.org)
-and [NPM](https://www.npmjs.com) registries. There are instructions on how to
-do so in the sample README that is present in your new plugin folder under the
-heading **Releasing**. Of course you will also need to make sure you've uploaded
-your plugin to [GitHub](https://github.com) so it can be included in our
-[Plugin Directory](/plugins/) and discovered by Bridgetown site owners far and
-wide. Plus it's a great way to solicit feedback and improvements in the form
-of open source code collaboration and discussion.
+🚀 When you're ready, publish your plugin gem to the [RubyGems.org](https://rubyplugins.org) (and optionally [NPM](https://www.npmjs.com)) registries. There are instructions on how to do so in the sample README that is present in your new plugin folder under the heading **Releasing**.
 
-As always, if you have any questions or need support in creating your plugin,
-[check out our community resources](/community).
+📂 To include your new plugin in our [Plugin Directory](/plugins/) for discovery by Bridgetown site owners and to solicit feedback and improvements in the form of open source code collaboration & discussion, you will need to submit a Pull Request to the [Bridgetown repository](https://github.com/bridgetownrb/bridgetown). The PR should include the addition of a new Markdown file in the `bridgetown-website/src/_plugins` folder, using a subfolder naming scheme matching your forge username & your project name (aka `yourusername/your_plugin`). The format of the Markdown file can be referenced by viewing other plugins listed there ([here is an example](https://github.com/bridgetownrb/bridgetown/blob/new-plugins-directory/bridgetown-website/src/_plugins/surrim/jim.md?plain=1)).
+
+💬 Help is available! If you have any questions or need support in creating your plugin, [check out our community resources](/community). And for further benefits including 1:1 mentorship from the Bridgetown core team, learn more about the [Bridgetown Center program](/plugins/center).
 
 {%@ Note do %}
   #### Testing Your Plugin

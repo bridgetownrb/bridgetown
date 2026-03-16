@@ -9,7 +9,7 @@ end
 
 {%= markdownify do %}
 
-Bridgetown plugins are typically straightforward to install. You add the gem to your site's `Gemfile`, add an `init` statement to your configuration, and the features of the plugins are now available in your project. You can also write your own plugins, either for yourself alone or for publishing out to the world! [Documentation on how the plugin API works is available here.](/docs/plugins)
+Bridgetown plugins extend the functionality of your projects and are typically straightforward to install. Add the gem to your site's `Gemfile`, include an `init` statement in your configuration, and the features of the plugins are now available in your project. You can also write your own plugins, either for yourself alone or for publishing out to the world! [Documentation on how the plugin API works and how to submit new plugins is available here.](/docs/plugins)
 
 {% end %}
 
