@@ -190,7 +190,7 @@ module Bridgetown
             FileUtils.mv "content/sample_plugin", "content/#{folder_name}"
             FileUtils.mv "layouts/sample_plugin", "layouts/#{folder_name}"
 
-            gsub_file "layouts/#{folder_name}/layout.html", "sample_plugin", folder_name
+            gsub_file "layouts/#{folder_name}/layout.erb", "sample_plugin", folder_name
             gsub_file "content/#{folder_name}/example_page.md", "sample_plugin", folder_name
             gsub_file "components/#{folder_name}/layout_help.liquid", "sample_plugin", folder_name
 
