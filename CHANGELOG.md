@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 .
 
+## [2.1.2] - 2026-01-12
+
+- Patch for `plugins new` to use ERB layout from sample plugin
+
 ## [2.1.1] - 2026-01-12
 
 - Hotfix: don't filter out frontend bundling path from live reload
