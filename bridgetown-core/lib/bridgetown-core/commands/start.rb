@@ -62,6 +62,10 @@ module Bridgetown
           bt_options.url = bt_bound_url.sub("0.0.0.0", "localhost")
         end
 
+        # Temporary hack to silence `Errno::EPIPE: Broken pipe` errors in dev.
+        # Only happens when using Falcon with HTTP/1.1.
+        # When we can use Falcon with HTTP/2 in dev, we can remove this line.
+        ENV["CONSOLE_ERROR"] = "Async::Task"
         Bridgetown::Server.new({
           Host: bt_options.bind,
           Port: port,
