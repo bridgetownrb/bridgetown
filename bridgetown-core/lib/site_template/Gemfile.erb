@@ -30,9 +30,13 @@ gem "bridgetown", "~> <%= Bridgetown::VERSION %>"
 # Uncomment to add file-based dynamic routing to your project:
 # gem "bridgetown-routes", "~> <%= Bridgetown::VERSION %>"
 
-# Puma is the Rack-compatible web server used by Bridgetown
+# The Rack-compliant web server
 # (you can optionally limit this to the "development" group)
+<% if rack_server_option == "puma" %>
 gem "puma", "< 8"
+<% else %>
+gem "falcon"
+<% end %>
 
 # Uncomment to use the Inspectors API to manipulate the output
 # of your HTML or XML resources:
