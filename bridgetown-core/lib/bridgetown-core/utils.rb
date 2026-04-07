@@ -149,7 +149,7 @@ module Bridgetown
     # When mode is `pretty`, some non-alphabetic characters (`._~!$&'()+,;=@`)
     # are not replaced with hyphen.
     #
-    # When mode is `ascii`, some everything else except ASCII characters
+    # When mode is `ascii`, everything else except ASCII characters
     # `a-z` (lowercase), `A-Z` (uppercase) and `0-9` (numbers) are replaced with hyphen.
     #
     # When mode is `latin`, the input string is first preprocessed so that
