@@ -9,6 +9,7 @@ class Bridgetown::Site
     # @see Document
     def render
       Bridgetown::Hooks.trigger :site, :pre_render, self
+      build_locale_index
       execute_inline_ruby_for_layouts!
       render_resources
       generated_pages.each(&:transform!)
@@ -95,6 +96,31 @@ class Bridgetown::Site
         "Build Warning:",
         "Layout '#{layout_name}' requested via #{convertible.relative_path} does not exist."
       )
+    end
+
+    # Builds a lookup index grouping resources by their locale-independent identity
+    # (collection + slug + localeless path). This turns `all_locales` from an O(n)
+    # linear scan into an O(1) hash lookup per resource, which is critical for sites
+    # with many localized pages.
+    #
+    # @return [void]
+    def build_locale_index
+      groups = Hash.new { |h, k| h[k] = [] }
+
+      collections.each_value.flat_map(&:resources).concat(generated_pages).each do |item|
+        key = item.locale_index_key
+        groups[key] << item if key
+      end
+
+      self.locale_index = sort_locale_groups(groups)
+    end
+
+    def sort_locale_groups(groups)
+      locale_order = config.available_locales
+
+      groups.transform_values do |items|
+        items.sort_by { |item| locale_order.index(item.data.locale) || Float::INFINITY }.freeze
+      end.freeze
     end
 
     # Renders all resources

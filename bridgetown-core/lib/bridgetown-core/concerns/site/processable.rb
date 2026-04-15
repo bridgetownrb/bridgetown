@@ -38,6 +38,7 @@ class Bridgetown::Site
       self.data = HashWithDotAccess::Hash.new unless soft
       @fast_refresh_ordering = 0 if config.fast_refresh
       @frontend_manifest = nil
+      @locale_index = nil
       @collections = nil
       @documents = nil
       @docs_to_write = nil

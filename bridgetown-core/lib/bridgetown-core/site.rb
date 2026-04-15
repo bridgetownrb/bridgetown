@@ -25,6 +25,9 @@ module Bridgetown
 
     attr_reader :cache_dir, :liquid_renderer, :data, :signals
 
+    # @return [Hash, nil] Pre-computed locale grouping index for fast all_locales lookups
+    attr_accessor :locale_index
+
     # All files not pages/documents or structured data in the source folder
     # @return [Array<StaticFile>]
     attr_accessor :static_files
