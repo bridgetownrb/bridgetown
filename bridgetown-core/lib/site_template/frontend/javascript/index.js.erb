@@ -1,16 +1,7 @@
 <%- if frontend_bundling_option == "esbuild" -%>
-<%- if postcss_option -%>
 import "$styles/index.css"
-<%- else -%>
-import "$styles/index.scss"
-<%- end -%>
 import "$styles/syntax-highlighting.css"
-<%- else -%>
-<%- if postcss_option -%>
 import "index.css"
-<%- else -%>
-import "index.scss"
-<%- end -%>
 import "syntax-highlighting.css"
 <%- end -%>
 

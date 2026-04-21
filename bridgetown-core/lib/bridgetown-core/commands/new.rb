@@ -21,7 +21,6 @@ module Bridgetown
         option "--force", "Force creation even if PATH already exists"
         option "--skip-bundle", "Skip 'bundle install'"
         option "--skip-npm", "Skip 'npm install'"
-        option "--use-sass", "Set up a Sass configuration for your stylesheet"
       end
 
       DOCSURL = "https://bridgetownrb.com/docs"
@@ -79,10 +78,6 @@ module Bridgetown
         "esbuild"
       end
 
-      def postcss_option # rubocop:disable Naming/PredicateMethod
-        !options[:use_sass]
-      end
-
       def disable_postcss?
         # TODO: add option not to use postcss/sass at all
         false
@@ -114,7 +109,7 @@ module Bridgetown
           setup_erb_templates
         end
 
-        postcss_option ? configure_postcss : configure_sass
+        configure_postcss
 
         return unless frontend_bundling_option == "esbuild"
 
@@ -142,11 +137,6 @@ module Bridgetown
         gsub_file "config/initializers.rb", %r!template_engine "erb"\n!, <<~RUBY
           template_engine "liquid"
         RUBY
-      end
-
-      def configure_sass
-        template("postcss.config.js.erb", "postcss.config.js") unless disable_postcss?
-        copy_file("frontend/styles/index.css", "frontend/styles/index.scss")
       end
 
       def configure_postcss
