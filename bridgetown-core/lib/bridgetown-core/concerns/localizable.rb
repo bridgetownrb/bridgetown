@@ -2,10 +2,16 @@
 
 module Bridgetown
   module Localizable
+    # Sort items by their locale's position in the configured available_locales list.
+    # Items with unknown locales sort last.
+    def self.sort_by_locale(items, available_locales)
+      items.sort_by { |item| available_locales.index(item.data.locale) || Float::INFINITY }
+    end
+
     def all_locales
       return @all_locales if @all_locales
 
-      @all_locales = site.locale_index&.[](locale_index_key) || find_matching_locales
+      @all_locales = site.tmp_cache.dig(:locale_index, locale_index_key) || find_matching_locales
     end
 
     def matches_resource?(item)
@@ -26,37 +32,21 @@ module Bridgetown
       slug = data.slug
       return unless slug
 
-      path_key = if relative_path.is_a?(String)
-                   localeless_path
-                 else
-                   relative_path.parent.to_s
-                 end
+      path_key = relative_path.is_a?(String) ? localeless_path : relative_path.parent.to_s
+      prefix   = respond_to?(:collection) ? collection.label : "generated"
 
-      prefix = case self
-               when Bridgetown::Resource::Base
-                 collection.label
-               when Bridgetown::GeneratedPage
-                 "generated"
-               end
-
-      "#{prefix}:#{slug}:#{path_key}" if prefix
+      "#{prefix}:#{slug}:#{path_key}"
     end
 
     private
 
     def find_matching_locales
-      result_set = case self
-                   when Bridgetown::Resource::Base
-                     collection.resources
-                   when Bridgetown::GeneratedPage
-                     site.generated_pages
-                   else
-                     []
-                   end
+      result_set = respond_to?(:collection) ? collection.resources : site.generated_pages
 
-      result_set.select { |item| matches_resource?(item) }.sort_by do |item|
-        site.config.available_locales.index(item.data.locale) || Float::INFINITY
-      end
+      Bridgetown::Localizable.sort_by_locale(
+        result_set.select { |item| matches_resource?(item) },
+        site.config.available_locales
+      )
     end
   end
 end

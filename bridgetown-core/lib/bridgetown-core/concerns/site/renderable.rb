@@ -112,14 +112,9 @@ class Bridgetown::Site
         groups[key] << item if key
       end
 
-      self.locale_index = sort_locale_groups(groups)
-    end
-
-    def sort_locale_groups(groups)
       locale_order = config.available_locales
-
-      groups.transform_values do |items|
-        items.sort_by { |item| locale_order.index(item.data.locale) || Float::INFINITY }.freeze
+      tmp_cache[:locale_index] = groups.transform_values do |items|
+        Bridgetown::Localizable.sort_by_locale(items, locale_order).freeze
       end.freeze
     end
 
