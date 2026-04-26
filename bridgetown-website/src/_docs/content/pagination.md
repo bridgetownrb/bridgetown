@@ -41,7 +41,7 @@ Then you can use the `paginator.resources` logic to iterate through the collecti
 ```erb
 # for earlier versions paginator.resources.each
 <% paginator.each do |post| %>
-  <h1>%= post.data.title %></h1>
+  <h1><%= post.data.title %></h1>
 <% end %>
 ```
 ===
