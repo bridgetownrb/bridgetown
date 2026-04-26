@@ -247,16 +247,31 @@ module Bridgetown
       # @!method exclude(files_list)
       #   Exclude source directories and/or files from the build conversion
       #   @param files_list [Array<String>]
+      def exclude(*files_list)
+        get("exclude").tap do |value|
+          files_list.each { value << _1 } if files_list.size.positive?
+        end
+      end
 
       # @!method include(files_list)
       #   Force inclusion of directories and/or files in the conversion (e.g. starting with
       #   underscores or dots)
       #   @param files_list [Array<String>]
+      def include(*files_list)
+        get("include").tap do |value|
+          files_list.each { value << _1 } if files_list.size.positive?
+        end
+      end
 
       # @!method keep_files(files_list)
       #   Files to keep when clobbering the site destination (aka not generated in typical
       #   Bridgetown builds)
       #   @param files_list [Array<String>]
+      def keep_files(*files_list)
+        get("keep_files").tap do |value|
+          files_list.each { value << _1 } if files_list.size.positive?
+        end
+      end
 
       # @!method autoload_paths
       #   Add paths to the Zeitwerk autoloader. Use a `config.defaults << "..."` syntax or a more
