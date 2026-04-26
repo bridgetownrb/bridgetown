@@ -4,11 +4,12 @@ title: First Steps for Newbies
 top_section: Setup
 description: If Bridgetown is your first web framework
 category: first-steps
+next_page_order: 50
 ---
 
-You have just installed Bridgetown by following the [Getting Started](https://www.bridgetownrb.com/docs) guide. Great! Now what?
+You have just installed Bridgetown by following the [Getting Started](/docs) guide. Great! Now what?
 
-If you are not familiar with other web frameworks, your brand new site may seem confusing. Head to our [explanation](/docs/initial_files) to discover what all these files and folders are about!
+If you are not familiar with other web frameworks, your brand new site may seem confusing. Head to our [explanation](/docs/structure) to discover what all these files and folders are about!
 
 ## First posts and pages
 
@@ -32,7 +33,7 @@ For now, `index.md` and `about.md` are static pages, respectively a home page an
 
 In this case, it will list the titles of all your posts, with links to the corresponding posts. You can also access other properties of your posts. For instance, `post.data.date` will give you the date. 
 
-This metadata is as versatile as you need it to be! You can create custom metadata in the [front matter](https://www.bridgetownrb.com/docs/front-matter) and access it in the same way with `post.data.order` or `post.data.category`.
+This metadata is as versatile as you need it to be! You can create custom metadata in the [front matter](/docs/front-matter) and access it in the same way with `post.data.order` or `post.data.category`.
 
 ```yaml
 ---
@@ -44,12 +45,15 @@ category: first-steps
 ---
 ```
 
-> [!NOTE]:
-> If you create custom metadata for one post, you will need to include the same data for all other posts. If not all posts need this specific data, it is best to add it in a `_defaults.yml` file in your `_posts` directory, and leave it empty there.
+{%@ Note do %}
+
+If all posts need a specific bit of metadata by default (known as [front matter defaults](/docs/content/front-matter-defaults)), it is best to add it in a `_defaults.yml` file in your `_posts` directory. 
+
+{% end %}
 
 ## A custom collection
 
-If you want to create a custom collection (let's say "Docs" for your documentation), you will need to initialize it in the `config/initializers.rb` file. (See [detailed instructions here](https://www.bridgetownrb.com/docs/collections#custom-collections).)
+If you want to create a custom collection (let's say "Docs" for your documentation), you will need to initialize it in the `config/initializers.rb` file. (See [detailed instructions here](/docs/collections#custom-collections).)
 
 ```ruby
 Bridgetown.configure do |config|
