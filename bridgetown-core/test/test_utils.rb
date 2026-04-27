@@ -394,13 +394,13 @@ class TestUtils < BridgetownUnitTest
 
   describe "The `Utils.default_github_branch_name` method" do
     it "returns the correct default branch name" do
-      Faraday.stub :get, HashWithDotAccess::Hash.new(body: JSON.generate({ "default_branch" => "my_default_branch" })) do
+      Net::HTTP.stub :get, JSON.generate({ "default_branch" => "my_default_branch" }) do
         assert_equal "my_default_branch", Utils.default_github_branch_name("https://github.com/whitefusionhq/phaedra/abc/12344")
       end
     end
 
     it "returns main if all else fails" do
-      Faraday.stub :get, proc { raise("nope") } do
+      Net::HTTP.stub :get, proc { raise("nope") } do
         assert_equal "main", Utils.default_github_branch_name("https://github.com/thisorgdoesntexist/thisrepoistotallybogus")
       end
     end
