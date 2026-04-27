@@ -10,7 +10,7 @@ In this section, you'll learn how to make web requests and easily parse the resp
 Below is an example of making an HTTP GET request to a remote API, looping through an array parsed from the JSON response, and saving new posts based on each item.
 
 {%@ Note type: :warning do %}
-The examples on this page use the [HTTPX](https://honeyryderchuck.gitlab.io/httpx) Ruby gem, but you can use any HTTP client. If you use a gem, just remember to run `bundle add "httpx"` (or your preferred gem) so that you can `require` it.
+The examples on this page use the [HTTPX](https://honeyryderchuck.gitlab.io/httpx) Ruby gem, but you can use any HTTP client. If you use a gem, just remember to run `bundle add httpx` (or your preferred gem) so that you can `require` it.
 {% end %}
 
 ```ruby
