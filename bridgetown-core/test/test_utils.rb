@@ -406,6 +406,34 @@ class TestUtils < BridgetownUnitTest
     end
   end
 
+  describe "The `Utils.default_gitlab_branch_name` method" do
+    it "returns the correct default branch name" do
+      Net::HTTP.stub :get, JSON.generate({ "default_branch" => "my_default_branch" }) do
+        assert_equal "my_default_branch", Utils.default_gitlab_branch_name("https://gitlab.com/whitefusionhq/phaedra/abc/12344")
+      end
+    end
+
+    it "returns main if all else fails" do
+      Net::HTTP.stub :get, proc { raise("nope") } do
+        assert_equal "main", Utils.default_gitlab_branch_name("https://gitlab.com/thisorgdoesntexist/thisrepoistotallybogus")
+      end
+    end
+  end
+
+  describe "The `Utils.default_codeberg_branch_name` method" do
+    it "returns the correct default branch name" do
+      Net::HTTP.stub :get, JSON.generate({ "default_branch" => "my_default_branch" }) do
+        assert_equal "my_default_branch", Utils.default_codeberg_branch_name("https://codeberg.org/whitefusionhq/phaedra/abc/12344")
+      end
+    end
+
+    it "returns main if all else fails" do
+      Net::HTTP.stub :get, proc { raise("nope") } do
+        assert_equal "main", Utils.default_codeberg_branch_name("https://codeberg.org/thisorgdoesntexist/thisrepoistotallybogus")
+      end
+    end
+  end
+
   describe "The `Utils.helper_code_for_template_extname` method" do
     it "returns content within delimiters for the supplied file extname" do
       assert_equal "{% content %}", Utils.helper_code_for_template_extname(".liquid", "content")
