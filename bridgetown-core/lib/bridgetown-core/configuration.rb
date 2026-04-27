@@ -6,7 +6,7 @@ module Bridgetown
     using Bridgetown::Refinements
 
     # Built-in initializer list which isn't Gem-backed:
-    REQUIRE_DENYLIST = %i(external_sources parse_routes ssr) # rubocop:disable Style/MutableConstant
+    REQUIRE_DENYLIST = %i(external_sources parse_routes ssr wikilinks) # rubocop:disable Style/MutableConstant
 
     Initializer = Struct.new(:name, :block, :completed) do
       def to_s
