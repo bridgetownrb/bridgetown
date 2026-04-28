@@ -10,7 +10,8 @@ title: Community
 
 * Start by reading the [Bridgetown Documentation](/docs/).
 * Kick off a discussion, ask for assistance, share code & ideas, and enjoy chatting with Bridgetowners on our [Discord server](https://discord.gg/4E6hktQGz4).
-* We also have a brand-new **Matrix** chat room. Embrace open protocols and [chat with fellow Bridgetowners on Matrix!](https://matrix.to/#/%23bridgetownrb:matrix.org) (Note: if you haven't used Matrix before, the most recent **Element X** app is an excellent first-party client on multiple platforms. You'll be using Element on the web when you directly link to the chat room, and you can install Element on [mobile platforms like iOS & Android](https://matrix.org/ecosystem/clients/element-x/).)
+* We also have a **Matrix** chat room. Embrace open protocols and [chat with fellow Bridgetowners on Matrix!](https://matrix.to/#/%23bridgetownrb:matrix.org) (Note: if you haven't used Matrix before, the most recent **Element X** app is an excellent first-party client on multiple platforms. You'll be using Element on the web when you directly link to the chat room, and you can install Element on [mobile platforms like iOS & Android](https://matrix.org/ecosystem/clients/element-x/).)
+* 📢 _New!_ We've teamed up with the growing **Ruby Users Forum** which is now providing a [Bridgetown tag](https://www.rubyforum.org/tag/bridgetown/78) as a discussion space within their community. **Check it out!** (➡️ Not all core team members will check regularly for support questions.)
 
 There are a bunch of helpful core team and community members available that should be able to point you in the right direction.
 
