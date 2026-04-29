@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency("addressable",               "~> 2.4")
   spec.add_dependency("amazing_print",             "~> 1.2")
+  spec.add_dependency("async-container",           ">= 0.34.5")
   spec.add_dependency("base64",                    ">= 0.3")
   spec.add_dependency("bigdecimal",                ">= 3.2")
   spec.add_dependency("bridgetown-foundation",     Bridgetown::VERSION)

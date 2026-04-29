@@ -35,6 +35,7 @@ require "bridgetown-foundation"
 
 # 3rd party
 require "addressable/uri"
+require "async/container"
 require "liquid"
 require "listen"
 require "kramdown"
