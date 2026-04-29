@@ -41,8 +41,6 @@ Because Bridgetown utilizes standard ES bundler functionality, you can trick out
 
 By default Bridgetown comes with support for [PostCSS](https://postcss.org) to allow for cutting-edge/upcoming CSS features which aren't yet supported in all browsers (such as variable-based media queries and selector nesting).
 
-You can also choose to use [Sass](https://sass-lang.com), a pre-processor for CSS. Pass `--use-sass` to `bridgetown new` to set up your project to support Sass.
-
 The starting place for CSS code lives at `frontend/styles/index.css`. You can add additional stylesheets and `@import` them into `index.css`. CSS files placed anywhere inside `src/_components` are automatically imported.
 
 ### PostCSS

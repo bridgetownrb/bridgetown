@@ -322,14 +322,12 @@ module Bridgetown
     #   file isnt found
     # @return [nil] Returns nil if the asset isnt found
     # @return [String] Returns the path to the asset if no issues parsing
-    def parse_esbuild_manifest_file(site, asset_type) # rubocop:disable Metrics/PerceivedComplexity
+    def parse_esbuild_manifest_file(site, asset_type)
       return log_frontend_asset_error(site, "esbuild manifest") if site.frontend_manifest.nil?
 
       asset_path = case asset_type
                    when "css"
-                     site.frontend_manifest["styles/index.css"] ||
-                       site.frontend_manifest["styles/index.scss"] ||
-                       site.frontend_manifest["styles/index.sass"]
+                     site.frontend_manifest["styles/index.css"]
                    when "js"
                      site.frontend_manifest["javascript/index.js"] ||
                        site.frontend_manifest["javascript/index.js.rb"]
