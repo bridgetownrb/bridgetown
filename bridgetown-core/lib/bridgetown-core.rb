@@ -113,10 +113,12 @@ module Bridgetown
   require "bridgetown-core/configuration"
   require "bridgetown-core/drops/drop"
   require "bridgetown-core/drops/resource_drop"
+  require "bridgetown-core/rack/server"
   require_all "bridgetown-core/converters"
   require_all "bridgetown-core/converters/markdown"
   require_all "bridgetown-core/drops"
   require_all "bridgetown-core/generators"
+  require_all "bridgetown-core/rack/environments"
   require_all "bridgetown-core/tags"
 
   class << self
