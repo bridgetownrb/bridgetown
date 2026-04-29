@@ -18,6 +18,7 @@ module Bridgetown
                "Comma separated list of bundled configurations to perform"
         option "-h/--help", "Print help for the new command"
         option "-t/--templates <erb|serbea|liquid>", "Preferred template engine (defaults to ERB)"
+        option "-s/--server <falcon|puma>", "The Rack-compliant web server to install"
         option "--force", "Force creation even if PATH already exists"
         option "--skip-bundle", "Skip 'bundle install'"
         option "--skip-npm", "Skip 'npm install'"
@@ -25,6 +26,7 @@ module Bridgetown
       end
 
       DOCSURL = "https://bridgetownrb.com/docs"
+      SUPPORTED_RACK_SERVERS = %w[falcon puma].freeze
 
       def self.exit_on_failure?
         false
@@ -83,6 +85,10 @@ module Bridgetown
         !options[:use_sass]
       end
 
+      def rack_server_option
+        SUPPORTED_RACK_SERVERS.find { _1 == options[:server] } || "falcon"
+      end
+
       def disable_postcss?
         # TODO: add option not to use postcss/sass at all
         false
@@ -104,6 +110,8 @@ module Bridgetown
         template("src/index.md.erb", "src/index.md")
         template("src/posts.md.erb", "src/posts.md")
         copy_file("frontend/styles/syntax-highlighting.css")
+
+        setup_rack_server
 
         case options[:templates]
         when "serbea"
@@ -142,6 +150,14 @@ module Bridgetown
         gsub_file "config/initializers.rb", %r!template_engine "erb"\n!, <<~RUBY
           template_engine "liquid"
         RUBY
+      end
+
+      def setup_rack_server
+        if rack_server_option == "puma"
+          template "config/puma.erb", "config/puma.rb"
+        else
+          template "config/falcon.erb", "config/falcon.rb"
+        end
       end
 
       def configure_sass

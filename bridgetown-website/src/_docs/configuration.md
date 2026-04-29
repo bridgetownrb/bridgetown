@@ -92,6 +92,6 @@ Values from bridgetown.config.yml are processed first, then config/initializers.
 * [External Content Sources](/docs/content/external-sources)
 * [Markdown Options](/docs/configuration/markdown)
 * [Liquid Options](/docs/configuration/liquid)
-* [Puma Configuration](/docs/configuration/puma)
+* [Web Server Configuration](/docs/configuration/web-server)
 
 Beyond configuration, the way you'll enhance and extend your site is through writing your own [custom plugins](/docs/plugins). Continue reading for information on how to get started writing your first plugin or installing third-party plugins.

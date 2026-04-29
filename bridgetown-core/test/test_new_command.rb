@@ -107,7 +107,8 @@ class TestNewCommand < BridgetownUnitTest
 
     it "copies the static files for erb templates config in site template to the new directory" do
       postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
-      generated_template_files = static_template_files + postcss_config_files + template_config_files + erb_config_files + esbuild_config_files
+      server_config_file = ["/config/falcon.rb"]
+      generated_template_files = static_template_files + postcss_config_files + template_config_files + erb_config_files + esbuild_config_files + server_config_file
 
       capture_output do
         Bridgetown::Commands::Application[*argumentize(@args)].()
@@ -122,7 +123,8 @@ class TestNewCommand < BridgetownUnitTest
 
     it "copies the static files for liquid templates config to the new directory" do
       postcss_config_files = ["/postcss.config.js", "/frontend/styles/index.css"]
-      generated_template_files = static_template_files + postcss_config_files + template_config_files + liquid_config_files + esbuild_config_files
+      server_config_file = ["/config/falcon.rb"]
+      generated_template_files = static_template_files + postcss_config_files + template_config_files + liquid_config_files + esbuild_config_files + server_config_file
 
       capture_output do
         Bridgetown::Commands::Application[*argumentize("#{@args} -t liquid")].()
@@ -159,6 +161,30 @@ class TestNewCommand < BridgetownUnitTest
 
       assert_equal erb_template_files.sort, new_site_files.sort
       assert_match(%r!<% collections\.posts\.each do |post| %>!, File.read("#{@full_path_source}/posts.md"))
+    end
+
+    it "installs Falcon by default" do
+      capture_output do
+        Bridgetown::Commands::Application[*argumentize(@args)].()
+      end
+
+      gemfile = File.join(@full_path, "Gemfile")
+      falconrb = File.join(@full_path, "config/falcon.rb")
+
+      assert_match(%r!gem "falcon"!o, File.read(gemfile))
+      assert_exist falconrb
+    end
+
+    it "installs Puma when opted for" do
+      capture_output do
+        Bridgetown::Commands::Application[*argumentize("#{@args} -s puma")].()
+      end
+
+      gemfile = File.join(@full_path, "Gemfile")
+      pumarb = File.join(@full_path, "config/puma.rb")
+
+      assert_match(%r!gem "puma"!o, File.read(gemfile))
+      assert_exist pumarb
     end
 
     it "forces created folder" do
