@@ -263,6 +263,22 @@ The inflections between the various singular and plural relation names are handl
 
 You can also load resources for your project, such as Markdown files and associated images, from folders outside of a Bridgetown site project. This is ideal for content authored using third-party applications such as Obsidian. [Read this documentation to learn more.](/docs/content/external-sources)
 
+## Wikilinks
+
+You can add support for `\[[wikilinks]]` style links within your Markdown content. This isn't enabled by default, so you'll need to update your `config/initializers.rb` file and add:
+
+```ruby
+init :wikilinks
+```
+
+By default, Bridgetown will search all of your resources and find the first matching title. So if you have a resource with `title: I am a Resource` in its front matter, you can write `\[[I am a Resource]]` to link to it.
+
+You can also use a custom display title for your link, for example `\[[I am a Resource|here's a resource]]` would render "here's a resource" as the link text.
+
+If you need to link to a specific section within a resource (aka anchor), use a `#` symbol: `\[[Another Page#the_best_section]]`. You may need to inspect the HTML of a resource to ensure you're linking to the correct anchor within the content.
+
+If you'd like to opt-out any resource from being processed for wikilinks, add `bypass_wikilinks: true` to its front matter. To disable multiple resources at once, you can use [[Front Matter Defaults]].
+
 ## Configuring Permalinks
 
 Bridgetown uses permalink "templates" to determine the default permalink to use for resource destination URLs. You can override a resource permalink on a case-by-case basis by using the `permalink` front matter key. Otherwise, the permalink is determined as follows (unless you change the site config):
