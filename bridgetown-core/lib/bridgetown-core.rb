@@ -320,7 +320,11 @@ module Bridgetown
     #
     # @return [LogAdapter]
     def logger
-      @logger ||= LogAdapter.new(LogWriter.new, (ENV["BRIDGETOWN_LOG_LEVEL"] || :info).to_sym)
+      @logger ||= LogAdapter.new(
+        LogWriter.new,
+        (ENV["BRIDGETOWN_LOG_LEVEL"] || :info).to_sym,
+        prefix: ["Bridgetown", :green]
+      )
     end
 
     # Set the log writer. New log writer must respond to the same methods as Ruby's

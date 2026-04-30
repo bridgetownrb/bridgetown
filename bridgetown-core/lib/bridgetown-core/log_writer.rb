@@ -3,13 +3,19 @@
 module Bridgetown
   class LogWriter < ::Logger
     def initialize
-      super($stdout, formatter: proc { |_, _, _, msg| msg.to_s })
+      super($stdout, formatter: default_formatter)
     end
 
-    def enable_prefix
+    def set_prefix(prefix, color:)
+      prefix = "[#{prefix}]".send(color)
+
       self.formatter = proc do |_, _, _, msg|
-        "\e[32m[Bridgetown]\e[0m #{msg}"
+        "#{prefix} #{msg}"
       end
+    end
+
+    def remove_prefix
+      self.formatter = default_formatter
     end
 
     def add(severity, message = nil, progname = nil) # rubocop:disable Naming/PredicateMethod
@@ -48,6 +54,10 @@ module Bridgetown
     end
 
     private
+
+    def default_formatter
+      proc { |_, _, _, msg| msg.to_s }
+    end
 
     def logdevice(severity)
       if severity > INFO
