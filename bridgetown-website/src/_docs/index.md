@@ -48,12 +48,18 @@ bridgetown new mysite
 cd mysite
 ```
 
-4. Build the site and run a live-reload development server:
+4. Install a self-signed SSL ceritifcate for development:
+```sh
+gem install localhost bake
+bake localhost:install
+```
+
+5. Build the site and run a live-reload development server:
 ```sh
 bin/bridgetown start
 ```
 
-5. Browse to [http://localhost:4000](http://localhost:4000){:target="_blank"}
+5. Browse to [https://localhost:4000](https://localhost:4000){:target="_blank"}
 
 6. And you're done! (That's the goal at least 😊)
 
