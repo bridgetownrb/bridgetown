@@ -275,7 +275,7 @@ By default, Bridgetown will search all of your resources and find the first matc
 
 You can also use a custom display title for your link, for example `\[[I am a Resource|here's a resource]]` would render "here's a resource" as the link text.
 
-If you need to link to a specific section within a resource (aka anchor), use a `#` symbol: `\[[Another Page#the_best_section]]`. You may need to inspect the HTML of a resource to ensure you're linking to the correct anchor within the content.
+If you need to link to a specific section within a resource (aka anchor), use a `#` symbol: `\[[Another Page#the-best-section]]`. You may need to inspect the HTML of a resource to ensure you're linking to the correct anchor within the content.
 
 If you'd like to opt-out any resource from being processed for wikilinks, add `bypass_wikilinks: true` to its front matter. To disable multiple resources at once, you can use [[Front Matter Defaults]].
 
