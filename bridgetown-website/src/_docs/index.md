@@ -48,10 +48,10 @@ bridgetown new mysite
 cd mysite
 ```
 
-4. Install a self-signed SSL ceritifcate for development:
+4. Install a self-signed SSL ceritificate for development:
 ```sh
 gem install localhost bake
-bake localhost:install
+ bake localhost:install
 ```
 
 5. Build the site and run a live-reload development server:
