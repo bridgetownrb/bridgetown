@@ -25,6 +25,13 @@ module Bridgetown
       .htm
     ).freeze
 
+    # NOTE: these are no-op methods, only here to provide "compatibility" with
+    # `Bridgetown::Resource::Base` in edge case rendering contexts. There's
+    # actually no case when a GeneratedPage will have a linkage with the Roda
+    # app because GeneratedPage instances are only used in static builds.
+    def roda_app=(*); end
+    def roda_app = nil
+
     # Initialize a new GeneratedPage
     #
     # @param site [Bridgetown::Site]
