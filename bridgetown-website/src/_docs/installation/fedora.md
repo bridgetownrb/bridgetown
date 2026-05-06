@@ -3,7 +3,7 @@ title: Bridgetown on Fedora
 top_section: Setup
 category: installation-guides
 back_to: installation
-ruby_version: 3.0.2
+ruby_version: 4.0.3
 order: 0
 ---
 
