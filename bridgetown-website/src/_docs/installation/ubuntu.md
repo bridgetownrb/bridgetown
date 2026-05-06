@@ -75,7 +75,6 @@ rbenv install {{ resource.data.ruby_version }}
 rbenv global {{ resource.data.ruby_version }}
 
 ruby -v
-> ruby 3.0.2p107 (2021-07-07 revision 0db68f0233) [aarch64-linux]
 ```
 
 (If for some reason `bundler` isn't installed automatically, run `gem install bundler -N`)
