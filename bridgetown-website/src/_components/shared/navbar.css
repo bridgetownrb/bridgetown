@@ -1,4 +1,5 @@
 body > nav {
+  view-transition-name: navbar;
   z-index: 1;
   position: relative;
   margin: var(--sl-spacing-x-large) 0 var(--sl-spacing-large);
@@ -43,12 +44,6 @@ body > nav {
     font-weight: var(--body-font-weight);
     opacity: 0.5;
   }
-}
-
-html:not([loaded]) #nav-bar {
-  opacity: 0;
-  animation: fadeIn 1s 0.1s;
-  animation-fill-mode: forwards;
 }
 
 navbar-inner,

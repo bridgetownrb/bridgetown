@@ -20,8 +20,6 @@ import "@shoelace-style/shoelace/dist/components/tag/tag.js"
 import { registerIconLibrary } from "@shoelace-style/shoelace/dist/utilities/icon-library.js"
 import { setBasePath } from "@shoelace-style/shoelace/dist/utilities/base-path.js"
 
-import * as Turbo from "@hotwired/turbo"
-
 import hotkeys from "hotkeys-js"
 
 hotkeys("cmd+k,ctrl+k", (event) => {
@@ -29,7 +27,7 @@ hotkeys("cmd+k,ctrl+k", (event) => {
   document.querySelector("bridgetown-search-form > input").focus()
 })
 
-import "./turbo_transitions.js"
+//import "./turbo_transitions.js"
 
 async function importAdditionalDependencies() {
   await import("bridgetown-quick-search")
@@ -65,15 +63,3 @@ registerIconLibrary("remixicon", {
   },
 })
 setBasePath("/images")
-
-// This is weird, I'm not sure why I have to do this.
-document.addEventListener("turbo:load", () => {
-  for (let button of document.querySelectorAll("sl-button")) {
-    if (button.parentNode.localName === "a") {
-      button.addEventListener("click", (event) => {
-        event.preventDefault()
-        Turbo.visit(event.currentTarget.parentNode.href)
-      })
-    }
-  }
-})

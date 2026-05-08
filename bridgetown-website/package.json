@@ -22,10 +22,8 @@
     "postcss-preset-env": "^7.0.1"
   },
   "dependencies": {
-    "@hotwired/turbo": "^7.1.0",
     "@shoelace-style/shoelace": "^2.2.0",
     "bridgetown-quick-search": "^3.0.3",
-    "hotkeys-js": "^3.8.7",
-    "smoothscroll-polyfill": "^0.4.4"
+    "hotkeys-js": "^3.8.7"
   }
 }

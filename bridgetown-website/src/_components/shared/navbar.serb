@@ -1,5 +1,5 @@
 <nav aria-label="Main navigation"{% if site.data.edge_version %} class="edge"{% end %}>
-  <navbar-inner id="nav-bar" data-turbo-permanent>
+  <navbar-inner id="nav-bar">
     <sl-bar align-items="center" spaced="between" expanded="false">
       <sl-bar-item branding size="4/10 lg:3/10 xl:3/10" style="position:relative">
         <a href="/">
