@@ -5,7 +5,7 @@ module Bridgetown
     class Help < Bridgetown::Command
       self.description = "Show detailed command usage information and exit"
 
-      one :command, "The name of a Bridgetown command", required: true
+      one :command, "The name of a Bridgetown command", required: false
 
       def call
         found_command = parent.class.table[:command].commands[command]
@@ -14,7 +14,7 @@ module Bridgetown
 
         return if found_command
 
-        puts "Unknown command: #{command}\n\n"
+        puts "Unknown command: #{command}\n\n" if command
         parent.print_usage
       end
     end

@@ -31,7 +31,7 @@ custom_commands_file = File.expand_path("config/custom_commands.rb", Dir.pwd)
 require custom_commands_file if File.exist?(custom_commands_file)
 
 begin
-  Bridgetown::Commands::Application.parse(ARGV).call
+  Bridgetown::Commands::Application.parse(ARGV.dup).call
 rescue Samovar::MissingValueError => e
   puts "#{"Command error:".bold.red} #{e.message.to_s.yellow}\n\n"
   e.command.print_usage
