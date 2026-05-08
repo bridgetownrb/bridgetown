@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Bridgetown.configure do |config|
+  init :wikilinks
   init :"bridgetown-seo-tag"
   init :"bridgetown-feed"
   init :"bridgetown-quick-search"

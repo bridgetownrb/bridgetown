@@ -10,7 +10,7 @@ tasks such as adding gems, updating configuration, inserting code, copying
 files, and much more.
 
 Automations are similar in concept to Gatsby Recipes or Rails App Templates.
-They're uniquely powerful when combined with [plugins](/docs/plugins), as an
+They're uniquely powerful when combined with [[Extend with Plugins|plugins]], as an
 automation can install and configure one or more plugins from a single script.
 
 You could also write an automation to run multiple additional automations, and
@@ -18,7 +18,7 @@ apply that to a brand-new site to set everything up exactly how you want it in a
 repeatable and automatic fashion.
 
 Automations can be loaded from a local path, or they can be loaded from remote
-URLs including repositories. You can also run automation scripts [from within Rake tasks](/docs/command-line-usage#rakefile-and-rake-tasks), and the exact same automation DSL can be used directly within [custom commands](/docs/plugins/commands).
+URLs including repositories. You can also run automation scripts [[Command Line Usage#rakefile-and-rake-tasks|from within Rake tasks]], and the exact same automation DSL can be used directly within [[Commands|custom commands]].
 
 {%@ Note type: :warning do %}
 As with any other case where you are executing code downloaded from the Internet, **this is a potential security risk!** Make sure you apply automations from only those sources you are able to trust (and verify)!

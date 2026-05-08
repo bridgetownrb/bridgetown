@@ -342,6 +342,10 @@ Now anywhere in your Ruby plugins, templates, etc., you can access environment v
 
 You can load in additional content, such as Markdown files and associated images, from folders outside of a Bridgetown site project. [Read this documentation to learn more.](/docs/content/external-sources)
 
+### Wikilinks
+
+You can enable `\[[wikilinks]]` style links within your Markdown content. [[Resources#wikilinks|Read this documentation to learn more]].
+
 ### Inflector
 
 You can configure the inflector used by Zeitwerk and models. A few acronyms are provided by default like HTML, CSS, and JS, so a file like `html_processor.rb` could be defined by `HTMLProcessor`. You can add more inflection rules like so:

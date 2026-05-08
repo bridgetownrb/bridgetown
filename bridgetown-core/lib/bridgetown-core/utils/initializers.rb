@@ -80,3 +80,7 @@ Bridgetown.initializer :parse_routes do |config|
 
   File.write(File.join(config.root_dir, ".routes.json"), routing_tree.to_json(json_gen_opts))
 end
+
+Bridgetown.initializer :wikilinks do |config|
+  Bridgetown::Utils::Wikilinks.setup_parsing_hook config
+end
