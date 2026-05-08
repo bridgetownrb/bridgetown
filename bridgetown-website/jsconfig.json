@@ -6,5 +6,5 @@
         "$javascript/*": ["./frontend/javascript/*"],
         "$components/*": ["./src/_components/*"]
     }
-  }, 
+  },
 }
