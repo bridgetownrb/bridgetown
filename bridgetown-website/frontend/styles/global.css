@@ -8,7 +8,7 @@
     will-change: transform;
   }
   ::view-transition-old(main) {
-    animation: swoop-out 0.2s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+    animation: swoop-out 0.1s ease forwards;
   }
   ::view-transition-new(main) {
     animation: swoop-in 0.6s cubic-bezier(0.45, 0, 0.55, 1) forwards;
@@ -17,17 +17,15 @@
 
 @keyframes swoop-out {
   from {
-    opacity: 0.75;
-    transform: translateY(0px);
+    opacity: 0.9;
   }
   to {
     opacity: 0;
-    transform: translateY(-18px);
   }
 }
 @keyframes swoop-in {
   0% {
-    opacity: 0;
+    opacity: 0.1;
     transform: translateY(12px);
   }
 
@@ -79,12 +77,12 @@
 
   --color-code-background: var(--color-lightest-orange);
 
-  --sl-font-sans: RedHatText, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol";
-  --display-sans: RedHatDisplay, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol";
+  --sl-font-sans:
+    RedHatText, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --display-sans:
+    RedHatDisplay, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --display-serif: DMSerif, Georgia, "Times New Roman", serif;
 
   --body-font-weight: 425;
@@ -165,7 +163,6 @@
 
 html {
   box-sizing: border-box;
-  scroll-behavior: smooth;
 }
 *,
 *:before,
@@ -174,6 +171,7 @@ html {
 }
 
 html {
+  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
