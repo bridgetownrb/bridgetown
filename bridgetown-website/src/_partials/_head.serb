@@ -9,6 +9,41 @@
 {%= seo %}
 
 <link rel="stylesheet" href="{%= asset_path :css %}" />
+<script>
+class ThemeManager {
+  static get mediaPrefersColorSchemeDark() {
+    return window.matchMedia(`(prefers-color-scheme: ${this.DARK})`).matches
+  }
+
+  static setThemeClasses(optionName) {
+    let searchResults
+
+    if (
+      optionName === this.DARK ||
+      (optionName === this.DEFAULT && this.mediaPrefersColorSchemeDark)
+    ) {
+      document.documentElement.classList.add("theme-dark", "sl-theme-dark")
+    } else {
+      document.documentElement.classList.remove("theme-dark", "sl-theme-dark")
+    }
+  }
+
+  static {
+    this.THEME_STORAGE_KEY = "theme"
+    this.LIGHT = "light"
+    this.DARK = "dark"
+    this.DEFAULT = "default"
+
+    let optionName = localStorage.getItem(this.THEME_STORAGE_KEY)
+
+    optionName = optionName ||
+      (this.mediaPrefersColorSchemeDark ? this.DEFAULT : this.LIGHT)
+
+    this.setThemeClasses(optionName)
+  }
+}
+window.ThemeManager = ThemeManager
+</script>
 <script src="{%= asset_path :js %}" type="module"></script>
 {%= feed_meta %}
 {%= live_reload_dev_js %}

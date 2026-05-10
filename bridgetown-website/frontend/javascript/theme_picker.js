@@ -1,30 +1,30 @@
 class ThemePicker extends HTMLElement {
   static get mediaPrefersColorSchemeDark() {
-    return window.matchMedia(`(prefers-color-scheme: ${this.DARK})`).matches
+    return window.ThemeManager.mediaPrefersColorSchemeDark
   }
 
   static setThemeClasses(optionName) {
     let searchResults
 
+    window.ThemeManager.setThemeClasses(optionName)
+
     if (
       optionName === this.DARK ||
       (optionName === this.DEFAULT && this.mediaPrefersColorSchemeDark)
     ) {
-      document.documentElement.classList.add("theme-dark", "sl-theme-dark")
       searchResults = document.querySelector("bridgetown-search-results")
       if (searchResults) searchResults.setAttribute("theme", "dark")
     } else {
-      document.documentElement.classList.remove("theme-dark", "sl-theme-dark")
       searchResults = document.querySelector("bridgetown-search-results")
       if (searchResults) searchResults.setAttribute("theme", "light")
     }
   }
 
   static {
-    this.THEME_STORAGE_KEY = "theme"
-    this.LIGHT = "light"
-    this.DARK = "dark"
-    this.DEFAULT = "default"
+    this.THEME_STORAGE_KEY = window.ThemeManager.THEME_STORAGE_KEY
+    this.LIGHT = window.ThemeManager.LIGHT
+    this.DARK = window.ThemeManager.DARK
+    this.DEFAULT = window.ThemeManager.DEFAULT
 
     let optionName = localStorage.getItem(this.THEME_STORAGE_KEY)
 
@@ -109,6 +109,4 @@ class ThemePicker extends HTMLElement {
     this.constructor.setThemeClasses(optionName)
     this._dropdownButtonIcon.setAttribute("name", this.optionsIcons[optionName])
   }
-
-  
 }
