@@ -5,17 +5,16 @@
 
   main {
     view-transition-name: main;
-    will-change: transform;
   }
   ::view-transition-old(main) {
-    animation: swoop-out 0.1s ease forwards;
+    animation: page-out 0.1s ease forwards;
   }
   ::view-transition-new(main) {
-    animation: swoop-in 0.6s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+    animation: page-in 0.4s cubic-bezier(0.45, 0, 0.55, 1) forwards;
   }
 }
 
-@keyframes swoop-out {
+@keyframes page-out {
   from {
     opacity: 0.9;
   }
@@ -23,19 +22,17 @@
     opacity: 0;
   }
 }
-@keyframes swoop-in {
+@keyframes page-in {
   0% {
     opacity: 0.1;
-    transform: translateY(12px);
   }
 
   50% {
-    transform: translateY(0px);
+    opacity: 0.7;
   }
 
   100% {
     opacity: 1;
-    transform: translateY(0px);
   }
 }
 

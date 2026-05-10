@@ -27,8 +27,6 @@ hotkeys("cmd+k,ctrl+k", (event) => {
   document.querySelector("bridgetown-search-form > input").focus()
 })
 
-//import "./turbo_transitions.js"
-
 async function importAdditionalDependencies() {
   await import("bridgetown-quick-search")
 
