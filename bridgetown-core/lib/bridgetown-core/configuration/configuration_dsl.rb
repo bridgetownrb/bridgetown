@@ -244,38 +244,41 @@ module Bridgetown
       #   Control the behavior of Bridgetown's live reload functionality in development
       #   @param bool [Boolean] - default: `true`
 
-      # @!method exclude(files_list)
-      #   Exclude source directories and/or files from the build conversion
-      #   @param files_list [Array<String>]
+      # Exclude source directories and/or files from the build conversion
+      # @param files_list [Array<String>] - you can pass multiple string arguments
+      #   in lieu of an array
       def exclude(*files_list)
+        files_list = Array(files_list[0]) if files_list.length == 1
         get("exclude").tap do |value|
-          files_list.each { value << _1 } if files_list.size.positive?
+          files_list.each { value << _1 }
         end
       end
 
-      # @!method include(files_list)
-      #   Force inclusion of directories and/or files in the conversion (e.g. starting with
-      #   underscores or dots)
-      #   @param files_list [Array<String>]
+      # Force inclusion of directories and/or files in the conversion (e.g. starting with
+      # underscores or dots)
+      # @param files_list [Array<String>] - you can pass multiple string arguments
+      #   in lieu of an array
       def include(*files_list)
+        files_list = Array(files_list[0]) if files_list.length == 1
         get("include").tap do |value|
-          files_list.each { value << _1 } if files_list.size.positive?
+          files_list.each { value << _1 }
         end
       end
 
-      # @!method keep_files(files_list)
-      #   Files to keep when clobbering the site destination (aka not generated in typical
-      #   Bridgetown builds)
-      #   @param files_list [Array<String>]
+      # Files to keep when clobbering the site destination (aka not generated in typical
+      # Bridgetown builds)
+      # @param files_list [Array<String>] - you can pass multiple string arguments
+      #   in lieu of an array
       def keep_files(*files_list)
+        files_list = Array(files_list[0]) if files_list.length == 1
         get("keep_files").tap do |value|
-          files_list.each { value << _1 } if files_list.size.positive?
+          files_list.each { value << _1 }
         end
       end
 
       # @!method autoload_paths
-      #   Add paths to the Zeitwerk autoloader. Use a `config.defaults << "..."` syntax or a more
-      #   advanced hash config
+      #   Add paths to the Zeitwerk autoloader. Use a `config.autoload_paths << "..."` syntax or
+      #   a more advanced hash config
       #   @example Add a new path for autoloading and eager load on boot
       #       config.autoload_paths << {
       #         path: "loadme",
