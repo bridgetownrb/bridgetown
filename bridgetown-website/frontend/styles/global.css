@@ -3,13 +3,14 @@
     navigation: auto;
   }
 
-  main {
-    view-transition-name: main;
+  :root {
+    view-transition-name: root;
   }
-  ::view-transition-old(main) {
+
+  ::view-transition-old(root) {
     animation: page-out 0.1s ease forwards;
   }
-  ::view-transition-new(main) {
+  ::view-transition-new(root) {
     animation: page-in 0.4s cubic-bezier(0.45, 0, 0.55, 1) forwards;
   }
 }
