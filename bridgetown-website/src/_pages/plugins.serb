@@ -4,23 +4,21 @@
   exclude_from_search: true,
   plugins: -> do
     ::Builders::Versions.cache.getset("plugins") do
-      endpoint = "https://api.github.com/search/repositories?q=topic:bridgetown-plugin%20archived:false&per_page=100"
+      endpoint = URI("https://api.github.com/search/repositories?q=topic:bridgetown-plugin%20archived:false&per_page=100")
 
-      conn = Faraday.new(
-        url: endpoint,
-        headers: {"Accept" => "application/vnd.github.v3+json"}
-      ) do |faraday|
-        if ENV["BRIDGETOWN_GITHUB_TOKEN"]
-          username, token = ENV["BRIDGETOWN_GITHUB_TOKEN"].split(":")
-          faraday.request :authorization, :basic, username, token
-        end
+      headers = {"Accept" => "application/vnd.github.v3+json"}
+      request = Net::HTTP::Get.new(endpoint, headers)
+      if ENV["BRIDGETOWN_GITHUB_TOKEN"]
+        username, token = ENV["BRIDGETOWN_GITHUB_TOKEN"].split(":")
+        request.basic_auth(username, token)
       end
-      items = JSON.parse(conn.get.body)["items"].sort_by {|item| item["name"]}
+      result = Net::HTTP.get(endpoint, headers)
+      items = JSON.parse(result)["items"].sort_by {|item| item["name"]}
 
       items.each do |item|
         branchname = item.fetch("default_branch", "master")
-        gem_url = "https://raw.githubusercontent.com/#{item["full_name"]}/#{branchname}/lib/#{item["name"]}/version.rb"
-        result = Faraday.get(gem_url).body
+        gem_url = URI("https://raw.githubusercontent.com/#{item["full_name"]}/#{branchname}/lib/#{item["name"]}/version.rb")
+        result = Net::HTTP.get(gem_url)
         begin
           item["gem_version"] = result.match(/VERSION = "(.*?)"/)[1]
         rescue NoMethodError
