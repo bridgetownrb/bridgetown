@@ -28,12 +28,13 @@ module Bridgetown
       module StartOptions
         def self.include_options(klass)
           klass.option "-P/--port <NUM>",
-                 "Serve your site on the specified port. Defaults to 4000",
-                 type: Integer
+                       "Serve your site on the specified port. Defaults to 4000",
+                       type: Integer
           klass.option "-B/--bind <IP>", "IP address for the server to bind to", default: "0.0.0.0"
-          klass.option "--skip-frontend", "Don't load the frontend bundler (always true for production)"
+          klass.option "--skip-frontend",
+                       "Don't load the frontend bundler (always true for production)"
           klass.option "--skip-live-reload",
-                 "Don't use the live reload functionality (always true for production)"
+                       "Don't use the live reload functionality (always true for production)"
         end
       end
 
