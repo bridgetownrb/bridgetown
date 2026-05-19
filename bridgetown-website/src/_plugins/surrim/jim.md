@@ -1,5 +1,6 @@
 ---
-title: jim
+title: Jim
+center_program: true
 repo_url: https://github.com/surrim/jim
 author:
   handle: surrim

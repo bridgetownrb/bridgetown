@@ -42,6 +42,9 @@ If this sounds like a potential fit for your aspirations as a plugin developer, 
 
 ## Benefits of Joining Bridgetown Center
 
+![Bridgetown Center badge](/images/center/bridgetown-center-badge.svg){: style="width: 250px"}
+{: style="text-align: center"}
+
 As part of **Center**, your projects will be enthusiastically recommended and promoted by the Bridgetown team in official marketing channels as well as during community support. For example:
 
 *   Your plugin(s) will be featured in a special highlighted section of the [Plugins Directory](/plugins).
@@ -73,7 +76,16 @@ Unless there are any unexpected red flags, we are very likely to be pleased to a
 
 If you have any additional questions about the program, [please ask us in our Discord or Matrix room](/community). 💬
 
-{{ svg "/images/bridgetown-center.svg", width: "100%", height: "100%", style: "color: #561c2d; max-width:750px; margin:3rem auto 1rem; display:block" }}
+## Bridgetown Center Badges
+
+![Bridgetown Center badge](/images/center/bridgetown-center-badge.svg){: style="width: 250px"}
+{: style="text-align: center"}
+
+You may use the badge in your plugin repo and promotional materials to indicate you are a member of the **Bridgetown Center** program. You may not use the badge if you are not a member of the program, unless you are using it an journalistic sense to feature the program and/or link to plugins or plugin authors participating in the program.
+
+* [SVG format (preferred)](/images/center/bridgetown-center-badge.svg)
+* [PNG (768px)](/images/center/bridgetown-center-badge.png)
+* [PNG (384px)](/images/center/bridgetown-center-badge-sm.png)
 
 <p style="text-align:center; opacity: 0.75">
   <small>
