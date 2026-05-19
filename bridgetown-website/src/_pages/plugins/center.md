@@ -81,7 +81,7 @@ If you have any additional questions about the program, [please ask us in our Di
 ![Bridgetown Center badge](/images/center/bridgetown-center-badge.svg){: style="width: 250px"}
 {: style="text-align: center"}
 
-You may use the badge in your plugin repo and promotional materials to indicate you are a member of the **Bridgetown Center** program. You may not use the badge if you are not a member of the program, unless you are using it an journalistic sense to feature the program and/or link to plugins or plugin authors participating in the program.
+You may use the badge in your plugin repo and promotional materials to indicate you are a member of the **Bridgetown Center** program. You may not use the badge if you are not a member of the program, unless you are using it an journalistic sense to feature the program and/or link to plugins or plugin authors participating in the program. Or perhaps [you don't need no stinkin' badges](https://www.youtube.com/watch?v=g6f_miE91mk){:target="_blank"}. _That's fine too!_ 😜
 
 * [SVG format (preferred)](/images/center/bridgetown-center-badge.svg)
 * [PNG (768px)](/images/center/bridgetown-center-badge.png)
