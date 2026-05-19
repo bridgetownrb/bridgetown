@@ -33,6 +33,16 @@ class ThemePicker extends HTMLElement {
 
     this.setThemeClasses(optionName)
 
+    const systemDark = window.matchMedia("(prefers-color-scheme: dark)")
+    const applyDark = () => {
+      const themeKey = localStorage.getItem(this.THEME_STORAGE_KEY)
+      if (!themeKey || themeKey === this.DEFAULT) {
+        console.log("OK!")
+        this.setThemeClasses(this.DEFAULT)
+      }
+    }
+    systemDark.addEventListener("change", applyDark)
+
     customElements.define("theme-picker", this)
   }
 
@@ -40,7 +50,7 @@ class ThemePicker extends HTMLElement {
     return (this._OptionsIcons = this._OptionsIcons || {
       [this.constructor.LIGHT]: "sun",
       [this.constructor.DARK]: "moon",
-      [this.constructor.DEFAULT]: this.mediaPrefersColorSchemeDark ? "moon" : "sun",
+      [this.constructor.DEFAULT]: this.constructor.mediaPrefersColorSchemeDark ? "moon" : "sun",
     })
   }
 
