@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "bridgetown-core/commands/start"
+
 module Bridgetown
   module Commands
     class Build < Bridgetown::Command
@@ -9,6 +11,7 @@ module Bridgetown
 
       options do
         BuildOptions.include_options(self)
+        Start::StartOptions.include_options(self) if ARGV[0] == "start"
         option "-w/--watch", "Watch for changes and rebuild"
       end
 
