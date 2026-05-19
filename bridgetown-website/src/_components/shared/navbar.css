@@ -1,3 +1,22 @@
+body > announcement-bar {
+  display: block;
+  background: var(--color-dark-gray);
+  padding-block: .75rem;
+  padding-inline: 1rem 5rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--color-light-orange);
+
+  > a {
+    color: var(--color-lightest-orange);
+    text-decoration: none;
+
+    > sl-icon {
+      vertical-align: -0.15em;
+    }
+  }
+}
+
 body > nav {
   view-transition-name: navbar;
   z-index: 1;

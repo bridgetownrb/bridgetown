@@ -45,7 +45,12 @@ class ThemePicker extends HTMLElement {
   }
 
   buildTemplate(optionName) {
-    return `<sl-dropdown>
+    return `<style>
+    sl-button::part(base) {
+      color: var(--color-lighter-green);
+      border-color: var(--color-light-green);
+    }
+    </style><sl-dropdown>
   <sl-button slot="trigger" caret size="small" outline>
     <sl-icon id="dropdown-button-icon" name="${
       this.optionsIcons[optionName]
