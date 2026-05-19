@@ -129,7 +129,7 @@ Like the Ruby language itself, **Bridgetown** is optimized for [web developer ha
 
   {%@ Note type: :warning, icon: "map/map-pin-user" do %}
 
-    Bridgetown is made possible by the generous contributions of our [GitHub sponsors](https://github.com/bridgetownrb/bridgetown#special-thanks-to-our-founding-members--). Please [consider becoming a sponsor](https://github.com/sponsors/jaredcwhite) today and support the ongoing development of open source, Ruby-first & HTML-first software projects.
+    Bridgetown is made possible by the generous financial contributions of our sponsors. Please [consider becoming a sponsor](/sponsor) today and support the ongoing development of open source, Ruby-first & HTML-first software projects.
 
   {% end %}
 

@@ -27,7 +27,7 @@
       </h4>
 
       <p>
-        <strong><a href="https://github.com/sponsors/jaredcwhite">Become a Sponsor</a><br/></strong>
+        <strong><a href="/sponsor">Become a Sponsor</a><br/></strong>
         <a href="https://github.com/{{ site.metadata.github }}/issues">Browse Issues</a><br/>
         <a href="https://github.com/{{ site.metadata.github }}/pulls">Submit a Pull Request</a><br/>
         <a href="https://github.com/{{ site.metadata.github }}/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a>
