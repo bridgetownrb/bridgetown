@@ -38,7 +38,7 @@ The typical folder structure for a Bridgetown site usually looks something like 
 │   └── index.html # or index.md
 ├── output # this is the generated site after build process
 ├── plugins # this is where you can write plugins with the Builder API
-├── config.ru # Puma uses this to boot up the web server
+├── config.ru # The Rack server's entrypoint
 ├── esbuild.config.js # frontend bundler config
 ├── Gemfile
 ├── Rakefile

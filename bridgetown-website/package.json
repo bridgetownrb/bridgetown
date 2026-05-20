@@ -2,6 +2,7 @@
   "name": "bridgetown-website-v2",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "esbuild": "node esbuild.config.js --minify",
     "esbuild-dev": "node esbuild.config.js --watch",
@@ -13,8 +14,7 @@
   },
   "devDependencies": {
     "@linthtml/linthtml": "^0.8.4",
-    "esbuild": "^0.19.2",
-    "glob": "^7.2.0",
+    "esbuild": "^0.28.0",
     "postcss": "^8.4.31",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^14.0.2",
@@ -22,10 +22,8 @@
     "postcss-preset-env": "^7.0.1"
   },
   "dependencies": {
-    "@hotwired/turbo": "^7.1.0",
     "@shoelace-style/shoelace": "^2.2.0",
     "bridgetown-quick-search": "^3.0.3",
-    "hotkeys-js": "^3.8.7",
-    "smoothscroll-polyfill": "^0.4.4"
+    "hotkeys-js": "^3.8.7"
   }
 }

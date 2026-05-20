@@ -13,7 +13,7 @@ Bridgetown.initializer :ssr do |config, setup: nil, **options|
   end
 end
 
-Bridgetown.initializer :external_sources do |config, contents:|
+Bridgetown.initializer :external_sources do |config, contents:, filters: nil|
   Bridgetown::ExternalSources = Module.new
 
   contents.each do |coll, path|
@@ -34,6 +34,13 @@ Bridgetown.initializer :external_sources do |config, contents:|
 
   contents.each_value do |path|
     config.additional_watch_paths << path
+  end
+
+  if filters
+    config.external_sources_filters = {}
+    filters.each do |coll, filter|
+      config.external_sources_filters[coll] = filter
+    end
   end
 end
 
@@ -72,4 +79,8 @@ Bridgetown.initializer :parse_routes do |config|
   end
 
   File.write(File.join(config.root_dir, ".routes.json"), routing_tree.to_json(json_gen_opts))
+end
+
+Bridgetown.initializer :wikilinks do |config|
+  Bridgetown::Utils::Wikilinks.setup_parsing_hook config
 end

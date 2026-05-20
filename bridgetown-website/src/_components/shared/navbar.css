@@ -1,4 +1,24 @@
+body > announcement-bar {
+  display: block;
+  background: var(--color-dark-gray);
+  padding-block: .75rem;
+  padding-inline: 1rem 5rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--color-light-orange);
+
+  > a {
+    color: var(--color-lightest-orange);
+    text-decoration: none;
+
+    > sl-icon {
+      vertical-align: -0.15em;
+    }
+  }
+}
+
 body > nav {
+  view-transition-name: navbar;
   z-index: 1;
   position: relative;
   margin: var(--sl-spacing-x-large) 0 var(--sl-spacing-large);
@@ -43,12 +63,6 @@ body > nav {
     font-weight: var(--body-font-weight);
     opacity: 0.5;
   }
-}
-
-html:not([loaded]) #nav-bar {
-  opacity: 0;
-  animation: fadeIn 1s 0.1s;
-  animation-fill-mode: forwards;
 }
 
 navbar-inner,

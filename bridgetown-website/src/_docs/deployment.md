@@ -205,7 +205,9 @@ CMD ["/busybox-httpd", "-f", "-v", "-p", "4000"]
 
 #### Dynamic Site
 
-If you want to use Puma as the server directly for [Dynamic Routes & SSR](/docs/routes) support (it's recommended you set up a caching layer in front for static assets like images, CSS, JS, etc.):
+If you want to use the installed Rack-compliant web server directly for [Dynamic Routes & SSR](/docs/routes) support (it's recommended you set up a caching layer in front for static assets like images, CSS, JS, etc.):
+
+**Falcon**
 
 ```Dockerfile
 FROM combos/ruby_node:3_22
@@ -217,7 +219,22 @@ COPY . .
 RUN bundle install && npm install && bundle exec bridgetown deploy
 
 EXPOSE 4000
-CMD bundle exec bridgetown start --skip-frontend
+CMD bundle exec falcon host config/falcon.rb
+```
+
+**Puma**
+
+```Dockerfile
+FROM combos/ruby_node:3_22
+ENV BRIDGETOWN_ENV=production
+
+WORKDIR /opt/src
+COPY . .
+
+RUN bundle install && npm install && bundle exec bridgetown deploy
+
+EXPOSE 4000
+CMD bundle exec puma
 ```
 
 ### Dokku

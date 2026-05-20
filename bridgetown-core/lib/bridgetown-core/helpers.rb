@@ -30,7 +30,7 @@ module Bridgetown
         @site = site || Bridgetown::Current.site
 
         # duck typing for Liquid context
-        @context = Context.new({ site: })
+        @context = Context.new({ site: self.site })
       end
 
       def asset_path(asset_type)

@@ -1,9 +1,47 @@
 class ThemePicker extends HTMLElement {
+  static get mediaPrefersColorSchemeDark() {
+    return window.ThemeManager.mediaPrefersColorSchemeDark
+  }
+
+  static setThemeClasses(optionName) {
+    let searchResults
+
+    window.ThemeManager.setThemeClasses(optionName)
+
+    if (
+      optionName === this.DARK ||
+      (optionName === this.DEFAULT && this.mediaPrefersColorSchemeDark)
+    ) {
+      searchResults = document.querySelector("bridgetown-search-results")
+      if (searchResults) searchResults.setAttribute("theme", "dark")
+    } else {
+      searchResults = document.querySelector("bridgetown-search-results")
+      if (searchResults) searchResults.setAttribute("theme", "light")
+    }
+  }
+
   static {
-    this.THEME_STORAGE_KEY = "theme"
-    this.LIGHT = "light"
-    this.DARK = "dark"
-    this.DEFAULT = "default"
+    this.THEME_STORAGE_KEY = window.ThemeManager.THEME_STORAGE_KEY
+    this.LIGHT = window.ThemeManager.LIGHT
+    this.DARK = window.ThemeManager.DARK
+    this.DEFAULT = window.ThemeManager.DEFAULT
+
+    let optionName = localStorage.getItem(this.THEME_STORAGE_KEY)
+
+    optionName = optionName ||
+      (this.mediaPrefersColorSchemeDark ? this.DEFAULT : this.LIGHT)
+
+    this.setThemeClasses(optionName)
+
+    const systemDark = window.matchMedia("(prefers-color-scheme: dark)")
+    const applyDark = () => {
+      const themeKey = localStorage.getItem(this.THEME_STORAGE_KEY)
+      if (!themeKey || themeKey === this.DEFAULT) {
+        console.log("OK!")
+        this.setThemeClasses(this.DEFAULT)
+      }
+    }
+    systemDark.addEventListener("change", applyDark)
 
     customElements.define("theme-picker", this)
   }
@@ -12,16 +50,17 @@ class ThemePicker extends HTMLElement {
     return (this._OptionsIcons = this._OptionsIcons || {
       [this.constructor.LIGHT]: "sun",
       [this.constructor.DARK]: "moon",
-      [this.constructor.DEFAULT]: this.mediaPrefersColorSchemeDark ? "moon" : "sun",
+      [this.constructor.DEFAULT]: this.constructor.mediaPrefersColorSchemeDark ? "moon" : "sun",
     })
   }
 
-  get mediaPrefersColorSchemeDark() {
-    return window.matchMedia(`(prefers-color-scheme: ${this.constructor.DARK})`).matches
-  }
-
   buildTemplate(optionName) {
-    return `<sl-dropdown>
+    return `<style>
+    sl-button::part(base) {
+      color: var(--color-lighter-green);
+      border-color: var(--color-light-green);
+    }
+    </style><sl-dropdown>
   <sl-button slot="trigger" caret size="small" outline>
     <sl-icon id="dropdown-button-icon" name="${
       this.optionsIcons[optionName]
@@ -47,19 +86,17 @@ class ThemePicker extends HTMLElement {
   constructor() {
     super()
 
-    let optionName = localStorage.getItem(this.constructor.THEME_STORAGE_KEY)
-
-    optionName =
-      optionName ||
-      (this.mediaPrefersColorSchemeDark ? this.constructor.DEFAULT : this.constructor.LIGHT)
-
-    this.setThemeClasses(optionName)
     this.attachShadow({ mode: "open" })
 
     this.style.position = "absolute"
     this.style.right = "10px"
     this.style.top = "10px"
     this.style["z-index"] = "30"
+
+    // TODO: DRY this up, see static section above
+    let optionName = localStorage.getItem(this.constructor.THEME_STORAGE_KEY)
+    optionName = optionName ||
+      (this.constructor.mediaPrefersColorSchemeDark ? this.constructor.DEFAULT : this.constructor.LIGHT)
 
     this.shadowRoot.innerHTML = this.buildTemplate(optionName)
     this._dropdownButtonIcon = this.shadowRoot.querySelector("#dropdown-button-icon")
@@ -84,24 +121,7 @@ class ThemePicker extends HTMLElement {
       }
     }
 
-    this.setThemeClasses(optionName)
+    this.constructor.setThemeClasses(optionName)
     this._dropdownButtonIcon.setAttribute("name", this.optionsIcons[optionName])
-  }
-
-  setThemeClasses(optionName) {
-    let searchResults
-
-    if (
-      optionName === this.constructor.DARK ||
-      (optionName === this.constructor.DEFAULT && this.mediaPrefersColorSchemeDark)
-    ) {
-      document.documentElement.classList.add("theme-dark", "sl-theme-dark")
-      searchResults = document.querySelector("bridgetown-search-results")
-      if (searchResults) searchResults.setAttribute("theme", "dark")
-    } else {
-      document.documentElement.classList.remove("theme-dark", "sl-theme-dark")
-      searchResults = document.querySelector("bridgetown-search-results")
-      if (searchResults) searchResults.setAttribute("theme", "light")
-    }
   }
 }

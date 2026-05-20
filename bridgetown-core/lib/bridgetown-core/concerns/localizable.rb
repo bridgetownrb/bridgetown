@@ -2,23 +2,16 @@
 
 module Bridgetown
   module Localizable
+    # Sort items by their locale's position in the configured available_locales list.
+    # Items with unknown locales sort last.
+    def self.sort_by_locale(items, available_locales)
+      items.sort_by { |item| available_locales.index(item.data.locale) || Float::INFINITY }
+    end
+
     def all_locales
-      result_set = case self
-                   when Bridgetown::Resource::Base
-                     collection.resources
-                   when Bridgetown::GeneratedPage
-                     site.generated_pages
-                   else
-                     []
-                   end
+      return @all_locales if @all_locales
 
-      matching_resources = result_set.select do |item|
-        matches_resource?(item)
-      end
-
-      matching_resources.sort_by do |item|
-        site.config.available_locales.index item.data.locale
-      end
+      @all_locales = site.tmp_cache.dig(:locale_index, locale_index_key) || find_matching_locales
     end
 
     def matches_resource?(item)
@@ -31,6 +24,29 @@ module Bridgetown
 
     def localeless_path
       relative_path.gsub(%r{\A#{data.locale}/}, "")
+    end
+
+    # Key used to group locale variants of the same content in the locale index.
+    # Uses the same matching criteria as matches_resource? (slug + path identity).
+    def locale_index_key
+      slug = data.slug
+      return unless slug
+
+      path_key = relative_path.is_a?(String) ? localeless_path : relative_path.parent.to_s
+      prefix   = respond_to?(:collection) ? collection.label : "generated"
+
+      "#{prefix}:#{slug}:#{path_key}"
+    end
+
+    private
+
+    def find_matching_locales
+      result_set = respond_to?(:collection) ? collection.resources : site.generated_pages
+
+      Bridgetown::Localizable.sort_by_locale(
+        result_set.select { |item| matches_resource?(item) },
+        site.config.available_locales
+      )
     end
   end
 end

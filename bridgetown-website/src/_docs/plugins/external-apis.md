@@ -7,20 +7,24 @@ category: plugins
 
 In this section, you'll learn how to make web requests and easily parse the response to save site data or construct new resources like blog posts or collection entries.
 
-Here's an example of making an HTTP GET request to a remote API, looping through an array parsed from the JSON response, and saving new posts based on each item:
+Below is an example of making an HTTP GET request to a remote API, looping through an array parsed from the JSON response, and saving new posts based on each item.
+
+{%@ Note type: :warning do %}
+The examples on this page use the [HTTPX](https://honeyryderchuck.gitlab.io/httpx) Ruby gem, but you can use any HTTP client. If you use a gem, just remember to run `bundle add httpx` (or your preferred gem) so that you can `require` it.
+{% end %}
 
 ```ruby
+require "httpx"
+
 class LoadPostsFromAPI < SiteBuilder
   def build
-    get "https://domain.com/posts.json" do |data|
-      data.each do |post|
-        add_resource :posts, "#{post[:slug]}.md" do
-          ___ post
-          layout :post
-          categories post[:taxonomy][:category].map { |category| category[:slug] }
-          date Bridgetown::Utils.parse_date(post[:date])
-          content post[:body]
-        end
+    HTTPX.get("https://domain.com/posts.json").json.each do |post|
+      add_resource :posts, "#{post["slug"]}.md" do
+        ___ post
+        layout :post
+        categories post["taxonomy"]["category"].map { |category| category["slug"] }
+        date Bridgetown::Utils.parse_date(post["date"])
+        content post["body"]
       end
     end
   end
@@ -28,81 +32,6 @@ end
 ```
 
 {{ toc }}
-
-## Making a Request
-
-To make a request, call the `get` method inside of `build` in your builder class:
-
-```ruby
-def build
-  hook :site, :post_read do
-    get url do |data|
-      site.data[:remote_api_info] = data
-    end
-  end
-end
-```
-
-By default, the request will expect and parse JSON data from the remote endpoint. To bypass this and access raw text instead, set the `parse_json` keyword to `false`:
-
-```ruby
-def build
-  get url, parse_json: false do |data|
-    # do something with the raw text, HTML, CSV, etc.
-  end
-end
-```
-
-You can also customize the HTTP headers sent with the request. For example, you might want to use an auth token to access protected resources:
-
-```ruby
-def build
-  get url, headers: {"Authorization" => "Bearer #{config["api_key"]}"} do |data|
-    # data for your eyes only
-  end
-end
-```
-
-### Adding parameters to the request
-
-To make it easier to pass query string parameters to the endpoint you're fetching, you may pass keyword arguments to the `get` method. For example:
-
-```ruby
-def build
-  get "https://example.com", test: 123 do |data|
-    # data from https://example.com?test=123
-  end
-end
-```
-
-## Customizing the Connection Object
-
-Bridgetown uses the [Faraday gem](https://lostisland.github.io/faraday/) under the hood to make web requests. If you need to customize the default usage of Faraday—perhaps to set additional defaults or inject middleware to adjust the request or response logic, override the `connection` method in your builder class.
-
-Here's an example of using Retry middleware to ensure requests are attempted multiple times before admitting defeat:
-
-```ruby
-def connection(headers: {}, parse_json: true)
-  retry_options = {
-    max: 2,
-    interval: 0.05,
-    interval_randomness: 0.5,
-    backoff_factor: 2
-  }
-
-  super do |faraday|
-    faraday.request :retry, retry_options
-  end
-end
-```
-
-Bridgetown comes with the [Faraday Middleware gem](https://github.com/lostisland/faraday_middleware) out-of-the-box and utilizes a few of its options such as following redirects (if necessary). You can `require` additional middleware to add to your Faraday connection if you like. You can also write your own Faraday middleware, but that's an advanced usage and typically not needed.
-
-{%@ Note do %}
-  #### What’s the Deal with HTTP Methods?
-
-  Why is only the HTTP GET method supported? What about POST, PUT, etc.? Well the idea behind making requests as part of the site build process is that it's a one-way data flow: you get data from the API to add to your site, and you don't attempt any remote alterations to that data. If your API requires you to make a request using a method such as POST, please let them know you'd like a GET method as well. As a last resort, you can also use the provided Faraday `connection` object to construct a custom request. See the Faraday documentation for further details.
-{% end %}
 
 ## The Resource Builder
 
@@ -195,11 +124,10 @@ This is great when you have data coming in from external APIs and you'd like to 
 Bear in mind that this doesn't include your `content` variable. So you'll still need to set that separately when using the `___` method, for example:
 
 ```ruby
-get article_url do |data|
-  add_resource :pages, "articles/#{data[:slug]}.html" do
-    ___ data
-    content data[:body]
-  end
+data = HTTPX.get(article_url).json
+add_resource :pages, "articles/#{data["slug"]}.html" do
+  ___ data
+  content data["body"]
 end
 ```
 
@@ -272,4 +200,4 @@ end
 
 ## Conclusion
 
-As you've seen from these examples, you can use data from external APIs to create new content for your Bridgetown website with the `get` and `add_resource` methods provided by the Builder API. While there are numerous benefits to storing content directly in your site repository, Bridgetown gives you the best of both worlds—leaving you to decide where you want your content to live and how you'll put it to good use as you build your site.
+As you've seen from these examples, you can use data from external APIs to create new content for your Bridgetown website with the `add_resource` method provided by the Builder API. While there are numerous benefits to storing content directly in your site repository, Bridgetown gives you the best of both worlds—leaving you to decide where you want your content to live and how you'll put it to good use as you build your site.

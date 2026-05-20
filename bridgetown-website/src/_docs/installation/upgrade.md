@@ -12,6 +12,28 @@ There's an **upgrade-help** channel in our [Discord chat](https://discord.gg/4E6
 
 {{ toc }}
 
+## Upgrading to Bridgetown 2.2
+
+Bridgetown 2.2 has bumped up the minimum Ruby requirement to 3.3.
+
+There are no breaking changes in this release, but there a couple of improvements to the defaults you may want to make:
+
+### Falcon Server
+
+Bridgetown has moved to using Falcon as its default Ruby application server. Puma is still completely supported, but switching to Falcon can provide extra benefits—especially if you run Bridgetown server routes in production.
+
+To use Falcon in your existing Bridgetown project, remove `gem "puma"` from your `Gemfile` and add `gem "falcon"`. After a `bundle install`, Bridgetown will detect you have Falcon installed and use that instead of Puma.
+
+Note that due to underlying server layer refactoring, you may occasionally see a Puma "thread error" notice when pressing Ctrl+C to terminate the dev server. It's harmless, but any unwanted noise in your terminal isn't OK with us, so we'll track that down and include a patch in the next point release.
+
+### Native Node Glob
+
+You'll want to run `bin/bridgetown esbuild update` to get the latest base config for the esbuild frontend. It removes a dependency on the `glob` NPM package and instead relies on Node's native glob functionality. More security and less hassle? Win/win!
+
+### Opt-in to Wikilinks
+
+If you'd like to take advantage of Bridgetown 2.2's new [wikilinks feature](/docs/resources#wikilinks), add `init :wikilinks` to your `config/initializers.rb` file.
+
 ## Upgrading to Bridgetown 2.1
 
 Most projects should load fine in 2.1 as-is, but there are a few caveats to be aware of.

@@ -224,6 +224,30 @@ class TestLocales < BridgetownUnitTest
     end
   end
 
+  describe ".sort_by_locale" do
+    def make_item(locale)
+      OpenStruct.new(data: OpenStruct.new(locale: locale))
+    end
+
+    it "sorts items by their position in available_locales" do
+      en = make_item(:en)
+      fr = make_item(:fr)
+      de = make_item(:de)
+
+      sorted = Bridgetown::Localizable.sort_by_locale([fr, en, de], %i[en fr de])
+      assert_equal [en, fr, de], sorted
+    end
+
+    it "places items with unknown locales at the end" do
+      en = make_item(:en)
+      fr = make_item(:fr)
+      unknown = make_item(:zz)
+
+      sorted = Bridgetown::Localizable.sort_by_locale([unknown, fr, en], %i[en fr])
+      assert_equal [en, fr, unknown], sorted
+    end
+  end
+
   describe "fallback chain with different default locale" do
     before do
       reset_i18n_config

@@ -1,5 +1,8 @@
+<announcement-bar>
+Help us reach our Q2 2026 sponsorship goal of $400/month! <a href="/sponsor" style="white-space: nowrap">Donate Today <sl-icon library="remixicon" name="arrows/arrow-right-circle-fill"></sl-icon></a>
+</announcement-bar>
 <nav aria-label="Main navigation"{% if site.data.edge_version %} class="edge"{% end %}>
-  <navbar-inner id="nav-bar" data-turbo-permanent>
+  <navbar-inner id="nav-bar">
     <sl-bar align-items="center" spaced="between" expanded="false">
       <sl-bar-item branding size="4/10 lg:3/10 xl:3/10" style="position:relative">
         <a href="/">

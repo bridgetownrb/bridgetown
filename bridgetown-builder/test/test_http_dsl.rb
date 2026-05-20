@@ -61,6 +61,31 @@ class TestHTTPDSL < BridgetownUnitTest
       @builder = HTTPBuilder.new("Hooks Test", @site).build_with_callbacks
     end
 
+    it "outputs a deprecation message for `get`" do
+      @builder.stubs.get("/test.json") do |_env|
+        [
+          200,
+          { "Content-Type": "application/json" },
+          '{"data": {"was": ["received"]}}',
+        ]
+      end
+
+      output = capture_output do
+        @builder.test_get
+      end
+
+      assert_match "The DSL for HTTP requests (`get`) is deprecated", output
+      refute_match "The DSL for HTTP requests (`connection`) is deprecated", output
+    end
+
+    it "outputs a deprecation message for `connection`" do
+      output = capture_output do
+        @builder.connection
+      end
+
+      assert_match "The DSL for HTTP requests (`connection`) is deprecated", output
+    end
+
     it "add data from external API" do
       @builder.stubs.get("/test.json") do |_env|
         [

@@ -1,22 +1,22 @@
 PATH
   remote: ../bridgetown-builder
   specs:
-    bridgetown-builder (2.1.1)
-      bridgetown-core (= 2.1.1)
+    bridgetown-builder (2.2.0)
+      bridgetown-core (= 2.2.0)
 
 PATH
   remote: ../bridgetown-core
   specs:
-    bridgetown-core (2.1.1)
+    bridgetown-core (2.2.0)
       addressable (~> 2.4)
       amazing_print (~> 1.2)
       base64 (>= 0.3)
       bigdecimal (>= 3.2)
-      bridgetown-foundation (= 2.1.1)
+      bridgetown-foundation (= 2.2.0)
       csv (~> 3.2)
       erubi (~> 1.9)
       faraday (~> 2.0)
-      faraday-follow_redirects (~> 0.3)
+      faraday-follow_redirects (~> 0.5)
       freyia (>= 0.5)
       i18n (~> 1.0)
       irb (>= 1.14)
@@ -40,7 +40,7 @@ PATH
 PATH
   remote: ../bridgetown-foundation
   specs:
-    bridgetown-foundation (2.1.1)
+    bridgetown-foundation (2.2.0)
       dry-inflector (>= 1.0)
       hash_with_dot_access (~> 2.0)
       inclusive (~> 1.0)
@@ -49,17 +49,17 @@ PATH
 PATH
   remote: ../bridgetown-paginate
   specs:
-    bridgetown-paginate (2.1.1)
-      bridgetown-core (= 2.1.1)
+    bridgetown-paginate (2.2.0)
+      bridgetown-core (= 2.2.0)
 
 PATH
   remote: ../bridgetown
   specs:
-    bridgetown (2.1.1)
-      bridgetown-builder (= 2.1.1)
-      bridgetown-core (= 2.1.1)
-      bridgetown-foundation (= 2.1.1)
-      bridgetown-paginate (= 2.1.1)
+    bridgetown (2.2.0)
+      bridgetown-builder (= 2.2.0)
+      bridgetown-core (= 2.2.0)
+      bridgetown-foundation (= 2.2.0)
+      bridgetown-paginate (= 2.2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -93,7 +93,7 @@ GEM
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
-    faraday-follow_redirects (0.4.0)
+    faraday-follow_redirects (0.5.0)
       faraday (>= 1, < 3)
     faraday-net_http (3.4.2)
       net-http (~> 0.5)

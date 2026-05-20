@@ -5,7 +5,9 @@ top_section: Architecture
 category: routes
 ---
 
-Bridgetown comes with a production-ready web server based on the battle-hardened one-two punch of [Rack](https://github.com/rack/rack) + [Puma](https://puma.io). On top of Puma we've layered on [Roda](http://roda.jeremyevans.net), a refreshingly fast & lightweight web routing toolkit created by Jeremy Evans. On a basic level, it handles serving of all statically-built site files you access when you run `bin/bridgetown start`.
+Bridgetown comes with a production-ready [Rack-compliant](https://github.com/rack/rack) web server installed. The default is [Falcon](https://socketry.github.io/falcon), but you can choose [Puma](https://puma.io) if you wish: `bridgetown new --server puma`.
+
+To serve traffic, we use [Roda](http://roda.jeremyevans.net), a refreshingly fast & lightweight web routing toolkit created by Jeremy Evans. On a basic level, it handles serving of all statically-built site files you access when you run `bin/bridgetown start`.
 
 Bridgetown lets you create your own Roda-based API routes in the `server/routes` folder. An example ships in each new Bridgetown project for you to examine (`server/routes/hello.rb.sample`). These routes provide the standard features you may be accustomed to if you've used Roda standalone.
 
@@ -18,7 +20,7 @@ init :"bridgetown-routes" # inits ssr automatically
 ```
 
 {%@ Note do %}
-For more information on setup, read our documentation on [configuring Roda](/docs/configuration/initializers#adding-roda-blocks) and on [configuring Puma](/docs/configuration/puma).
+For more information on setup, read our documentation on [configuring Roda](/docs/configuration/initializers#adding-roda-blocks) and on [configuring the web server](/docs/configuration/web-server).
 {% end %}
 
 {{ toc }}

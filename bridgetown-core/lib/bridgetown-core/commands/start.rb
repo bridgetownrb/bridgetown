@@ -15,10 +15,6 @@ module Bridgetown
       server.to_s.split("::").last
     end
 
-    def using_puma?
-      name == "Puma"
-    end
-
     def serveable?
       server
       true
@@ -29,6 +25,19 @@ module Bridgetown
 
   module Commands
     class Start < Bridgetown::Command
+      module StartOptions
+        def self.include_options(klass)
+          klass.option "-P/--port <NUM>",
+                       "Serve your site on the specified port. Defaults to 4000",
+                       type: Integer
+          klass.option "-B/--bind <IP>", "IP address for the server to bind to", default: "0.0.0.0"
+          klass.option "--skip-frontend",
+                       "Don't load the frontend bundler (always true for production)"
+          klass.option "--skip-live-reload",
+                       "Don't use the live reload functionality (always true for production)"
+        end
+      end
+
       include ConfigurationOverridable
       include Freyia::Setup
       include Inclusive
@@ -37,13 +46,7 @@ module Bridgetown
 
       options do
         BuildOptions.include_options(self)
-        option "-P/--port <NUM>",
-               "Serve your site on the specified port. Defaults to 4000",
-               type: Integer
-        option "-B/--bind <IP>", "IP address for the server to bind to", default: "0.0.0.0"
-        option "--skip-frontend", "Don't load the frontend bundler (always true for production)"
-        option "--skip-live-reload",
-               "Don't use the live reload functionality (always true for production)"
+        StartOptions.include_options(self)
       end
 
       def call # rubocop:disable Metrics
@@ -58,7 +61,7 @@ module Bridgetown
         # Load Bridgetown configuration into thread memory
         bt_options = configuration_with_overrides(options)
         bt_options.port = port = load_env_and_determine_port(bt_options, options)
-        # TODO: support Puma serving HTTPS directly?
+        # TODO: support Falcon serving HTTPS directly
         bt_bound_url = "http://#{bt_options.bind}:#{port}"
 
         # Set a local site URL in the config if one is not available
@@ -66,6 +69,10 @@ module Bridgetown
           bt_options.url = bt_bound_url.sub("0.0.0.0", "localhost")
         end
 
+        # Temporary hack to silence `Errno::EPIPE: Broken pipe` errors in dev.
+        # Only happens when using Falcon with HTTP/1.1.
+        # When we can use Falcon with HTTP/2 in dev, we can remove this line.
+        ENV["CONSOLE_ERROR"] = "Async::Task"
         Bridgetown::Server.new({
           Host: bt_options.bind,
           Port: port,
@@ -74,7 +81,7 @@ module Bridgetown
           if server.serveable?
             pid_tracker.create_pid_dir
 
-            bt_options.skip_live_reload ||= !server.using_puma?
+            bt_options.skip_live_reload ||= false
 
             build_args = ["-w"] + Array(ARGV[1..])
             build_pid = Process.fork { Bridgetown::Commands::Build[*build_args].() }

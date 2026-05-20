@@ -7,13 +7,25 @@ class TestExternalSources < BridgetownFeatureTest
   describe "external_sources initializer" do
     it "renders ERB file" do
       sources_folder = File.expand_path("../external_sources_folder", __dir__)
+      other_sources_folder = File.expand_path("../external_sources_folder_not_filtered", __dir__)
 
       create_directory "config"
       create_file "config/initializers.rb", <<~RUBY
         Bridgetown.configure do |config|
+          collections do
+            other_pages do
+              output true
+            end
+          end
+
           init :external_sources do
             contents do
               pages "#{sources_folder}"
+              other_pages "#{other_sources_folder}"
+            end
+
+            filters do
+              pages ->(name, path) { !name.start_with?("skipme_") }
             end
           end
 
@@ -35,6 +47,10 @@ class TestExternalSources < BridgetownFeatureTest
       assert_file_contains "<head><title>Marked Down</title></head><body><h1 id=\"marked-down\">Marked Down</h1>\n\n<p>This is <strong>Markdown</strong> text. It’s as easy as 1, 2, 3!</p>\n",
                            "output/marked_down/index.html"
       refute_exist "output/.ignore"
+      refute_exist "output/subfolder/skipme_notes/index.html"
+      assert_file_contains "This content should NOT be filtered out.", "output/subfolder/notes/index.html"
+      refute_exist "output/skipme_subfolder"
+      assert_file_contains "This content should NOT be filtered out.", "output/other_pages/skipme_actually_dont/index.html"
     end
   end
 end

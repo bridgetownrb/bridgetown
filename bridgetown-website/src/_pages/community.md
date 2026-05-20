@@ -22,6 +22,10 @@ There's also a growing number of companies which provide commercial support for 
 * [Whitefusion](https://www.whitefusion.studio)
 * [Radioactive Toy](https://radioactivetoy.tech)
 
+## Become a Sponsor
+
+If you'd like to participate in the Bridgetown community by making a huge impact, [please consider becoming a financial supporter](/sponsor). Your sponsorship of the continued development of Bridgetown and its ecosystem will ensure our long-term health and sustainability for years to come.
+
 ## Say Hello to the Core Team
 
 <avatar-group style="margin:2em 0">

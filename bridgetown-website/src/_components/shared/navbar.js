@@ -25,31 +25,19 @@ function setCurrentNavItem(nav, path) {
     : link.setAttribute("aria-current", "true")
 }
 
-document.addEventListener("turbo:load", () => {
-  let search = document.querySelector("bridgetown-search-results")
-  search.showResults = false
-  search.results = []
+let nav = document.querySelector("body > nav")
 
-  let nav = document.querySelector("body > nav")
-
-  menuHide(nav.querySelector("sl-button[menutoggle]"))
-
-  for (let item of nav.querySelectorAll("a")) {
-    item.removeAttribute("aria-current")
-  }
-
-  if (location.pathname === "/") {
-    setCurrentNavItem(nav, "/")
-  } else if (location.pathname.startsWith("/docs")) {
-    setCurrentNavItem(nav, "/docs")
-  } else if (location.pathname.startsWith("/plugins")) {
-    setCurrentNavItem(nav, "/plugins")
-  } else if (location.pathname.startsWith("/community")) {
-    setCurrentNavItem(nav, "/community")
-  } else if (location.pathname.startsWith("/blog") || document.body.classList.contains("post")) {
-    setCurrentNavItem(nav, "/blog")
-  }
-})
+if (location.pathname === "/") {
+  setCurrentNavItem(nav, "/")
+} else if (location.pathname.startsWith("/docs")) {
+  setCurrentNavItem(nav, "/docs")
+} else if (location.pathname.startsWith("/plugins")) {
+  setCurrentNavItem(nav, "/plugins")
+} else if (location.pathname.startsWith("/community")) {
+  setCurrentNavItem(nav, "/community")
+} else if (location.pathname.startsWith("/blog") || document.body.classList.contains("post")) {
+  setCurrentNavItem(nav, "/blog")
+}
 
 window.menuHide = menuHide
 window.menuShow = menuShow
