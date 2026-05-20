@@ -145,6 +145,17 @@ The gem is available as open source under the terms of the [MIT LICENSE](./LICEN
 
 ----
 
+## Current Sponsors 🙏 🎉
+
+Sincere thanks to those currently supporting ongoing Bridgetown development!
+
+|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|
+|<a href="https://github.com/andrewmcodes">@andrewmcodes</a>|<a href="https://www.bridgetownrb.com/sponsor">You Next?</a>|
+|<a href="https://andrewm.codes">Website</a>||
+
+----
+
 ## Special Thanks to Our GitHub Sponsors! 🙏 🎉
 
 We are eternally grateful for all our past sponsors of Bridgetown via GitHub.
