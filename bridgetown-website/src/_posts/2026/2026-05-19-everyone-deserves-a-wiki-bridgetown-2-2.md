@@ -39,7 +39,7 @@ Wikilinks pairs well with our previous release's support for [external content s
 
 In Bridgetown 2.2, we have migrated a new default server, Falcon. (Don't worry: existing projects still on Puma will still run without issue\*. You can migrate, or not, at your leisure!)
 
-Falcon is a new highly concurrent Ruby web application server. While Puma serves a request per thread, Falcon uses fibers which are an order of magnitude cheaper to create. Falcon also supports HTTP/2 naively. This combined with its highly concurrent architecture means it's viable to serve internet traffic using Falcon itself instead of another webserver such as Caddy in front of it.
+Falcon is a new highly concurrent Ruby web application server. While Puma serves a request per thread, Falcon uses fibers which are an order of magnitude cheaper to create. Falcon also supports HTTP/2 natively. This combined with its highly concurrent architecture means it's viable to serve internet traffic using Falcon itself instead of another webserver such as Caddy in front of it.
 
 Falcon has been battle-tested at Shopify and [used to serve Black Friday traffic](https://speakerdeck.com/ioquatix/surviving-black-friday-329-billion-requests-with-falcon), and as such we believe it's the future for the Ruby ecosystem. It also paves the way for Bridgetown to support a deployment story where the website is served using Ruby code end-to-end.
 
