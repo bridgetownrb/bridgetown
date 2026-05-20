@@ -2,7 +2,7 @@
 title: Become a Bridgetown Sponsor Today
 ---
 
-[![Donate via LiberaPay](/images/lp-donate.svg){: style="width: 200px"}](https://liberapay.com/jaredwhite){:target="_blank"}
+[![Donate via Liberapay](/images/lp-donate.svg){: style="width: 200px"}](https://liberapay.com/jaredwhite){:target="_blank"}
 {:style="text-align: center"}
 
 **A word from the founder & lead maintainer of Bridgetown:**
@@ -18,7 +18,7 @@ Thanks for your willingness to sponsor me. **Let's build a better web together.*
 
 _Jared White_ 🙏
 
-[![Donate via LiberaPay](/images/lp-donate.svg){: style="width: 200px"}](https://liberapay.com/jaredwhite){:target="_blank"}
+[![Donate via Liberapay](/images/lp-donate.svg){: style="width: 200px"}](https://liberapay.com/jaredwhite){:target="_blank"}
 {:style="text-align: center"}
 
 ----

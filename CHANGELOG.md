@@ -7,9 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
-- Add support pass an array of files as an argument for `include`, `exclude`, and `keep_files` config options [#1079]
+...
 
-## [2.1.2] - 2026-01-12
+## [2.2.0] - 2026-05-20
+
+- New! Bridgetown Center program & plugins directory [#1084](https://github.com/bridgetownrb/bridgetown/pull/1084) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Swap Puma out in favour of Falcon [#1083](https://github.com/bridgetownrb/bridgetown/pull/1083) ([@ayushn21](https://github.com/ayushn21))
+  - Due to underlying server layer refactoring, you may occasionally see a harmless Puma "thread error" notice on Ctrl+C. We'll track that down and include a patch in the next point release.
+- Add support for wikilinks in Markdown via initializer [#1096](https://github.com/bridgetownrb/bridgetown/pull/1096) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Optimize `all_locales` with pre-computed locale index [#1092](https://github.com/bridgetownrb/bridgetown/pull/1092) ([@jclusso](https://github.com/jclusso))
+- Drop Ruby 3.2 support and add Ruby 4 [#1088](https://github.com/bridgetownrb/bridgetown/pull/1088) ([@ayushn21](https://github.com/ayushn21))
+- Deprecate DSL for HTTP requests [1095](https://github.com/bridgetownrb/bridgetown/pull/1095) ([@fpsvogel](https://github.com/fpsvogel))
+- Support passing an array of files to `include`, `exclude`, and `keep_files` config options [#1079](https://github.com/bridgetownrb/bridgetown/pull/1079) ([@Yegorov](https://github.com/Yegorov))
+- Bugfix: Start/build command and SSR hooks bugs [#1104](https://github.com/bridgetownrb/bridgetown/pull/1104) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Bugfix: Accept array arguments in config [#1103](https://github.com/bridgetownrb/bridgetown/pull/1103) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Bugfix: Dup `ARGV` passed to Bridgetown CLI so later access to `ARGV` gets complete data [#1101](https://github.com/bridgetownrb/bridgetown/pull/1101) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Bugfix: Add no-op `roda_app` accessor to `GeneratedPage` [#1084](https://github.com/bridgetownrb/bridgetown/pull/1084) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Removed: glob NPM package (esbuild can now use Node native glob) [#1102](https://github.com/bridgetownrb/bridgetown/pull/1102) ([@jaredcwhite](https://github.com/jaredcwhite))
+- Create "newbie track" documentation [#1077](https://github.com/bridgetownrb/bridgetown/pull/1077) ([@anantone](https://github.com/anantone) & [@fpsvogel](https://github.com/fpsvogel))
+- Docs: Remove Turbo from docs site, use CSS View Transitions
+- Docs: New sponsorship opportunity via Liberapay
+- Docs: fix YARD docs for `Bridgetown::Utils#slugify` [#1070](https://github.com/bridgetownrb/bridgetown/pull/1070) ([@kgt](https://github.com/kgt))
+
+## [2.1.2] - 2026-03-17
 
 - Patch for `plugins new` to use ERB layout from sample plugin
 
