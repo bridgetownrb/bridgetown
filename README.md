@@ -102,7 +102,7 @@ Bridgetown is built by:
 |<img src="https://avatars.githubusercontent.com/jaredcwhite?s=256" alt="jaredcwhite" width="128" />|<img src="https://avatars.githubusercontent.com/jaredmoody?s=256" alt="jaredmoody" width="128" />|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://avatars.githubusercontent.com/ParamagicDev?s=256" alt="ParamagicDev" width="128" />|<img src="https://avatars.githubusercontent.com/MikeRogers0?s=256" alt="MikeRogers0" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
 |<a href="https://github.com/jaredcwhite">@jaredcwhite</a>|<a href="https://github.com/jaredmoody">@jaredmoody</a>|<a href="https://github.com/andrewmcodes">@andrewmcodes</a>|<a href="https://github.com/ParamagicDev">@ParamagicDev</a>|<a href="https://github.com/MikeRogers0">@MikeRogers0</a>|
-|Portland, OR|Portland, OR|Wilmington, NC|Providence, RI|Ny-Ålesund, Svalbard|
+|Portland, OR|Portland, OR|Chandler, AZ|Providence, RI|Ny-Ålesund, Svalbard|
 
 |<img src="https://avatars.githubusercontent.com/wout?s=256" alt="wout" width="128" />|<img src="https://avatars.githubusercontent.com/codemargaret?s=256" alt="codemargaret" width="128" />|<img src="https://avatars.githubusercontent.com/julianrubisch?s=256" alt="julianrubisch" width="128" />|<img src="https://avatars.githubusercontent.com/ianbayne?s=256" alt="ianbayne" width="128" />|<img src="https://avatars.githubusercontent.com/ayushn21?s=256" alt="ayushn" width="128" />|
 |:---:|:---:|:---:|:---:|:---:|
@@ -142,6 +142,17 @@ Bridgetown is built by:
 ## License
 
 The gem is available as open source under the terms of the [MIT LICENSE](./LICENSE) file.
+
+----
+
+## Current Sponsors 🙏 🎉
+
+Sincere thanks to those currently supporting ongoing Bridgetown development!
+
+|<img src="https://avatars.githubusercontent.com/andrewmcodes?s=256" alt="andrewmcodes" width="128" />|<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=identicon&s=128&" alt="" width="128" />|
+|:---:|:---:|
+|<a href="https://github.com/andrewmcodes">@andrewmcodes</a>|<a href="https://www.bridgetownrb.com/sponsor">You Next?</a>|
+|<a href="https://andrewm.codes">Website</a>||
 
 ----
 
