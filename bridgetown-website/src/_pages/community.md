@@ -66,11 +66,13 @@ If you'd like to participate in the Bridgetown community by making a huge impact
 
 **People are using Bridgetown to build amazing things!** Here are just a few of the projects launched in recent months:
 
-* [abnoumaru.com](https://abnoumaru.com)
-* [Sidekiq](https://sidekiq.org/)
-* [RuboCop](https://rubocop.org/)
-* [Rocky Mountain Ruby](https://rockymtnruby.dev/)
-* [Bump.sh Documentation](https://docs.bump.sh/)
+* [abnoumaru.com](https://abnoumaru.com){:target="_blank"}
+* [Sidekiq](https://sidekiq.org/){:target="_blank"}
+* [RuboCop](https://rubocop.org/){:target="_blank"}
+* [Rocky Mountain Ruby](https://rockymtnruby.dev/){:target="_blank"}
+* [Bump.sh Documentation](https://docs.bump.sh/){:target="_blank"}
+* [Blue Ridge Ruby](https://blueridgeruby.com/){:target="_blank"}
+* [Lookbook](https://lookbook.build/){:target="_blank"}
 * [JaredWhite.com](https://jaredwhite.com){:target="_blank"}
 * [805 Babies](https://805babies.com){:target="_blank"}
 * [Felipe Vogel](https://fpsvogel.com){:target="_blank"}
