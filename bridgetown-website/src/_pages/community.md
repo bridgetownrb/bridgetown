@@ -64,35 +64,21 @@ If you'd like to participate in the Bridgetown community by making a huge impact
 
 ## Bridgetown in the Wild
 
-**People are using Bridgetown to build amazing things!** Here are just a few of the projects launched over the past 20 months:
+**People are using Bridgetown to build amazing things!** Here are just a few of the projects launched in recent months:
 
-* [Eager](https://eager.app){:target="_blank"}
-* [Mrujs docs](https://mrujs.com){:target="_blank"}
+* [abnoumaru.com](https://abnoumaru.com)
+* [Sidekiq](https://sidekiq.org/)
+* [RuboCop](https://rubocop.org/)
+* [Rocky Mountain Ruby](https://rockymtnruby.dev/)
+* [Bump.sh Documentation](https://docs.bump.sh/)
 * [JaredWhite.com](https://jaredwhite.com){:target="_blank"}
-* [Doorkeep](https://doorkeep.co){:target="_blank"}
-* [Andy Peters](https://andypeters.com){:target="_blank"}
 * [805 Babies](https://805babies.com){:target="_blank"}
-* [Crow's Nest](https://www.crowsnestapp.com){:target="_blank"}
 * [Felipe Vogel](https://fpsvogel.com){:target="_blank"}
-* [Kris Bogdanov](https://krisbogdanov.com){:target="_blank"}
 * [William Kennedy](https://williamkennedy.ninja){:target="_blank"}
 * [Fullstack Ruby](https://www.fullstackruby.dev){:target="_blank"}
 * [fslash42](https://fslash42.com){:target="_blank"}
 * [Helena's Nursery](https://helenas-nursery.com){:target="_blank"}
-* [Open Source KnowledgeBase](https://knowledgebase.redwebtigers.com){:target="_blank"}
-* [APAC Agencies](https://www.apacagencies.com){:target="_blank"}
 * [Emailable](https://emailable.com){:target="_blank"}
-* [Kaigi on Rails 2024](https://kaigionrails.org/2024/){:target="_blank"}
-
-In addition, members of the Bridgetown Core Team have appeared in podcasts and presentations across the web promoting Bridgetown! Check it out:
-
-* [The Ruby on Rails Podcast](https://www.therubyonrailspodcast.com/374){:target="_blank"}
-* [Code with Jason](https://www.codewithjason.com/code-with-jason-podcast/episodes/{:target="_blank"}115-organizing-large-rails-apps-with-jared-white-DIQGZHGQ/){:target="_blank"}
-* [Computer Science: Just the Useful Bits](https://justtheusefulbits.com/jtub/jared-white-the-trip-from-php-to-ruby/){:target="_blank"}
-* [Remote Ruby](https://remoteruby.com/78){:target="_blank"}
-* [The Drunken UX Podcast](https://drunkenux.com/podcast/dux65/){:target="_blank"}
-* [Ruby on the Jamstack, or, Why I Forked Jekyll (YouTube)](https://www.youtube.com/watch?v=btOuSOZd-6c){:target="_blank"}
-* [An Intro to Bridgetown (Presented at the London Ruby Users' Group)](https://assets.lrug.org/videos/2021/february/ayush-newatia-an-intro-to-bridgetown-a-static-site-generator-for-the-modern-jamstack-era-lrug-feb-2021.mp4){:target="_blank"}
 
 ## Ways to Contribute
 
