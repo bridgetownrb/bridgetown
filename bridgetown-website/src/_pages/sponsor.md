@@ -5,7 +5,7 @@ title: Become a Bridgetown Sponsor Today
 [![Donate via Liberapay](/images/lp-donate.svg){: style="width: 200px"}](https://liberapay.com/jaredwhite){:target="_blank"}
 {:style="text-align: center"}
 
-## Q2 2026 Monthly Goal: <span style="display: inline-block; background: var(--color-syntax-mid-green); color: white; padding-inline: 6px; border-radius: 6px">$400</span> <small>(USD)</small>
+## Q2 2026 Monthly Goal: <ui-label style="display: inline-block; background: var(--color-syntax-mid-green); color: white; padding-inline: 6px; border-radius: 6px">$400</ui-label> <small>(USD)</small>
 
 <p style="max-inline-size: 40ch; margin-inline: auto">
   <sl-progress-bar value="12" style="--height: 30px"><b style="color: white">12%</b></sl-progress-bar>
