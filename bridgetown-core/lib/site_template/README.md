@@ -34,7 +34,7 @@ bundle install && npm install
 
 To start your site in development mode, run `bin/bridgetown start` and navigate to [localhost:4000](https://localhost:4000/)!
 
-Use a [theme](https://github.com/topics/bridgetown-theme) or add some [plugins](https://www.bridgetownrb.com/plugins/) to get started quickly.
+Check out [plugins](https://www.bridgetownrb.com/plugins/) if you're looking to add functionality or a theme to your site.
 
 ### Commands
 
