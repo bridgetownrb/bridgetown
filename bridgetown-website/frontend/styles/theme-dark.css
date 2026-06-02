@@ -200,11 +200,14 @@
   & sl-button[variant="primary"]::part(base) {
     color: var(--color-lighter-green);
     border-color: var(--color-lighter-green);
-    background-color: var(--sl-color-primary-500);
 
     &:hover {
       background-color: var(--sl-color-primary-600);
     }
+  }
+
+  & sl-button[variant="primary"]:not([outline])::part(base) {
+    background-color: var(--sl-color-primary-500);
   }
 
   & table.settings p.default code {

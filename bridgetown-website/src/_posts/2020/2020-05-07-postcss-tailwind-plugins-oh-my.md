@@ -3,6 +3,7 @@ title: PostCSS, Tailwind, Plugins…Oh My!
 subtitle: For you diehard fans of Tailwind CSS out there, Andrew Mason has got you covered. Also, we now have a GitHub-sourced Plugins directory!
 author: jared
 category: news
+exclude_from_search: true
 ---
 
 {%@ Note type: :warning do %}
