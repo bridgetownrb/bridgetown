@@ -3,6 +3,7 @@ title: Midsummer 2020 Bridgetown Plugin Roundup
 subtitle: Bridgetown is amazingly useful right out of the box, but add a few plugins and an automation or two, and it sizzles!
 author: jared
 category: showcase
+exclude_from_search: true
 ---
 
 Over the past several months, Bridgetown enthusiasts and open source software developers have been writing plugins and automations to deck out your website with all sorts of new features and enhancements. I thought it was high time we highlight just a few of these in case you missed them previously. **Let's go!**

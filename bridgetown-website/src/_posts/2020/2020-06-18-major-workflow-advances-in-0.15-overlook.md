@@ -3,6 +3,7 @@ title: "Huge Theme and Workflow Advances in Bridgetown 0.15 “Overlook”"
 subtitle: Introducing themes, automations, Liquid Components, testing strategies, and a new Thor-based CLI—all to make your experience building Bridgetown sites a true delight.
 author: jared
 category: release
+exclude_from_search: true
 ---
 
 Whew, a lot has happened since the release of Bridgetown 0.14 "Hazelwood". The community has been growing [on Twitter](https://twitter.com/bridgetownrb) and [in Discord](https://discord.gg/V56yUWR), we've gotten [new sponsors on GitHub](https://github.com/bridgetownrb/bridgetown#special-thanks-to-our-founding-members--), and a ton of work to move the ecosystem forward has been going on behind the scenes.

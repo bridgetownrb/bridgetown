@@ -3,6 +3,7 @@ title: What's the Deal with Themes?
 subtitle: Why Bridgetown is making a clean break with the past and building an entirely new framework for creating and using themes.
 author: jared
 category: future
+exclude_from_search: true
 ---
 
 If you're familiar with Jekyll—or really any web publishing system out there—you're no doubt familiar with the idea of a _theme_. You browse a collection of themes, find one that looks good, go to your website tool and press a button/type a command/upload a package, and _presto change-o_! You've got yourself a shiny new website. Everybody loves themes, right?
