@@ -75,6 +75,8 @@ GEM
       bridgetown (>= 1.2.0.beta2, < 3.0)
     bridgetown-seo-tag (7.0.1)
       bridgetown (>= 1.3)
+    bridgetown-sitemap (3.0.3)
+      bridgetown (>= 1.3.0, < 3.0)
     bridgetown-svg-inliner (2.1.1)
       bridgetown (>= 1.2.0, < 3.0)
       csv
@@ -191,6 +193,7 @@ DEPENDENCIES
   bridgetown-paginate!
   bridgetown-quick-search (~> 3.0)
   bridgetown-seo-tag (~> 7.0)
+  bridgetown-sitemap (~> 3.0)
   bridgetown-svg-inliner (~> 2.1)
   gems (~> 1.2)
   nokolexbor (~> 0.4)
