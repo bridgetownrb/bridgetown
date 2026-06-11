@@ -20,6 +20,10 @@ module Bridgetown
           "config.ru"
         end
 
+        def workers
+          1
+        end
+
         def options
           []
         end
@@ -29,6 +33,7 @@ module Bridgetown
            "--bind", bind,
            "--port", port.to_s,
            "--config", rack_config,
+           "--count", workers.to_s,
            *options,]
         end
       end

@@ -72,18 +72,14 @@ module Bridgetown
         Gem.loaded_specs.key?(server.to_s.downcase)
       end
 
-      def method_missing(name, *args, &block)
-        return super unless respond_to_missing?
+      def method_missing(name, *args, &block) # rubocop:disable Style/MissingRespondToMissing
+        return super unless @name.nil?
 
         if block
           self.class.define_method(name, &block)
         else
           self.class.define_method(name) { args.first }
         end
-      end
-
-      def respond_to_missing?
-        @name.nil?
       end
     end
   end

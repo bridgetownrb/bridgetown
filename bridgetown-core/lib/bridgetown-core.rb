@@ -70,6 +70,7 @@ module Bridgetown
   autoload :Cleaner,             "bridgetown-core/cleaner"
   autoload :Collection,          "bridgetown-core/collection"
   autoload :Command,             "bridgetown-core/command"
+  autoload :Container,           "bridgetown-core/container"
   autoload :Component,           "bridgetown-core/component"
   autoload :DefaultsReader,      "bridgetown-core/readers/defaults_reader"
   autoload :Deprecator,          "bridgetown-core/deprecator"
@@ -119,6 +120,7 @@ module Bridgetown
   require_all "bridgetown-core/drops"
   require_all "bridgetown-core/generators"
   require_all "bridgetown-core/rack/environments"
+  require_all "bridgetown-core/routines"
   require_all "bridgetown-core/tags"
 
   class << self

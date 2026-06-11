@@ -3,8 +3,6 @@
 class Bridgetown::Site
   module Builder
     def build # rubocop:disable Metrics/AbcSize
-      config.run_initializers! context: :static
-
       Bridgetown.logger.info "Environment:", Bridgetown.environment.cyan
       Bridgetown.logger.info "Source:", source
       Bridgetown.logger.info "Destination:", destination
