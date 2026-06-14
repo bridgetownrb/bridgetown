@@ -7,6 +7,10 @@ category: themes
 
 Themes are [plugins](/docs/plugins) you can add to your Bridgetown website which may provide layouts, content, components, and frontend assets, as well as perform other tasks to enhance the functionality of your site.
 
+{%@ Note do %}
+You may be interested in [Willamette, our first-party theme.](https://willamette.bridgetownrb.com) Create blogs, portfolios, documentation sites, galleries, business dashboards, and more!
+{% end %}
+
 You install a theme the same way you'd install any plugin, either by running a command such as:
 
 ```sh
@@ -24,9 +28,8 @@ The theme creator will typically provide instructions on how to use the provided
 Sometimes you might want to copy files out of a theme and into your site repo directly. The [`bridgetown plugins cd` command](/docs/commands/plugins#copying-files-out-of-plugin-source-folders) will help you do exactly that.
 
 {%@ Note do %}
-Looking for a theme to install on your site?
 [Check out our plugins directory](/plugins/) for a growing collection of themes
-and other useful plugins!
+and other useful plugins.
 {% end %}
 
 ## Creating a Theme
@@ -39,4 +42,6 @@ To provide frontend assets via esbuild, [follow these instructions](/docs/plugin
 
 To aid your users in installing your plugin and setting up configuration options and so forth, add a `bridgetown.automation.rb` [automation script](/docs/automations) to your theme repo.
 
-As always, if you have any questions or need support in creating your theme, [check out our community resources](/community).
+Our [Willamette theme](https://willamette.bridgetownrb.com) can help provide you a leg up…we're more than happy if you base parts of your new theme on how Willamette sets up things!
+
+And as always, if you have any questions or need support in creating your theme, [check out our community resources](/community).

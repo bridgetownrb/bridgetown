@@ -3,6 +3,7 @@ title: E-commerce on the Jamstack with Bridgetown, Snipcart, and Bulma CSS
 subtitle: A journey into Sparkletown with a short stop for some shopping.
 author: margaret
 category: showcase
+exclude_from_search: true
 ---
 
 Hello! Guest author [Margaret](/authors/margaret/) here. This week I tried out the new [Bulmatown](https://github.com/whitefusionhq/bulmatown){:rel="noopener"} theme and experimented with adding products using [Snipcart](https://snipcart.com/){:rel="noopener"}. My test site is deployed **[here](https://vigorous-ritchie-f43dbd.netlify.app/){:rel="noopener"}** via Netlify, and you can take a closer look at the code **[here](https://github.com/codemargaret/sparkletown){:rel="noopener"}**.

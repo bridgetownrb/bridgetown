@@ -10,7 +10,7 @@ collections:
     sort_by: order
     name: Documentation
   plugins:
-    output: true
+    output: false
 
 pagination:
   enabled: true

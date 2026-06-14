@@ -3,6 +3,7 @@ title: "A Bridge to the Future: What’s New in Bridgetown 0.14 “Hazelwood”"
 subtitle: The biggest public release of Bridgetown since its inception, featuring the brand-new Unified Plugins API, Active Support, and a whole lot more.
 author: jared
 category: release
+exclude_from_search: true
 ---
 
 Bridgetown 0.14 "Hazelwood" is here! 🎉 And it's the biggest public release of Bridgetown since its inception.

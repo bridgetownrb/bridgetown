@@ -15,14 +15,12 @@ Welcome to your new Bridgetown website! You can update this README file to provi
 
 ## Prerequisites
 
-- [GCC](https://gcc.gnu.org/install/)
-- [Make](https://www.gnu.org/software/make/)
 - [Ruby](https://www.ruby-lang.org/en/downloads/)
-  - `>= 3.2`
-- [Bridgetown Gem](https://rubygems.org/gems/bridgetown)
+  - `>= 3.3`
+- [Bridgetown gem](https://gems.bridgetownrb.com/)
   - `gem install bridgetown -N`
 - [Node](https://nodejs.org)
-  - `>= 20`
+  - `>= 22`
 
 ## Install
 
@@ -36,7 +34,7 @@ bundle install && npm install
 
 To start your site in development mode, run `bin/bridgetown start` and navigate to [localhost:4000](https://localhost:4000/)!
 
-Use a [theme](https://github.com/topics/bridgetown-theme) or add some [plugins](https://www.bridgetownrb.com/plugins/) to get started quickly.
+Check out [plugins](https://www.bridgetownrb.com/plugins/) if you're looking to add functionality or a theme to your site.
 
 ### Commands
 
