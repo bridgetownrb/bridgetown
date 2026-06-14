@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## [2.2.1] - 2026-06-14
+
+- Pin Samovar CLI gem to previous compatible version
+
 ## [2.2.0] - 2026-05-20
 
 - New! Bridgetown Center program & plugins directory [#1084](https://github.com/bridgetownrb/bridgetown/pull/1084) ([@jaredcwhite](https://github.com/jaredcwhite))
