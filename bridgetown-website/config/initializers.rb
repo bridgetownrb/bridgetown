@@ -6,6 +6,7 @@ Bridgetown.configure do |config|
   init :"bridgetown-feed"
   init :"bridgetown-quick-search"
   init :"bridgetown-svg-inliner"
+  init :"bridgetown-sitemap"
 
   config.inflector.configure do |inflections|
     inflections.acronym "W3C"
