@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## [2.2.2] - 2026-07-06
+
+- Refactor live reload into class (fixes error message when terminating a Puma server) [#1113](https://github.com/bridgetownrb/bridgetown/pull/1113) ([@ayushn21](https://github.com/ayushn21))
+
 ## [2.2.1] - 2026-06-14
 
 - Pin Samovar CLI gem to previous compatible version
