@@ -15,6 +15,7 @@ However, to take full advantage of all the Bridgetown has to offer, we recommend
 
 ```rb
 init :ssr # add `sessions: true` if you want to save session data, use flash, etc.
+# (pass a hash instead of `true` if you need to set options for the sessions plugin)
 # or:
 init :"bridgetown-routes" # inits ssr automatically
 ```
@@ -256,7 +257,7 @@ See [Ruby Front Matter](/docs/front-matter#the-power-of-ruby-in-front-matter) fo
 The Roda block also excepts a couple of different styles of specifying front matter. You can use `render_with do ... end` as in the examples above, but you can also use a data hash instead:
 
 ```ruby
-hsh = { layout: :page, title: "I'm a Page!" } 
+hsh = { layout: :page, title: "I'm a Page!" }
 
 render_with(data: hsh)
 ```
@@ -323,7 +324,7 @@ class MyRssFeed
 
     response["Content-Type"] = "application/rss+xml" # set the correct content type
     feed_xml # return XML string
-  end  
+  end
 end
 ```
 

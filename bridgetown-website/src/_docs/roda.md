@@ -47,7 +47,7 @@ If you add `init :ssr` to your [Initializers](/docs/configuration/initializers) 
 * [custom_block_results](https://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/CustomBlockResults.html) - lets Roda route blocks return arbitrary objects which can be processed with custom handlers. We use this to enable our [RodaCallable](/docs/routes#callable-objects-for-rendering-within-blocks) functionality
 * `method_override` - this Bridgetown-supplied plugin looks for the presence of a `_method` form param and will use that to override the incoming HTTP request method. Thus even if a form comes in as POST, if `_method` equals `PUT` the request method will be `PUT`.
 
-If you pass `sessions: true` to the `ssr` initializer in your config, you'll get these plugins added:
+If you pass `sessions: true` to the `ssr` initializer in your config, you'll get the below plugins added. Pass a hash instead of `true` if you need to set options for the sessions plugin.
 
 * [sessions](https://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Sessions.html) - adds support for cookie-based session storage (aka a small amount of key-val data storage which persists across requests for a single client). You'll need to have `RODA_SECRET_KEY` defined in your environment. To make this easy in local development, you should set up the [Dotenv gem](/docs/configuration/initializers#dotenv). Setting up a secret key is a matter of running `bin/bridgetown secret` and then copying the key to `RODA_SECRET_KEY`.
 * [flash](https://roda.jeremyevans.net/rdoc/classes/Roda/RodaPlugins/Flash.html) - provides a `flash` object you can access from both routes and view templates.

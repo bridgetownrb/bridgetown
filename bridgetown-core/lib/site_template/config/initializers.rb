@@ -68,7 +68,8 @@ Bridgetown.configure do |config|
   #
   # init :ssr
   #
-  # Add `sessions: true` if you need to use session data, flash, etc.
+  # Add `sessions: true` if you need to use session data, flash, etc. Pass a
+  # hash instead of `true` if you need to set options for the Roda sessions plugin.
   #
 
   # Uncomment to use file-based dynamic template routing via Roda (make sure you
