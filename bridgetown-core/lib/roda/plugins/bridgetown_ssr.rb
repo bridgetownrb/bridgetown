@@ -36,7 +36,7 @@ class Roda
                 "RODA_SECRET_KEY variable"
         end
 
-        app.plugin :sessions, secret: secret_key
+        app.plugin :sessions, secret: secret_key, **sessions_options(opts)
         app.plugin :flashier
       end
 
@@ -44,6 +44,24 @@ class Roda
         app.include Bridgetown::Filters::URLFilters
         app.opts[:bridgetown_site] =
           Bridgetown::Site.start_ssr!(loaders_manager: Bridgetown::Rack.loaders_manager, &)
+      end
+
+      # Transforms opts[:sessions] into a hash that can be passed into the
+      # sessions plugin as keyword args.
+      #
+      # @param opts [Hash] argument of .load_dependencies
+      # @return [Hash{Symbol => Object}]
+      private_class_method def self.sessions_options(opts)
+        if opts[:sessions].is_a?(Hash)
+          # Roda expects symbol keys, even for a nested hash such as :cookie_options
+          opts[:sessions]
+            .transform_keys(&:to_sym)
+            .transform_values do |value|
+              value.is_a?(Hash) ? value.transform_keys(&:to_sym) : value
+            end
+        else # i.e. opts[:sessions] == true
+          {}
+        end
       end
     end
 
