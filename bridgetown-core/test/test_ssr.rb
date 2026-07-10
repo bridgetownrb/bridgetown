@@ -141,5 +141,9 @@ class TestSSR < BridgetownUnitTest
     ensure
       site.config.base_path = original_base_path
     end
+
+    it "applies custom session options passed as a hash" do
+      expect(app.opts.dig(:sessions, :cookie_options, :same_site)) == :strict
+    end
   end
 end

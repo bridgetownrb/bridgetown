@@ -252,6 +252,8 @@ The SSR features of Bridgetown, along with its companion file-based routing feat
 
 ```rb
 init :ssr, sessions: true # the dotenv initializer is also recommended, more on that below
+# or if you need to set options on the sessions plugin, pass a hash:
+# init :ssr, sessions: { key: "my_app.session", cookie_options: { same_site: :strict } }
 
 # optional:
 init :"bridgetown-routes"
