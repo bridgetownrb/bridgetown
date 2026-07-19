@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "minitest_helper"
+require_relative "minitest_helper"
 
 class IncludeRefinementsMixin
   include Bridgetown::Refinements::Helper
@@ -11,6 +11,8 @@ class IncludeRefinementsMixin
 end
 
 class TestRefinements < Bridgetown::Foundation::Test
+  using Bridgetown::Refinements
+
   describe "add_refinement" do
     it "supports monkey-patch with refine method" do
       expect { Bridgetown.refine(10).add 5 }.raise?(NoMethodError)
@@ -30,8 +32,6 @@ class TestRefinements < Bridgetown::Foundation::Test
       expect("abc").within? %w[def abc]
     end
   end
-
-  using Bridgetown::Refinements
 
   describe "within?" do
     it "works with strings" do
