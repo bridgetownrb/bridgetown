@@ -35,6 +35,7 @@ require "bridgetown-foundation"
 
 # 3rd party
 require "addressable/uri"
+require "async/container"
 require "liquid"
 require "listen"
 require "kramdown"
@@ -69,6 +70,7 @@ module Bridgetown
   autoload :Cleaner,             "bridgetown-core/cleaner"
   autoload :Collection,          "bridgetown-core/collection"
   autoload :Command,             "bridgetown-core/command"
+  autoload :Container,           "bridgetown-core/container"
   autoload :Component,           "bridgetown-core/component"
   autoload :DefaultsReader,      "bridgetown-core/readers/defaults_reader"
   autoload :Deprecator,          "bridgetown-core/deprecator"
@@ -112,10 +114,13 @@ module Bridgetown
   require "bridgetown-core/configuration"
   require "bridgetown-core/drops/drop"
   require "bridgetown-core/drops/resource_drop"
+  require "bridgetown-core/rack/server"
   require_all "bridgetown-core/converters"
   require_all "bridgetown-core/converters/markdown"
   require_all "bridgetown-core/drops"
   require_all "bridgetown-core/generators"
+  require_all "bridgetown-core/rack/environments"
+  require_all "bridgetown-core/routines"
   require_all "bridgetown-core/tags"
 
   class << self
@@ -320,7 +325,11 @@ module Bridgetown
     #
     # @return [LogAdapter]
     def logger
-      @logger ||= LogAdapter.new(LogWriter.new, (ENV["BRIDGETOWN_LOG_LEVEL"] || :info).to_sym)
+      @logger ||= LogAdapter.new(
+        LogWriter.new,
+        (ENV["BRIDGETOWN_LOG_LEVEL"] || :info).to_sym,
+        prefix: ["Bridgetown", :green]
+      )
     end
 
     # Set the log writer. New log writer must respond to the same methods as Ruby's

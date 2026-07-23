@@ -170,10 +170,6 @@ end
 
 This is used for providing a way to output strings with color in a terminal. (See the docs above on `String`.) [View code here.](https://github.com/bridgetownrb/bridgetown/blob/main/bridgetown-foundation/lib/bridgetown/foundation/packages/ansi.rb)
 
-#### `PidTracker`
-
-This is used for managing pid files in a multiprocess setting. [View code here.](https://github.com/bridgetownrb/bridgetown/blob/main/bridgetown-foundation/lib/bridgetown/foundation/packages/pid_tracker.rb)
-
 #### `SafeTranslations`
 
 This package is used to manage the display of translations which include HTML (although it's not inherently HTML-specific), marking them as "safe". Sample usage:

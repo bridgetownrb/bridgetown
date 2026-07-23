@@ -2,18 +2,16 @@
 
 require "logger"
 require "bridgetown-core/log_writer"
+require "bridgetown/foundation/packages/ansi"
 
 module Bridgetown
   module Rack
     class Logger < Bridgetown::LogWriter
-      def self.message_with_prefix(msg)
-        "\e[35m[Server]\e[0m #{msg}"
-      end
+      PREFIX = "Server"
 
-      def enable_prefix
-        @formatter = proc do |_, _, _, msg|
-          self.class.message_with_prefix(msg)
-        end
+      def self.message_with_prefix(msg)
+        prefix = Bridgetown::Foundation::Packages::Ansi.yellow("[#{PREFIX}]")
+        "#{prefix} #{msg}"
       end
 
       def add(severity, message = nil, progname = nil)
@@ -24,7 +22,7 @@ module Bridgetown
 
       def initialize(*_args)
         super()
-        enable_prefix
+        set_prefix(PREFIX, color: :yellow)
       end
     end
   end
