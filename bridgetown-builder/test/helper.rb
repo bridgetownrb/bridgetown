@@ -9,4 +9,6 @@ Minitest::Reporters.use! [
   ),
 ]
 
-Bridgetown::Builder # fix autoload weirdness when running certain tests
+unless RUBY_ENGINE == "jruby"
+  Bridgetown::Builder # fix autoload weirdness when running certain tests
+end
