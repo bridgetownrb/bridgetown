@@ -28,5 +28,7 @@ Gem::Specification.new do |s|
   s.add_dependency("bridgetown-core", Bridgetown::VERSION)
   s.add_dependency("bridgetown-foundation", Bridgetown::VERSION)
   s.add_dependency("bridgetown-paginate", Bridgetown::VERSION)
+
   s.metadata["rubygems_mfa_required"] = "true"
+  s.metadata["mailing_list_uri"]      = "https://www.rubyforum.org/tag/bridgetown"
 end

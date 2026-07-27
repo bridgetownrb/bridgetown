@@ -14,6 +14,7 @@ Bridgetown is a next-generation, progressive site generator & fullstack framewor
 [![Gem Version](https://img.shields.io/gem/v/bridgetown.svg)](https://rubygems.org/gems/bridgetown)
 [![Licensed MIT](https://img.shields.io/badge/license-MIT-yellowgreen.svg)](LICENSE)
 [![Join the Discord Chat](https://img.shields.io/discord/711236503493148733?color=forestgreen&logo=discord)](https://discord.gg/4E6hktQGz4)
+[![Ruby Users Forum](https://img.shields.io/discourse/topics?server=https%3A%2F%2Fwww.rubyforum.org&style=flat&logo=discourse&label=Ruby%20Users%20Forum)](https://www.rubyforum.org/tag/bridgetown)
 [![PRs welcome!](https://img.shields.io/badge/PRs-welcome-blue.svg)](https://github.com/bridgetownrb/bridgetown/blob/main/CONTRIBUTING.md)
 
 ----
@@ -37,7 +38,7 @@ Bridgetown development is spearheaded by Portland-based web studio [Whitefusion]
 * [Install](https://www.bridgetownrb.com/docs/) the Bridgetown gem
 * Familiarize yourself with the [Command Line Usage](https://www.bridgetownrb.com/docs/command-line-usage/) and [Site Configuration](https://bridgetownrb.com/docs/configuration/)
 * Explore the best options for [Deploying Your Site](https://www.bridgetownrb.com/docs/deployment) when it's ready to go live
-* Have questions? Check out our new [Community discussion site](https://community.bridgetown.pub) or [chat on Discord](https://discord.gg/4E6hktQGz4)
+* Have questions? Join us in the `bridgetown` tag on the [Ruby Users Forum](https://www.rubyforum.org/tag/bridgetown) or [chat on Discord](https://discord.gg/4E6hktQGz4)
 * [Fork Bridgetown](https://github.com/bridgetownrb/bridgetown/fork) and contribute your own improvements!
 
 ## Get Up to Speed
