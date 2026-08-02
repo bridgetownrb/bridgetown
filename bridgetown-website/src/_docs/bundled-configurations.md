@@ -116,7 +116,7 @@ Read our full [Lit Components documentation here](/docs/components/lit).
 
 - [`postcss-mixins`](https://github.com/postcss/postcss-mixins)
 - [`postcss-color-mod-function`](https://github.com/csstools/postcss-color-mod-function)
-- [`cssnano`](https://cssnano.co)
+- [`cssnano`](https://cssnano.github.io/cssnano/)
 
 It will also configure [`postcss-preset-env`](http://preset-env.cssdb.org) to polyfill all features at [stage 2 and above](http://preset-env.cssdb.org/features#stage-2). If you don't need certain polyfills for your use case, you can bump up stage to 3 or 4 *(for example, [`custom properties`](http://preset-env.cssdb.org/features#custom-properties) won't get polyfilled if stage is set to 4)*. [`nesting-rules`](http://preset-env.cssdb.org/features#nesting-rules) and [`custom-media-queries`](http://preset-env.cssdb.org/features#custom-media-queries) are explicitly enabled.
 
