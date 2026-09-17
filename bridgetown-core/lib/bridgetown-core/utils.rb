@@ -5,6 +5,7 @@ module Bridgetown
     extend self
 
     autoload :Aux, "bridgetown-core/utils/aux"
+    autoload :Callouts, "bridgetown-core/utils/callouts"
     autoload :LoadersManager, "bridgetown-core/utils/loaders_manager"
     autoload :RequireGems, "bridgetown-core/utils/require_gems"
     autoload :RubyExec, "bridgetown-core/utils/ruby_exec"

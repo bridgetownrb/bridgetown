@@ -84,3 +84,7 @@ end
 Bridgetown.initializer :wikilinks do |config|
   Bridgetown::Utils::Wikilinks.setup_parsing_hook config
 end
+
+Bridgetown.initializer :callouts do |config, component_class_name: "Bridgetown::Utils::Callouts::DefaultCallout"|
+  Bridgetown::Utils::Callouts.setup_parsing_hook config, component_class_name
+end
