@@ -382,6 +382,10 @@ class TestFilters < BridgetownUnitTest
         @filter.site.config.default_locale = I18n.locale = :eo
       end
 
+      after do
+        reset_i18n_config
+      end
+
       describe "lookup" do
         it "translates error message with default locale" do
           assert_equal "ne estas nombro", @filter.t("errors.messages.not_a_number")
@@ -442,6 +446,10 @@ class TestFilters < BridgetownUnitTest
       before do
         @filter.site.config.available_locales = I18n.available_locales = [:eo, :fr]
         @filter.site.config.default_locale = I18n.locale = :eo
+      end
+
+      after do
+        reset_i18n_config
       end
 
       describe "with Time object" do
@@ -1306,6 +1314,10 @@ class TestFilters < BridgetownUnitTest
     end
 
     describe "in_locale filter" do
+      after do
+        reset_i18n_config
+      end
+
       it "filters by current site locale" do
         filter = make_filter_mock(
           available_locales: [:en, :es]
