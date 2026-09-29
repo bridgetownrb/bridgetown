@@ -255,6 +255,10 @@ class TestLocales < BridgetownUnitTest
       @site.process
     end
 
+    after do
+      reset_i18n_config
+    end
+
     it "includes both the default language and English in the fallback chain" do
       assert_equal %i[de es en], I18n.fallbacks[:de]
       assert_equal %i[es en], I18n.fallbacks[:es]

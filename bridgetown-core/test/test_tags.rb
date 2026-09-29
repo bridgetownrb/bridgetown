@@ -895,6 +895,10 @@ class TestTags < BridgetownUnitTest
                   })
     end
 
+    after do
+      reset_i18n_config
+    end
+
     it "looks up simple message with default locale" do
       expected = "LOOKUP MESSAGE: ne estas nombro"
       assert_match(expected, @result)
@@ -995,6 +999,10 @@ class TestTags < BridgetownUnitTest
                       "default_locale"    => I18n.locale,
                     })
       end
+    end
+
+    after do
+      reset_i18n_config
     end
 
     it "looks up now message with default locale" do

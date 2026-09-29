@@ -29,6 +29,7 @@ require "logger"
 require "csv"
 require "json"
 require "yaml"
+require "net/http"
 
 # Pull in Foundation gem
 require "bridgetown-foundation"
