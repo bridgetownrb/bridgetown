@@ -5,14 +5,14 @@ title: Become a Bridgetown Sponsor Today
 [![Donate via Liberapay](/images/lp-donate.svg){: style="width: 200px"}](https://liberapay.com/jaredwhite){:target="_blank"}
 {:style="text-align: center"}
 
-## Q2 2026 Monthly Goal: <ui-label style="display: inline-block; background: var(--color-syntax-mid-green); color: white; padding-inline: 6px; border-radius: 6px">$400</ui-label> <small>(USD)</small>
+## Q4 2026 Monthly Goal: <ui-label style="display: inline-block; background: var(--color-syntax-mid-green); color: white; padding-inline: 6px; border-radius: 6px">$300</ui-label> <small>(USD)</small>
 
 <p style="max-inline-size: 40ch; margin-inline: auto">
-  <sl-progress-bar value="12" style="--height: 30px"><b style="color: white">12%</b></sl-progress-bar>
+  <sl-progress-bar value="16" style="--height: 30px"><b style="color: white">16%</b></sl-progress-bar>
 </p>
 
 <p style="max-inline-size: 38ch; text-align: center; margin-inline: auto">
-  <small markdown="span">Special thanks to **andrewmcodes**, **wout**, and additional private donors for your [contributions](https://github.com/bridgetownrb/bridgetown#current-sponsors--) to our Q2 2026 pledge!</small>
+  <small markdown="span">Special thanks to **andrewmcodes**, **wout**, and additional private donors for your [contributions](https://github.com/bridgetownrb/bridgetown#current-sponsors--) to our pledge!</small>
 </p>
 
 ----
@@ -36,3 +36,5 @@ _Jared White_ 🙏
 ----
 
 [See a past list of GitHub Sponsors here.](https://github.com/bridgetownrb/bridgetown#special-thanks-to-our-github-sponsors--){:target="_blank"}
+
+[We've got merch! Check out our new store…](https://bridgetown.printful.me/){:target="_blank"}
