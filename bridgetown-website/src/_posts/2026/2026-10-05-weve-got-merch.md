@@ -13,7 +13,7 @@ Head on over to our new store and order a t-shirt or a mug or a sticker…or all
 
 We'd love to [hear your feedback](/community) what products (or colors/variants) you'd like to see us add to the store. There are many options available from our printing provider, so don't be shy in voicing your preferences.
 
-Thanks in advance for your proud support of the Bridgetown project!
+Thanks in advance for your proud support of the Bridgetown project! And a _huge_ shoutout to [Adrian Valenz](https://adrianvalenz.com) for his great work on our logo/branding and leading the effort to get our new store off the ground.
 
 ----
 
