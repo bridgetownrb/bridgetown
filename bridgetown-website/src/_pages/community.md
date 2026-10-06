@@ -15,9 +15,11 @@ title: Community
 
 There are a bunch of helpful core team and community members available that should be able to point you in the right direction.
 
+<!--
 ### Merch Store
 
-📢 _New!_ We've got merch! [Head on over to our new store](https://bridgetown.printful.me/) and order a t-shirt or a mug or a sticker…or all of the above! Toss in some extras for your dev friends too. ☺️
+📢 _New!_ We've got merch! [Head on over to our new store] and order a t-shirt or a mug or a sticker…or all of the above! Toss in some extras for your dev friends too. ☺️
+-->
 
 ### Commercial Support
 
