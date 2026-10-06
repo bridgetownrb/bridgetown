@@ -5,9 +5,14 @@ author: jared
 category: news
 ---
 
+NOTE: **this is back to draft** because the store we were going to use only ships within the U.S. :(
+Back to the drawing board!
+
+....
+
 You've asked. And now we've delivered. If you’ve ever desired to slap a Bridgetown sticker on your laptop or tablet, this is your chance.
 
-Yes it's true. **[We've got merch!](https://bridgetown.printful.me/)** 🎉
+Yes it's true. **[We've got merch!]()** 🎉
 
 Head on over to our new store and order a t-shirt or a mug or a sticker…or all of the above! Toss in some extras for your dev friends too. ☺️
 

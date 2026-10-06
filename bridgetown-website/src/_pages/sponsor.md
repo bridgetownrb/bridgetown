@@ -37,4 +37,6 @@ _Jared White_ 🙏
 
 [See a past list of GitHub Sponsors here.](https://github.com/bridgetownrb/bridgetown#special-thanks-to-our-github-sponsors--){:target="_blank"}
 
-[We've got merch! Check out our new store…](https://bridgetown.printful.me/){:target="_blank"}
+<!--
+[We've got merch! Check out our new store…]
+-->
