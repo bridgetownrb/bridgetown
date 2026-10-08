@@ -8,11 +8,11 @@ title: Become a Bridgetown Sponsor Today
 ## Q4 2026 Monthly Goal: <ui-label style="display: inline-block; background: var(--color-syntax-mid-green); color: white; padding-inline: 6px; border-radius: 6px">$300</ui-label> <small>(USD)</small>
 
 <p style="max-inline-size: 40ch; margin-inline: auto">
-  <sl-progress-bar value="16" style="--height: 30px"><b style="color: white">16%</b></sl-progress-bar>
+  <sl-progress-bar value="17" style="--height: 30px"><b style="color: white">17%</b></sl-progress-bar>
 </p>
 
 <p style="max-inline-size: 38ch; text-align: center; margin-inline: auto">
-  <small markdown="span">Special thanks to **andrewmcodes**, **wout**, and additional private donors for your [contributions](https://github.com/bridgetownrb/bridgetown#current-sponsors--) to our pledge!</small>
+  <small markdown="span">Special thanks to **tomdebruijn**, **andrewmcodes**, **wout**, and additional private donors for your [contributions](https://github.com/bridgetownrb/bridgetown#current-sponsors--) to our pledge!</small>
 </p>
 
 ----
