@@ -29,7 +29,7 @@ Bridgetown development is spearheaded by Portland-based web studio [Whitefusion]
 
 ## Star History
 
-[![Star History Chart](https://star-history.dera.page/svg?repos=bridgetownrb/bridgetown&type=Date)](https://star-history.dera.page/#bridgetownrb/bridgetown&Date)
+[![Star History Chart](https://star-history.dera.page/svg?repos=bridgetownrb/bridgetown&type=Date&cachebust=1)](https://star-history.dera.page/#bridgetownrb/bridgetown&Date)
 
 ----
 
