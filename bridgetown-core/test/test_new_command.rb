@@ -137,6 +137,17 @@ class TestNewCommand < BridgetownUnitTest
       assert_equal generated_template_files.sort, new_site_files.sort
     end
 
+    it "created the web_server.rb config file" do
+      web_server_config_file = "/config/web_server.rb"
+
+      capture_output do
+        Bridgetown::Commands::Application[*argumentize(@args.to_s)].()
+      end
+
+      new_site_files = dir_contents(@full_path)
+      assert new_site_files.include?(web_server_config_file)
+    end
+
     it "processes any ERB files" do
       erb_template_files = dir_contents(site_template_source).select do |f|
         File.extname(f) == ".erb"

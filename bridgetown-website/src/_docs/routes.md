@@ -5,7 +5,7 @@ top_section: Architecture
 category: routes
 ---
 
-Bridgetown comes with a production-ready [Rack-compliant](https://github.com/rack/rack) web server installed. The default is [Falcon](https://socketry.github.io/falcon), but you can choose [Puma](https://puma.io) if you wish: `bridgetown new --server puma`.
+Bridgetown comes with a production-ready [Rack-compliant](https://github.com/rack/rack) web server installed. The default is [Falcon](https://socketry.github.io/falcon), and we also natively support [Puma](https://puma.io) — but you can use and Rack server in Bridgetown. More information on configuring the web server is [available here](/docs/web-server).
 
 To serve traffic, we use [Roda](http://roda.jeremyevans.net), a refreshingly fast & lightweight web routing toolkit created by Jeremy Evans. On a basic level, it handles serving of all statically-built site files you access when you run `bin/bridgetown start`.
 

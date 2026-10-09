@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency("addressable",               "~> 2.4")
   spec.add_dependency("amazing_print",             "~> 1.2")
+  spec.add_dependency("async-container",           ">= 0.34.5")
   spec.add_dependency("base64",                    ">= 0.3")
   spec.add_dependency("bigdecimal",                ">= 3.2")
   spec.add_dependency("bridgetown-foundation",     Bridgetown::VERSION)
@@ -48,7 +49,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency("liquid",                    [">= 5.0", "< 5.5"])
   spec.add_dependency("listen",                    "~> 3.0")
   spec.add_dependency("rack",                      ">= 3.0")
-  spec.add_dependency("rackup",                    "~> 2.0")
   spec.add_dependency("rake",                      ">= 13.0")
   spec.add_dependency("roda",                      "~> 3.46")
   spec.add_dependency("rouge",                     [">= 3.0", "< 5.0"])

@@ -13,7 +13,7 @@ module Bridgetown
     # @param site [Bridgetown::Site] the current site instance
     # @param options [Bridgetown::Configuration] the site configuration
     # @yield the block will be called when in SSR mode right after the post_read event
-    def watch(site, options, &block)
+    def watch(site, options = site.config, &block)
       ENV["LISTEN_GEM_DEBUGGING"] ||= "1" if options["verbose"]
 
       listen(site, options)
@@ -29,7 +29,7 @@ module Bridgetown
         return
       end
 
-      Bridgetown.logger.info "Watcher:", "enabled." unless options[:start_command]
+      Bridgetown.logger.info "Watcher:", "enabled."
 
       trap("INT") do
         self.shutdown = true
