@@ -2,11 +2,12 @@
 
 source "https://rubygems.org"
 
+gem "ostruct"
 gem "rake", "~> 13.0"
 gem "yard", "~> 0.9"
 
 group :development do
-  gem "solargraph"
+  gem "solargraph" unless RUBY_ENGINE == "jruby"
 end
 
 group :test do
@@ -18,7 +19,7 @@ group :test do
   gem "minitest-sprint", "~> 1.4"
   gem "minitest-stub_any_instance"
   gem "nokogiri", "~> 1.7"
-  gem "nokolexbor"
+  gem "nokolexbor" unless RUBY_ENGINE == "jruby"
   gem "rack-test"
   gem "rubocop-bridgetown", "~> 0.6", require: false
   gem "simplecov"

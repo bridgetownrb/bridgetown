@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "helper"
+require_relative "helper"
 
 class TestUtils < BridgetownUnitTest
   describe "The `Utils.deep_merge_hashes` method" do
@@ -310,39 +310,51 @@ class TestUtils < BridgetownUnitTest
 
   describe "The `Utils.safe_glob` method" do
     it "does not apply pattern to the dir" do
-      dir = "test/safe_glob_test["
-      assert_equal [], Dir.glob("#{dir}/*")
-      assert_equal ["test/safe_glob_test[/find_me.txt"], Utils.safe_glob(dir, "*")
+      Dir.chdir(File.expand_path(File.join(__dir__, ".."))) do
+        dir = "test/safe_glob_test["
+        assert_equal [], Dir.glob("#{dir}/*") unless RUBY_ENGINE == "jruby"
+        assert_equal ["test/safe_glob_test[/find_me.txt"], Utils.safe_glob(dir, "*")
+      end
     end
 
     it "returns the same data to #glob" do
-      dir = "test"
-      assert_equal Dir.glob("#{dir}/*"), Utils.safe_glob(dir, "*")
-      assert_equal Dir.glob("#{dir}/**/*"), Utils.safe_glob(dir, "**/*")
+      Dir.chdir(File.expand_path(File.join(__dir__, ".."))) do
+        dir = "test"
+        assert_equal Dir.glob("#{dir}/*"), Utils.safe_glob(dir, "*")
+        assert_equal Dir.glob("#{dir}/**/*"), Utils.safe_glob(dir, "**/*")
+      end
     end
 
     it "returns the same data to #glob if dir is not found" do
-      dir = "dir_not_exist"
-      assert_equal [], Utils.safe_glob(dir, "*")
-      assert_equal Dir.glob("#{dir}/*"), Utils.safe_glob(dir, "*")
+      Dir.chdir(File.expand_path(File.join(__dir__, ".."))) do
+        dir = "dir_not_exist"
+        assert_equal [], Utils.safe_glob(dir, "*")
+        assert_equal Dir.glob("#{dir}/*"), Utils.safe_glob(dir, "*")
+      end
     end
 
     it "returns the same data to #glob if pattern is blank" do
-      dir = "test"
-      assert_equal [dir], Utils.safe_glob(dir, "")
-      assert_equal Dir.glob(dir), Utils.safe_glob(dir, "")
-      assert_equal Dir.glob(dir), Utils.safe_glob(dir, nil)
+      Dir.chdir(File.expand_path(File.join(__dir__, ".."))) do
+        dir = "test"
+        assert_equal [dir], Utils.safe_glob(dir, "")
+        assert_equal Dir.glob(dir), Utils.safe_glob(dir, "")
+        assert_equal Dir.glob(dir), Utils.safe_glob(dir, nil)
+      end
     end
 
     it "returns the same data to #glob if flag is given" do
-      dir = "test"
-      assert_equal Dir.glob("#{dir}/*", File::FNM_DOTMATCH),
-                   Utils.safe_glob(dir, "*", File::FNM_DOTMATCH)
+      Dir.chdir(File.expand_path(File.join(__dir__, ".."))) do
+        dir = "test"
+        assert_equal Dir.glob("#{dir}/*", File::FNM_DOTMATCH),
+                     Utils.safe_glob(dir, "*", File::FNM_DOTMATCH)
+      end
     end
 
     it "supports pattern as an array to support windows" do
-      dir = "test"
-      assert_equal Dir.glob("#{dir}/**/*"), Utils.safe_glob(dir, ["**", "*"])
+      Dir.chdir(File.expand_path(File.join(__dir__, ".."))) do
+        dir = "test"
+        assert_equal Dir.glob("#{dir}/**/*"), Utils.safe_glob(dir, ["**", "*"])
+      end
     end
   end
 

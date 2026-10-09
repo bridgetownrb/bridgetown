@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "helper"
+require_relative "helper"
 require "rack"
 require "rack/test"
 
