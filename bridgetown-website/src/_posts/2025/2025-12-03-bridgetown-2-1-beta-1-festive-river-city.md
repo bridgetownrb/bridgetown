@@ -33,7 +33,7 @@ A limitation of how our rendering system worked for partials in the past was tha
 
 That has now been fixed! Any template engine can render any partial whether ERB, Serbea, or pure Ruby. On top of that, you can now render both partials & components to strings from any context (not just within a template)—including the console! [Read our docs for more information.](/docs/template-engines/erb-and-beyond#universal-rendering)
 
-Speaking of the console, you now have access to the [Rack::Test](https://github.com/rack/rack-test) DSL (if the gem is installed, which happenes automatically if you use the `minitesting` bundled configuration). This is great for testing both static & dynamic routes directly within the REPL.
+Speaking of the console, you now have access to the [`Rack::Test`](https://github.com/rack/rack-test) DSL (if the gem is installed, which happenes automatically if you use the `minitesting` bundled configuration). This is great for testing both static & dynamic routes directly within the REPL.
 
 ### Samovar, Freyia, and Custom Commands
 
