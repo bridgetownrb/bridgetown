@@ -23,6 +23,7 @@ gems-index/
 # Folders
 /vendor
 bbin/
+coverage
 */coverage
 */pkg/
 */test/dest
