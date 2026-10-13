@@ -80,7 +80,7 @@ bin/bridgetown configure webawesome
 
 ### Automated Test Suite using Minitest
 
-⚙️ Adds a test suite using [Minitest](https://rubygems.org/gems/minitest) and [Rack::Test](https://github.com/rack/rack-test) which lets you test both static and dynamic routes. Check out [our automated testing guide](/docs/testing#use-ruby-and-minitest-to-test-html-directly) for more information.
+⚙️ Adds a test suite using [Minitest](https://rubygems.org/gems/minitest) and [`Rack::Test`](https://github.com/rack/rack-test) which lets you test both static and dynamic routes. Check out [our automated testing guide](/docs/testing#use-ruby-and-minitest-to-test-html-directly) for more information.
 
 🛠 **Configure using:**
 
