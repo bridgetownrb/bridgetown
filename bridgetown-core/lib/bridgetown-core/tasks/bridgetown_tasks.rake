@@ -6,27 +6,6 @@ task :secret do
   puts SecureRandom.hex(64) # rubocop:disable Bridgetown/NoPutsAllowed
 end
 
-namespace :frontend do
-  desc "Run frontend bundler independently"
-  task :watcher, :sidecar do |_task, args|
-    # sidecar is when the task is running alongside the start command
-    sidecar = args[:sidecar] == true
-    Bridgetown::Utils::Aux.run_process "Frontend", :blue, "bridgetown frontend:dev"
-
-    if sidecar
-      # give FE bundler time to boot before returning control to the start command
-      sleep Bridgetown::Utils.frontend_bundler_type == :esbuild ? 3 : 4
-    else
-      trap("INT") do
-        Bridgetown::Utils::Aux.kill_processes
-        sleep 0.5
-        exit(0)
-      end
-      loop { sleep 1000 }
-    end
-  end
-end
-
 namespace :roda do
   desc "Prints out the Roda routes file"
   task :routes do

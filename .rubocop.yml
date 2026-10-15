@@ -72,6 +72,8 @@ Style/FetchEnvVar:
 Style/FrozenStringLiteralComment:
   Exclude:
     - bridgetown-core/lib/site_template/**/*.rb
+    - bridgetown-core/test/fixtures/falcon_web_server.rb
+    - bridgetown-core/test/fixtures/puma_web_server.rb
 Style/FormatStringToken:
   Exclude:
     - bridgetown-core/lib/bridgetown-core/utils/ansi.rb
@@ -79,3 +81,12 @@ Style/FormatStringToken:
 Style/MixinUsage:
   Exclude:
     - bridgetown-core/test/helper.rb
+Style/ArgumentsForwarding:
+  Exclude:
+    - bridgetown-core/lib/bridgetown-core/container.rb
+Style/GuardClause:
+  Exclude:
+    - bridgetown-core/lib/bridgetown-core/rack/server.rb
+Style/IfUnlessModifier:
+  Exclude:
+    - bridgetown-core/lib/bridgetown-core/rack/server.rb

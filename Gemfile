@@ -11,6 +11,7 @@ end
 
 group :test do
   gem "benchmark-ips"
+  gem "falcon"
   gem "memory_profiler"
   gem "minitest"
   gem "minitest-profile"
@@ -19,6 +20,7 @@ group :test do
   gem "minitest-stub_any_instance"
   gem "nokogiri", "~> 1.7"
   gem "nokolexbor"
+  gem "puma"
   gem "rack-test"
   gem "rubocop-bridgetown", "~> 0.6", require: false
   gem "simplecov"

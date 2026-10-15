@@ -154,7 +154,7 @@ module Bridgetown
       end
     end
 
-    def run_initializers!(context:) # rubocop:todo Metrics/AbcSize, Metrics/CyclomaticComplexity
+    def run_initializers!(context:)
       initializers_file = File.join(root_dir, "config", "initializers.rb")
       unless File.file?(initializers_file)
         setup_load_paths! appending: true
@@ -171,11 +171,9 @@ module Bridgetown
       Bridgetown.logger.debug "Initializing:", "Running initializers with `#{context}' context in:"
       Bridgetown.logger.debug "", initializers_file
       self.init_params = {}
-      cached_url = url&.include?("//localhost") ? url : nil
       dsl = initializers_dsl(context:)
       dsl.instance_exec(dsl, &init_init.block)
       dsl._run_builtins!
-      self.url = cached_url if cached_url # restore local development URL if need be
 
       setup_post_init!
 

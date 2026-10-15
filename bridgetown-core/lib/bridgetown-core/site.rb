@@ -4,6 +4,7 @@ module Bridgetown
   class Site
     require_all "bridgetown-core/concerns/site"
 
+    include Builder
     include Configurable
     include Content
     include Extensible

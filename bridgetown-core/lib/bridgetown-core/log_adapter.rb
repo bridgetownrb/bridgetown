@@ -15,10 +15,15 @@ module Bridgetown
     #
     # @param writer [Logger] compatible instance
     # @param log_level [Symbol] the log level (`debug` | `info` | `warn` | `error`)
-    def initialize(writer, level = :info)
+    # @param prefix [Array] an optional prefix — the first element is the string, and
+    #                       the second is the color
+    def initialize(writer, level = :info, prefix: [nil, nil])
       @messages = []
       @writer = writer
+      @prefix = prefix
+
       self.log_level = level
+      set_prefix
     end
 
     # Set the log level on the writer
@@ -126,6 +131,18 @@ module Bridgetown
       return false unless write_message?(level_of_message)
 
       writer.public_send(level_of_message, message(topic, message, &))
+    end
+
+    def remove_prefix
+      @prefix = [nil, nil]
+      writer.remove_prefix \
+        if writer.respond_to?(:remove_prefix)
+    end
+
+    def set_prefix(prefix = @prefix[0], color: @prefix[1])
+      if writer.respond_to?(:set_prefix) && prefix && color # rubocop:disable Style/GuardClause
+        writer.set_prefix(prefix, color: color)
+      end
     end
   end
 end
