@@ -53,8 +53,13 @@ class TestInspectors < BridgetownUnitTest
       assert_equal 1, @site.collections.posts.resources.length
       assert_equal "# Hello World!", resource.content.strip
       resource.transform!
-      assert_equal %(<html><head></head><body><h1 id="hello-world" class="universal">Hello Universe!</h1>\n</body></html>),
-                   resource.output.strip
+
+      expected = if RUBY_ENGINE == "jruby"
+                   %(<html><head></head><body><h1 class="universal" id="hello-world">Hello Universe!</h1>\n</body></html>)
+                 else
+                   %(<html><head></head><body><h1 id="hello-world" class="universal">Hello Universe!</h1>\n</body></html>)
+                 end
+      assert_equal expected, resource.output.strip
     end
 
     it "bypasses inspectors with special front matter variable" do
@@ -123,46 +128,48 @@ class TestInspectors < BridgetownUnitTest
     end
   end
 
-  describe "a resource to transform using Nokolexbor" do
-    before do
-      self.class.instance_variable_set(:@name, "TestInspectors") # reset
-      @site = Site.new(site_configuration({ "html_inspector_parser" => "nokolexbor" }))
-      @_test_functions = []
+  unless RUBY_ENGINE == "jruby"
+    describe "a resource to transform using Nokolexbor" do
+      before do
+        self.class.instance_variable_set(:@name, "TestInspectors") # reset
+        @site = Site.new(site_configuration({ "html_inspector_parser" => "nokolexbor" }))
+        @_test_functions = []
 
-      inspect_html do |document|
-        document.query_selector_all("h1").each do |heading|
-          heading.content = heading.content.sub("World", "Universe")
-          heading.add_class "universal"
+        inspect_html do |document|
+          document.query_selector_all("h1").each do |heading|
+            heading.content = heading.content.sub("World", "Universe")
+            heading.add_class "universal"
+          end
+        end
+
+        inspect_xml "atom" do |document, resource|
+          title = document.query_selector("entry > title")
+          title.content = title.content.upcase
+
+          assert_equal ".atom", resource.extname
         end
       end
 
-      inspect_xml "atom" do |document, resource|
-        title = document.query_selector("entry > title")
-        title.content = title.content.upcase
-
-        assert_equal ".atom", resource.extname
-      end
-    end
-
-    after do
-      @_html_inspectors = nil
-      @_xml_inspectors = nil
-    end
-
-    it "allow manipulation via Nokolexbor" do
-      add_resource :posts, "html-inspectors.md" do
-        title "I'm a Markdown post!"
-        content <<~MARKDOWN
-          # Hello World!
-        MARKDOWN
+      after do
+        @_html_inspectors = nil
+        @_xml_inspectors = nil
       end
 
-      resource = @site.collections.posts.resources.first
-      assert_equal 1, @site.collections.posts.resources.length
-      assert_equal "# Hello World!", resource.content.strip
-      resource.transform!
-      assert_equal %(<html><head></head><body><h1 id="hello-world" class="universal">Hello Universe!</h1>\n</body></html>),
-                   resource.output.strip
+      it "allow manipulation via Nokolexbor" do
+        add_resource :posts, "html-inspectors.md" do
+          title "I'm a Markdown post!"
+          content <<~MARKDOWN
+            # Hello World!
+          MARKDOWN
+        end
+
+        resource = @site.collections.posts.resources.first
+        assert_equal 1, @site.collections.posts.resources.length
+        assert_equal "# Hello World!", resource.content.strip
+        resource.transform!
+        assert_equal %(<html><head></head><body><h1 id="hello-world" class="universal">Hello Universe!</h1>\n</body></html>),
+                     resource.output.strip
+      end
     end
   end
 end

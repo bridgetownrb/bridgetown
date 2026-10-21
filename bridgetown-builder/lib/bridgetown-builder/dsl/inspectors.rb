@@ -30,6 +30,8 @@ module Bridgetown
           def self.call(resource, inspectors)
             doc = if resource.site.config.html_inspector_parser == "nokolexbor"
                     Nokolexbor::HTML(resource.output)
+                  elsif RUBY_ENGINE == "jruby"
+                    Nokogiri.HTML(resource.output)
                   else
                     Nokogiri.HTML5(resource.output)
                   end

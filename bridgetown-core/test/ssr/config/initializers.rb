@@ -18,7 +18,7 @@ Bridgetown.configure do
   hook :resources, :post_render do |resource|
     next unless resource.site.root_dir.end_with?("test/ssr") # ugly hack or else test suite errors
 
-    document = Nokogiri.HTML5(resource.output)
+    document = RUBY_ENGINE == "jruby" ? Nokogiri.HTML(resource.output) : Nokogiri.HTML5(resource.output)
     document.css("p.test").each do |paragraph|
       paragraph.inner_html = paragraph.inner_html.upcase
     end
