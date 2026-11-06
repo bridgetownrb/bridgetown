@@ -24,11 +24,11 @@ The fact of the matter is that continued maintenance and feature development of 
 
 This is an opportunity for the Ruby community to rally, to demonstrate that frameworks based on ethical principles still matter and projects which seek to serve individuals over corporations still have an important role to play in open source computing.
 
-To raise funds, we are now announcing a series of goal tiers. While this isn't an iron-clad promise that all these features will happen immediately if we reach our fundraising goals, it is a public acknolwedgement that we will _prioritize_ these efforts as fundraising heats up. Hold us accountable! And let us know what _you'd_ like to see as we move forward.
+To raise funds, we are now announcing a series of goal tiers. While this isn't an iron-clad promise that all these features will happen immediately if we reach our fundraising goals, it is a public acknowledgement that we will _prioritize_ these efforts as fundraising heats up. Hold us accountable! And let us know what _you'd_ like to see as we move forward.
 
 ## Tier 1 @ $75/month: Migration to Codeberg
 
-The Bridgetown Core Team has been deliberating about fully migrating to [Codeberg](https://codeberg.org/bridgetownrb) (and away from GitHub) for quite some time now (some plugins already live there), and we have made the decision to move forward. We still plan to keep `bridgetownrb/bridgetown` on GitHub as a mirror, so as not to inconveinence anyone who may be installing gems or accessing repo code from GH directly. But we will be moving over our workflow of filing issues and submitting pull requests to Codeberg. There are also some additional workflows that need to be looked at such as automatic website updates and publishing our own [Gem Index](https://gems.bridgetownrb.com/).
+The Bridgetown Core Team has been deliberating about fully migrating to [Codeberg](https://codeberg.org/bridgetownrb) (and away from GitHub) for quite some time now (some plugins already live there), and we have made the decision to move forward. We still plan to keep `bridgetownrb/bridgetown` on GitHub as a mirror, so as not to inconvenience anyone who may be installing gems or accessing repo code from GH directly. But we will be moving over our workflow of filing issues and submitting pull requests to Codeberg. There are also some additional workflows that need to be looked at such as automatic website updates and publishing our own [Gem Index](https://gems.bridgetownrb.com/).
 
 [Your support will directly help us kick off this process!](https://www.bridgetownrb.com/sponsor)
 
@@ -54,7 +54,7 @@ But we'll be able to flesh out some of these ideas more as we approach our initi
 
 ---
 
-_Will you help us?_ Does the future of Bridgetown and the Ruby web community matter to you? [Then please consider donating today.](https://www.bridgetownrb.com/sponsor) Your sponsorship will go directly to supporting the time & material costs of keeping Bridgetown vibrant and moving forward as a developer ecosystem. We are the only Ruby-based "hybrid" framework, supporting fully static sites, dynamic web applications, and every permutation in-between; we are also one of the premininent "distributions" of [Roda](https://roda.jeremyevans.net/) (meaning we provide an out-of-the-box, pre-configured environment to build sophisticated web applications using Roda).
+_Will you help us?_ Does the future of Bridgetown and the Ruby web community matter to you? [Then please consider donating today.](https://www.bridgetownrb.com/sponsor) Your sponsorship will go directly to supporting the time & material costs of keeping Bridgetown vibrant and moving forward as a developer ecosystem. We are the only Ruby-based "hybrid" framework, supporting fully static sites, dynamic web applications, and every permutation in-between; we are also one of the preeminent "distributions" of [Roda](https://roda.jeremyevans.net/) (meaning we provide an out-of-the-box, pre-configured environment to build sophisticated web applications using Roda).
 
 And we stand shoulder-to-shoulder with other Ruby frameworks like [Hanami](https://hanakai.org/hanami) who are fighting for a more equitable and inclusive community where everyone feels safe and welcome.
 
