@@ -222,4 +222,4 @@ DEPENDENCIES
   roda-route_list (~> 2.1)
 
 BUNDLED WITH
-  4.1.0.beta2
+   2.7.2
